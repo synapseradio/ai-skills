@@ -22,7 +22,7 @@ Each waypoint ID is the first 8 hex characters of the SHA-256 hash of the
 file's path relative to the git root.
 
 ```bash
-bun run <skill-path>/scripts/waypoint-id.ts <path> [path...]
+python3 <skill-path>/scripts/waypoint_id.py <path> [path...]
 ```
 
 Output: `a1b2c3d4  path/to/file`
@@ -149,7 +149,7 @@ appears in exactly one file. Stale IDs (present in comments but absent
 from the manifest, or vice versa) indicate drift.
 
 ```bash
-bun run <skill-path>/scripts/validate-waypoints.ts
+python3 <skill-path>/scripts/validate_waypoints.py
 ```
 
 The script scans all manifests in `.ai/waypoints/`, verifies each waypoint
