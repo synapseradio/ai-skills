@@ -164,6 +164,16 @@ concrete over abstract, active over passive, orient-first, purpose over
 mechanics, self-evident, warm over telegraphic. Load the reference before
 writing or polishing waypoint text.
 
-The **waypoint-scribe** agent (`.claude/agents/waypoint-scribe.md`) applies
-these principles as a dedicated polish pass. Invoke it after placement to
-rewrite role and relationship descriptions for clarity and warmth.
+## Workflows
+
+Three reference workflows break waypoint work into focused phases. Load the
+relevant workflow from `references/` before starting:
+
+- **`references/workflow-setter.md`** — Trace a process across files and place
+  waypoint markers. Use when asked to "add waypoints", "trace this pipeline",
+  or "map this process".
+- **`references/workflow-reader.md`** — Catalogue and validate existing waypoint
+  pipelines. Use when asked to "list waypoints", "show pipelines", or "check
+  for drift".
+- **`references/workflow-scribe.md`** — Polish waypoint descriptions for clarity
+  and warmth. Use after placement or when descriptions feel terse or unclear.
