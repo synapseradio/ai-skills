@@ -148,6 +148,14 @@ of its neighbors.
 appears in exactly one file. Stale IDs (present in comments but absent
 from the manifest, or vice versa) indicate drift.
 
+```bash
+bun run <skill-path>/scripts/validate-waypoints.ts
+```
+
+The script scans all manifests in `.ai/waypoints/`, verifies each waypoint
+ID appears in the expected file, and reports orphaned blocks not in any
+manifest. Exits 0 if clean, 1 if drift is detected.
+
 ## Navigating Waypoints
 
 - **Find a pipeline's entry point:** open `.ai/waypoints/<name>.md`, first row.
@@ -166,14 +174,33 @@ writing or polishing waypoint text.
 
 ## Workflows
 
-Three reference workflows break waypoint work into focused phases. Load the
-relevant workflow from `references/` before starting:
+Three workflows handle waypoint work in focused phases. Each workflow is
+dispatched as a subagent via the **Agent tool** — the workflow reference file
+content becomes the subagent's system prompt.
 
-- **`references/workflow-setter.md`** — Trace a process across files and place
-  waypoint markers. Use when asked to "add waypoints", "trace this pipeline",
-  or "map this process".
-- **`references/workflow-reader.md`** — Catalogue and validate existing waypoint
-  pipelines. Use when asked to "list waypoints", "show pipelines", or "check
-  for drift".
-- **`references/workflow-scribe.md`** — Polish waypoint descriptions for clarity
-  and warmth. Use after placement or when descriptions feel terse or unclear.
+- **Setter** (`references/workflow-setter.md`) — Trace a process across files
+  and place waypoint markers. Spawn when asked to "add waypoints", "trace this
+  pipeline", or "map this process". **After the setter completes, always spawn
+  a scribe subagent** to polish the placed descriptions.
+- **Reader** (`references/workflow-reader.md`) — Catalogue and validate existing
+  waypoint pipelines. Spawn when asked to "list waypoints", "show pipelines",
+  or "check for drift".
+- **Scribe** (`references/workflow-scribe.md`) — Polish waypoint descriptions
+  for clarity and warmth. Automatically spawned after every setter run; can
+  also be spawned standalone when descriptions feel terse or unclear.
+
+### Dispatching a workflow
+
+Read the workflow reference file and pass its content as the subagent's prompt:
+
+```
+Agent tool:
+  subagent_type: general-purpose
+  prompt: <content of the workflow reference file + the user's direction>
+```
+
+For setter runs, chain two subagents sequentially:
+
+1. Spawn the **setter** subagent with the user's direction.
+2. When it completes, spawn the **scribe** subagent targeting the pipeline
+   the setter just placed.

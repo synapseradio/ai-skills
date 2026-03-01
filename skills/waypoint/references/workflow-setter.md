@@ -124,8 +124,10 @@ active over passive, orient-first, purpose over mechanics, self-evident,
 warm over telegraphic. Every description should be clear to someone encountering
 waypoints for the first time, and every action should carry its reason.
 
-After placement, the scribe workflow (`references/workflow-scribe.md`) can run
-a dedicated polish pass if descriptions need further refinement.
+After placement completes, the caller **must** spawn a scribe subagent using
+the scribe workflow (`references/workflow-scribe.md`) to polish all placed
+descriptions. This is not optional — every setter run is followed by a scribe
+pass.
 
 ## Constraints
 
