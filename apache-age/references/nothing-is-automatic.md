@@ -1,12 +1,12 @@
 ---
-title: Apache AGE Performance Guide
-description: Indexing strategies, EXPLAIN usage, query optimization, WHERE clause semantics, and data loading for Apache AGE graph queries.
+title: Nothing Is Automatic
+description: "AGE creates no indexes, enforces no constraints, and provides no type validation by default. Every performance optimization requires explicit action."
 tags: apache-age, performance, indexing, btree, gin, explain, optimization
 ---
 
-# Apache AGE Performance Guide
+# Nothing Is Automatic
 
-AGE does not create indexes automatically. Without explicit indexes, every graph query is a sequential scan of the vertex or edge label table. This reference covers when and how to index, how to read query plans, and how to write queries that use indexes.
+AGE creates no indexes, enforces no constraints, and provides no type validation by default. Every performance optimization requires explicit action. Without explicit indexes, every graph query is a sequential scan of the vertex or edge label table.
 
 ## Table of Contents
 
@@ -419,6 +419,7 @@ Understanding where AGE performs well and where it struggles helps with architec
 | Shortest path queries | **Strength** | `shortestPath()` and `allShortestPaths()` built in |
 | Indexed property lookups | **Strength** (with indexes) | Comparable to relational indexed scan once indexes are created |
 | Full-graph aggregations | **Weakness** | `MATCH (n) RETURN count(*)` requires a full table scan; slow on large graphs |
+| SQL vs Cypher for aggregation | **Weakness** | SQL is ~15x faster than Cypher for aggregation/ordering on large datasets (Issue #2194). Push aggregation to SQL via CTE |
 | Complex aggregations (GROUP BY, window functions) | **Weakness** | Push to SQL layer via CTE; Cypher aggregation is limited |
 | Large result sets without LIMIT | **Weakness** | All traversal results materialize before returning; memory-intensive |
 | Unbounded variable-length paths | **Weakness** | `[:REL*]` can explode; always set depth bounds |

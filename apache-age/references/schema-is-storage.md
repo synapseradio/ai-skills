@@ -1,10 +1,12 @@
 ---
-title: Graph Modeling in Apache AGE
-description: Design guide for vertices, edges, labels, properties, and hybrid relational-graph schemas in Apache AGE.
+title: Schema Is Storage
+description: "In AGE, graphs are PostgreSQL schemas. Labels are child tables under _ag_label_vertex and _ag_label_edge. Properties are untyped agtype blobs with no schema enforcement. Modeling decisions are storage decisions."
 tags: apache-age, graph-modeling, schema-design, labels, properties, hybrid, agtype
 ---
 
-# Graph Modeling in Apache AGE
+# Schema Is Storage
+
+In AGE, graphs are PostgreSQL schemas. Labels are child tables under `_ag_label_vertex` and `_ag_label_edge`. Properties are untyped agtype blobs with no schema enforcement. Every modeling decision is a storage decision — choose labels, properties, and edges with awareness of how AGE physically stores them.
 
 ## Table of Contents
 

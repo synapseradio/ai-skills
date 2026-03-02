@@ -1,12 +1,12 @@
 ---
-title: Hybrid SQL+Cypher Patterns
-description: Patterns for combining SQL and Cypher in Apache AGE — subqueries, CTEs, JOINs, multi-graph queries, mutation guards, and SQL-callable functions.
+title: Hybrid Is the Point
+description: "Hybrid SQL+Cypher in a single transaction is AGE's core value proposition. Graph traversal for relationships, SQL for aggregation and OLTP. This reference covers every integration pattern."
 tags: apache-age, hybrid, sql, cypher, cte, join, ag_catalog
 ---
 
 # Hybrid SQL+Cypher Patterns
 
-Apache AGE's core value is that graph traversal and relational SQL run in the same query against the same PostgreSQL instance. This reference covers every composition pattern with copy-paste correct syntax.
+Hybrid SQL+Cypher in a single transaction is AGE's core value proposition. Use Cypher for graph traversal and pattern matching. Use SQL for aggregation, OLTP, and anything that doesn't need multi-hop relationships. This reference covers every composition pattern with copy-paste correct syntax.
 
 ## Table of Contents
 
@@ -395,19 +395,20 @@ This is the only supported way to call SQL logic from within a Cypher traversal.
 
 `agtype` values returned from Cypher are opaque to SQL until cast. Cast at the point of comparison or column selection.
 
-| Target SQL type | Cast expression |
-|---|---|
-| `text` | `col::text` or `col #>> '{}'` |
-| `int` / `bigint` | `col::int`, `col::bigint` |
-| `float` / `numeric` | `col::float`, `col::numeric` |
-| `boolean` | `col::boolean` |
-| `jsonb` | `col::jsonb` (agtype is JSON-compatible) |
+| Target SQL type | Cast expression | Notes |
+|---|---|---|
+| `varchar` | `col::varchar` | **Works** — the only string cast that works |
+| `text` | `col::text` | Fails on non-scalar agtype (Issue #1225). Use `col::varchar` instead |
+| `int` / `bigint` | `col::int`, `col::bigint` | Works for integer agtype values |
+| `float` / `numeric` | `col::float`, `col::numeric` | Works for numeric agtype values |
+| `boolean` | `col::boolean` | Works for boolean agtype values |
+| `json` / `jsonb` | `col::json` | **ERROR: cannot cast type agtype to json** (Issue #1996). Use `(col::varchar)::jsonb` |
 
 **Example — mixed type extraction:**
 
 ```sql
 SELECT
-  name::text         AS person_name,
+  name::varchar      AS person_name,
   age::int           AS person_age,
   active::boolean    AS is_active,
   score::float       AS relevance
