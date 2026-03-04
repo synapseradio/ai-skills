@@ -1,0 +1,7 @@
+pre-commit:
+  jobs:
+    - name: markdownlint
+      glob: "*.md"
+      run: bun run lint:fix:md {staged_files}
+      stage_fixed: true
+      skip_empty: true
