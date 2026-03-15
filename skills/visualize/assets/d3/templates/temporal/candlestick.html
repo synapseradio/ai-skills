@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candlestick Chart Template - Financial Data Visualization</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+      color: #222;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .meta {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      max-width: 1000px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ============================================================
+       CANDLESTICK COLORS - Accessibility-First Approach
+       ============================================================
+       Traditional red/green is problematic for ~8% of males with
+       red-green colorblindness. This template uses blue/orange which:
+       - Distinguishes clearly for all vision types
+       - Maintains intuitive "warm = up, cool = down" mapping
+       - Orange still signals "attention" without red's alarm quality
+       ============================================================ */
+
+    /* Bullish (close > open): Orange - price went up */
+    .candle-bullish .candle-body {
+      fill: #ea580c; /* Orange 600 */
+      stroke: #c2410c; /* Orange 700 */
+      stroke-width: 1;
+    }
+
+    .candle-bullish .candle-wick {
+      stroke: #c2410c; /* Orange 700 */
+      stroke-width: 1;
+    }
+
+    /* Bearish (close < open): Blue - price went down */
+    .candle-bearish .candle-body {
+      fill: #2563eb; /* Blue 600 */
+      stroke: #1d4ed8; /* Blue 700 */
+      stroke-width: 1;
+    }
+
+    .candle-bearish .candle-wick {
+      stroke: #1d4ed8; /* Blue 700 */
+      stroke-width: 1;
+    }
+
+    /* Doji (open ≈ close): Gray - indecision */
+    .candle-doji .candle-body {
+      fill: #6b7280; /* Gray 500 */
+      stroke: #4b5563; /* Gray 600 */
+      stroke-width: 1;
+    }
+
+    .candle-doji .candle-wick {
+      stroke: #4b5563; /* Gray 600 */
+      stroke-width: 1;
+    }
+
+    /* Volume bars */
+    .volume-bar-bullish {
+      fill: #fdba74; /* Orange 300 - lighter for secondary role */
+      fill-opacity: 0.7;
+    }
+
+    .volume-bar-bearish {
+      fill: #93c5fd; /* Blue 300 - lighter for secondary role */
+      fill-opacity: 0.7;
+    }
+
+    .volume-bar-doji {
+      fill: #d1d5db; /* Gray 300 */
+      fill-opacity: 0.7;
+    }
+
+    /* Hover states */
+    .candle:hover .candle-body {
+      stroke-width: 2;
+      cursor: pointer;
+    }
+
+    /* Grid and axes */
+    .grid line {
+      stroke: #e5e7eb;
+      stroke-dasharray: 2,2;
+    }
+
+    .grid path {
+      stroke-width: 0;
+    }
+
+    .axis text {
+      font-size: 11px;
+      fill: #6b7280;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #d1d5db;
+    }
+
+    .axis-label {
+      font-size: 12px;
+      fill: #374151;
+      font-weight: 500;
+    }
+
+    /* Separator between price and volume charts */
+    .chart-separator {
+      stroke: #e5e7eb;
+      stroke-width: 1;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.92);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      line-height: 1.5;
+      min-width: 160px;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip .label {
+      color: #9ca3af;
+      margin-right: 0.5rem;
+    }
+
+    .tooltip .bullish {
+      color: #fb923c; /* Orange 400 */
+    }
+
+    .tooltip .bearish {
+      color: #60a5fa; /* Blue 400 */
+    }
+
+    .tooltip .change-positive {
+      color: #4ade80; /* Green 400 - universal "good" */
+    }
+
+    .tooltip .change-negative {
+      color: #f87171; /* Red 400 - universal "warning" */
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.8125rem;
+      color: #6b7280;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+    }
+
+    .legend-swatch.bullish {
+      background: #ea580c;
+    }
+
+    .legend-swatch.bearish {
+      background: #2563eb;
+    }
+
+    .legend-swatch.doji {
+      background: #6b7280;
+    }
+
+    /* Documentation */
+    .documentation {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .documentation h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #92400e;
+    }
+
+    .documentation ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .documentation li {
+      margin-bottom: 0.25rem;
+    }
+
+    .documentation code {
+      background: rgba(0,0,0,0.1);
+      padding: 0.125rem 0.25rem;
+      border-radius: 2px;
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 0.8125rem;
+    }
+
+    .documentation .note {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #dbeafe;
+      border-left: 3px solid #2563eb;
+      border-radius: 2px;
+    }
+
+    .documentation .warning {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #fee2e2;
+      border-left: 3px solid #dc2626;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ACME Corp Stock Price (30-Day)</h1>
+  <p class="meta">
+    Sample candlestick chart | OHLC data | Daily trading sessions |
+    Timezone: Market hours (UTC-5 EST) | Volume included
+  </p>
+
+  <div class="chart-container">
+    <svg id="chart" viewBox="0 0 900 550"
+         role="img"
+         aria-labelledby="chart-title"
+         aria-describedby="chart-desc">
+      <title id="chart-title">ACME Corp 30-Day Stock Price</title>
+      <desc id="chart-desc">Candlestick chart showing daily price movements. Summary statistics computed after data load.</desc>
+    </svg>
+    <div class="tooltip"></div>
+
+    <div class="legend" role="list" aria-label="Chart legend">
+      <div class="legend-item" role="listitem">
+        <div class="legend-swatch bullish" aria-hidden="true"></div>
+        <span>Bullish (close above open)</span>
+      </div>
+      <div class="legend-item" role="listitem">
+        <div class="legend-swatch bearish" aria-hidden="true"></div>
+        <span>Bearish (close below open)</span>
+      </div>
+      <div class="legend-item" role="listitem">
+        <div class="legend-swatch doji" aria-hidden="true"></div>
+        <span>Doji (open equals close)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="documentation">
+    <h2>Candlestick Chart Methodology</h2>
+    <p><strong>Candlesticks encode four price points per time period: Open, High, Low, Close (OHLC).</strong></p>
+    <ul>
+      <li><strong>Body:</strong> The filled rectangle spans from open to close. Body height shows the trading range.</li>
+      <li><strong>Wicks (shadows):</strong> Thin lines extending above and below show high and low extremes.</li>
+      <li><strong>Color:</strong> Bullish (orange) when close exceeds open. Bearish (blue) when close is below open.</li>
+      <li><strong>Doji:</strong> When open nearly equals close, forming a cross shape. Signals indecision.</li>
+    </ul>
+
+    <div class="note">
+      <strong>When to use candlesticks vs alternatives:</strong>
+      <ul style="margin-top: 0.5rem;">
+        <li><strong>Candlestick:</strong> Detailed price action analysis, pattern recognition, day trading</li>
+        <li><strong>OHLC bars:</strong> Same data, less visual weight—use when comparing multiple securities</li>
+        <li><strong>Line chart (close only):</strong> Long-term trends, presentations, when detail overwhelms</li>
+        <li><strong>Area chart:</strong> Cumulative metrics, not appropriate for price data</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <strong>Common patterns to recognize:</strong>
+      <ul style="margin-top: 0.5rem;">
+        <li><strong>Doji:</strong> Open equals close—market indecision, potential reversal</li>
+        <li><strong>Hammer:</strong> Small body at top, long lower wick—bullish reversal signal</li>
+        <li><strong>Engulfing:</strong> Large body completely covers previous candle—trend reversal</li>
+        <li><strong>Morning/Evening Star:</strong> Three-candle reversal patterns</li>
+      </ul>
+    </div>
+
+    <div class="warning">
+      <strong>Y-axis does not start at zero.</strong> Unlike bar charts comparing categories, candlesticks show price change over time. Starting at zero would compress all meaningful variation into an unreadable band. This is the correct exception to the zero-baseline rule.
+    </div>
+  </div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================================
+    // SAMPLE DATA - 30 Days of OHLC + Volume
+    // ============================================================
+    // Each record: { date, open, high, low, close, volume }
+    //
+    // OHLC CONSTRAINTS (validated below):
+    // - high >= max(open, close)
+    // - low <= min(open, close)
+    // - high >= low
+    // - All prices must be positive
+    // ============================================================
+    const rawData = [
+      { date: "2024-11-01", open: 142.50, high: 145.20, low: 141.30, close: 144.80, volume: 2850000 },
+      { date: "2024-11-04", open: 144.90, high: 146.50, low: 143.80, close: 145.20, volume: 3120000 },
+      { date: "2024-11-05", open: 145.00, high: 147.80, low: 144.50, close: 147.30, volume: 3450000 },
+      { date: "2024-11-06", open: 147.50, high: 149.20, low: 146.80, close: 148.90, volume: 3680000 },
+      { date: "2024-11-07", open: 149.00, high: 150.50, low: 147.20, close: 147.80, volume: 4210000 },
+      { date: "2024-11-08", open: 147.60, high: 148.90, low: 145.30, close: 146.20, volume: 3890000 },
+      { date: "2024-11-11", open: 146.00, high: 147.50, low: 144.80, close: 145.60, volume: 2980000 },
+      { date: "2024-11-12", open: 145.80, high: 148.20, low: 145.20, close: 147.90, volume: 3240000 },
+      { date: "2024-11-13", open: 148.00, high: 151.30, low: 147.50, close: 150.80, volume: 4560000 },
+      { date: "2024-11-14", open: 151.00, high: 153.20, low: 150.20, close: 152.50, volume: 4890000 },
+      { date: "2024-11-15", open: 152.30, high: 152.80, low: 149.50, close: 150.20, volume: 4120000 },
+      { date: "2024-11-18", open: 150.00, high: 151.50, low: 148.30, close: 149.10, volume: 3560000 },
+      { date: "2024-11-19", open: 149.20, high: 150.80, low: 148.50, close: 150.50, volume: 3280000 },
+      { date: "2024-11-20", open: 150.60, high: 152.40, low: 150.00, close: 151.80, volume: 3690000 },
+      { date: "2024-11-21", open: 151.90, high: 154.50, low: 151.20, close: 154.20, volume: 4980000 },
+      { date: "2024-11-22", open: 154.00, high: 155.80, low: 153.50, close: 155.30, volume: 5120000 },
+      { date: "2024-11-25", open: 155.50, high: 156.20, low: 153.80, close: 154.60, volume: 3450000 },
+      { date: "2024-11-26", open: 154.80, high: 156.50, low: 154.20, close: 156.10, volume: 3890000 },
+      { date: "2024-11-27", open: 156.20, high: 157.80, low: 155.50, close: 157.20, volume: 4230000 },
+      // Thanksgiving - market closed Nov 28
+      { date: "2024-11-29", open: 157.00, high: 158.50, low: 156.20, close: 158.30, volume: 2980000 },
+      { date: "2024-12-02", open: 158.50, high: 160.20, low: 157.80, close: 159.80, volume: 4560000 },
+      { date: "2024-12-03", open: 159.60, high: 161.50, low: 158.90, close: 160.80, volume: 4890000 },
+      { date: "2024-12-04", open: 161.00, high: 162.30, low: 159.50, close: 160.20, volume: 4320000 },
+      { date: "2024-12-05", open: 160.00, high: 161.80, low: 159.20, close: 161.50, volume: 3980000 },
+      // Doji example - open equals close (indecision)
+      { date: "2024-12-06", open: 161.50, high: 163.20, low: 160.00, close: 161.50, volume: 4120000 },
+      { date: "2024-12-09", open: 161.80, high: 164.50, low: 161.20, close: 163.90, volume: 5230000 },
+      { date: "2024-12-10", open: 164.00, high: 165.80, low: 162.50, close: 163.20, volume: 4680000 },
+      { date: "2024-12-11", open: 163.00, high: 164.20, low: 161.80, close: 162.50, volume: 3890000 },
+      { date: "2024-12-12", open: 162.80, high: 165.50, low: 162.20, close: 165.20, volume: 5450000 },
+      { date: "2024-12-13", open: 165.00, high: 166.80, low: 164.20, close: 166.50, volume: 5890000 },
+    ];
+
+    // ============================================================
+    // DATA VALIDATION
+    // ============================================================
+    // OHLC data has structural requirements. Invalid data produces
+    // visually broken candles (wicks shorter than bodies).
+    // ============================================================
+    function validateOHLC(d, index) {
+      const errors = [];
+
+      // All prices must be positive
+      if (d.open <= 0 || d.high <= 0 || d.low <= 0 || d.close <= 0) {
+        errors.push("prices must be positive");
+      }
+
+      // High must be the highest price
+      if (d.high < d.open || d.high < d.close) {
+        errors.push(`high (${d.high}) must be >= open (${d.open}) and close (${d.close})`);
+      }
+
+      // Low must be the lowest price
+      if (d.low > d.open || d.low > d.close) {
+        errors.push(`low (${d.low}) must be <= open (${d.open}) and close (${d.close})`);
+      }
+
+      // High must be >= low
+      if (d.high < d.low) {
+        errors.push(`high (${d.high}) must be >= low (${d.low})`);
+      }
+
+      // Volume must be non-negative
+      if (d.volume < 0) {
+        errors.push("volume must be non-negative");
+      }
+
+      if (errors.length > 0) {
+        console.error(`Invalid OHLC data at index ${index} (${d.date}):`, errors.join("; "));
+        return false;
+      }
+      return true;
+    }
+
+    // ============================================================
+    // DATA PARSING
+    // ============================================================
+    const parseDate = d3.isoParse;
+
+    // Parse and validate data
+    const data = rawData
+      .map((d, i) => {
+        const parsed = {
+          date: parseDate(d.date),
+          open: d.open,
+          high: d.high,
+          low: d.low,
+          close: d.close,
+          volume: d.volume,
+          dateString: d.date,
+        };
+        parsed.valid = validateOHLC(d, i);
+        return parsed;
+      })
+      .filter(d => d.date !== null && d.valid);
+
+    // Sort by date (required for temporal charts)
+    data.sort((a, b) => a.date - b.date);
+
+    // Calculate derived values
+    data.forEach(d => {
+      // Candle type: bullish, bearish, or doji
+      // Doji threshold: open and close within 0.1% of each other
+      const dojiThreshold = d.open * 0.001;
+      if (Math.abs(d.close - d.open) <= dojiThreshold) {
+        d.type = "doji";
+      } else if (d.close > d.open) {
+        d.type = "bullish";
+      } else {
+        d.type = "bearish";
+      }
+
+      // Daily change (close vs previous close)
+      d.change = null;
+      d.changePercent = null;
+    });
+
+    // Calculate changes (requires previous day's close)
+    for (let i = 1; i < data.length; i++) {
+      const prev = data[i - 1];
+      const curr = data[i];
+      curr.change = curr.close - prev.close;
+      curr.changePercent = (curr.change / prev.close) * 100;
+    }
+
+    // ============================================================
+    // CHART DIMENSIONS
+    // ============================================================
+    // Layout: Main price chart (75%) + Volume subplot (25%)
+    const margin = { top: 20, right: 60, bottom: 40, left: 70 };
+    const totalWidth = 900;
+    const totalHeight = 550;
+    const width = totalWidth - margin.left - margin.right;
+
+    // Split height between price and volume charts
+    const priceChartRatio = 0.72;
+    const volumeChartRatio = 0.20;
+    const gapBetweenCharts = 30;
+
+    const priceHeight = (totalHeight - margin.top - margin.bottom) * priceChartRatio;
+    const volumeHeight = (totalHeight - margin.top - margin.bottom) * volumeChartRatio;
+
+    // ============================================================
+    // SVG SETUP
+    // ============================================================
+    const svg = d3.select("#chart");
+
+    // Main group for price chart
+    const priceGroup = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Group for volume chart (below price chart)
+    const volumeTop = margin.top + priceHeight + gapBetweenCharts;
+    const volumeGroup = svg.append("g")
+      .attr("transform", `translate(${margin.left},${volumeTop})`);
+
+    // ============================================================
+    // SCALES
+    // ============================================================
+    // X-SCALE: Use scaleBand for evenly-spaced candles
+    // This automatically handles weekends/holidays (no gaps)
+    const xScale = d3.scaleBand()
+      .domain(data.map(d => d.dateString))
+      .range([0, width])
+      .padding(0.2);
+
+    // Y-SCALE for prices: DO NOT start at zero
+    // Stock prices show change, not absolute comparison.
+    // Starting at zero would compress all variation into an unreadable band.
+    const priceExtent = [
+      d3.min(data, d => d.low) * 0.98,  // 2% padding below
+      d3.max(data, d => d.high) * 1.02   // 2% padding above
+    ];
+
+    const yPriceScale = d3.scaleLinear()
+      .domain(priceExtent)
+      .range([priceHeight, 0])
+      .nice();
+
+    // Y-SCALE for volume: DOES start at zero (bars comparing magnitude)
+    const yVolumeScale = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.volume)])
+      .range([volumeHeight, 0])
+      .nice();
+
+    // ============================================================
+    // AXES - PRICE CHART
+    // ============================================================
+    // X-axis: Show dates at reasonable intervals
+    const dateLabels = data.filter((d, i) => i % 5 === 0).map(d => d.dateString);
+
+    const xAxisPrice = d3.axisBottom(xScale)
+      .tickValues(dateLabels)
+      .tickFormat(d => {
+        const date = d3.isoParse(d);
+        return d3.timeFormat("%b %d")(date);
+      });
+
+    const yAxisPrice = d3.axisLeft(yPriceScale)
+      .ticks(8)
+      .tickFormat(d => `$${d.toFixed(0)}`);
+
+    // Grid lines
+    priceGroup.append("g")
+      .attr("class", "grid")
+      .call(d3.axisLeft(yPriceScale)
+        .ticks(8)
+        .tickSize(-width)
+        .tickFormat("")
+      );
+
+    // Price Y-axis
+    priceGroup.append("g")
+      .attr("class", "axis axis-y")
+      .call(yAxisPrice);
+
+    // Price Y-axis label
+    priceGroup.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -priceHeight / 2)
+      .attr("y", -50)
+      .text("Price (USD)");
+
+    // ============================================================
+    // AXES - VOLUME CHART
+    // ============================================================
+    const xAxisVolume = d3.axisBottom(xScale)
+      .tickValues(dateLabels)
+      .tickFormat(d => {
+        const date = d3.isoParse(d);
+        return d3.timeFormat("%b %d")(date);
+      });
+
+    const yAxisVolume = d3.axisLeft(yVolumeScale)
+      .ticks(4)
+      .tickFormat(d => `${(d / 1000000).toFixed(1)}M`);
+
+    // Volume X-axis
+    volumeGroup.append("g")
+      .attr("class", "axis axis-x")
+      .attr("transform", `translate(0,${volumeHeight})`)
+      .call(xAxisVolume);
+
+    // Volume Y-axis
+    volumeGroup.append("g")
+      .attr("class", "axis axis-y")
+      .call(yAxisVolume);
+
+    // Volume Y-axis label
+    volumeGroup.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -volumeHeight / 2)
+      .attr("y", -50)
+      .text("Volume");
+
+    // Separator line between charts
+    svg.append("line")
+      .attr("class", "chart-separator")
+      .attr("x1", margin.left)
+      .attr("x2", totalWidth - margin.right)
+      .attr("y1", volumeTop - gapBetweenCharts / 2)
+      .attr("y2", volumeTop - gapBetweenCharts / 2);
+
+    // ============================================================
+    // RENDER CANDLESTICKS
+    // ============================================================
+    // Candlestick anatomy:
+    // - Body: Rectangle from open to close
+    // - Upper wick: Line from body top to high
+    // - Lower wick: Line from body bottom to low
+    // ============================================================
+    const candleWidth = xScale.bandwidth();
+
+    const candles = priceGroup.selectAll(".candle")
+      .data(data)
+      .join("g")
+      .attr("class", d => `candle candle-${d.type}`)
+      .attr("transform", d => `translate(${xScale(d.dateString)},0)`)
+      .attr("role", "button")
+      .attr("tabindex", "0")
+      .attr("aria-label", d => {
+        const dateFormatted = d3.timeFormat("%B %d, %Y")(d.date);
+        const changeStr = d.changePercent !== null
+          ? `${d.changePercent >= 0 ? "up" : "down"} ${Math.abs(d.changePercent).toFixed(2)}%`
+          : "first day of data";
+        return `${dateFormatted}: Open $${d.open.toFixed(2)}, High $${d.high.toFixed(2)}, Low $${d.low.toFixed(2)}, Close $${d.close.toFixed(2)}, ${changeStr}`;
+      });
+
+    // Wicks (draw first so body overlays)
+    candles.append("line")
+      .attr("class", "candle-wick")
+      .attr("x1", candleWidth / 2)
+      .attr("x2", candleWidth / 2)
+      .attr("y1", d => yPriceScale(d.high))
+      .attr("y2", d => yPriceScale(d.low));
+
+    // Bodies
+    candles.append("rect")
+      .attr("class", "candle-body")
+      .attr("x", 0)
+      .attr("y", d => yPriceScale(Math.max(d.open, d.close)))
+      .attr("width", candleWidth)
+      .attr("height", d => {
+        // Minimum height of 1px for doji visibility
+        const bodyHeight = Math.abs(yPriceScale(d.open) - yPriceScale(d.close));
+        return Math.max(bodyHeight, 1);
+      });
+
+    // ============================================================
+    // RENDER VOLUME BARS
+    // ============================================================
+    volumeGroup.selectAll(".volume-bar")
+      .data(data)
+      .join("rect")
+      .attr("class", d => `volume-bar-${d.type}`)
+      .attr("x", d => xScale(d.dateString))
+      .attr("y", d => yVolumeScale(d.volume))
+      .attr("width", candleWidth)
+      .attr("height", d => volumeHeight - yVolumeScale(d.volume));
+
+    // ============================================================
+    // TOOLTIP SYSTEM
+    // ============================================================
+    const tooltip = d3.select(".tooltip");
+
+    candles
+      .on("mouseenter focus", showTooltip)
+      .on("mouseleave blur", hideTooltip)
+      .on("mousemove", moveTooltip);
+
+    function showTooltip(event, d) {
+      const dateFormatted = d3.timeFormat("%B %d, %Y")(d.date);
+      const typeClass = d.type === "bullish" ? "bullish" : (d.type === "bearish" ? "bearish" : "");
+
+      let changeHtml = "";
+      if (d.changePercent !== null) {
+        const changeClass = d.changePercent >= 0 ? "change-positive" : "change-negative";
+        const sign = d.changePercent >= 0 ? "+" : "";
+        changeHtml = `
+          <div>
+            <span class="label">Change:</span>
+            <span class="${changeClass}">${sign}$${d.change.toFixed(2)} (${sign}${d.changePercent.toFixed(2)}%)</span>
+          </div>
+        `;
+      }
+
+      tooltip.html(`
+        <div style="font-weight: 600; margin-bottom: 6px;">${dateFormatted}</div>
+        <div><span class="label">Open:</span> $${d.open.toFixed(2)}</div>
+        <div><span class="label">High:</span> $${d.high.toFixed(2)}</div>
+        <div><span class="label">Low:</span> $${d.low.toFixed(2)}</div>
+        <div><span class="label">Close:</span> <span class="${typeClass}">$${d.close.toFixed(2)}</span></div>
+        ${changeHtml}
+        <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #4b5563;">
+          <span class="label">Volume:</span> ${(d.volume / 1000000).toFixed(2)}M
+        </div>
+      `).classed("visible", true);
+
+      moveTooltip(event);
+    }
+
+    function moveTooltip(event) {
+      const tooltipNode = tooltip.node();
+      const tooltipWidth = tooltipNode.offsetWidth;
+      const tooltipHeight = tooltipNode.offsetHeight;
+
+      tooltip
+        .style("left", `${event.pageX - tooltipWidth / 2}px`)
+        .style("top", `${event.pageY - tooltipHeight - 12}px`);
+    }
+
+    function hideTooltip() {
+      tooltip.classed("visible", false);
+    }
+
+    // ============================================================
+    // COMPUTE STATISTICS
+    // ============================================================
+    const firstPrice = data[0].open;
+    const lastPrice = data[data.length - 1].close;
+    const periodChange = lastPrice - firstPrice;
+    const periodChangePercent = (periodChange / firstPrice) * 100;
+
+    const highestHigh = d3.max(data, d => d.high);
+    const lowestLow = d3.min(data, d => d.low);
+    const highestDay = data.find(d => d.high === highestHigh);
+    const lowestDay = data.find(d => d.low === lowestLow);
+
+    const bullishDays = data.filter(d => d.type === "bullish").length;
+    const bearishDays = data.filter(d => d.type === "bearish").length;
+    const dojiDays = data.filter(d => d.type === "doji").length;
+
+    const avgVolume = d3.mean(data, d => d.volume);
+    const totalVolume = d3.sum(data, d => d.volume);
+
+    // ============================================================
+    // ACCESSIBILITY SUMMARY
+    // ============================================================
+    // Screen readers get trend summary, not individual candle data.
+    // Individual values are accessible via keyboard navigation.
+    const firstDate = d3.timeFormat("%B %d")(data[0].date);
+    const lastDate = d3.timeFormat("%B %d, %Y")(data[data.length - 1].date);
+    const highDate = d3.timeFormat("%B %d")(highestDay.date);
+    const lowDate = d3.timeFormat("%B %d")(lowestDay.date);
+
+    const trendDirection = periodChangePercent >= 0 ? "increased" : "decreased";
+    const trendSummary = `ACME Corp stock price from ${firstDate} to ${lastDate}. ` +
+      `Price ${trendDirection} ${Math.abs(periodChangePercent).toFixed(1)}% from $${firstPrice.toFixed(2)} to $${lastPrice.toFixed(2)}. ` +
+      `30-day high of $${highestHigh.toFixed(2)} on ${highDate}. ` +
+      `30-day low of $${lowestLow.toFixed(2)} on ${lowDate}. ` +
+      `${bullishDays} bullish days, ${bearishDays} bearish days, ${dojiDays} unchanged days. ` +
+      `Average daily volume: ${(avgVolume / 1000000).toFixed(1)} million shares.`;
+
+    d3.select("#chart-desc").text(trendSummary);
+
+    // ============================================================
+    // CONSOLE LOGGING
+    // ============================================================
+    console.log("Candlestick chart rendered successfully");
+    console.log(`Data points: ${data.length} trading days`);
+    console.log(`Period: ${firstDate} to ${lastDate}`);
+    console.log(`Change: ${periodChangePercent >= 0 ? "+" : ""}${periodChangePercent.toFixed(2)}%`);
+    console.log(`30-day range: $${lowestLow.toFixed(2)} - $${highestHigh.toFixed(2)}`);
+    console.log(`Bullish/Bearish/Doji: ${bullishDays}/${bearishDays}/${dojiDays}`);
+    console.log(`Total volume: ${(totalVolume / 1000000).toFixed(1)}M shares`);
+  </script>
+</body>
+</html>

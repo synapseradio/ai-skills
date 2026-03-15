@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree Diagram Template - Hierarchical Node-Link Structure</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .meta {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .perception-note {
+      background: #e7f3ff;
+      border-left: 4px solid #2196f3;
+      padding: 1rem;
+      margin: 1rem 0 2rem 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .perception-note h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #1565c0;
+    }
+
+    .perception-note ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .perception-note li {
+      margin: 0.25rem 0;
+      color: #1565c0;
+    }
+
+    .perception-note strong {
+      color: #1565c0;
+    }
+
+    #chart {
+      width: 100%;
+      min-height: 600px;
+      overflow: auto;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      max-width: 280px;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip .title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .tooltip .path {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-bottom: 0.25rem;
+    }
+
+    .tooltip .info {
+      color: #88c0d0;
+    }
+
+    /* Tree node styles */
+    .node {
+      cursor: pointer;
+    }
+
+    .node circle {
+      transition: all 0.2s;
+    }
+
+    .node:hover circle {
+      stroke-width: 3px;
+    }
+
+    .node--internal circle {
+      fill: #fff;
+      stroke-width: 2px;
+    }
+
+    .node--leaf circle {
+      stroke-width: 2px;
+    }
+
+    .node--collapsed circle {
+      fill: currentColor;
+    }
+
+    .node text {
+      font-size: 12px;
+      fill: #333;
+    }
+
+    .node--highlighted circle {
+      stroke-width: 4px !important;
+    }
+
+    .link {
+      fill: none;
+      stroke: #ccc;
+      stroke-width: 1.5px;
+      transition: stroke 0.2s, stroke-width 0.2s;
+    }
+
+    .link--highlighted {
+      stroke: #2196f3;
+      stroke-width: 2.5px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .controls button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .controls button:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+
+    .controls button:focus {
+      outline: 2px solid #2196f3;
+      outline-offset: 2px;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .footer ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .footer li {
+      margin: 0.25rem 0;
+    }
+
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Organization Structure</h1>
+    <p class="meta">
+      Interactive tree diagram | Click nodes to expand/collapse | Hover to highlight path to root
+    </p>
+
+    <div class="perception-note">
+      <h2>When to Use This Visualization</h2>
+      <p><strong>Tree diagrams excel at showing structural relationships and navigation paths.</strong></p>
+      <ul>
+        <li><strong>Tree diagram</strong>: Navigation through hierarchy, showing parent-child relationships explicitly with connecting lines</li>
+        <li><strong>Sunburst</strong>: Part-to-whole relationships where size matters, seeing all levels simultaneously</li>
+        <li><strong>Indented list</strong>: Dense hierarchies where text labels are primary, limited screen space</li>
+      </ul>
+      <p style="margin-top: 0.5rem;"><strong>Depth limits:</strong> Trees deeper than 4-5 levels benefit from horizontal (left-to-right) orientation or radial layout. This template uses horizontal orientation for better label readability.</p>
+    </div>
+
+    <!-- Accessibility: Screen reader summary -->
+    <div id="sr-summary" class="sr-only" role="status" aria-live="polite"></div>
+
+    <div class="controls">
+      <button id="expand-all" aria-label="Expand all nodes in the tree">Expand All</button>
+      <button id="collapse-all" aria-label="Collapse all nodes to show only root">Collapse All</button>
+      <button id="reset-view" aria-label="Reset to default expanded state">Reset View</button>
+    </div>
+
+    <div id="chart" role="tree" aria-label="Organization hierarchy"></div>
+
+    <div id="legend" class="legend" role="list" aria-label="Depth level legend"></div>
+
+    <div class="footer">
+      <p><strong>Template Notes:</strong></p>
+      <ul>
+        <li><strong>d3.tree()</strong> layout produces variable node spacing (tidy algorithm) for balanced appearance</li>
+        <li><strong>Horizontal orientation</strong> (left-to-right) prevents label overlap on deep hierarchies</li>
+        <li><strong>d3.linkHorizontal()</strong> generates curved Bezier connectors between parent and child</li>
+        <li><strong>Collapse/expand</strong> preserves hidden children in data, animates transitions smoothly</li>
+        <li><strong>Color by depth</strong> uses colorblind-safe palette (Wong, 2011) for distinguishing hierarchy levels</li>
+        <li><strong>Path highlighting</strong> on hover traces ancestry to root for context orientation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tooltip"></div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================================
+    // DATA
+    // Hierarchical structure: { name, title?, children? }
+    // Replace with your own org chart, file system, or taxonomy.
+    // ============================================================
+    const data = {
+      name: "Alex Chen",
+      title: "CEO",
+      children: [
+        {
+          name: "Jordan Smith",
+          title: "CTO",
+          children: [
+            {
+              name: "Engineering",
+              title: "Department",
+              children: [
+                { name: "Sam Lee", title: "Senior Engineer" },
+                { name: "Pat Wilson", title: "Engineer" },
+                { name: "Chris Brown", title: "Engineer" }
+              ]
+            },
+            {
+              name: "Product",
+              title: "Department",
+              children: [
+                { name: "Morgan Davis", title: "Product Manager" },
+                { name: "Taylor Kim", title: "UX Designer" }
+              ]
+            }
+          ]
+        },
+        {
+          name: "Riley Johnson",
+          title: "CFO",
+          children: [
+            {
+              name: "Finance",
+              title: "Department",
+              children: [
+                { name: "Casey White", title: "Controller" },
+                { name: "Jamie Green", title: "Analyst" }
+              ]
+            }
+          ]
+        },
+        {
+          name: "Drew Martinez",
+          title: "COO",
+          children: [
+            {
+              name: "Operations",
+              title: "Department",
+              children: [
+                { name: "Avery Thompson", title: "Operations Manager" },
+                { name: "Quinn Harris", title: "Logistics Lead" },
+                { name: "Blake Clark", title: "Facilities" }
+              ]
+            },
+            {
+              name: "HR",
+              title: "Department",
+              children: [
+                { name: "Cameron Lewis", title: "HR Director" },
+                { name: "Skyler Moore", title: "Recruiter" }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    // ============================================================
+    // DATA VALIDATION
+    // Verify hierarchical structure before processing
+    // ============================================================
+    function validateHierarchy(node, path = []) {
+      if (!node || typeof node !== "object") {
+        console.error(`Invalid node at path: ${path.join(" > ") || "root"}`);
+        return false;
+      }
+      if (!node.name) {
+        console.error(`Missing 'name' property at path: ${path.join(" > ") || "root"}`);
+        return false;
+      }
+      if (node.children && !Array.isArray(node.children)) {
+        console.error(`'children' must be array at path: ${path.join(" > ")}`);
+        return false;
+      }
+      if (node.children) {
+        for (let i = 0; i < node.children.length; i++) {
+          if (!validateHierarchy(node.children[i], [...path, node.name])) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    if (!validateHierarchy(data)) {
+      throw new Error("Invalid hierarchical data structure");
+    }
+
+    // ============================================================
+    // CONFIGURATION
+    // Adjust dimensions and layout parameters
+    // ============================================================
+    const margin = { top: 20, right: 120, bottom: 20, left: 120 };
+    const width = 1100;
+    const nodeRadius = 8;
+    const animationDuration = 400;
+
+    // Colorblind-safe palette by depth level (Wong, 2011)
+    // Depth 0: root, Depth 1: C-suite, Depth 2: departments, Depth 3+: individuals
+    const depthColors = [
+      "#0072B2",  // Blue - Root
+      "#E69F00",  // Orange - Level 1
+      "#009E73",  // Teal - Level 2
+      "#CC79A7",  // Pink - Level 3
+      "#56B4E9",  // Light blue - Level 4+
+    ];
+
+    function getDepthColor(depth) {
+      return depthColors[Math.min(depth, depthColors.length - 1)];
+    }
+
+    // ============================================================
+    // HIERARCHY SETUP
+    // d3.hierarchy() converts nested JSON into hierarchy nodes
+    // Each node gets: depth, height, parent, children, data
+    // ============================================================
+    const root = d3.hierarchy(data);
+
+    // Store original children for collapse/expand
+    root.descendants().forEach((d, i) => {
+      d.id = i;
+      d._children = d.children; // Store original children
+    });
+
+    // Calculate dynamic height based on visible nodes
+    function calculateHeight() {
+      let visibleLeaves = 0;
+      root.eachBefore(node => {
+        if (!node.children && node.parent) visibleLeaves++;
+      });
+      return Math.max(400, visibleLeaves * 25);
+    }
+
+    // ============================================================
+    // SVG SETUP
+    // Responsive container with viewBox
+    // ============================================================
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("role", "img")
+      .attr("aria-labelledby", "tree-title tree-desc")
+      .style("max-width", "100%")
+      .style("height", "auto")
+      .style("font", "12px sans-serif");
+
+    // Accessibility: Title and description
+    svg.append("title")
+      .attr("id", "tree-title")
+      .text("Organization Structure Tree Diagram");
+
+    svg.append("desc")
+      .attr("id", "tree-desc")
+      .text(() => {
+        const totalNodes = root.descendants().length;
+        const maxDepth = d3.max(root.descendants(), d => d.depth);
+        return `Hierarchical organization chart with ${totalNodes} nodes across ${maxDepth + 1} levels. CEO at root with departments and team members.`;
+      });
+
+    const gLink = svg.append("g")
+      .attr("class", "links")
+      .attr("fill", "none")
+      .attr("stroke-opacity", 0.6);
+
+    const gNode = svg.append("g")
+      .attr("class", "nodes");
+
+    // ============================================================
+    // TOOLTIP
+    // Shows node details on hover
+    // ============================================================
+    const tooltip = d3.select(".tooltip");
+
+    function getAncestorPath(node) {
+      const path = [];
+      let current = node;
+      while (current) {
+        path.unshift(current.data.name);
+        current = current.parent;
+      }
+      return path.join(" > ");
+    }
+
+    function showTooltip(event, d) {
+      const path = getAncestorPath(d);
+      const childCount = d._children ? d._children.length : (d.children ? d.children.length : 0);
+
+      let html = `<div class="title">${d.data.name}</div>`;
+      if (d.data.title) {
+        html += `<div class="info">${d.data.title}</div>`;
+      }
+      html += `<div class="path">${path}</div>`;
+      if (childCount > 0) {
+        html += `<div class="info">${childCount} direct report${childCount > 1 ? "s" : ""}</div>`;
+      }
+
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 12) + "px")
+        .classed("visible", true)
+        .html(html);
+    }
+
+    function moveTooltip(event) {
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 12) + "px");
+    }
+
+    function hideTooltip() {
+      tooltip.classed("visible", false);
+    }
+
+    // ============================================================
+    // PATH HIGHLIGHTING
+    // Highlight ancestry chain on hover
+    // ============================================================
+    function highlightPath(node) {
+      // Reset all highlights
+      gNode.selectAll(".node").classed("node--highlighted", false);
+      gLink.selectAll(".link").classed("link--highlighted", false);
+
+      if (!node) return;
+
+      // Highlight ancestors
+      let current = node;
+      const ancestorIds = new Set();
+      while (current) {
+        ancestorIds.add(current.id);
+        current = current.parent;
+      }
+
+      gNode.selectAll(".node")
+        .classed("node--highlighted", d => ancestorIds.has(d.id));
+
+      gLink.selectAll(".link")
+        .classed("link--highlighted", d => ancestorIds.has(d.target.id));
+    }
+
+    // ============================================================
+    // TREE LAYOUT
+    // d3.tree() computes (x, y) positions for each node
+    // Horizontal orientation: swap x and y for left-to-right layout
+    // ============================================================
+    function update(source) {
+      const height = calculateHeight();
+      const treeWidth = height - margin.top - margin.bottom;
+
+      // Update SVG dimensions
+      svg
+        .attr("viewBox", [0, 0, width, height])
+        .attr("width", width)
+        .attr("height", height);
+
+      // Tree layout with dynamic sizing
+      // nodeSize: [vertical spacing, horizontal spacing between levels]
+      const treeLayout = d3.tree()
+        .nodeSize([25, 180]);
+
+      // Apply layout (computes node.x, node.y)
+      treeLayout(root);
+
+      // Normalize: center tree vertically, shift for margin
+      let minY = Infinity;
+      let maxY = -Infinity;
+      root.eachBefore(d => {
+        minY = Math.min(minY, d.x);
+        maxY = Math.max(maxY, d.x);
+      });
+
+      const yOffset = margin.top - minY + 20;
+
+      // ============================================================
+      // LINK GENERATOR
+      // d3.linkHorizontal for left-to-right orientation
+      // Swaps x/y since tree layout uses vertical coordinates
+      // ============================================================
+      const linkGenerator = d3.linkHorizontal()
+        .x(d => d.y + margin.left)
+        .y(d => d.x + yOffset);
+
+      // Get visible nodes and links
+      const nodes = root.descendants();
+      const links = root.links();
+
+      // ============================================================
+      // RENDER LINKS
+      // Animated transitions for expand/collapse
+      // ============================================================
+      const link = gLink.selectAll(".link")
+        .data(links, d => d.target.id);
+
+      // Enter new links at parent's position
+      const linkEnter = link.enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", d => {
+          const o = { x: source.x0 ?? source.x, y: source.y0 ?? source.y };
+          return linkGenerator({ source: o, target: o });
+        });
+
+      // Transition entering + existing links to new positions
+      link.merge(linkEnter)
+        .transition()
+        .duration(animationDuration)
+        .attr("d", linkGenerator);
+
+      // Remove exiting links
+      link.exit()
+        .transition()
+        .duration(animationDuration)
+        .attr("d", d => {
+          const o = { x: source.x, y: source.y };
+          return linkGenerator({ source: o, target: o });
+        })
+        .remove();
+
+      // ============================================================
+      // RENDER NODES
+      // Circles with labels, click to toggle children
+      // ============================================================
+      const node = gNode.selectAll(".node")
+        .data(nodes, d => d.id);
+
+      // Enter new nodes at source position
+      const nodeEnter = node.enter()
+        .append("g")
+        .attr("class", d => {
+          let classes = "node";
+          if (d._children || d.children) classes += " node--internal";
+          if (!d._children && !d.children) classes += " node--leaf";
+          if (d._children && !d.children) classes += " node--collapsed";
+          return classes;
+        })
+        .attr("transform", d => `translate(${(source.y0 ?? source.y) + margin.left},${(source.x0 ?? source.x) + yOffset})`)
+        .attr("role", "treeitem")
+        .attr("tabindex", "0")
+        .attr("aria-expanded", d => d.children ? "true" : (d._children ? "false" : null))
+        .attr("aria-label", d => {
+          const childCount = d._children ? d._children.length : (d.children ? d.children.length : 0);
+          let label = d.data.name;
+          if (d.data.title) label += `, ${d.data.title}`;
+          if (childCount > 0) label += `, ${childCount} direct reports`;
+          return label;
+        })
+        .on("click", (event, d) => {
+          event.stopPropagation();
+          toggleNode(d);
+        })
+        .on("keydown", (event, d) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleNode(d);
+          }
+        })
+        .on("mouseenter", (event, d) => {
+          showTooltip(event, d);
+          highlightPath(d);
+        })
+        .on("mousemove", moveTooltip)
+        .on("mouseleave", () => {
+          hideTooltip();
+          highlightPath(null);
+        })
+        .on("focus", (event, d) => {
+          showTooltip(event, d);
+          highlightPath(d);
+        })
+        .on("blur", () => {
+          hideTooltip();
+          highlightPath(null);
+        });
+
+      // Node circles
+      nodeEnter.append("circle")
+        .attr("r", nodeRadius)
+        .attr("fill", d => d._children && !d.children ? getDepthColor(d.depth) : "#fff")
+        .attr("stroke", d => getDepthColor(d.depth))
+        .attr("stroke-width", 2);
+
+      // Node labels
+      // Position: to the right for internal nodes, to the left for leaves (avoids overlap)
+      nodeEnter.append("text")
+        .attr("dy", "0.35em")
+        .attr("x", d => d.children || d._children ? -12 : 12)
+        .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+        .text(d => d.data.name)
+        .clone(true).lower()
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-width", 3)
+        .attr("stroke", "white");
+
+      // Transition entering + existing nodes
+      const nodeUpdate = node.merge(nodeEnter)
+        .transition()
+        .duration(animationDuration)
+        .attr("transform", d => `translate(${d.y + margin.left},${d.x + yOffset})`);
+
+      nodeUpdate.select("circle")
+        .attr("fill", d => d._children && !d.children ? getDepthColor(d.depth) : "#fff")
+        .attr("stroke", d => getDepthColor(d.depth));
+
+      // Update aria-expanded
+      node.merge(nodeEnter)
+        .attr("aria-expanded", d => d.children ? "true" : (d._children ? "false" : null))
+        .attr("class", d => {
+          let classes = "node";
+          if (d._children || d.children) classes += " node--internal";
+          if (!d._children && !d.children) classes += " node--leaf";
+          if (d._children && !d.children) classes += " node--collapsed";
+          return classes;
+        });
+
+      // Remove exiting nodes
+      node.exit()
+        .transition()
+        .duration(animationDuration)
+        .attr("transform", d => `translate(${source.y + margin.left},${source.x + yOffset})`)
+        .remove();
+
+      // Store positions for next transition
+      nodes.forEach(d => {
+        d.x0 = d.x;
+        d.y0 = d.y;
+      });
+
+      // Update screen reader summary
+      updateAccessibilitySummary();
+    }
+
+    // ============================================================
+    // COLLAPSE/EXPAND FUNCTIONS
+    // Toggle visibility of children nodes
+    // ============================================================
+    function toggleNode(d) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else if (d._children) {
+        d.children = d._children;
+      }
+      update(d);
+    }
+
+    function expandAll(node = root) {
+      if (node._children) {
+        node.children = node._children;
+      }
+      if (node.children) {
+        node.children.forEach(expandAll);
+      }
+    }
+
+    function collapseAll(node = root) {
+      if (node.children) {
+        node.children.forEach(collapseAll);
+        node._children = node.children;
+        node.children = null;
+      }
+    }
+
+    // Collapse to depth 2 by default (show CEO, C-suite, and departments)
+    function resetToDefaultState() {
+      function setDepth(node, targetDepth) {
+        if (node._children) {
+          node.children = node._children;
+        }
+        if (node.children) {
+          if (node.depth >= targetDepth) {
+            node._children = node.children;
+            node.children = null;
+          } else {
+            node.children.forEach(c => setDepth(c, targetDepth));
+          }
+        }
+      }
+      setDepth(root, 2);
+    }
+
+    // ============================================================
+    // CONTROL BUTTONS
+    // Expand all, collapse all, reset view
+    // ============================================================
+    d3.select("#expand-all").on("click", () => {
+      expandAll();
+      update(root);
+    });
+
+    d3.select("#collapse-all").on("click", () => {
+      collapseAll();
+      update(root);
+    });
+
+    d3.select("#reset-view").on("click", () => {
+      resetToDefaultState();
+      update(root);
+    });
+
+    // ============================================================
+    // LEGEND
+    // Shows depth level colors
+    // ============================================================
+    const legend = d3.select("#legend");
+    const depthLabels = ["Root (Level 0)", "Level 1", "Level 2", "Level 3", "Level 4+"];
+
+    depthColors.forEach((color, i) => {
+      const item = legend.append("div")
+        .attr("class", "legend-item")
+        .attr("role", "listitem");
+
+      item.append("div")
+        .attr("class", "legend-swatch")
+        .style("background-color", "white")
+        .style("border-color", color);
+
+      item.append("span")
+        .text(depthLabels[i]);
+    });
+
+    // Add collapsed indicator
+    const collapsedItem = legend.append("div")
+      .attr("class", "legend-item")
+      .attr("role", "listitem");
+
+    collapsedItem.append("div")
+      .attr("class", "legend-swatch")
+      .style("background-color", depthColors[1])
+      .style("border-color", depthColors[1]);
+
+    collapsedItem.append("span")
+      .text("Collapsed (has hidden children)");
+
+    // ============================================================
+    // ACCESSIBILITY: Screen reader summary
+    // Announces tree structure and current state
+    // ============================================================
+    function updateAccessibilitySummary() {
+      const visibleNodes = root.descendants().length;
+      const totalNodes = root.descendants().reduce((acc, d) => {
+        return acc + (d._children ? d._children.length : 0);
+      }, visibleNodes);
+      const maxVisibleDepth = d3.max(root.descendants(), d => d.depth);
+
+      const srSummary = d3.select("#sr-summary");
+      srSummary.text(
+        `Organization tree with ${visibleNodes} visible nodes out of ${totalNodes} total. ` +
+        `Maximum visible depth: ${maxVisibleDepth + 1} levels. ` +
+        `Root: ${root.data.name}. ` +
+        `Use Tab to navigate nodes, Enter or Space to expand/collapse. ` +
+        `Use control buttons to expand all, collapse all, or reset view.`
+      );
+    }
+
+    // ============================================================
+    // KEYBOARD NAVIGATION
+    // Arrow keys for tree traversal
+    // ============================================================
+    d3.select("#chart").on("keydown", function(event) {
+      const focused = document.activeElement;
+      if (!focused.classList.contains("node")) return;
+
+      const focusedData = d3.select(focused).datum();
+      let nextNode = null;
+
+      switch (event.key) {
+        case "ArrowDown":
+          // Move to next sibling or parent's next sibling
+          if (focusedData.parent) {
+            const siblings = focusedData.parent.children || [];
+            const idx = siblings.indexOf(focusedData);
+            if (idx < siblings.length - 1) {
+              nextNode = siblings[idx + 1];
+            }
+          }
+          break;
+        case "ArrowUp":
+          // Move to previous sibling
+          if (focusedData.parent) {
+            const siblings = focusedData.parent.children || [];
+            const idx = siblings.indexOf(focusedData);
+            if (idx > 0) {
+              nextNode = siblings[idx - 1];
+            }
+          }
+          break;
+        case "ArrowRight":
+          // Expand or move to first child
+          if (focusedData._children && !focusedData.children) {
+            toggleNode(focusedData);
+          } else if (focusedData.children && focusedData.children.length > 0) {
+            nextNode = focusedData.children[0];
+          }
+          break;
+        case "ArrowLeft":
+          // Collapse or move to parent
+          if (focusedData.children) {
+            toggleNode(focusedData);
+          } else if (focusedData.parent) {
+            nextNode = focusedData.parent;
+          }
+          break;
+      }
+
+      if (nextNode) {
+        event.preventDefault();
+        const nextElement = gNode.selectAll(".node")
+          .filter(d => d.id === nextNode.id)
+          .node();
+        if (nextElement) {
+          nextElement.focus();
+        }
+      }
+    });
+
+    // ============================================================
+    // INITIAL RENDER
+    // Start with default expanded state
+    // ============================================================
+    // Store initial positions
+    root.x0 = 0;
+    root.y0 = 0;
+
+    // Set default state (expand to depth 2)
+    resetToDefaultState();
+
+    // Initial render
+    update(root);
+
+    console.log("Tree diagram rendered successfully");
+    console.log(`Total nodes: ${root.descendants().length}`);
+    console.log(`Max depth: ${d3.max(root.descendants(), d => d.depth) + 1} levels`);
+  </script>
+</body>
+</html>

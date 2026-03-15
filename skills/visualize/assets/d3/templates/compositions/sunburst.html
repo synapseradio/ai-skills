@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunburst Chart Template - Hierarchical Radial Treemap</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .perception-note {
+      background: #e7f3ff;
+      border-left: 4px solid #2196f3;
+      padding: 1rem;
+      margin: 1rem 0 2rem 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .perception-note h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #1565c0;
+    }
+
+    .perception-note ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .perception-note li {
+      margin: 0.25rem 0;
+      color: #1565c0;
+    }
+
+    .perception-note strong {
+      color: #1565c0;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.75rem 1rem;
+      background: #f5f5f5;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      min-height: 42px;
+    }
+
+    .breadcrumb-item {
+      color: #666;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 3px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .breadcrumb-item:hover {
+      background: #e0e0e0;
+      color: #1a1a1a;
+    }
+
+    .breadcrumb-item.current {
+      color: #1a1a1a;
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .breadcrumb-item.current:hover {
+      background: transparent;
+    }
+
+    .breadcrumb-separator {
+      color: #bbb;
+      font-size: 0.8rem;
+    }
+
+    #chart {
+      width: 100%;
+      min-height: 600px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      max-width: 280px;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip .path {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-bottom: 0.25rem;
+    }
+
+    .tooltip .value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .tooltip .percentage {
+      color: #88c0d0;
+    }
+
+    .arc {
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .arc:hover {
+      opacity: 0.85;
+    }
+
+    .arc-label {
+      font-size: 11px;
+      font-weight: 500;
+      fill: white;
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .center-label {
+      font-size: 14px;
+      font-weight: 600;
+      fill: #1a1a1a;
+      text-anchor: middle;
+    }
+
+    .center-value {
+      font-size: 12px;
+      fill: #666;
+      text-anchor: middle;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .footer ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .footer li {
+      margin: 0.25rem 0;
+    }
+
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Disk Storage Usage by Folder</h1>
+
+    <div class="perception-note">
+      <h2>When to Use Sunburst vs Treemap vs Icicle</h2>
+      <p><strong>All three show hierarchical part-to-whole composition. Choose based on perception needs:</strong></p>
+      <ul>
+        <li><strong>Sunburst (radial)</strong> — Natural for drill-down exploration; center-outward metaphor; compact for deep hierarchies</li>
+        <li><strong>Treemap (rectangular)</strong> — Best for leaf-level size comparison; space-efficient; harder to see hierarchy</li>
+        <li><strong>Icicle (rectangular stacked)</strong> — Clear depth perception; good for showing path from root; linear layout</li>
+      </ul>
+      <p style="margin-top: 0.5rem;"><strong>Limitation:</strong> Small arcs (under ~3% of parent) become hard to distinguish. Consider aggregating tiny slices or providing zoom interaction.</p>
+    </div>
+
+    <!-- Accessibility: Screen reader summary -->
+    <div id="sr-summary" class="sr-only" role="status" aria-live="polite"></div>
+
+    <!-- Breadcrumb trail showing path from root to current focus -->
+    <nav id="breadcrumb" class="breadcrumb" aria-label="Current path">
+      <span class="breadcrumb-item current">Storage</span>
+    </nav>
+
+    <div id="chart"></div>
+
+    <div id="legend" class="legend" role="list" aria-label="Category legend"></div>
+
+    <div class="footer">
+      <p><strong>Template Notes:</strong></p>
+      <ul>
+        <li>d3.partition() computes arc angles proportional to value; radius bands by depth level</li>
+        <li>Click any arc to zoom (drills into that segment as new root)</li>
+        <li>Breadcrumb trail shows navigation path; click any ancestor to zoom out</li>
+        <li>Colorblind-safe palette (Tableau10) applied to top-level categories</li>
+        <li>Minimum arc angle threshold prevents rendering imperceptible slices</li>
+        <li>Smooth animated transitions use d3.interpolate on arc angles</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tooltip"></div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================
+    // DATA
+    // Hierarchical structure: folders → subfolders → files
+    // Replace with your own hierarchical data.
+    // ============================================
+    const data = {
+      name: "Storage",
+      children: [
+        {
+          name: "Documents",
+          children: [
+            {
+              name: "Work",
+              children: [
+                { name: "Reports", value: 850 },
+                { name: "Presentations", value: 620 },
+                { name: "Spreadsheets", value: 480 },
+                { name: "Contracts", value: 450 }
+              ]
+            },
+            {
+              name: "Personal",
+              children: [
+                { name: "Taxes", value: 320 },
+                { name: "Receipts", value: 180 },
+                { name: "Letters", value: 150 }
+              ]
+            },
+            {
+              name: "Archive",
+              children: [
+                { name: "2023", value: 1200 },
+                { name: "2022", value: 980 },
+                { name: "2021", value: 850 }
+              ]
+            }
+          ]
+        },
+        {
+          name: "Media",
+          children: [
+            {
+              name: "Photos",
+              children: [
+                { name: "Vacations", value: 4200 },
+                { name: "Family", value: 2800 },
+                { name: "Events", value: 1500 }
+              ]
+            },
+            {
+              name: "Videos",
+              children: [
+                { name: "Projects", value: 6500 },
+                { name: "Personal", value: 3800 },
+                { name: "Tutorials", value: 1700 }
+              ]
+            },
+            {
+              name: "Music",
+              children: [
+                { name: "Albums", value: 2400 },
+                { name: "Playlists", value: 1200 },
+                { name: "Podcasts", value: 600 }
+              ]
+            }
+          ]
+        },
+        {
+          name: "Applications",
+          children: [
+            {
+              name: "Development",
+              children: [
+                { name: "IDEs", value: 3200 },
+                { name: "SDKs", value: 2100 },
+                { name: "Tools", value: 1200 }
+              ]
+            },
+            {
+              name: "Productivity",
+              children: [
+                { name: "Office Suite", value: 1800 },
+                { name: "Design Tools", value: 1400 },
+                { name: "Utilities", value: 600 }
+              ]
+            },
+            {
+              name: "Games",
+              children: [
+                { name: "Strategy", value: 4500 },
+                { name: "Adventure", value: 3200 },
+                { name: "Casual", value: 1500 }
+              ]
+            }
+          ]
+        },
+        {
+          name: "System",
+          children: [
+            { name: "OS Files", value: 5400 },
+            { name: "Cache", value: 2100 },
+            { name: "Logs", value: 800 },
+            { name: "Temp", value: 450 }
+          ]
+        }
+      ]
+    };
+
+    // ============================================
+    // VALIDATION
+    // Ensure hierarchical data has required structure
+    // ============================================
+    function validateHierarchy(node, path = "") {
+      const nodePath = path ? `${path} > ${node.name}` : node.name;
+
+      if (!node.name) {
+        console.error(`Node at "${path}" missing required 'name' field`);
+        return false;
+      }
+
+      if (node.children) {
+        if (!Array.isArray(node.children)) {
+          console.error(`Node "${nodePath}" has non-array 'children'`);
+          return false;
+        }
+        return node.children.every(child => validateHierarchy(child, nodePath));
+      } else if (typeof node.value !== 'number' || node.value < 0) {
+        console.error(`Leaf "${nodePath}" missing valid 'value' field`);
+        return false;
+      }
+
+      return true;
+    }
+
+    if (!validateHierarchy(data)) {
+      throw new Error("Invalid hierarchical data structure");
+    }
+
+    // ============================================
+    // CONFIGURATION
+    // ============================================
+    const width = 700;
+    const height = 700;
+    const radius = width / 2;
+
+    // Minimum arc angle in radians (below this, arcs are too small to see)
+    // ~0.01 radians ≈ 0.5° ≈ ~0.3% of circle
+    const minArcAngle = 0.01;
+
+    // Transition duration for zoom animations (ms)
+    const transitionDuration = 750;
+
+    // Colorblind-safe palette (Tableau10) for top-level categories
+    const colorPalette = [
+      "#4e79a7", "#f28e2c", "#e15759", "#76b7b2",
+      "#59a14f", "#edc949", "#af7aa1", "#ff9da7",
+      "#9c755f", "#bab0ab"
+    ];
+
+    // ============================================
+    // HIERARCHY & PARTITION LAYOUT
+    //
+    // d3.partition() divides a rectangle into bands by depth.
+    // Each node gets x0, x1 (angular extent) and y0, y1 (radial extent).
+    //
+    // For sunburst, we map:
+    //   x → angle (0 to 2π)
+    //   y → radius (0 to radius)
+    // ============================================
+    const root = d3.hierarchy(data)
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value);
+
+    const totalValue = root.value;
+
+    // partition() sets x0, x1, y0, y1 on each node
+    // x ranges from 0 to 1 (we scale to 0-2π for angles)
+    // y ranges from 0 to 1 (we scale to 0-radius)
+    const partition = d3.partition()
+      .size([2 * Math.PI, radius]);
+
+    partition(root);
+
+    // Store original positions for zoom transitions
+    root.each(d => {
+      d.x0Original = d.x0;
+      d.x1Original = d.x1;
+      d.y0Original = d.y0;
+      d.y1Original = d.y1;
+    });
+
+    // Get top-level categories for color mapping
+    const topLevelCategories = root.children.map(d => d.data.name);
+    const colorScale = d3.scaleOrdinal()
+      .domain(topLevelCategories)
+      .range(colorPalette);
+
+    // ============================================
+    // SVG SETUP
+    // viewBox-based responsive SVG (centered)
+    // ============================================
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("viewBox", `${-width / 2} ${-height / 2} ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("role", "img")
+      .attr("aria-labelledby", "sunburst-title sunburst-desc")
+      .style("max-width", "100%")
+      .style("height", "auto");
+
+    // Accessibility: Title and description
+    svg.append("title")
+      .attr("id", "sunburst-title")
+      .text("Disk Storage Usage Sunburst Chart");
+
+    svg.append("desc")
+      .attr("id", "sunburst-desc")
+      .text(() => {
+        const summaries = root.children
+          .map(d => `${d.data.name}: ${((d.value / totalValue) * 100).toFixed(1)}%`)
+          .join(", ");
+        return `Hierarchical breakdown of disk storage. Major categories: ${summaries}. Click to drill down.`;
+      });
+
+    // Main group for all arcs
+    const g = svg.append("g");
+
+    // ============================================
+    // TOOLTIP
+    // ============================================
+    const tooltip = d3.select(".tooltip");
+
+    function getAncestorPath(node) {
+      const path = [];
+      let current = node;
+      while (current) {
+        path.unshift(current.data.name);
+        current = current.parent;
+      }
+      return path.join(" › ");
+    }
+
+    function formatValue(value) {
+      if (value >= 1000) {
+        return (value / 1000).toFixed(1) + " GB";
+      }
+      return value + " MB";
+    }
+
+    function showTooltip(event, d) {
+      const percentage = ((d.value / totalValue) * 100).toFixed(1);
+      const parentPercentage = d.parent
+        ? ((d.value / d.parent.value) * 100).toFixed(1)
+        : "100.0";
+      const path = getAncestorPath(d);
+
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 12) + "px")
+        .classed("visible", true)
+        .html(`
+          <div class="path">${path}</div>
+          <div class="value">${formatValue(d.value)}</div>
+          <div class="percentage">${percentage}% of total</div>
+          ${d.parent ? `<div class="percentage">${parentPercentage}% of parent</div>` : ''}
+        `);
+    }
+
+    function moveTooltip(event) {
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 12) + "px");
+    }
+
+    function hideTooltip() {
+      tooltip.classed("visible", false);
+    }
+
+    // ============================================
+    // ARC GENERATOR
+    // Converts partition coordinates to SVG arc paths
+    //
+    // Partition gives us:
+    //   x0, x1: angular extent (in radians, 0 to 2π)
+    //   y0, y1: radial extent (in pixels, 0 to radius)
+    //
+    // Arc generator needs:
+    //   startAngle, endAngle: angular extent
+    //   innerRadius, outerRadius: radial extent
+    // ============================================
+    const arc = d3.arc()
+      .startAngle(d => d.x0)
+      .endAngle(d => d.x1)
+      .innerRadius(d => d.y0)
+      .outerRadius(d => d.y1)
+      .padAngle(0.002)      // Small gap between arcs
+      .padRadius(radius / 2);
+
+    // ============================================
+    // COLOR HELPER
+    // Color by top-level ancestor category
+    // Deeper levels get lighter tints
+    // ============================================
+    function getNodeColor(node) {
+      // Find top-level ancestor
+      let current = node;
+      while (current.depth > 1) {
+        current = current.parent;
+      }
+
+      const baseColor = d3.color(colorScale(current.data.name));
+
+      // Lighten based on depth (deeper = lighter)
+      if (node.depth > 1) {
+        const lightenFactor = (node.depth - 1) * 0.15;
+        return baseColor.brighter(lightenFactor).toString();
+      }
+
+      return baseColor.toString();
+    }
+
+    // ============================================
+    // BREADCRUMB MANAGEMENT
+    // ============================================
+    const breadcrumbContainer = d3.select("#breadcrumb");
+    let currentFocus = root;
+
+    function updateBreadcrumb(focusNode) {
+      // Build path from root to focus
+      const ancestors = focusNode.ancestors().reverse();
+
+      breadcrumbContainer.selectAll("*").remove();
+
+      ancestors.forEach((ancestor, i) => {
+        if (i > 0) {
+          breadcrumbContainer.append("span")
+            .attr("class", "breadcrumb-separator")
+            .text("›");
+        }
+
+        const isLast = i === ancestors.length - 1;
+        breadcrumbContainer.append("span")
+          .attr("class", `breadcrumb-item ${isLast ? 'current' : ''}`)
+          .attr("role", "button")
+          .attr("tabindex", isLast ? -1 : 0)
+          .attr("aria-current", isLast ? "location" : null)
+          .text(ancestor.data.name)
+          .on("click", () => {
+            if (!isLast) {
+              zoomTo(ancestor);
+            }
+          })
+          .on("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              if (!isLast) {
+                zoomTo(ancestor);
+              }
+            }
+          });
+      });
+    }
+
+    // ============================================
+    // ZOOM FUNCTIONALITY
+    // Click-to-zoom: selected arc becomes the new root
+    // Animated transitions interpolate arc angles
+    // ============================================
+    function zoomTo(focusNode) {
+      currentFocus = focusNode;
+      updateBreadcrumb(focusNode);
+
+      // Calculate new angular extent for each node relative to focus
+      // Focus node spans the full circle (0 to 2π)
+      // Other nodes are scaled proportionally
+      const focusX0 = focusNode.x0Original;
+      const focusX1 = focusNode.x1Original;
+      const focusY0 = focusNode.y0Original;
+      const angularScale = (2 * Math.PI) / (focusX1 - focusX0);
+
+      // Determine how many depth levels to show
+      // Focus becomes depth 0, its children depth 1, etc.
+      const maxDepth = focusNode.height + 1;
+      const radiusPerLevel = radius / maxDepth;
+
+      // Transition arcs to new positions
+      g.selectAll(".arc")
+        .transition()
+        .duration(transitionDuration)
+        .attrTween("d", function(d) {
+          // Calculate target positions
+          const targetX0 = (d.x0Original - focusX0) * angularScale;
+          const targetX1 = (d.x1Original - focusX0) * angularScale;
+          const depthFromFocus = d.depth - focusNode.depth;
+          const targetY0 = Math.max(0, depthFromFocus) * radiusPerLevel;
+          const targetY1 = Math.max(0, depthFromFocus + 1) * radiusPerLevel;
+
+          // Interpolate from current to target
+          const interpolateX0 = d3.interpolate(d.x0, targetX0);
+          const interpolateX1 = d3.interpolate(d.x1, targetX1);
+          const interpolateY0 = d3.interpolate(d.y0, targetY0);
+          const interpolateY1 = d3.interpolate(d.y1, targetY1);
+
+          return t => {
+            d.x0 = interpolateX0(t);
+            d.x1 = interpolateX1(t);
+            d.y0 = interpolateY0(t);
+            d.y1 = interpolateY1(t);
+            return arc(d);
+          };
+        })
+        .attr("fill-opacity", d => {
+          // Hide nodes outside the focus subtree or above focus
+          if (!isDescendantOrSelf(d, focusNode) && !isAncestor(d, focusNode)) {
+            return 0;
+          }
+          // Fade ancestors
+          if (isAncestor(d, focusNode)) {
+            return 0.3;
+          }
+          return 1;
+        })
+        .attr("pointer-events", d => {
+          if (isDescendantOrSelf(d, focusNode)) {
+            return "auto";
+          }
+          return "none";
+        });
+
+      // Transition labels
+      g.selectAll(".arc-label")
+        .transition()
+        .duration(transitionDuration)
+        .attrTween("transform", function(d) {
+          const targetX0 = (d.x0Original - focusX0) * angularScale;
+          const targetX1 = (d.x1Original - focusX0) * angularScale;
+          const depthFromFocus = d.depth - focusNode.depth;
+          const targetY0 = Math.max(0, depthFromFocus) * radiusPerLevel;
+          const targetY1 = Math.max(0, depthFromFocus + 1) * radiusPerLevel;
+
+          const interpolateX0 = d3.interpolate(d.x0, targetX0);
+          const interpolateX1 = d3.interpolate(d.x1, targetX1);
+          const interpolateY0 = d3.interpolate(d.y0, targetY0);
+          const interpolateY1 = d3.interpolate(d.y1, targetY1);
+
+          return t => {
+            const x0 = interpolateX0(t);
+            const x1 = interpolateX1(t);
+            const y0 = interpolateY0(t);
+            const y1 = interpolateY1(t);
+            const angle = (x0 + x1) / 2;
+            const r = (y0 + y1) / 2;
+            return `translate(${r * Math.sin(angle)}, ${-r * Math.cos(angle)}) rotate(${angle * 180 / Math.PI - 90})`;
+          };
+        })
+        .attr("opacity", d => {
+          if (!isDescendantOrSelf(d, focusNode)) return 0;
+          const depthFromFocus = d.depth - focusNode.depth;
+          const targetY1 = Math.max(0, depthFromFocus + 1) * radiusPerLevel;
+          const targetY0 = Math.max(0, depthFromFocus) * radiusPerLevel;
+          const arcThickness = targetY1 - targetY0;
+          const targetX0 = (d.x0Original - focusX0) * angularScale;
+          const targetX1 = (d.x1Original - focusX0) * angularScale;
+          const arcAngle = targetX1 - targetX0;
+          // Only show label if arc is large enough
+          if (arcAngle < 0.1 || arcThickness < 30) return 0;
+          return 1;
+        });
+
+      // Update center label
+      updateCenterLabel(focusNode);
+
+      // Update screen reader
+      updateScreenReader(focusNode);
+    }
+
+    function isDescendantOrSelf(node, ancestor) {
+      let current = node;
+      while (current) {
+        if (current === ancestor) return true;
+        current = current.parent;
+      }
+      return false;
+    }
+
+    function isAncestor(node, descendant) {
+      return isDescendantOrSelf(descendant, node) && node !== descendant;
+    }
+
+    // ============================================
+    // CENTER LABEL
+    // Shows current focus information
+    // ============================================
+    const centerGroup = svg.append("g").attr("class", "center-info");
+
+    centerGroup.append("text")
+      .attr("class", "center-label")
+      .attr("dy", "-0.2em");
+
+    centerGroup.append("text")
+      .attr("class", "center-value")
+      .attr("dy", "1em");
+
+    function updateCenterLabel(node) {
+      centerGroup.select(".center-label")
+        .text(node.data.name);
+
+      centerGroup.select(".center-value")
+        .text(formatValue(node.value));
+    }
+
+    updateCenterLabel(root);
+
+    // ============================================
+    // RENDER ARCS
+    // ============================================
+    // Get all descendants (not including root for sunburst center)
+    const nodes = root.descendants().filter(d => d.depth > 0);
+
+    const arcs = g.selectAll(".arc")
+      .data(nodes)
+      .join("path")
+      .attr("class", "arc")
+      .attr("d", arc)
+      .attr("fill", d => getNodeColor(d))
+      .attr("stroke", "white")
+      .attr("stroke-width", 0.5)
+      .attr("role", "button")
+      .attr("tabindex", 0)
+      .attr("aria-label", d => {
+        const percentage = ((d.value / totalValue) * 100).toFixed(1);
+        return `${getAncestorPath(d)}: ${formatValue(d.value)}, ${percentage}% of total. Click to zoom in.`;
+      })
+      .attr("fill-opacity", d => {
+        // Hide arcs that are too small to perceive
+        const arcAngle = d.x1 - d.x0;
+        return arcAngle < minArcAngle ? 0 : 1;
+      })
+      .on("mouseenter", showTooltip)
+      .on("mousemove", moveTooltip)
+      .on("mouseleave", hideTooltip)
+      .on("click", (event, d) => {
+        event.stopPropagation();
+        if (d.children) {
+          zoomTo(d);
+        }
+      })
+      .on("keydown", (event, d) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          if (d.children) {
+            zoomTo(d);
+          }
+        }
+      })
+      .on("focus", function(event, d) {
+        showTooltip(event, d);
+      })
+      .on("blur", hideTooltip);
+
+    // ============================================
+    // ARC LABELS
+    // Only shown on arcs large enough to fit text
+    // ============================================
+    g.selectAll(".arc-label")
+      .data(nodes)
+      .join("text")
+      .attr("class", "arc-label")
+      .attr("transform", d => {
+        // Position label at arc centroid
+        // Angle is average of start and end angles
+        // Radius is average of inner and outer
+        const angle = (d.x0 + d.x1) / 2;
+        const r = (d.y0 + d.y1) / 2;
+        // Convert polar to cartesian (note: SVG has y increasing downward)
+        // Rotate text to follow arc direction
+        return `translate(${r * Math.sin(angle)}, ${-r * Math.cos(angle)}) rotate(${angle * 180 / Math.PI - 90})`;
+      })
+      .attr("text-anchor", "middle")
+      .attr("dy", "0.35em")
+      .attr("opacity", d => {
+        const arcAngle = d.x1 - d.x0;
+        const arcThickness = d.y1 - d.y0;
+        // Only show label if arc is large enough
+        if (arcAngle < 0.1 || arcThickness < 30) return 0;
+        return 1;
+      })
+      .text(d => {
+        const arcAngle = d.x1 - d.x0;
+        const arcLength = arcAngle * (d.y0 + d.y1) / 2;
+        // Truncate if needed
+        const maxChars = Math.floor(arcLength / 7);
+        const name = d.data.name;
+        return name.length > maxChars ? name.slice(0, Math.max(3, maxChars - 1)) + "…" : name;
+      });
+
+    // ============================================
+    // LEGEND
+    // Shows top-level category colors
+    // ============================================
+    const legend = d3.select("#legend");
+
+    topLevelCategories.forEach(category => {
+      const item = legend.append("div")
+        .attr("class", "legend-item")
+        .attr("role", "listitem");
+
+      item.append("div")
+        .attr("class", "legend-swatch")
+        .style("background-color", colorScale(category));
+
+      const categoryData = root.children.find(d => d.data.name === category);
+      const percentage = ((categoryData.value / totalValue) * 100).toFixed(1);
+
+      item.append("span")
+        .text(`${category} (${percentage}%)`);
+    });
+
+    // ============================================
+    // ACCESSIBILITY: Screen reader summary
+    // ============================================
+    function updateScreenReader(focusNode) {
+      const srSummary = d3.select("#sr-summary");
+
+      if (focusNode === root) {
+        const categoryBreakdown = root.children
+          .map(d => {
+            const pct = ((d.value / totalValue) * 100).toFixed(1);
+            return `${d.data.name} at ${pct}%`;
+          })
+          .join(", ");
+
+        srSummary.text(
+          `Sunburst showing storage breakdown across ${root.children.length} categories. ` +
+          `Total: ${formatValue(totalValue)}. Categories by size: ${categoryBreakdown}. ` +
+          `Click any segment to drill down. Use Tab to navigate.`
+        );
+      } else {
+        const childBreakdown = focusNode.children
+          ? focusNode.children.map(d => {
+              const pct = ((d.value / focusNode.value) * 100).toFixed(1);
+              return `${d.data.name} at ${pct}%`;
+            }).join(", ")
+          : "No subcategories";
+
+        srSummary.text(
+          `Now viewing ${focusNode.data.name}: ${formatValue(focusNode.value)}. ` +
+          `${((focusNode.value / totalValue) * 100).toFixed(1)}% of total storage. ` +
+          `Contents: ${childBreakdown}. ` +
+          `Use breadcrumb to navigate back.`
+        );
+      }
+    }
+
+    updateScreenReader(root);
+
+    // ============================================
+    // CLICK OUTSIDE TO RESET
+    // ============================================
+    svg.on("click", () => {
+      zoomTo(root);
+    });
+
+    // ============================================
+    // KEYBOARD NAVIGATION
+    // ============================================
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && currentFocus !== root) {
+        event.preventDefault();
+        if (currentFocus.parent) {
+          zoomTo(currentFocus.parent);
+        } else {
+          zoomTo(root);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

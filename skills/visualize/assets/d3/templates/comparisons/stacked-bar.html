@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stacked Bar Chart Template</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    #chart-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Perception warning - important for understanding stacked bars */
+    .perception-note {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-left: 3px solid #ddd;
+      line-height: 1.5;
+    }
+
+    /* Tooltip styling - positioned absolutely over chart */
+    .tooltip {
+      position: absolute;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      max-width: 200px;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip .series-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .tooltip .value-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tooltip .percentage {
+      color: #aaa;
+    }
+
+    /* Chart SVG - uses viewBox for responsive scaling */
+    svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Segment hover state - visual feedback for interaction */
+    .segment {
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .segment:hover {
+      opacity: 0.8;
+    }
+
+    /* Axis styling */
+    .axis text {
+      font-size: 12px;
+      fill: #666;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #ddd;
+    }
+
+    /* Legend styling */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+    }
+
+    /* Empty state message */
+    .empty-message {
+      text-align: center;
+      color: #999;
+      font-size: 16px;
+      padding: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <h1>Quarterly Revenue by Product Line</h1>
+    <div class="perception-note">
+      <strong>How to read this chart:</strong> Stacked bars show composition (parts of a whole) within
+      each category AND allow comparison of totals across categories. The bottom series and totals are
+      accurately comparable. Middle and top series are harder to compare because they lack a common
+      baseline. If comparing individual series values matters more than seeing composition, consider
+      using a grouped bar chart instead.
+    </div>
+    <div id="chart"></div>
+    <div id="legend" class="legend"></div>
+    <div class="tooltip"></div>
+  </div>
+
+  <script type="module">
+    // ============================================================================
+    // IMPORTS
+    // ============================================================================
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================================================
+    // DATA FORMAT
+    // ============================================================================
+    // Expected format: Array of objects with a 'category' field and numeric fields
+    // for each series to stack.
+    //
+    // Example structure:
+    // [
+    //   { category: "Q1", seriesA: 100, seriesB: 200, seriesC: 150 },
+    //   { category: "Q2", seriesA: 120, seriesB: 180, seriesC: 170 }
+    // ]
+    //
+    // IMPORTANT: Series values should be non-negative for standard stacked bars.
+    // Negative values require diverging stacked bars (different template).
+    const data = [
+      { category: "Q1 2024", hardware: 42000, software: 28000, services: 15000 },
+      { category: "Q2 2024", hardware: 38000, software: 32000, services: 18000 },
+      { category: "Q3 2024", hardware: 45000, software: 35000, services: 22000 },
+      { category: "Q4 2024", hardware: 52000, software: 41000, services: 28000 }
+    ];
+
+    // Define which fields are series (exclude 'category' and any non-numeric fields)
+    // Order matters: first series is at bottom, last is at top
+    const seriesKeys = ["hardware", "software", "services"];
+
+    // Human-readable labels for legend and tooltips
+    const seriesLabels = {
+      hardware: "Hardware",
+      software: "Software",
+      services: "Services"
+    };
+
+    // ============================================================================
+    // CONFIGURATION
+    // ============================================================================
+    const config = {
+      // Margins follow D3 convention: space for axes and labels
+      margin: { top: 20, right: 20, bottom: 80, left: 70 },
+
+      // SVG dimensions (viewBox - scales responsively)
+      width: 800,
+      height: 500,
+
+      // Color scheme: Tableau10 (colorblind-safe palette)
+      // First 3 colors used for our 3 series
+      colors: d3.schemeTableau10,
+
+      // Bar padding (0-1 range)
+      barPadding: 0.2
+    };
+
+    // Calculate inner dimensions
+    const innerWidth = config.width - config.margin.left - config.margin.right;
+    const innerHeight = config.height - config.margin.top - config.margin.bottom;
+
+    // ============================================================================
+    // EDGE CASE: EMPTY DATA
+    // ============================================================================
+    if (!data || data.length === 0) {
+      d3.select("#chart")
+        .html('<div class="empty-message">No data available</div>');
+      throw new Error("Cannot render chart: data is empty");
+    }
+
+    // ============================================================================
+    // DATA TRANSFORMATION: STACKING
+    // ============================================================================
+    // d3.stack() transforms flat data into stacked layers
+    // Each layer contains [y0, y1] pairs (bottom and top of segment)
+    const stack = d3.stack()
+      .keys(seriesKeys)
+      .order(d3.stackOrderNone)      // Keep series in defined order
+      .offset(d3.stackOffsetNone);   // Zero baseline (standard stacking)
+
+    const stackedData = stack(data);
+
+    // Calculate totals for each category (used in tooltips and accessibility)
+    const totals = data.map(d => ({
+      category: d.category,
+      total: seriesKeys.reduce((sum, key) => sum + (d[key] || 0), 0)
+    }));
+
+    // ============================================================================
+    // SCALES
+    // ============================================================================
+    // X Scale: Maps categories to horizontal positions
+    const xScale = d3.scaleBand()
+      .domain(data.map(d => d.category))
+      .range([0, innerWidth])
+      .padding(config.barPadding);
+
+    // Y Scale: Maps values to vertical positions
+    // CRITICAL: Must start at zero for perceptual integrity
+    // Domain extends to max stacked total (top of highest stack)
+    const maxStackedValue = d3.max(stackedData, layer => d3.max(layer, d => d[1]));
+
+    const yScale = d3.scaleLinear()
+      .domain([0, maxStackedValue])
+      .range([innerHeight, 0])
+      .nice();
+
+    // Color Scale: Maps series keys to colors
+    const colorScale = d3.scaleOrdinal()
+      .domain(seriesKeys)
+      .range(config.colors);
+
+    // ============================================================================
+    // ACCESSIBILITY: SUMMARY GENERATION
+    // ============================================================================
+    // Generate a comprehensive summary for screen readers
+    const minTotal = d3.min(totals, d => d.total);
+    const maxTotal = d3.max(totals, d => d.total);
+    const minCategory = totals.find(d => d.total === minTotal)?.category;
+    const maxCategory = totals.find(d => d.total === maxTotal)?.category;
+
+    const accessibilitySummary = [
+      `Stacked bar chart showing ${data.length} categories with ${seriesKeys.length} series each.`,
+      `Series from bottom to top: ${seriesKeys.map(k => seriesLabels[k]).join(", ")}.`,
+      `Total values range from ${d3.format("$,.0f")(minTotal)} (${minCategory}) to ${d3.format("$,.0f")(maxTotal)} (${maxCategory}).`,
+      `Each bar shows composition: ${seriesKeys.map(k => seriesLabels[k]).join(", ")} as parts of total revenue.`
+    ].join(" ");
+
+    // ============================================================================
+    // SVG SETUP
+    // ============================================================================
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("viewBox", `0 0 ${config.width} ${config.height}`)
+      .attr("role", "img")
+      .attr("aria-labelledby", "chart-title chart-desc");
+
+    // Accessibility: Title element
+    svg.append("title")
+      .attr("id", "chart-title")
+      .text("Stacked bar chart: Quarterly revenue by product line");
+
+    // Accessibility: Description element
+    svg.append("desc")
+      .attr("id", "chart-desc")
+      .text(accessibilitySummary);
+
+    // Create main group with margins
+    const g = svg.append("g")
+      .attr("transform", `translate(${config.margin.left},${config.margin.top})`);
+
+    // ============================================================================
+    // AXES
+    // ============================================================================
+    // X-axis: Category labels
+    const xAxis = d3.axisBottom(xScale);
+
+    g.append("g")
+      .attr("class", "axis axis-x")
+      .attr("transform", `translate(0,${innerHeight})`)
+      .call(xAxis)
+      .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end")
+        .attr("dx", "-0.8em")
+        .attr("dy", "0.15em");
+
+    // Y-axis: Value scale with currency formatting
+    const yAxis = d3.axisLeft(yScale)
+      .tickFormat(d => d3.format("$,.0f")(d));
+
+    g.append("g")
+      .attr("class", "axis axis-y")
+      .call(yAxis);
+
+    // Y-axis label
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -innerHeight / 2)
+      .attr("y", -55)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#666")
+      .attr("font-size", "13px")
+      .text("Revenue ($)");
+
+    // ============================================================================
+    // STACKED BARS
+    // ============================================================================
+    // Create a group for each series layer
+    const layers = g.selectAll(".layer")
+      .data(stackedData)
+      .join("g")
+        .attr("class", "layer")
+        .attr("fill", d => colorScale(d.key));
+
+    // Create rectangles for each segment within each layer
+    layers.selectAll(".segment")
+      .data(d => d.map(segment => ({
+        ...segment,
+        key: d.key,                           // Series key (e.g., "hardware")
+        category: segment.data.category,      // Category (e.g., "Q1 2024")
+        value: segment.data[d.key],           // Raw value for this segment
+        total: totals.find(t => t.category === segment.data.category)?.total || 0
+      })))
+      .join("rect")
+        .attr("class", "segment")
+        .attr("x", d => xScale(d.category) || 0)
+        .attr("y", d => yScale(d[1]))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => yScale(d[0]) - yScale(d[1]));
+
+    // ============================================================================
+    // LEGEND
+    // ============================================================================
+    // Build legend in stack order (bottom to top matches visual)
+    const legendContainer = d3.select("#legend");
+
+    seriesKeys.forEach(key => {
+      const item = legendContainer.append("div")
+        .attr("class", "legend-item");
+
+      item.append("div")
+        .attr("class", "legend-swatch")
+        .style("background-color", colorScale(key));
+
+      item.append("span")
+        .text(seriesLabels[key] || key);
+    });
+
+    // ============================================================================
+    // TOOLTIPS
+    // ============================================================================
+    const tooltip = d3.select(".tooltip");
+
+    // Find all segment rectangles and add tooltip interaction
+    g.selectAll(".segment")
+      .on("mouseenter", function(event, d) {
+        const percentage = d.total > 0 ? (d.value / d.total * 100).toFixed(1) : 0;
+
+        tooltip
+          .classed("visible", true)
+          .html(`
+            <div class="series-name">${seriesLabels[d.key] || d.key}</div>
+            <div><strong>${d.category}</strong></div>
+            <div class="value-line">
+              <span>Value:</span>
+              <span>${d3.format("$,.0f")(d.value)}</span>
+            </div>
+            <div class="value-line">
+              <span>% of total:</span>
+              <span class="percentage">${percentage}%</span>
+            </div>
+            <div class="value-line" style="margin-top: 4px; padding-top: 4px; border-top: 1px solid #444;">
+              <span>Category total:</span>
+              <span>${d3.format("$,.0f")(d.total)}</span>
+            </div>
+          `)
+          .style("left", `${event.pageX + 10}px`)
+          .style("top", `${event.pageY - 10}px`);
+      })
+      .on("mousemove", function(event) {
+        tooltip
+          .style("left", `${event.pageX + 10}px`)
+          .style("top", `${event.pageY - 10}px`);
+      })
+      .on("mouseleave", function() {
+        tooltip.classed("visible", false);
+      });
+
+    // ============================================================================
+    // CUSTOMIZATION NOTES
+    // ============================================================================
+    // To customize this chart:
+    //
+    // 1. DATA: Replace the 'data' array with your own data
+    //    - Each object needs a 'category' field and numeric fields for each series
+    //    - Update 'seriesKeys' array to list your numeric field names
+    //    - Update 'seriesLabels' object for human-readable names
+    //
+    // 2. STACKING ORDER: Change order in 'seriesKeys' array
+    //    - First key = bottom of stack (most accurately comparable)
+    //    - Put your most important series at the bottom
+    //
+    // 3. COLORS: The template uses Tableau10 (colorblind-safe)
+    //    - For different colors, modify config.colors or use:
+    //      - d3.schemeSet2 (softer colors)
+    //      - d3.schemePaired (paired for comparisons)
+    //
+    // 4. CURRENCY: Tooltip uses $ formatting
+    //    - Modify d3.format() calls for different units
+    //    - Example: d3.format(".1f") for decimals, d3.format(",") for plain numbers
+    //
+    // PERCEPTUAL TRADE-OFFS:
+    // - Stacked bars excel at showing part-to-whole relationships
+    // - The bottom series is accurately comparable (common baseline)
+    // - Upper series are harder to compare (floating baselines)
+    // - Totals are accurately comparable (top of each stack)
+    // - If comparing individual series matters more than composition:
+    //   - Use grouped bar chart for direct comparison
+    //   - Use small multiples for many categories
+    //
+    // ACCESSIBILITY LIMITATIONS:
+    // - Tooltips are mouse-only (not keyboard accessible in this version)
+    // - For production, add keyboard navigation and focus states
+    // - Consider providing a data table alternative for screen reader users
+  </script>
+</body>
+</html>

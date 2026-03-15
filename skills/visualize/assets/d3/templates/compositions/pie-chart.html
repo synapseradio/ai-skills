@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pie Chart Template - Know Your Limits</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin: 1rem 0 2rem 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .warning h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #856404;
+    }
+
+    .warning ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .warning li {
+      margin: 0.25rem 0;
+      color: #856404;
+    }
+
+    .warning strong {
+      color: #856404;
+    }
+
+    #chart {
+      width: 100%;
+      height: 500px;
+      margin: 2rem 0;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .slice {
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .slice:hover {
+      opacity: 0.8;
+    }
+
+    .label {
+      font-size: 14px;
+      font-weight: 600;
+      fill: #1a1a1a;
+      pointer-events: none;
+    }
+
+    .percentage {
+      font-size: 12px;
+      fill: #666;
+      pointer-events: none;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Budget Allocation by Department</h1>
+
+    <div class="warning">
+      <h2>⚠️ When NOT to Use Pie Charts</h2>
+      <p><strong>Use a horizontal bar chart instead if:</strong></p>
+      <ul>
+        <li>You have <strong>more than 7 categories</strong> (human perception breaks down)</li>
+        <li>You need <strong>precise comparison</strong> between values (angles are harder to compare than lengths)</li>
+        <li>You're <strong>comparing across multiple groups</strong> (use grouped/stacked bars)</li>
+        <li>Any slice is <strong>less than 5%</strong> (impossible to label clearly—aggregate into "Other")</li>
+        <li>Values don't sum to a meaningful whole (not truly part-to-whole composition)</li>
+      </ul>
+      <p style="margin-top: 0.5rem;"><strong>Legitimate pie chart use:</strong> Showing part-to-whole relationships with 3-7 clearly distinct categories where proportions matter more than precise values.</p>
+    </div>
+
+    <div id="chart" role="img" aria-label="Budget allocation pie chart showing six departments: Engineering 35%, Marketing 28%, Sales 22%, Operations 8%, Finance 5%, and Other 2%"></div>
+
+    <div class="footer">
+      <p><strong>Template Notes:</strong></p>
+      <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+        <li>2D only—never add 3D perspective (distorts perception of angles and areas)</li>
+        <li>Colorblind-safe palette (Tableau10)</li>
+        <li>All slices labeled with percentages (legend alone is insufficient)</li>
+        <li>Slices &lt;5% aggregated into "Other" to maintain readability</li>
+        <li>Optional donut variant: set <code>innerRadius</code> to 0.6 * radius for hollow center</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tooltip"></div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // Sample data: Budget allocation (must be part-to-whole composition)
+    // CRITICAL: If you have >7 categories, use a bar chart instead.
+    // Slices <5% should be aggregated into "Other" (perception threshold).
+    const rawData = [
+      { category: "Engineering", value: 350000 },
+      { category: "Marketing", value: 280000 },
+      { category: "Sales", value: 220000 },
+      { category: "Operations", value: 80000 },
+      { category: "Finance", value: 50000 },
+      // Small values aggregated:
+      { category: "Other", value: 20000 }  // HR: 12k, Legal: 8k (too small to label individually)
+    ];
+
+    // Validate: Pie charts become unreadable with >7 slices
+    if (rawData.length > 7) {
+      console.warn("⚠️ More than 7 categories detected. Consider using a horizontal bar chart instead.");
+    }
+
+    const data = rawData;
+    const total = d3.sum(data, d => d.value);
+
+    // Colorblind-safe palette (Tableau10)
+    const color = d3.scaleOrdinal()
+      .domain(data.map(d => d.category))
+      .range([
+        "#4e79a7", "#f28e2c", "#e15759", "#76b7b2",
+        "#59a14f", "#edc949", "#af7aa1", "#ff9da7",
+        "#9c755f", "#bab0ab"
+      ]);
+
+    // Dimensions
+    const container = d3.select("#chart");
+    const containerWidth = container.node().getBoundingClientRect().width;
+    const width = containerWidth;
+    const height = 500;
+    const radius = Math.min(width, height) / 2 - 40;
+
+    // SVG with responsive viewBox
+    const svg = container.append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .style("max-width", "100%")
+      .style("height", "auto");
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    // Pie generator
+    const pie = d3.pie()
+      .value(d => d.value)
+      .sort(null); // Preserve data order (or use (a, b) => b.value - a.value to sort by size)
+
+    // Arc generator (2D only—3D perspective distorts angle perception)
+    const arc = d3.arc()
+      .innerRadius(0)        // Set to 0.6 * radius for donut variant
+      .outerRadius(radius);
+
+    // Arc for label positioning (slightly outside the slice)
+    const labelArc = d3.arc()
+      .innerRadius(radius * 0.6)
+      .outerRadius(radius * 0.6);
+
+    // Tooltip
+    const tooltip = d3.select(".tooltip");
+
+    // Draw slices
+    const slices = g.selectAll(".slice")
+      .data(pie(data))
+      .join("path")
+        .attr("class", "slice")
+        .attr("d", arc)
+        .attr("fill", d => color(d.data.category))
+        .attr("stroke", "white")
+        .attr("stroke-width", 2)
+        .on("mouseenter", function(event, d) {
+          const percentage = ((d.data.value / total) * 100).toFixed(1);
+          tooltip
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px")
+            .classed("visible", true)
+            .html(`
+              <strong>${d.data.category}</strong><br>
+              Value: $${d.data.value.toLocaleString()}<br>
+              Percentage: ${percentage}%
+            `);
+        })
+        .on("mousemove", function(event) {
+          tooltip
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px");
+        })
+        .on("mouseleave", function() {
+          tooltip.classed("visible", false);
+        });
+
+    // Labels: Category names
+    g.selectAll(".label")
+      .data(pie(data))
+      .join("text")
+        .attr("class", "label")
+        .attr("transform", d => {
+          const pos = labelArc.centroid(d);
+          // Push labels outward for readability
+          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+          pos[0] = Math.cos(midAngle - Math.PI / 2) * (radius * 0.75);
+          pos[1] = Math.sin(midAngle - Math.PI / 2) * (radius * 0.75);
+          return `translate(${pos})`;
+        })
+        .attr("text-anchor", "middle")
+        .text(d => {
+          // Only show label if slice is large enough (>5%)
+          const percentage = (d.data.value / total) * 100;
+          return percentage >= 5 ? d.data.category : "";
+        });
+
+    // Labels: Percentages (ALWAYS visible—not just legend)
+    g.selectAll(".percentage")
+      .data(pie(data))
+      .join("text")
+        .attr("class", "percentage")
+        .attr("transform", d => {
+          const pos = labelArc.centroid(d);
+          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+          pos[0] = Math.cos(midAngle - Math.PI / 2) * (radius * 0.75);
+          pos[1] = Math.sin(midAngle - Math.PI / 2) * (radius * 0.75) + 14;
+          return `translate(${pos})`;
+        })
+        .attr("text-anchor", "middle")
+        .text(d => {
+          const percentage = ((d.data.value / total) * 100).toFixed(1);
+          return percentage >= 5 ? `${percentage}%` : "";
+        });
+
+    // Screen reader accessibility
+    // ARIA label already set in HTML, but you can update dynamically:
+    const ariaDescription = data.map(d => {
+      const pct = ((d.data.value / total) * 100).toFixed(1);
+      return `${d.data.category} ${pct}%`;
+    }).join(", ");
+
+    container.select("svg")
+      .attr("role", "img")
+      .attr("aria-label", `Budget allocation: ${ariaDescription}`);
+
+    /*
+     * DONUT VARIANT:
+     * To create a donut chart, change the arc generator's innerRadius:
+     *
+     * const arc = d3.arc()
+     *   .innerRadius(radius * 0.6)  // Hollow center (60% of radius)
+     *   .outerRadius(radius);
+     *
+     * Donuts can reduce the "filled pizza" effect and allow placing
+     * a central label (e.g., total amount). They don't improve comparison
+     * accuracy, but some find them visually cleaner.
+     */
+  </script>
+</body>
+</html>

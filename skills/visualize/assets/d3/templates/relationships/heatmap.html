@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heatmap Template</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    #chart-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin: 0 0 20px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Tooltip styling - positioned absolutely over chart */
+    .tooltip {
+      position: absolute;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    /* Chart SVG - uses viewBox for responsive scaling */
+    svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Cell hover state - visual feedback for interaction */
+    .cell {
+      cursor: pointer;
+      stroke: #fff;
+      stroke-width: 1px;
+      transition: stroke-width 0.1s;
+    }
+
+    .cell:hover,
+    .cell:focus {
+      stroke-width: 2px;
+      stroke: #333;
+      outline: none;
+    }
+
+    /* Axis styling */
+    .axis text {
+      font-size: 12px;
+      fill: #666;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: none;
+    }
+
+    /* Legend styling */
+    .legend-title {
+      font-size: 12px;
+      font-weight: 500;
+      fill: #333;
+    }
+
+    .legend-label {
+      font-size: 11px;
+      fill: #666;
+    }
+
+    /* Empty state message */
+    .empty-message {
+      text-align: center;
+      color: #999;
+      font-size: 16px;
+      padding: 40px;
+    }
+
+    /* Cell value text */
+    .cell-value {
+      font-size: 10px;
+      text-anchor: middle;
+      pointer-events: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <h1>Activity by Day and Hour</h1>
+    <div id="chart"></div>
+    <div class="tooltip"></div>
+  </div>
+
+  <script type="module">
+    // ============================================================================
+    // IMPORTS
+    // ============================================================================
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================================================
+    // DATA FORMAT
+    // ============================================================================
+    // Expected format: Array of objects with 'row', 'column', and 'value' properties
+    // - row: string (category for y-axis)
+    // - column: string (category for x-axis)
+    // - value: number (intensity encoded as color)
+    //
+    // Example use cases:
+    // - Activity by hour and day of week
+    // - Correlation matrix
+    // - Feature importance by model and dataset
+    // - User engagement by time slot
+    //
+    // CRITICAL LIMITATION: Color encoding is less precise than position encoding.
+    // Viewers can distinguish ~7-10 shades reliably. Use heatmaps for:
+    // - Pattern detection (hot spots, clusters, trends)
+    // - Comparing relative magnitudes
+    // NOT for:
+    // - Reading precise values (use bar charts)
+    // - Comparing exact differences (use tables)
+    //
+    // For small matrices (<7x7), consider showing values in cells.
+    const data = [
+      // Activity data: commits by day of week and hour
+      // Row = day, Column = hour, Value = commit count
+      { row: "Monday", column: "00:00", value: 2 },
+      { row: "Monday", column: "03:00", value: 1 },
+      { row: "Monday", column: "06:00", value: 3 },
+      { row: "Monday", column: "09:00", value: 15 },
+      { row: "Monday", column: "12:00", value: 12 },
+      { row: "Monday", column: "15:00", value: 18 },
+      { row: "Monday", column: "18:00", value: 8 },
+      { row: "Monday", column: "21:00", value: 5 },
+      { row: "Tuesday", column: "00:00", value: 1 },
+      { row: "Tuesday", column: "03:00", value: 0 },
+      { row: "Tuesday", column: "06:00", value: 4 },
+      { row: "Tuesday", column: "09:00", value: 22 },
+      { row: "Tuesday", column: "12:00", value: 14 },
+      { row: "Tuesday", column: "15:00", value: 20 },
+      { row: "Tuesday", column: "18:00", value: 10 },
+      { row: "Tuesday", column: "21:00", value: 3 },
+      { row: "Wednesday", column: "00:00", value: 3 },
+      { row: "Wednesday", column: "03:00", value: 2 },
+      { row: "Wednesday", column: "06:00", value: 5 },
+      { row: "Wednesday", column: "09:00", value: 25 },
+      { row: "Wednesday", column: "12:00", value: 18 },
+      { row: "Wednesday", column: "15:00", value: 23 },
+      { row: "Wednesday", column: "18:00", value: 12 },
+      { row: "Wednesday", column: "21:00", value: 7 },
+      { row: "Thursday", column: "00:00", value: 2 },
+      { row: "Thursday", column: "03:00", value: 1 },
+      { row: "Thursday", column: "06:00", value: 4 },
+      { row: "Thursday", column: "09:00", value: 19 },
+      { row: "Thursday", column: "12:00", value: 16 },
+      { row: "Thursday", column: "15:00", value: 21 },
+      { row: "Thursday", column: "18:00", value: 9 },
+      { row: "Thursday", column: "21:00", value: 4 },
+      { row: "Friday", column: "00:00", value: 1 },
+      { row: "Friday", column: "03:00", value: 0 },
+      { row: "Friday", column: "06:00", value: 2 },
+      { row: "Friday", column: "09:00", value: 14 },
+      { row: "Friday", column: "12:00", value: 11 },
+      { row: "Friday", column: "15:00", value: 15 },
+      { row: "Friday", column: "18:00", value: 6 },
+      { row: "Friday", column: "21:00", value: 8 },
+      { row: "Saturday", column: "00:00", value: 4 },
+      { row: "Saturday", column: "03:00", value: 2 },
+      { row: "Saturday", column: "06:00", value: 1 },
+      { row: "Saturday", column: "09:00", value: 5 },
+      { row: "Saturday", column: "12:00", value: 7 },
+      { row: "Saturday", column: "15:00", value: 8 },
+      { row: "Saturday", column: "18:00", value: 6 },
+      { row: "Saturday", column: "21:00", value: 9 },
+      { row: "Sunday", column: "00:00", value: 3 },
+      { row: "Sunday", column: "03:00", value: 1 },
+      { row: "Sunday", column: "06:00", value: 0 },
+      { row: "Sunday", column: "09:00", value: 4 },
+      { row: "Sunday", column: "12:00", value: 6 },
+      { row: "Sunday", column: "15:00", value: 10 },
+      { row: "Sunday", column: "18:00", value: 12 },
+      { row: "Sunday", column: "21:00", value: 7 },
+    ];
+
+    // ============================================================================
+    // CONFIGURATION
+    // ============================================================================
+    // Customize these values to adjust chart appearance
+    const config = {
+      // Margins follow D3 convention: space for axes and labels
+      // Left margin wider to accommodate row labels
+      margin: { top: 50, right: 100, bottom: 40, left: 100 },
+
+      // SVG dimensions (viewBox - scales responsively)
+      // Adjusted for typical heatmap aspect ratios
+      width: 800,
+      height: 500,
+
+      // Color scale: Sequential single-hue (colorblind-safe)
+      // Options (all colorblind-safe):
+      // - d3.interpolateBlues (recommended for most cases)
+      // - d3.interpolateGreens
+      // - d3.interpolateViridis (perceptually uniform, works in grayscale)
+      // - d3.interpolatePlasma (high contrast)
+      //
+      // AVOID for single-direction data:
+      // - Diverging scales (RdBu, PiYG) - imply meaningful midpoint
+      // - Rainbow (jet) - not perceptually uniform, terrible for colorblind
+      colorInterpolator: d3.interpolateBlues,
+
+      // Show values in cells for small matrices
+      // Recommended: true for <50 cells, false for larger
+      showCellValues: false,
+
+      // Cell padding (0-1, proportion of cell width)
+      cellPadding: 0.05,
+
+      // Legend dimensions
+      legendWidth: 20,
+      legendHeight: 200,
+    };
+
+    // ============================================================================
+    // EDGE CASE: EMPTY DATA
+    // ============================================================================
+    if (!data || data.length === 0) {
+      d3.select("#chart")
+        .html('<div class="empty-message">No data available</div>');
+      throw new Error("Cannot render chart: data is empty");
+    }
+
+    // ============================================================================
+    // DERIVED VALUES
+    // ============================================================================
+    // Extract unique rows and columns (preserve order from data)
+    const rows = [...new Set(data.map(d => d.row))];
+    const columns = [...new Set(data.map(d => d.column))];
+
+    // Calculate value extent for color scale
+    const valueExtent = d3.extent(data, d => d.value);
+    const minValue = valueExtent[0];
+    const maxValue = valueExtent[1];
+
+    // Calculate inner dimensions
+    const innerWidth = config.width - config.margin.left - config.margin.right;
+    const innerHeight = config.height - config.margin.top - config.margin.bottom;
+
+    // Calculate cell dimensions (aim for square cells when possible)
+    const cellWidth = innerWidth / columns.length;
+    const cellHeight = innerHeight / rows.length;
+
+    // Detect patterns for accessibility description
+    function detectPatterns() {
+      const patterns = [];
+
+      // Find hot spots (top 10% of values)
+      const threshold = minValue + (maxValue - minValue) * 0.9;
+      const hotSpots = data.filter(d => d.value >= threshold);
+      if (hotSpots.length > 0 && hotSpots.length <= 5) {
+        const hotSpotDesc = hotSpots
+          .map(d => `${d.row}/${d.column}`)
+          .join(", ");
+        patterns.push(`Hot spots at: ${hotSpotDesc}`);
+      } else if (hotSpots.length > 5) {
+        patterns.push(`${hotSpots.length} cells above 90th percentile`);
+      }
+
+      // Detect if values cluster by row or column
+      const rowMeans = rows.map(row => {
+        const rowData = data.filter(d => d.row === row);
+        return { row, mean: d3.mean(rowData, d => d.value) };
+      });
+      const highestRow = d3.maxIndex(rowMeans, d => d.mean);
+      const lowestRow = d3.minIndex(rowMeans, d => d.mean);
+      if (rowMeans[highestRow].mean > rowMeans[lowestRow].mean * 2) {
+        patterns.push(`Highest activity: ${rowMeans[highestRow].row}. Lowest: ${rowMeans[lowestRow].row}`);
+      }
+
+      const colMeans = columns.map(col => {
+        const colData = data.filter(d => d.column === col);
+        return { col, mean: d3.mean(colData, d => d.value) };
+      });
+      const highestCol = d3.maxIndex(colMeans, d => d.mean);
+      const lowestCol = d3.minIndex(colMeans, d => d.mean);
+      if (colMeans[highestCol].mean > colMeans[lowestCol].mean * 2) {
+        patterns.push(`Peak at ${colMeans[highestCol].col}, trough at ${colMeans[lowestCol].col}`);
+      }
+
+      return patterns.length > 0 ? patterns.join(". ") : "No dominant patterns detected";
+    }
+
+    const patternDescription = detectPatterns();
+
+    // Auto-enable cell values for small matrices
+    const totalCells = rows.length * columns.length;
+    const showValues = config.showCellValues || totalCells <= 49;
+
+    // ============================================================================
+    // SCALES
+    // ============================================================================
+    // X Scale: Maps columns to horizontal positions (band scale)
+    const xScale = d3.scaleBand()
+      .domain(columns)
+      .range([0, innerWidth])
+      .padding(config.cellPadding);
+
+    // Y Scale: Maps rows to vertical positions (band scale)
+    const yScale = d3.scaleBand()
+      .domain(rows)
+      .range([0, innerHeight])
+      .padding(config.cellPadding);
+
+    // Color Scale: Maps values to colors (sequential scale)
+    // Domain starts at 0 for intensity data (or minValue for correlation matrices)
+    const colorScale = d3.scaleSequential()
+      .domain([0, maxValue])
+      .interpolator(config.colorInterpolator);
+
+    // ============================================================================
+    // SVG SETUP
+    // ============================================================================
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("viewBox", `0 0 ${config.width} ${config.height}`)
+      .attr("role", "img")
+      .attr("aria-labelledby", "chart-title chart-desc");
+
+    // Accessibility: Title element
+    svg.append("title")
+      .attr("id", "chart-title")
+      .text("Heatmap showing activity intensity by day and hour");
+
+    // Accessibility: Description element (announces patterns to screen readers)
+    svg.append("desc")
+      .attr("id", "chart-desc")
+      .text(`${rows.length} rows by ${columns.length} columns matrix. Values range from ${minValue} to ${maxValue}. ${patternDescription}`);
+
+    // Create main group element with margins applied
+    const g = svg.append("g")
+      .attr("transform", `translate(${config.margin.left},${config.margin.top})`);
+
+    // ============================================================================
+    // AXES
+    // ============================================================================
+    // X-axis (columns) at top
+    g.append("g")
+      .attr("class", "axis axis-x")
+      .call(d3.axisTop(xScale).tickSize(0))
+      .call(g => g.select(".domain").remove());
+
+    // Y-axis (rows) at left
+    g.append("g")
+      .attr("class", "axis axis-y")
+      .call(d3.axisLeft(yScale).tickSize(0))
+      .call(g => g.select(".domain").remove());
+
+    // ============================================================================
+    // CELLS
+    // ============================================================================
+    // Create lookup map for efficient data access
+    const dataMap = new Map(data.map(d => [`${d.row}-${d.column}`, d]));
+
+    // Create cells group
+    const cells = g.selectAll(".cell")
+      .data(data)
+      .join("rect")
+        .attr("class", "cell")
+        .attr("x", d => xScale(d.column))
+        .attr("y", d => yScale(d.row))
+        .attr("width", xScale.bandwidth())
+        .attr("height", yScale.bandwidth())
+        .attr("fill", d => colorScale(d.value))
+        .attr("tabindex", 0)
+        .attr("role", "gridcell")
+        .attr("aria-label", d => `${d.row}, ${d.column}: ${d.value}`);
+
+    // ============================================================================
+    // CELL VALUES (for small matrices)
+    // ============================================================================
+    if (showValues) {
+      g.selectAll(".cell-value")
+        .data(data)
+        .join("text")
+          .attr("class", "cell-value")
+          .attr("x", d => xScale(d.column) + xScale.bandwidth() / 2)
+          .attr("y", d => yScale(d.row) + yScale.bandwidth() / 2)
+          .attr("dy", "0.35em")
+          .attr("fill", d => {
+            // Use white text on dark cells, black on light
+            // Threshold at ~50% of color range
+            const bgLuminance = d.value / maxValue;
+            return bgLuminance > 0.5 ? "#fff" : "#333";
+          })
+          .text(d => d.value);
+    }
+
+    // ============================================================================
+    // COLOR LEGEND
+    // ============================================================================
+    const legendX = innerWidth + 30;
+    const legendY = (innerHeight - config.legendHeight) / 2;
+
+    const legend = svg.append("g")
+      .attr("class", "legend")
+      .attr("transform", `translate(${config.margin.left + legendX}, ${config.margin.top + legendY})`);
+
+    // Create gradient for legend
+    const defs = svg.append("defs");
+    const gradientId = "heatmap-gradient";
+
+    const linearGradient = defs.append("linearGradient")
+      .attr("id", gradientId)
+      .attr("x1", "0%")
+      .attr("y1", "100%")
+      .attr("x2", "0%")
+      .attr("y2", "0%");
+
+    // Add color stops
+    const numStops = 10;
+    for (let i = 0; i <= numStops; i++) {
+      const t = i / numStops;
+      linearGradient.append("stop")
+        .attr("offset", `${t * 100}%`)
+        .attr("stop-color", colorScale(t * maxValue));
+    }
+
+    // Legend rectangle with gradient
+    legend.append("rect")
+      .attr("width", config.legendWidth)
+      .attr("height", config.legendHeight)
+      .attr("fill", `url(#${gradientId})`)
+      .attr("stroke", "#ccc")
+      .attr("stroke-width", 1);
+
+    // Legend scale for tick marks
+    const legendScale = d3.scaleLinear()
+      .domain([0, maxValue])
+      .range([config.legendHeight, 0]);
+
+    // Legend axis
+    const legendAxis = d3.axisRight(legendScale)
+      .ticks(5)
+      .tickSize(5);
+
+    legend.append("g")
+      .attr("class", "legend-axis")
+      .attr("transform", `translate(${config.legendWidth}, 0)`)
+      .call(legendAxis)
+      .call(g => g.select(".domain").remove())
+      .selectAll("text")
+        .attr("class", "legend-label");
+
+    // Legend title
+    legend.append("text")
+      .attr("class", "legend-title")
+      .attr("x", config.legendWidth / 2)
+      .attr("y", -10)
+      .attr("text-anchor", "middle")
+      .text("Value");
+
+    // ============================================================================
+    // TOOLTIPS
+    // ============================================================================
+    const tooltip = d3.select(".tooltip");
+
+    cells
+      .on("mouseenter", function(event, d) {
+        // Highlight current cell
+        d3.select(this)
+          .attr("stroke", "#333")
+          .attr("stroke-width", 2);
+
+        // Show tooltip
+        tooltip
+          .classed("visible", true)
+          .html(`
+            <strong>${d.row}</strong> / <strong>${d.column}</strong><br>
+            Value: ${d.value}
+          `)
+          .style("left", `${event.pageX + 10}px`)
+          .style("top", `${event.pageY - 10}px`);
+      })
+      .on("mousemove", function(event) {
+        tooltip
+          .style("left", `${event.pageX + 10}px`)
+          .style("top", `${event.pageY - 10}px`);
+      })
+      .on("mouseleave", function() {
+        d3.select(this)
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 1);
+
+        tooltip.classed("visible", false);
+      })
+      .on("focus", function(event, d) {
+        // Keyboard accessibility: show tooltip on focus
+        d3.select(this)
+          .attr("stroke", "#333")
+          .attr("stroke-width", 2);
+
+        const rect = this.getBoundingClientRect();
+        tooltip
+          .classed("visible", true)
+          .html(`
+            <strong>${d.row}</strong> / <strong>${d.column}</strong><br>
+            Value: ${d.value}
+          `)
+          .style("left", `${rect.right + 10}px`)
+          .style("top", `${rect.top}px`);
+      })
+      .on("blur", function() {
+        d3.select(this)
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 1);
+
+        tooltip.classed("visible", false);
+      });
+
+    // ============================================================================
+    // CUSTOMIZATION NOTES
+    // ============================================================================
+    // To customize this chart:
+    //
+    // 1. DATA: Replace the 'data' array above with your own data
+    //    - Must have 'row' (string), 'column' (string), 'value' (number)
+    //    - Rows appear on y-axis, columns on x-axis
+    //    - Missing row/column combinations will show as gaps
+    //
+    // 2. COLOR SCALE: Change config.colorInterpolator
+    //    Colorblind-safe options:
+    //    - d3.interpolateBlues (single-hue, good default)
+    //    - d3.interpolateGreens (single-hue alternative)
+    //    - d3.interpolateViridis (perceptually uniform, grayscale-safe)
+    //    - d3.interpolatePlasma (high contrast, grayscale-safe)
+    //    - d3.interpolateCividis (optimized for color vision deficiency)
+    //
+    //    For diverging data (with meaningful zero/midpoint):
+    //    - d3.interpolateRdBu (red-white-blue)
+    //    - d3.interpolatePiYG (pink-white-green)
+    //    Then change colorScale domain to [minValue, 0, maxValue]
+    //
+    // 3. CELL VALUES: Set config.showCellValues = true
+    //    - Automatically enabled for matrices with <50 cells
+    //    - Provides exact values without relying on color perception
+    //    - Essential for data tables where precision matters
+    //
+    // 4. DIMENSIONS: Adjust config.width, config.height
+    //    - For correlation matrices, use square dimensions
+    //    - For time-based data, wider layouts often work better
+    //
+    // 5. PADDING: Adjust config.cellPadding (0-1)
+    //    - 0 = no gap between cells (dense)
+    //    - 0.1 = 10% gap (readable individual cells)
+    //    - Higher values reduce data density perception
+    //
+    // LIMITATIONS TO DOCUMENT FOR USERS:
+    // - Color perception varies: ~8% of males have color vision deficiency
+    // - Viewers distinguish ~7-10 shades reliably
+    // - Heatmaps excel at pattern detection, not precise value reading
+    // - For exact comparisons, provide data table or bar chart alternative
+    //
+    // ACCESSIBILITY:
+    // - Cells are keyboard-focusable (Tab navigation)
+    // - Each cell has aria-label with row, column, and value
+    // - Screen reader announces pattern summary
+    // - Consider providing sortable data table as alternative view
+    //
+    // PERFORMANCE:
+    // - SVG performs well for <1000 cells
+    // - For larger matrices: consider canvas rendering
+    // - For very large matrices: aggregate or use hierarchical approach
+  </script>
+</body>
+</html>

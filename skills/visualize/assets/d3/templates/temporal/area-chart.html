@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Area Chart Template - Temporal Data Visualization</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+      color: #222;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .meta {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Area fill - semi-transparent to show cumulative magnitude */
+    .area {
+      fill: #2563eb; /* Blue 600 - colorblind safe */
+      fill-opacity: 0.7;
+    }
+
+    /* Stroke for area boundary - provides visual clarity */
+    .area-stroke {
+      fill: none;
+      stroke: #1d4ed8; /* Blue 700 - darker for contrast */
+      stroke-width: 2;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    /* Gap markers - explicitly show where data is missing */
+    .gap-marker {
+      fill: #dc2626; /* Red 600 - signals discontinuity */
+      stroke: white;
+      stroke-width: 1.5;
+    }
+
+    /* Grid and axes */
+    .grid line {
+      stroke: #e5e7eb;
+      stroke-dasharray: 2,2;
+    }
+
+    .grid path {
+      stroke-width: 0;
+    }
+
+    .axis text {
+      font-size: 12px;
+      fill: #6b7280;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #d1d5db;
+    }
+
+    .axis-label {
+      font-size: 13px;
+      fill: #374151;
+      font-weight: 500;
+    }
+
+    /* Data points for hover interaction */
+    .data-point {
+      fill: #1d4ed8;
+      stroke: white;
+      stroke-width: 2;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .data-point:hover,
+    .data-point:focus {
+      opacity: 1;
+    }
+
+    /* Show points on container hover for discoverability */
+    .chart-container:hover .data-point {
+      opacity: 0.6;
+    }
+
+    .chart-container:hover .data-point:hover,
+    .chart-container:hover .data-point:focus {
+      opacity: 1;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      line-height: 1.4;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .documentation {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: #dbeafe;
+      border-left: 4px solid #2563eb;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .documentation h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #1e40af;
+    }
+
+    .documentation ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .documentation li {
+      margin-bottom: 0.25rem;
+    }
+
+    .documentation code {
+      background: rgba(0,0,0,0.1);
+      padding: 0.125rem 0.25rem;
+      border-radius: 2px;
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 0.8125rem;
+    }
+
+    .documentation .warning {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #fef3c7;
+      border-left: 3px solid #f59e0b;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Monthly Water Consumption</h1>
+  <p class="meta">
+    Sample temporal area chart | Data sampling: monthly totals |
+    Timezone: UTC | Date format: ISO 8601
+  </p>
+
+  <div class="chart-container">
+    <svg id="chart" viewBox="0 0 800 400"
+         role="img"
+         aria-labelledby="chart-title"
+         aria-describedby="chart-desc">
+      <title id="chart-title">Monthly Water Consumption</title>
+      <desc id="chart-desc">Water consumption trend showing cumulative volume over the year. Summary statistics computed after data load.</desc>
+    </svg>
+    <div class="tooltip"></div>
+  </div>
+
+  <div class="documentation">
+    <h2>When to Use Area Charts</h2>
+    <p><strong>Area charts emphasize cumulative magnitude, not just trend.</strong> The filled region communicates volume—how much total quantity accumulated over time.</p>
+    <ul>
+      <li><strong>Use area charts for:</strong> Resource consumption, inventory levels, cumulative revenue, rainfall totals—when the "amount under the curve" matters</li>
+      <li><strong>Use line charts instead for:</strong> Temperature trends, stock prices, rankings—when only the trajectory matters, not the volume</li>
+      <li><strong>Zero baseline is mandatory:</strong> Area without zero baseline is misleading. If your minimum value is 10,000 and you start the y-axis there, the visual "area" misrepresents the actual quantity.</li>
+      <li><strong>Gaps break the area:</strong> Missing values show as discontinuities (red markers) rather than filled regions that would falsely claim volume existed</li>
+    </ul>
+
+    <div class="warning">
+      <strong>Area encoding communicates quantity.</strong> If cumulative magnitude does not matter for your use case, use a line chart instead. Area adds visual weight that implies "totalness"—misusing it distorts interpretation.
+    </div>
+  </div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================================
+    // SAMPLE DATA - Replace with your temporal dataset
+    // ============================================================
+    // Area charts are appropriate when CUMULATIVE MAGNITUDE matters.
+    // This sample shows water consumption where the total volume
+    // consumed over time is meaningful information.
+    // ============================================================
+    const rawData = [
+      { date: "2024-01-01", value: 12500 },
+      { date: "2024-02-01", value: 11800 },
+      { date: "2024-03-01", value: 13200 },
+      { date: "2024-04-01", value: 15600 },
+      { date: "2024-05-01", value: 18900 },
+      { date: "2024-06-01", value: null },  // Missing data - gap will break area
+      { date: "2024-07-01", value: 24100 },
+      { date: "2024-08-01", value: 26500 },
+      { date: "2024-09-01", value: 21300 },
+      { date: "2024-10-01", value: 17200 },
+      { date: "2024-11-01", value: 14100 },
+      { date: "2024-12-01", value: 13400 },
+    ];
+
+    // ============================================================
+    // DATA PARSING & VALIDATION
+    // ============================================================
+    // Parse dates using d3.isoParse for explicit ISO 8601 handling.
+    // TIMEZONE ASSUMPTION: Dates are interpreted as UTC.
+    // For local timezone handling, use d3.timeParse with explicit format.
+    const parseDate = d3.isoParse;
+
+    const data = rawData.map(d => ({
+      date: parseDate(d.date),
+      value: d.value,
+      dateString: d.date,
+    })).filter(d => d.date !== null);
+
+    // Validate: sort by time (required for temporal area charts)
+    data.sort((a, b) => a.date - b.date);
+
+    // Separate valid and missing data for different rendering
+    const validData = data.filter(d => d.value !== null);
+    const gapData = data.filter(d => d.value === null);
+
+    // ============================================================
+    // DIMENSIONS & MARGINS
+    // ============================================================
+    const margin = { top: 20, right: 30, bottom: 50, left: 70 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    // ============================================================
+    // SVG SETUP
+    // ============================================================
+    const svg = d3.select("#chart");
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // ============================================================
+    // SCALES
+    // ============================================================
+    // CRITICAL: Use scaleTime for temporal data
+    const xScale = d3.scaleTime()
+      .domain(d3.extent(data, d => d.date))
+      .range([0, width]);
+
+    // CRITICAL: Y-scale MUST start at zero for area charts.
+    // Area encodes quantity—without zero baseline, the visual
+    // "amount" of area misrepresents the actual magnitude.
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(validData, d => d.value) * 1.1]) // 10% headroom
+      .range([height, 0])
+      .nice();
+
+    // ============================================================
+    // AXES
+    // ============================================================
+    const xAxis = d3.axisBottom(xScale)
+      .ticks(d3.timeMonth.every(2))
+      .tickFormat(d3.timeFormat("%b"));
+
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(6)
+      .tickFormat(d => `${(d / 1000).toFixed(0)}k gal`);
+
+    // Grid lines for readability
+    g.append("g")
+      .attr("class", "grid")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xScale)
+        .ticks(d3.timeMonth)
+        .tickSize(-height)
+        .tickFormat("")
+      );
+
+    g.append("g")
+      .attr("class", "grid")
+      .call(d3.axisLeft(yScale)
+        .ticks(6)
+        .tickSize(-width)
+        .tickFormat("")
+      );
+
+    // Render axes
+    g.append("g")
+      .attr("class", "axis axis-x")
+      .attr("transform", `translate(0,${height})`)
+      .call(xAxis);
+
+    g.append("g")
+      .attr("class", "axis axis-y")
+      .call(yAxis);
+
+    // Axis labels
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("x", width / 2)
+      .attr("y", height + 40)
+      .text("Month (2024)");
+
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -55)
+      .text("Water Consumption (gallons)");
+
+    // ============================================================
+    // AREA GENERATOR
+    // ============================================================
+    // .defined() breaks the area at missing values rather than
+    // filling across gaps (which would falsely claim volume existed).
+    //
+    // y0 MUST be yScale(0) to maintain zero baseline.
+    // Using y0(height) achieves the same result since yScale(0) === height.
+    const area = d3.area()
+      .defined(d => d.value !== null)
+      .x(d => xScale(d.date))
+      .y0(yScale(0))  // Zero baseline - MANDATORY for area charts
+      .y1(d => yScale(d.value))
+      .curve(d3.curveMonotoneX);
+
+    // Line generator for the top stroke (provides visual clarity)
+    const line = d3.line()
+      .defined(d => d.value !== null)
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.value))
+      .curve(d3.curveMonotoneX);
+
+    // ============================================================
+    // RENDER AREA
+    // ============================================================
+    if (validData.length > 1) {
+      // Area fill - semi-transparent to communicate magnitude
+      g.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area);
+
+      // Stroke along top for visual definition
+      g.append("path")
+        .datum(data)
+        .attr("class", "area-stroke")
+        .attr("d", line);
+    }
+
+    // ============================================================
+    // DATA POINTS (for hover interaction)
+    // ============================================================
+    g.selectAll(".data-point")
+      .data(validData)
+      .join("circle")
+      .attr("class", "data-point")
+      .attr("cx", d => xScale(d.date))
+      .attr("cy", d => yScale(d.value))
+      .attr("r", 5)
+      .attr("role", "button")
+      .attr("tabindex", "0")
+      .attr("aria-label", d => {
+        const formatted = d3.timeFormat("%B %Y")(d.date);
+        return `${formatted}: ${d.value.toLocaleString()} gallons`;
+      })
+      .on("mouseenter focus", showTooltip)
+      .on("mouseleave blur", hideTooltip)
+      .on("mousemove", moveTooltip);
+
+    // ============================================================
+    // GAP MARKERS
+    // ============================================================
+    // Explicitly mark missing data points to signal discontinuity.
+    if (gapData.length > 0) {
+      const gapWithY = gapData.map(gap => {
+        const gapDate = gap.date.getTime();
+        const before = validData.filter(d => d.date < gap.date).slice(-1)[0];
+        const after = validData.filter(d => d.date > gap.date)[0];
+
+        let yPos = height / 2;
+        if (before && after) {
+          const ratio = (gapDate - before.date) / (after.date - before.date);
+          yPos = yScale(before.value + ratio * (after.value - before.value));
+        } else if (before) {
+          yPos = yScale(before.value);
+        } else if (after) {
+          yPos = yScale(after.value);
+        }
+
+        return { ...gap, yPos };
+      });
+
+      g.selectAll(".gap-marker")
+        .data(gapWithY)
+        .join("circle")
+        .attr("class", "gap-marker")
+        .attr("cx", d => xScale(d.date))
+        .attr("cy", d => d.yPos)
+        .attr("r", 5)
+        .attr("role", "img")
+        .attr("aria-label", d => {
+          const formatted = d3.timeFormat("%B %Y")(d.date);
+          return `Missing data: ${formatted}`;
+        });
+    }
+
+    // ============================================================
+    // TOOLTIP SYSTEM
+    // ============================================================
+    const tooltip = d3.select(".tooltip");
+
+    function showTooltip(event, d) {
+      const formatted = d3.timeFormat("%B %d, %Y")(d.date);
+      tooltip
+        .html(`
+          <strong>${formatted}</strong><br>
+          Consumption: ${d.value.toLocaleString()} gallons
+        `)
+        .classed("visible", true);
+      moveTooltip(event);
+    }
+
+    function moveTooltip(event) {
+      const tooltipNode = tooltip.node();
+      const tooltipWidth = tooltipNode.offsetWidth;
+      const tooltipHeight = tooltipNode.offsetHeight;
+
+      tooltip
+        .style("left", `${event.pageX - tooltipWidth / 2}px`)
+        .style("top", `${event.pageY - tooltipHeight - 12}px`);
+    }
+
+    function hideTooltip() {
+      tooltip.classed("visible", false);
+    }
+
+    // ============================================================
+    // COMPUTE STATISTICS
+    // ============================================================
+    // Total cumulative consumption (sum of all valid values)
+    const totalConsumption = validData.reduce((sum, d) => sum + d.value, 0);
+
+    // Average consumption
+    const avgConsumption = totalConsumption / validData.length;
+
+    // Peak and trough
+    const peakMonth = validData.reduce((max, d) => d.value > max.value ? d : max);
+    const troughMonth = validData.reduce((min, d) => d.value < min.value ? d : min);
+
+    // Date range
+    const firstDate = d3.timeFormat("%B %Y")(validData[0].date);
+    const lastDate = d3.timeFormat("%B %Y")(validData[validData.length - 1].date);
+    const peakDate = d3.timeFormat("%B")(peakMonth.date);
+    const troughDate = d3.timeFormat("%B")(troughMonth.date);
+
+    // ============================================================
+    // ACCESSIBILITY SUMMARY
+    // ============================================================
+    // Screen readers announce cumulative statistics first, then trend.
+    // This is more meaningful for area charts than simple growth percentage.
+    const trendSummary = `Water consumption from ${firstDate} to ${lastDate}. ` +
+      `Total: ${totalConsumption.toLocaleString()} gallons across ${validData.length} months. ` +
+      `Average: ${Math.round(avgConsumption).toLocaleString()} gallons per month. ` +
+      `Peak: ${peakMonth.value.toLocaleString()} gallons in ${peakDate}. ` +
+      `Lowest: ${troughMonth.value.toLocaleString()} gallons in ${troughDate}. ` +
+      `${gapData.length > 0 ? `Contains ${gapData.length} missing data point(s).` : 'Complete dataset.'}`;
+
+    d3.select("#chart-desc").text(trendSummary);
+
+    console.log("Area chart rendered successfully");
+    console.log(`Data points: ${validData.length} valid, ${gapData.length} missing`);
+    console.log(`Total consumption: ${totalConsumption.toLocaleString()} gallons`);
+    console.log(`Average: ${Math.round(avgConsumption).toLocaleString()} gallons/month`);
+    console.log(`Peak: ${peakDate} (${peakMonth.value.toLocaleString()} gal)`);
+    console.log(`Trough: ${troughDate} (${troughMonth.value.toLocaleString()} gal)`);
+  </script>
+</body>
+</html>

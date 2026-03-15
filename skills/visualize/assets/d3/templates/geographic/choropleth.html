@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choropleth Map Template</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    #chart-container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .subtitle {
+      margin: 0 0 20px 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Tooltip styling - positioned absolutely over chart */
+    .tooltip {
+      position: absolute;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      border-radius: 4px;
+      font-size: 14px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      max-width: 200px;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip .region-name {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .tooltip .region-value {
+      font-size: 16px;
+    }
+
+    /* Chart SVG - uses viewBox for responsive scaling */
+    svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Region hover state - visual feedback for interaction */
+    .region {
+      cursor: pointer;
+      stroke: #fff;
+      stroke-width: 0.5px;
+      transition: stroke-width 0.1s;
+    }
+
+    .region:hover,
+    .region:focus {
+      stroke-width: 2px;
+      stroke: #333;
+      outline: none;
+    }
+
+    /* Legend styling */
+    .legend-title {
+      font-size: 12px;
+      font-weight: 500;
+      fill: #333;
+    }
+
+    .legend-label {
+      font-size: 11px;
+      fill: #666;
+    }
+
+    /* Empty state message */
+    .empty-message {
+      text-align: center;
+      color: #999;
+      font-size: 16px;
+      padding: 40px;
+    }
+
+    /* Loading state */
+    .loading-message {
+      text-align: center;
+      color: #666;
+      font-size: 16px;
+      padding: 40px;
+    }
+
+    /* Error state */
+    .error-message {
+      text-align: center;
+      color: #c00;
+      font-size: 16px;
+      padding: 40px;
+    }
+
+    /* Epistemological note styling */
+    .note {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-left: 3px solid #ddd;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .note-title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    /* Accessible data table */
+    .data-table-container {
+      margin-top: 20px;
+    }
+
+    .data-table-toggle {
+      background: none;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .data-table-toggle:hover {
+      background: #f5f5f5;
+    }
+
+    .data-table {
+      margin-top: 10px;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      display: none;
+    }
+
+    .data-table.visible {
+      display: table;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .data-table th {
+      background: #f5f5f5;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .data-table th:hover {
+      background: #e5e5e5;
+    }
+
+    .data-table td.value {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .data-table .sort-indicator {
+      margin-left: 4px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart-container">
+    <h1>US Population Density by State</h1>
+    <p class="subtitle">People per square mile (2020 Census)</p>
+    <div id="chart">
+      <div class="loading-message">Loading map data...</div>
+    </div>
+    <div class="tooltip"></div>
+
+    <!-- Epistemological note about choropleth limitations -->
+    <div class="note">
+      <div class="note-title">When to use a choropleth map</div>
+      <strong>Use choropleth when:</strong> Comparing standardized rates or densities across
+      geographic regions (e.g., population density, percentage, per-capita values).
+      <br><br>
+      <strong>Avoid choropleth when:</strong> Showing raw counts (large regions dominate visually
+      regardless of value). For raw counts, consider: graduated symbols, dot density maps, or
+      cartograms that distort area by value.
+      <br><br>
+      <strong>Perceptual limitation:</strong> Geographic area does not equal importance.
+      Low-density regions (e.g., Alaska, Montana) appear dominant while high-density regions
+      (e.g., New Jersey, Rhode Island) are barely visible.
+    </div>
+
+    <!-- Accessible data table alternative -->
+    <div class="data-table-container">
+      <button class="data-table-toggle" aria-expanded="false" aria-controls="data-table">
+        Show data table (accessible alternative)
+      </button>
+      <table id="data-table" class="data-table" role="grid">
+        <thead>
+          <tr>
+            <th scope="col" data-sort="name">State <span class="sort-indicator"></span></th>
+            <th scope="col" data-sort="value">Population Density <span class="sort-indicator"></span></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module">
+    // ============================================================================
+    // IMPORTS
+    // ============================================================================
+    // D3.js for visualization
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+    // TopoJSON for efficient geographic data (smaller files than GeoJSON)
+    import * as topojson from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
+
+    // ============================================================================
+    // DATA FORMAT
+    // ============================================================================
+    // Expected format: Array of objects with 'id' (geographic identifier) and 'value' (number)
+    //
+    // For US states, 'id' should be the FIPS code (string or number):
+    //   - "06" or 6 = California
+    //   - "36" or 36 = New York
+    //   - Full list: https://www.census.gov/library/reference/code-lists/ansi.html
+    //
+    // CRITICAL: Values should be RATES or DENSITIES, not raw counts.
+    // Choropleth maps encode value as color across areas of different sizes.
+    // Raw counts make large regions appear important regardless of actual rate.
+    //
+    // Good use cases:
+    //   - Population density (people per sq mile)
+    //   - Percentage (voter turnout %, obesity rate %)
+    //   - Per-capita values (income per capita, cases per 100k)
+    //
+    // Bad use cases (use dot density or graduated symbols instead):
+    //   - Total population
+    //   - Total GDP
+    //   - Total cases
+    //
+    // Sample data: US state population density (people per square mile)
+    // Source: 2020 US Census
+    const data = [
+      { id: "01", name: "Alabama", value: 99.2 },
+      { id: "02", name: "Alaska", value: 1.3 },
+      { id: "04", name: "Arizona", value: 64.9 },
+      { id: "05", name: "Arkansas", value: 58.7 },
+      { id: "06", name: "California", value: 253.7 },
+      { id: "08", name: "Colorado", value: 57.5 },
+      { id: "09", name: "Connecticut", value: 738.1 },
+      { id: "10", name: "Delaware", value: 508.0 },
+      { id: "11", name: "District of Columbia", value: 11686.0 },
+      { id: "12", name: "Florida", value: 410.5 },
+      { id: "13", name: "Georgia", value: 187.4 },
+      { id: "15", name: "Hawaii", value: 221.7 },
+      { id: "16", name: "Idaho", value: 22.5 },
+      { id: "17", name: "Illinois", value: 227.4 },
+      { id: "18", name: "Indiana", value: 189.4 },
+      { id: "19", name: "Iowa", value: 57.5 },
+      { id: "20", name: "Kansas", value: 35.9 },
+      { id: "21", name: "Kentucky", value: 114.1 },
+      { id: "22", name: "Louisiana", value: 107.8 },
+      { id: "23", name: "Maine", value: 44.2 },
+      { id: "24", name: "Maryland", value: 636.1 },
+      { id: "25", name: "Massachusetts", value: 901.2 },
+      { id: "26", name: "Michigan", value: 178.0 },
+      { id: "27", name: "Minnesota", value: 71.7 },
+      { id: "28", name: "Mississippi", value: 63.1 },
+      { id: "29", name: "Missouri", value: 90.3 },
+      { id: "30", name: "Montana", value: 7.6 },
+      { id: "31", name: "Nebraska", value: 25.5 },
+      { id: "32", name: "Nevada", value: 29.0 },
+      { id: "33", name: "New Hampshire", value: 154.3 },
+      { id: "34", name: "New Jersey", value: 1263.0 },
+      { id: "35", name: "New Mexico", value: 17.5 },
+      { id: "36", name: "New York", value: 411.2 },
+      { id: "37", name: "North Carolina", value: 218.7 },
+      { id: "38", name: "North Dakota", value: 11.3 },
+      { id: "39", name: "Ohio", value: 287.9 },
+      { id: "40", name: "Oklahoma", value: 58.7 },
+      { id: "41", name: "Oregon", value: 44.8 },
+      { id: "42", name: "Pennsylvania", value: 290.6 },
+      { id: "44", name: "Rhode Island", value: 1061.4 },
+      { id: "45", name: "South Carolina", value: 173.5 },
+      { id: "46", name: "South Dakota", value: 12.0 },
+      { id: "47", name: "Tennessee", value: 167.6 },
+      { id: "48", name: "Texas", value: 111.6 },
+      { id: "49", name: "Utah", value: 39.7 },
+      { id: "50", name: "Vermont", value: 69.8 },
+      { id: "51", name: "Virginia", value: 218.6 },
+      { id: "53", name: "Washington", value: 117.3 },
+      { id: "54", name: "West Virginia", value: 74.0 },
+      { id: "55", name: "Wisconsin", value: 108.8 },
+      { id: "56", name: "Wyoming", value: 5.8 },
+      { id: "72", name: "Puerto Rico", value: 1088.0 },
+    ];
+
+    // ============================================================================
+    // CONFIGURATION
+    // ============================================================================
+    const config = {
+      // SVG dimensions (viewBox - scales responsively)
+      width: 960,
+      height: 600,
+
+      // Margins for legend
+      margin: { top: 10, right: 20, bottom: 10, left: 10 },
+
+      // TopoJSON source for geographic boundaries
+      // US states from Natural Earth via topojson/us-atlas
+      // Alternatives:
+      //   - states-albers-10m.json (pre-projected, faster rendering)
+      //   - counties-10m.json (county-level)
+      //   - For world: https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json
+      topoJsonUrl: "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json",
+
+      // TopoJSON object name (varies by source file)
+      // For us-atlas: "states" or "counties"
+      // For world-atlas: "countries"
+      objectName: "states",
+
+      // Projection for geographic transformation
+      // d3.geoAlbersUsa() - US-specific, includes Alaska/Hawaii insets
+      // d3.geoMercator() - World maps (distorts area near poles)
+      // d3.geoEqualEarth() - World maps with accurate area representation
+      // d3.geoNaturalEarth1() - World maps, balanced distortion
+      projection: d3.geoAlbersUsa(),
+
+      // Color interpolator: Sequential single-hue (colorblind-safe)
+      // Good for quantitative data with no meaningful midpoint:
+      //   - d3.interpolateBlues (default, good for most data)
+      //   - d3.interpolateViridis (perceptually uniform, grayscale-safe)
+      //   - d3.interpolateYlGnBu (yellow-green-blue, high contrast)
+      //
+      // For diverging data (with meaningful midpoint like 0 or 50%):
+      //   - d3.interpolateRdBu (red-white-blue)
+      //   - d3.interpolatePRGn (purple-white-green)
+      colorInterpolator: d3.interpolateBlues,
+
+      // Value formatting for tooltips and legend
+      valueFormat: d3.format(",.1f"),
+      valueUnit: "people/sq mi",
+
+      // Legend dimensions
+      legendWidth: 260,
+      legendHeight: 10,
+    };
+
+    // ============================================================================
+    // EDGE CASE: EMPTY DATA
+    // ============================================================================
+    if (!data || data.length === 0) {
+      d3.select("#chart")
+        .html('<div class="empty-message">No data available</div>');
+      throw new Error("Cannot render chart: data is empty");
+    }
+
+    // ============================================================================
+    // DATA VALIDATION
+    // ============================================================================
+    // Create lookup map for efficient data access
+    // Normalize IDs to strings with leading zeros (FIPS codes are 2-digit)
+    const dataMap = new Map();
+    const validationErrors = [];
+
+    data.forEach((d, i) => {
+      // Normalize ID to 2-digit string
+      const normalizedId = String(d.id).padStart(2, "0");
+
+      // Check for duplicate IDs
+      if (dataMap.has(normalizedId)) {
+        validationErrors.push(`Duplicate ID: ${d.id} (rows ${dataMap.get(normalizedId).index} and ${i})`);
+      }
+
+      // Check for invalid values
+      if (typeof d.value !== "number" || isNaN(d.value)) {
+        validationErrors.push(`Invalid value for ID ${d.id}: ${d.value}`);
+      }
+
+      dataMap.set(normalizedId, { ...d, id: normalizedId, index: i });
+    });
+
+    if (validationErrors.length > 0) {
+      console.warn("Data validation warnings:", validationErrors);
+    }
+
+    // ============================================================================
+    // SCALES
+    // ============================================================================
+    // Calculate value extent
+    const valueExtent = d3.extent(data, d => d.value);
+    const minValue = valueExtent[0];
+    const maxValue = valueExtent[1];
+
+    // Color scale: Sequential scale mapping values to colors
+    // Uses quantile for more even color distribution across data values
+    // Alternative: scaleSequential for linear mapping
+    const colorScale = d3.scaleSequential()
+      .domain([0, maxValue])
+      .interpolator(config.colorInterpolator);
+
+    // ============================================================================
+    // LOAD GEOGRAPHIC DATA AND RENDER
+    // ============================================================================
+    async function render() {
+      try {
+        // Fetch TopoJSON data
+        const topoData = await d3.json(config.topoJsonUrl);
+
+        // Convert TopoJSON to GeoJSON features
+        // topojson.feature() extracts named object and converts to GeoJSON
+        const geoData = topojson.feature(topoData, topoData.objects[config.objectName]);
+
+        // Get mesh for state boundaries (shared edges drawn once)
+        // This creates cleaner boundaries than drawing each state's stroke
+        const stateMesh = topojson.mesh(topoData, topoData.objects[config.objectName], (a, b) => a !== b);
+
+        // Clear loading message
+        d3.select("#chart").html("");
+
+        // ========================================================================
+        // SVG SETUP
+        // ========================================================================
+        const svg = d3.select("#chart")
+          .append("svg")
+          .attr("viewBox", `0 0 ${config.width} ${config.height}`)
+          .attr("role", "img")
+          .attr("aria-labelledby", "chart-title chart-desc");
+
+        // Accessibility: Title element
+        svg.append("title")
+          .attr("id", "chart-title")
+          .text("Choropleth map showing US population density by state");
+
+        // Accessibility: Description with data summary
+        const dataDescription = generateDataDescription();
+        svg.append("desc")
+          .attr("id", "chart-desc")
+          .text(dataDescription);
+
+        // ========================================================================
+        // PROJECTION AND PATH GENERATOR
+        // ========================================================================
+        // Configure projection to fit SVG
+        // geoAlbersUsa has built-in scale, no need to fitSize
+        const projection = config.projection;
+
+        // Path generator converts GeoJSON to SVG path strings
+        const path = d3.geoPath().projection(projection);
+
+        // ========================================================================
+        // MAP REGIONS
+        // ========================================================================
+        const g = svg.append("g");
+
+        // Draw state regions
+        g.selectAll(".region")
+          .data(geoData.features)
+          .join("path")
+            .attr("class", "region")
+            .attr("d", path)
+            .attr("fill", d => {
+              // Join geographic feature with data by FIPS ID
+              // TopoJSON stores ID as number, normalize to string
+              const featureId = String(d.id).padStart(2, "0");
+              const datum = dataMap.get(featureId);
+
+              if (datum) {
+                return colorScale(datum.value);
+              } else {
+                // No matching data - use light gray
+                console.warn(`No data for geographic feature ID: ${d.id}`);
+                return "#ddd";
+              }
+            })
+            .attr("tabindex", 0)
+            .attr("role", "img")
+            .attr("aria-label", d => {
+              const featureId = String(d.id).padStart(2, "0");
+              const datum = dataMap.get(featureId);
+              if (datum) {
+                return `${datum.name}: ${config.valueFormat(datum.value)} ${config.valueUnit}`;
+              }
+              return `${d.properties?.name || d.id}: No data`;
+            });
+
+        // Draw state boundaries (mesh for cleaner lines)
+        g.append("path")
+          .datum(stateMesh)
+          .attr("fill", "none")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 0.5)
+          .attr("stroke-linejoin", "round")
+          .attr("d", path);
+
+        // ========================================================================
+        // TOOLTIPS
+        // ========================================================================
+        const tooltip = d3.select(".tooltip");
+
+        g.selectAll(".region")
+          .on("mouseenter", function(event, d) {
+            // Highlight region
+            d3.select(this)
+              .attr("stroke", "#333")
+              .attr("stroke-width", 2)
+              .raise(); // Bring to front
+
+            // Get data
+            const featureId = String(d.id).padStart(2, "0");
+            const datum = dataMap.get(featureId);
+
+            // Show tooltip
+            tooltip
+              .classed("visible", true)
+              .html(datum
+                ? `<div class="region-name">${datum.name}</div>
+                   <div class="region-value">${config.valueFormat(datum.value)} ${config.valueUnit}</div>`
+                : `<div class="region-name">${d.properties?.name || d.id}</div>
+                   <div class="region-value">No data</div>`
+              )
+              .style("left", `${event.pageX + 15}px`)
+              .style("top", `${event.pageY - 10}px`);
+          })
+          .on("mousemove", function(event) {
+            tooltip
+              .style("left", `${event.pageX + 15}px`)
+              .style("top", `${event.pageY - 10}px`);
+          })
+          .on("mouseleave", function() {
+            d3.select(this)
+              .attr("stroke", "#fff")
+              .attr("stroke-width", 0.5);
+
+            tooltip.classed("visible", false);
+          })
+          .on("focus", function(event, d) {
+            // Keyboard accessibility
+            d3.select(this)
+              .attr("stroke", "#333")
+              .attr("stroke-width", 2)
+              .raise();
+
+            const featureId = String(d.id).padStart(2, "0");
+            const datum = dataMap.get(featureId);
+
+            const rect = this.getBoundingClientRect();
+            tooltip
+              .classed("visible", true)
+              .html(datum
+                ? `<div class="region-name">${datum.name}</div>
+                   <div class="region-value">${config.valueFormat(datum.value)} ${config.valueUnit}</div>`
+                : `<div class="region-name">${d.properties?.name || d.id}</div>
+                   <div class="region-value">No data</div>`
+              )
+              .style("left", `${rect.right + 10}px`)
+              .style("top", `${rect.top + rect.height / 2}px`);
+          })
+          .on("blur", function() {
+            d3.select(this)
+              .attr("stroke", "#fff")
+              .attr("stroke-width", 0.5);
+
+            tooltip.classed("visible", false);
+          });
+
+        // ========================================================================
+        // COLOR LEGEND
+        // ========================================================================
+        const legendX = config.width - config.legendWidth - config.margin.right;
+        const legendY = config.height - 40;
+
+        const legend = svg.append("g")
+          .attr("class", "legend")
+          .attr("transform", `translate(${legendX}, ${legendY})`);
+
+        // Create gradient for legend
+        const defs = svg.append("defs");
+        const gradientId = "choropleth-gradient";
+
+        const linearGradient = defs.append("linearGradient")
+          .attr("id", gradientId)
+          .attr("x1", "0%")
+          .attr("y1", "0%")
+          .attr("x2", "100%")
+          .attr("y2", "0%");
+
+        // Add color stops
+        const numStops = 10;
+        for (let i = 0; i <= numStops; i++) {
+          const t = i / numStops;
+          linearGradient.append("stop")
+            .attr("offset", `${t * 100}%`)
+            .attr("stop-color", colorScale(t * maxValue));
+        }
+
+        // Legend rectangle with gradient
+        legend.append("rect")
+          .attr("width", config.legendWidth)
+          .attr("height", config.legendHeight)
+          .attr("fill", `url(#${gradientId})`)
+          .attr("stroke", "#ccc")
+          .attr("stroke-width", 0.5);
+
+        // Legend scale and axis
+        const legendScale = d3.scaleLinear()
+          .domain([0, maxValue])
+          .range([0, config.legendWidth]);
+
+        const legendAxis = d3.axisBottom(legendScale)
+          .ticks(5)
+          .tickSize(config.legendHeight + 3)
+          .tickFormat(config.valueFormat);
+
+        legend.append("g")
+          .attr("class", "legend-axis")
+          .call(legendAxis)
+          .call(g => g.select(".domain").remove())
+          .call(g => g.selectAll(".tick line").attr("stroke", "#666"))
+          .selectAll("text")
+            .attr("class", "legend-label")
+            .attr("y", config.legendHeight + 12);
+
+        // Legend title
+        legend.append("text")
+          .attr("class", "legend-title")
+          .attr("x", 0)
+          .attr("y", -6)
+          .text(`Population Density (${config.valueUnit})`);
+
+        // ========================================================================
+        // ACCESSIBLE DATA TABLE
+        // ========================================================================
+        populateDataTable();
+
+      } catch (error) {
+        console.error("Failed to load map:", error);
+        d3.select("#chart")
+          .html(`<div class="error-message">Failed to load map data. Please check your internet connection.</div>`);
+      }
+    }
+
+    // ============================================================================
+    // HELPER FUNCTIONS
+    // ============================================================================
+
+    /**
+     * Generate descriptive text for screen readers
+     */
+    function generateDataDescription() {
+      const sorted = [...data].sort((a, b) => b.value - a.value);
+      const top3 = sorted.slice(0, 3).map(d => `${d.name} (${config.valueFormat(d.value)})`);
+      const bottom3 = sorted.slice(-3).reverse().map(d => `${d.name} (${config.valueFormat(d.value)})`);
+
+      return `Choropleth map of ${data.length} US states and territories. ` +
+             `Values range from ${config.valueFormat(minValue)} to ${config.valueFormat(maxValue)} ${config.valueUnit}. ` +
+             `Highest: ${top3.join(", ")}. ` +
+             `Lowest: ${bottom3.join(", ")}.`;
+    }
+
+    /**
+     * Populate accessible data table
+     */
+    function populateDataTable() {
+      const tbody = document.querySelector("#data-table tbody");
+      const sortedData = [...data].sort((a, b) => b.value - a.value);
+
+      sortedData.forEach(d => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${d.name}</td>
+          <td class="value">${config.valueFormat(d.value)} ${config.valueUnit}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Toggle table visibility
+      const toggleBtn = document.querySelector(".data-table-toggle");
+      const table = document.querySelector("#data-table");
+
+      toggleBtn.addEventListener("click", () => {
+        const isVisible = table.classList.contains("visible");
+        table.classList.toggle("visible");
+        toggleBtn.setAttribute("aria-expanded", !isVisible);
+        toggleBtn.textContent = isVisible
+          ? "Show data table (accessible alternative)"
+          : "Hide data table";
+      });
+
+      // Sortable columns
+      let currentSort = { column: "value", ascending: false };
+
+      document.querySelectorAll("#data-table th").forEach(th => {
+        th.addEventListener("click", () => {
+          const column = th.dataset.sort;
+          const ascending = currentSort.column === column ? !currentSort.ascending : false;
+          currentSort = { column, ascending };
+
+          // Sort data
+          const sorted = [...data].sort((a, b) => {
+            const aVal = column === "name" ? a.name : a.value;
+            const bVal = column === "name" ? b.name : b.value;
+            const cmp = column === "name"
+              ? aVal.localeCompare(bVal)
+              : aVal - bVal;
+            return ascending ? cmp : -cmp;
+          });
+
+          // Update table
+          tbody.innerHTML = "";
+          sorted.forEach(d => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${d.name}</td>
+              <td class="value">${config.valueFormat(d.value)} ${config.valueUnit}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+
+          // Update sort indicators
+          document.querySelectorAll("#data-table th .sort-indicator").forEach(span => {
+            span.textContent = "";
+          });
+          th.querySelector(".sort-indicator").textContent = ascending ? "\u25B2" : "\u25BC";
+        });
+      });
+
+      // Initialize sort indicator
+      document.querySelector('[data-sort="value"] .sort-indicator').textContent = "\u25BC";
+    }
+
+    // ============================================================================
+    // RENDER
+    // ============================================================================
+    render();
+
+    // ============================================================================
+    // CUSTOMIZATION NOTES
+    // ============================================================================
+    // To customize this chart:
+    //
+    // 1. DATA: Replace the 'data' array with your own data
+    //    - Must have 'id' (geographic identifier) and 'value' (number)
+    //    - 'name' is optional but recommended for tooltips
+    //    - For US states: use 2-digit FIPS codes ("01" for Alabama, "06" for California)
+    //    - For countries: use ISO 3166-1 numeric codes or alpha-3 codes
+    //
+    // 2. GEOGRAPHIC SOURCE: Change config.topoJsonUrl
+    //    US options (from us-atlas):
+    //    - states-10m.json (state boundaries, used here)
+    //    - counties-10m.json (county boundaries)
+    //    - nation-10m.json (national boundary only)
+    //
+    //    World options (from world-atlas):
+    //    - countries-110m.json (coarse, small file)
+    //    - countries-50m.json (medium detail)
+    //    - countries-10m.json (high detail, large file)
+    //
+    // 3. PROJECTION: Change config.projection
+    //    - d3.geoAlbersUsa() - US with Alaska/Hawaii insets
+    //    - d3.geoMercator() - Web maps, severe area distortion
+    //    - d3.geoEqualEarth() - Area-preserving, good for choropleth
+    //    - d3.geoNaturalEarth1() - Balanced distortion
+    //    - d3.geoOrthographic() - Globe view
+    //
+    // 4. COLOR SCALE: Change config.colorInterpolator
+    //    Sequential (no meaningful zero):
+    //    - d3.interpolateBlues (default)
+    //    - d3.interpolateViridis (perceptually uniform)
+    //    - d3.interpolateYlGnBu (yellow-green-blue)
+    //
+    //    Diverging (meaningful midpoint like 0 or 50%):
+    //    - d3.interpolateRdBu (red-white-blue)
+    //    - d3.interpolatePRGn (purple-white-green)
+    //    Then update colorScale to use diverging scale with midpoint
+    //
+    // 5. DATA JOIN: Update ID normalization if using different geography
+    //    Current: FIPS codes (2-digit strings)
+    //    For counties: 5-digit FIPS (state 2 + county 3)
+    //    For countries: varies by source file
+    //
+    // CRITICAL WARNINGS:
+    // - NEVER use choropleth for raw counts (population, GDP, cases)
+    // - Use rates, densities, or percentages only
+    // - Large geographic areas dominate visually regardless of value
+    // - Small areas (like NJ, DC) are hard to see even with extreme values
+    //
+    // ACCESSIBILITY:
+    // - Regions are keyboard-focusable (Tab navigation)
+    // - Each region has aria-label with name and value
+    // - Data table provides sortable alternative view
+    // - Screen reader announces statistical summary
+    //
+    // ALTERNATIVES TO CONSIDER:
+    // - Cartogram: Distorts area by value (shows NJ larger if high value)
+    // - Dot density: Shows distribution within regions
+    // - Graduated symbols: Proportional circles on centroids
+    // - Hex bin: Equal-area hexagons eliminate geographic bias
+  </script>
+</body>
+</html>

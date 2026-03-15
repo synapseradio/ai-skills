@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treemap Template - Hierarchical Part-to-Whole</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .perception-note {
+      background: #e7f3ff;
+      border-left: 4px solid #2196f3;
+      padding: 1rem;
+      margin: 1rem 0 2rem 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .perception-note h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #1565c0;
+    }
+
+    .perception-note ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .perception-note li {
+      margin: 0.25rem 0;
+      color: #1565c0;
+    }
+
+    .perception-note strong {
+      color: #1565c0;
+    }
+
+    #chart {
+      width: 100%;
+      min-height: 600px;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      max-width: 280px;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip .path {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-bottom: 0.25rem;
+    }
+
+    .tooltip .value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .tooltip .percentage {
+      color: #88c0d0;
+    }
+
+    .cell {
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .cell:hover {
+      opacity: 0.85;
+    }
+
+    .cell-label {
+      font-size: 12px;
+      font-weight: 600;
+      fill: white;
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .cell-value {
+      font-size: 10px;
+      fill: rgba(255,255,255,0.8);
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .footer ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .footer li {
+      margin: 0.25rem 0;
+    }
+
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>File System Storage by Category</h1>
+
+    <div class="perception-note">
+      <h2>Perception Limits</h2>
+      <p><strong>Area comparison is less accurate than length comparison</strong> (Cleveland-McGill hierarchy). Treemaps excel at:</p>
+      <ul>
+        <li><strong>Overview patterns</strong> — quickly spotting which categories dominate</li>
+        <li><strong>Hierarchical structure</strong> — seeing nested composition at multiple levels</li>
+        <li><strong>Space efficiency</strong> — displaying many items in compact form</li>
+      </ul>
+      <p style="margin-top: 0.5rem;"><strong>For precise comparison</strong> of leaf values, consider a horizontal bar chart sorted by size.</p>
+    </div>
+
+    <!-- Accessibility: Screen reader summary -->
+    <div id="sr-summary" class="sr-only" role="status" aria-live="polite"></div>
+
+    <div id="chart"></div>
+
+    <div id="legend" class="legend" role="list" aria-label="Category legend"></div>
+
+    <div class="footer">
+      <p><strong>Template Notes:</strong></p>
+      <ul>
+        <li>Squarified tiling (d3.treemapSquarify) produces near-square cells for easier comparison</li>
+        <li>Padding between groups reveals hierarchy structure</li>
+        <li>Labels hidden when cell is too small to fit text legibly</li>
+        <li>Color encodes top-level category (colorblind-safe Tableau10 palette)</li>
+        <li>Hover tooltip shows full path, absolute value, and percentage</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tooltip"></div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================
+    // DATA
+    // Hierarchical structure with name, children, and value (on leaves)
+    // Replace with your own data.
+    // ============================================
+    const data = {
+      name: "Storage",
+      children: [
+        {
+          name: "Documents",
+          children: [
+            { name: "Work", value: 2400 },
+            { name: "Personal", value: 1800 },
+            { name: "Archive", value: 3200 }
+          ]
+        },
+        {
+          name: "Media",
+          children: [
+            { name: "Photos", value: 8500 },
+            { name: "Videos", value: 12000 },
+            { name: "Music", value: 4200 }
+          ]
+        },
+        {
+          name: "Applications",
+          children: [
+            { name: "Productivity", value: 3800 },
+            { name: "Development", value: 6500 },
+            { name: "Games", value: 9200 },
+            { name: "Utilities", value: 1200 }
+          ]
+        },
+        {
+          name: "System",
+          children: [
+            { name: "OS Files", value: 5400 },
+            { name: "Cache", value: 2100 },
+            { name: "Logs", value: 800 }
+          ]
+        },
+        {
+          name: "Downloads",
+          children: [
+            { name: "Recent", value: 1500 },
+            { name: "Pending", value: 600 }
+          ]
+        }
+      ]
+    };
+
+    // ============================================
+    // CONFIGURATION
+    // Adjust dimensions, colors, and settings
+    // ============================================
+    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const width = 960 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+
+    // Padding between hierarchy levels (reveals structure)
+    const paddingOuter = 4;   // Padding around top-level groups
+    const paddingInner = 2;   // Padding within groups
+    const paddingTop = 20;    // Extra top padding for group labels
+
+    // Minimum cell dimensions for showing labels
+    const minLabelWidth = 40;
+    const minLabelHeight = 25;
+    const minValueHeight = 40;
+
+    // Colorblind-safe palette (Tableau10) for top-level categories
+    const colorPalette = [
+      "#4e79a7", "#f28e2c", "#e15759", "#76b7b2",
+      "#59a14f", "#edc949", "#af7aa1", "#ff9da7",
+      "#9c755f", "#bab0ab"
+    ];
+
+    // ============================================
+    // HIERARCHY & LAYOUT
+    // d3.hierarchy with .sum() and .sort()
+    // ============================================
+    const root = d3.hierarchy(data)
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value);
+
+    const totalValue = root.value;
+
+    // Get top-level categories for color mapping
+    const topLevelCategories = root.children.map(d => d.data.name);
+    const colorScale = d3.scaleOrdinal()
+      .domain(topLevelCategories)
+      .range(colorPalette);
+
+    // Treemap layout with squarified tiling (near-square cells)
+    const treemap = d3.treemap()
+      .size([width, height])
+      .tile(d3.treemapSquarify)
+      .paddingOuter(paddingOuter)
+      .paddingInner(paddingInner)
+      .paddingTop(paddingTop)
+      .round(true);
+
+    treemap(root);
+
+    // ============================================
+    // SVG SETUP
+    // Responsive container with viewBox
+    // ============================================
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("role", "img")
+      .attr("aria-labelledby", "treemap-title treemap-desc")
+      .style("max-width", "100%")
+      .style("height", "auto");
+
+    // Accessibility: Title and description
+    svg.append("title")
+      .attr("id", "treemap-title")
+      .text("File System Storage Treemap");
+
+    svg.append("desc")
+      .attr("id", "treemap-desc")
+      .text(() => {
+        const summaries = root.children
+          .map(d => `${d.data.name}: ${((d.value / totalValue) * 100).toFixed(1)}%`)
+          .join(", ");
+        return `Hierarchical breakdown of storage usage. Major categories: ${summaries}.`;
+      });
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // ============================================
+    // TOOLTIP
+    // Shows full path, value, and percentage
+    // ============================================
+    const tooltip = d3.select(".tooltip");
+
+    function getAncestorPath(node) {
+      const path = [];
+      let current = node;
+      while (current.parent) {
+        path.unshift(current.data.name);
+        current = current.parent;
+      }
+      return path.join(" › ");
+    }
+
+    function formatValue(value) {
+      if (value >= 1000) {
+        return (value / 1000).toFixed(1) + " GB";
+      }
+      return value + " MB";
+    }
+
+    function showTooltip(event, d) {
+      const percentage = ((d.value / totalValue) * 100).toFixed(1);
+      const path = getAncestorPath(d);
+
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 12) + "px")
+        .classed("visible", true)
+        .html(`
+          <div class="path">${path}</div>
+          <div class="value">${formatValue(d.value)}</div>
+          <div class="percentage">${percentage}% of total</div>
+        `);
+    }
+
+    function moveTooltip(event) {
+      tooltip
+        .style("left", (event.pageX + 12) + "px")
+        .style("top", (event.pageY - 12) + "px");
+    }
+
+    function hideTooltip() {
+      tooltip.classed("visible", false);
+    }
+
+    // ============================================
+    // HELPER: Get color for any node
+    // Color by top-level ancestor category
+    // ============================================
+    function getNodeColor(node) {
+      let current = node;
+      while (current.depth > 1) {
+        current = current.parent;
+      }
+      return colorScale(current.data.name);
+    }
+
+    // ============================================
+    // RENDER: Group containers (depth 1)
+    // Shows hierarchy with labels
+    // ============================================
+    const groups = g.selectAll(".group")
+      .data(root.children)
+      .join("g")
+      .attr("class", "group");
+
+    // Group background rectangles (for padding visualization)
+    groups.append("rect")
+      .attr("x", d => d.x0)
+      .attr("y", d => d.y0)
+      .attr("width", d => d.x1 - d.x0)
+      .attr("height", d => d.y1 - d.y0)
+      .attr("fill", d => d3.color(getNodeColor(d)).darker(0.3))
+      .attr("rx", 2);
+
+    // Group labels (top-level category names)
+    groups.append("text")
+      .attr("x", d => d.x0 + 4)
+      .attr("y", d => d.y0 + 14)
+      .attr("fill", "white")
+      .attr("font-size", "11px")
+      .attr("font-weight", "600")
+      .text(d => {
+        const boxWidth = d.x1 - d.x0;
+        // Hide label if box is too narrow
+        return boxWidth > 60 ? d.data.name : "";
+      });
+
+    // ============================================
+    // RENDER: Leaf cells (actual data)
+    // ============================================
+    const leaves = root.leaves();
+
+    const cells = g.selectAll(".cell")
+      .data(leaves)
+      .join("g")
+      .attr("class", "cell")
+      .attr("transform", d => `translate(${d.x0},${d.y0})`)
+      .attr("role", "listitem")
+      .attr("tabindex", "0")
+      .attr("aria-label", d => {
+        const percentage = ((d.value / totalValue) * 100).toFixed(1);
+        return `${getAncestorPath(d)}: ${formatValue(d.value)}, ${percentage}% of total`;
+      })
+      .on("mouseenter", showTooltip)
+      .on("mousemove", moveTooltip)
+      .on("mouseleave", hideTooltip)
+      .on("focus", function(event, d) {
+        showTooltip(event, d);
+      })
+      .on("blur", hideTooltip);
+
+    // Cell rectangles
+    cells.append("rect")
+      .attr("width", d => Math.max(0, d.x1 - d.x0))
+      .attr("height", d => Math.max(0, d.y1 - d.y0))
+      .attr("fill", d => getNodeColor(d))
+      .attr("stroke", "white")
+      .attr("stroke-width", 1)
+      .attr("rx", 2);
+
+    // Cell labels (name)
+    cells.append("text")
+      .attr("class", "cell-label")
+      .attr("x", 4)
+      .attr("y", 14)
+      .text(d => {
+        const cellWidth = d.x1 - d.x0;
+        const cellHeight = d.y1 - d.y0;
+        // Hide label if cell is too small
+        if (cellWidth < minLabelWidth || cellHeight < minLabelHeight) {
+          return "";
+        }
+        // Truncate if needed
+        const maxChars = Math.floor(cellWidth / 7);
+        const name = d.data.name;
+        return name.length > maxChars ? name.slice(0, maxChars - 1) + "…" : name;
+      });
+
+    // Cell values
+    cells.append("text")
+      .attr("class", "cell-value")
+      .attr("x", 4)
+      .attr("y", 26)
+      .text(d => {
+        const cellWidth = d.x1 - d.x0;
+        const cellHeight = d.y1 - d.y0;
+        // Hide value if cell is too small
+        if (cellWidth < minLabelWidth || cellHeight < minValueHeight) {
+          return "";
+        }
+        return formatValue(d.value);
+      });
+
+    // ============================================
+    // LEGEND
+    // Shows top-level category colors
+    // ============================================
+    const legend = d3.select("#legend");
+
+    topLevelCategories.forEach(category => {
+      const item = legend.append("div")
+        .attr("class", "legend-item")
+        .attr("role", "listitem");
+
+      item.append("div")
+        .attr("class", "legend-swatch")
+        .style("background-color", colorScale(category));
+
+      const categoryData = root.children.find(d => d.data.name === category);
+      const percentage = ((categoryData.value / totalValue) * 100).toFixed(1);
+
+      item.append("span")
+        .text(`${category} (${percentage}%)`);
+    });
+
+    // ============================================
+    // ACCESSIBILITY: Screen reader summary
+    // ============================================
+    const srSummary = d3.select("#sr-summary");
+    const categoryBreakdown = root.children
+      .map(d => {
+        const pct = ((d.value / totalValue) * 100).toFixed(1);
+        return `${d.data.name} at ${pct}%`;
+      })
+      .join(", ");
+
+    srSummary.text(
+      `Treemap showing storage breakdown across ${root.children.length} categories. ` +
+      `Total: ${formatValue(totalValue)}. Categories by size: ${categoryBreakdown}. ` +
+      `Use Tab to navigate individual items.`
+    );
+
+    // ============================================
+    // KEYBOARD NAVIGATION
+    // Allows hierarchical traversal via arrow keys
+    // ============================================
+    svg.on("keydown", function(event) {
+      const focused = document.activeElement;
+      if (!focused.classList.contains("cell")) return;
+
+      const cellsArray = cells.nodes();
+      const currentIndex = cellsArray.indexOf(focused);
+
+      let nextIndex = currentIndex;
+      switch (event.key) {
+        case "ArrowRight":
+          nextIndex = Math.min(currentIndex + 1, cellsArray.length - 1);
+          break;
+        case "ArrowLeft":
+          nextIndex = Math.max(currentIndex - 1, 0);
+          break;
+        case "ArrowDown":
+          nextIndex = Math.min(currentIndex + 5, cellsArray.length - 1);
+          break;
+        case "ArrowUp":
+          nextIndex = Math.max(currentIndex - 5, 0);
+          break;
+      }
+
+      if (nextIndex !== currentIndex) {
+        event.preventDefault();
+        cellsArray[nextIndex].focus();
+      }
+    });
+  </script>
+</body>
+</html>

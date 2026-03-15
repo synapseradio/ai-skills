@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Violin Plot — Visualizer Template</title>
+  <style>
+    /* ============================================
+       STYLES
+       Modify colors, fonts, dimensions here
+       ============================================ */
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #fafafa;
+    }
+
+    #container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Chart-specific styles */
+    .axis text { font-size: 12px; fill: #555; }
+    .axis path, .axis line { stroke: #ccc; }
+    .axis-label { font-size: 13px; fill: #333; }
+
+    /* Violin plot components */
+    .violin-area {
+      fill-opacity: 0.7;
+      stroke-width: 1.5px;
+    }
+    .violin-area:hover {
+      fill-opacity: 0.85;
+    }
+
+    /* Inner box plot overlay */
+    .inner-box {
+      fill: rgba(255, 255, 255, 0.9);
+      stroke: #333;
+      stroke-width: 1px;
+    }
+    .inner-whisker {
+      stroke: #333;
+      stroke-width: 1px;
+    }
+    .inner-median {
+      fill: #333;
+    }
+
+    .sample-size {
+      font-size: 11px;
+      fill: #666;
+      text-anchor: middle;
+    }
+
+    /* Epistemological notes */
+    .advantage-note {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #ecfdf5;
+      border-left: 4px solid #10b981;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.85rem;
+      color: #065f46;
+    }
+    .advantage-note strong {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .methodology-note {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.85rem;
+      color: #92400e;
+    }
+    .methodology-note strong {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: 1px solid #ddd;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 100;
+      max-width: 300px;
+    }
+    .tooltip .stat-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .tooltip .stat-label {
+      color: #666;
+    }
+    .tooltip .stat-value {
+      font-weight: 600;
+    }
+    .tooltip hr {
+      margin: 6px 0;
+      border: none;
+      border-top: 1px solid #eee;
+    }
+    .tooltip .shape-indicator {
+      margin-top: 6px;
+      padding: 4px 8px;
+      background: #f3f4f6;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .error-message {
+      padding: 2rem;
+      text-align: center;
+      color: #dc2626;
+      background: #fef2f2;
+      border-radius: 6px;
+    }
+
+    /* Screen reader only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Test Score Distribution by Class</h1>
+    <p class="subtitle">Violin plots revealing distribution shapes across four classes</p>
+    <div id="chart"></div>
+    <div id="legend" class="legend"></div>
+    <div id="advantage-note" class="advantage-note"></div>
+    <div id="methodology-note" class="methodology-note"></div>
+  </div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <script type="module">
+    // ============================================
+    // IMPORTS
+    // D3.js loaded via CDN (ESM format)
+    // ============================================
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================
+    // DATA
+    // Replace this with your own grouped data.
+    // Expected format: Array of {group: string, values: number[]}
+    //
+    // This sample represents test scores across 4 classes.
+    // Each class has different distribution characteristics
+    // to demonstrate violin plot capabilities:
+    // - Class A: Normal distribution (unimodal)
+    // - Class B: Right-skewed distribution
+    // - Class C: Bimodal distribution (two peaks)
+    // - Class D: Uniform/flat distribution
+    // ============================================
+    const data = [
+      {
+        group: "Class A",
+        // Normal distribution, centered around 75
+        values: [
+          62, 65, 67, 68, 69, 70, 70, 71, 71, 72,
+          72, 73, 73, 73, 74, 74, 74, 75, 75, 75,
+          75, 76, 76, 76, 77, 77, 77, 78, 78, 79,
+          79, 80, 81, 82, 83, 85, 87
+        ]
+      },
+      {
+        group: "Class B",
+        // Right-skewed: most scores high, few low
+        values: [
+          55, 62, 68, 72, 75, 78, 80, 81, 82, 83,
+          84, 84, 85, 85, 86, 86, 86, 87, 87, 87,
+          88, 88, 88, 88, 89, 89, 89, 90, 90, 90,
+          91, 91, 92, 92, 93, 94, 95
+        ]
+      },
+      {
+        group: "Class C",
+        // Bimodal: two distinct groups (struggling + excelling)
+        values: [
+          45, 47, 48, 50, 51, 52, 53, 54, 55, 56,
+          57, 58, 59, 60,
+          // Gap in the middle
+          80, 81, 82, 83, 84, 85, 86, 87, 88, 89,
+          90, 91, 92, 93, 94, 95
+        ]
+      },
+      {
+        group: "Class D",
+        // Uniform: evenly spread across range
+        values: [
+          50, 52, 54, 56, 58, 60, 62, 64, 66, 68,
+          70, 72, 74, 76, 78, 80, 82, 84, 86, 88,
+          90, 92, 94, 51, 53, 55, 57, 59, 61, 63,
+          65, 67, 69, 71, 73, 75, 77
+        ]
+      }
+    ];
+
+    // ============================================
+    // CONFIGURATION
+    // Adjust dimensions, colors, and settings
+    // ============================================
+    const margin = { top: 40, right: 30, bottom: 80, left: 70 };
+    const width = 800 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    // Color palette (colorblind-safe, from Tableau10)
+    const colors = d3.schemeTableau10;
+
+    // Violin width relative to band
+    const violinWidthRatio = 0.8;
+
+    // KDE configuration
+    const kdeConfig = {
+      // Number of points to sample along the density curve
+      resolution: 100,
+      // Bandwidth selection: 'silverman' (automatic) or a number
+      bandwidth: 'silverman'
+    };
+
+    // Show inner box plot for median/quartile reference
+    const showInnerBox = true;
+
+    // ============================================
+    // EDGE CASE HANDLING
+    // Validate data before visualization
+    // ============================================
+
+    /**
+     * Validates grouped data for violin plot rendering.
+     */
+    function validateData(input) {
+      if (!input || !Array.isArray(input)) {
+        return { valid: false, error: "Data must be an array of groups" };
+      }
+
+      if (input.length === 0) {
+        return { valid: false, error: "No groups provided" };
+      }
+
+      for (const group of input) {
+        if (!group.group || typeof group.group !== "string") {
+          return { valid: false, error: "Each group must have a 'group' string property" };
+        }
+        if (!group.values || !Array.isArray(group.values)) {
+          return { valid: false, error: `Group "${group.group}" must have a 'values' array` };
+        }
+        const validValues = group.values.filter(v =>
+          typeof v === "number" && !isNaN(v) && isFinite(v)
+        );
+        if (validValues.length < 10) {
+          return {
+            valid: false,
+            error: `Group "${group.group}" has only ${validValues.length} valid values—minimum 10 required for meaningful density estimation`
+          };
+        }
+      }
+
+      return { valid: true };
+    }
+
+    const validation = validateData(data);
+
+    if (!validation.valid) {
+      d3.select("#chart")
+        .append("div")
+        .attr("class", "error-message")
+        .attr("role", "alert")
+        .text(validation.error);
+      throw new Error(validation.error);
+    }
+
+    // ============================================
+    // KERNEL DENSITY ESTIMATION (KDE)
+    //
+    // The violin shape is a DENSITY ESTIMATE, not raw data.
+    // We use Gaussian kernel density estimation to transform
+    // discrete data points into a continuous density curve.
+    //
+    // BANDWIDTH SELECTION is critical:
+    // - Too small: Noisy, shows spurious peaks
+    // - Too large: Over-smoothed, hides real structure
+    //
+    // Silverman's rule of thumb provides automatic bandwidth
+    // based on sample size and standard deviation. It works
+    // well for roughly normal distributions but may over-smooth
+    // multimodal data.
+    // ============================================
+
+    /**
+     * Computes Silverman's rule-of-thumb bandwidth.
+     * h = 0.9 * min(std, IQR/1.34) * n^(-1/5)
+     */
+    function silvermanBandwidth(values) {
+      const n = values.length;
+      const std = d3.deviation(values);
+      const q1 = d3.quantile(values.slice().sort((a, b) => a - b), 0.25);
+      const q3 = d3.quantile(values.slice().sort((a, b) => a - b), 0.75);
+      const iqr = q3 - q1;
+      const spread = Math.min(std, iqr / 1.34);
+      return 0.9 * spread * Math.pow(n, -0.2);
+    }
+
+    /**
+     * Gaussian kernel function.
+     */
+    function gaussianKernel(x) {
+      return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+    }
+
+    /**
+     * Computes kernel density estimate at given points.
+     *
+     * @param {number[]} values - The data points
+     * @param {number[]} evalPoints - Points at which to evaluate density
+     * @param {number} bandwidth - KDE bandwidth (smoothing parameter)
+     * @returns {Array<{x: number, density: number}>} Density estimate
+     */
+    function kernelDensityEstimate(values, evalPoints, bandwidth) {
+      const n = values.length;
+      return evalPoints.map(x => {
+        const density = d3.mean(values, v => gaussianKernel((x - v) / bandwidth)) / bandwidth;
+        return { x, density };
+      });
+    }
+
+    /**
+     * Detects distribution shape characteristics for accessibility.
+     */
+    function detectDistributionShape(kde, values) {
+      // Find peaks (local maxima) in the density
+      const peaks = [];
+      for (let i = 1; i < kde.length - 1; i++) {
+        if (kde[i].density > kde[i - 1].density && kde[i].density > kde[i + 1].density) {
+          peaks.push(kde[i]);
+        }
+      }
+
+      // Filter significant peaks (at least 30% of max density)
+      const maxDensity = d3.max(kde, d => d.density);
+      const significantPeaks = peaks.filter(p => p.density > maxDensity * 0.3);
+
+      // Compute skewness
+      const mean = d3.mean(values);
+      const std = d3.deviation(values);
+      const n = values.length;
+      const skewness = d3.sum(values, v => Math.pow((v - mean) / std, 3)) / n;
+
+      // Classify shape
+      let shape = "unimodal";
+      let shapeDescription = "single peak";
+
+      if (significantPeaks.length >= 2) {
+        shape = "bimodal";
+        shapeDescription = `${significantPeaks.length} distinct peaks`;
+      } else if (Math.abs(skewness) < 0.5) {
+        shape = "symmetric";
+        shapeDescription = "roughly symmetric";
+      } else if (skewness > 0.5) {
+        shape = "right-skewed";
+        shapeDescription = "skewed toward higher values (right tail)";
+      } else if (skewness < -0.5) {
+        shape = "left-skewed";
+        shapeDescription = "skewed toward lower values (left tail)";
+      }
+
+      // Check for uniformity (low variance in density)
+      const densityStd = d3.deviation(kde.map(d => d.density));
+      const densityMean = d3.mean(kde.map(d => d.density));
+      if (densityStd / densityMean < 0.3) {
+        shape = "uniform";
+        shapeDescription = "roughly uniform (flat distribution)";
+      }
+
+      return {
+        shape,
+        shapeDescription,
+        peakCount: significantPeaks.length,
+        skewness: skewness.toFixed(2)
+      };
+    }
+
+    // ============================================
+    // COMPUTE STATISTICS FOR ALL GROUPS
+    // ============================================
+
+    // Get global value extent for consistent y-scale
+    const allValues = data.flatMap(d => d.values);
+    const yExtent = d3.extent(allValues);
+    const yPadding = (yExtent[1] - yExtent[0]) * 0.1;
+    const yMin = yExtent[0] - yPadding;
+    const yMax = yExtent[1] + yPadding;
+
+    // Evaluation points for KDE (shared across all groups)
+    const evalPoints = d3.range(yMin, yMax, (yMax - yMin) / kdeConfig.resolution);
+
+    // Compute KDE and statistics for each group
+    const groupStats = data.map(d => {
+      const sorted = d.values.slice().sort((a, b) => a - b);
+      const bandwidth = kdeConfig.bandwidth === 'silverman'
+        ? silvermanBandwidth(d.values)
+        : kdeConfig.bandwidth;
+
+      const kde = kernelDensityEstimate(d.values, evalPoints, bandwidth);
+      const maxDensity = d3.max(kde, p => p.density);
+
+      // Quartile statistics for inner box
+      const q1 = d3.quantile(sorted, 0.25);
+      const median = d3.quantile(sorted, 0.5);
+      const q3 = d3.quantile(sorted, 0.75);
+      const iqr = q3 - q1;
+      const min = sorted[0];
+      const max = sorted[sorted.length - 1];
+
+      // Tukey whiskers (for inner box)
+      const lowerFence = q1 - 1.5 * iqr;
+      const upperFence = q3 + 1.5 * iqr;
+      const lowerWhisker = d3.min(sorted.filter(v => v >= lowerFence));
+      const upperWhisker = d3.max(sorted.filter(v => v <= upperFence));
+
+      // Shape detection
+      const shapeInfo = detectDistributionShape(kde, d.values);
+
+      return {
+        group: d.group,
+        values: d.values,
+        n: d.values.length,
+        kde,
+        maxDensity,
+        bandwidth,
+        // Box plot stats
+        min,
+        max,
+        q1,
+        median,
+        q3,
+        iqr,
+        lowerWhisker,
+        upperWhisker,
+        // Shape info for accessibility
+        shapeInfo
+      };
+    });
+
+    // Find max density across all groups for consistent width scaling
+    const globalMaxDensity = d3.max(groupStats, g => g.maxDensity);
+
+    // ============================================
+    // ACCESSIBILITY
+    // Generate narrative describing distribution shapes
+    //
+    // CRITICAL: Violin plots exist to show SHAPE.
+    // The accessible description MUST communicate shape
+    // differences, not just medians. A screen reader user
+    // needs to understand WHY we chose violin over box plot.
+    // ============================================
+
+    /**
+     * Generates accessible description focusing on distribution shapes.
+     */
+    function generateAccessibleDescription(groupStats) {
+      let narrative = `Violin plot comparing distribution shapes across ${groupStats.length} groups. `;
+      narrative += `Each violin shows the probability density of values—wider sections indicate more common values. `;
+
+      // Shape summaries
+      narrative += "Distribution shapes: ";
+      for (const g of groupStats) {
+        narrative += `${g.group} is ${g.shapeInfo.shapeDescription} `;
+        narrative += `(median ${g.median.toFixed(1)}, n=${g.n}). `;
+      }
+
+      // Notable comparisons
+      const bimodal = groupStats.filter(g => g.shapeInfo.shape === "bimodal");
+      if (bimodal.length > 0) {
+        narrative += `Important: ${bimodal.map(g => g.group).join(", ")} `;
+        narrative += `show${bimodal.length > 1 ? '' : 's'} bimodal distribution `;
+        narrative += `(two distinct peaks), suggesting subgroups within the data. `;
+        narrative += `A box plot would hide this pattern. `;
+      }
+
+      const skewed = groupStats.filter(g =>
+        g.shapeInfo.shape === "right-skewed" || g.shapeInfo.shape === "left-skewed"
+      );
+      if (skewed.length > 0) {
+        narrative += `${skewed.map(g => g.group).join(", ")} `;
+        narrative += `show${skewed.length > 1 ? '' : 's'} skewed distributions. `;
+      }
+
+      // Median comparison
+      const byMedian = [...groupStats].sort((a, b) => b.median - a.median);
+      narrative += `Median rankings from highest to lowest: `;
+      narrative += byMedian.map(g => `${g.group} (${g.median.toFixed(1)})`).join(", ");
+      narrative += ". ";
+
+      return narrative;
+    }
+
+    const accessibleDescription = generateAccessibleDescription(groupStats);
+
+    // ============================================
+    // SCALES
+    // Data-to-pixel mappings
+    // ============================================
+
+    // X scale: categorical (one band per group)
+    const xScale = d3.scaleBand()
+      .domain(data.map(d => d.group))
+      .range([0, width])
+      .padding(0.15);
+
+    // Y scale: spans all values across all groups
+    const yScale = d3.scaleLinear()
+      .domain([yMin, yMax])
+      .range([height, 0])
+      .nice();
+
+    // Density-to-width scale (maps density to violin half-width)
+    const violinHalfWidth = (xScale.bandwidth() * violinWidthRatio) / 2;
+    const densityScale = d3.scaleLinear()
+      .domain([0, globalMaxDensity])
+      .range([0, violinHalfWidth]);
+
+    // Color scale for groups
+    const colorScale = d3.scaleOrdinal()
+      .domain(data.map(d => d.group))
+      .range(colors);
+
+    // ============================================
+    // SVG SETUP
+    // Responsive container with viewBox
+    // ============================================
+    const svg = d3.select("#chart")
+      .append("svg")
+      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("role", "img")
+      .attr("aria-labelledby", "chart-title chart-desc")
+      .style("max-width", "100%")
+      .style("height", "auto");
+
+    // Accessibility: title and description for screen readers
+    svg.append("title")
+      .attr("id", "chart-title")
+      .text("Test Score Distribution by Class — Violin Plot");
+
+    svg.append("desc")
+      .attr("id", "chart-desc")
+      .text(accessibleDescription);
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // ============================================
+    // AXES
+    // ============================================
+
+    // X axis
+    g.append("g")
+      .attr("class", "axis x-axis")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xScale));
+
+    // X axis label
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("x", width / 2)
+      .attr("y", height + 45)
+      .attr("text-anchor", "middle")
+      .text("Class");
+
+    // Y axis
+    g.append("g")
+      .attr("class", "axis y-axis")
+      .call(d3.axisLeft(yScale).ticks(10));
+
+    // Y axis label
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -50)
+      .attr("text-anchor", "middle")
+      .text("Test Score");
+
+    // ============================================
+    // VIOLIN MARKS
+    // Draw mirrored density curves for each group
+    // ============================================
+
+    /**
+     * Creates area path data for a violin shape.
+     * The violin is symmetric: density extends equally left and right of center.
+     */
+    function createViolinPath(kde) {
+      // Build path: right side (top to bottom), then left side (bottom to top)
+      const rightSide = kde.map(d => ({
+        y: yScale(d.x),
+        x: densityScale(d.density)
+      }));
+
+      const leftSide = kde.slice().reverse().map(d => ({
+        y: yScale(d.x),
+        x: -densityScale(d.density)
+      }));
+
+      // Combine into closed path
+      const points = [...rightSide, ...leftSide];
+
+      // Create path string
+      const pathGen = d3.line()
+        .x(d => d.x)
+        .y(d => d.y)
+        .curve(d3.curveCatmullRom.alpha(0.5));
+
+      return pathGen(points) + "Z";
+    }
+
+    // Create a group for each violin
+    const violinGroups = g.selectAll(".violin-group")
+      .data(groupStats)
+      .join("g")
+      .attr("class", "violin-group")
+      .attr("transform", d => `translate(${xScale(d.group) + xScale.bandwidth() / 2},0)`);
+
+    // Draw violin shape (mirrored density curve)
+    violinGroups.append("path")
+      .attr("class", "violin-area")
+      .attr("d", d => createViolinPath(d.kde))
+      .attr("fill", d => colorScale(d.group))
+      .attr("stroke", d => d3.color(colorScale(d.group)).darker(0.5))
+      .on("mouseenter", showTooltip)
+      .on("mousemove", moveTooltip)
+      .on("mouseleave", hideTooltip);
+
+    // ============================================
+    // INNER BOX PLOT OVERLAY (optional)
+    // Shows median and quartiles for quick reference
+    // ============================================
+
+    if (showInnerBox) {
+      const innerBoxWidth = 8;
+      const innerWhiskerWidth = 4;
+
+      // Inner box (Q1 to Q3)
+      violinGroups.append("rect")
+        .attr("class", "inner-box")
+        .attr("x", -innerBoxWidth / 2)
+        .attr("y", d => yScale(d.q3))
+        .attr("width", innerBoxWidth)
+        .attr("height", d => yScale(d.q1) - yScale(d.q3));
+
+      // Lower whisker
+      violinGroups.append("line")
+        .attr("class", "inner-whisker")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", d => yScale(d.lowerWhisker))
+        .attr("y2", d => yScale(d.q1));
+
+      // Upper whisker
+      violinGroups.append("line")
+        .attr("class", "inner-whisker")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", d => yScale(d.q3))
+        .attr("y2", d => yScale(d.upperWhisker));
+
+      // Whisker caps
+      violinGroups.append("line")
+        .attr("class", "inner-whisker")
+        .attr("x1", -innerWhiskerWidth / 2)
+        .attr("x2", innerWhiskerWidth / 2)
+        .attr("y1", d => yScale(d.lowerWhisker))
+        .attr("y2", d => yScale(d.lowerWhisker));
+
+      violinGroups.append("line")
+        .attr("class", "inner-whisker")
+        .attr("x1", -innerWhiskerWidth / 2)
+        .attr("x2", innerWhiskerWidth / 2)
+        .attr("y1", d => yScale(d.upperWhisker))
+        .attr("y2", d => yScale(d.upperWhisker));
+
+      // Median dot
+      violinGroups.append("circle")
+        .attr("class", "inner-median")
+        .attr("cx", 0)
+        .attr("cy", d => yScale(d.median))
+        .attr("r", 3);
+    }
+
+    // Sample size labels
+    violinGroups.append("text")
+      .attr("class", "sample-size")
+      .attr("x", 0)
+      .attr("y", height + 25)
+      .text(d => `n=${d.n}`);
+
+    // ============================================
+    // LEGEND
+    // ============================================
+    function renderLegend() {
+      const legend = d3.select("#legend");
+
+      groupStats.forEach(g => {
+        const item = legend.append("div").attr("class", "legend-item");
+
+        item.append("div")
+          .attr("class", "legend-swatch")
+          .style("background-color", colorScale(g.group));
+
+        item.append("span").text(g.group);
+      });
+    }
+
+    renderLegend();
+
+    // ============================================
+    // TOOLTIP
+    // Shows density at hover position and distribution info
+    // ============================================
+    const tooltip = d3.select("#tooltip");
+
+    function showTooltip(event, d) {
+      // Get mouse Y position relative to the violin
+      const [, mouseY] = d3.pointer(event);
+      const yValue = yScale.invert(mouseY);
+
+      // Find nearest density value
+      let nearestKde = d.kde[0];
+      let minDist = Infinity;
+      for (const point of d.kde) {
+        const dist = Math.abs(point.x - yValue);
+        if (dist < minDist) {
+          minDist = dist;
+          nearestKde = point;
+        }
+      }
+
+      tooltip
+        .style("opacity", 1)
+        .html(`
+          <strong>${d.group}</strong> (n=${d.n})
+          <hr>
+          <div class="stat-row">
+            <span class="stat-label">Score at cursor:</span>
+            <span class="stat-value">${yValue.toFixed(1)}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Density:</span>
+            <span class="stat-value">${nearestKde.density.toFixed(4)}</span>
+          </div>
+          <hr>
+          <div class="stat-row">
+            <span class="stat-label">Median:</span>
+            <span class="stat-value">${d.median.toFixed(1)}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Q1-Q3:</span>
+            <span class="stat-value">${d.q1.toFixed(1)} - ${d.q3.toFixed(1)}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Range:</span>
+            <span class="stat-value">${d.min.toFixed(0)} - ${d.max.toFixed(0)}</span>
+          </div>
+          <hr>
+          <div class="stat-row">
+            <span class="stat-label">Shape:</span>
+            <span class="stat-value">${d.shapeInfo.shape}</span>
+          </div>
+          <div class="shape-indicator">
+            ${d.shapeInfo.shapeDescription}
+          </div>
+          <div style="margin-top: 6px; font-size: 11px; color: #666;">
+            Bandwidth: ${d.bandwidth.toFixed(2)}
+          </div>
+        `);
+    }
+
+    function moveTooltip(event) {
+      tooltip
+        .style("left", (event.pageX + 15) + "px")
+        .style("top", (event.pageY - 10) + "px");
+    }
+
+    function hideTooltip() {
+      tooltip.style("opacity", 0);
+    }
+
+    // ============================================
+    // ADVANTAGE NOTE
+    // Document why violin plots over box plots
+    // ============================================
+    function renderAdvantageNote() {
+      const note = d3.select("#advantage-note");
+
+      // Find bimodal distributions to highlight
+      const bimodal = groupStats.filter(g => g.shapeInfo.shape === "bimodal");
+      const bimodalExample = bimodal.length > 0
+        ? ` Look at <strong>${bimodal[0].group}</strong>—it has two distinct peaks, ` +
+          `suggesting two subpopulations. A box plot would show a single median ` +
+          `around ${bimodal[0].median.toFixed(0)}, completely hiding this structure.`
+        : "";
+
+      note.html(`
+        <strong>Why violin plots instead of box plots?</strong>
+        Violin plots reveal distribution <em>shape</em>—bimodality, gaps, skewness—that
+        box plots completely hide. The width at each point shows how common that value is.
+        ${bimodalExample}
+        <br><br>
+        <strong>When to use each:</strong>
+        <ul style="margin: 0.5rem 0 0 1.5rem; padding: 0;">
+          <li><strong>Violin plot:</strong> When distribution shape matters—detecting
+          subgroups, assessing normality, comparing spread patterns</li>
+          <li><strong>Box plot:</strong> When you only need to compare medians and
+          spreads, or when sample sizes are too small for reliable density estimation</li>
+        </ul>
+      `);
+    }
+
+    renderAdvantageNote();
+
+    // ============================================
+    // METHODOLOGY NOTE
+    // Document KDE implementation
+    // ============================================
+    function renderMethodologyNote() {
+      const note = d3.select("#methodology-note");
+
+      note.html(`
+        <strong>About kernel density estimation (KDE)</strong>
+        The violin shape is computed using <em>Gaussian kernel density estimation</em>,
+        which transforms discrete data points into a continuous probability density curve.
+        Think of it as placing a small bell curve at each data point, then summing them.
+        <br><br>
+        <strong>Bandwidth:</strong> Uses Silverman's rule-of-thumb for automatic selection
+        (h = 0.9 × min(std, IQR/1.34) × n<sup>−1/5</sup>). This works well for roughly
+        normal distributions but may over-smooth multimodal data or under-smooth heavy tails.
+        <br><br>
+        <strong>Interpreting width:</strong> Wider sections = more data points in that range.
+        The area under each violin curve sums to 1, making densities comparable across groups
+        regardless of sample size.
+      `);
+    }
+
+    renderMethodologyNote();
+
+  </script>
+</body>
+</html>

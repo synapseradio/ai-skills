@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Line Chart Template - Temporal Data Visualization</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 2rem;
+      background: #fafafa;
+      color: #222;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .meta {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Line and area styles */
+    .line {
+      fill: none;
+      stroke: #2563eb; /* Blue 600 - colorblind safe */
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    /* Gap markers - explicitly show where data is missing */
+    .gap-marker {
+      fill: #dc2626; /* Red 600 - signals discontinuity */
+      stroke: white;
+      stroke-width: 1.5;
+    }
+
+    /* Grid and axes */
+    .grid line {
+      stroke: #e5e7eb;
+      stroke-dasharray: 2,2;
+    }
+
+    .grid path {
+      stroke-width: 0;
+    }
+
+    .axis text {
+      font-size: 12px;
+      fill: #6b7280;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #d1d5db;
+    }
+
+    .axis-label {
+      font-size: 13px;
+      fill: #374151;
+      font-weight: 500;
+    }
+
+    /* Data points */
+    .data-point {
+      fill: #2563eb;
+      stroke: white;
+      stroke-width: 2;
+      cursor: pointer;
+    }
+
+    .data-point:hover {
+      fill: #1d4ed8;
+      r: 6;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 1000;
+      line-height: 1.4;
+    }
+
+    .tooltip.visible {
+      opacity: 1;
+    }
+
+    .documentation {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .documentation h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #92400e;
+    }
+
+    .documentation ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .documentation li {
+      margin-bottom: 0.25rem;
+    }
+
+    .documentation code {
+      background: rgba(0,0,0,0.1);
+      padding: 0.125rem 0.25rem;
+      border-radius: 2px;
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 0.8125rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Monthly Revenue Trend</h1>
+  <p class="meta">
+    Sample temporal line chart | Data sampling: monthly totals |
+    Timezone: UTC | Date format: ISO 8601
+  </p>
+
+  <div class="chart-container">
+    <svg id="chart" viewBox="0 0 800 400"
+         role="img"
+         aria-labelledby="chart-title"
+         aria-describedby="chart-desc">
+      <title id="chart-title">Monthly Revenue Trend</title>
+      <desc id="chart-desc">Revenue increased from $45,000 in January to $89,000 in December, with a temporary dip in June due to missing data. Overall trend shows 98% growth over the year.</desc>
+    </svg>
+    <div class="tooltip"></div>
+  </div>
+
+  <div class="documentation">
+    <h2>⚠️ What This Line Claims</h2>
+    <p><strong>Connecting points with a line asserts that intermediate values existed between measurements.</strong></p>
+    <ul>
+      <li><strong>Appropriate for:</strong> Stock prices, temperature readings, heart rate—continuous phenomena sampled periodically</li>
+      <li><strong>Inappropriate for:</strong> Monthly revenue totals, yearly population counts—discrete aggregations where "revenue on March 15th" is meaningless</li>
+      <li><strong>Gaps break the line:</strong> Missing values show as discontinuities (red markers) rather than interpolated connections that would falsely claim continuity</li>
+      <li><strong>Single point handling:</strong> Displays the point without a line (semantically correct—no trend exists)</li>
+      <li><strong>Timezone assumption:</strong> All dates parsed as UTC. Production use requires explicit timezone handling based on data source.</li>
+    </ul>
+    <p style="margin-top: 0.75rem;"><strong>Screen reader behavior:</strong> Announces trend summary first (growth percentage, time range) rather than enumerating all data points. Individual values available on focus.</p>
+  </div>
+
+  <script type="module">
+    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // ============================================================
+    // SAMPLE DATA - Replace with your temporal dataset
+    // ============================================================
+    // SEMANTIC NOTE: This is monthly aggregated data. Connecting these
+    // points with lines *claims* that intermediate values existed,
+    // which is false for monthly totals. This is a pedagogical example.
+    // For production: use step charts or bar charts for discrete aggregations.
+    // ============================================================
+    const rawData = [
+      { date: "2024-01-01", value: 45000 },
+      { date: "2024-02-01", value: 52000 },
+      { date: "2024-03-01", value: 48000 },
+      { date: "2024-04-01", value: 61000 },
+      { date: "2024-05-01", value: 58000 },
+      { date: "2024-06-01", value: null },  // Missing data - gap will break line
+      { date: "2024-07-01", value: 71000 },
+      { date: "2024-08-01", value: 68000 },
+      { date: "2024-09-01", value: 79000 },
+      { date: "2024-10-01", value: 82000 },
+      { date: "2024-11-01", value: 85000 },
+      { date: "2024-12-01", value: 89000 },
+    ];
+
+    // ============================================================
+    // DATA PARSING & VALIDATION
+    // ============================================================
+    // Parse dates using d3.isoParse for explicit ISO 8601 handling.
+    // TIMEZONE ASSUMPTION: Dates are interpreted as UTC.
+    // For local timezone handling, use d3.timeParse with explicit format.
+    const parseDate = d3.isoParse;
+
+    const data = rawData.map(d => ({
+      date: parseDate(d.date),
+      value: d.value,
+      // Store original string for tooltip display
+      dateString: d.date,
+    })).filter(d => d.date !== null); // Remove invalid dates
+
+    // Validate: sort by time (required for temporal line charts)
+    data.sort((a, b) => a.date - b.date);
+
+    // Separate valid and missing data for different rendering
+    const validData = data.filter(d => d.value !== null);
+    const gapData = data.filter(d => d.value === null);
+
+    // ============================================================
+    // DIMENSIONS & MARGINS
+    // ============================================================
+    const margin = { top: 20, right: 30, bottom: 50, left: 70 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    // ============================================================
+    // SVG SETUP
+    // ============================================================
+    const svg = d3.select("#chart");
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // ============================================================
+    // SCALES
+    // ============================================================
+    // CRITICAL: Use scaleTime for temporal data, not scaleLinear or scalePoint
+    // scaleTime handles date arithmetic correctly (leap years, DST, etc.)
+    const xScale = d3.scaleTime()
+      .domain(d3.extent(data, d => d.date))
+      .range([0, width]);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(validData, d => d.value) * 1.1]) // 10% headroom
+      .range([height, 0])
+      .nice(); // Round to clean numbers
+
+    // ============================================================
+    // AXES
+    // ============================================================
+    const xAxis = d3.axisBottom(xScale)
+      .ticks(d3.timeMonth.every(2)) // Every 2 months
+      .tickFormat(d3.timeFormat("%b")); // "Jan", "Feb", etc.
+
+    const yAxis = d3.axisLeft(yScale)
+      .ticks(6)
+      .tickFormat(d => `$${(d / 1000).toFixed(0)}k`);
+
+    // Grid lines for readability
+    g.append("g")
+      .attr("class", "grid")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xScale)
+        .ticks(d3.timeMonth)
+        .tickSize(-height)
+        .tickFormat("")
+      );
+
+    g.append("g")
+      .attr("class", "grid")
+      .call(d3.axisLeft(yScale)
+        .ticks(6)
+        .tickSize(-width)
+        .tickFormat("")
+      );
+
+    // Render axes
+    g.append("g")
+      .attr("class", "axis axis-x")
+      .attr("transform", `translate(0,${height})`)
+      .call(xAxis);
+
+    g.append("g")
+      .attr("class", "axis axis-y")
+      .call(yAxis);
+
+    // Axis labels
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("x", width / 2)
+      .attr("y", height + 40)
+      .text("Month (2024)");
+
+    g.append("text")
+      .attr("class", "axis-label")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -50)
+      .text("Revenue (USD)");
+
+    // ============================================================
+    // LINE GENERATOR
+    // ============================================================
+    // .defined() is CRITICAL: it breaks the line at missing values
+    // rather than interpolating across gaps (which would claim false continuity)
+    const line = d3.line()
+      .defined(d => d.value !== null) // Only draw line through valid data
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.value))
+      .curve(d3.curveMonotoneX); // Smooth but monotonic (no overshoots)
+
+    // ============================================================
+    // RENDER LINE
+    // ============================================================
+    // SINGLE POINT HANDLING: If only one data point exists, the line
+    // generator produces no path (semantically correct). The point
+    // will still be visible via the circle rendering below.
+    if (validData.length > 1) {
+      g.append("path")
+        .datum(data) // Use full dataset; .defined() handles gaps
+        .attr("class", "line")
+        .attr("d", line);
+    }
+
+    // ============================================================
+    // DATA POINTS
+    // ============================================================
+    g.selectAll(".data-point")
+      .data(validData)
+      .join("circle")
+      .attr("class", "data-point")
+      .attr("cx", d => xScale(d.date))
+      .attr("cy", d => yScale(d.value))
+      .attr("r", 4.5)
+      .attr("role", "button")
+      .attr("tabindex", "0")
+      .attr("aria-label", d => {
+        const formatted = d3.timeFormat("%B %Y")(d.date);
+        return `${formatted}: $${d.value.toLocaleString()}`;
+      })
+      .on("mouseenter focus", showTooltip)
+      .on("mouseleave blur", hideTooltip)
+      .on("mousemove", moveTooltip);
+
+    // ============================================================
+    // GAP MARKERS
+    // ============================================================
+    // Explicitly mark missing data points to signal discontinuity.
+    // If we silently connected across gaps, we'd falsely claim
+    // intermediate values existed during the missing period.
+    if (gapData.length > 0) {
+      // Find y-position by interpolating from neighboring points
+      const gapWithY = gapData.map(gap => {
+        const gapDate = gap.date.getTime();
+        const before = validData.filter(d => d.date < gap.date).slice(-1)[0];
+        const after = validData.filter(d => d.date > gap.date)[0];
+
+        let yPos = height / 2; // Fallback to middle
+        if (before && after) {
+          // Linear interpolation for visual positioning only
+          const ratio = (gapDate - before.date) / (after.date - before.date);
+          yPos = yScale(before.value + ratio * (after.value - before.value));
+        } else if (before) {
+          yPos = yScale(before.value);
+        } else if (after) {
+          yPos = yScale(after.value);
+        }
+
+        return { ...gap, yPos };
+      });
+
+      g.selectAll(".gap-marker")
+        .data(gapWithY)
+        .join("circle")
+        .attr("class", "gap-marker")
+        .attr("cx", d => xScale(d.date))
+        .attr("cy", d => d.yPos)
+        .attr("r", 5)
+        .attr("role", "img")
+        .attr("aria-label", d => {
+          const formatted = d3.timeFormat("%B %Y")(d.date);
+          return `Missing data: ${formatted}`;
+        });
+    }
+
+    // ============================================================
+    // TOOLTIP SYSTEM
+    // ============================================================
+    const tooltip = d3.select(".tooltip");
+
+    function showTooltip(event, d) {
+      const formatted = d3.timeFormat("%B %d, %Y")(d.date);
+      tooltip
+        .html(`
+          <strong>${formatted}</strong><br>
+          Revenue: $${d.value.toLocaleString()}
+        `)
+        .classed("visible", true);
+      moveTooltip(event);
+    }
+
+    function moveTooltip(event) {
+      const tooltipNode = tooltip.node();
+      const tooltipWidth = tooltipNode.offsetWidth;
+      const tooltipHeight = tooltipNode.offsetHeight;
+
+      tooltip
+        .style("left", `${event.pageX - tooltipWidth / 2}px`)
+        .style("top", `${event.pageY - tooltipHeight - 12}px`);
+    }
+
+    function hideTooltip() {
+      tooltip.classed("visible", false);
+    }
+
+    // ============================================================
+    // ACCESSIBILITY SUMMARY
+    // ============================================================
+    // Update ARIA description with computed trend statistics
+    // This is what screen readers announce FIRST, not the data dump
+    const firstValue = validData[0].value;
+    const lastValue = validData[validData.length - 1].value;
+    const growthPercent = ((lastValue - firstValue) / firstValue * 100).toFixed(0);
+    const firstDate = d3.timeFormat("%B %Y")(validData[0].date);
+    const lastDate = d3.timeFormat("%B %Y")(validData[validData.length - 1].date);
+
+    const trendSummary = `Revenue ${growthPercent > 0 ? 'increased' : 'decreased'} by ${Math.abs(growthPercent)}% from $${firstValue.toLocaleString()} in ${firstDate} to $${lastValue.toLocaleString()} in ${lastDate}. ${gapData.length > 0 ? `Contains ${gapData.length} missing data point(s).` : 'Complete dataset with no gaps.'}`;
+
+    d3.select("#chart-desc").text(trendSummary);
+
+    console.log("Line chart rendered successfully");
+    console.log(`Data points: ${validData.length} valid, ${gapData.length} missing`);
+    console.log(`Trend: ${growthPercent}% ${growthPercent > 0 ? 'growth' : 'decline'}`);
+  </script>
+</body>
+</html>
