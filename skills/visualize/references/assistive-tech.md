@@ -1,6 +1,6 @@
 # Assistive Technology Reference
 
-Detailed guidance for making visualizations work with screen readers, keyboard navigation, and other assistive technologies.
+Detailed guidance for making visualizations work with screen readers, keyboard navigation, and other assistive technologies. Verify ARIA roles and SVG accessibility patterns against the current WAI-ARIA and SVG Accessibility API Mappings specifications before implementing.
 
 ## Screen Reader Fundamentals
 
@@ -492,3 +492,10 @@ Visualizations should remain accessible at mobile sizes:
 - [ ] Test with VoiceOver + Safari (macOS primary)
 - [ ] Test with NVDA + Chrome or Firefox (Windows primary)
 - [ ] Test on at least one mobile platform if applicable
+
+## Sources
+
+- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
+- SVG Accessibility API Mappings 1.0 — https://www.w3.org/TR/svg-aam-1.0/
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
+- WAI-ARIA Graphics Module — https://www.w3.org/TR/graphics-aria-1.0/

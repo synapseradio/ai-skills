@@ -1,6 +1,6 @@
 # Narrate Mode
 
-Structure visualization narrative through annotation, titles, and guided revelation.
+Structure visualization narrative through annotation, titles, and guided revelation. Verify the Segel-Heer narrative framework and d3-annotation API against their primary sources before applying.
 
 ## When to Use
 
@@ -198,6 +198,12 @@ Annotation types serve different purposes:
 - **annotationCalloutRect**: Highlights rectangular areas
 - **annotationLabel**: Badge-style labels
 - **annotationXYThreshold**: Marks threshold lines
+
+## Sources
+
+- Segel, E. and Heer, J. (2010). "Narrative Visualization: Telling Stories with Data." https://vis.stanford.edu/papers/narrative
+- d3-annotation library — https://d3-annotation.susielu.com/
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
 
 ## Phase Transition
 

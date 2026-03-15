@@ -1,6 +1,6 @@
 # Compose Mode
 
-Arrange visual elements using hierarchy, Gestalt principles, and information design.
+Arrange visual elements using hierarchy, Gestalt principles, and information design. Verify Gestalt grouping principles and D3 layout patterns against primary sources before applying to novel layouts.
 
 ## When to Use
 
@@ -254,6 +254,12 @@ window.addEventListener("resize", resize);
 
 **Problem**: Dense data creates visual noise.
 **Solution**: Increase whitespace, reduce non-data ink, use aggregation or filtering, consider small multiples.
+
+## Sources
+
+- Gestalt Principles — https://www.interaction-design.org/literature/topics/gestalt-principles
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+- D3.js documentation — https://d3js.org/getting-started
 
 ## Further Reading
 

@@ -1,6 +1,6 @@
 # Refine Mode
 
-Improve visualizations in progress through principled iteration.
+Improve visualizations in progress through principled iteration. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## When to Use
 
@@ -257,6 +257,12 @@ Some contexts warrant restraint:
 **Speed-critical decisions.** A good-enough chart now beats a perfect chart too late. Match refinement effort to the stakes of the decision.
 
 **Learning contexts.** Sometimes showing the full complexity, even if overwhelming, teaches what summary charts hide. Refinement toward simplicity is not always the goal.
+
+## Sources
+
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
 
 ## Further Reading
 

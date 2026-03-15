@@ -1,6 +1,6 @@
 # Chart-Specific D3 Patterns
 
-D3.js implementation patterns organized by data relationship category. Each pattern shows the core scale setup and mark rendering for its chart type.
+D3.js implementation patterns organized by data relationship category. Each pattern shows the core scale setup and mark rendering for its chart type. Verify D3 scale and layout API usage against the current D3 documentation before implementing.
 
 ## Comparisons (Bar Charts)
 
@@ -128,3 +128,8 @@ svg.selectAll("path")
 | Two-variable correlation | Scatter plot | Exploring relationships between variables |
 | Change over time | Line chart | Showing trends in values over continuous time |
 | Part-to-whole | Pie/Donut | Showing proportions (max 5-7 slices) |
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md

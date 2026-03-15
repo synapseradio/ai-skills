@@ -295,6 +295,8 @@ def cmd_create(args, json_mode):
             "ensure the visualization file exists at the specified path",
             json_mode,
         )
+    if not json_mode:
+        print(f"saving {source} to storage...")
     stored, err = save_visualization(source)
     if stored is None:
         cli_error(err, "check the HTML frontmatter comment format", json_mode)
@@ -505,6 +507,8 @@ def cmd_delete(args, json_mode):
         print("to delete, re-run with --force:")
         print(f"  visualizer.py delete {vid} --force")
         return
+    if not json_mode:
+        print(f"deleting {viz['meta']['name']}...")
     try:
         os.remove(viz["path"])
     except OSError:

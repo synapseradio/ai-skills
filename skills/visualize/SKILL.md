@@ -85,7 +85,7 @@ For expanded analysis, load `references/common-pitfalls.md`.
 
 ## Workflow Tracking
 
-Create a two-level task tree for visible progress:
+Create a task for each phase and update status as each completes. Use dependency tracking for sequential phases — parallel tasks share the same blockers but do not block each other.
 
 ```
 [Phase 1] Context — define argument and viewer for <description>
@@ -103,8 +103,6 @@ Create a two-level task tree for visible progress:
 [Phase 5: checkpoint] User review of final output
 [Phase 6] Persist and exit
 ```
-
-Use `addBlockedBy` for sequential dependencies. Parallel tasks share the same blockers but do not block each other.
 
 ## Browser-Runnable Output
 

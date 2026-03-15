@@ -1,6 +1,6 @@
 # Phase 3: Implementation
 
-Build the visualization across five subtasks with dependency-aware ordering and parallelism where possible.
+Build the visualization across five subtasks with dependency-aware ordering and parallelism where possible. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Entry Conditions
 
@@ -43,7 +43,7 @@ Create the visual encoding: data transforms, scales, axes, and marks.
 5. Apply color palette with colorblind safety verified
 6. For quantitative scales, apply `.nice()` for clean axis boundaries
 
-**Load:** `mode-encode.md`, `d3-patterns.md`, `chart-patterns.md`, `base-template.md`
+**Cross-reference:** `mode-encode.md`, `d3-patterns.md`, `chart-patterns.md`, `base-template.md`
 
 **Special cases:** `canvas-patterns.md` (>1000 elements), `network-patterns.md` (force-directed graphs)
 
@@ -66,7 +66,7 @@ Arrange encoded elements into a coherent spatial layout.
 5. Verify whitespace separates without wasting — margins guide the eye, not fill the page
 6. Add semantic SVG roles and grouping to all element groups
 
-**Load:** `mode-compose.md`, `gestalt.md`, `hierarchy.md`
+**Cross-reference:** `mode-compose.md`, `gestalt.md`, `hierarchy.md`
 
 ### Narrate — Add Annotations and Storytelling (parallel with interact)
 
@@ -87,7 +87,7 @@ Add titles, annotations, and guided revelation that make the visualization self-
 5. Write alt text at all three levels: title, summary, detail
 6. Create data table fallback with `<details>` / `<summary>` structure
 
-**Load:** `mode-narrate.md`, `segel-heer.md`, `annotation-patterns.md`
+**Cross-reference:** `mode-narrate.md`, `segel-heer.md`, `annotation-patterns.md`
 
 **Skip condition:** Omit visible annotations if the visualization is a dashboard component where narration lives in surrounding UI context. Still write alt text even when skipping visible annotations.
 
@@ -105,7 +105,7 @@ Add tooltips, brushing, filtering, transitions, and responsive behavior.
 6. Ensure touch-friendly targets (44px minimum) for mobile
 7. Manage temporal states: loading skeleton, error display, empty state, partial data, staleness indicators
 
-**Load:** `mode-interact.md`
+**Cross-reference:** `mode-interact.md`
 
 **Skip condition:** Omit if the medium is static (print, slide deck, static report). Document the skip decision in the task tree.
 
@@ -132,7 +132,7 @@ Verify that accessibility holds together across all subtasks. This is not a full
 6. Check zoom behavior at 200% and 400% — no horizontal scrolling, text remains legible
 7. Re-run colorblind simulation on the complete visualization
 
-**Load:** `mode-access.md`, `color-accessibility.md`, `assistive-tech.md`
+**Cross-reference:** `mode-access.md`, `color-accessibility.md`, `assistive-tech.md`
 
 ## Parallel Execution
 
@@ -182,3 +182,10 @@ Create a new task for the revisit rather than reopening the completed task.
 ## Exit
 
 Proceed to **Phase 4: Refinement** with a complete draft HTML containing encoded marks, composed layout, annotations (or skip), interactions (or skip), and accessibility layers.
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
+- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
+- Segel, E. and Heer, J. (2010). "Narrative Visualization." https://vis.stanford.edu/papers/narrative

@@ -1,6 +1,6 @@
 # Encode Mode
 
-Select visual channels that match data types and maximize perceptual accuracy.
+Select visual channels that match data types and maximize perceptual accuracy. Verify Cleveland-McGill rankings and D3 scale APIs against the original research and current documentation before applying.
 
 ## Quick Reference
 
@@ -402,6 +402,14 @@ Two y-axes on one chart invite misleading comparisons. The relationship between 
 ### Truncated Axes
 
 Starting a bar chart y-axis above zero exaggerates differences. Use zero baseline for magnitude comparisons. If differences at high values matter, consider log scale or explicit annotations.
+
+## Sources
+
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
 
 ## Phase Transition
 

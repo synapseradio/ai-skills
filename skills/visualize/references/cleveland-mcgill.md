@@ -2,6 +2,8 @@
 
 This reference documents the foundational research on perceptual accuracy in data visualization, establishing the empirical basis for channel selection.
 
+Verify these rankings and error rates against the original paper and Munzner's synthesis before applying to novel chart designs.
+
 ## The Original Study
 
 William S. Cleveland and Robert McGill published "Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods" in the Journal of the American Statistical Association (1984). Their work applied psychophysics—the study of relationships between physical stimuli and perception—to data visualization.
@@ -161,9 +163,9 @@ The rankings remain valid guidance, but exact error rates may differ in practice
 
 **Position is king.** When precise value communication matters, encode your most important data dimension as position on a common scale. Reserve lower-ranked channels for secondary dimensions, categorical distinctions, or cases where other design goals take precedence.
 
-## References
+## Sources
 
-- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods." *Journal of the American Statistical Association*, 79(387), 531-554.
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods." *Journal of the American Statistical Association*, 79(387), 531-554. https://www.jstor.org/stable/2288400
 - Cleveland, W.S. (1993). *Visualizing Data*. Hobart Press.
 - Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
-- Heer, J. and Bostock, M. (2010). "Crowdsourcing Graphical Perception: Using Mechanical Turk to Assess Visualization Design." *CHI 2010*.
+- Heer, J. and Bostock, M. (2010). "Crowdsourcing Graphical Perception: Using Mechanical Turk to Assess Visualization Design." *CHI 2010*. https://idl.cs.washington.edu/papers/crowdsourcing-graphical-perception/

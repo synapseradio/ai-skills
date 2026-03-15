@@ -1,6 +1,6 @@
 # Observable Plot Patterns
 
-Observable Plot is a high-level visualization library built on D3. Use it for rapid prototyping and when D3's low-level control isn't needed.
+Observable Plot is a high-level visualization library built on D3. Use it for rapid prototyping and when D3's low-level control isn't needed. Verify Observable Plot API and mark types against the official documentation before implementing.
 
 ## When to Use Plot vs D3
 
@@ -373,3 +373,8 @@ d3.select(chart)
 ```
 
 This lets you use Plot for layout while adding D3 interactions.
+
+## Sources
+
+- Observable Plot documentation — https://observablehq.com/plot/
+- D3.js documentation — https://d3js.org/getting-started

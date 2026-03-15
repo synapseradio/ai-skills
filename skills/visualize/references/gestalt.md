@@ -2,6 +2,8 @@
 
 The Gestalt principles describe how humans perceive visual relationships. These are not style preferences but cognitive facts rooted in how the visual system processes information. Applying them correctly makes visualizations instantly legible; violating them creates confusion regardless of the data's inherent clarity.
 
+Verify these principles against established perceptual psychology references before applying to unconventional visualization layouts.
+
 ## Proximity
 
 Elements positioned near each other are perceived as belonging together. The eye groups clusters before it reads individual marks.
@@ -134,3 +136,9 @@ When designing or reviewing visualization layout:
 6. **Consider enclosure**: Would explicit grouping clarify where implicit grouping fails?
 
 Each principle operates simultaneously. Effective layouts align all principles toward the same perceptual outcome. Conflicting cues create confusion; reinforcing cues create clarity.
+
+## Sources
+
+- Gestalt Principles — https://www.interaction-design.org/literature/topics/gestalt-principles
+- Ware, C. (2012). *Information Visualization: Perception for Design*. Morgan Kaufmann.
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.

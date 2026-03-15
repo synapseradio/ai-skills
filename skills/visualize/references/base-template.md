@@ -1,6 +1,6 @@
 # Base HTML Template
 
-Browser-runnable HTML structure for all visualization templates. Copy and customize for each chart type.
+Browser-runnable HTML structure for all visualization templates. Copy and customize for each chart type. Verify D3.js CDN import URLs and API usage against the current D3 documentation before deploying.
 
 ## Frontmatter Metadata
 
@@ -201,3 +201,9 @@ created: [ISO timestamp]
 - **D3 margin convention**: `margin`, `width`, `height` constants with transform
 - **`.join()` for data binding**: Not `.append()` in loops
 - **Colorblind-safe defaults**: `d3.schemeTableau10` or similar
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- SVG Accessibility API Mappings — https://www.w3.org/TR/svg-aam-1.0/

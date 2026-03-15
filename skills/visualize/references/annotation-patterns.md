@@ -1,6 +1,6 @@
 # Annotation Patterns
 
-Practical techniques for implementing annotations in data visualizations. This reference covers structural patterns, positioning strategies, and technology-specific approaches.
+Practical techniques for implementing annotations in data visualizations. This reference covers structural patterns, positioning strategies, and technology-specific approaches. Verify d3-annotation API usage against the library documentation before implementing.
 
 ## Annotation Anatomy
 
@@ -425,3 +425,9 @@ Annotations must have text alternatives:
   Product launch occurred in January 2024.
 </div>
 ```
+
+## Sources
+
+- d3-annotation library by Susie Lu — https://d3-annotation.susielu.com/
+- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/

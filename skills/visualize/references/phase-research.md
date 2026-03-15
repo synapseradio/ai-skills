@@ -1,6 +1,6 @@
 # Phase 2: Research
 
-Assess data, plan encoding, select template, and confirm the approach with the user before implementation.
+Assess data, plan encoding, select template, and confirm the approach with the user before implementation. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Entry Conditions
 
@@ -33,7 +33,7 @@ Then identify:
 - **Quality** — missing values, outliers, formatting inconsistencies, duplicates
 - **Key relationships** — which attributes the argument requires comparing
 
-Load `mode-encode.md` for the full classification methodology and Cleveland-McGill effectiveness rankings.
+For the full classification methodology and Cleveland-McGill effectiveness rankings, cross-reference `mode-encode.md`.
 
 ### 2. Plan Encoding
 
@@ -172,3 +172,9 @@ Proceed to **Phase 3: Implementation** with:
 - Selected template
 - Ordered transformation plan
 - User approval recorded
+
+## Sources
+
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- D3.js documentation — https://d3js.org/getting-started
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.

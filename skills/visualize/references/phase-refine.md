@@ -1,6 +1,6 @@
 # Phase 4: Refinement
 
-Audit the draft visualization for structural integrity, perceptual effectiveness, and editorial clarity.
+Audit the draft visualization for structural integrity, perceptual effectiveness, and editorial clarity. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Entry Conditions
 
@@ -18,7 +18,7 @@ Tufte's principle applies: erase non-data-ink. Every pixel that doesn't reveal d
 
 See the visualization fresh. Resist the pull toward the first chart type. Ask whether this encoding truly matches what matters in the data.
 
-Load `mode-refine.md` for the complete refinement methodology.
+For detailed methodology, cross-reference `mode-refine.md`.
 
 ## Three-Audit Procedure
 
@@ -58,7 +58,7 @@ Check whether the visualization's structure serves its purpose.
 - Replace legends with direct labels where possible
 - Strip 3D effects, gradients, shadows
 
-Load: `mode-refine.md` (sections 2–3), `common-pitfalls.md`
+Cross-reference: `mode-refine.md` (sections 2–3), `common-pitfalls.md`
 
 ### Perceptual Audit (parallel with structural)
 
@@ -88,7 +88,7 @@ Check whether the visualization works with human perception.
 - Run final rendered output through protanopia and deuteranopia simulation
 - Verify redundant encoding holds after all modifications
 
-Load: `mode-refine.md` (section 4), `cleveland-mcgill.md`
+Cross-reference: `mode-refine.md` (section 4), `cleveland-mcgill.md`
 
 ### Clarity Audit (after both above)
 
@@ -117,7 +117,7 @@ Check editorial quality and storytelling integrity.
 - Excluded data is acknowledged
 - Simplification serves comprehension, not convenience
 
-Load: `mode-refine.md` (section 5), `iteration-workflow.md`
+Cross-reference: `mode-refine.md` (section 5), `iteration-workflow.md`
 
 ## Fix Priority
 
@@ -148,3 +148,10 @@ After applying refinement fixes, verify:
 - **Passing** → proceed to Phase 5: Present
 - **Structural issues found** → return to Phase 3 (specific subtask) with targeted fixes
 - **Encoding fundamentally wrong** → return to Phase 2 for re-planning
+
+## Sources
+
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- Gestalt Principles — https://www.interaction-design.org/literature/topics/gestalt-principles
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/

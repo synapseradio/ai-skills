@@ -1,6 +1,6 @@
 # Phase 1: Context
 
-Establish the visualization's argument, viewer, cognitive mode, and constraints before any encoding decisions.
+Establish the visualization's argument, viewer, cognitive mode, and constraints before any encoding decisions. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## When to Use
 
@@ -99,3 +99,8 @@ Proceed to **Phase 2: Research** with:
 - Cognitive mode (inference or recognition)
 - Constraints documented
 - Data status (available | pending)
+
+## Sources
+
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
+- Segel, E. and Heer, J. (2010). "Narrative Visualization." https://vis.stanford.edu/papers/narrative

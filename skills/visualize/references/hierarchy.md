@@ -1,6 +1,6 @@
 # Information Hierarchy and Visual Weight
 
-Visual hierarchy controls what the viewer sees first, second, and third. The eye is not democratic; it attends to some elements before others based on visual weight. Effective hierarchy matches this attentional order to information importance.
+Visual hierarchy controls what the viewer sees first, second, and third. The eye is not democratic; it attends to some elements before others based on visual weight. Effective hierarchy matches this attentional order to information importance. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Visual Weight Factors
 
@@ -179,3 +179,9 @@ When reviewing hierarchy in a visualization:
 6. **Reduction opportunity**: What elements could be reduced without losing function?
 
 Hierarchy is not about making things look important. It is about making important things look important and letting everything else recede.
+
+## Sources
+
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+- Few, S. (2006). *Information Dashboard Design*. Analytics Press.
+- Gestalt Principles — https://www.interaction-design.org/literature/topics/gestalt-principles

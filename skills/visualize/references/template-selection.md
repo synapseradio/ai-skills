@@ -1,6 +1,6 @@
 # Template Selection
 
-Choose the right template based on your data and the question you're answering.
+Choose the right template based on your data and the question you're answering. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Quick Selection Guide
 
@@ -136,3 +136,9 @@ use **template-crafter** agent.
 | Line chart | Categories (not time) | Bar chart |
 | 3D anything | Ever | 2D equivalent |
 | Dual y-axes | Suggesting correlation | Two aligned charts |
+
+## Sources
+
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- D3.js documentation — https://d3js.org/getting-started
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.

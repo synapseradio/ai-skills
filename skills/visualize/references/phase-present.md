@@ -1,6 +1,6 @@
 # Phase 5 + 6: Present and Complete
 
-Output the final visualization, collect user feedback, persist the artifact, and exit.
+Output the final visualization, collect user feedback, persist the artifact, and exit. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Entry Conditions
 
@@ -74,3 +74,8 @@ Ask the user explicitly:
 ## Exit
 
 Visualization registered and user confirmed. Workflow complete.
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
