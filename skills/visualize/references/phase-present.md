@@ -54,15 +54,16 @@ Ask the user explicitly:
 ### Persist the Visualization
 
 1. Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`
-2. Run `visualizer create --file <path>` to register in CLI storage
+2. **If Python 3 is available**: run `python3 scripts/visualizer.py create --file <path>` to register in organized storage at `~/.visualizer-skill/visualizations/`
+3. **If Python 3 is unavailable**: the saved file is the final artifact — no registration needed
 
 | Command | Purpose |
 |---------|---------|
-| `visualizer create --file <path>` | Save and register visualization |
-| `visualizer list [--type] [--project]` | List stored visualizations |
-| `visualizer search <query>` | Fuzzy search all fields |
-| `visualizer show <id>` | View details or open in browser |
-| `visualizer delete <id>` | Remove from storage |
+| `python3 scripts/visualizer.py create --file <path>` | Save and register visualization |
+| `python3 scripts/visualizer.py list [--type] [--project]` | List stored visualizations |
+| `python3 scripts/visualizer.py search <query>` | Substring search all fields |
+| `python3 scripts/visualizer.py show <id>` | View visualization details |
+| `python3 scripts/visualizer.py delete <id> --force` | Remove from storage |
 
 ### Mark Complete
 
