@@ -1,6 +1,6 @@
 # Channel-by-Channel Implementation Guide
 
-Detailed guidance for each visual channel: when to use it, perceptual considerations, and D3.js implementation patterns.
+Detailed guidance for each visual channel: when to use it, perceptual considerations, and D3.js implementation patterns. Verify perceptual accuracy claims against the Cleveland-McGill research and D3 scale APIs against current documentation before applying.
 
 ## Position Channels
 
@@ -511,3 +511,10 @@ points
 ```
 
 Colorblind users can distinguish by shape; all users get faster category recognition.
+
+## Sources
+
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.

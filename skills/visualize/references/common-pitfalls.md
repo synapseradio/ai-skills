@@ -1,6 +1,6 @@
 # Common Visualization Pitfalls
 
-Anti-patterns that undermine visualization effectiveness, organized by the damage they cause. For each pitfall: recognize it, understand why it fails, and apply the fix.
+Anti-patterns that undermine visualization effectiveness, organized by the damage they cause. For each pitfall: recognize it, understand why it fails, and apply the fix. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## Misleading Encodings
 
@@ -295,3 +295,10 @@ When a visualization has multiple pitfalls, fix in this order:
 5. **Structural problems** - These slow comprehension but don't prevent it
 
 A chart that's honest and correctly encoded but cluttered is better than a beautiful chart that lies.
+
+## Sources
+
+- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
+- Okabe, M. and Ito, K. (2002). Color Universal Design — https://jfly.uni-koeln.de/color/

@@ -1,6 +1,6 @@
 # Network Visualization Patterns
 
-Force-directed graphs and network visualizations require specific patterns for visibility, layering, and interaction. This reference provides the foundational patterns that prevent common rendering failures.
+Force-directed graphs and network visualizations require specific patterns for visibility, layering, and interaction. This reference provides the foundational patterns that prevent common rendering failures. Verify D3 force simulation APIs and WCAG contrast requirements against current documentation before implementing.
 
 ## SVG Layer Composition
 
@@ -531,3 +531,10 @@ Before finalizing a network visualization:
 - [ ] Graph with 100 nodes loads in < 1s
 - [ ] Interaction feels responsive (30fps+)
 - [ ] Canvas fallback for graphs > 500 nodes
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
+- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/

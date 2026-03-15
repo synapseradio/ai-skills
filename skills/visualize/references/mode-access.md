@@ -1,6 +1,6 @@
 # Access Mode
 
-Build visualizations that work for everyone by making accessibility the foundation.
+Build visualizations that work for everyone by making accessibility the foundation. Verify WCAG success criteria and ARIA role usage against the current specifications before applying.
 
 ## When to Use
 
@@ -438,6 +438,14 @@ For deeper guidance on specific accessibility topics:
 
 - See `color-accessibility.md` for colorblind-safe palettes, contrast requirements, and testing tools
 - See `assistive-tech.md` for screen reader patterns, keyboard navigation implementation, and ARIA live regions
+
+## Sources
+
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
+- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
+- SVG Accessibility API Mappings — https://www.w3.org/TR/svg-aam-1.0/
+- Okabe, M. and Ito, K. (2002). Color Universal Design — https://jfly.uni-koeln.de/color/
+- ColorBrewer 2.0 — https://colorbrewer2.org/
 
 ## Phase Transition
 

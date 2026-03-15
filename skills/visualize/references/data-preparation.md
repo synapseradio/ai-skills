@@ -1,6 +1,6 @@
 # Data Preparation
 
-Transform data into formats suitable for visualization. Most visualization failures stem from data problems, not encoding problems.
+Transform data into formats suitable for visualization. Most visualization failures stem from data problems, not encoding problems. Verify D3 data manipulation APIs (d3.group, d3.rollup, d3.bin) against the current D3 documentation before using.
 
 ## Why Data Preparation Matters
 
@@ -482,3 +482,9 @@ const simulation = d3.forceSimulation(nodes)...;
 for (let i = 0; i < 300; i++) simulation.tick();
 // Now nodes have x, y positions
 ```
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- Wickham, H. (2014). "Tidy Data." *Journal of Statistical Software*, 59(10). https://doi.org/10.18637/jss.v059.i10

@@ -1,6 +1,6 @@
 # Canvas Patterns
 
-Use Canvas when SVG becomes slow. Canvas renders pixels directly, enabling visualizations with thousands to millions of points.
+Use Canvas when SVG becomes slow. Canvas renders pixels directly, enabling visualizations with thousands to millions of points. Verify Canvas API methods and D3 integration patterns against the current D3 and MDN documentation before implementing.
 
 ## When to Use Canvas vs SVG
 
@@ -311,6 +311,12 @@ const svg = d3.select("#ui-layer");
 svg.append("g").call(d3.axisBottom(xScale));
 svg.append("g").call(d3.axisLeft(yScale));
 ```
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- MDN Canvas API — https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 
 ## Complete Example: Large Scatterplot
 

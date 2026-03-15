@@ -1,6 +1,6 @@
 # Iteration Workflow
 
-How professional visualization teams refine work from draft to publication. Based on practices documented at The New York Times Graphics team, The Pudding, and FiveThirtyEight.
+How professional visualization teams refine work from draft to publication. Based on practices documented at The New York Times Graphics team, The Pudding, and FiveThirtyEight. These patterns synthesize established visualization practice. Primary sources are cited where available.
 
 ## The Story-First Principle
 
@@ -186,3 +186,9 @@ Not every visualization warrants this full process.
 **Ongoing dashboards:** Invest heavily upfront; the work will be viewed repeatedly. Small improvements compound over time.
 
 Match process intensity to stakes and audience.
+
+## Sources
+
+- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+- The Pudding — https://pudding.cool/
+- Segel, E. and Heer, J. (2010). "Narrative Visualization." https://vis.stanford.edu/papers/narrative

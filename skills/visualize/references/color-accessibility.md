@@ -1,6 +1,6 @@
 # Color Accessibility Reference
 
-Detailed guidance for designing visualizations that communicate effectively regardless of color perception.
+Detailed guidance for designing visualizations that communicate effectively regardless of color perception. Verify contrast ratios and WCAG requirements against the current WCAG specification before finalizing designs.
 
 ## Understanding Color Vision Deficiency
 
@@ -338,3 +338,10 @@ Is data categorical or continuous?
 **Ignoring print scenarios**: Visualizations may be printed in grayscale. Test with grayscale filter if print is a use case.
 
 **Relying on hover states for color information**: Hover isn't available for touch, keyboard, or print. Ensure information is accessible without interaction.
+
+## Sources
+
+- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
+- Okabe, M. and Ito, K. (2002). Color Universal Design — https://jfly.uni-koeln.de/color/
+- ColorBrewer 2.0 — https://colorbrewer2.org/
+- Viridis and Cividis colormaps — https://bids.github.io/colormap/

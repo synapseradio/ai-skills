@@ -1,6 +1,6 @@
 # D3 Browser-Runnable Patterns
 
-Create standalone HTML files with D3.js visualizations that run directly in the browser with no build step.
+Create standalone HTML files with D3.js visualizations that run directly in the browser with no build step. Verify D3 API usage, CDN import URLs, and SVG accessibility attributes against current documentation before deploying.
 
 ## The Standalone HTML Template
 
@@ -491,3 +491,10 @@ npx serve
 ```
 
 Note: `file://` URLs have CORS restrictions that prevent external data loading. Always use a local server for development.
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- SVG Accessibility API Mappings — https://www.w3.org/TR/svg-aam-1.0/
+- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/

@@ -1,6 +1,6 @@
 # Interact Mode
 
-Add dynamic behavior through brushing, filtering, transitions, and responsive adaptation.
+Add dynamic behavior through brushing, filtering, transitions, and responsive adaptation. Verify D3 interaction APIs (d3.brush, d3.zoom, d3.drag) against the current D3 documentation before implementing.
 
 ## When to Use
 
@@ -567,6 +567,12 @@ dashed lines, reduced opacity, or explicit "data through [date]" annotations.
 
 **Staleness.** When data hasn't refreshed, communicate age. A dashboard showing
 yesterday's data without saying so is making a false currency claim.
+
+## Sources
+
+- D3.js documentation — https://d3js.org/getting-started
+- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- Shneiderman, B. (1996). "The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations." *IEEE Symposium on Visual Languages*.
 
 ## Phase Transition
 

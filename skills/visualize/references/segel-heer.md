@@ -1,6 +1,6 @@
 # The Segel-Heer Narrative Visualization Spectrum
 
-This reference expands on the author-driven to reader-driven spectrum introduced by Segel and Heer in their foundational 2010 paper "Narrative Visualization: Telling Stories with Data."
+This reference expands on the author-driven to reader-driven spectrum introduced by Segel and Heer in their foundational 2010 paper "Narrative Visualization: Telling Stories with Data." Verify genre classifications and spectrum dimensions against the original paper before extending to new visualization formats.
 
 ## The Core Framework
 
@@ -220,8 +220,7 @@ When assessing a narrative visualization's spectrum position:
 
 5. **Can the viewer disagree?** Author-driven asserts. Reader-driven invites interpretation.
 
-## Source
+## Sources
 
-Segel, E. and Heer, J. (2010). Narrative Visualization: Telling Stories with Data. *IEEE Transactions on Visualization and Computer Graphics*, 16(6), 1139-1148.
-
-The framework has been extended by subsequent research on design patterns, evaluation methods, and applications in data journalism and scientific communication.
+- Segel, E. and Heer, J. (2010). "Narrative Visualization: Telling Stories with Data." *IEEE Transactions on Visualization and Computer Graphics*, 16(6), 1139-1148. https://vis.stanford.edu/papers/narrative
+- The framework has been extended by subsequent research on design patterns, evaluation methods, and applications in data journalism and scientific communication.

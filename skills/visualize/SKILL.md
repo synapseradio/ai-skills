@@ -27,7 +27,7 @@ Transform data into browser-runnable D3.js visualizations that communicate insig
 | 3. Implement | Build across encode, compose, narrate, interact, access | — | `references/phase-implement.md` |
 | 4. Refine | Audit structural integrity, perception, clarity | — | `references/phase-refine.md` |
 | 5. Present | Output final HTML, collect feedback | User review | `references/phase-present.md` |
-| 6. Complete | Persist visualization, register via CLI | — | `references/phase-present.md` |
+| 6. Complete | Persist visualization (optional, requires Python 3) | — | `references/phase-present.md` |
 
 ## Phase Flow
 
@@ -85,7 +85,7 @@ For expanded analysis, load `references/common-pitfalls.md`.
 
 ## Workflow Tracking
 
-Create a two-level task tree for visible progress:
+Create a task for each phase and update status as each completes. Use dependency tracking for sequential phases — parallel tasks share the same blockers but do not block each other.
 
 ```
 [Phase 1] Context — define argument and viewer for <description>
@@ -103,8 +103,6 @@ Create a two-level task tree for visible progress:
 [Phase 5: checkpoint] User review of final output
 [Phase 6] Persist and exit
 ```
-
-Use `addBlockedBy` for sequential dependencies. Parallel tasks share the same blockers but do not block each other.
 
 ## Browser-Runnable Output
 
@@ -129,11 +127,75 @@ All visualizations produce standalone HTML with ESM imports:
 </html>
 ```
 
-Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`, then run `visualizer create --file <path>`. See `references/base-template.md` for frontmatter fields.
+### Persisting Visualizations
+
+**With CLI** (requires Python 3):
+
+Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`, then register with the management CLI:
+
+```
+python3 scripts/visualizer.py create --file <path>
+```
+
+This copies the file to organized storage at `~/.visualizer-skill/visualizations/` grouped by chart type. See `references/base-template.md` for required frontmatter fields.
+
+**Without CLI** (one-off visualizations):
+
+Save directly to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. Add HTML frontmatter (see `references/base-template.md`) for future discoverability. The visualization is fully functional without CLI registration.
 
 ## Templates
 
-Use templates from `assets/d3/templates/` as starting points. 19 templates organized by data relationship — see `references/template-selection.md` for the decision tree. For chart types not covered (radar, chord diagram, parallel coordinates, etc.), use the **template-crafter** agent.
+Use templates from `assets/d3/templates/` as starting points. 19 templates organized by data relationship — see `references/template-selection.md` for the decision tree. For chart types not covered (radar, chord diagram, parallel coordinates, etc.), follow the Custom Template Workflow below.
+
+## Custom Template Workflow
+
+When the user needs a visualization type not covered by the 19 built-in templates (e.g., radar chart, chord diagram, parallel coordinates, streamgraph, waffle chart):
+
+### 1. Confirm No Existing Template
+
+Check `assets/d3/templates/` — if a template exists for the requested chart type, use it instead.
+
+### 2. Craft the Template
+
+Build a browser-runnable HTML template following `references/base-template.md` structure. The template must meet:
+
+| Requirement | Standard |
+|-------------|----------|
+| **Correctness** | Renders when opened directly in a browser — no build step, no server |
+| **Completeness** | All dependencies via CDN (ESM), sample data embedded, styles inlined |
+| **Customizability** | Comments explain where and how to modify for different data |
+| **Accessibility** | `role="img"` on SVG, title/description elements, Tableau10 colors, 4.5:1 contrast |
+| **Responsiveness** | viewBox-based scaling (not fixed width/height), mobile-friendly touch targets |
+
+Use D3 patterns from `references/chart-patterns.md`. Use `.join()` for data binding, D3 margin convention, ESM imports.
+
+### 3. Quality Checklist
+
+Before completing, verify:
+
+- [ ] Opens and renders in browser without errors
+- [ ] Sample data produces visible, meaningful visualization
+- [ ] Tooltip appears on hover with correct data
+- [ ] SVG has `role="img"`, title, and description elements
+- [ ] Color scheme is colorblind-safe (Tableau10 default)
+- [ ] Uses viewBox for responsiveness
+- [ ] Uses `.join()` for data binding
+- [ ] DATA section documents expected format
+
+## CLI Workflows
+
+The visualization management CLI (`scripts/visualizer.py`) is available when Python 3 is installed. These natural language patterns trigger CLI operations:
+
+| User Says | Action |
+|-----------|--------|
+| "save this visualization", "persist this chart", "store this" | `python3 scripts/visualizer.py create --file <path>` |
+| "show my visualizations", "list my charts", "what have I made" | `python3 scripts/visualizer.py list` |
+| "show me the bar charts", "list scatter plots" | `python3 scripts/visualizer.py list --type <chart-type>` |
+| "find my sales visualizations", "search for revenue" | `python3 scripts/visualizer.py search <term>` |
+| "show details for this visualization", "info on this chart" | `python3 scripts/visualizer.py show <id>` |
+| "delete this visualization", "remove this chart" | `python3 scripts/visualizer.py delete <id> --force` |
+
+**Before invoking any CLI command**: Check if Python 3 is available by running `python3 --version`. If unavailable, inform the user that the CLI requires Python 3 and offer to save the file directly instead.
 
 ## Plan-Aware Execution
 
