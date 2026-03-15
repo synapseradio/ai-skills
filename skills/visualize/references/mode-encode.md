@@ -13,16 +13,16 @@ Select visual channels that match data types and maximize perceptual accuracy. V
 | **Nominal (N)** | Hue, shape, spatial region | Length, area (imply false order) |
 | **Temporal (T)** | Position on x-axis with time scale | N/A |
 
-### Data Type → D3 Scale
+### Data Type → D3 Scale / Vega-Lite Encoding
 
-| Data + Channel | D3 Scale | Example |
-|----------------|----------|---------|
-| Q → Position | `d3.scaleLinear()` | Scatter plot axes |
-| Q → Position (skewed) | `d3.scaleLog()` | Wide-range data |
-| Q → Color | `d3.scaleSequential()` | Heatmap cells |
-| O → Position | `d3.scaleBand()` | Bar chart categories |
-| N → Color | `d3.scaleOrdinal()` | Category colors |
-| T → Position | `d3.scaleTime()` | Line chart x-axis |
+| Data + Channel | D3 Scale | VL Encoding Type | Example |
+|----------------|----------|------------------|---------|
+| Q → Position | `d3.scaleLinear()` | `"type": "quantitative"` | Scatter plot axes |
+| Q → Position (skewed) | `d3.scaleLog()` | `"type": "quantitative", "scale": {"type": "log"}` | Wide-range data |
+| Q → Color | `d3.scaleSequential()` | `"type": "quantitative"` | Heatmap cells |
+| O → Position | `d3.scaleBand()` | `"type": "ordinal"` | Bar chart categories |
+| N → Color | `d3.scaleOrdinal()` | `"type": "nominal"`, `"scale": {"scheme": "tableau10"}` | Category colors |
+| T → Position | `d3.scaleTime()` | `"type": "temporal"` | Line chart x-axis |
 
 ### Channel Effectiveness (Cleveland-McGill Ranking)
 
@@ -34,6 +34,17 @@ Most accurate to least accurate for **quantitative** comparison:
 4. Angle/slope (line trends, pie slices)
 5. Area (bubbles, treemaps)
 6. Color luminance/saturation (heatmaps)
+
+### Vega-Lite Type System → Perceptual Channels
+
+VL's type system maps directly to Cleveland-McGill data types, guiding channel selection:
+
+| VL Type | Cleveland-McGill Category | Best Channels |
+|---------|--------------------------|---------------|
+| `"quantitative"` | Magnitude | Position, length, area (most accurate channels) |
+| `"nominal"` | Identity | Color hue, shape (identity channels) |
+| `"ordinal"` | Ordered | Position, saturation (ordered channels) |
+| `"temporal"` | Time | Position on time axis |
 
 For detailed methodology, continue to the full instructions below.
 
@@ -163,23 +174,23 @@ Encoding effectiveness depends on how many data points you're showing:
 
 **Very dense data (> 10,000 points)**: Consider aggregation or sampling. Heatmaps, hexbin plots, or contour lines encode density itself. Individual marks become meaningless.
 
-### 7. Select D3 Scale Types
+### 7. Select Scale Types
 
 Match scale types to your data classification and channel choice:
 
-| Data + Channel | D3 Scale | Notes |
-|----------------|----------|-------|
-| Q → Position | `d3.scaleLinear()` | Continuous input to continuous output |
-| Q → Position (skewed) | `d3.scaleLog()`, `d3.scaleSqrt()` | Transform before encoding |
-| Q → Color | `d3.scaleSequential()` | Use perceptually uniform interpolators |
-| O → Position | `d3.scalePoint()` | Equal spacing, no bandwidth |
-| O → Position (bars) | `d3.scaleBand()` | Includes bandwidth for bar width |
-| O → Color | `d3.scaleOrdinal()` | With ordered color scheme |
-| N → Color | `d3.scaleOrdinal()` | With categorical scheme (`d3.schemeCategory10`) |
-| N → Shape | Manual mapping | D3 symbols: circle, cross, diamond, etc. |
-| T → Position | `d3.scaleTime()` | Handles Date objects, proper tick formatting |
+| Data + Channel | D3 Scale | VL Encoding | Notes |
+|----------------|----------|-------------|-------|
+| Q → Position | `d3.scaleLinear()` | `"type": "quantitative"` | Continuous input to continuous output |
+| Q → Position (skewed) | `d3.scaleLog()`, `d3.scaleSqrt()` | `"type": "quantitative", "scale": {"type": "log"}` | Transform before encoding |
+| Q → Color | `d3.scaleSequential()` | `"type": "quantitative"` | Use perceptually uniform interpolators |
+| O → Position | `d3.scalePoint()` | `"type": "ordinal"` | Equal spacing, no bandwidth |
+| O → Position (bars) | `d3.scaleBand()` | `"type": "ordinal"` | Includes bandwidth for bar width |
+| O → Color | `d3.scaleOrdinal()` | `"type": "ordinal"` | With ordered color scheme |
+| N → Color | `d3.scaleOrdinal()` | `"type": "nominal"`, `"scale": {"scheme": "tableau10"}` | With categorical scheme (`d3.schemeCategory10` / `tableau10`) |
+| N → Shape | Manual mapping | `"type": "nominal"`, `"shape": {"field": "..."}` | D3 symbols or VL built-in shapes |
+| T → Position | `d3.scaleTime()` | `"type": "temporal"` | Handles Date objects, proper tick formatting |
 
-Apply `.nice()` to quantitative scales for clean axis boundaries. Use `.domain()` with actual data extent, not assumed ranges.
+Apply `.nice()` to quantitative scales for clean axis boundaries. Use `.domain()` with actual data extent, not assumed ranges. In VL, `"scale": {"nice": true}` is the default for quantitative axes.
 
 See `channel-guide.md` for detailed channel-by-channel implementation guidance.
 
@@ -205,16 +216,9 @@ Before finalizing, test the encoding against these criteria:
 
 **Primary encoding**: Position on common scale via histogram (binned) or dot plot (individual)
 
-**D3 pattern**:
+**VL**: `"x": {"field": "value", "bin": true}, "y": {"aggregate": "count"}` → template: `histogram.vl.json`
 
-```javascript
-const x = d3.scaleLinear()
-  .domain(d3.extent(data, d => d.value))
-  .range([0, width])
-  .nice();
-```
-
-**When to use alternatives**: Density plot when smoothness matters more than exact counts. Box plot when summary statistics suffice. Strip plot when showing individual points is important.
+**When to use alternatives**: Box plot when summary statistics suffice. Violin plot when distribution shape matters. Strip plot when showing individual points is important.
 
 ### Two Quantitative Variables Relationship
 
@@ -222,12 +226,7 @@ const x = d3.scaleLinear()
 
 **Primary encoding**: Position on common scales (scatterplot)
 
-**D3 pattern**:
-
-```javascript
-const x = d3.scaleLinear().domain(d3.extent(data, d => d.x)).range([0, width]);
-const y = d3.scaleLinear().domain(d3.extent(data, d => d.y)).range([height, 0]);
-```
+**VL**: `"x": {"field": "x", "type": "quantitative"}, "y": {"field": "y", "type": "quantitative"}` → template: `scatter-plot.vl.json`
 
 **Add third variable**: Size for another quantitative (bubble chart), color for nominal category, shape for nominal with few categories.
 
@@ -239,37 +238,19 @@ const y = d3.scaleLinear().domain(d3.extent(data, d => d.y)).range([height, 0]);
 
 **Primary encoding**: Position (bar chart with bars on common baseline)
 
-**D3 pattern**:
+**VL**: `"x": {"field": "category", "type": "nominal"}, "y": {"field": "value", "type": "quantitative", "scale": {"zero": true}}` → template: `bar-chart.vl.json`
 
-```javascript
-const x = d3.scaleBand().domain(categories).range([0, width]).padding(0.1);
-const y = d3.scaleLinear().domain([0, d3.max(data, d => d.value)]).range([height, 0]);
-```
+**Orientation choice**: Horizontal bars when category labels are long. Vertical bars when time-based or when categories have natural left-to-right ordering.
 
-**Orientation choice**: Horizontal bars when category labels are long or when comparing magnitude is primary. Vertical bars when time-based or when categories have natural left-to-right ordering.
-
-**When to use alternatives**: Dot plot when bars add visual clutter. Lollipop chart as minimal alternative. Heatmap when there are two categorical dimensions.
+**When to use alternatives**: Dot plot when bars add visual clutter. Heatmap when there are two categorical dimensions.
 
 ### Proportions of a Whole
 
 **Task**: Show parts summing to 100%
 
-**Consider carefully**: Pie charts are frequently misused. They work only when:
+**Consider carefully**: Pie charts work only when parts sum to a meaningful whole, 2-5 categories, and approximate proportions suffice.
 
-- Parts sum to a meaningful whole
-- Comparing a few (2-5) parts
-- Approximate proportions suffice
-- One part dominates or contrasts with rest
-
-**Primary encoding**: Stacked bar (single bar) or treemap (hierarchical)
-
-**D3 pattern**:
-
-```javascript
-const color = d3.scaleOrdinal()
-  .domain(categories)
-  .range(d3.schemeTableau10);
-```
+**VL**: `"color": {"field": "category", "type": "nominal", "scale": {"scheme": "tableau10"}}` → template: `pie-chart.vl.json` or `stacked-bar.vl.json`
 
 **When to use pie**: Exactly when comparing to 25%, 50%, or 75% benchmarks. Otherwise, bar charts with percentage labels are more accurate.
 
@@ -279,17 +260,11 @@ const color = d3.scaleOrdinal()
 
 **Primary encoding**: Position with time on x-axis (line chart)
 
-**D3 pattern**:
+**VL**: `"x": {"field": "date", "type": "temporal"}, "y": {"field": "value", "type": "quantitative"}` → template: `line-chart.vl.json`
 
-```javascript
-const x = d3.scaleTime()
-  .domain(d3.extent(data, d => d.date))
-  .range([0, width]);
-```
+**Multiple series**: Use color for category (limit to ~7 lines). Consider small multiples (`facet`) for more series.
 
-**Multiple series**: Use color for category (limit to ~7 lines). Consider small multiples for more series.
-
-**When to use alternatives**: Area chart when cumulative values matter. Step chart when changes are discrete (not interpolated). Sparklines when many trends need overview comparison.
+**When to use alternatives**: Area chart when cumulative values matter. Step chart when changes are discrete (not interpolated).
 
 ### Geographic Data
 
@@ -408,6 +383,7 @@ Starting a bar chart y-axis above zero exaggerates differences. Use zero baselin
 - Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
 - D3.js documentation — https://d3js.org/getting-started
 - D3 API Reference — https://github.com/d3/d3/blob/main/API.md
+- Vega-Lite documentation — https://vega.github.io/vega-lite/docs/
 - Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
 - WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
 

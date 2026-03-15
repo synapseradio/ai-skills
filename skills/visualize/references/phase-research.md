@@ -37,68 +37,33 @@ For the full classification methodology and Cleveland-McGill effectiveness ranki
 
 ### 2. Plan Encoding
 
-Map data attributes to visual channels using the perceptual effectiveness hierarchy.
-
-**Apply cognitive mode to encoding strategy:**
-
-- **Inference mode** → prioritize highest-accuracy channels, structure reading path, provide direct labels to reduce working memory load, minimize competitive interference between channels
-- **Recognition mode** → prioritize pre-attentive channels for the critical signal, categorical disruption for anomalies, the answer should fire before the viewer reads a word
-
-**Encoding sequence:**
-
-1. Identify the primary comparison the argument requires
-2. Assign the highest-accuracy channel to the primary comparison (position > length > angle > area > color)
-3. Assign secondary channels to supporting attributes
-4. Verify expressiveness — channel matches data type (no hue for quantities, no length for nominals)
-5. Check separability — combined channels do not interfere perceptually
-6. Plan color palette — sequential for quantitative, diverging for data with meaningful center, categorical for nominal (max 8 distinguishable hues)
+Follow `mode-encode.md` to map data attributes to visual channels. Apply the cognitive mode from Phase 1 (inference → highest-accuracy channels; recognition → pre-attentive channels).
 
 **Produce an encoding table:**
 
-| Data Attribute | Type | Visual Channel | D3 Scale | Notes |
+| Data Attribute | Type | Visual Channel | Encoding | Notes |
 |---------------|------|----------------|----------|-------|
-| *(filled per analysis)* | | | | |
+| *(filled per analysis)* | | | VL: `"type": "quantitative"` / `"nominal"` / `"temporal"` / `"ordinal"` | |
+
+Before presenting to the user, validate using the accuracy, comparison, discrimination, and colorblind tests in `mode-encode.md` (section 8).
 
 Cross-references: `mode-encode.md`, `cleveland-mcgill.md`, `channel-guide.md`
 
-### Encoding Validation
+### 3. Select Engine and Template (parallel with step 4)
 
-Before presenting to the user, validate the encoding plan:
+**Engine selection:** Before choosing a template, determine the rendering engine using the decision flowchart in `engine-selection.md`. The engine choice constrains the available templates and implementation patterns.
 
-**Accuracy test:** Can viewers extract actual values with acceptable precision?
+Use the template selection decision tree to choose a starting template from the appropriate engine directory:
 
-- Position on common scale → ~10% accuracy (sufficient for most comparisons)
-- Length → ~15% accuracy (sufficient for ranking)
-- Area → ~50% accuracy (sufficient only for rough magnitude)
-
-**Comparison test:** Can viewers perform the comparisons the argument requires?
-
-- If comparing two quantities, are they on the same scale with a common baseline?
-- If comparing categories, are they adjacent or visually grouped?
-
-**Discrimination test:** Can viewers distinguish all categories or values that matter?
-
-- Nominal color: maximum ~8 distinguishable hues
-- Shape: maximum ~5 before confusion
-- At expected data density, will marks overlap to illegibility?
-
-**Colorblind pre-check:** Will the planned palette survive deuteranopia and protanopia simulation? If color carries structural information, plan a redundant channel (shape, pattern, or label).
-
-Cross-reference: `mode-encode.md` (section 8: Validate the Encoding)
-
-### 3. Select Template (parallel with step 4)
-
-Use the template selection decision tree to choose a starting template from `assets/d3/templates/`:
-
-1. Match the data relationship to a template category:
-   - Comparison → `comparisons/` (bar-chart, grouped-bar, stacked-bar)
-   - Composition → `compositions/` (pie-chart, sunburst, treemap)
-   - Distribution → `distributions/` (histogram, box-plot, violin-plot)
-   - Temporal → `temporal/` (line-chart, area-chart, candlestick)
-   - Geographic → `geographic/` (choropleth)
-   - Hierarchical → `hierarchical/` (tree-diagram)
-   - Network → `networks/` (force-graph, sankey)
-   - Relationship → `relationships/` (scatter-plot, heatmap, bubble-chart)
+1. Match the data relationship to a template category and engine:
+   - Comparison → `assets/vega/templates/comparisons/` (bar-chart.vl.json, grouped-bar.vl.json, stacked-bar.vl.json)
+   - Composition → `assets/vega/templates/compositions/` (pie-chart.vl.json, sunburst.vg.json, treemap.vg.json)
+   - Distribution → `assets/vega/templates/distributions/` (histogram.vl.json, box-plot.vl.json, violin-plot.vl.json)
+   - Temporal → `assets/vega/templates/temporal/` (line-chart.vl.json, area-chart.vl.json, candlestick.vl.json)
+   - Geographic → `assets/vega/templates/geographic/` (choropleth.vg.json)
+   - Hierarchical → `assets/vega/templates/hierarchical/` (tree-diagram.vg.json)
+   - Network → `assets/d3/templates/networks/sankey.html` (sankey, D3 only), `assets/vega/templates/networks/force-graph.vg.json`
+   - Relationship → `assets/vega/templates/relationships/` (scatter-plot.vl.json, heatmap.vl.json, bubble-chart.vl.json)
 2. Verify the template supports the planned encoding channels
 3. For chart types not in the 19-template library, flag for the **template-crafter** agent
 
@@ -109,7 +74,7 @@ Use the template selection decision tree to choose a starting template from `ass
 3. **Prefer the argument** — choose the template that best serves the specific comparison
 4. **Consider the medium** — interactive web can handle more complexity than a static slide
 
-Cross-reference: `template-selection.md`
+Cross-references: `template-selection.md`, `engine-selection.md`, `vega-lite-patterns.md`, `vega-patterns.md`
 
 ### 4. Plan Data Transforms (parallel with step 3)
 
@@ -148,9 +113,9 @@ When data is not yet available:
 
 Present the research summary for user approval before implementation:
 
-**1. Encoding table** — every data attribute mapped to a visual channel with D3 scale
+**1. Encoding table** — every data attribute mapped to a visual channel with VL/Vega encoding type
 
-**2. Template choice** — which template from which category, with rationale
+**2. Engine and template choice** — which engine (Vega-Lite, Vega, or D3) and which template, with rationale
 
 **3. Transformation plan** — ordered list of data transforms
 
@@ -169,12 +134,14 @@ Do not proceed to implementation without explicit user approval. The encoding pl
 Proceed to **Phase 3: Implementation** with:
 
 - Confirmed encoding table
-- Selected template
+- Selected engine and template
 - Ordered transformation plan
 - User approval recorded
 
 ## Sources
 
 - Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
+- Vega-Lite documentation — https://vega.github.io/vega-lite/
+- Vega documentation — https://vega.github.io/vega/
 - D3.js documentation — https://d3js.org/getting-started
 - Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.

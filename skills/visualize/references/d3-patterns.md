@@ -1,5 +1,7 @@
 # D3 Browser-Runnable Patterns
 
+> **Scope:** This reference applies to the sankey template (`assets/d3/templates/networks/sankey.html`) and custom D3 charts created by template-crafter. For Vega/VL patterns, see `vega-lite-patterns.md` and `vega-patterns.md`.
+
 Create standalone HTML files with D3.js visualizations that run directly in the browser with no build step. Verify D3 API usage, CDN import URLs, and SVG accessibility attributes against current documentation before deploying.
 
 ## The Standalone HTML Template
@@ -160,8 +162,8 @@ import { annotation, annotationCallout } from "https://cdn.jsdelivr.net/npm/d3-s
 // Topojson for maps
 import * as topojson from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
 
-// Observable Plot (higher-level alternative)
-import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+// D3 Sankey layout
+import { sankey, sankeyLinkHorizontal } from "https://cdn.jsdelivr.net/npm/d3-sankey@0.12/+esm";
 ```
 
 ## Responsive SVG Pattern
@@ -245,62 +247,9 @@ const data = await d3.csv("data.csv", d => ({
 }));
 ```
 
-## Common Chart Patterns
+## Common D3 Chart Patterns
 
-### Bar Chart
-
-```javascript
-svg.selectAll("rect")
-  .data(data)
-  .join("rect")
-  .attr("x", d => xScale(d.category))
-  .attr("y", d => yScale(d.value))
-  .attr("width", xScale.bandwidth())
-  .attr("height", d => height - yScale(d.value))
-  .attr("fill", "steelblue");
-```
-
-### Line Chart
-
-```javascript
-const line = d3.line()
-  .x(d => xScale(d.date))
-  .y(d => yScale(d.value));
-
-svg.append("path")
-  .datum(data)
-  .attr("fill", "none")
-  .attr("stroke", "steelblue")
-  .attr("stroke-width", 2)
-  .attr("d", line);
-```
-
-### Scatterplot
-
-```javascript
-svg.selectAll("circle")
-  .data(data)
-  .join("circle")
-  .attr("cx", d => xScale(d.x))
-  .attr("cy", d => yScale(d.y))
-  .attr("r", 5)
-  .attr("fill", d => colorScale(d.category));
-```
-
-### Area Chart
-
-```javascript
-const area = d3.area()
-  .x(d => xScale(d.date))
-  .y0(height)
-  .y1(d => yScale(d.value));
-
-svg.append("path")
-  .datum(data)
-  .attr("fill", "steelblue")
-  .attr("opacity", 0.7)
-  .attr("d", area);
-```
+> Standard chart types (bar, line, scatter, area, pie, histogram) are now Vega-Lite templates — see `assets/vega/templates/`. The patterns below cover D3-only chart types used for sankey and custom template-crafter work.
 
 ### Force-Directed Graph
 

@@ -6,9 +6,30 @@ Build the visualization across five subtasks with dependency-aware ordering and 
 
 Phase 2 (Research) complete with user approval. The following are confirmed:
 
-- Encoding table (data attributes → visual channels → D3 scales)
-- Selected template
+- Encoding table (data attributes → visual channels → VL/Vega encoding types or D3 scales)
+- Selected engine (Vega-Lite, Vega, or D3) and template
 - Ordered transformation plan
+
+## Engine-Specific Implementation Paths
+
+The subtask structure adapts based on the engine selected in Phase 2:
+
+**If Vega-Lite:**
+- **Encode** = build the `encoding` block (`"x"`, `"y"`, `"color"`, etc. with field types)
+- **Compose** = configure `width`/`height`/composition operators (`layer`, `concat`, `facet`)
+- **Narrate** = VL `title`/`description` properties + `text` mark layers for annotations
+- **Interact** = `params`/`selection` with `bind` for filters, tooltips via `tooltip` encoding
+- **Access** = verify SVG a11y + data table fallback
+- Note: VL collapses encode + compose into a single spec-building step since the encoding block implicitly defines marks and layout. Treat them as one pass when building the spec, but validate each concern separately.
+
+**If full Vega:**
+- **Encode** = define `signals`, `data` transforms, and `scales`
+- **Compose** = configure `marks`, `axes`, `legends`, and layout groups
+- **Interact** = signal-driven interactions (drag, hover, zoom via `events` and `update` expressions)
+- **Access** = same SVG a11y approach as VL
+
+**If D3 (sankey only):**
+- Follow the existing D3 workflow described below
 
 ## Subtask Dependency Graph
 
@@ -24,7 +45,7 @@ encode (+ color access) → compose (+ semantic SVG) → ┬─ narrate (+ text 
 
 ## Subtask Instructions
 
-### Encode — Implement D3 Scales and Marks
+### Encode — Implement Scales and Marks
 
 Create the visual encoding: data transforms, scales, axes, and marks.
 
@@ -34,16 +55,17 @@ Create the visual encoding: data transforms, scales, axes, and marks.
 - Run colorblind simulation on the chosen palette — if distinctions disappear, add redundant encoding (shape, pattern, direct label)
 - Verify contrast ratios: graphical objects ≥ 3:1 against adjacent colors
 
-**Steps:**
+**Steps (vary by engine):**
 
 1. Apply the transformation plan from Phase 2 — pivot, aggregate, derive, coerce, filter
-2. Implement D3 scales matching the encoding table — domain from data extent, range from layout dimensions
-3. Create marks (bars, points, lines, areas) with correct channel mappings
-4. Generate axes with appropriate ticks, labels, and formatting
-5. Apply color palette with colorblind safety verified
-6. For quantitative scales, apply `.nice()` for clean axis boundaries
+2. **Vega-Lite:** Build the `encoding` block with field names, types (`quantitative`, `nominal`, `temporal`, `ordinal`), and scale/axis configuration
+3. **Vega:** Define explicit `scales` (domain from data extent, range from layout), `axes`, and `marks` arrays
+4. **D3:** Implement D3 scales matching the encoding table — domain from data extent, range from layout dimensions; create marks with correct channel mappings
+5. Generate axes with appropriate ticks, labels, and formatting
+6. Apply color palette with colorblind safety verified
+7. For quantitative scales: VL/Vega use `"nice": true`; D3 uses `.nice()`
 
-**Cross-reference:** `mode-encode.md`, `d3-patterns.md`, `chart-patterns.md`, `base-template.md`
+**Cross-reference:** `mode-encode.md`, `vega-lite-patterns.md`, `vega-patterns.md`, `d3-patterns.md`, `chart-patterns.md`, `base-template.md`
 
 **Special cases:** `canvas-patterns.md` (>1000 elements), `network-patterns.md` (force-directed graphs)
 
@@ -181,10 +203,15 @@ Create a new task for the revisit rather than reopening the completed task.
 
 ## Exit
 
-Proceed to **Phase 4: Refinement** with a complete draft HTML containing encoded marks, composed layout, annotations (or skip), interactions (or skip), and accessibility layers.
+Proceed to **Phase 4: Refinement** with a complete draft:
+
+- **Vega-Lite / Vega:** Standalone HTML (wrapper template + injected JSON spec) containing encoded marks, composed layout, annotations (or skip), interactions (or skip), and accessibility layers
+- **D3:** Standalone HTML with ESM imports containing encoded marks, composed layout, annotations (or skip), interactions (or skip), and accessibility layers
 
 ## Sources
 
+- Vega-Lite documentation — https://vega.github.io/vega-lite/
+- Vega documentation — https://vega.github.io/vega/
 - D3.js documentation — https://d3js.org/getting-started
 - WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
 - WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/

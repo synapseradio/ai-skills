@@ -1,0 +1,378 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- Vega-Lite computes quartiles, whiskers, and outliers automatically.",
+    "customization": [
+      "Replace 'values' array with your raw observations",
+      "Change field names in encoding.x.field, encoding.y.field, and encoding.color.field",
+      "Adjust encoding.x.title and encoding.y.title for your variables",
+      "Set mark.extent to control whisker length (1.5 = standard IQR rule)",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Test Score Distribution by Class",
+  "description": "Box plots comparing score distributions across four classes. Class B has the highest median (84), while Class D shows the widest spread. Class C contains outliers at both extremes.",
+  "width": "container",
+  "height": 300,
+  "data": {
+    "values": [
+      {
+        "group": "Class A",
+        "value": 65
+      },
+      {
+        "group": "Class A",
+        "value": 68
+      },
+      {
+        "group": "Class A",
+        "value": 70
+      },
+      {
+        "group": "Class A",
+        "value": 71
+      },
+      {
+        "group": "Class A",
+        "value": 72
+      },
+      {
+        "group": "Class A",
+        "value": 73
+      },
+      {
+        "group": "Class A",
+        "value": 74
+      },
+      {
+        "group": "Class A",
+        "value": 74
+      },
+      {
+        "group": "Class A",
+        "value": 75
+      },
+      {
+        "group": "Class A",
+        "value": 75
+      },
+      {
+        "group": "Class A",
+        "value": 76
+      },
+      {
+        "group": "Class A",
+        "value": 76
+      },
+      {
+        "group": "Class A",
+        "value": 77
+      },
+      {
+        "group": "Class A",
+        "value": 78
+      },
+      {
+        "group": "Class A",
+        "value": 79
+      },
+      {
+        "group": "Class A",
+        "value": 80
+      },
+      {
+        "group": "Class A",
+        "value": 82
+      },
+      {
+        "group": "Class A",
+        "value": 84
+      },
+      {
+        "group": "Class A",
+        "value": 85
+      },
+      {
+        "group": "Class A",
+        "value": 88
+      },
+      {
+        "group": "Class B",
+        "value": 78
+      },
+      {
+        "group": "Class B",
+        "value": 79
+      },
+      {
+        "group": "Class B",
+        "value": 80
+      },
+      {
+        "group": "Class B",
+        "value": 81
+      },
+      {
+        "group": "Class B",
+        "value": 81
+      },
+      {
+        "group": "Class B",
+        "value": 82
+      },
+      {
+        "group": "Class B",
+        "value": 82
+      },
+      {
+        "group": "Class B",
+        "value": 83
+      },
+      {
+        "group": "Class B",
+        "value": 83
+      },
+      {
+        "group": "Class B",
+        "value": 84
+      },
+      {
+        "group": "Class B",
+        "value": 84
+      },
+      {
+        "group": "Class B",
+        "value": 84
+      },
+      {
+        "group": "Class B",
+        "value": 85
+      },
+      {
+        "group": "Class B",
+        "value": 85
+      },
+      {
+        "group": "Class B",
+        "value": 86
+      },
+      {
+        "group": "Class B",
+        "value": 87
+      },
+      {
+        "group": "Class B",
+        "value": 88
+      },
+      {
+        "group": "Class B",
+        "value": 89
+      },
+      {
+        "group": "Class B",
+        "value": 90
+      },
+      {
+        "group": "Class B",
+        "value": 92
+      },
+      {
+        "group": "Class C",
+        "value": 42
+      },
+      {
+        "group": "Class C",
+        "value": 55
+      },
+      {
+        "group": "Class C",
+        "value": 58
+      },
+      {
+        "group": "Class C",
+        "value": 60
+      },
+      {
+        "group": "Class C",
+        "value": 62
+      },
+      {
+        "group": "Class C",
+        "value": 63
+      },
+      {
+        "group": "Class C",
+        "value": 64
+      },
+      {
+        "group": "Class C",
+        "value": 65
+      },
+      {
+        "group": "Class C",
+        "value": 65
+      },
+      {
+        "group": "Class C",
+        "value": 66
+      },
+      {
+        "group": "Class C",
+        "value": 66
+      },
+      {
+        "group": "Class C",
+        "value": 67
+      },
+      {
+        "group": "Class C",
+        "value": 68
+      },
+      {
+        "group": "Class C",
+        "value": 68
+      },
+      {
+        "group": "Class C",
+        "value": 69
+      },
+      {
+        "group": "Class C",
+        "value": 70
+      },
+      {
+        "group": "Class C",
+        "value": 71
+      },
+      {
+        "group": "Class C",
+        "value": 72
+      },
+      {
+        "group": "Class C",
+        "value": 74
+      },
+      {
+        "group": "Class C",
+        "value": 95
+      },
+      {
+        "group": "Class D",
+        "value": 48
+      },
+      {
+        "group": "Class D",
+        "value": 52
+      },
+      {
+        "group": "Class D",
+        "value": 56
+      },
+      {
+        "group": "Class D",
+        "value": 60
+      },
+      {
+        "group": "Class D",
+        "value": 64
+      },
+      {
+        "group": "Class D",
+        "value": 66
+      },
+      {
+        "group": "Class D",
+        "value": 68
+      },
+      {
+        "group": "Class D",
+        "value": 70
+      },
+      {
+        "group": "Class D",
+        "value": 72
+      },
+      {
+        "group": "Class D",
+        "value": 74
+      },
+      {
+        "group": "Class D",
+        "value": 76
+      },
+      {
+        "group": "Class D",
+        "value": 78
+      },
+      {
+        "group": "Class D",
+        "value": 80
+      },
+      {
+        "group": "Class D",
+        "value": 82
+      },
+      {
+        "group": "Class D",
+        "value": 84
+      },
+      {
+        "group": "Class D",
+        "value": 86
+      },
+      {
+        "group": "Class D",
+        "value": 88
+      },
+      {
+        "group": "Class D",
+        "value": 90
+      },
+      {
+        "group": "Class D",
+        "value": 92
+      },
+      {
+        "group": "Class D",
+        "value": 96
+      }
+    ]
+  },
+  "mark": {
+    "type": "boxplot",
+    "extent": 1.5,
+    "tooltip": true,
+    "median": {
+      "color": "#1a365d"
+    },
+    "outliers": {
+      "color": "#e53e3e"
+    }
+  },
+  "encoding": {
+    "x": {
+      "field": "group",
+      "type": "nominal",
+      "title": "Class",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "value",
+      "type": "quantitative",
+      "title": "Test Score",
+      "scale": {
+        "zero": false
+      }
+    },
+    "color": {
+      "field": "group",
+      "type": "nominal",
+      "legend": null,
+      "scale": {
+        "scheme": "tableau10"
+      }
+    }
+  }
+}

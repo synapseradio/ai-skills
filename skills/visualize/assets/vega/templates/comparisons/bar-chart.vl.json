@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'category' (nominal) and 'value' (quantitative) fields",
+    "customization": [
+      "Replace 'values' array with your data",
+      "Change field names in encoding.x.field, encoding.y.field, encoding.color.field, and tooltip fields",
+      "Adjust encoding.y.axis.title and encoding.y.axis.format for your units",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Product Sales by Category",
+  "description": "Bar chart comparing product sales across 6 retail categories. Values range from $22,100 (Toys) to $42,500 (Electronics).",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "category": "Electronics",
+        "value": 42500
+      },
+      {
+        "category": "Clothing",
+        "value": 38200
+      },
+      {
+        "category": "Home & Garden",
+        "value": 31800
+      },
+      {
+        "category": "Books",
+        "value": 28400
+      },
+      {
+        "category": "Sports",
+        "value": 25600
+      },
+      {
+        "category": "Toys",
+        "value": 22100
+      }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "tooltip": true,
+    "cornerRadiusTopLeft": 2,
+    "cornerRadiusTopRight": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "category",
+      "type": "nominal",
+      "axis": {
+        "title": null,
+        "labelAngle": -45,
+        "labelAlign": "right"
+      },
+      "sort": "-y"
+    },
+    "y": {
+      "field": "value",
+      "type": "quantitative",
+      "axis": {
+        "title": "Sales ($)",
+        "format": ",.0f"
+      },
+      "scale": {
+        "zero": true
+      }
+    },
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "scale": {
+        "scheme": "tableau10"
+      },
+      "legend": null
+    },
+    "tooltip": [
+      {
+        "field": "category",
+        "type": "nominal",
+        "title": "Category"
+      },
+      {
+        "field": "value",
+        "type": "quantitative",
+        "title": "Sales ($)",
+        "format": "$,.0f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}

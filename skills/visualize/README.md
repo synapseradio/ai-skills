@@ -1,6 +1,6 @@
 # Visualize
 
-Data visualization engineering skill. Transform data into browser-runnable D3.js visualizations through principled encoding, composition, narration, accessibility, interaction, and refinement — grounded in perceptual science (Cleveland-McGill, Gestalt, Segel-Heer).
+Data visualization engineering skill. Transform data into browser-runnable visualizations using Vega-Lite (standard charts), full Vega (complex charts), and D3 (sankey) — through principled encoding, composition, narration, accessibility, interaction, and refinement, grounded in perceptual science (Cleveland-McGill, Gestalt, Segel-Heer).
 
 ## Install
 
@@ -37,8 +37,10 @@ Or copy the `skills/visualize/` directory into `~/.claude/skills/visualize/`.
 ## What's Included
 
 - **SKILL.md** — 6-phase visualization workflow with signal detection routing
-- **19 D3.js templates** — browser-runnable HTML across 8 categories (comparisons, compositions, distributions, geographic, hierarchical, networks, relationships, temporal)
-- **29 reference docs** — perceptual science, implementation patterns, accessibility, and workflow guidance
+- **12 Vega-Lite + 6 Vega templates** — declarative JSON specs across 8 categories (comparisons, compositions, distributions, geographic, hierarchical, networks, relationships, temporal)
+- **1 D3 template** — sankey diagram (sole D3 template — no Vega transform exists)
+- **Shared HTML wrapper** — `assets/vega/wrapper.html` renders any VL/Vega spec via `vegaEmbed`
+- **33 reference docs** — perceptual science, implementation patterns, accessibility, and workflow guidance
 - **Python CLI** (`scripts/visualizer.py`) — visualization storage and management, stdlib only
 
 ## References
@@ -77,9 +79,12 @@ Or copy the `skills/visualize/` directory into `~/.claude/skills/visualize/`.
 
 | File | Purpose |
 |------|---------|
-| `references/d3-patterns.md` | Browser-runnable templates, ESM imports |
-| `references/chart-patterns.md` | D3 patterns by chart type |
-| `references/base-template.md` | HTML skeleton with frontmatter |
+| `references/vega-lite-patterns.md` | Vega-Lite spec patterns, encoding, composition |
+| `references/vega-patterns.md` | Full Vega spec patterns for complex charts |
+| `references/engine-selection.md` | Decision criteria: Vega-Lite vs Vega vs D3 |
+| `references/base-vega-wrapper.md` | Vega/VL HTML wrapper with CDN imports |
+| `references/base-template.md` | D3 HTML skeleton with frontmatter |
+| `references/d3-patterns.md` | D3 patterns for sankey and custom charts |
 | `references/template-selection.md` | Template decision tree |
 
 ## Prerequisites

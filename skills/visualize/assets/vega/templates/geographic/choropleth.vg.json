@@ -1,0 +1,238 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'id' (integer FIPS code) and 'rate' (quantitative value between 0 and 1) fields. Joined to TopoJSON county geometries via lookup transform.",
+    "customization": [
+      "Replace 'values' array in data[0] with your geographic data",
+      "Change the 'id' and 'rate' field names in data, lookup transform, scales, and marks",
+      "Update the TopoJSON URL in data[1] for different geographies (states, countries, etc.)",
+      "Adjust scales[0].domain to match your data range",
+      "Change scales[0].range.scheme for a different color scheme",
+      "Update legends[0].title and legends[0].format for your metric",
+      "Modify title.text and description for your context"
+    ],
+    "notes": "Sample contains only 20 Alabama counties. Replace with full dataset for production. The identity projection works with pre-projected TopoJSON (Albers USA). Use a different projection type for unprojected coordinates."
+  },
+  "description": "US county-level unemployment rate choropleth map. Sequential blue color scheme encodes unemployment rate by FIPS code.",
+  "width": 960,
+  "height": 600,
+  "autosize": "none",
+  "data": [
+    {
+      "name": "unemployment",
+      "values": [
+        {
+          "id": 1001,
+          "rate": 0.097
+        },
+        {
+          "id": 1003,
+          "rate": 0.052
+        },
+        {
+          "id": 1005,
+          "rate": 0.134
+        },
+        {
+          "id": 1007,
+          "rate": 0.084
+        },
+        {
+          "id": 1009,
+          "rate": 0.068
+        },
+        {
+          "id": 1011,
+          "rate": 0.119
+        },
+        {
+          "id": 1013,
+          "rate": 0.093
+        },
+        {
+          "id": 1015,
+          "rate": 0.076
+        },
+        {
+          "id": 1017,
+          "rate": 0.069
+        },
+        {
+          "id": 1019,
+          "rate": 0.058
+        },
+        {
+          "id": 1021,
+          "rate": 0.112
+        },
+        {
+          "id": 1023,
+          "rate": 0.071
+        },
+        {
+          "id": 1025,
+          "rate": 0.067
+        },
+        {
+          "id": 1027,
+          "rate": 0.082
+        },
+        {
+          "id": 1029,
+          "rate": 0.054
+        },
+        {
+          "id": 1031,
+          "rate": 0.103
+        },
+        {
+          "id": 1033,
+          "rate": 0.047
+        },
+        {
+          "id": 1035,
+          "rate": 0.091
+        },
+        {
+          "id": 1037,
+          "rate": 0.075
+        },
+        {
+          "id": 1039,
+          "rate": 0.063
+        }
+      ]
+    },
+    {
+      "name": "counties",
+      "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json",
+      "format": {
+        "type": "topojson",
+        "feature": "counties"
+      },
+      "transform": [
+        {
+          "type": "lookup",
+          "from": "unemployment",
+          "key": "id",
+          "fields": [
+            "id"
+          ],
+          "values": [
+            "rate"
+          ]
+        }
+      ]
+    }
+  ],
+  "projections": [
+    {
+      "name": "projection",
+      "type": "identity"
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "quantize",
+      "domain": [
+        0,
+        0.15
+      ],
+      "range": {
+        "scheme": "blues",
+        "count": 7
+      }
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "orient": "bottom-right",
+      "title": "Unemployment Rate",
+      "format": ".1%",
+      "encode": {
+        "labels": {
+          "update": {
+            "fontSize": {
+              "value": 11
+            },
+            "fill": {
+              "value": "#666"
+            }
+          }
+        },
+        "title": {
+          "update": {
+            "fontSize": {
+              "value": 12
+            },
+            "fill": {
+              "value": "#333"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "marks": [
+    {
+      "type": "shape",
+      "from": {
+        "data": "counties"
+      },
+      "encode": {
+        "enter": {
+          "tooltip": {
+            "signal": "datum.rate != null ? { 'County FIPS': datum.id, 'Unemployment': format(datum.rate, '.1%') } : { 'County FIPS': datum.id, 'Unemployment': 'No data' }"
+          }
+        },
+        "update": {
+          "fill": [
+            {
+              "test": "datum.rate != null",
+              "scale": "color",
+              "field": "rate"
+            },
+            {
+              "value": "#ddd"
+            }
+          ],
+          "stroke": {
+            "value": "#fff"
+          },
+          "strokeWidth": {
+            "value": 0.3
+          }
+        },
+        "hover": {
+          "stroke": {
+            "value": "#333"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    }
+  ],
+  "title": {
+    "text": "US County Unemployment Rates",
+    "subtitle": "Sample data -- replace with full dataset for production use",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

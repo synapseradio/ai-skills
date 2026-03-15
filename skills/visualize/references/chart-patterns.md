@@ -1,8 +1,12 @@
 # Chart-Specific D3 Patterns
 
+> **Scope:** This reference covers D3 chart implementation patterns for the sankey template and custom template-crafter work. For Vega/VL template specs, see the JSON files in `assets/vega/templates/`.
+
 D3.js implementation patterns organized by data relationship category. Each pattern shows the core scale setup and mark rendering for its chart type. Verify D3 scale and layout API usage against the current D3 documentation before implementing.
 
 ## Comparisons (Bar Charts)
+
+> **Vega-Lite templates available:** See `assets/vega/templates/comparisons/bar-chart.vl.json`, `grouped-bar.vl.json`, and `stacked-bar.vl.json`. Use these instead of D3 for standard bar charts. The D3 pattern below is retained for custom template-crafter work.
 
 ```javascript
 // Band scale for categories
@@ -30,6 +34,8 @@ svg.selectAll("rect")
 
 ## Distributions (Histograms)
 
+> **Vega-Lite template available:** See `assets/vega/templates/distributions/histogram.vl.json`. Use for standard histograms. The D3 pattern below is retained for custom template-crafter work.
+
 ```javascript
 // Bin the data
 const bins = d3.bin()
@@ -50,6 +56,8 @@ svg.selectAll("rect")
 ```
 
 ## Relationships (Scatter Plots)
+
+> **Vega-Lite template available:** See `assets/vega/templates/relationships/scatter-plot.vl.json`. Use for standard scatter plots. The D3 pattern below is retained for custom template-crafter work.
 
 ```javascript
 // Linear scales for both axes
@@ -76,6 +84,8 @@ svg.selectAll("circle")
 
 ## Temporal (Line Charts)
 
+> **Vega-Lite template available:** See `assets/vega/templates/temporal/line-chart.vl.json`. Use for standard line charts. The D3 pattern below is retained for custom template-crafter work.
+
 ```javascript
 // Time scale for x-axis
 const xScale = d3.scaleTime()
@@ -97,6 +107,8 @@ svg.append("path")
 ```
 
 ## Compositions (Pie/Donut)
+
+> **Vega-Lite template available:** See `assets/vega/templates/compositions/pie-chart.vl.json`. Use for standard pie/donut charts. The D3 pattern below is retained for custom template-crafter work.
 
 ```javascript
 // Pie layout

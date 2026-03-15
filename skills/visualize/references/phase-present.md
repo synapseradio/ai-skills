@@ -15,12 +15,25 @@ Phase 4 (Refinement) complete. The visualization has passed:
 
 ### Produce Final Output
 
-Generate the standalone HTML file following `base-template.md` structure:
+Two output paths depending on the rendering engine:
 
-1. Add HTML comment frontmatter (name, description, chart-type, project, created)
-2. Embed data for standalone operation
-3. Include all styles inline for portability
-4. Verify ESM imports use CDN URLs (`https://cdn.jsdelivr.net/npm/d3@7/+esm`)
+**Vega/VL charts (most chart types):**
+
+1. Copy `assets/vega/wrapper.html` as the output scaffold
+2. Inject the Vega-Lite or Vega spec JSON into the wrapper's `spec` variable
+3. Add HTML comment frontmatter (name, description, chart-type, project, created)
+4. Embed data inline in the spec's `"values"` array for standalone operation
+5. Verify CDN URLs: `vega@6`, `vega-lite@6`, `vega-embed@7` from jsdelivr
+
+**D3 charts (sankey, custom template-crafter work):**
+
+1. Generate a standalone HTML file following `base-template.md` structure
+2. Add HTML comment frontmatter (name, description, chart-type, project, created)
+3. Embed data for standalone operation
+4. Include all styles inline for portability
+5. Verify ESM imports use CDN URLs (`https://cdn.jsdelivr.net/npm/d3@7/+esm`); include `d3-sankey` when needed
+
+**Dashboard mode:** Multiple Vega/VL specs can be embedded in a single HTML file by calling `vegaEmbed` multiple times with distinct container selectors (e.g., `#chart-1`, `#chart-2`).
 
 ### Present to User
 

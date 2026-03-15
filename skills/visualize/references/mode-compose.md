@@ -189,54 +189,37 @@ Test the layout against these criteria:
 
 **Distance test**: Step back (literally or by zooming out). Do the main patterns remain legible? If detail dominates, the hierarchy needs strengthening.
 
-## D3.js Layout Patterns
+## Implementation Patterns
 
-When implementing layouts in D3:
+### Vega-Lite Composition (primary)
 
-### Margin Convention
+VL provides declarative composition operators that handle layout automatically:
 
-```javascript
-const margin = { top: 40, right: 30, bottom: 50, left: 60 };
-const width = 960 - margin.left - margin.right;
-const height = 500 - margin.top - margin.bottom;
+**Responsive sizing:** Set `"width": "container"` to fill the parent element. The parent HTML element must have a defined width.
 
-const svg = d3.select("#chart")
-  .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", `translate(${margin.left},${margin.top})`);
+**Layer** — overlay marks on shared axes (e.g., line + points + annotations):
+
+```json
+{"layer": [{"mark": "line", ...}, {"mark": "point", ...}, {"mark": {"type": "text", "dy": -10}, ...}]}
 ```
 
-This convention separates total dimensions from plotting area, making margin adjustments straightforward.
+**Facet** — small multiples from a single dataset:
 
-### Grid-Based Multi-View
-
-```javascript
-const gridCols = 3;
-const cellWidth = (width - gutterSize * (gridCols - 1)) / gridCols;
-const cellHeight = (height - gutterSize * (gridRows - 1)) / gridRows;
-
-charts.forEach((chart, i) => {
-  const col = i % gridCols;
-  const row = Math.floor(i / gridCols);
-  const x = col * (cellWidth + gutterSize);
-  const y = row * (cellHeight + gutterSize);
-  // Position chart at (x, y) with dimensions (cellWidth, cellHeight)
-});
+```json
+{"facet": {"field": "region", "type": "nominal", "columns": 3}, "spec": {"mark": "line", ...}}
 ```
 
-### Responsive Layouts
+**Concat** — independent charts side by side. Use `"resolve": {"scale": {"x": "shared"}}` to sync axes:
 
-```javascript
-function resize() {
-  const container = d3.select("#chart").node().getBoundingClientRect();
-  const newWidth = container.width - margin.left - margin.right;
-  // Recalculate scales, redraw elements
-}
-
-window.addEventListener("resize", resize);
+```json
+{"hconcat": [{"mark": "bar", ...}, {"mark": "point", ...}]}
 ```
+
+**Dashboard layout:** Embed multiple `vegaEmbed()` calls targeting distinct containers, using CSS Grid or Flexbox for positioning. See `base-vega-wrapper.md` (Dashboard Mode).
+
+### D3 Layout Patterns (sankey and custom templates only)
+
+For D3-based charts, see `d3-patterns.md` for margin convention, responsive viewBox pattern, and grid-based multi-view layout.
 
 ## Common Layout Problems
 

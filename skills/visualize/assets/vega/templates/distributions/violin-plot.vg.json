@@ -1,0 +1,757 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- KDE transform computes the density curve.",
+    "customization": [
+      "Replace 'values' array in data[0] with your raw observations",
+      "Change 'group' and 'value' field names in data transforms, scales, and marks",
+      "Adjust the KDE extent (data[1].transform[0].extent) to match your data range",
+      "Adjust scales yscale domainMin/domainMax to match your data range",
+      "Update axes titles for your variable names",
+      "Modify title.text and title.subtitle for your context"
+    ],
+    "notes": "The bandwidth signal defaults to 0 (auto-detect). The interactive range slider lets users adjust KDE smoothing."
+  },
+  "description": "Violin plot comparing distribution shapes across four classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations), and Class D is roughly uniform.",
+  "width": 500,
+  "height": 400,
+  "padding": 5,
+  "config": {
+    "axisBand": {
+      "bandPosition": 1,
+      "tickExtra": true,
+      "tickOffset": 0
+    }
+  },
+  "signals": [
+    {
+      "name": "plotWidth",
+      "value": 60
+    },
+    {
+      "name": "bandwidth",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 10,
+        "step": 0.1
+      }
+    }
+  ],
+  "data": [
+    {
+      "name": "table",
+      "values": [
+        {
+          "group": "Class A",
+          "value": 62
+        },
+        {
+          "group": "Class A",
+          "value": 65
+        },
+        {
+          "group": "Class A",
+          "value": 67
+        },
+        {
+          "group": "Class A",
+          "value": 68
+        },
+        {
+          "group": "Class A",
+          "value": 69
+        },
+        {
+          "group": "Class A",
+          "value": 70
+        },
+        {
+          "group": "Class A",
+          "value": 70
+        },
+        {
+          "group": "Class A",
+          "value": 71
+        },
+        {
+          "group": "Class A",
+          "value": 71
+        },
+        {
+          "group": "Class A",
+          "value": 72
+        },
+        {
+          "group": "Class A",
+          "value": 73
+        },
+        {
+          "group": "Class A",
+          "value": 73
+        },
+        {
+          "group": "Class A",
+          "value": 74
+        },
+        {
+          "group": "Class A",
+          "value": 74
+        },
+        {
+          "group": "Class A",
+          "value": 75
+        },
+        {
+          "group": "Class A",
+          "value": 75
+        },
+        {
+          "group": "Class A",
+          "value": 75
+        },
+        {
+          "group": "Class A",
+          "value": 76
+        },
+        {
+          "group": "Class A",
+          "value": 76
+        },
+        {
+          "group": "Class A",
+          "value": 77
+        },
+        {
+          "group": "Class A",
+          "value": 77
+        },
+        {
+          "group": "Class A",
+          "value": 78
+        },
+        {
+          "group": "Class A",
+          "value": 79
+        },
+        {
+          "group": "Class A",
+          "value": 80
+        },
+        {
+          "group": "Class A",
+          "value": 81
+        },
+        {
+          "group": "Class A",
+          "value": 83
+        },
+        {
+          "group": "Class A",
+          "value": 85
+        },
+        {
+          "group": "Class A",
+          "value": 87
+        },
+        {
+          "group": "Class B",
+          "value": 55
+        },
+        {
+          "group": "Class B",
+          "value": 62
+        },
+        {
+          "group": "Class B",
+          "value": 68
+        },
+        {
+          "group": "Class B",
+          "value": 72
+        },
+        {
+          "group": "Class B",
+          "value": 78
+        },
+        {
+          "group": "Class B",
+          "value": 80
+        },
+        {
+          "group": "Class B",
+          "value": 82
+        },
+        {
+          "group": "Class B",
+          "value": 83
+        },
+        {
+          "group": "Class B",
+          "value": 84
+        },
+        {
+          "group": "Class B",
+          "value": 85
+        },
+        {
+          "group": "Class B",
+          "value": 85
+        },
+        {
+          "group": "Class B",
+          "value": 86
+        },
+        {
+          "group": "Class B",
+          "value": 86
+        },
+        {
+          "group": "Class B",
+          "value": 87
+        },
+        {
+          "group": "Class B",
+          "value": 87
+        },
+        {
+          "group": "Class B",
+          "value": 88
+        },
+        {
+          "group": "Class B",
+          "value": 88
+        },
+        {
+          "group": "Class B",
+          "value": 88
+        },
+        {
+          "group": "Class B",
+          "value": 89
+        },
+        {
+          "group": "Class B",
+          "value": 89
+        },
+        {
+          "group": "Class B",
+          "value": 90
+        },
+        {
+          "group": "Class B",
+          "value": 90
+        },
+        {
+          "group": "Class B",
+          "value": 91
+        },
+        {
+          "group": "Class B",
+          "value": 92
+        },
+        {
+          "group": "Class B",
+          "value": 93
+        },
+        {
+          "group": "Class B",
+          "value": 94
+        },
+        {
+          "group": "Class B",
+          "value": 95
+        },
+        {
+          "group": "Class C",
+          "value": 45
+        },
+        {
+          "group": "Class C",
+          "value": 47
+        },
+        {
+          "group": "Class C",
+          "value": 48
+        },
+        {
+          "group": "Class C",
+          "value": 50
+        },
+        {
+          "group": "Class C",
+          "value": 51
+        },
+        {
+          "group": "Class C",
+          "value": 53
+        },
+        {
+          "group": "Class C",
+          "value": 54
+        },
+        {
+          "group": "Class C",
+          "value": 55
+        },
+        {
+          "group": "Class C",
+          "value": 56
+        },
+        {
+          "group": "Class C",
+          "value": 57
+        },
+        {
+          "group": "Class C",
+          "value": 58
+        },
+        {
+          "group": "Class C",
+          "value": 59
+        },
+        {
+          "group": "Class C",
+          "value": 60
+        },
+        {
+          "group": "Class C",
+          "value": 82
+        },
+        {
+          "group": "Class C",
+          "value": 83
+        },
+        {
+          "group": "Class C",
+          "value": 85
+        },
+        {
+          "group": "Class C",
+          "value": 86
+        },
+        {
+          "group": "Class C",
+          "value": 87
+        },
+        {
+          "group": "Class C",
+          "value": 88
+        },
+        {
+          "group": "Class C",
+          "value": 89
+        },
+        {
+          "group": "Class C",
+          "value": 90
+        },
+        {
+          "group": "Class C",
+          "value": 91
+        },
+        {
+          "group": "Class C",
+          "value": 92
+        },
+        {
+          "group": "Class C",
+          "value": 93
+        },
+        {
+          "group": "Class C",
+          "value": 94
+        },
+        {
+          "group": "Class C",
+          "value": 95
+        },
+        {
+          "group": "Class D",
+          "value": 50
+        },
+        {
+          "group": "Class D",
+          "value": 52
+        },
+        {
+          "group": "Class D",
+          "value": 54
+        },
+        {
+          "group": "Class D",
+          "value": 56
+        },
+        {
+          "group": "Class D",
+          "value": 58
+        },
+        {
+          "group": "Class D",
+          "value": 60
+        },
+        {
+          "group": "Class D",
+          "value": 62
+        },
+        {
+          "group": "Class D",
+          "value": 64
+        },
+        {
+          "group": "Class D",
+          "value": 66
+        },
+        {
+          "group": "Class D",
+          "value": 68
+        },
+        {
+          "group": "Class D",
+          "value": 70
+        },
+        {
+          "group": "Class D",
+          "value": 72
+        },
+        {
+          "group": "Class D",
+          "value": 74
+        },
+        {
+          "group": "Class D",
+          "value": 76
+        },
+        {
+          "group": "Class D",
+          "value": 78
+        },
+        {
+          "group": "Class D",
+          "value": 80
+        },
+        {
+          "group": "Class D",
+          "value": 82
+        },
+        {
+          "group": "Class D",
+          "value": 84
+        },
+        {
+          "group": "Class D",
+          "value": 86
+        },
+        {
+          "group": "Class D",
+          "value": 88
+        },
+        {
+          "group": "Class D",
+          "value": 90
+        },
+        {
+          "group": "Class D",
+          "value": 92
+        },
+        {
+          "group": "Class D",
+          "value": 94
+        },
+        {
+          "group": "Class D",
+          "value": 51
+        },
+        {
+          "group": "Class D",
+          "value": 55
+        },
+        {
+          "group": "Class D",
+          "value": 61
+        },
+        {
+          "group": "Class D",
+          "value": 67
+        },
+        {
+          "group": "Class D",
+          "value": 73
+        }
+      ]
+    },
+    {
+      "name": "density",
+      "source": "table",
+      "transform": [
+        {
+          "type": "kde",
+          "field": "value",
+          "groupby": [
+            "group"
+          ],
+          "bandwidth": {
+            "signal": "bandwidth"
+          },
+          "extent": [
+            40,
+            100
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "source": "table",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "group"
+          ],
+          "fields": [
+            "value",
+            "value",
+            "value"
+          ],
+          "ops": [
+            "q1",
+            "median",
+            "q3"
+          ],
+          "as": [
+            "q1",
+            "median",
+            "q3"
+          ]
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "layout",
+      "type": "band",
+      "range": "width",
+      "domain": {
+        "data": "table",
+        "field": "group"
+      }
+    },
+    {
+      "name": "yscale",
+      "type": "linear",
+      "range": "height",
+      "round": true,
+      "domain": {
+        "data": "table",
+        "field": "value"
+      },
+      "domainMin": 40,
+      "domainMax": 100,
+      "zero": false,
+      "nice": true
+    },
+    {
+      "name": "hscale",
+      "type": "linear",
+      "range": [
+        0,
+        {
+          "signal": "plotWidth"
+        }
+      ],
+      "domain": {
+        "data": "density",
+        "field": "density"
+      }
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "data": "table",
+        "field": "group"
+      },
+      "range": {
+        "scheme": "tableau10"
+      }
+    }
+  ],
+  "axes": [
+    {
+      "orient": "bottom",
+      "scale": "layout",
+      "zindex": 1,
+      "title": "Class"
+    },
+    {
+      "orient": "left",
+      "scale": "yscale",
+      "zindex": 1,
+      "title": "Test Score"
+    }
+  ],
+  "marks": [
+    {
+      "type": "group",
+      "from": {
+        "facet": {
+          "data": "density",
+          "name": "violin",
+          "groupby": "group"
+        }
+      },
+      "encode": {
+        "enter": {
+          "xc": {
+            "scale": "layout",
+            "field": "group",
+            "band": 0.5
+          },
+          "width": {
+            "signal": "plotWidth"
+          },
+          "height": {
+            "signal": "height"
+          }
+        }
+      },
+      "data": [
+        {
+          "name": "summary",
+          "source": "stats",
+          "transform": [
+            {
+              "type": "filter",
+              "expr": "datum.group === parent.group"
+            }
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "type": "area",
+          "from": {
+            "data": "violin"
+          },
+          "encode": {
+            "enter": {
+              "fill": {
+                "scale": "color",
+                "field": {
+                  "parent": "group"
+                }
+              },
+              "fillOpacity": {
+                "value": 0.7
+              },
+              "stroke": {
+                "scale": "color",
+                "field": {
+                  "parent": "group"
+                }
+              },
+              "strokeWidth": {
+                "value": 1.5
+              },
+              "tooltip": {
+                "signal": "{'Group': parent.group, 'Score': format(datum.value, '.1f'), 'Density': format(datum.density, '.4f')}"
+              }
+            },
+            "update": {
+              "xc": {
+                "signal": "plotWidth / 2"
+              },
+              "width": {
+                "scale": "hscale",
+                "field": "density"
+              },
+              "y": {
+                "scale": "yscale",
+                "field": "value"
+              }
+            }
+          }
+        },
+        {
+          "type": "rect",
+          "from": {
+            "data": "summary"
+          },
+          "encode": {
+            "enter": {
+              "fill": {
+                "value": "white"
+              },
+              "fillOpacity": {
+                "value": 0.9
+              },
+              "stroke": {
+                "value": "#333"
+              },
+              "strokeWidth": {
+                "value": 1
+              },
+              "width": {
+                "value": 8
+              },
+              "cornerRadius": {
+                "value": 2
+              }
+            },
+            "update": {
+              "xc": {
+                "signal": "plotWidth / 2"
+              },
+              "y": {
+                "scale": "yscale",
+                "field": "q3"
+              },
+              "y2": {
+                "scale": "yscale",
+                "field": "q1"
+              }
+            }
+          }
+        },
+        {
+          "type": "symbol",
+          "from": {
+            "data": "summary"
+          },
+          "encode": {
+            "enter": {
+              "fill": {
+                "value": "#333"
+              },
+              "size": {
+                "value": 30
+              },
+              "shape": {
+                "value": "circle"
+              },
+              "tooltip": {
+                "signal": "{'Median': format(datum.median, '.1f'), 'Q1': format(datum.q1, '.1f'), 'Q3': format(datum.q3, '.1f')}"
+              }
+            },
+            "update": {
+              "x": {
+                "signal": "plotWidth / 2"
+              },
+              "y": {
+                "scale": "yscale",
+                "field": "median"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "title": {
+    "text": "Test Score Distribution by Class",
+    "subtitle": "Violin plots revealing distribution shapes -- wider sections indicate more common values"
+  }
+}

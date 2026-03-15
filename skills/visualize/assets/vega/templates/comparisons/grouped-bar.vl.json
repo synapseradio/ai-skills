@@ -1,0 +1,150 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'category' (nominal), 'region' (nominal grouping variable), and 'sales' (quantitative) fields. Each category has one entry per group.",
+    "customization": [
+      "Replace 'values' array with your data",
+      "Change field names in encoding.x.field, encoding.xOffset.field, encoding.y.field, encoding.color.field, and tooltip fields",
+      "Adjust encoding.y.axis.title and encoding.y.axis.format for your units",
+      "Update encoding.color.legend.title for your grouping variable",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Quarterly Sales by Region",
+  "description": "Grouped bar chart comparing quarterly sales across four regions (North, South, East, West). All regions show growth from Q1 to Q4, with North leading in most quarters.",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "category": "Q1 2024",
+        "region": "North",
+        "sales": 45000
+      },
+      {
+        "category": "Q1 2024",
+        "region": "South",
+        "sales": 38000
+      },
+      {
+        "category": "Q1 2024",
+        "region": "East",
+        "sales": 42000
+      },
+      {
+        "category": "Q2 2024",
+        "region": "North",
+        "sales": 52000
+      },
+      {
+        "category": "Q2 2024",
+        "region": "South",
+        "sales": 41000
+      },
+      {
+        "category": "Q2 2024",
+        "region": "East",
+        "sales": 48000
+      },
+      {
+        "category": "Q3 2024",
+        "region": "North",
+        "sales": 48000
+      },
+      {
+        "category": "Q3 2024",
+        "region": "South",
+        "sales": 44000
+      },
+      {
+        "category": "Q3 2024",
+        "region": "East",
+        "sales": 51000
+      },
+      {
+        "category": "Q4 2024",
+        "region": "North",
+        "sales": 61000
+      },
+      {
+        "category": "Q4 2024",
+        "region": "South",
+        "sales": 49000
+      },
+      {
+        "category": "Q4 2024",
+        "region": "East",
+        "sales": 55000
+      }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "tooltip": true,
+    "cornerRadiusTopLeft": 2,
+    "cornerRadiusTopRight": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "category",
+      "type": "nominal",
+      "axis": {
+        "title": null,
+        "labelAngle": 0
+      }
+    },
+    "xOffset": {
+      "field": "region",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "sales",
+      "type": "quantitative",
+      "axis": {
+        "title": "Sales ($)",
+        "format": "$,.0f"
+      },
+      "scale": {
+        "zero": true
+      }
+    },
+    "color": {
+      "field": "region",
+      "type": "nominal",
+      "scale": {
+        "scheme": "tableau10"
+      },
+      "legend": {
+        "title": "Region",
+        "orient": "top"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "category",
+        "type": "nominal",
+        "title": "Quarter"
+      },
+      {
+        "field": "region",
+        "type": "nominal",
+        "title": "Region"
+      },
+      {
+        "field": "sales",
+        "type": "quantitative",
+        "title": "Sales ($)",
+        "format": "$,.0f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}

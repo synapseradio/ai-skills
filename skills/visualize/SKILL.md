@@ -1,29 +1,29 @@
 ---
 name: visualize
 description: >
-  Transform data into browser-runnable D3.js visualizations through principled
+  Transform data into browser-runnable Vega-Lite and Vega visualizations through principled
   intent framing, encoding, composition, narration, accessibility, interaction, and refinement.
   This skill should be used when the user asks to "create a visualization",
   "make a chart", "graph this data", "show this visually", "visualize this",
   "encode data", "design a layout", "annotate my chart", "make this accessible",
   "add interactivity", or "refine this visualization". Also triggers on broader
-  queries: "data viz help", "chart question", "D3.js", "how should I display this",
-  "best chart type for", "what visualization", "plot this", "diagram this data".
+  queries: "data viz help", "chart question", "vega-lite", "vega", "D3.js",
+  "how should I display this", "best chart type for", "what visualization",
+  "plot this", "diagram this data".
 context: fork
 user-invocable: true
-disable-model-invocation: true
 ---
 
 # Visualize
 
-Transform data into browser-runnable D3.js visualizations that communicate insight effectively. Proceed through six phases — from establishing intent to delivering a polished, accessible artifact.
+Transform data into browser-runnable visualizations using Vega-Lite for standard charts, full Vega for complex charts (force layouts, treemaps, geographic projections), and D3 for sankey diagrams. Proceed through six phases — from establishing intent to delivering a polished, accessible artifact.
 
 ## Phases
 
 | Phase | Purpose | Checkpoint | Reference |
 |-------|---------|------------|-----------|
 | 1. Context | Establish argument, viewer, cognitive mode, constraints | — | `references/phase-context.md` |
-| 2. Research | Assess data, plan encoding, select template | User review | `references/phase-research.md` |
+| 2. Research | Assess data, plan encoding, select engine and template | User review | `references/phase-research.md` |
 | 3. Implement | Build across encode, compose, narrate, interact, access | — | `references/phase-implement.md` |
 | 4. Refine | Audit structural integrity, perception, clarity | — | `references/phase-refine.md` |
 | 5. Present | Output final HTML, collect feedback | User review | `references/phase-present.md` |
@@ -69,19 +69,16 @@ Example: "make this chart accessible" → Phase 3: access-audit. Verify draft HT
 
 ## Anti-Patterns
 
-| Never Do | Because | Instead |
-|----------|---------|---------|
-| Rainbow or jet colormaps | Perceptually non-uniform — distorts magnitude, creates false boundaries | Sequential single-hue or diverging palette (viridis, Tableau10) |
-| 3D charts for 2D data | Occlusion hides data, perspective distorts area/length | 2D equivalent with opacity or faceting |
-| Pie charts with >7 slices or small differences | Angle comparison ranks low on Cleveland-McGill | Bar chart (length encodes more accurately) |
-| Truncated y-axis on bar charts | Bar length encodes magnitude from zero — truncation breaks that | Start at zero, or use dot plot |
-| Color as sole differentiator | ~8% of males have color vision deficiency | Pair with shape, pattern, or direct label |
-| Dual y-axes without labeling each series | Readers misattribute correlation between unrelated scales | Two aligned charts sharing x-axis |
-| Decorative chartjunk | Violates data-ink ratio — non-data pixels compete for attention | Strip to data-ink; whitespace for separation |
-| Default fonts below 11px on dense charts | Legibility collapses; labels become decoration | Minimum 12px; rotate or abbreviate if cramped |
-| Treating accessibility as final-pass check | Encoding dependencies go unnoticed until too late | Weave color access into encode, semantic SVG into compose, text alternatives into narrate |
+| Never Do | Instead |
+|----------|---------|
+| Rainbow colormaps | Sequential single-hue or diverging palette (viridis, Tableau10) |
+| 3D charts for 2D data | 2D equivalent with opacity or faceting |
+| Pie charts with >7 slices | Bar chart (length encodes more accurately) |
+| Truncated y-axis on bar charts | Start at zero, or use dot plot |
+| Color as sole differentiator | Pair with shape, pattern, or direct label |
+| Full Vega when Vega-Lite suffices | Check `engine-selection.md` — VL first, Vega only when transforms require it |
 
-For expanded analysis, load `references/common-pitfalls.md`.
+For the full list with rationale, load `references/common-pitfalls.md`.
 
 ## Workflow Tracking
 
@@ -89,9 +86,9 @@ Create a task for each phase and update status as each completes. Use dependency
 
 ```
 [Phase 1] Context — define argument and viewer for <description>
-[Phase 2] Research — assess data and plan encoding
-[Phase 2: checkpoint] User review of encoding plan
-[Phase 3: encode] Implement D3 scales and marks (+ color access)
+[Phase 2] Research — assess data, select engine, plan encoding
+[Phase 2: checkpoint] User review of engine choice and encoding plan
+[Phase 3: encode] Implement VL/Vega spec or D3 scales and marks (+ color access)
 [Phase 3: compose] Arrange layout with hierarchy (+ semantic SVG)
 [Phase 3: narrate] Add annotations and storytelling        ← parallel with next
 [Phase 3: interact] Add tooltip and filter controls        ← parallel with above
@@ -106,46 +103,19 @@ Create a task for each phase and update status as each completes. Use dependency
 
 ## Browser-Runnable Output
 
-All visualizations produce standalone HTML with ESM imports:
+All visualizations produce standalone HTML files that open directly in a browser with no build step.
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Visualization Title</title>
-  <style>/* Styles embedded for portability */</style>
-</head>
-<body>
-  <div id="container"></div>
-  <script type="module">
-    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-    const data = [...]; // Data embedded for standalone operation
-  </script>
-</body>
-</html>
-```
+**Vega/VL charts** (18 templates): Copy `assets/vega/wrapper.html`, inject the JSON spec, fill in frontmatter and title. The wrapper loads Vega stack from CDN, renders via `vegaEmbed`, and auto-generates an accessibility data table. See `references/base-vega-wrapper.md`.
+
+**D3 charts** (sankey only): Generate standalone HTML with ESM imports from CDN. See `references/base-template.md`.
 
 ### Persisting Visualizations
 
-**With CLI** (requires Python 3):
-
-Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`, then register with the management CLI:
-
-```
-python3 scripts/visualizer.py create --file <path>
-```
-
-This copies the file to organized storage at `~/.visualizer-skill/visualizations/` grouped by chart type. See `references/base-template.md` for required frontmatter fields.
-
-**Without CLI** (one-off visualizations):
-
-Save directly to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. Add HTML frontmatter (see `references/base-template.md`) for future discoverability. The visualization is fully functional without CLI registration.
+Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. If Python 3 is available, register with `python3 scripts/visualizer.py create --file <path>` for organized storage. See `references/phase-present.md` for the full persist workflow.
 
 ## Templates
 
-Use templates from `assets/d3/templates/` as starting points. 19 templates organized by data relationship — see `references/template-selection.md` for the decision tree. For chart types not covered (radar, chord diagram, parallel coordinates, etc.), follow the Custom Template Workflow below.
+12 Vega-Lite specs + 6 Vega specs + 1 D3 template across 8 categories. Use `references/engine-selection.md` to choose the engine, then select the template from `assets/vega/templates/` (VL/Vega) or `assets/d3/templates/` (sankey only). See `references/template-selection.md` for the full decision tree. For chart types not covered (radar, chord diagram, parallel coordinates, etc.), follow the Custom Template Workflow below.
 
 ## Custom Template Workflow
 
@@ -153,21 +123,21 @@ When the user needs a visualization type not covered by the 19 built-in template
 
 ### 1. Confirm No Existing Template
 
-Check `assets/d3/templates/` — if a template exists for the requested chart type, use it instead.
+Check `assets/vega/templates/` and `assets/d3/templates/` — if a template exists for the requested chart type, use it instead.
 
 ### 2. Craft the Template
 
-Build a browser-runnable HTML template following `references/base-template.md` structure. The template must meet:
+Prefer Vega-Lite or Vega specs when possible. Use D3 HTML only for chart types neither can express (like sankey). Follow `references/base-vega-wrapper.md` (Vega/VL) or `references/base-template.md` (D3).
 
 | Requirement | Standard |
 |-------------|----------|
 | **Correctness** | Renders when opened directly in a browser — no build step, no server |
-| **Completeness** | All dependencies via CDN (ESM), sample data embedded, styles inlined |
-| **Customizability** | Comments explain where and how to modify for different data |
-| **Accessibility** | `role="img"` on SVG, title/description elements, Tableau10 colors, 4.5:1 contrast |
-| **Responsiveness** | viewBox-based scaling (not fixed width/height), mobile-friendly touch targets |
+| **Completeness** | All dependencies via CDN, sample data embedded, styles inlined |
+| **Customizability** | `_metadata` block documents data format and customization points (VL/Vega) or inline comments (D3) |
+| **Accessibility** | SVG title/description, Tableau10 colors, 4.5:1 contrast, data table fallback |
+| **Responsiveness** | `width: "container"` (VL) or viewBox-based scaling (D3) |
 
-Use D3 patterns from `references/chart-patterns.md`. Use `.join()` for data binding, D3 margin convention, ESM imports.
+For VL/Vega specs, use patterns from `references/vega-lite-patterns.md` and `references/vega-patterns.md`. For D3, use patterns from `references/chart-patterns.md`.
 
 ### 3. Quality Checklist
 
@@ -176,26 +146,15 @@ Before completing, verify:
 - [ ] Opens and renders in browser without errors
 - [ ] Sample data produces visible, meaningful visualization
 - [ ] Tooltip appears on hover with correct data
-- [ ] SVG has `role="img"`, title, and description elements
+- [ ] SVG has title and description elements
 - [ ] Color scheme is colorblind-safe (Tableau10 default)
-- [ ] Uses viewBox for responsiveness
-- [ ] Uses `.join()` for data binding
-- [ ] DATA section documents expected format
+- [ ] Responsive sizing (`width: "container"` for VL, viewBox for D3)
+- [ ] `_metadata` block documents data format (VL/Vega) or DATA section (D3)
+- [ ] Data table fallback renders in `<details>` block
 
 ## CLI Workflows
 
-The visualization management CLI (`scripts/visualizer.py`) is available when Python 3 is installed. These natural language patterns trigger CLI operations:
-
-| User Says | Action |
-|-----------|--------|
-| "save this visualization", "persist this chart", "store this" | `python3 scripts/visualizer.py create --file <path>` |
-| "show my visualizations", "list my charts", "what have I made" | `python3 scripts/visualizer.py list` |
-| "show me the bar charts", "list scatter plots" | `python3 scripts/visualizer.py list --type <chart-type>` |
-| "find my sales visualizations", "search for revenue" | `python3 scripts/visualizer.py search <term>` |
-| "show details for this visualization", "info on this chart" | `python3 scripts/visualizer.py show <id>` |
-| "delete this visualization", "remove this chart" | `python3 scripts/visualizer.py delete <id> --force` |
-
-**Before invoking any CLI command**: Check if Python 3 is available by running `python3 --version`. If unavailable, inform the user that the CLI requires Python 3 and offer to save the file directly instead.
+The visualization management CLI (`scripts/visualizer.py`) requires Python 3. Check availability with `python3 --version` before use. Commands: `create --file <path>`, `list [--type <chart-type>]`, `search <term>`, `show <id>`, `delete <id> --force`. See `references/phase-present.md` for natural language routing.
 
 ## Plan-Aware Execution
 
@@ -210,46 +169,30 @@ When producing a plan, include: exact data file paths, Frame decisions verbatim,
 
 ## References
 
-**Phase workflow:**
+**Mode methodology** (loaded during Phase 3 implementation):
 
-- **`references/phase-context.md`** — Argument, viewer, cognitive mode, constraints
-- **`references/phase-research.md`** — Data assessment, encoding plan, template selection, user checkpoint
-- **`references/phase-implement.md`** — Build orchestration across encode, compose, narrate, interact, access
-- **`references/phase-refine.md`** — Structural, perceptual, and clarity audits
-- **`references/phase-present.md`** — Output, user review, persist, complete
-
-**Mode methodology:**
-
-- **`references/mode-encode.md`** — Cleveland-McGill rankings, channel selection, data type mapping
-- **`references/mode-compose.md`** — Gestalt principles, visual hierarchy, whitespace, grid systems
-- **`references/mode-narrate.md`** — Segel-Heer framework, annotation patterns, storytelling
-- **`references/mode-access.md`** — WCAG compliance, color accessibility, ARIA, keyboard navigation
-- **`references/mode-interact.md`** — Brushing, linking, transitions, responsive adaptation
-- **`references/mode-refine.md`** — Iteration workflow, common pitfalls, data-ink ratio
-
-**Theory and perceptual science:**
-
-- **`references/cleveland-mcgill.md`** — Perceptual accuracy rankings for visual channels
-- **`references/gestalt.md`** — Gestalt grouping principles for layout
-- **`references/segel-heer.md`** — Narrative visualization framework
-- **`references/hierarchy.md`** — Visual hierarchy and attention flow
-- **`references/channel-guide.md`** — Visual channel reference by data type
-- **`references/color-accessibility.md`** — Color vision deficiency simulation and safe palettes
-- **`references/common-pitfalls.md`** — Frequent visualization mistakes and corrections
-- **`references/assistive-tech.md`** — Screen reader, keyboard, and assistive technology patterns
+| Mode | Reference | Purpose |
+|------|-----------|---------|
+| Encode | `references/mode-encode.md` | Cleveland-McGill rankings, channel selection, data type mapping |
+| Compose | `references/mode-compose.md` | Gestalt principles, visual hierarchy, layout |
+| Narrate | `references/mode-narrate.md` | Segel-Heer framework, annotation patterns |
+| Access | `references/mode-access.md` | WCAG compliance, color accessibility, ARIA |
+| Interact | `references/mode-interact.md` | Selections, brushing, linking, transitions |
+| Refine | `references/mode-refine.md` | Iteration workflow, common pitfalls |
 
 **Implementation patterns:**
 
-- **`references/d3-patterns.md`** — Browser-runnable templates, ESM imports, responsive patterns
-- **`references/chart-patterns.md`** — D3 implementation patterns by chart type
-- **`references/plot-patterns.md`** — Observable Plot for rapid prototyping
-- **`references/network-patterns.md`** — Force-directed graphs, edge visibility, interaction
-- **`references/canvas-patterns.md`** — Canvas rendering for large datasets
-- **`references/annotation-patterns.md`** — D3 annotation library patterns and positioning
+| Topic | Reference |
+|-------|-----------|
+| Vega-Lite specs | `references/vega-lite-patterns.md` |
+| Full Vega specs | `references/vega-patterns.md` |
+| Engine selection | `references/engine-selection.md` |
+| Template selection | `references/template-selection.md` |
+| VL/Vega HTML wrapper | `references/base-vega-wrapper.md` |
+| D3 HTML skeleton | `references/base-template.md` |
+| D3 patterns (sankey) | `references/d3-patterns.md`, `references/chart-patterns.md` |
+| Data transforms | `references/data-preparation.md` |
+| Networks | `references/network-patterns.md` |
+| Large datasets | `references/canvas-patterns.md` |
 
-**Workflow:**
-
-- **`references/base-template.md`** — HTML skeleton with frontmatter, ESM imports
-- **`references/template-selection.md`** — Template decision tree by data shape and question type
-- **`references/data-preparation.md`** — Pivot, aggregate, derive, and clean data
-- **`references/iteration-workflow.md`** — Systematic refinement loop and critique framework
+**Theory** (cross-referenced from mode docs): `cleveland-mcgill.md`, `gestalt.md`, `segel-heer.md`, `hierarchy.md`, `channel-guide.md`, `color-accessibility.md`, `common-pitfalls.md`, `assistive-tech.md`, `annotation-patterns.md`, `iteration-workflow.md`

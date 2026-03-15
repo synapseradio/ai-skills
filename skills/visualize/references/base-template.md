@@ -1,6 +1,8 @@
 # Base HTML Template
 
-Browser-runnable HTML structure for all visualization templates. Copy and customize for each chart type. Verify D3.js CDN import URLs and API usage against the current D3 documentation before deploying.
+> **Scope:** This reference covers the D3 HTML template structure used by the sankey template and template-crafter. For the Vega/VL wrapper pattern, see `base-vega-wrapper.md`.
+
+Browser-runnable HTML structure for D3 visualization templates. Copy and customize for custom D3 chart types. Verify D3.js CDN import URLs and API usage against the current D3 documentation before deploying.
 
 ## Frontmatter Metadata
 
@@ -201,6 +203,10 @@ created: [ISO timestamp]
 - **D3 margin convention**: `margin`, `width`, `height` constants with transform
 - **`.join()` for data binding**: Not `.append()` in loops
 - **Colorblind-safe defaults**: `d3.schemeTableau10` or similar
+
+## See Also
+
+- **`base-vega-wrapper.md`** — Vega/VL HTML wrapper template used for all standard chart types (bar, line, scatter, pie, histogram, etc.). Most new visualizations should use the Vega-Lite wrapper instead of this D3 base template.
 
 ## Sources
 

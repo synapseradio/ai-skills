@@ -89,7 +89,35 @@ Test contrast using the relative luminance formula or automated tools. Light gra
 
 Run your visualization through simulation tools before shipping. If data series become indistinguishable, add non-color differentiators.
 
-### 3. Build Semantic SVG Structure
+### 3. Vega and Vega-Lite Accessibility (built-in)
+
+For VL/Vega charts (18 of 19 templates), several accessibility features are automatic. Understand what you get for free before adding manual layers.
+
+**Built-in ARIA support**: Vega enables ARIA attributes on marks by default (`config.aria: true`). No configuration needed.
+
+**Title and description in spec**: Top-level `title` and `description` properties generate SVG `<title>` and `<desc>` elements for screen readers. Write descriptions that convey the insight, not just the chart type:
+
+```json
+{
+  "title": "Monthly Revenue by Region",
+  "description": "Bar chart comparing Q1-Q4 revenue. Northeast leads with $4.8M total."
+}
+```
+
+**Wrapper data table fallback**: The visualization wrapper (`assets/vega/wrapper.html`) auto-generates an accessible data table inside `<details>` from the spec's data. This is the primary accessible path — always ensure it's present and populated.
+
+**SVG renderer preserves DOM accessibility**: Always use SVG renderer (the default), not Canvas. SVG preserves DOM structure for assistive technology traversal.
+
+**Known gaps** (document for stakeholders):
+
+- No keyboard navigation of individual marks — marks are not tab-focusable
+- Tooltips are hover-only — no keyboard activation path
+- No `role="list"` / `role="listitem"` on data marks — screen readers cannot enumerate marks as a collection
+- The data table fallback is the primary accessible path to data for screen reader users
+
+These gaps mean the auto-generated data table is critical. For D3-based templates (sankey), manual ARIA annotation is required — see sections below.
+
+### 4. Build Semantic SVG Structure (D3 and custom templates)
 
 SVG provides rich accessibility hooks when structured properly. Screen readers parse SVG elements and ARIA attributes to convey structure and meaning.
 
@@ -151,7 +179,7 @@ Key ARIA properties for SVG:
 - `aria-describedby`: Reference to element(s) providing description
 - `aria-hidden="true"`: Hide decorative or redundant elements
 
-### 4. Implement Keyboard Navigation
+### 5. Implement Keyboard Navigation (D3 and custom templates)
 
 All interactive elements must be operable via keyboard alone (WCAG SC 2.1.1).
 
@@ -213,7 +241,7 @@ selection
   });
 ```
 
-### 5. Support Screen Readers
+### 6. Support Screen Readers
 
 Screen readers convert visual information to speech or braille. Visualizations need text alternatives that convey meaning, not just structure.
 
@@ -273,7 +301,7 @@ Choose announcement priority:
 - `aria-live="polite"`: Wait for pause in user activity (most updates)
 - `aria-live="assertive"`: Interrupt immediately (critical alerts only)
 
-### 6. Handle Responsive and Zoom Requirements
+### 7. Handle Responsive and Zoom Requirements
 
 Users with low vision may zoom up to 400% (WCAG SC 1.4.10). Visualizations must remain functional.
 
@@ -299,7 +327,7 @@ Visualizations should adapt:
 - Provide touch-friendly target sizes (minimum 44x44px) for mobile
 - Maintain color and contrast at all sizes
 
-### 7. Network Visualization Accessibility
+### 8. Network Visualization Accessibility
 
 Force-directed graphs and network visualizations present unique accessibility challenges. The relational nature of the data—nodes connected by edges—requires specific patterns.
 
@@ -405,7 +433,7 @@ function highlightConnected(node) {
 
 See `network-patterns.md` for complete network accessibility patterns.
 
-### 8. Integrate Testing Throughout Development
+### 9. Integrate Testing Throughout Development
 
 Accessibility requires verification, not assumption.
 
@@ -444,6 +472,7 @@ For deeper guidance on specific accessibility topics:
 - WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
 - WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
 - SVG Accessibility API Mappings — https://www.w3.org/TR/svg-aam-1.0/
+- Vega Accessibility documentation — https://vega.github.io/vega/docs/accessibility/
 - Okabe, M. and Ito, K. (2002). Color Universal Design — https://jfly.uni-koeln.de/color/
 - ColorBrewer 2.0 — https://colorbrewer2.org/
 

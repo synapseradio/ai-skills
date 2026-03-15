@@ -1,0 +1,256 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with a single 'value' (quantitative) field. Each object is one observation.",
+    "customization": [
+      "Replace 'values' array with your observations",
+      "Change field name in encoding.x.field",
+      "Adjust encoding.x.bin (set to {maxbins: N} for control over bin count)",
+      "Adjust encoding.x.title and encoding.y.title for your variable and frequency label",
+      "Change mark.color to customize the bar fill",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Distribution of Test Scores",
+  "description": "Histogram showing the frequency distribution of test scores. Approximately normal distribution centered around 77, ranging from 45 to 98.",
+  "width": "container",
+  "height": 300,
+  "data": {
+    "values": [
+      {
+        "value": 72
+      },
+      {
+        "value": 74
+      },
+      {
+        "value": 75
+      },
+      {
+        "value": 75
+      },
+      {
+        "value": 76
+      },
+      {
+        "value": 77
+      },
+      {
+        "value": 77
+      },
+      {
+        "value": 78
+      },
+      {
+        "value": 78
+      },
+      {
+        "value": 78
+      },
+      {
+        "value": 79
+      },
+      {
+        "value": 79
+      },
+      {
+        "value": 80
+      },
+      {
+        "value": 80
+      },
+      {
+        "value": 81
+      },
+      {
+        "value": 82
+      },
+      {
+        "value": 83
+      },
+      {
+        "value": 84
+      },
+      {
+        "value": 85
+      },
+      {
+        "value": 85
+      },
+      {
+        "value": 86
+      },
+      {
+        "value": 87
+      },
+      {
+        "value": 88
+      },
+      {
+        "value": 89
+      },
+      {
+        "value": 90
+      },
+      {
+        "value": 91
+      },
+      {
+        "value": 92
+      },
+      {
+        "value": 94
+      },
+      {
+        "value": 96
+      },
+      {
+        "value": 98
+      },
+      {
+        "value": 45
+      },
+      {
+        "value": 52
+      },
+      {
+        "value": 55
+      },
+      {
+        "value": 58
+      },
+      {
+        "value": 60
+      },
+      {
+        "value": 62
+      },
+      {
+        "value": 63
+      },
+      {
+        "value": 65
+      },
+      {
+        "value": 66
+      },
+      {
+        "value": 67
+      },
+      {
+        "value": 68
+      },
+      {
+        "value": 69
+      },
+      {
+        "value": 70
+      },
+      {
+        "value": 71
+      },
+      {
+        "value": 73
+      },
+      {
+        "value": 74
+      },
+      {
+        "value": 75
+      },
+      {
+        "value": 76
+      },
+      {
+        "value": 77
+      },
+      {
+        "value": 78
+      },
+      {
+        "value": 79
+      },
+      {
+        "value": 80
+      },
+      {
+        "value": 81
+      },
+      {
+        "value": 82
+      },
+      {
+        "value": 73
+      },
+      {
+        "value": 74
+      },
+      {
+        "value": 76
+      },
+      {
+        "value": 77
+      },
+      {
+        "value": 78
+      },
+      {
+        "value": 79
+      },
+      {
+        "value": 80
+      },
+      {
+        "value": 81
+      },
+      {
+        "value": 72
+      },
+      {
+        "value": 75
+      },
+      {
+        "value": 77
+      },
+      {
+        "value": 78
+      },
+      {
+        "value": 79
+      },
+      {
+        "value": 80
+      },
+      {
+        "value": 82
+      },
+      {
+        "value": 84
+      },
+      {
+        "value": 86
+      },
+      {
+        "value": 88
+      }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "tooltip": true,
+    "color": "#4e79a7"
+  },
+  "encoding": {
+    "x": {
+      "field": "value",
+      "type": "quantitative",
+      "bin": true,
+      "title": "Test Score"
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "title": "Frequency"
+    }
+  }
+}

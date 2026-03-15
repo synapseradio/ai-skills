@@ -1,0 +1,198 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'label' (nominal identifier), 'x' (quantitative), 'y' (quantitative), 'size' (quantitative for bubble area), and 'category' (nominal for color) fields.",
+    "customization": [
+      "Replace 'values' array with your data",
+      "Change field names in encoding.x.field, encoding.y.field, encoding.size.field, encoding.color.field, and tooltip fields",
+      "Adjust encoding.x.title, encoding.y.title, encoding.size.title, and encoding.color.title",
+      "Adjust encoding.size.scale.range to control min/max bubble sizes",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Technology Companies: Revenue, Market Cap, and Workforce",
+  "description": "Bubble chart showing 15 technology companies. Position encodes revenue (x) and market cap (y). Bubble area encodes employee count with perceptually-corrected sqrt scaling. Strong positive correlation between revenue and market cap. Amazon is a notable outlier with the largest workforce.",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "label": "Apple",
+        "x": 383,
+        "y": 2800,
+        "size": 164,
+        "category": "Consumer Electronics"
+      },
+      {
+        "label": "Microsoft",
+        "x": 211,
+        "y": 2500,
+        "size": 221,
+        "category": "Software"
+      },
+      {
+        "label": "Alphabet",
+        "x": 282,
+        "y": 1700,
+        "size": 182,
+        "category": "Internet Services"
+      },
+      {
+        "label": "Amazon",
+        "x": 574,
+        "y": 1500,
+        "size": 1540,
+        "category": "E-commerce"
+      },
+      {
+        "label": "Meta",
+        "x": 117,
+        "y": 850,
+        "size": 77,
+        "category": "Internet Services"
+      },
+      {
+        "label": "NVIDIA",
+        "x": 61,
+        "y": 1200,
+        "size": 26,
+        "category": "Semiconductors"
+      },
+      {
+        "label": "Tesla",
+        "x": 96,
+        "y": 650,
+        "size": 128,
+        "category": "Automotive"
+      },
+      {
+        "label": "Netflix",
+        "x": 32,
+        "y": 195,
+        "size": 13,
+        "category": "Entertainment"
+      },
+      {
+        "label": "Salesforce",
+        "x": 31,
+        "y": 215,
+        "size": 73,
+        "category": "Software"
+      },
+      {
+        "label": "Adobe",
+        "x": 18,
+        "y": 240,
+        "size": 29,
+        "category": "Software"
+      },
+      {
+        "label": "Intel",
+        "x": 54,
+        "y": 180,
+        "size": 125,
+        "category": "Semiconductors"
+      },
+      {
+        "label": "IBM",
+        "x": 60,
+        "y": 155,
+        "size": 282,
+        "category": "Software"
+      },
+      {
+        "label": "Oracle",
+        "x": 50,
+        "y": 320,
+        "size": 143,
+        "category": "Software"
+      },
+      {
+        "label": "Cisco",
+        "x": 57,
+        "y": 210,
+        "size": 83,
+        "category": "Networking"
+      },
+      {
+        "label": "Uber",
+        "x": 32,
+        "y": 125,
+        "size": 32,
+        "category": "Transportation"
+      }
+    ]
+  },
+  "mark": {
+    "type": "point",
+    "filled": true,
+    "tooltip": true,
+    "opacity": 0.7,
+    "stroke": "#fff",
+    "strokeWidth": 1
+  },
+  "encoding": {
+    "x": {
+      "field": "x",
+      "type": "quantitative",
+      "title": "Revenue ($ Billions)",
+      "scale": {
+        "zero": false
+      }
+    },
+    "y": {
+      "field": "y",
+      "type": "quantitative",
+      "title": "Market Cap ($ Billions)",
+      "scale": {
+        "zero": false
+      }
+    },
+    "size": {
+      "field": "size",
+      "type": "quantitative",
+      "title": "Employees (Thousands)",
+      "scale": {
+        "range": [
+          50,
+          3000
+        ]
+      }
+    },
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "title": "Sector",
+      "scale": {
+        "scheme": "tableau10"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "label",
+        "type": "nominal",
+        "title": "Company"
+      },
+      {
+        "field": "x",
+        "type": "quantitative",
+        "title": "Revenue ($B)"
+      },
+      {
+        "field": "y",
+        "type": "quantitative",
+        "title": "Market Cap ($B)"
+      },
+      {
+        "field": "size",
+        "type": "quantitative",
+        "title": "Employees (K)"
+      },
+      {
+        "field": "category",
+        "type": "nominal",
+        "title": "Sector"
+      }
+    ]
+  }
+}

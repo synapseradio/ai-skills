@@ -1,0 +1,382 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'value' (quantitative, null for branch nodes) fields. Two-level hierarchy: root -> categories -> leaf items.",
+    "customization": [
+      "Replace 'values' array in data[0] with your hierarchical data",
+      "Update scales[0].domain with your top-level category names",
+      "Update scales[0].range with colors for each top-level category",
+      "Adjust treemap transform parameters: 'method', 'paddingInner', 'paddingOuter', 'paddingTop'",
+      "Modify title.text and description for your context"
+    ],
+    "notes": "Leaf nodes must have numeric 'value'; branch nodes should have null 'value'. The squarify method with golden-ratio produces visually balanced rectangles."
+  },
+  "description": "Treemap showing file system storage usage across Documents, Media, Applications, System, and Downloads categories. Media dominates with Photos and Videos as largest items.",
+  "width": 700,
+  "height": 450,
+  "padding": 5,
+  "autosize": "none",
+  "title": {
+    "text": "File System Storage by Category",
+    "anchor": "start",
+    "fontSize": 16
+  },
+  "data": [
+    {
+      "name": "tree",
+      "values": [
+        {
+          "id": "Storage",
+          "parent": null,
+          "value": null
+        },
+        {
+          "id": "Documents",
+          "parent": "Storage",
+          "value": null
+        },
+        {
+          "id": "Work",
+          "parent": "Documents",
+          "value": 2400
+        },
+        {
+          "id": "Personal",
+          "parent": "Documents",
+          "value": 1800
+        },
+        {
+          "id": "Archive",
+          "parent": "Documents",
+          "value": 3200
+        },
+        {
+          "id": "Media",
+          "parent": "Storage",
+          "value": null
+        },
+        {
+          "id": "Photos",
+          "parent": "Media",
+          "value": 8500
+        },
+        {
+          "id": "Videos",
+          "parent": "Media",
+          "value": 12000
+        },
+        {
+          "id": "Music",
+          "parent": "Media",
+          "value": 4200
+        },
+        {
+          "id": "Applications",
+          "parent": "Storage",
+          "value": null
+        },
+        {
+          "id": "Productivity",
+          "parent": "Applications",
+          "value": 3800
+        },
+        {
+          "id": "Development",
+          "parent": "Applications",
+          "value": 6500
+        },
+        {
+          "id": "Games",
+          "parent": "Applications",
+          "value": 9200
+        },
+        {
+          "id": "Utilities",
+          "parent": "Applications",
+          "value": 1200
+        },
+        {
+          "id": "System",
+          "parent": "Storage",
+          "value": null
+        },
+        {
+          "id": "OS Files",
+          "parent": "System",
+          "value": 5400
+        },
+        {
+          "id": "Cache",
+          "parent": "System",
+          "value": 2100
+        },
+        {
+          "id": "Logs",
+          "parent": "System",
+          "value": 800
+        },
+        {
+          "id": "Downloads",
+          "parent": "Storage",
+          "value": null
+        },
+        {
+          "id": "Recent",
+          "parent": "Downloads",
+          "value": 1500
+        },
+        {
+          "id": "Pending",
+          "parent": "Downloads",
+          "value": 600
+        }
+      ],
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "treemap",
+          "field": "value",
+          "method": "squarify",
+          "ratio": 1.6180339887,
+          "paddingInner": 2,
+          "paddingOuter": 4,
+          "paddingTop": 20,
+          "round": true,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!datum.children"
+        }
+      ]
+    },
+    {
+      "name": "branches",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.children && datum.depth === 1"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": [
+        "Documents",
+        "Media",
+        "Applications",
+        "System",
+        "Downloads"
+      ],
+      "range": [
+        "#4e79a7",
+        "#f28e2c",
+        "#e15759",
+        "#76b7b2",
+        "#59a14f"
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {
+        "data": "branches"
+      },
+      "encode": {
+        "enter": {
+          "tooltip": {
+            "signal": "{ 'Category': datum.id, 'Total (MB)': datum.value }"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "id"
+          },
+          "fillOpacity": {
+            "value": 0.25
+          },
+          "stroke": {
+            "scale": "color",
+            "field": "id"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          },
+          "cornerRadius": {
+            "value": 3
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "branches"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 4"
+          },
+          "y": {
+            "signal": "datum.y0 + 14"
+          },
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 60 ? datum.id : ''"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "id"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "enter": {
+          "tooltip": {
+            "signal": "{ 'Name': datum.id, 'Category': datum.parent, 'Size (MB)': datum.value }"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "signal": "scale('color', datum.parent)"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 1
+          },
+          "cornerRadius": {
+            "value": 2
+          }
+        },
+        "hover": {
+          "fillOpacity": {
+            "value": 0.8
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 4"
+          },
+          "y": {
+            "signal": "datum.y0 + 14"
+          },
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 40 && (datum.y1 - datum.y0) > 25 ? datum.id : ''"
+          },
+          "fill": {
+            "value": "white"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 4"
+          },
+          "y": {
+            "signal": "datum.y0 + 27"
+          },
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 40 && (datum.y1 - datum.y0) > 40 ? datum.value + ' MB' : ''"
+          },
+          "fill": {
+            "value": "rgba(255,255,255,0.8)"
+          },
+          "fontSize": {
+            "value": 10
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        }
+      }
+    }
+  ]
+}

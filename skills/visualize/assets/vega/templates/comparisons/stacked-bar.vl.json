@@ -1,0 +1,151 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'category' (nominal), 'series' (nominal stack segment), and 'revenue' (quantitative) fields. Each category has one entry per series.",
+    "customization": [
+      "Replace 'values' array with your data",
+      "Change field names in encoding.x.field, encoding.y.field, encoding.color.field, encoding.order.field, and tooltip fields",
+      "Adjust encoding.y.axis.title and encoding.y.axis.format for your units",
+      "Update encoding.color.legend.title for your series variable",
+      "Change encoding.y.stack from 'zero' to 'normalize' for 100% stacked bars",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Quarterly Revenue by Product Line",
+  "description": "Stacked bar chart showing quarterly revenue composition across Hardware, Software, and Services. Total revenue grows from $85,000 in Q1 to $121,000 in Q4, with all product lines contributing to growth.",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "category": "Q1 2024",
+        "series": "Hardware",
+        "revenue": 42000
+      },
+      {
+        "category": "Q1 2024",
+        "series": "Software",
+        "revenue": 28000
+      },
+      {
+        "category": "Q1 2024",
+        "series": "Services",
+        "revenue": 15000
+      },
+      {
+        "category": "Q2 2024",
+        "series": "Hardware",
+        "revenue": 38000
+      },
+      {
+        "category": "Q2 2024",
+        "series": "Software",
+        "revenue": 32000
+      },
+      {
+        "category": "Q2 2024",
+        "series": "Services",
+        "revenue": 18000
+      },
+      {
+        "category": "Q3 2024",
+        "series": "Hardware",
+        "revenue": 45000
+      },
+      {
+        "category": "Q3 2024",
+        "series": "Software",
+        "revenue": 35000
+      },
+      {
+        "category": "Q3 2024",
+        "series": "Services",
+        "revenue": 22000
+      },
+      {
+        "category": "Q4 2024",
+        "series": "Hardware",
+        "revenue": 52000
+      },
+      {
+        "category": "Q4 2024",
+        "series": "Software",
+        "revenue": 41000
+      },
+      {
+        "category": "Q4 2024",
+        "series": "Services",
+        "revenue": 28000
+      }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "tooltip": true
+  },
+  "encoding": {
+    "x": {
+      "field": "category",
+      "type": "nominal",
+      "axis": {
+        "title": null,
+        "labelAngle": -45,
+        "labelAlign": "right"
+      }
+    },
+    "y": {
+      "field": "revenue",
+      "type": "quantitative",
+      "axis": {
+        "title": "Revenue ($)",
+        "format": "$,.0f"
+      },
+      "scale": {
+        "zero": true
+      },
+      "stack": "zero"
+    },
+    "color": {
+      "field": "series",
+      "type": "nominal",
+      "scale": {
+        "scheme": "tableau10"
+      },
+      "legend": {
+        "title": "Product Line",
+        "orient": "top"
+      }
+    },
+    "order": {
+      "field": "series",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "category",
+        "type": "nominal",
+        "title": "Quarter"
+      },
+      {
+        "field": "series",
+        "type": "nominal",
+        "title": "Product Line"
+      },
+      {
+        "field": "revenue",
+        "type": "quantitative",
+        "title": "Revenue ($)",
+        "format": "$,.0f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 13
+    }
+  }
+}

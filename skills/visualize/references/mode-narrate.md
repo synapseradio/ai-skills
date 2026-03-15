@@ -164,40 +164,38 @@ Avoid sequential revelation when:
 - Multiple valid reading orders exist
 - Production constraints make maintenance impractical
 
-## D3.js Annotation Implementation
+## Implementation Patterns
 
-The d3-annotation library provides structured annotation capabilities:
+### Vega-Lite Annotations (primary)
 
-```javascript
-const annotations = [
-  {
-    note: {
-      label: "Sales peaked here",
-      title: "Holiday surge"
-    },
-    x: xScale(peakDate),
-    y: yScale(peakValue),
-    dy: -50,
-    dx: 30
-  }
-];
+VL provides declarative annotation through spec properties and layered text marks:
 
-const makeAnnotations = d3.annotation()
-  .type(d3.annotationCalloutCircle)
-  .annotations(annotations);
+**Title and subtitle** — the most important narrative elements:
 
-svg.append("g")
-  .attr("class", "annotation-group")
-  .call(makeAnnotations);
+```json
+{
+  "title": {"text": "Revenue doubled after product launch", "subtitle": "Q1 2024 – Q4 2025, North America"},
+  "description": "Line chart showing revenue growth from $1.2M to $2.4M following the March 2024 launch."
+}
 ```
 
-Annotation types serve different purposes:
+**Reference lines** — mark thresholds, targets, or events using `rule` marks with `datum`:
 
-- **annotationCallout**: Simple text with connector line
-- **annotationCalloutCircle**: Circles a data point or region
-- **annotationCalloutRect**: Highlights rectangular areas
-- **annotationLabel**: Badge-style labels
-- **annotationXYThreshold**: Marks threshold lines
+```json
+{"mark": {"type": "rule", "color": "red", "strokeDash": [4, 4]}, "encoding": {"y": {"datum": 50}}}
+```
+
+**Text annotations** — layer text marks to label specific data points:
+
+```json
+{"mark": {"type": "text", "dy": -10, "fontSize": 11}, "encoding": {"text": {"field": "label"}}}
+```
+
+For complex annotations with connector lines, use a layered spec with calculated positions. See `vega-lite-patterns.md` for layering patterns.
+
+### D3 Annotations (sankey and custom templates)
+
+For D3-based charts, the `d3-annotation` library provides structured callouts with connector lines. See `annotation-patterns.md` for implementation details.
 
 ## Sources
 

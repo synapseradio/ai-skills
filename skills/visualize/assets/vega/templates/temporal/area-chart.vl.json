@@ -1,0 +1,201 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'date' (temporal ISO 8601 string), 'series' (nominal category), and 'value' (quantitative) fields. One entry per date per series for stacked areas.",
+    "customization": [
+      "Replace 'values' array with your time series data",
+      "Change field names in encoding.x.field, encoding.y.field, encoding.color.field",
+      "Adjust encoding.x.axis.format for date display (e.g., '%Y-%m-%d', '%b %Y')",
+      "Adjust encoding.y.axis.title and encoding.y.axis.format for your units",
+      "Set encoding.y.stack to null for overlapping (non-stacked) areas",
+      "Change mark.interpolate ('monotone', 'linear', 'step') for different curve styles",
+      "Modify title and description for your context"
+    ]
+  },
+  "title": "Monthly Resource Consumption by Category",
+  "description": "Stacked area chart showing resource consumption across two categories over 12 months, emphasizing cumulative volume and part-to-whole composition.",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "date": "2024-01-01",
+        "series": "Water",
+        "value": 12500
+      },
+      {
+        "date": "2024-02-01",
+        "series": "Water",
+        "value": 11800
+      },
+      {
+        "date": "2024-03-01",
+        "series": "Water",
+        "value": 13200
+      },
+      {
+        "date": "2024-04-01",
+        "series": "Water",
+        "value": 15600
+      },
+      {
+        "date": "2024-05-01",
+        "series": "Water",
+        "value": 18900
+      },
+      {
+        "date": "2024-06-01",
+        "series": "Water",
+        "value": 21500
+      },
+      {
+        "date": "2024-07-01",
+        "series": "Water",
+        "value": 24100
+      },
+      {
+        "date": "2024-08-01",
+        "series": "Water",
+        "value": 26500
+      },
+      {
+        "date": "2024-09-01",
+        "series": "Water",
+        "value": 21300
+      },
+      {
+        "date": "2024-10-01",
+        "series": "Water",
+        "value": 17200
+      },
+      {
+        "date": "2024-11-01",
+        "series": "Water",
+        "value": 14100
+      },
+      {
+        "date": "2024-12-01",
+        "series": "Water",
+        "value": 13400
+      },
+      {
+        "date": "2024-01-01",
+        "series": "Electricity",
+        "value": 8200
+      },
+      {
+        "date": "2024-02-01",
+        "series": "Electricity",
+        "value": 7800
+      },
+      {
+        "date": "2024-03-01",
+        "series": "Electricity",
+        "value": 7200
+      },
+      {
+        "date": "2024-04-01",
+        "series": "Electricity",
+        "value": 6800
+      },
+      {
+        "date": "2024-05-01",
+        "series": "Electricity",
+        "value": 7500
+      },
+      {
+        "date": "2024-06-01",
+        "series": "Electricity",
+        "value": 9200
+      },
+      {
+        "date": "2024-07-01",
+        "series": "Electricity",
+        "value": 10800
+      },
+      {
+        "date": "2024-08-01",
+        "series": "Electricity",
+        "value": 11500
+      },
+      {
+        "date": "2024-09-01",
+        "series": "Electricity",
+        "value": 9800
+      },
+      {
+        "date": "2024-10-01",
+        "series": "Electricity",
+        "value": 8100
+      },
+      {
+        "date": "2024-11-01",
+        "series": "Electricity",
+        "value": 7900
+      },
+      {
+        "date": "2024-12-01",
+        "series": "Electricity",
+        "value": 8500
+      }
+    ]
+  },
+  "mark": {
+    "type": "area",
+    "line": true,
+    "tooltip": true,
+    "interpolate": "monotone",
+    "opacity": 0.7
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "title": "Month (2024)",
+      "axis": {
+        "format": "%b",
+        "tickCount": "month",
+        "grid": true,
+        "gridDash": [
+          2,
+          2
+        ],
+        "gridColor": "#e5e7eb"
+      }
+    },
+    "y": {
+      "field": "value",
+      "type": "quantitative",
+      "title": "Consumption (gallons / kWh)",
+      "stack": true,
+      "axis": {
+        "format": ",.0f",
+        "grid": true,
+        "gridDash": [
+          2,
+          2
+        ],
+        "gridColor": "#e5e7eb"
+      }
+    },
+    "color": {
+      "field": "series",
+      "type": "nominal",
+      "title": "Resource",
+      "scale": {
+        "scheme": "tableau10"
+      }
+    }
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelColor": "#6b7280",
+      "titleColor": "#374151",
+      "tickColor": "#d1d5db",
+      "domainColor": "#d1d5db"
+    }
+  }
+}

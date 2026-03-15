@@ -1,0 +1,255 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "_metadata": {
+    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'name' (display label) fields. Hierarchical parent-child structure.",
+    "customization": [
+      "Replace 'values' array in data[0] with your hierarchy",
+      "Change 'name' field or add additional fields for richer tooltips",
+      "Adjust tree transform 'method' ('tidy' or 'cluster') and 'size' for layout",
+      "Update scales[0] (depthColor) domain and range for your depth levels",
+      "Switch orientation by swapping x/y assignments in the tree transform 'as' array",
+      "Modify title.text and description for your context"
+    ],
+    "notes": "The tidy layout algorithm spaces nodes evenly. Use 'cluster' method to align leaf nodes at the same depth."
+  },
+  "description": "Organizational hierarchy tree diagram with tidy layout. Nodes represent people and departments with parent-child relationships shown as curved links.",
+  "width": 800,
+  "height": 500,
+  "padding": 5,
+  "data": [
+    {
+      "name": "tree",
+      "values": [
+        {
+          "id": "1",
+          "parent": null,
+          "name": "Alex Chen (CEO)"
+        },
+        {
+          "id": "2",
+          "parent": "1",
+          "name": "Jordan Smith (CTO)"
+        },
+        {
+          "id": "3",
+          "parent": "1",
+          "name": "Riley Johnson (CFO)"
+        },
+        {
+          "id": "4",
+          "parent": "1",
+          "name": "Drew Martinez (COO)"
+        },
+        {
+          "id": "5",
+          "parent": "2",
+          "name": "Sam Lee (Engineer)"
+        },
+        {
+          "id": "6",
+          "parent": "2",
+          "name": "Pat Wilson (Engineer)"
+        },
+        {
+          "id": "7",
+          "parent": "2",
+          "name": "Morgan Davis (Product)"
+        },
+        {
+          "id": "8",
+          "parent": "3",
+          "name": "Casey White (Controller)"
+        },
+        {
+          "id": "9",
+          "parent": "3",
+          "name": "Jamie Green (Analyst)"
+        },
+        {
+          "id": "10",
+          "parent": "4",
+          "name": "Avery Thompson (Ops)"
+        }
+      ],
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "tree",
+          "method": "tidy",
+          "size": [
+            {
+              "signal": "height"
+            },
+            {
+              "signal": "width - 160"
+            }
+          ],
+          "separation": true,
+          "as": [
+            "y",
+            "x",
+            "depth",
+            "children"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "links",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "treelinks"
+        },
+        {
+          "type": "linkpath",
+          "orient": "horizontal",
+          "shape": "diagonal"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "depthColor",
+      "type": "ordinal",
+      "domain": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "range": [
+        "#0072B2",
+        "#E69F00",
+        "#009E73",
+        "#CC79A7",
+        "#56B4E9"
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "path",
+      "from": {
+        "data": "links"
+      },
+      "encode": {
+        "update": {
+          "path": {
+            "field": "path"
+          },
+          "stroke": {
+            "value": "#ccc"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      }
+    },
+    {
+      "type": "symbol",
+      "from": {
+        "data": "tree"
+      },
+      "encode": {
+        "enter": {
+          "size": {
+            "value": 200
+          },
+          "stroke": {
+            "scale": "depthColor",
+            "field": "depth"
+          },
+          "strokeWidth": {
+            "value": 2
+          },
+          "tooltip": {
+            "signal": "{ 'Name': datum.name, 'Depth': datum.depth, 'Children': datum.children }"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "field": "y"
+          },
+          "fill": [
+            {
+              "test": "datum.children > 0",
+              "value": "#fff"
+            },
+            {
+              "scale": "depthColor",
+              "field": "depth"
+            }
+          ]
+        },
+        "hover": {
+          "stroke": {
+            "value": "#333"
+          },
+          "strokeWidth": {
+            "value": 3
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "tree"
+      },
+      "encode": {
+        "enter": {
+          "text": {
+            "field": "name"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fill": {
+            "value": "#333"
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "field": "y"
+          },
+          "dx": {
+            "signal": "datum.children > 0 ? -10 : 10"
+          },
+          "align": {
+            "signal": "datum.children > 0 ? 'right' : 'left'"
+          }
+        }
+      }
+    }
+  ],
+  "title": {
+    "text": "Organization Structure",
+    "subtitle": "Interactive tree diagram -- hover nodes for details",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "subtitleColor": "#666",
+    "anchor": "start"
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}
