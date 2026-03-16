@@ -5,7 +5,7 @@ Written communication skill with 16 techniques and 5 structured workflows for cr
 ## Install
 
 ```bash
-claude install-skill github:nke/ai-skills/skills/communicate
+npx skills add https://github.com/synapseradio/ai-skills
 ```
 
 Or copy the `skills/communicate/` directory into `~/.claude/skills/communicate/`.
