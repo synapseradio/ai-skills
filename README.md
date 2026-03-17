@@ -9,6 +9,7 @@ Agent skills and agent definitions for [Claude Code](https://docs.anthropic.com/
 | **cite** | Generate APA-format citations from paper links |
 | **flix** | Write, translate, and reason about [Flix](https://flix.dev) code |
 | **rabbit-hole** | Multi-agent investigation pipeline for deep research questions |
+| **runbook** | Decompose tasks into steerable autonomous loops with FOCUS.md, TASKS.md, and LEARNINGS.md |
 | **scamper** | Structured ideation using the SCAMPER creative thinking technique |
 | **shell-testing** | Write idiomatic BATS tests for bash and zsh shell scripts |
 | **team** | Expert persona collaboration for structured problem analysis |
