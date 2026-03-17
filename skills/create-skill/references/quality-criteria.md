@@ -53,7 +53,7 @@ Criteria are grouped by source: **Spec** items come from the [Agent Skills Speci
 
 *Convention: Claude Code workflow practice (not spec-required)*
 
-- [ ] Skills with 3+ step procedures instruct the consuming agent to use `TaskCreate` to track progress
+- [ ] Skills with 3+ step procedures instruct the consuming agent to track progress
 - [ ] Task instructions appear in SKILL.md body, not buried in a reference file
 
 ## README Requirements

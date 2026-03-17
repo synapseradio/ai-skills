@@ -28,7 +28,7 @@ Read the review report's "Fixes Required" section. For each fix:
 - Classify as: **content** (text changes), **structure** (file moves/renames), or **missing** (new content needed)
 - Order by dependency: structural fixes first, then content, then missing
 
-If more than 3 fixes exist, use TaskCreate to track each one.
+If more than 3 fixes exist, track each one as a separate task.
 
 ### Step 2: Apply Fixes
 
@@ -46,7 +46,7 @@ For each fix, in dependency order:
 | Missing source URL | Research the claim, find and add a citation. If unfindable, mark provisional |
 | SKILL.md too long | Move detail sections to new reference files, add loading triggers |
 | Missing execution metadata | Add the `<!--` comment block to workflow files |
-| Missing TaskCreate instruction | Add task tracking instructions to SKILL.md body |
+| Missing task tracking instruction | Add task tracking instructions to SKILL.md body |
 | Script standards violation | Fix the specific violation per shell-script-standards.md |
 | Description too vague | Rewrite with WHAT + WHEN + KEYWORDS pattern |
 

@@ -69,7 +69,7 @@ For each workflow file:
 
 ### Check 6: Task Tracking
 
-- [ ] If SKILL.md describes procedures with 3+ steps → must instruct TaskCreate usage
+- [ ] If SKILL.md describes procedures with 3+ steps → must instruct task tracking
 - [ ] Task tracking instructions appear in SKILL.md body (not hidden in references)
 
 ### Check 7: Script Standards

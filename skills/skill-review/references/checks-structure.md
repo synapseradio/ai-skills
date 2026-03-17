@@ -69,20 +69,20 @@ Validate progressive disclosure, task tracking instructions, workflow metadata, 
 
 ## Task Tracking
 
-### Check 5: TaskCreate Instruction
+### Check 5: Task Tracking Instruction
 
-**What to check:** If the skill describes 3 or more procedural steps, SKILL.md instructs the consuming agent to use TaskCreate.
+**What to check:** If the skill describes 3 or more procedural steps, SKILL.md instructs the consuming agent to track progress through those steps.
 
 **How to check:**
 1. Read SKILL.md
 2. Count the procedural steps (numbered lists, sequential phases, workflow steps)
-3. If 3 or more steps exist, search for "TaskCreate" in SKILL.md
+3. If 3 or more steps exist, search for task tracking instructions — phrases like "track progress", "use available task tracking tools", "break into tasks", or references to specific task tools
 
 **Pass criteria:**
 - If fewer than 3 procedural steps: N/A (pass automatically)
-- If 3 or more steps: SKILL.md contains an instruction to use TaskCreate for progress tracking
+- If 3 or more steps: SKILL.md contains an instruction to track progress through the steps
 
-**Fail action:** Report the step count and recommend adding a TaskCreate instruction.
+**Fail action:** Report the step count and recommend adding a task tracking instruction.
 
 **Source:** Convention — multi-step procedures benefit from task tracking to show progress and prevent lost work.
 

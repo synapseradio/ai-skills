@@ -57,7 +57,7 @@ Use this template for the review report output. Replace all `{{placeholders}}` w
 ### Task Tracking: {{PASS|FAIL|N/A}}
 > If fewer than 3 procedural steps, output: "Fewer than 3 procedural steps — N/A"
 - Procedural step count: {{N}}
-- TaskCreate instruction: {{present|absent}}
+- Task tracking instruction: {{present|absent}}
 
 ### Script Standards: {{PASS|FAIL|N/A}}
 > If no scripts/ directory found, output: "No scripts found — N/A"

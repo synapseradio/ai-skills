@@ -43,7 +43,7 @@ Determine which subcommand the user invoked:
 
 ## Execute Flow
 
-Use TaskCreate to track progress — pipelines of 3+ steps always qualify for task tracking.
+Track progress using available task tracking tools — pipelines of 3+ steps always qualify for task tracking.
 
 ### 1. Parse
 

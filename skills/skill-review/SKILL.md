@@ -34,7 +34,7 @@ Load only the reference files needed for the current check group. Do NOT load al
 
 ## Review Process
 
-Use TaskCreate to track progress — this review has 8 check groups plus locate and report steps, and always qualifies for task tracking.
+Track progress using available task tracking tools — this review has 8 check groups plus locate and report steps, and always qualifies for task tracking.
 
 ### 1. Locate the Skill
 
@@ -62,7 +62,7 @@ Load `references/checks-structure.md` (workflow metadata section). If workflow f
 
 ### 7. Task Tracking
 
-Load `references/checks-structure.md` (task tracking section). If the skill describes 3 or more procedural steps, verify that SKILL.md instructs the consuming agent to use TaskCreate. If fewer than 3 steps, mark as N/A.
+Load `references/checks-structure.md` (task tracking section). If the skill describes 3 or more procedural steps, verify that SKILL.md instructs the consuming agent to track progress through those steps. If fewer than 3 steps, mark as N/A.
 
 ### 8. Script Standards
 

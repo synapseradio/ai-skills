@@ -41,7 +41,7 @@ Before writing anything, plan the complete file tree:
     └── [name].sh           (if scripts are needed)
 ```
 
-If the total file count exceeds 3, use TaskCreate to track each file as a separate task.
+If the total file count exceeds 3, track each file as a separate task.
 
 ### Step 2: Write SKILL.md
 
@@ -64,7 +64,7 @@ description: >-
 - Start with a 1-2 sentence summary of what this skill is
 - Include a conditional loading table (load only what the task requires)
 - Reference files by relative path: `references/[topic].md`
-- For multi-step procedures (3+ steps): include explicit instructions to use TaskCreate
+- For multi-step procedures (3+ steps): include explicit task tracking instructions
 - End with anti-hallucination rules specific to this domain
 
 **Body structure template:**
@@ -90,7 +90,7 @@ Before [doing X]:
 ## [Procedural Workflow — if applicable]
 
 When performing [multi-step task]:
-1. Use TaskCreate to track each step
+1. Track progress through each step
 2. [Step-by-step instructions referencing workflow files]
 
 ## Rules
@@ -203,7 +203,7 @@ These are non-negotiable:
 5. **NEVER exceed 500 lines** in SKILL.md. Move details to references.
 6. **ALWAYS include source URLs** in reference files.
 7. **ALWAYS declare execution metadata** in workflow files.
-8. **ALWAYS instruct TaskCreate usage** for skills with 3+ step procedures.
+8. **ALWAYS instruct task tracking** for skills with 3+ step procedures.
 
 ## Perspective
 

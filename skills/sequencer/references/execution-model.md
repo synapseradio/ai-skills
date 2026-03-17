@@ -127,7 +127,7 @@ A failed step is never silently omitted. The pipeline either resolves the failur
 
 For pipelines with 3+ steps:
 
-1. **Before execution**: create one task per step via TaskCreate. Use the step description as the subject and include the step type in the description.
+1. **Before execution**: create one task per step using available task tracking tools. Use the step description as the subject and include the step type in the description.
 
 2. **During execution**: mark each task `in_progress` when it starts and `completed` when it finishes.
 

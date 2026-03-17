@@ -28,13 +28,13 @@ Load references based on what the current phase needs. Do NOT load everything up
 | Skill Type | Skip | Why |
 |------------|------|-----|
 | Conceptual / methodology | Scripts phase, `shell-script-standards.md` | No scripts needed |
-| Simple (< 4 files) | TaskCreate tracking | Overhead exceeds value |
+| Simple (< 4 files) | Task tracking | Overhead exceeds value |
 | Claude-native feature | External doc research — use Anthropic docs only | No third-party tech |
 | Pure wrapper around one tool | Workflow templates | Not procedural |
 
 ## Orchestration Flow
 
-Follow these phases in order. Each phase depends on the previous one's output. Use TaskCreate to track each phase — this is a 9-phase process and always qualifies for task tracking.
+Follow these phases in order. Each phase depends on the previous one's output. Track progress through each phase using available task tracking tools — this is a 9-phase process and always qualifies for task tracking.
 
 ### Phase 0: Load Skill-Development Guidance
 
@@ -112,7 +112,7 @@ Why: This produces the actual deliverable — quality here determines whether ag
 
 Pass in: `{{SKILL_NAME}}`, `{{SKILL_PATH}}`, research report, requirements doc, skill-development guidance from Phase 0.
 
-If the skill involves more than 3 files, the subagent must use TaskCreate to track each file.
+If the skill involves more than 3 files, the subagent must track each file as a separate task.
 
 **If target path already exists**: stop. Report to user. Never overwrite.
 
@@ -171,4 +171,4 @@ Present findings to the user:
 4. **NEVER replace an existing skill directory** — only create new or add to existing
 5. **Every reference file must contain source URLs** that the consuming agent is instructed to follow
 6. **Scripts follow Google Shell Style Guide** strictly — see `references/shell-script-standards.md`
-7. **Multi-step skills must instruct TaskCreate** — if the skill has 3+ procedural steps, it must tell the consuming agent to track progress with tasks
+7. **Multi-step skills must instruct task tracking** — if the skill has 3+ procedural steps, it must tell the consuming agent to track progress
