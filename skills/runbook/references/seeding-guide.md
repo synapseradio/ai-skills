@@ -39,6 +39,34 @@ new warnings".}}
 ## Success
 {{Observable condition for convergence. When this is true, the loop
 stops discovering.}}
+
+## Convergence
+{{When to stop discovering. Examples: "Two consecutive discovery rounds
+with zero findings", "All items in the spec accounted for",
+"Task yield below 1 for 3 cycles". If omitted, the loop stops only
+when discovery finds nothing and success criteria are met.}}
+
+## Principles
+<!-- Optional. 3-5 constraints the loop must not violate, regardless of
+what discovery finds. Examples: "No change without a test first",
+"Do not modify public API signatures",
+"Preserve backward compatibility with v2 clients". -->
+
+## Model
+{{Default model tier for this loop's tasks. One of: mechanical, contextual,
+architectural. Discovery tags each task with a tier; the PM maps tiers to
+models at delegation time.
+
+Tier guidance (based on task signals, not rigid categories):
+
+| Signal              | mechanical           | contextual               | architectural              |
+|---------------------|----------------------|--------------------------|----------------------------|
+| Scope of change     | Single location      | Multiple related files   | Cross-cutting, system-level |
+| Ambiguity           | None — fully specified | Low — clear spec exists | High — requires design judgment |
+| Design intent needed | None                 | Local patterns           | System-level understanding  |
+| Verification        | Does it compile/lint? | Do tests pass?           | Does the design hold?       |
+
+Default: contextual. Override per-task when signals indicate otherwise.}}
 ```
 
 ### Customization notes
@@ -50,13 +78,17 @@ stops discovering.}}
 - **Authority** should be something the loop can look up or read. A local
   file path works. A URL works. A well-known specification name works
   (the loop will look it up). "Best practices" does not.
-- **Scope/In** can use glob patterns: `src/**/*.tsx`, `cmd/`, `packages/core/`.
+- **Scope/In** can use glob patterns: `src/**/*.py`, `lib/`, `packages/core/`.
 - **Scope/Out** should include anything that must not be modified: generated
   files, dependencies, stable infrastructure the lens doesn't apply to.
 - **Verification** tells the loop how to prove each task is done. This varies
   by lens: test-first for implementation, spec-match for features, linter-clean
-  for style work, visual review for design. If omitted, the loop defaults
-  to test-first for code changes.
+  for style work. Verification must produce an external, observable signal —
+  a test pass/fail, build output, lint result, or type-check. LLM
+  self-assessment is not verification. No change ships without a test
+  contract first. If no automated verification exists for the lens, the
+  loop's first task is to create one. If omitted, the loop defaults to
+  test-first.
 - **Success** must be evaluable by the loop. "All spec endpoints implemented
   and tested" works. "Two consecutive clean audit rounds" works. "Code
   feels better" does not.
@@ -71,19 +103,41 @@ stops discovering.}}
 ## In Progress
 
 ## Done
+
+## Cycle Log
+<!-- Appended by the loop after each cycle. Do not edit manually. -->
+| Cycle | Found | Completed | Notes |
+|-------|-------|-----------|-------|
 ```
 
-No pre-populated tasks. The loop's discovery phase populates the board.
+No pre-populated tasks or log entries. The loop populates both.
 
 ## LEARNINGS.md Template
 
 ```markdown
 # Learnings
 
-Append-only. Each entry records what the loop learned during a completed task.
+## Summary
+<!-- Updated by the loop every 5 cycles. Distills key patterns from entries below. -->
+
+## Entries
+<!-- Append-only. Each entry uses the format below. -->
 ```
 
-No pre-populated entries. The loop appends after each task.
+### Entry format
+
+Each learning follows this structure:
+
+```
+### Cycle N — [task name]
+- **What:** One sentence on what was done
+- **Insight:** What was discovered or confirmed during execution
+- **Implication:** How this should influence future tasks (or "none")
+```
+
+The implication field carries the most value — it tells future cycles
+what to do differently. The structure gives discovery parseable context
+without requiring the loop to read every prior entry.
 
 ## Recursive Decomposition (when mode = recursive)
 

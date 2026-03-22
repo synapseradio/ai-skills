@@ -55,18 +55,29 @@ Elements do not contradict each other.
 - **Fail:** Example: lens says "performance optimization" but scope excludes
   the hot paths. Surface the conflict and resolve with the user.
 
+### 7. Optional sections validated (if present)
+
+Convergence, Principles, and Model sections are optional. If the user
+provided them during alignment, validate they are well-formed.
+
+- **Convergence:** Must be evaluable by the loop (not subjective).
+- **Principles:** Each principle must be a concrete constraint, not a wish.
+- **Model:** Default tier should match the loop's typical cognitive demand.
+- **Pass (soft):** Omitted sections use defaults. Note the assumptions.
+
 ## Presentation
 
 Show the checklist as a compact summary:
 
 ```
 Alignment checklist:
-  [x] Lens: Security hardening — injection, temp files, input validation
-  [x] Authority: Google Shell Style Guide + OWASP command injection patterns
-  [x] Scope: lib/ and cmd/ only (excluding vendor/)
+  [x] Lens: Security hardening — injection and input validation
+  [x] Authority: OWASP cheat sheets + project style guide at docs/style.md
+  [x] Scope: lib/ and src/ only (excluding vendor/, generated/)
   [x] Success: Two consecutive clean audit rounds
   [x] Mode: Tight loop
   [x] No conflicts detected
+  [x] Optional: Convergence set, Principles set, Model defaults to contextual
 
 Ready to seed. Confirm?
 ```

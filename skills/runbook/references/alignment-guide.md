@@ -62,7 +62,7 @@ In scope          Out of scope
 -----------       ------------
 src/auth/         src/core/ (stable)
 src/middleware/    node_modules/
-                  *.generated.ts
+                  *.generated.*
 ```
 
 **Lens comparison** — when the user is choosing between foci:

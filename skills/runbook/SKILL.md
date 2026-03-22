@@ -90,9 +90,9 @@ Produce the following artifacts in the project root (or a user-specified directo
 
 | File | Purpose | Who writes it |
 |------|---------|--------------|
-| `FOCUS.md` | Lens, authority, scope, success criteria | This skill, during seeding |
-| `TASKS.md` | Empty board skeleton (`## Open / ## In Progress / ## Done`) | This skill, during seeding |
-| `LEARNINGS.md` | Empty, append-only memory | This skill, during seeding |
+| `FOCUS.md` | Lens, authority, scope, verification, success criteria, and optional convergence, principles, model tier | This skill, during seeding |
+| `TASKS.md` | Empty board skeleton with Cycle Log | This skill, during seeding |
+| `LEARNINGS.md` | Empty, structured append-only memory (Summary + Entries) | This skill, during seeding |
 | Loop prompt | Customized from `references/loop-prompt.md` with this runbook's lens | This skill, presented to user |
 
 ### Recursive decomposition output (additionally)
