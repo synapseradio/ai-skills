@@ -2,13 +2,15 @@
 
 Generate APA-format citations from paper links.
 
-Give it one or more URLs (arXiv, DOI, conference proceedings) and it returns properly formatted APA citations with direct links.
+Hand it one or more URLs — arXiv, DOI, conference proceedings — and it returns properly formatted APA citations with direct links. No manual lookup, no guessing at author order or publication dates.
 
 ## Install
 
-```sh
-claude install-skill github:synapseradio/ai-skills/skills/cite
+```bash
+npx skills add https://github.com/synapseradio/ai-skills
 ```
+
+Or copy `skills/cite/` into `~/.claude/skills/cite/`.
 
 ## Usage
 
@@ -17,6 +19,10 @@ claude install-skill github:synapseradio/ai-skills/skills/cite
 /cite https://doi.org/10.1145/1234567.1234568 https://arxiv.org/abs/2305.12345
 ```
 
+## Why use this instead of prompting?
+
+A plain prompt will format citations, but it tends to hallucinate publication details — wrong years, missing authors, invented DOIs. This skill fetches metadata from the source before formatting, so the citation matches what was actually published.
+
 ## License
 
-MIT
+[EUPL-1.2](/LICENSE)

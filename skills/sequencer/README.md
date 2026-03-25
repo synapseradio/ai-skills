@@ -1,24 +1,24 @@
-# Sequencer
+# sequencer
 
-Chain skills, agents, and natural-language instructions into ordered pipelines with accumulating context.
+Chain skills, agents, and natural-language instructions into ordered pipelines with accumulating context. Each step's output feeds into the next, so later steps can build on earlier results.
 
 ## Install
 
 ```bash
-claude install-skill github:nke/ai-skills/skills/sequencer
+npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy the `skills/sequencer/` directory into `~/.claude/skills/sequencer/`.
+Or copy `skills/sequencer/` into `~/.claude/skills/sequencer/`.
 
 ## Usage
 
-### Arrow syntax
+Arrow syntax:
 
 ```
 /seq /skill-review skills/my-skill -> fix any issues -> /commit
 ```
 
-### Bullet list
+Bullet list:
 
 ```
 /seq
@@ -27,42 +27,42 @@ Or copy the `skills/sequencer/` directory into `~/.claude/skills/sequencer/`.
 - /commit
 ```
 
-### Prose
+Prose:
 
 ```
 /seq review the skill, fix issues, then commit
 ```
 
-### Parallel steps
+Parallel steps:
 
 ```
 /seq /analyze -> ( /lint | /test ) -> /commit
 ```
 
-### Generate from description
+Generate from description:
 
 ```
 /seq generate review the new skill and ship it
 ```
 
-### Help
+## How it works
 
-```
-/seq help
-```
+Each step runs sequentially via subagents. Output is written to `/tmp/seq-{id}/step-{N}.md` and fed as context to the next step. Parallel groups (`( a | b )`) run concurrently and merge before continuing.
 
-## How It Works
+## When to use this
 
-Each step runs sequentially via subagents. Every step's output is written to `/tmp/seq-{id}/step-{N}.md` and fed as context to the next step. Parallel groups (`( a | b )`) run concurrently and merge before continuing.
+Use it when you have a multi-step workflow that benefits from ordered execution with shared context — review then fix then commit, or analyze then test in parallel then deploy. The sequencer handles the plumbing of passing results between steps.
 
-## File Structure
+For single-step tasks, just invoke the skill directly. The sequencer adds value only when steps need to chain.
 
-```
-skills/sequencer/
-├── SKILL.md                        # Main skill definition
-├── README.md                       # This file
-└── references/
-    ├── parsing-guide.md            # Input format recognition and step extraction
-    ├── execution-model.md          # Subagent spawning, context accumulation, parallelism
-    └── syntax-reference.md         # Quick-reference card (/seq help)
-```
+## References
+
+| File | Purpose |
+|------|---------|
+| `references/parsing-guide.md` | Input format recognition and step extraction |
+| `references/execution-model.md` | Subagent spawning, context accumulation, parallelism |
+| `references/syntax-reference.md` | Quick-reference card (`/seq help`) |
+
+## License
+
+[EUPL-1.2](/LICENSE)

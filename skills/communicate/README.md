@@ -1,6 +1,6 @@
-# Communicate
+# communicate
 
-Written communication skill with 16 techniques and 5 structured workflows for crafting prose that communicates clearly, honestly, engagingly, and appropriately for its audience and rhetorical tradition.
+Improve, compose, and adapt written prose. The skill provides 16 techniques organized into 5 workflows — from quick proofreading to full multi-pass refinement to blank-page composition. Every route begins by identifying the rhetorical tradition of the text, so Anglo-American conventions do not operate as an invisible default.
 
 ## Install
 
@@ -8,135 +8,69 @@ Written communication skill with 16 techniques and 5 structured workflows for cr
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy the `skills/communicate/` directory into `~/.claude/skills/communicate/`.
+Or copy `skills/communicate/` into `~/.claude/skills/communicate/`.
 
 ## Usage
 
-### Ad-hoc technique application
+Apply specific techniques to existing prose:
 
-```text
+```
 /communicate improve this paragraph — fix the passive voice and strengthen the hedging
 ```
 
-### Clarify — fast clarity audit
+Proofread a draft before sending:
 
-```text
+```
 /communicate proofread this draft before I send it
 ```
 
-### Redraft — full multi-pass refinement
+Full refinement — run every technique until the prose stabilizes:
 
-```text
+```
 /communicate make this as good as it can be
 ```
 
-### Compose — blank-page creation
+Write from scratch:
 
-```text
+```
 /communicate help me write an introduction for this proposal
 ```
 
-### Structure — rhetorical tradition adaptation
+Adapt prose for a different audience or rhetorical tradition:
 
-```text
+```
 /communicate adapt this for a US business audience
 ```
 
-### Bridge — cross-lingual ontology bridging
+Express a thought that resists translation:
 
-```text
+```
 /communicate in Spanish we say "tengo miedo" — how do I express that in English?
 ```
 
-## How It Works
+## How it works
 
-The skill detects user intent and routes to the appropriate mode:
+The skill detects your intent and routes to the appropriate workflow:
 
-- **Ad-hoc** — Apply individual techniques via diagnostic question tables
-- **Clarify** — Structured 4-phase clarity audit (orient → diagnose → repair → verify)
-- **Redraft** — Full 5-pass cascade (orient → clarity → integrity → shape → depth → connection)
-- **Compose** — Recursive generative workflow (frame → structure → compose → discover → polish)
-- **Structure** — 5-phase tradition adaptation (identify source → target → map divergence → adapt → annotate)
-- **Bridge** — 4-phase ontology bridging (receive → identify gap → bridge → offer third)
+- **Ad-hoc** — apply individual techniques (activate passive voice, strengthen hedging, tighten rhythm) via diagnostic question tables
+- **Clarify** — four-phase clarity audit: orient, diagnose, repair, verify
+- **Redraft** — five-pass cascade across all 16 techniques, repeating until the prose stops changing
+- **Compose** — recursive generative workflow: frame, structure, compose, discover, polish
+- **Structure** — five-phase tradition adaptation: identify source tradition, identify target, map divergence, adapt, annotate
+- **Bridge** — four-phase ontology bridging for multilingual thinkers: receive, identify gap, bridge, offer a third option
 
-All routes load the tradition meta-lens first, preventing Anglo-American conventions from operating as an invisible default.
+## Why use this instead of prompting?
 
-## References
+A plain "improve my writing" prompt applies a generic English style — usually informal American business prose. This skill starts by identifying where the writing comes from (its rhetorical tradition) and where it needs to land. It also works in passes rather than a single rewrite, so structural issues are fixed before surface polish, and earlier changes inform later ones.
 
-| File | Purpose |
-|------|---------|
-| `references/tradition.md` | Meta-lens loaded before all techniques |
-| `references/fit.md` | Form-function alignment |
-| `references/calibrate.md` | Audience depth calibration |
-| `references/bridge.md` | Knowledge and cross-cultural bridging |
-| `references/clarify.md` | Structural and content clarity |
-| `references/activate.md` | Voice activation (passive → active) |
-| `references/strengthen.md` | Language commitment |
-| `references/illustrate.md` | Grounding abstractions |
-| `references/signal-confidence.md` | Certainty-evidence calibration |
-| `references/bound-scope.md` | Boundary conditions |
-| `references/surface-assumptions.md` | Unstated premises |
-| `references/arc.md` | Tension and narrative shape |
-| `references/arrange.md` | Section ordering |
-| `references/rhythm.md` | Sentence-level cadence |
-| `references/voice.md` | Authorial presence |
-| `references/register.md` | Word-level precision |
-| `references/extract-implications.md` | Unsaid consequences |
-| `references/dimensionalize.md` | Separating conflated concerns |
-| `references/pose-questions.md` | Opening inquiry |
-| `references/index.md` | Technique navigation index |
-| `references/clarify-patterns.md` | Clarity detection heuristics |
-| `references/clarify-examples.md` | Clarity before/after examples |
-| `references/frame-guide.md` | Extended composition framing |
-| `references/translanguaging-guide.md` | Ontology bridging research basis |
-| `references/language-patterns.md` | Per-tradition grammatical patterns |
-| `references/tradition-signatures.md` | Tradition rapid identification |
-| `references/workflow-clarify.md` | Clarify workflow definition |
-| `references/workflow-redraft.md` | Redraft workflow definition |
-| `references/workflow-compose.md` | Compose workflow definition |
-| `references/workflow-structure.md` | Structure workflow definition |
-| `references/workflow-bridge.md` | Bridge workflow definition |
+The 16 techniques address specific dimensions of prose quality — clarity, integrity, shape, depth, connection — rather than applying a vague notion of "better."
 
-## File Structure
+## When to use this
 
-```text
-skills/communicate/
-├── SKILL.md                           # Router + ad-hoc technique library
-├── README.md                          # This file
-└── references/
-    ├── index.md                       # Technique navigation index
-    ├── tradition.md                   # Meta-lens (loaded first always)
-    ├── fit.md                         # Purpose
-    ├── calibrate.md                   # Purpose
-    ├── bridge.md                      # Connection
-    ├── clarify.md                     # Clarity
-    ├── clarify-patterns.md            # Clarity (supporting)
-    ├── clarify-examples.md            # Clarity (supporting)
-    ├── activate.md                    # Clarity
-    ├── strengthen.md                  # Clarity
-    ├── illustrate.md                  # Clarity
-    ├── signal-confidence.md           # Integrity
-    ├── bound-scope.md                 # Integrity
-    ├── surface-assumptions.md         # Integrity
-    ├── arc.md                         # Shape
-    ├── arrange.md                     # Shape
-    ├── rhythm.md                      # Shape
-    ├── voice.md                       # Shape
-    ├── register.md                    # Shape
-    ├── extract-implications.md        # Depth
-    ├── dimensionalize.md              # Depth
-    ├── pose-questions.md              # Depth
-    ├── workflow-clarify.md            # Clarify workflow
-    ├── workflow-redraft.md            # Redraft workflow
-    ├── workflow-compose.md            # Compose workflow
-    ├── workflow-structure.md          # Structure workflow
-    ├── workflow-bridge.md             # Bridge workflow
-    ├── frame-guide.md                 # Composition-specific
-    ├── translanguaging-guide.md       # Bridge-specific
-    ├── language-patterns.md           # Bridge-specific
-    └── tradition-signatures.md        # Structure-specific
-```
+Use it when writing matters: proposals, documentation, anything that will be read more than once or by someone outside your team. Also useful when writing in English from a non-English thinking language, or adapting prose across cultural contexts.
+
+For throwaway messages or internal notes, just write.
 
 ## License
 
-MIT
+[EUPL-1.2](/LICENSE)

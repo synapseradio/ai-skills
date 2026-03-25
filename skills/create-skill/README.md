@@ -1,32 +1,40 @@
 # create-skill
 
-Research-first pipeline for producing Agent Skills that meet the [Agent Skills Specification](https://agentskills.io/specification). Ensures every skill is backed by cited documentation, includes workflow templates for procedural tasks, and prevents agents from substituting hallucinated patterns for real docs.
+Research-first pipeline for producing Agent Skills that meet the [Agent Skills Specification](https://agentskills.io/specification). Every skill it creates is backed by cited documentation, with workflow templates for procedural tasks and anti-hallucination rules that prevent agents from inventing patterns.
 
 ## Install
 
-```sh
-claude install-skill github:synapseradio/ai-skills/skills/create-skill
+```bash
+npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-## What it does
+Or copy `skills/create-skill/` into `~/.claude/skills/create-skill/`.
 
-- Researches the skill's subject domain exhaustively before writing anything
-- Gathers requirements from the user with scoping questions
-- Creates spec-compliant skill directories with cited reference files
-- Reviews the result against quality criteria and validates all URLs
-- Runs the Anthropic skill-creator for description optimization
+## Usage
 
-## Workflow
+```
+/create-skill a skill for writing Terraform modules
+/create-skill build a skill for Apache Kafka consumer patterns
+/create-skill make a skill for React Server Components
+```
 
-1. **Load guidance** — reads official skill-development best practices
-2. **Bootstrap** — clones/pulls the Agent Skills Specification repo
-3. **Research** *(subagent)* — finds and catalogs all official documentation
-4. **Requirements** *(inline)* — asks the user what the skill should do and where to write it
-5. **Author** *(subagent)* — creates the complete skill directory with all files
+## How it works
+
+The pipeline runs in nine stages:
+
+1. **Load guidance** — reads the official skill-development best practices
+2. **Bootstrap** — clones or updates the Agent Skills Specification repo
+3. **Research** — finds and catalogs all official documentation for the skill's domain
+4. **Requirements** — asks you what the skill should do and where to write it
+5. **Author** — creates the complete skill directory with all files
 6. **Optimize** — runs the Anthropic skill-creator for description testing
-7. **Review** *(subagent)* — validates against quality criteria and spec compliance
-8. **Refine** *(subagent, if needed)* — applies fixes from review, re-validates (max 2 cycles)
+7. **Review** — validates against quality criteria and spec compliance
+8. **Refine** — applies fixes from review and re-validates (up to 2 cycles)
 9. **Report** — presents findings with any remaining issues
+
+## Why use this instead of writing a skill by hand?
+
+The Agent Skills Specification is detailed — frontmatter fields, progressive disclosure rules, description voice requirements, file structure conventions. Getting all of it right manually means reading the spec cover to cover. This skill does the research first, then builds the skill to match what the documentation actually says, rather than what an agent guesses it says.
 
 ## References
 
@@ -38,22 +46,14 @@ claude install-skill github:synapseradio/ai-skills/skills/create-skill
 | `references/workflow-review.md` | Subagent prompt for post-creation review |
 | `references/workflow-refine.md` | Subagent prompt for fix-and-reverify loop |
 | `references/quality-criteria.md` | Quality bar: what makes a good skill |
-| `references/shell-script-standards.md` | Google Shell Style Guide rules for scripts |
+| `references/shell-script-standards.md` | Shell style rules for scripts |
 
 ## Scripts
 
 | File | Purpose |
 |------|---------|
-| `scripts/ensure_spec_repo.sh` | Clone/pull the Agent Skills Spec repo to `~/.agent-skills-spec` |
-
-## Usage
-
-```
-/create-skill a skill for writing Terraform modules
-/create-skill build a skill for Apache Kafka consumer patterns
-/create-skill make a skill for React Server Components
-```
+| `scripts/ensure_spec_repo.sh` | Clone or update the Agent Skills Spec repo to `~/.agent-skills-spec` |
 
 ## License
 
-MIT
+[EUPL-1.2](/LICENSE)

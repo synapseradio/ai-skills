@@ -4,8 +4,18 @@ Distributed navigation markers for multi-file pipelines and processes. Each file
 
 ## Install
 
-```sh
-claude install-skill github:synapseradio/ai-skills/skills/waypoint
+```bash
+npx skills add https://github.com/synapseradio/ai-skills
+```
+
+Or copy `skills/waypoint/` into `~/.claude/skills/waypoint/`.
+
+## Usage
+
+```
+/waypoint trace the deployment pipeline from CI through Helm
+/waypoint add waypoints for how feature flags propagate to components
+/waypoint check for drift in the sourcemap-upload pipeline
 ```
 
 ## What it does
@@ -15,9 +25,13 @@ claude install-skill github:synapseradio/ai-skills/skills/waypoint
 - Maintains a manifest per pipeline in `.ai/waypoints/`
 - Validates waypoints against manifests to detect drift
 
-## Workflows
+## When to use this
 
-Three subagent workflows handle different operations:
+Use it when a process spans many files and the connections between them are hard to trace — deployment pipelines, data flows, feature flag propagation, anything where "how does this get from A to B?" is a recurring question. Waypoints make the topology discoverable from any file in the chain, without relying on external diagrams that inevitably fall out of sync.
+
+Not useful for single-file scripts or processes that are already obvious from the directory structure.
+
+## Workflows
 
 | Workflow | Reference | Trigger |
 |----------|-----------|---------|
@@ -32,20 +46,6 @@ Three subagent workflows handle different operations:
 | `scripts/waypoint-id.ts` | Generate waypoint IDs from file paths |
 | `scripts/validate-waypoints.ts` | Validate manifests against actual file contents |
 
-## References
-
-| File | Purpose |
-|------|---------|
-| `references/waypoint-voice.md` | Writing voice guide for waypoint descriptions |
-
-## Usage
-
-```
-/waypoint trace the deployment pipeline from CI through Helm
-/waypoint add waypoints for how feature flags propagate to components
-/waypoint check for drift in the sourcemap-upload pipeline
-```
-
 ## License
 
-MIT
+[EUPL-1.2](/LICENSE)

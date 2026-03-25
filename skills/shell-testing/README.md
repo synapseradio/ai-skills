@@ -4,8 +4,17 @@ Write idiomatic [BATS](https://github.com/bats-core/bats-core) tests for bash an
 
 ## Install
 
-```sh
-claude install-skill github:synapseradio/ai-skills/skills/shell-testing
+```bash
+npx skills add https://github.com/synapseradio/ai-skills
+```
+
+Or copy `skills/shell-testing/` into `~/.claude/skills/shell-testing/`.
+
+## Usage
+
+```
+/shell-testing write tests for lib/helpers.sh
+/shell-testing add integration tests for the install command
 ```
 
 ## What it covers
@@ -14,7 +23,11 @@ claude install-skill github:synapseradio/ai-skills/skills/shell-testing
 - Mandatory test isolation (temp dirs, mocked externals, safety guards)
 - Zsh testing via `bats --shell zsh` and zunit
 - Mocking strategies: function overrides, PATH manipulation, CLI stubs
-- Targeted test execution (never runs the full suite)
+- Targeted test execution — runs only the tests that matter, not the full suite
+
+## Why use this instead of prompting?
+
+Shell testing has sharp edges. A plain prompt will write tests that pass locally but fail in CI, leak state between runs, or silently skip assertions because of quoting bugs. This skill loads the specific gotchas — dangerous teardown patterns, negation bugs, variable scope differences between bash and zsh — so the tests are correct from the start.
 
 ## References
 
@@ -24,13 +37,6 @@ claude install-skill github:synapseradio/ai-skills/skills/shell-testing
 | `references/gotchas.md` | Anti-patterns: dangerous teardown, negation bugs, variable scope, portability |
 | `references/zsh-testing.md` | Zunit syntax, zsh-test-runner, completions, widgets |
 
-## Usage
-
-```
-/shell-testing write tests for lib/helpers.sh
-/shell-testing add integration tests for the install command
-```
-
 ## License
 
-MIT
+[EUPL-1.2](/LICENSE)

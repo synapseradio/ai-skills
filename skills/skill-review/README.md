@@ -1,21 +1,39 @@
 # skill-review
 
-Audits Agent Skill directories against the Agent Skills Specification and quality criteria. Produces a structured pass/fail report with specific fix instructions for each failure.
+Audit Agent Skill directories against the [Agent Skills Specification](https://agentskills.io/specification). Produces a structured pass/fail report with specific fix instructions for each failure.
 
 ## Install
 
-```sh
-claude install-skill github:nke/ai-skills/skills/skill-review
+```bash
+npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-## What it does
+Or copy `skills/skill-review/` into `~/.claude/skills/skill-review/`.
 
-- Validates frontmatter fields (name format, description voice, reserved words)
-- Checks progressive disclosure (SKILL.md size, conditional loading, reference depth)
-- Fetches and verifies every URL in reference files
-- Audits scripts against shell standards
-- Validates README completeness
-- Checks workflow file metadata and task tracking instructions
+## Usage
+
+```
+/skill-review path/to/skill
+```
+
+Or describe what you want reviewed:
+
+```
+Review the skill at ~/.claude/skills/my-skill/
+```
+
+## What it checks
+
+- **Frontmatter** — name format, description voice, reserved words, required fields
+- **Progressive disclosure** — SKILL.md size, conditional loading, reference depth
+- **URLs** — fetches and verifies every URL in reference files
+- **Scripts** — audits shell scripts against style standards
+- **README** — validates completeness
+- **Workflows** — checks metadata and task tracking instructions
+
+## When to use this
+
+Run it after creating or modifying a skill, before publishing. The spec has enough rules that manual verification misses things — especially URL reachability and frontmatter formatting. This catches those before someone else installs the skill and hits the errors.
 
 ## References
 
@@ -27,14 +45,6 @@ claude install-skill github:nke/ai-skills/skills/skill-review
 | `references/checks-structure.md` | README, task tracking, progressive disclosure, workflow metadata |
 | `references/report-template.md` | Output report format |
 
-## Usage
+## License
 
-```
-Review the skill at ~/.claude/skills/my-skill/
-```
-
-Or after creating a skill:
-
-```
-/skill-review path/to/skill
-```
+[EUPL-1.2](/LICENSE)
