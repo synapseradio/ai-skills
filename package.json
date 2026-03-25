@@ -1,10 +1,18 @@
 {
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.8",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@evilmartians/lefthook": "^2.1.4",
+    "markdownlint-cli2": "^0.20.0",
+    "prettier": "^3.8.1"
+  },
   "name": "ai-skills",
   "private": true,
   "scripts": {
+    "lint:fix": "bun run lint:fix:md '**/*.md' && bunx biome check --write '**/*.json' && bunx prettier --write '**/*.html' '**/*.{yml,yaml}' && ruff check --fix . && ruff format .",
+    "lint:fix:html": "prettier --write",
+    "lint:fix:json": "biome check --write",
     "lint:fix:md": "markdownlint-cli2 --fix"
-  },
-  "devDependencies": {
-    "markdownlint-cli2": "^0.20.0"
   }
 }
