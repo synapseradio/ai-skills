@@ -34,6 +34,42 @@ claude install-skill github:synapseradio/ai-skills/skills/<skill-name>
 
 Agents: copy from `agents/` into your `.claude/agents/` directory.
 
+## Development
+
+### Prerequisites
+
+- [Bun](https://bun.sh) (package manager)
+- [ruff](https://docs.astral.sh/ruff/) (`brew install ruff`)
+- [ShellCheck](https://www.shellcheck.net/) (available at `/opt/local/bin/shellcheck` or `brew install shellcheck`)
+
+### Setup
+
+```sh
+bun install
+bunx lefthook install
+```
+
+### Linting
+
+[Lefthook](https://github.com/evilmartians/lefthook) runs pre-commit hooks that auto-fix staged files:
+
+| Files | Tool |
+|-------|------|
+| `.md` | markdownlint |
+| `.json` | biome |
+| `.html` | prettier |
+| `.yml` / `.yaml` | prettier |
+| `.py` | ruff |
+| `.sh` | shellcheck |
+
+A commit-msg hook enforces [conventional commits](https://www.conventionalcommits.org/) via commitlint.
+
+To lint the entire repo manually:
+
+```sh
+bun run lint:fix
+```
+
 ## License
 
 MIT
