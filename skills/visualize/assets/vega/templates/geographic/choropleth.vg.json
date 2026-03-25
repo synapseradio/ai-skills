@@ -1,7 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v6.json",
   "_metadata": {
-    "dataFormat": "Array of objects with 'id' (integer FIPS code) and 'rate' (quantitative value between 0 and 1) fields. Joined to TopoJSON county geometries via lookup transform.",
     "customization": [
       "Replace 'values' array in data[0] with your geographic data",
       "Change the 'id' and 'rate' field names in data, lookup transform, scales, and marks",
@@ -11,12 +9,24 @@
       "Update legends[0].title and legends[0].format for your metric",
       "Modify title.text and description for your context"
     ],
+    "dataFormat": "Array of objects with 'id' (integer FIPS code) and 'rate' (quantitative value between 0 and 1) fields. Joined to TopoJSON county geometries via lookup transform.",
     "notes": "Sample contains only 20 Alabama counties. Replace with full dataset for production. The identity projection works with pre-projected TopoJSON (Albers USA). Use a different projection type for unprojected coordinates."
   },
-  "description": "US county-level unemployment rate choropleth map. Sequential blue color scheme encodes unemployment rate by FIPS code.",
-  "width": 960,
-  "height": 600,
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
   "autosize": "none",
+  "config": {
+    "aria": true,
+    "axis": {
+      "labelFont": "system-ui, -apple-system, sans-serif",
+      "titleFont": "system-ui, -apple-system, sans-serif"
+    },
+    "title": {
+      "font": "system-ui, -apple-system, sans-serif"
+    },
+    "view": {
+      "stroke": null
+    }
+  },
   "data": [
     {
       "name": "unemployment",
@@ -104,95 +114,81 @@
       ]
     },
     {
-      "name": "counties",
-      "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json",
       "format": {
-        "type": "topojson",
-        "feature": "counties"
+        "feature": "counties",
+        "type": "topojson"
       },
+      "name": "counties",
       "transform": [
         {
-          "type": "lookup",
-          "from": "unemployment",
-          "key": "id",
           "fields": [
             "id"
           ],
+          "from": "unemployment",
+          "key": "id",
+          "type": "lookup",
           "values": [
             "rate"
           ]
         }
-      ]
-    }
-  ],
-  "projections": [
-    {
-      "name": "projection",
-      "type": "identity"
-    }
-  ],
-  "scales": [
-    {
-      "name": "color",
-      "type": "quantize",
-      "domain": [
-        0,
-        0.15
       ],
-      "range": {
-        "scheme": "blues",
-        "count": 7
-      }
+      "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json"
     }
   ],
+  "description": "US county-level unemployment rate choropleth map. Sequential blue color scheme encodes unemployment rate by FIPS code.",
+  "height": 600,
   "legends": [
     {
-      "fill": "color",
-      "orient": "bottom-right",
-      "title": "Unemployment Rate",
-      "format": ".1%",
       "encode": {
         "labels": {
           "update": {
-            "fontSize": {
-              "value": 11
-            },
             "fill": {
               "value": "#666"
+            },
+            "fontSize": {
+              "value": 11
             }
           }
         },
         "title": {
           "update": {
-            "fontSize": {
-              "value": 12
-            },
             "fill": {
               "value": "#333"
+            },
+            "fontSize": {
+              "value": 12
             }
           }
         }
-      }
+      },
+      "fill": "color",
+      "format": ".1%",
+      "orient": "bottom-right",
+      "title": "Unemployment Rate"
     }
   ],
   "marks": [
     {
-      "type": "shape",
-      "from": {
-        "data": "counties"
-      },
       "encode": {
         "enter": {
           "tooltip": {
             "signal": "datum.rate != null ? { 'County FIPS': datum.id, 'Unemployment': format(datum.rate, '.1%') } : { 'County FIPS': datum.id, 'Unemployment': 'No data' }"
           }
         },
+        "hover": {
+          "stroke": {
+            "value": "#333"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        },
         "update": {
           "fill": [
             {
-              "test": "datum.rate != null",
+              "field": "rate",
               "scale": "color",
-              "field": "rate"
+              "test": "datum.rate != null"
             },
             {
               "value": "#ddd"
@@ -204,35 +200,54 @@
           "strokeWidth": {
             "value": 0.3
           }
-        },
-        "hover": {
-          "stroke": {
-            "value": "#333"
-          },
-          "strokeWidth": {
-            "value": 1.5
-          }
         }
+      },
+      "from": {
+        "data": "counties"
       },
       "transform": [
         {
-          "type": "geoshape",
-          "projection": "projection"
+          "projection": "projection",
+          "type": "geoshape"
         }
-      ]
+      ],
+      "type": "shape"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "projections": [
+    {
+      "name": "projection",
+      "type": "identity"
+    }
+  ],
+  "scales": [
+    {
+      "domain": [
+        0,
+        0.15
+      ],
+      "name": "color",
+      "range": {
+        "count": 7,
+        "scheme": "blues"
+      },
+      "type": "quantize"
     }
   ],
   "title": {
-    "text": "US County Unemployment Rates",
-    "subtitle": "Sample data -- replace with full dataset for production use",
+    "anchor": "start",
     "fontSize": 16,
+    "offset": 16,
+    "subtitle": "US county unemployment rate by FIPS code — sample: 20 Alabama counties (% of labor force)",
+    "subtitleColor": "#868e96",
     "subtitleFontSize": 12,
-    "subtitleColor": "#666",
-    "anchor": "start"
+    "text": "Rural Alabama counties face unemployment rates 2× the suburban average"
   },
-  "config": {
-    "view": {
-      "stroke": null
-    }
-  }
+  "width": 960
 }

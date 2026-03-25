@@ -1,351 +1,215 @@
 # Interact Mode
 
-Add dynamic behavior through brushing, filtering, transitions, and responsive adaptation. Verify D3 interaction APIs (d3.brush, d3.zoom, d3.drag) against the current D3 documentation before implementing.
+Add tooltips, selection, filtering, zoom/pan, and responsive behavior. Load this during
+Phase 3 (Build) when signals indicate interactivity ("hover", "filter", "brush", "zoom",
+"linked views"). Verify D3 interaction APIs (d3.brush, d3.zoom, d3.drag) against current
+D3 docs before implementing.
 
-## When to Use
+## Interaction Vocabulary
 
-- Adding interactivity to visualizations
-- Implementing filtering and selection
-- Creating zoom and pan functionality
-- Adding hover tooltips
-- Implementing brush selection
-- Creating linked views
-- Making visualizations responsive to user input
+- **Selection/highlighting** — hover for details on demand; click to create persistent focus;
+  brushing to select regions by extent
+- **Filtering** — hide data outside a condition; use external controls (slider, dropdown) or
+  in-chart brush to drive transforms
+- **Navigation** — zoom changes detail level; pan moves the viewport; both can be coordinated
+  across views
+- **Linked views** — a selection or brush in one view propagates highlight or filter to others
+  sharing the same data dimension
 
-## Applicability Check
+---
 
-**In comprehensive mode**: Runs when interactivity would enhance exploration or understanding.
+## Vega Interaction Patterns
 
-**Signals to check**:
+Vega interaction is built on **signals** — reactive named values that update on events and
+drive mark properties via expressions.
 
-- Is this visualization intended for web/interactive medium (not print/static)?
-- Would users benefit from exploring different subsets of data?
-- Is there too much data to show at once without filtering?
-- Would comparing selected elements add insight?
-- Does the audience need to find their own patterns?
+### Tooltip via signal + vegaEmbed plugin
 
-**Quick check**: Would static display suffice for this use case? If static is adequate → skip with "Static visualization sufficient." If users need exploration → run this mode.
-
-## Core Principle
-
-Interaction transforms passive viewing into active exploration. Static visualizations present a single perspective; interactive visualizations let viewers discover perspectives relevant to their questions. The goal is not decoration but empowerment—giving users the tools to find insights the author couldn't anticipate.
-
-## The Interaction Vocabulary
-
-D3.js and modern visualization libraries provide a vocabulary of interaction techniques. Each serves different analytical goals:
-
-### Selection and Highlighting
-
-**Hover effects** provide details on demand without cluttering the view:
-
-- Reveal exact values for data points
-- Show contextual information (labels, categories, metadata)
-- Highlight related elements across views
-
-**Click selection** creates persistent focus:
-
-- Toggle individual element selection
-- Build comparison sets
-- Trigger drill-down to detail views
-
-**Brushing** selects regions:
-
-- Rectangle brush for 2D selection
-- 1D brush for range selection on axes
-- Lasso for irregular regions
-
-### Filtering and Subsetting
-
-**Direct manipulation filters** use the visualization itself:
-
-- Brush to select ranges
-- Click legend items to show/hide categories
-- Slider controls linked to data dimensions
-
-**Parametric filters** use external controls:
-
-- Dropdowns for category selection
-- Range sliders for continuous dimensions
-- Search boxes for text filtering
-
-### Navigation and Focus
-
-**Zoom** changes the level of detail:
-
-- Geometric zoom (magnification)
-- Semantic zoom (different representations at different scales)
-- Focus+context (detail in focus area, overview in periphery)
-
-**Pan** moves the viewport:
-
-- Click-and-drag for manual navigation
-- Animated transitions to points of interest
-- Minimap for orientation in large spaces
-
-### Linked Views
-
-**Brushing and linking** coordinates multiple visualizations:
-
-- Select in one view, highlight in others
-- Filter in one view, filter in all
-- Hover in one view, tooltip in related views
-
-**Coordinated navigation**:
-
-- Zoom one view, zoom all
-- Filter one dimension, update all views showing that dimension
-- Time scrubber controls all temporal views
-
-## Instructions
-
-### 1. Identify the Interaction Goals
-
-Before adding interactivity, clarify what users need to do:
-
-**Exploration goals**:
-
-- Find specific data points (search, filter)
-- Compare selected subsets (selection, linking)
-- See different perspectives (filter, zoom)
-- Discover patterns (brush, animate)
-
-**Task analysis**:
-
-- What questions will users bring?
-- What comparisons matter?
-- What level of detail is needed?
-- How much data must be navigable?
-
-Match interaction techniques to goals. Don't add interactivity for its own sake.
-
-### 2. Implement Tooltips
-
-Tooltips are the most common and lowest-commitment interaction. They reveal details without changing the view.
-
-**Vega-Lite** (primary — covers most chart types): Set `"tooltip": true` on marks for default tooltips, or use a tooltip encoding array for custom content:
+Set `{"tooltip": {"signal": "datum"}}` on any mark. vegaEmbed's tooltip plugin renders it
+automatically. Use a signal expression to control which fields appear:
 
 ```json
 {
-  "mark": {"type": "bar", "tooltip": true},
-  "encoding": {
-    "tooltip": [
-      {"field": "name", "type": "nominal", "title": "Company"},
-      {"field": "revenue", "type": "quantitative", "title": "Revenue", "format": "$,.0f"}
-    ]
-  }
-}
-```
-
-**Vega**: Build tooltip content via signal expressions:
-
-```json
-{"tooltip": {"signal": "{'Name': datum.name, 'Value': format(datum.value, ',.0f')}"}}
-```
-
-**D3** (sankey/custom only): See `d3-patterns.md` for custom tooltip implementation with positioning.
-
-**Tooltip best practices** (all engines):
-
-- Position near but not obscuring the element
-- Include context (name, category) not just value
-- Use consistent formatting across visualizations
-- Note: VL/Vega tooltips are hover-only (no keyboard activation)
-
-### 3. Implement Selection and Brushing
-
-**Vega-Lite point selection** — click to highlight:
-
-```json
-{
-  "params": [{"name": "highlight", "select": {"type": "point", "fields": ["category"]}}],
-  "encoding": {
-    "opacity": {"condition": {"param": "highlight", "value": 1}, "value": 0.3}
-  }
-}
-```
-
-**Vega-Lite interval selection** — drag to brush a range:
-
-```json
-{
-  "params": [{"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}],
-  "encoding": {
-    "color": {
-      "condition": {"param": "brush", "field": "category", "type": "nominal"},
-      "value": "grey"
+  "marks": [{
+    "type": "rect",
+    "encode": {
+      "update": {
+        "tooltip": {"signal": "{'Name': datum.name, 'Value': format(datum.value, ',.0f')}"}
+      }
     }
-  }
+  }]
 }
 ```
 
-**Vega-Lite legend binding** — click legend entries to filter:
+For a fully custom in-SVG tooltip (no plugin), add a `text` mark driven by a `tooltip` signal
+(`"on": [{"events": "rect:pointerover", "update": "datum"}, {"events": "rect:pointerout", "update": "{}"}]`)
+and conditional opacity.
+
+### Hover highlight via signal + conditional opacity
 
 ```json
 {
-  "params": [{"name": "legendFilter", "select": {"type": "point", "fields": ["category"]}, "bind": "legend"}],
-  "encoding": {"opacity": {"condition": {"param": "legendFilter", "value": 1}, "value": 0.1}}
+  "signals": [
+    {
+      "name": "hovered", "value": null,
+      "on": [
+        {"events": "symbol:pointerover", "update": "datum.category"},
+        {"events": "symbol:pointerout",  "update": "null"}
+      ]
+    }
+  ],
+  "marks": [{
+    "type": "symbol",
+    "encode": {
+      "update": {
+        "opacity": {"signal": "hovered === null || hovered === datum.category ? 1 : 0.2"}
+      }
+    }
+  }]
 }
 ```
 
-**Vega signals** — for custom event logic beyond VL's selection model:
+### Click filtering via signal + data filter
 
 ```json
 {
-  "signals": [{
-    "name": "hovered", "value": null,
-    "on": [
-      {"events": "symbol:pointerover", "update": "datum"},
-      {"events": "symbol:pointerout", "update": "null"}
+  "signals": [
+    {
+      "name": "selected", "value": null,
+      "on": [
+        {"events": "rect:click", "update": "selected === datum.category ? null : datum.category"}
+      ]
+    }
+  ],
+  "data": [{
+    "name": "filtered",
+    "source": "source",
+    "transform": [
+      {"type": "filter", "expr": "selected === null || datum.category === selected"}
     ]
   }]
 }
 ```
 
-### 4. Implement Filtering and Linked Views
-
-**Vega-Lite input binding** — sliders, dropdowns, and other controls:
+### Brush selection via signals
 
 ```json
 {
-  "params": [
-    {"name": "minRevenue", "value": 0, "bind": {"input": "range", "min": 0, "max": 100000, "step": 1000, "name": "Min Revenue: "}},
-    {"name": "selectedRegion", "bind": {"input": "select", "options": [null, "North", "South", "East"], "name": "Region: "}}
+  "signals": [
+    {"name": "brushStart", "value": 0, "on": [{"events": "mousedown", "update": "x()"}]},
+    {"name": "brushEnd",   "value": 0, "on": [{"events": "mouseup",   "update": "x()"}]}
   ],
-  "transform": [
-    {"filter": "datum.revenue >= minRevenue"},
-    {"filter": "selectedRegion == null || datum.region == selectedRegion"}
-  ]
+  "data": [{
+    "name": "brushed",
+    "source": "source",
+    "transform": [{
+      "type": "filter",
+      "expr": "brushStart === brushEnd || (scale('xscale', datum.value) >= min(brushStart, brushEnd) && scale('xscale', datum.value) <= max(brushStart, brushEnd))"
+    }]
+  }]
 }
 ```
 
-**Vega-Lite brush-linked views** — brush in overview drives detail:
+Add a `rect` mark driven by `min(brushStart, brushEnd)` / `max(brushStart, brushEnd)` to
+render the selection rectangle visually.
 
-```json
-{
-  "vconcat": [
-    {
-      "params": [{"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}],
-      "mark": "area", "height": 60,
-      "encoding": {"x": {"field": "date", "type": "temporal"}, "y": {"field": "value", "type": "quantitative"}}
-    },
-    {
-      "mark": "area", "height": 300,
-      "encoding": {
-        "x": {"field": "date", "type": "temporal", "scale": {"domain": {"param": "brush"}}},
-        "y": {"field": "value", "type": "quantitative"}
-      }
-    }
-  ]
-}
+---
+
+## D3 Interaction Patterns
+
+D3 is imperative — attach listeners to selections, update DOM on events.
+
+### Hover tooltip
+
+```js
+const tip = d3.select("body").append("div")
+  .style("position", "absolute").style("visibility", "hidden")
+  .style("background", "#fff").style("border", "1px solid #ccc")
+  .style("padding", "6px 10px").style("font-size", "13px");
+
+svg.selectAll("circle")
+  .on("pointerover", (event, d) => tip.style("visibility", "visible")
+      .html(`<strong>${d.name}</strong>: ${d3.format(",.0f")(d.value)}`))
+  .on("pointermove", e => tip.style("top", `${e.pageY - 28}px`).style("left", `${e.pageX + 12}px`))
+  .on("pointerout", () => tip.style("visibility", "hidden"));
 ```
 
-### 5. Responsive and Mobile
+### Transitions
 
-**Vega-Lite**: Use `"width": "container"` with a parent element that has defined width. The chart resizes automatically.
-
-**Touch targets**: Ensure interactive elements meet 44px minimum. For VL, increase point size: `"mark": {"type": "point", "size": 200}`.
-
-**Mobile considerations** (all engines):
-
-- Tap replaces hover for tooltips on touch devices
-- Simplified interactions (fewer simultaneous gestures)
-- Landscape vs portrait layout adaptation
-
-### 6. D3 Interaction Patterns (sankey and custom templates)
-
-For D3-based charts requiring imperative interaction control (brushing, zoom, drag, transitions, performance optimization with Canvas), see:
-
-- `d3-patterns.md` for tooltip, hover, and force-directed interaction patterns
-- `canvas-patterns.md` for large dataset performance (>1000 elements)
-- `network-patterns.md` for force-directed graph interaction patterns
-
-## Common Interaction Patterns
-
-### Details-on-Demand
-
-Show summary, reveal detail on interaction:
-
-```
-Overview → Hover for tooltip → Click for detail panel → Drill to full view
+```js
+svg.selectAll("rect").data(newData).join("rect")
+  .transition().duration(400).ease(d3.easeCubicOut)
+    .attr("y", d => yScale(d.value))
+    .attr("height", d => height - yScale(d.value));
 ```
 
-### Focus + Context
+### Zoom and pan
 
-Detailed view of focus area, compressed overview of context:
+```js
+svg.call(d3.zoom().scaleExtent([1, 8]).on("zoom", e => g.attr("transform", e.transform)));
+```
 
-- Fisheye distortion
-- Minimap navigation
-- Semantic zoom levels
+### Brush
 
-### Direct Manipulation
+```js
+const brush = d3.brushX()
+  .extent([[0, 0], [width, height]])
+  .on("brush end", ({selection}) => {
+    if (!selection) return;
+    const [x0, x1] = selection.map(xScale.invert);
+    updateDetail(x0, x1); // filter data to [x0, x1] and re-render
+  });
+svg.append("g").call(brush);
+```
 
-Interact with data through the visualization itself:
-
-- Drag to reorder
-- Brush to filter
-- Click legend to toggle
-- Resize panels to allocate space
-
-### Animated Storytelling
-
-Guide users through a narrative with transitions:
-
-- Scrollytelling (scroll triggers transitions)
-- Stepper (buttons advance narrative)
-- Play/pause for temporal animation
+---
 
 ## Temporal States
 
-Visualizations exist across time, not in a single rendered frame. Design for
-the 30% of sessions where data isn't present or well-formed.
+Visualizations exist across time, not in a single rendered frame. Design for the sessions
+where data isn't present or well-formed — roughly 30% of real-world usage.
 
-**Loading state.** Show chart structure before data arrives — skeleton with axis
-placeholders and muted grid. Never show an empty axis with no explanation.
+**Loading state.** Show chart structure before data arrives — skeleton with axis placeholders
+and muted grid. Never show an empty axis with no explanation.
 
-**Error state.** Communicate failure clearly and non-technically. The error display
-IS a visual claim — "something went wrong" is better than a blank chart that
-implies "nothing to see."
+**Error state.** Communicate failure clearly and non-technically. The error display IS a
+visual claim — "something went wrong" is better than a blank chart that implies "nothing
+to see."
 
-**Empty state.** When filters return zero results, explain why and suggest recovery
-actions (broaden filters, check date range). A blank chart says "nothing to see" —
-often wrong.
+**Empty state.** When filters return zero results, explain why and suggest recovery actions
+(broaden filters, check date range). A blank chart says "nothing to see" — often wrong.
 
-**Partial data.** Indicate completeness visually. Incomplete data is not neutral —
-the brain fills ambiguity with confabulation, inventing patterns in gaps. Use
-dashed lines, reduced opacity, or explicit "data through [date]" annotations.
+**Partial data.** Indicate completeness visually. Incomplete data is not neutral — the brain
+fills ambiguity with confabulation, inventing patterns in gaps. Use dashed lines, reduced
+opacity, or explicit "data through [date]" annotations.
 
-**Staleness.** When data hasn't refreshed, communicate age. A dashboard showing
-yesterday's data without saying so is making a false currency claim.
+**Staleness.** When data hasn't refreshed, communicate age. A dashboard showing yesterday's
+data without saying so is making a false currency claim.
 
-## Interaction Limitations
+---
 
-Choose the right tool by understanding what each layer cannot do:
+## Responsive Behavior
 
-| Limitation | Vega-Lite | Vega | D3 |
-|------------|-----------|------|----|
-| Custom drag behavior | Not supported | Supported via signals | Full control |
-| Programmatic animation | Not supported | Limited (timer signals) | Full control (`d3.transition`) |
-| Complex event sequences | Single selections only | Full event stream algebra | Full DOM event handling |
-| Tooltips | Hover-only (no keyboard activation) | Hover-only (no keyboard activation) | Can bind to focus events |
-| Force layout interaction | Not available | Drag via signal + force restart | Full `d3.drag` + `d3.forceSimulation` |
+**Vega autosize.** Set `"autosize": {"type": "fit", "contains": "padding"}` and `"width": "container"`.
+The wrapper HTML must have a defined-width parent element.
 
-**Choosing the interaction layer**:
+**D3 viewBox.** Set `viewBox="0 0 W H" preserveAspectRatio="xMidYMid meet"` on `<svg>` and size
+it to 100% width. No resize listener needed. Add a ResizeObserver only when re-projecting geographic
+data or recomputing scales.
 
-- **VL selections** when the pattern is standard (brush, click-to-highlight, legend filter, slider)
-- **Vega signals** when you need custom event logic but want declarative rendering
-- **D3** when you need full DOM control (sankey template, complex animations, keyboard-activated tooltips)
+**Mobile considerations:**
 
-## Sources
+- Tap replaces hover — attach `click` (or `pointerup`) as the tooltip trigger on touch targets
+- Touch targets must be at least 44px; increase Vega mark size accordingly
+  (`"mark": {"type": "point", "size": 200}`)
+- Simplify brush interactions on mobile — multi-finger gestures conflict with scroll
+- Consider landscape vs portrait layout adaptation for wide charts
 
-- D3.js documentation — https://d3js.org/getting-started
-- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
-- Vega-Lite documentation — https://vega.github.io/vega-lite/docs/
-- Vega documentation — https://vega.github.io/vega/docs/
-- Shneiderman, B. (1996). "The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations." *IEEE Symposium on Visual Languages*.
+---
 
 ## Phase Transition
 
-After adding interactions, consider:
+After adding interactions:
 
-- **Access** to verify keyboard accessibility of all interactions
-- **Refine** to ensure interactions don't clutter or confuse
+- **Access** — verify keyboard accessibility of all interactions
+- **Refine** — ensure interactions don't clutter or confuse

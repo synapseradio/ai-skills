@@ -1,6 +1,35 @@
 # Encode Mode
 
-Select visual channels that match data types and maximize perceptual accuracy. Verify Cleveland-McGill rankings and D3 scale APIs against the original research and current documentation before applying.
+Implementation guidance for encoding decisions. For core principles (channel ranking, data-type matching,
+sqrt scaling, zero baselines), see SKILL.md. This document covers HOW to apply those principles.
+
+## Contents
+
+1. [Encoding Anti-Patterns](#encoding-anti-patterns)
+2. [Quick Reference](#quick-reference)
+3. [Encoding Process](#encoding-process)
+4. [Cognitive Mode Strategy](#cognitive-mode-strategy)
+5. [Scale Selection](#scale-selection)
+6. [Channel Combinations](#channel-combinations)
+7. [Density-Aware Encoding](#density-aware-encoding)
+8. [Network Encoding](#network-encoding)
+
+---
+
+## Encoding Anti-Patterns
+
+Read these BEFORE making encoding decisions.
+
+| Mistake | Why It Fails | Fix |
+|---------|-------------|-----|
+| Area for precise comparison | ~20-50% error; psychophysical compression makes 2x area look like 1.5x | Use position or length; if area required, add value labels |
+| Hue for magnitude | No perceptual ordering — "is red more than blue?" has no answer | Use luminance or saturation for magnitude; reserve hue for categories |
+| Length for categories | Implies one category is "more" than another when no order exists | Use hue, shape, or spatial region |
+| Encoding > 3 variables on one mark | Overwhelms working memory; viewers cannot decompose more than 3 channels simultaneously | Split into small multiples or separate panels |
+| Same channel for two variables | Viewers cannot separate the two signals | Use separable channel pairs (see combinations table) |
+| Linear radius for circles | Quadratic area distortion — 2x radius = 4x visual area | Scale radius by sqrt of value |
+
+---
 
 ## Quick Reference
 
@@ -8,389 +37,206 @@ Select visual channels that match data types and maximize perceptual accuracy. V
 
 | Data Type | Best Channels | Avoid |
 |-----------|---------------|-------|
-| **Quantitative (Q)** | Position, length, area, luminance | Hue, shape (imply no magnitude) |
-| **Ordinal (O)** | Position, length, luminance, saturation | Hue, shape (imply no order) |
-| **Nominal (N)** | Hue, shape, spatial region | Length, area (imply false order) |
-| **Temporal (T)** | Position on x-axis with time scale | N/A |
+| **Quantitative (Q)** | Position, length, area, luminance | Hue, shape (no magnitude) |
+| **Ordinal (O)** | Position, length, luminance, saturation | Hue, shape (no order) |
+| **Nominal (N)** | Hue, shape, spatial region | Length, area (false magnitude) |
+| **Temporal (T)** | Position on x-axis (time scale) | — |
 
-### Data Type → D3 Scale / Vega-Lite Encoding
+### Channel Effectiveness Ranking (quantitative)
 
-| Data + Channel | D3 Scale | VL Encoding Type | Example |
-|----------------|----------|------------------|---------|
-| Q → Position | `d3.scaleLinear()` | `"type": "quantitative"` | Scatter plot axes |
-| Q → Position (skewed) | `d3.scaleLog()` | `"type": "quantitative", "scale": {"type": "log"}` | Wide-range data |
-| Q → Color | `d3.scaleSequential()` | `"type": "quantitative"` | Heatmap cells |
-| O → Position | `d3.scaleBand()` | `"type": "ordinal"` | Bar chart categories |
-| N → Color | `d3.scaleOrdinal()` | `"type": "nominal"`, `"scale": {"scheme": "tableau10"}` | Category colors |
-| T → Position | `d3.scaleTime()` | `"type": "temporal"` | Line chart x-axis |
+| Rank | Channel | Typical Error | Use When |
+|------|---------|--------------|----------|
+| 1 | Position, common scale | ~2-5% | Primary variable — always first choice |
+| 2 | Position, unaligned scale | ~5-10% | Small multiples, faceted comparison |
+| 3 | Length | ~5-10% | Bar charts (requires zero baseline) |
+| 4 | Angle / slope | ~10-20% | Trends (line slope), proportions (pie, ≤5 slices) |
+| 5 | Area | ~20-50% | Third variable (bubbles), hierarchical (treemap) |
+| 6 | Luminance / saturation | ~50%+ | Heatmaps, choropleths — ordinal "more/less" only |
 
-### Channel Effectiveness (Cleveland-McGill Ranking)
-
-Most accurate to least accurate for **quantitative** comparison:
-
-1. Position on common scale (scatter, aligned bars)
-2. Position on unaligned scales (small multiples)
-3. Length (bar height)
-4. Angle/slope (line trends, pie slices)
-5. Area (bubbles, treemaps)
-6. Color luminance/saturation (heatmaps)
-
-### Vega-Lite Type System → Perceptual Channels
-
-VL's type system maps directly to Cleveland-McGill data types, guiding channel selection:
-
-| VL Type | Cleveland-McGill Category | Best Channels |
-|---------|--------------------------|---------------|
-| `"quantitative"` | Magnitude | Position, length, area (most accurate channels) |
-| `"nominal"` | Identity | Color hue, shape (identity channels) |
-| `"ordinal"` | Ordered | Position, saturation (ordered channels) |
-| `"temporal"` | Time | Position on time axis |
-
-For detailed methodology, continue to the full instructions below.
+For **nominal data**, use identity channels: spatial region, hue, shape, motion (sparingly).
 
 ---
 
-## When to Use
+## Encoding Process
 
-- Choosing how to encode data visually
-- Deciding between chart types or visual representations
-- Mapping data attributes to marks and channels
-- The user asks "what chart type" or "how should I represent this data"
-- Evaluating whether an existing encoding effectively communicates the data
+### Step 1 — Classify every data attribute
 
-## Applicability Check
+- **Q (Quantitative):** Continuous, arithmetic meaningful. Revenue, temperature, counts.
+- **O (Ordinal):** Ordered, intervals meaningless. Education level, satisfaction rating, size (S/M/L).
+- **T (Temporal):** Time-based. May behave as Q (durations) or O (named months). Decide which matters.
+- **N (Nominal):** Unordered categories. Country, product type, user ID.
 
-**In comprehensive mode**: Always runs—encoding is the foundation of every visualization.
+Classification determines what channels are legal. Getting this wrong produces misleading charts.
 
-**Quick check**: Does data exist that needs visual representation? If yes → run this mode.
+### Step 2 — Determine cognitive mode
 
-## Instructions
+See [Cognitive Mode Strategy](#cognitive-mode-strategy). This changes which channels get priority.
 
-Choose visual encodings that match data semantics and leverage human perception. The goal is not decoration but accurate, efficient communication of quantitative relationships.
+### Step 3 — Assign channels top-down
 
-Select encodings systematically by matching data types to channels ranked by perceptual effectiveness:
+1. Map the primary variable to the highest-ranked available channel (position first).
+2. Map the secondary variable to the next available channel that is separable from the first.
+3. If a third variable exists, use a channel separable from both (or switch to small multiples).
+4. For each assignment, verify expressiveness: does this channel type match the data type?
 
-### 1. Classify Your Data Attributes
+### Step 4 — Choose scales
 
-Before selecting channels, identify what each data attribute represents. This classification determines which channels can express it accurately:
+See [Scale Selection](#scale-selection). Match scale type to data classification and distribution shape.
 
-**Quantitative (Q)**: Continuous numeric values with meaningful arithmetic relationships. Temperature, revenue, counts, percentages. The difference between 10 and 20 is meaningful, as is 20 being twice 10.
+### Step 5 — Validate
 
-**Ordinal (O)**: Ordered categories where sequence matters but intervals do not. Education levels (high school < bachelor's < master's < PhD), satisfaction ratings (poor < fair < good < excellent), size categories (S < M < L < XL). The ordering is meaningful; the "distance" between values is not.
+- **Accuracy:** Can the viewer extract values at the precision the task requires?
+- **Comparison:** Are the quantities being compared on the same scale?
+- **Discrimination:** Can the viewer distinguish all categories at real data density?
+- **Accessibility:** Simulate deuteranopia/protanopia — if distinctions vanish, add redundant encoding.
 
-**Nominal (N)**: Categories with no inherent order. Country names, product categories, user IDs. Any ordering would be arbitrary. The only meaningful operation is identity (same or different).
+---
 
-**Temporal (T)**: Time-based values that may act quantitative (durations, timestamps for trend analysis) or ordinal (named months, weekdays). Determine which behavior matters for your analysis.
+## Cognitive Mode Strategy
 
-Classification determines expressiveness: using a magnitude channel (length) for nominal data falsely implies ordering; using an identity channel (hue) for quantitative data obscures magnitudes.
+Before applying the channel hierarchy, determine what the viewer needs to DO with the chart. This is
+the single most important encoding decision after data classification.
 
-### 2. Apply the Effectiveness Hierarchy
+### Inference mode — "arrive at a conclusion"
 
-Channels differ in perceptual accuracy. Research by Cleveland and McGill established rankings that guide selection. For **quantitative data**, prefer channels higher on this list:
+The viewer holds information in working memory, reasons about relationships, extracts values.
 
-1. **Position on common scale** (most accurate) - Points along a shared axis. Scatterplots, dot plots, aligned bar charts.
-2. **Position on unaligned scales** - Points on separate axes. Small multiples, faceted plots.
-3. **Length** - Bar height or width. Bar charts, Gantt charts.
-4. **Angle/Slope** - Line slopes, pie slices. Line chart trends, radar charts.
-5. **Area** - Circle size, rectangle area. Bubble charts, treemaps.
-6. **Color luminance/saturation** - Light to dark, weak to intense. Heatmaps, choropleths.
-7. **Volume** (least accurate) - 3D size. Rarely appropriate.
+- **Prioritize accuracy:** Use highest-ranked channels (position, length).
+- **Structure the reading path:** Title states the claim → primary data confirms it → secondary data provides context.
+- **Reduce working memory load:** Direct labels on marks. Bring compared elements close together.
+- **Minimize channel interference:** Use separable pairings only.
 
-For **ordinal data**, the same ranking applies but with more tolerance for lower-ranked channels since precise magnitude judgment is unnecessary.
+Example: "Q3 revenue grew 12% driven by Northeast expansion" — the viewer needs to verify the 12%
+claim, compare regions, identify the Northeast contribution. Position on common scale, direct labels.
 
-For **nominal data**, use identity channels:
+### Recognition mode — "make a decision"
 
-- **Spatial region** - Grouping by position
-- **Color hue** - Categorical color palettes
-- **Shape** - Circles, squares, triangles
-- **Motion** - Animated transitions (use sparingly)
+The viewer needs to pattern-match and act. The answer should fire before reading any text.
 
-See `cleveland-mcgill.md` for the perceptual research foundation.
+- **Prioritize pre-attentive channels:** Saturated color, size contrast, spatial isolation.
+- **Make the signal categorical:** Normal/abnormal, above/below threshold, in/out of range.
+- **Use pop-out:** One saturated element in a field of muted tones. The critical item should be
+  visually "loud" relative to everything else.
+- **Accept lower accuracy:** The viewer doesn't need the exact number — they need the category.
 
-### Cognitive Mode Determines Strategy
+Example: "Server latency exceeded SLA" — the viewer needs to spot which servers are red, not read
+the exact millisecond values. Threshold coloring, large marks for violations.
 
-Before applying the hierarchy, determine whether the viewer needs inference or recognition:
+### Diagnostic
 
-**Inference mode** (conclusion-seeking): Prioritize highest-accuracy channels. Structure the
-reading path. Provide direct labels to reduce working memory load. Minimize competitive
-interference between channels. The viewer must hold information and reason about it.
+Ask: "Is the viewer supposed to arrive at a conclusion, or make a decision?"
 
-**Recognition mode** (decision-making): Prioritize pre-attentive channels for the critical
-signal. The answer should fire before the viewer reads a word. Categorical disruption beats
-subtle hue shift for anomaly detection. The viewer must pattern-match and act.
+Conflating these modes produces charts that are technically accurate but cognitively wrong — inference
+charts with decorative color that distracts from the reading path, or recognition charts with precise
+axes that slow down the pattern match.
 
-Diagnostic: "Is the viewer supposed to arrive at a conclusion, or make a decision?"
-Conflating these modes produces charts that are technically accurate but cognitively wrong.
+---
 
-### 3. Match Channel to Data Type (Expressiveness)
+## Scale Selection
 
-Ensure the channel can express all and only the relationships in your data:
+Choose scales based on data distribution and perceptual goals, not API convenience.
 
-| Data Type | Expressive Channels | Inexpressive Channels |
-|-----------|--------------------|-----------------------|
-| Quantitative | Position, length, area, luminance | Hue, shape (imply no magnitude) |
-| Ordinal | Position, length, luminance, saturation | Hue, shape (imply no order) |
-| Nominal | Hue, shape, spatial region | Length, area (imply false order) |
+### When to use each scale type
 
-**Expressiveness violations create misleading visualizations.** Using bar length for categories implies one category is "more" than another. Using color hue for quantities obscures whether red is more or less than blue.
+| Scale | Data Shape | Why | Watch Out |
+|-------|-----------|-----|-----------|
+| **Linear** | Evenly distributed, meaningful zero | Preserves proportional reasoning; "twice as far = twice the value" | Poor for data spanning 3+ orders of magnitude |
+| **Log** | Spans multiple orders of magnitude (1, 10, 100, 1000) | Equal visual distance = equal multiplicative change | Cannot include zero; misleads viewers unfamiliar with log scales — label clearly |
+| **Sqrt** | Right-skewed counts, frequencies | Compresses high end less aggressively than log; zero-safe | Uncommon — viewers may not expect it |
+| **Band** | Categorical axis (bars) | Equal-width bands with padding for discrete items | Implies no ordering unless you enforce sort |
+| **Point** | Categorical axis (dots) | Equal spacing, no bandwidth — cleaner for dot plots | No bar width available |
+| **Time** | Dates, timestamps | Handles irregular intervals, DST, leap years correctly | Axis tick formatting needs explicit attention |
+| **Diverging** | Deviation from center (profit/loss, above/below average) | Two-hue color scale meeting at a neutral midpoint | Midpoint must be meaningful, not just the data median |
+| **Quantize / Threshold** | Continuous → discrete bins | Converts smooth gradient to stepped classes for choropleths | Bin boundaries change the story — choose deliberately |
 
-### 4. Consider Perceptual Separability
+### Perceptual guidance
 
-When encoding multiple attributes simultaneously, some channel combinations interfere with perception while others remain independent:
+- **Default to linear.** Only switch when the data distribution makes linear unreadable.
+- **Log scales require justification.** If the viewer doesn't understand logarithms, the chart fails.
+  Always add a note: "Log scale — each gridline is 10x the previous."
+- **Sqrt for area encoding.** When area represents quantity, apply sqrt to the underlying scale so
+  visual area is proportional to data value.
+- **Quantized/threshold scales editorialize.** Where you place bin boundaries determines what the map
+  "says." Document the binning rationale.
 
-**Separable (good)**: Position and color, position and shape, color and size. Viewers can attend to each independently.
+---
 
-**Integral (problematic)**: Width and height (perceived as area), red and green channels, position and length on same axis. Viewers perceive these holistically, making independent judgment difficult.
+## Channel Combinations
 
-**Asymmetrically separable**: Size interferes with shape (hard to compare shapes of different sizes) but shape does not interfere with size.
+### Separable pairs — viewers judge each independently
 
-When combining channels, prefer separable pairings. Reserve integral channels for single attributes.
+| Channel A | Channel B | Good For |
+|-----------|-----------|----------|
+| Position (x, y) | Hue | Scatter with categories |
+| Position (x, y) | Size | Bubble chart (third Q variable) |
+| Position (x, y) | Shape | Scatter with few nominal groups |
+| Hue | Shape | Redundant nominal encoding (accessibility) |
+| Hue | Size | Category + magnitude |
 
-### 5. Respect Pre-Attentive Processing
+### Integral pairs — viewers perceive as single gestalt
 
-Some visual properties "pop out" immediately without conscious search. Leverage these for emphasis:
+| Channel A | Channel B | The Problem |
+|-----------|-----------|-------------|
+| Width | Height | Perceived as area, not two independent values |
+| Red channel | Green channel | Fuse into single color percept |
+| Hue | Saturation | Difficult to separate; "light blue" vs "desaturated blue" |
+| Size | Shape | Larger marks change shape appearance; asymmetric interference |
 
-**Strong pop-out**: Color (hue and intensity), orientation, size, motion, enclosure, added marks
+### Redundant encoding
 
-**Weaker pop-out**: Shape (when size varies), position (when densely packed)
+Using two channels for the SAME variable (hue + shape for category) improves accessibility and speeds
+recognition. Use when the variable is critical to the chart's message.
 
-Use pre-attentive properties for:
+---
 
-- Highlighting outliers or important values
-- Enabling rapid category identification
-- Drawing attention to annotations or callouts
+## Density-Aware Encoding
 
-Limit pre-attentive properties to 4-7 distinguishable levels. Beyond that, viewers must search consciously.
+How many data points changes which channels work.
 
-### 6. Account for Data Density and Scale
+| Data Points | What Works | What Breaks | Strategy |
+|-------------|-----------|-------------|----------|
+| **< 20** | Everything — all channels discriminable | Nothing | Direct-label every mark. Consider whether a table is clearer. |
+| **20–200** | Position, color, size all effective | Shape past ~50 points starts blurring | Standard multi-channel encoding. This is the sweet spot. |
+| **200–10K** | Position dominates. Hue: ~8 categories max. | Area unreliable for comparison. Shape useless. Individual labels impossible. | Use transparency (alpha 0.2–0.5) to reveal density. Aggregate where possible. |
+| **10K+** | Position + density encoding | Individual marks meaningless. Color categories merge. | Aggregate: heatmap, hexbin, contour, density plot. Or sample. See `canvas-patterns.md` for rendering. |
 
-Encoding effectiveness depends on how many data points you're showing:
+---
 
-**Sparse data (< 20 points)**: All channels work well. Consider labels directly on points.
+## Network Encoding
 
-**Moderate data (20-200 points)**: Position remains effective. Color and size still distinguishable. Shape begins struggling past 50 points.
+Force-directed and node-link diagrams use channels differently than statistical charts.
 
-**Dense data (200-10,000 points)**: Position dominates. Use transparency (alpha) to show density. Color hue reduces to ~8 distinguishable categories. Area becomes unreliable for comparison.
+### Node channels
 
-**Very dense data (> 10,000 points)**: Consider aggregation or sampling. Heatmaps, hexbin plots, or contour lines encode density itself. Individual marks become meaningless.
+| Channel | Encodes | Scale | Notes |
+|---------|---------|-------|-------|
+| Radius | Degree, importance, value | **sqrt** (area perception) | Min 4px (click), 6px (touch), 8px (comfortable) |
+| Fill | Category, cluster | Ordinal | Pair with shape for accessibility |
+| Stroke | Selection state, highlight | Manual | 3:1 contrast against fill |
+| Shape | Entity type | Ordinal | ≤ 5 shapes |
 
-### 7. Select Scale Types
+### Edge channels
 
-Match scale types to your data classification and channel choice:
+| Channel | Encodes | Range | Notes |
+|---------|---------|-------|-------|
+| Stroke width | Weight, strength | 1.5–10px | Min 1.5px for visibility |
+| Opacity | Confidence, secondary | 0.4–1.0 | Below 0.3 disappears |
+| Color | Category, direction | Ordinal | Must pass 3:1 contrast against background |
+| Dash pattern | Edge type (binary) | Solid/dashed | Two states only |
 
-| Data + Channel | D3 Scale | VL Encoding | Notes |
-|----------------|----------|-------------|-------|
-| Q → Position | `d3.scaleLinear()` | `"type": "quantitative"` | Continuous input to continuous output |
-| Q → Position (skewed) | `d3.scaleLog()`, `d3.scaleSqrt()` | `"type": "quantitative", "scale": {"type": "log"}` | Transform before encoding |
-| Q → Color | `d3.scaleSequential()` | `"type": "quantitative"` | Use perceptually uniform interpolators |
-| O → Position | `d3.scalePoint()` | `"type": "ordinal"` | Equal spacing, no bandwidth |
-| O → Position (bars) | `d3.scaleBand()` | `"type": "ordinal"` | Includes bandwidth for bar width |
-| O → Color | `d3.scaleOrdinal()` | `"type": "ordinal"` | With ordered color scheme |
-| N → Color | `d3.scaleOrdinal()` | `"type": "nominal"`, `"scale": {"scheme": "tableau10"}` | With categorical scheme (`d3.schemeCategory10` / `tableau10`) |
-| N → Shape | Manual mapping | `"type": "nominal"`, `"shape": {"field": "..."}` | D3 symbols or VL built-in shapes |
-| T → Position | `d3.scaleTime()` | `"type": "temporal"` | Handles Date objects, proper tick formatting |
+### Network-specific rules
 
-Apply `.nice()` to quantitative scales for clean axis boundaries. Use `.domain()` with actual data extent, not assumed ranges. In VL, `"scale": {"nice": true}` is the default for quantitative axes.
+- Node radius MUST use sqrt scale — viewers judge area, not radius.
+- Edge opacity below 0.4 is invisible at normal zoom. Set 0.4 as floor.
+- Edge stroke-width below 1.5px renders as hairline on most screens. Set 1.5px as floor.
+- Interactive states (hover, focus) should produce ≥ 2x visual change from resting state.
 
-See `channel-guide.md` for detailed channel-by-channel implementation guidance.
-
-### 8. Validate the Encoding
-
-Before finalizing, test the encoding against these criteria:
-
-**Accuracy test**: Can viewers extract the actual values with acceptable precision? Bar charts allow ~10% accuracy; pie charts ~30%; area ~50%.
-
-**Comparison test**: Can viewers perform the comparisons the visualization is meant to support? If comparing two quantities, are they on the same scale?
-
-**Discrimination test**: Can viewers distinguish all the categories or values that matter? Test with real data at real density.
-
-**Perceptual uniformity test**: Does a visual difference of X represent the same data difference everywhere on the scale? Area and volume fail this—doubling area does not look like doubling.
-
-**Colorblind accessibility test**: Simulate deuteranopia and protanopia. If distinctions disappear, add redundant encoding (shape, position, or direct labels).
-
-## Common Encoding Patterns
-
-### Single Quantitative Variable Distribution
-
-**Task**: Show how values are distributed
-
-**Primary encoding**: Position on common scale via histogram (binned) or dot plot (individual)
-
-**VL**: `"x": {"field": "value", "bin": true}, "y": {"aggregate": "count"}` → template: `histogram.vl.json`
-
-**When to use alternatives**: Box plot when summary statistics suffice. Violin plot when distribution shape matters. Strip plot when showing individual points is important.
-
-### Two Quantitative Variables Relationship
-
-**Task**: Show correlation, clusters, or patterns between two measures
-
-**Primary encoding**: Position on common scales (scatterplot)
-
-**VL**: `"x": {"field": "x", "type": "quantitative"}, "y": {"field": "y", "type": "quantitative"}` → template: `scatter-plot.vl.json`
-
-**Add third variable**: Size for another quantitative (bubble chart), color for nominal category, shape for nominal with few categories.
-
-**When to use alternatives**: Line chart when x is time or there's inherent ordering. Hexbin when points overlap extensively.
-
-### Quantitative by Nominal Category
-
-**Task**: Compare quantities across categories
-
-**Primary encoding**: Position (bar chart with bars on common baseline)
-
-**VL**: `"x": {"field": "category", "type": "nominal"}, "y": {"field": "value", "type": "quantitative", "scale": {"zero": true}}` → template: `bar-chart.vl.json`
-
-**Orientation choice**: Horizontal bars when category labels are long. Vertical bars when time-based or when categories have natural left-to-right ordering.
-
-**When to use alternatives**: Dot plot when bars add visual clutter. Heatmap when there are two categorical dimensions.
-
-### Proportions of a Whole
-
-**Task**: Show parts summing to 100%
-
-**Consider carefully**: Pie charts work only when parts sum to a meaningful whole, 2-5 categories, and approximate proportions suffice.
-
-**VL**: `"color": {"field": "category", "type": "nominal", "scale": {"scheme": "tableau10"}}` → template: `pie-chart.vl.json` or `stacked-bar.vl.json`
-
-**When to use pie**: Exactly when comparing to 25%, 50%, or 75% benchmarks. Otherwise, bar charts with percentage labels are more accurate.
-
-### Temporal Trends
-
-**Task**: Show change over time
-
-**Primary encoding**: Position with time on x-axis (line chart)
-
-**VL**: `"x": {"field": "date", "type": "temporal"}, "y": {"field": "value", "type": "quantitative"}` → template: `line-chart.vl.json`
-
-**Multiple series**: Use color for category (limit to ~7 lines). Consider small multiples (`facet`) for more series.
-
-**When to use alternatives**: Area chart when cumulative values matter. Step chart when changes are discrete (not interpolated).
-
-### Geographic Data
-
-**Task**: Show spatial patterns
-
-**Primary encoding**: Position (map projection) with color or size for data values
-
-**Channel for values**: Sequential color for quantitative (choropleth), categorical color for nominal. Size (proportional symbols) for counts or magnitudes that should not imply density.
-
-**Choropleth warning**: Large areas dominate visually regardless of data values. Consider cartograms or dot density when area bias matters.
-
-## Network Graph Encodings
-
-Network visualizations (force-directed graphs, node-link diagrams) use specific encodings for nodes and edges. See `network-patterns.md` for complete implementation patterns.
-
-### Edge Visual Properties
-
-Edges encode relationships between nodes. Common encodings:
-
-| Channel | Encodes | D3 Scale | Notes |
-|---------|---------|----------|-------|
-| stroke-width | Connection strength, weight | `d3.scaleLinear()` or `d3.scaleSqrt()` | Use sqrt for skewed distributions |
-| stroke-opacity | Confidence, secondary relationships | `d3.scaleLinear()` | Range: [0.4, 1.0] minimum |
-| stroke color | Edge category, direction | `d3.scaleOrdinal()` | Verify 3:1 contrast |
-| stroke-dasharray | Edge type (solid/dashed) | Manual | Binary distinctions only |
-
-**Visibility thresholds** (edges failing these will not render perceptibly):
-
-| Property | Minimum | Recommended | WCAG AA |
-|----------|---------|-------------|---------|
-| stroke-width | 1px | 1.5px | 2px |
-| stroke-opacity | 0.3 | 0.5 | 0.6+ |
-| contrast ratio | 2.5:1 | 3:1 | 4.5:1 |
-
-**Safe edge colors on white background:**
-
-| Color | Contrast | Status |
-|-------|----------|--------|
-| #555 | 7.46:1 | Excellent |
-| #666 | 5.74:1 | Good |
-| #777 | 4.54:1 | Acceptable |
-| #999 | 2.85:1 | **Fails** |
-
-### Node Visual Properties
-
-Nodes encode entities with their attributes:
-
-| Channel | Encodes | D3 Scale | Notes |
-|---------|---------|----------|-------|
-| radius | Degree, importance, value | `d3.scaleSqrt()` | **Must use sqrt** for area perception |
-| fill color | Category, cluster, type | `d3.scaleOrdinal()` | Use colorblind-safe palettes |
-| stroke color | Selection state, highlight | Manual | 3:1 contrast vs fill |
-| shape | Entity type (when few) | `d3.symbolType` | Limit to 4-5 shapes |
-
-**Area-based perception**: Human perception judges area, not radius. Always use `d3.scaleSqrt()` for sizing nodes:
-
-```javascript
-// Wrong: linear radius exaggerates large values
-const radiusScale = d3.scaleLinear().range([4, 30]);
-
-// Correct: sqrt scale for proportional area
-const radiusScale = d3.scaleSqrt().range([4, 30]);
-```
-
-**Minimum sizes:**
-
-| Target | Minimum Radius | Notes |
-|--------|----------------|-------|
-| Click target | 4px | Acceptable for mouse |
-| Touch target | 6px | Required for mobile |
-| Comfortable | 8px | Preferred default |
-
-### Network Encoding Checklist
-
-- [ ] Edge stroke-width ≥ 1.5px at all weights
-- [ ] Edge opacity ≥ 0.4 at all confidence levels
-- [ ] Edge color passes 3:1 contrast vs background
-- [ ] Node radius uses sqrt scale (not linear)
-- [ ] Node minimum radius ≥ 4px
-- [ ] Interactive states provide 2x+ visual change (hover/focus)
-
-## Anti-Patterns to Avoid
-
-### Area for Precise Comparison
-
-Circles sized by radius create quadratic distortion—doubling the radius quadruples the area. Size by area, not radius:
-
-```javascript
-const size = d3.scaleSqrt() // Square root to make area proportional
-  .domain([0, d3.max(data, d => d.value)])
-  .range([0, maxRadius]);
-```
-
-### Rainbow Color Scales
-
-Rainbow scales (red-yellow-green-blue) have no perceptual ordering, uneven luminance, and colorblind accessibility issues. Use:
-
-- Sequential: `d3.interpolateBlues` or `d3.interpolateViridis`
-- Diverging: `d3.interpolateRdBu` for values around a meaningful center
-- Categorical: `d3.schemeTableau10` for distinct categories
-
-### 3D Without Purpose
-
-Perspective distorts magnitude perception. Avoid 3D bar charts, 3D pie charts, and gratuitous depth. Use 3D only when data has genuine 3D spatial structure.
-
-### Dual Y-Axes
-
-Two y-axes on one chart invite misleading comparisons. The relationship between scales is arbitrary—any correlation can be manufactured by adjusting ranges. Prefer: faceted charts, indexed values to common baseline, or explicit callout of relationship.
-
-### Truncated Axes
-
-Starting a bar chart y-axis above zero exaggerates differences. Use zero baseline for magnitude comparisons. If differences at high values matter, consider log scale or explicit annotations.
-
-## Sources
-
-- Cleveland, W.S. and McGill, R. (1984). "Graphical Perception." *JASA*, 79(387), 531-554. https://www.jstor.org/stable/2288400
-- D3.js documentation — https://d3js.org/getting-started
-- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
-- Vega-Lite documentation — https://vega.github.io/vega-lite/docs/
-- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
-- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
+---
 
 ## Phase Transition
 
-After encoding, consider:
+After encoding, proceed to:
 
-- **Compose** to arrange the encoded elements with visual hierarchy
-- **Access** to verify colorblind safety of the chosen palette
-- **Refine** if encoding choices feel uncertain and need critique
+- **Compose** — arrange encoded elements with visual hierarchy and spacing
+- **Access** — verify colorblind safety of the chosen palette and encoding redundancy
+- **Refine** — if encoding choices feel uncertain, audit against these criteria

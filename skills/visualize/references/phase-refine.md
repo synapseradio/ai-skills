@@ -1,65 +1,85 @@
-# Phase 4: Refinement
+# Phase 4: Verify
 
-Audit the draft visualization for structural integrity, perceptual effectiveness, and editorial clarity.
+Mandatory second draft. Every visualization gets two verification paths in parallel, a
+fix pass, and re-verification before presenting to the user.
 
 ## Entry Conditions
 
-Phase 3 (Implementation) complete. A draft HTML visualization exists with encoded marks, composed layout, annotations (unless skipped), interactions (unless skipped), and accessibility layers.
+Phase 3 (Build) complete. A draft HTML visualization exists.
 
-## Three-Audit Procedure
+## Verification Protocol (both paths, consensus required)
 
+### Path A: Structural Verification
+
+Read back the generated HTML file. Check:
+
+- [ ] Vega spec is valid JSON (or D3 code has no syntax errors)
+- [ ] Data fields in the spec match the encoding table from Phase 2
+- [ ] Units present on all axis labels and tooltips
+- [ ] OpenColors palette used (verify hex values)
+- [ ] Title states the insight, not the topic
+- [ ] Bar charts start at zero
+- [ ] Categories sorted by value, not alphabetically
+- [ ] No dual y-axes
+- [ ] Redundant encoding for accessibility (color + shape or color + label)
+- [ ] SVG `<title>` and `<desc>` elements present
+- [ ] Data table fallback in `<details>` block
+- [ ] CDN URLs correct: `vega@6`, `vega-embed@7` from jsdelivr (Vega) or `d3@7` (D3)
+
+### Path B: Visual Verification
+
+Open the chart in Chrome and inspect the rendered output:
+
+```bash
+open -a "Google Chrome" <path-to-html>
 ```
-┬─ structural-audit ─┐→ clarity-audit → glance-test
-└─ perceptual-audit ─┘
-```
 
-Structural audit and perceptual audit run in parallel. Clarity audit depends on both being resolved first. Load `mode-refine.md` for the full audit methodology — the sections below are checklists, not the methodology itself.
+Read the screenshot. Check:
 
-### Structural Audit (parallel with perceptual)
+- [ ] Chart renders without errors
+- [ ] Correct chart type visible
+- [ ] Labels readable at normal zoom
+- [ ] Spacing generous — margins adequate, elements not crowded
+- [ ] Color contrast sufficient — data marks distinct from background
+- [ ] Tooltips appear on hover with correct data and units
+- [ ] Primary insight is the visually loudest element
+- [ ] Three-level hierarchy visible (primary / secondary / tertiary)
 
-> **Vega/VL:** Inspect the `"encoding"` and `"mark"` fields directly — the declarative spec makes encoding decisions auditable without reading imperative code.
+### Consensus
 
-- [ ] Visual channels match data types (no hue for quantities, no length for nominals)
-- [ ] Magnitude channels anchored at meaningful baselines (bars start at zero)
-- [ ] No dual y-axes with manufactured correlation
-- [ ] Means shown with distribution context; aggregations don't smooth away significant events
-- [ ] Data-ink ratio: remove non-data gridlines, borders, 3D effects; replace legends with direct labels where possible
+Both paths must agree the chart is correct. If structural says "units missing" but visual
+looks fine, trust structural — the code is ground truth. If visual shows rendering errors
+but structural says the spec is valid, trust visual — the rendered output is what users see.
 
-### Perceptual Audit (parallel with structural)
+Fix all issues found by either path.
 
-- [ ] Important features pop out without conscious search (pre-attentive detection)
-- [ ] Adjacent positioning for things that need comparing; common baselines over floating comparisons
-- [ ] Visual groupings match conceptual groupings (Gestalt alignment)
-- [ ] Colorblind re-simulation passes on final rendered output
+## Editorial Integrity Check
 
-### Clarity Audit (after both above)
+After structural and visual checks, load `mode-refine.md` for the full audit:
 
-- [ ] Title states the takeaway, not just the topic
-- [ ] Annotations point to specific data features; no orphaned annotations
-- [ ] Guided reading path matches the argument
-- [ ] Threshold criteria transparent; excluded data acknowledged
+- **Threshold-based pre-interpretation:** Did you choose breakpoints that support the narrative?
+- **Metric selection bias:** Would this metric be included if it showed the opposite trend?
+- **Designer's epistemic commitment:** Are contradictory findings suppressed while "interesting"
+  findings get prominence?
 
 ## Fix Priority
 
-1. **Misleading elements first** — truncated axes, dual-axis abuse, 3D distortion
-2. **Encoding mismatches second** — channel doesn't match data type
-3. **Clarity improvements third** — remove chartjunk, improve labels, adjust colors
-4. **Polish last** — alignment, spacing, font consistency
+1. **Misleading** — truncated axes, hidden distribution, cherry-picked windows
+2. **Encoding mismatches** — wrong channel for data type, missing units
+3. **Clarity** — weak title, missing annotations, poor hierarchy
+4. **Polish** — alignment, spacing, font consistency
 
-## Glance Test
+## Second Draft
 
-**5-second test:** What do you notice first? Is that what should be noticed first?
-
-**Distracted-glance test** (dashboards): Does the critical signal survive 3 seconds of divided attention? Critical states must be categorically distinct from normal states — not a color change, a categorical disruption.
+After fixing, produce a second draft and re-verify both paths. Apply `/frontend-design`
+for a style pass on the second draft. Only proceed to Phase 5 after the second draft passes.
 
 ## Regression Check
 
-After applying fixes, verify: color accessibility not broken, semantic SVG intact, alt text still accurate, keyboard navigation still functional.
+After fixes: color accessibility intact? Annotations accurate? Layout balanced? Units present?
 
 ## Exit
 
 - **Passing** → Phase 5: Present
-- **Structural issues** → Phase 3 (specific subtask) with targeted fixes
+- **Structural issues** → Phase 3 (specific subtask)
 - **Encoding fundamentally wrong** → Phase 2 for re-planning
-
-Cross-references: `mode-refine.md` (full methodology), `common-pitfalls.md`, `cleveland-mcgill.md`, `iteration-workflow.md`

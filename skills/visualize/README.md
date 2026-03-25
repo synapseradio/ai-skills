@@ -1,6 +1,8 @@
 # Visualize
 
-Data visualization engineering skill. Transform data into browser-runnable visualizations using Vega-Lite (standard charts), full Vega (complex charts), and D3 (sankey) — through principled encoding, composition, narration, accessibility, interaction, and refinement, grounded in perceptual science (Cleveland-McGill, Gestalt, Segel-Heer).
+Create browser-runnable data visualizations using Vega (declarative, default) and D3
+(imperative, full control). Every output is a standalone HTML file — no build step, no
+server. Principles-first workflow: find the claim before touching data.
 
 ## Install
 
@@ -8,7 +10,7 @@ Data visualization engineering skill. Transform data into browser-runnable visua
 claude install-skill github:nke/ai-skills/skills/visualize
 ```
 
-Or copy the `skills/visualize/` directory into `~/.claude/skills/visualize/`.
+Or copy `skills/visualize/` into `~/.claude/skills/visualize/`.
 
 ## Usage
 
@@ -18,7 +20,7 @@ Or copy the `skills/visualize/` directory into `~/.claude/skills/visualize/`.
 /visualize create a bar chart showing quarterly revenue by region
 ```
 
-### Targeted mode entry
+### Targeted entry
 
 ```text
 /visualize make this chart accessible
@@ -29,65 +31,68 @@ Or copy the `skills/visualize/` directory into `~/.claude/skills/visualize/`.
 ### Visualization management (requires Python 3)
 
 ```text
-"save this visualization" → registers in ~/.visualizer-skill/visualizations/
-"list my charts" → shows all stored visualizations
-"search for revenue" → finds matching visualizations
+"save this visualization"  → registers in ~/.visualizer-skill/visualizations/
+"list my charts"           → shows all stored visualizations
+"search for revenue"       → finds matching visualizations
 ```
 
 ## What's Included
 
-- **SKILL.md** — 6-phase visualization workflow with signal detection routing
-- **12 Vega-Lite + 6 Vega templates** — declarative JSON specs across 8 categories (comparisons, compositions, distributions, geographic, hierarchical, networks, relationships, temporal)
-- **1 D3 template** — sankey diagram (sole D3 template — no Vega transform exists)
-- **Shared HTML wrapper** — `assets/vega/wrapper.html` renders any VL/Vega spec via `vegaEmbed`
-- **33 reference docs** — perceptual science, implementation patterns, accessibility, and workflow guidance
-- **Python CLI** (`scripts/visualizer.py`) — visualization storage and management, stdlib only
+- **SKILL.md** — Core principles + 6-phase workflow with signal routing (320 lines)
+- **19 Vega templates** — declarative JSON specs across 8 categories
+- **19 D3 templates** — standalone HTML with full keyboard nav and ARIA
+- **HTML wrapper** — `assets/vega/wrapper.html` renders Vega specs via `vegaEmbed`
+- **20 reference docs** — encoding, composition, narrative, accessibility, interaction, refinement
+- **Python CLI** (`scripts/visualizer.py`) — visualization storage and management
+
+## Design System
+
+- **Palette**: OpenColors (colorblind-safe combinations)
+- **Spacing**: Generous margins (40px body, 32px container, adequate internal padding)
+- **Units**: Mandatory on all axes, tooltips, and annotations
+- **Accessibility**: WCAG AA contrast, redundant encoding, data table fallback, keyboard nav (D3)
+
+## Templates
+
+| Category | Charts | Vega | D3 |
+|----------|--------|------|-----|
+| Comparisons | bar, grouped-bar, stacked-bar | Yes | Yes |
+| Compositions | pie, sunburst, treemap | Yes | Yes |
+| Distributions | histogram, box-plot, violin-plot | Yes | Yes |
+| Geographic | choropleth | Yes | Yes |
+| Hierarchical | tree-diagram | Yes | Yes |
+| Networks | force-graph, sankey | Yes* | Yes |
+| Relationships | scatter-plot, heatmap, bubble-chart | Yes | Yes |
+| Temporal | line-chart, area-chart, candlestick | Yes | Yes |
+
+*Sankey is D3-only (no Vega transform exists).
 
 ## References
 
-### Phase workflow
-
 | File | Purpose |
 |------|---------|
-| `references/phase-context.md` | Argument, viewer, cognitive mode, constraints |
-| `references/phase-research.md` | Data assessment, encoding plan, template selection |
-| `references/phase-implement.md` | Build orchestration across encode, compose, narrate, interact, access |
-| `references/phase-refine.md` | Structural, perceptual, and clarity audits |
-| `references/phase-present.md` | Output, user review, persist, complete |
-
-### Mode methodology
-
-| File | Purpose |
-|------|---------|
-| `references/mode-encode.md` | Cleveland-McGill rankings, channel selection |
-| `references/mode-compose.md` | Gestalt principles, visual hierarchy |
-| `references/mode-narrate.md` | Segel-Heer framework, annotation patterns |
-| `references/mode-access.md` | WCAG compliance, ARIA, keyboard navigation |
-| `references/mode-interact.md` | Brushing, linking, transitions |
-| `references/mode-refine.md` | Iteration workflow, common pitfalls |
-
-### Theory
-
-| File | Purpose |
-|------|---------|
-| `references/cleveland-mcgill.md` | Perceptual accuracy rankings |
-| `references/gestalt.md` | Gestalt grouping principles |
-| `references/segel-heer.md` | Narrative visualization framework |
-| `references/hierarchy.md` | Visual hierarchy and attention flow |
-
-### Implementation
-
-| File | Purpose |
-|------|---------|
-| `references/vega-lite-patterns.md` | Vega-Lite spec patterns, encoding, composition |
-| `references/vega-patterns.md` | Full Vega spec patterns for complex charts |
-| `references/engine-selection.md` | Decision criteria: Vega-Lite vs Vega vs D3 |
-| `references/base-vega-wrapper.md` | Vega/VL HTML wrapper with CDN imports |
-| `references/base-template.md` | D3 HTML skeleton with frontmatter |
-| `references/d3-patterns.md` | D3 patterns for sankey and custom charts |
-| `references/template-selection.md` | Template decision tree |
+| `references/phase-context.md` | Argument, viewer, cognitive mode, editorial integrity |
+| `references/phase-research.md` | Data assessment, encoding plan, engine + template selection |
+| `references/phase-implement.md` | Build: encode, compose, narrate, interact, access-audit |
+| `references/phase-refine.md` | Mandatory verification: structural + visual, second draft |
+| `references/phase-present.md` | Output, user review, persist |
+| `references/mode-encode.md` | Channel effectiveness, cognitive mode, encoding process |
+| `references/mode-compose.md` | Gestalt, spacing, layout, aspect ratio |
+| `references/mode-narrate.md` | Titles, annotations, story vs. exploration |
+| `references/mode-access.md` | Color access, ARIA, keyboard nav (engine-honest) |
+| `references/mode-interact.md` | Tooltips, brushing, filtering, temporal states |
+| `references/mode-refine.md` | Editorial integrity, structural + perceptual audit |
+| `references/engine-selection.md` | Vega vs D3 decision framework (N-engine extensible) |
+| `references/template-selection.md` | Question → template decision tree |
+| `references/vega-patterns.md` | Vega v6 spec patterns |
+| `references/d3-patterns.md` | D3 implementation patterns |
+| `references/base-vega-wrapper.md` | Vega HTML wrapper documentation |
+| `references/base-template.md` | D3 HTML skeleton documentation |
+| `references/data-preparation.md` | Data transforms and preparation |
+| `references/network-patterns.md` | Network visualization patterns |
+| `references/canvas-patterns.md` | Large dataset (Canvas) patterns |
 
 ## Prerequisites
 
-- **Required**: None (skill works for one-off visualizations without any dependencies)
+- **Required**: None
 - **Optional**: Python 3.6+ (for visualization management CLI)

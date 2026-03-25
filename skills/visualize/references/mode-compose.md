@@ -1,260 +1,199 @@
 # Compose Mode
 
-Arrange visual elements using hierarchy, Gestalt principles, and information design. Verify Gestalt grouping principles and D3 layout patterns against primary sources before applying to novel layouts.
+Implementation guidance for layout, spacing, grouping, and multi-view composition.
+SKILL.md defines the principles. This doc tells you how to execute them.
 
-## When to Use
+## Quick Reference
 
-- Designing chart layout
-- Organizing dashboard elements
-- Creating visual hierarchy
-- Arranging visualization components
-- Composing multi-view displays
-- Positioning annotations
-- Structuring whitespace
+- [ ] Single primary element has disproportionate visual weight
+- [ ] Related elements closer together than unrelated ones
+- [ ] Same encoding means the same thing across all panels
+- [ ] Reading path flows top-left → bottom-right (Western audiences)
+- [ ] SVG layers: background → grid → marks → annotations → labels
+- [ ] Margins, gutters, padding follow the spacing spec below
+- [ ] Aspect ratio suits the chart type
+- [ ] Dashboard has one hero element; everything else is subordinate
 
-## Applicability Check
+## Gestalt Applied to Data Viz
 
-**In comprehensive mode**: Always runs—layout is essential for every visualization.
+**Proximity — group related bars tighter.** Within a grouped bar cluster, gap = 1-2px.
+Between clusters, gap ≥ bar-width. The ratio communicates structure without legends.
+In dashboards, related charts share an edge; unrelated charts get a full gutter.
 
-**Quick check**: Do visual elements exist that need spatial arrangement? If yes → run this mode.
+**Similarity — consistent encoding for same category.** If "actual" is oc-blue-7 in one
+panel, it is oc-blue-7 in every panel. Same shape, same dash pattern. Distinguish
+categories with maximally different marks (circle vs square vs triangle), not subtle
+variants (circle vs ellipse).
 
-## Core Principles
+**Continuity — align elements to create reading paths.** Left-aligned labels create a
+vertical scan line. Consistent spacing creates rhythm. Leader lines connect annotations
+to referents when proximity is not possible. Break false alignment with deliberate offset.
 
-Layout serves comprehension. Every positioning decision either aids or hinders understanding. The goal is not aesthetic arrangement but cognitive efficiency: viewers should find what they need, understand relationships, and follow the intended narrative without conscious effort.
+**Closure — imply structure, don't draw it.** Tick marks suggest gridlines without
+drawing them edge-to-edge. Sparklines work because the brain infers missing axes. When
+precision matters, draw explicitly.
 
-Three foundations support effective visualization layout:
+**Figure-ground — data is figure, everything else is ground.** Data marks: saturated,
+full opacity. Gridlines: oc-gray-2, 1px. Axes: oc-gray-5, 1px. Background: white or
+oc-gray-0. If gridlines are heavier than data marks, hierarchy is inverted.
 
-**Visual hierarchy** determines what the eye sees first, second, third. Primary elements receive visual weight through size, position, contrast, or isolation. Secondary elements support without competing. Tertiary elements recede until needed. The hierarchy matches information importance.
+**Common region — subtle enclosure when spacing is constrained.** oc-gray-0 background
+with 1px oc-gray-2 border, or 8px padding on oc-gray-1. Keep stroke ≤ 1px, ≤ oc-gray-3.
 
-**Gestalt principles** describe how humans perceive visual relationships. Elements that are close together appear grouped. Elements that look similar appear related. The eye follows continuous lines. Closed shapes feel complete even when broken. These perceptual tendencies are not stylistic preferences but cognitive facts.
+**Connectedness — lines between related nodes are the strongest grouper.** Overrides
+proximity, similarity, and common region (Palmer & Rock, 1994). In networks, edge
+visibility communicates relationship — prioritize edge clarity over node styling. In
+sankeys, connecting paths carry the primary information. Encode weight or category on
+the connection itself (stroke-width, color).
 
-**Information density** balances comprehension against completeness. Too sparse wastes the viewer's cognitive capacity. Too dense overwhelms it. The right density presents maximum insight per unit of mental effort.
+## Spacing Specifications
 
-## Instructions
+Values assume 960px chart width. Scale proportionally.
 
-When composing layout for a visualization:
+### Chart Margins
 
-### 1. Establish the Information Hierarchy
+| Edge | px | Notes |
+|------|----|-------|
+| Top | 40-60 | Title + subtitle |
+| Right | 20-30 | More if right-aligned labels |
+| Bottom | 40-60 | Axis labels + source line |
+| Left | 50-70 | Wider for long category names |
 
-Identify what matters most. Ask: if the viewer remembers only one thing, what should it be? That element receives prime position and maximum visual weight.
+### Internal Spacing
 
-Map the information structure:
+| Element | Spec |
+|---------|------|
+| Bar gap (within group) | 1-2px |
+| Bar gap (between groups) | ≥ bar-width, min 12px |
+| Tick label → axis line | 6-8px |
+| Axis title → tick labels | 10-14px |
+| Title → chart area | 16-20px |
+| Legend item spacing | 16-20px horiz, 6-8px vert |
+| Annotation → mark | 4-8px; leader line if > 30px |
 
-- **Primary**: The core insight or metric. This dominates the composition.
-- **Secondary**: Supporting information that contextualizes the primary. This is clearly visible but subordinate.
-- **Tertiary**: Reference information, labels, legends. These are available but do not compete for initial attention.
+### Dashboard Spacing
 
-Assign visual weight proportionally. Size, position, and contrast all contribute to perceived importance. When everything appears equally important, nothing does.
+| Element | Spec |
+|---------|------|
+| Panel gutter | 16-24px |
+| Panel padding | 16-20px |
+| Outer margin | 24-32px |
+| Panel background | oc-gray-0 or white |
+| Panel border | 1px oc-gray-2 or none |
+| Hero element | 50-60% viewport width, top row |
 
-### 2. Apply Spatial Grouping
+### Gridlines and Reference
 
-Use proximity to create relationships. Elements that belong together should be closer to each other than to unrelated elements. The eye perceives clusters as units before it reads individual marks.
+| Element | Spec |
+|---------|------|
+| Gridline | oc-gray-2 `#e9ecef`, 0.5-1px |
+| Axis line | oc-gray-5 `#868e96`, 1px |
+| Zero line | oc-gray-6, 1px |
 
-Create visual breathing room between groups. Whitespace is not emptiness but structure. It separates, isolates, and emphasizes. Tight spacing within groups and generous spacing between groups creates instant legibility.
+## Layout Patterns
 
-When designing multi-chart layouts:
+### Reading Order
 
-- Group charts that share context or comparison relationship
-- Separate charts that serve different analytical purposes
-- Align shared axes to enable visual comparison
-- Use consistent margins to establish rhythm
+Primary insight at top-left. Z-pattern: top-left → top-right → bottom-left →
+bottom-right. Break only for deliberate emphasis.
 
-### 3. Design the Reading Path
+### Hero Element (dashboards)
 
-Western viewers read visualizations like text: left-to-right, top-to-bottom. Place the most important element where reading naturally begins (top-left quadrant). Support the narrative flow by positioning subsequent elements along the natural reading path.
+One chart or metric dominates: top row, 50-60% width, strongest figure-ground contrast.
+Supporting panels are smaller and quieter (thinner strokes, lighter labels). **5-second
+test:** glance for five seconds — if the hero is not what you recall, reduce weight on
+everything else.
 
-Guide the eye deliberately:
+### Small Multiples
 
-- Use alignment to create visual continuity
-- Deploy connecting lines or shared color to link related elements
-- Position annotations near their referents
-- Lead from overview to detail, from context to focus
+Shared axes mandatory. Each panel varies one dimension while keeping all other encodings
+identical. Remove redundant axis labels from interior panels — label outer edges only.
+Identical scale ranges across all panels.
 
-Break the natural path only when doing so serves emphasis. A key insight positioned contrary to reading flow draws attention through its violation of expectation.
+### Hierarchy Failures
 
-### 4. Balance Information Density
+| Symptom | Fix |
+|---------|-----|
+| Eye wanders randomly | Pick one primary, reduce everything else |
+| Decoration noticed before data | Lighten gridlines, thin borders, desaturate backgrounds |
+| Eye bounces between two elements | Demote one to secondary |
+| Data hard to find | Reduce non-data elements until data is figure |
 
-Apply Tufte's data-ink ratio: maximize the data, minimize everything else. Every pixel should either show data or help the viewer understand data. Decorative elements, redundant encoding, and chartjunk consume attention without adding insight.
+## SVG Layer Order
 
-Evaluate each non-data element:
+SVG renders in document order — later elements paint on top.
 
-- Does this gridline aid reading or add noise?
-- Does this border group effectively or merely decorate?
-- Does this background color encode information or distract from it?
-- Does this label add clarity or create clutter?
-
-When in doubt, remove. The visualization that communicates most clearly usually contains the least visual noise.
-
-### 5. Handle Multi-View Composition
-
-Dashboards and multi-panel displays require coordinated layout. Each view serves the whole; none stands alone.
-
-Establish a grid system. Align edges, maintain consistent gutters, use proportional sizing. The grid creates visual order that the viewer perceives unconsciously but would notice immediately if broken.
-
-Coordinate visual encodings:
-
-- Use consistent color palettes across views
-- Maintain consistent scales where comparison is intended
-- Standardize typography and label formatting
-- Align legends and axes when possible
-
-Design for the 5-second test: if a viewer glances for five seconds, what will they take away? That insight should be immediately visible, not buried in secondary panels.
-
-### 6. Position Annotations and Labels
-
-Annotations connect data to meaning. Position them close to their referents but not overlapping. Use leader lines when proximity cannot be achieved directly.
-
-Label placement follows priority:
-
-1. Direct labels on marks (preferred when space permits)
-2. Axis labels for systematic encoding
-3. Legends when direct labeling would create clutter
-4. Tooltips for on-demand detail
-
-Avoid label collision through careful spacing, rotation, abbreviation, or selective labeling. When all else fails, interactive reveal (hover, click) defers detail without cluttering the static view.
-
-### 7. Use Whitespace Strategically
-
-Whitespace performs multiple functions:
-
-- **Separation**: Creates boundaries between groups
-- **Emphasis**: Isolation draws attention
-- **Rest**: Gives the eye places to pause
-- **Proportion**: Balances visual weight
-
-Dense visualizations need generous margins. The data itself is visually busy; the surrounding space provides relief. Padding around text improves readability. Margin between charts prevents visual interference.
-
-Active whitespace is designed. Passive whitespace is leftover. Design every space.
-
-### 8. SVG Layer Order for Networks
-
-SVG elements render in document order—elements appended later appear on top. For network visualizations, incorrect layer ordering causes interaction failures.
-
-**Required layer sequence:**
-
-```javascript
-const svg = d3.select('#chart').append('svg');
-
-// 1. Background layer (optional: grid, reference elements)
-const bgLayer = svg.append('g').attr('class', 'background');
-
-// 2. Edges MUST be appended before nodes
-const linkLayer = svg.append('g').attr('class', 'links');
-
-// 3. Nodes after edges (so nodes render on top)
-const nodeLayer = svg.append('g').attr('class', 'nodes');
-
-// 4. Labels last (always visible)
-const labelLayer = svg.append('g').attr('class', 'labels');
+```
+1. Background   — fill rect, subtle shading
+2. Grid         — gridlines, reference lines, zero line
+3. Marks        — bars, points, lines, areas
+4. Annotations  — reference bands, callout lines
+5. Labels       — direct labels, annotation text
+6. Interactive  — tooltips, brush overlays
 ```
 
-**Why order matters:**
+**D3:** Append `<g>` layers in this order. **Vega:** Order entries in the `marks` array
+— `rule` (grid) before `rect`/`symbol`/`line` (data) before `text` (labels).
 
-- Edges appended after nodes render on top, blocking mouse events
-- Labels appended before nodes become obscured by node fills
-- Incorrect order breaks interaction even when visual output appears correct
+Labels over marks intercept pointer events. Use `"interactive": false` (Vega) or
+`pointer-events: none` (D3) on text elements.
 
-**Verification:** Inspect the DOM to confirm `<g class="links">` appears before `<g class="nodes">`:
+## Multi-View Composition (Vega)
 
-```html
-<svg>
-  <g class="background">...</g>
-  <g class="links">...</g>      <!-- Before nodes -->
-  <g class="nodes">...</g>
-  <g class="labels">...</g>     <!-- After nodes -->
-</svg>
+Vega has no `hconcat`/`vconcat`. Use **group marks** for panels and faceting.
+
+### Faceted Layout
+
+Use a group mark with a `facet` data source. Position panels via a `band` scale.
+
+```json
+{"marks": [{
+  "type": "group",
+  "from": {"facet": {"name": "series", "data": "source", "groupby": "region"}},
+  "encode": {"enter": {
+    "x": {"scale": "layout", "field": "region"},
+    "width": {"signal": "panelWidth"}, "height": {"signal": "panelHeight"}
+  }},
+  "marks": [{"type": "line", "from": {"data": "series"}, "encode": {}}],
+  "axes": [{"orient": "bottom", "scale": "x"}, {"orient": "left", "scale": "y"}]
+}]}
 ```
 
-**Label interaction:** Labels positioned over nodes will intercept pointer events. Always set `pointer-events: none` on label text elements:
+Define shared `y` scale at top level and reference inside groups so magnitudes compare.
+
+### Dashboard Pattern
+
+Multiple Vega specs targeting separate `<div>` containers. CSS Grid for layout:
 
 ```css
-.node-label {
-  pointer-events: none;  /* Pass events through to nodes */
-}
+.dashboard { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; padding: 24px; }
+.hero { grid-column: 1 / -1; }
 ```
 
-See `network-patterns.md` for complete network composition patterns.
+Each `vegaEmbed()` uses `"width": "container"` and `"autosize": {"type": "fit",
+"contains": "padding"}` for responsive sizing.
 
-### 9. Validate the Composition
+## Aspect Ratio
 
-Test the layout against these criteria:
+For line charts, bank to 45°: choose an aspect ratio where average segment slopes
+approach 45°, maximizing rate-of-change perception. Gradual trends → wide (3:1, 4:1).
+Volatile data → taller (16:9, 2:1). Default when unsure: 16:9.
 
-**Hierarchy test**: Cover your hand over parts of the visualization. Is the primary information visible in any uncovered portion? If secondary elements dominate any quadrant, rebalance.
+### By Chart Type
 
-**Grouping test**: Can you identify distinct groups at a glance? If boundaries are unclear, increase separation between groups or strengthen proximity within groups.
+| Chart type | Ratio | Reason |
+|------------|-------|--------|
+| Line chart | 2:1 – 3:1 | Bank to 45° |
+| Bar chart | Bars ≥ 12px wide | Readability drives width |
+| Scatter plot | 1:1 | Preserves spatial relationships |
+| Heatmap | Cells ≈ 1:1 | Unbiased comparison |
+| Small multiples | Uniform across panels | Consistent encoding |
+| Dashboard hero | 2:1 – 3:1, 50-60% width | Prominence without dominating height |
+| Sparkline | 4:1 – 6:1 | Inline, trend shape |
 
-**Path test**: Track where your eye moves naturally. Does it follow the intended narrative? If the eye wanders randomly, strengthen the visual guidance.
-
-**Density test**: Does the visualization feel cluttered? Sparse? The right density communicates efficiently without overwhelming.
-
-**Distance test**: Step back (literally or by zooming out). Do the main patterns remain legible? If detail dominates, the hierarchy needs strengthening.
-
-## Implementation Patterns
-
-### Vega-Lite Composition (primary)
-
-VL provides declarative composition operators that handle layout automatically:
-
-**Responsive sizing:** Set `"width": "container"` to fill the parent element. The parent HTML element must have a defined width.
-
-**Layer** — overlay marks on shared axes (e.g., line + points + annotations):
-
-```json
-{"layer": [{"mark": "line", ...}, {"mark": "point", ...}, {"mark": {"type": "text", "dy": -10}, ...}]}
-```
-
-**Facet** — small multiples from a single dataset:
-
-```json
-{"facet": {"field": "region", "type": "nominal", "columns": 3}, "spec": {"mark": "line", ...}}
-```
-
-**Concat** — independent charts side by side. Use `"resolve": {"scale": {"x": "shared"}}` to sync axes:
-
-```json
-{"hconcat": [{"mark": "bar", ...}, {"mark": "point", ...}]}
-```
-
-**Dashboard layout:** Embed multiple `vegaEmbed()` calls targeting distinct containers, using CSS Grid or Flexbox for positioning. See `base-vega-wrapper.md` (Dashboard Mode).
-
-### D3 Layout Patterns (sankey and custom templates only)
-
-For D3-based charts, see `d3-patterns.md` for margin convention, responsive viewBox pattern, and grid-based multi-view layout.
-
-## Common Layout Problems
-
-**Problem**: All elements compete for attention.
-**Solution**: Establish clear hierarchy. Increase size/weight of primary element, reduce secondary elements, push tertiary to periphery.
-
-**Problem**: Groups are not perceived as groups.
-**Solution**: Increase proximity within groups, increase separation between groups. Use enclosure (subtle background) if spacing is constrained.
-
-**Problem**: The eye wanders without direction.
-**Solution**: Strengthen the reading path. Add alignment, connecting elements, or visual weight along the intended sequence.
-
-**Problem**: Labels collide or obscure data.
-**Solution**: Reduce label count (label only key points), use leader lines, employ hover/tooltip for detail, adjust placement.
-
-**Problem**: Dense data creates visual noise.
-**Solution**: Increase whitespace, reduce non-data ink, use aggregation or filtering, consider small multiples.
-
-## Sources
-
-- Gestalt Principles — https://www.interaction-design.org/literature/topics/gestalt-principles
-- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
-- D3.js documentation — https://d3js.org/getting-started
-
-## Further Reading
-
-For deeper guidance on specific composition topics:
-
-- See `gestalt.md` for detailed Gestalt principles applied to data visualization
-- See `hierarchy.md` for visual weight factors and dashboard hierarchy patterns
+In Vega: set `"width"` / `"height"` explicitly. For responsive sizing, compute from
+`containerSize()[0]` and divide for the target ratio.
 
 ## Phase Transition
 
-After composing layout, consider:
-
-- **Narrate** to add annotations that explain the arrangement
-- **Access** to verify tab order matches visual hierarchy
-- **Refine** if layout feels cluttered or unfocused
+**Narrate** — annotations. **Access** — tab order matches hierarchy. **Refine** — if cluttered.

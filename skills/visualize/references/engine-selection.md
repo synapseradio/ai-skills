@@ -1,89 +1,91 @@
 # Engine Selection
 
-Decision criteria for choosing Vega-Lite, full Vega, or D3 when building a visualization. Default to Vega-Lite for conciseness; escalate to full Vega or D3 only when the chart requires capabilities Vega-Lite cannot express.
+Two data-viz engines: Vega (declarative, default) and D3 (imperative, full control).
+Architecture is extensible for future engines (Mermaid, Graphviz).
 
 ## Decision Flowchart
 
 ```
-Is it a sankey diagram?
-  YES -> Use D3 (sankey.html -- sole D3 template, no Vega transform exists)
-Can Vega-Lite express this chart natively?
-  YES -> Use Vega-Lite (.vl.json)
-  NO  -> Does it need force simulation, hierarchical layout, KDE, geographic projection, or custom signals?
-    YES -> Use full Vega (.vg.json)
-    NO  -> Use Vega-Lite with layered composition
+Level 1: What are you visualizing?
+  ├── Data (quantitative/categorical) → Level 2 (below)
+  ├── Process/flow/structure          → [Mermaid — future]
+  └── Network topology only           → [Graphviz — future]
+
+Level 2: Which data-viz engine?
+  ├── Need full DOM control, custom keyboard nav, or sankey? → D3
+  └── Everything else → Vega (default)
 ```
 
-Apply this flowchart top-down. The first matching branch wins.
+Default to Vega. Use D3 when you need capabilities Vega cannot provide.
 
-## Engine Capability Matrix
+## Capability Matrix
 
-| Capability | Vega-Lite | Full Vega | D3 |
-|---|---|---|---|
-| Standard charts (bar, line, scatter, etc.) | Yes | Yes (verbose) | Yes (imperative) |
-| Hierarchical layouts (treemap, sunburst) | No | Yes | Yes |
-| Force simulation | No | Yes | Yes |
-| KDE / density estimation | No | Yes | Yes |
-| Geographic projections | Limited | Full | Full |
-| Custom signals / drag | No | Yes | Yes |
-| Declarative conciseness | Highest | Medium | Lowest |
-| Custom template crafter | Via layered composition | Via transforms | Full control |
+| Capability | Vega | D3 |
+|---|---|---|
+| Standard charts (bar, line, scatter, pie, etc.) | Yes | Yes |
+| Hierarchical layouts (treemap, sunburst, tree) | Yes (transforms) | Yes |
+| Force simulation | Yes (force transform) | Yes |
+| KDE / density estimation | Yes (kde transform) | Yes |
+| Geographic projections | Yes (full projection support) | Yes |
+| Custom signals / drag | Yes (signal system) | Yes (events) |
+| Sankey | No transform exists | Yes (d3-sankey) |
+| Full keyboard navigation | No (renders own SVG) | Yes (full DOM control) |
+| ARIA on individual marks | No | Yes |
+| Custom animations | Limited (signal transitions) | Full control |
+| Declarative conciseness | High | Low (imperative) |
 
-**Vega-Lite** compiles down to full Vega at render time. Any chart that Vega-Lite can express will produce the same output as writing the equivalent Vega spec by hand, with far less JSON.
+**When to use Vega:** Most chart types. Vega handles bar, line, scatter, area, pie, histogram,
+box plot, violin, heatmap, bubble, treemap, sunburst, choropleth, force graph, tree diagram,
+candlestick, and more through its transform and layout system. It is declarative JSON — less
+code, fewer bugs, easier to audit.
 
-**Full Vega** adds explicit signal graphs, custom transforms (force, treemap, partition, voronoi, KDE), and low-level control over the scene graph. Use it when Vega-Lite's grammar has no encoding for the layout you need.
-
-**D3** gives imperative control over the DOM. The only template that requires D3 is sankey, because neither Vega nor Vega-Lite has a sankey transform. D3 templates also serve the `template-crafter` mode, where users need fully custom, hand-coded visualizations.
+**When to use D3:** When you need full DOM control that Vega's SVG renderer cannot provide.
+This means: sankey diagrams (no Vega transform exists), full keyboard navigation of data points,
+ARIA roles on individual marks, pixel-precise custom layouts, or very large datasets where
+Canvas 2D API is needed.
 
 ## Template Assignment
 
-All 19 templates, grouped by category. VL specs (`.vl.json`) and full Vega specs (`.vg.json`) live in `assets/vega/templates/`. Sankey lives in `assets/d3/templates/`.
+Every chart type has both a Vega and a D3 template:
 
-| Template | Engine | Spec File |
-|---|---|---|
-| **Comparisons** | | |
-| Bar chart | Vega-Lite | `vega-lite/templates/comparisons/bar-chart.vl.json` |
-| Grouped bar | Vega-Lite | `vega-lite/templates/comparisons/grouped-bar.vl.json` |
-| Stacked bar | Vega-Lite | `vega-lite/templates/comparisons/stacked-bar.vl.json` |
-| **Compositions** | | |
-| Pie chart | Vega-Lite | `vega-lite/templates/compositions/pie-chart.vl.json` |
-| Sunburst | Full Vega | `vega-lite/templates/compositions/sunburst.vg.json` |
-| Treemap | Full Vega | `vega-lite/templates/compositions/treemap.vg.json` |
-| **Distributions** | | |
-| Box plot | Vega-Lite | `vega-lite/templates/distributions/box-plot.vl.json` |
-| Histogram | Vega-Lite | `vega-lite/templates/distributions/histogram.vl.json` |
-| Violin plot | Full Vega | `vega-lite/templates/distributions/violin-plot.vg.json` |
-| **Geographic** | | |
-| Choropleth | Full Vega | `vega-lite/templates/geographic/choropleth.vg.json` |
-| **Hierarchical** | | |
-| Tree diagram | Full Vega | `vega-lite/templates/hierarchical/tree-diagram.vg.json` |
-| **Networks** | | |
-| Force graph | Full Vega | `vega-lite/templates/networks/force-graph.vg.json` |
-| Sankey | D3 | `d3/templates/networks/sankey.html` |
-| **Relationships** | | |
-| Bubble chart | Vega-Lite | `vega-lite/templates/relationships/bubble-chart.vl.json` |
-| Heatmap | Vega-Lite | `vega-lite/templates/relationships/heatmap.vl.json` |
-| Scatter plot | Vega-Lite | `vega-lite/templates/relationships/scatter-plot.vl.json` |
-| **Temporal** | | |
-| Area chart | Vega-Lite | `vega-lite/templates/temporal/area-chart.vl.json` |
-| Candlestick | Vega-Lite | `vega-lite/templates/temporal/candlestick.vl.json` |
-| Line chart | Vega-Lite | `vega-lite/templates/temporal/line-chart.vl.json` |
+| Category | Chart | Vega | D3 |
+|---|---|---|---|
+| **Comparisons** | | | |
+| | Bar chart | `assets/vega/templates/comparisons/bar-chart.vg.json` | `assets/d3/templates/comparisons/bar-chart.html` |
+| | Grouped bar | `assets/vega/templates/comparisons/grouped-bar.vg.json` | `assets/d3/templates/comparisons/grouped-bar.html` |
+| | Stacked bar | `assets/vega/templates/comparisons/stacked-bar.vg.json` | `assets/d3/templates/comparisons/stacked-bar.html` |
+| **Compositions** | | | |
+| | Pie chart | `assets/vega/templates/compositions/pie-chart.vg.json` | `assets/d3/templates/compositions/pie-chart.html` |
+| | Sunburst | `assets/vega/templates/compositions/sunburst.vg.json` | `assets/d3/templates/compositions/sunburst.html` |
+| | Treemap | `assets/vega/templates/compositions/treemap.vg.json` | `assets/d3/templates/compositions/treemap.html` |
+| **Distributions** | | | |
+| | Histogram | `assets/vega/templates/distributions/histogram.vg.json` | `assets/d3/templates/distributions/histogram.html` |
+| | Box plot | `assets/vega/templates/distributions/box-plot.vg.json` | `assets/d3/templates/distributions/box-plot.html` |
+| | Violin plot | `assets/vega/templates/distributions/violin-plot.vg.json` | `assets/d3/templates/distributions/violin-plot.html` |
+| **Geographic** | | | |
+| | Choropleth | `assets/vega/templates/geographic/choropleth.vg.json` | `assets/d3/templates/geographic/choropleth.html` |
+| **Hierarchical** | | | |
+| | Tree diagram | `assets/vega/templates/hierarchical/tree-diagram.vg.json` | `assets/d3/templates/hierarchical/tree-diagram.html` |
+| **Networks** | | | |
+| | Force graph | `assets/vega/templates/networks/force-graph.vg.json` | `assets/d3/templates/networks/force-graph.html` |
+| | Sankey | — | `assets/d3/templates/networks/sankey.html` |
+| **Relationships** | | | |
+| | Scatter plot | `assets/vega/templates/relationships/scatter-plot.vg.json` | `assets/d3/templates/relationships/scatter-plot.html` |
+| | Heatmap | `assets/vega/templates/relationships/heatmap.vg.json` | `assets/d3/templates/relationships/heatmap.html` |
+| | Bubble chart | `assets/vega/templates/relationships/bubble-chart.vg.json` | `assets/d3/templates/relationships/bubble-chart.html` |
+| **Temporal** | | | |
+| | Line chart | `assets/vega/templates/temporal/line-chart.vg.json` | `assets/d3/templates/temporal/line-chart.html` |
+| | Area chart | `assets/vega/templates/temporal/area-chart.vg.json` | `assets/d3/templates/temporal/area-chart.html` |
+| | Candlestick | `assets/vega/templates/temporal/candlestick.vg.json` | `assets/d3/templates/temporal/candlestick.html` |
 
-**Totals**: 12 Vega-Lite, 6 Full Vega, 1 D3.
+**Totals:** 18 Vega + 19 D3 = 37 templates. Sankey is D3-only.
 
 ## When to Override the Default
 
-The flowchart covers standard cases. Override when:
-
-- **Custom interactivity beyond selection**: If the chart needs drag-to-reorder, custom brush shapes, or interactive parameter widgets, escalate from Vega-Lite to full Vega for its signal system.
-- **Performance with large datasets**: Vega-Lite's `canvas` renderer handles tens of thousands of points. For hundreds of thousands, consider full Vega with `canvas` renderer and data streaming, or D3 with Canvas 2D API directly.
-- **Pixel-precise layout**: When the exact pixel placement of every element matters (infographic-style), D3 gives full control. Vega and Vega-Lite lay out marks according to their grammar, which may not match a rigid design spec.
-- **Combining chart types not in Vega-Lite's grammar**: Vega-Lite supports `layer`, `concat`, `facet`, and `repeat`. If the combination you need does not fit these operators (for example, a chart where one layer is a force layout and another is a bar chart), use full Vega or split into separate embeds.
-- **Template-crafter mode**: When the user requests a fully custom D3 visualization, use the D3 base template from `base-template.md` regardless of whether a Vega-Lite equivalent exists.
-
-## Sources
-
-- Vega-Lite documentation — https://vega.github.io/vega-lite/
-- Vega documentation — https://vega.github.io/vega/
-- D3.js documentation — https://d3js.org/getting-started
-- Vega-Lite compilation to Vega — https://vega.github.io/vega-lite/usage/compile.html
+- **Accessibility priority:** If the user specifically needs keyboard navigation or screen
+  reader support for individual data points, use D3 regardless of chart type.
+- **Performance:** Vega handles tens of thousands of points. For hundreds of thousands, use
+  D3 with Canvas 2D API. See `canvas-patterns.md`.
+- **Pixel-precise layout:** Infographic-style designs where exact placement matters → D3.
+- **Custom interactivity:** Complex drag interactions, custom brush shapes → D3 gives more
+  control than Vega signals, though Vega signals handle most cases.

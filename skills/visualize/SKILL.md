@@ -1,198 +1,319 @@
 ---
 name: visualize
 description: >
-  Transform data into browser-runnable Vega-Lite and Vega visualizations through principled
-  intent framing, encoding, composition, narration, accessibility, interaction, and refinement.
+  Create browser-runnable data visualizations using Vega and D3.js — from bar charts to
+  force-directed networks. Every output is a standalone HTML file with no build step.
   This skill should be used when the user asks to "create a visualization",
   "make a chart", "graph this data", "show this visually", "visualize this",
   "encode data", "design a layout", "annotate my chart", "make this accessible",
-  "add interactivity", or "refine this visualization". Also triggers on broader
-  queries: "data viz help", "chart question", "vega-lite", "vega", "D3.js",
-  "how should I display this", "best chart type for", "what visualization",
-  "plot this", "diagram this data".
+  "add interactivity", "refine this visualization", "plot this", or "diagram this data".
+  Also triggers on: "data viz", "chart question", "vega", "D3", "best chart type for",
+  "how should I display this", "what visualization", "compare these numbers",
+  "show the trend", "make a dashboard", "show me a map". Use this skill even when the
+  user just provides data and says "show me" or "what does this look like" — any request
+  to see data visually should route here.
 context: fork
 user-invocable: true
 ---
 
 # Visualize
 
-Transform data into browser-runnable visualizations using Vega-Lite for standard charts, full Vega for complex charts (force layouts, treemaps, geographic projections), and D3 for sankey diagrams. Proceed through six phases — from establishing intent to delivering a polished, accessible artifact.
+Create browser-runnable data visualizations. Every output is a standalone HTML file — no
+build step, no server, no dependencies beyond CDN. Two engines: Vega (declarative, default)
+and D3 (imperative, for full control and accessibility).
 
-## Phases
+## Core Principles
 
-| Phase | Purpose | Checkpoint | Reference |
-|-------|---------|------------|-----------|
-| 1. Context | Establish argument, viewer, cognitive mode, constraints | — | `references/phase-context.md` |
-| 2. Research | Assess data, plan encoding, select engine and template | User review | `references/phase-research.md` |
-| 3. Implement | Build across encode, compose, narrate, interact, access | — | `references/phase-implement.md` |
-| 4. Refine | Audit structural integrity, perception, clarity | — | `references/phase-refine.md` |
-| 5. Present | Output final HTML, collect feedback | User review | `references/phase-present.md` |
-| 6. Complete | Persist visualization (optional, requires Python 3) | — | `references/phase-present.md` |
+These principles determine whether a visualization communicates or decorates. They apply to
+every chart, regardless of engine or chart type. When in doubt, return to these.
 
-## Phase Flow
+### Intent — find the claim before touching data
+
+- **Complete the sentence: "This visualization shows that ___."** If you cannot finish it
+  with a specific claim, stop. You do not have a visualization yet — you have a topic. Topics
+  produce decoration. Claims produce communication.
+- **Know whose decision this serves.** Complete: "[Person] needs to [action] by [when]."
+  The specificity determines whether you build for rapid recognition or open exploration.
+- **Determine whether the viewer is arriving at a conclusion or making a decision.**
+  Conclusions need guided reading paths and working-memory support. Decisions need categorical
+  signals that fire before the viewer reads a word. These require different designs.
+- **Do the honesty check before you design.** What complexity does simplification hide? What
+  outliers does the argument smooth over? If honest examination undermines the argument, revise
+  the argument — not the honesty.
+
+### Encoding — match channel to data, respect the hierarchy
+
+- **Encode your most important quantitative variable as position on a common scale.** Position
+  is 5-10x more accurate than area or color for value extraction. Everything else is a concession.
+- **The channel ranking: position > length > angle/slope > area > luminance/saturation > hue.**
+  Use the highest-ranked channel for the most important variable.
+- **Match channel to data type.** Length and area imply magnitude — never use them for categories.
+  Hue implies identity — never use it for quantities. Violating this asserts relationships the
+  data does not contain.
+- **Scale area by sqrt, not linearly.** `radius = sqrt(value)` makes visual area proportional
+  to data. Linear radius creates quadratic distortion.
+- **Bar charts must start at zero.** Length encoding depends on the baseline. If the differences
+  are too small to see at zero, that is meaningful information.
+- **Sort categories by value, not alphabetically.** Alphabetical sorting turns the visual pattern
+  into random noise.
+- **Data without units is decoration.** Every axis label, annotation, and tooltip must include
+  units. If the data has no units, state what it measures.
+
+### Composition — one chart, one job
+
+- **A single visualization makes a single point.** If your chart needs a paragraph to explain,
+  it might need to be two charts.
+- **Decide what the viewer sees first, second, third — then assign visual weight in that order.**
+  Size, position, contrast, and isolation contribute to weight. When everything has equal weight,
+  nothing communicates.
+- **Build a three-level hierarchy: primary (the insight), secondary (context), tertiary
+  (reference).** Give primary disproportionate visual weight. Give tertiary near-invisible weight.
+- **Prefer direct labels over legends.** Legends force round-trips between data and key. Label
+  lines at endpoints, bars at their values, series inline.
+- **Build hierarchy by reducing secondary elements, not enlarging primary ones.** Lighten
+  gridlines. Thin axis lines. Shrink legends. A quiet context makes the signal obvious.
+- **Bring elements that need comparison close together.** Comparison accuracy degrades rapidly
+  with distance. If the viewer must hold a value in working memory, the layout is failing.
+
+### Color — OpenColors palette, never the sole differentiator
+
+- **Use the OpenColors palette for all visualizations.** Categorical: oc-blue-7, oc-orange-7,
+  oc-teal-7, oc-red-7, oc-grape-7, oc-cyan-7, oc-lime-7, oc-pink-7. Sequential: single-hue
+  light-to-dark. Diverging: two hues meeting at oc-gray-3.
+- **Never rely on color alone.** Pair hue with shape, pattern, position, or direct labels.
+  8% of males have red-green color vision deficiency.
+- **Avoid red-green pairs.** Blue and orange are safe across nearly all deficiency types.
+- **Reserve saturated color for what demands immediate attention.** One saturated element in a
+  field of muted tones commands the eye.
+- **Keep one color meaning consistent across all panels.** If "actual" is oc-blue-7 in one
+  chart, it must be oc-blue-7 everywhere.
+- **Meet WCAG AA contrast: 4.5:1 for text, 3:1 for graphical objects.** The minimum passing
+  gray on white is #767676.
+
+### Narrative — put the insight in the title
+
+- **Titles state the takeaway, not the topic.** "Northeast drives 60% of revenue growth"
+  communicates. "Revenue by Region" does not. The title is the most-read element.
+- **Use the subtitle for context.** Time range, data source, scope. The subtitle is where
+  "Monthly Revenue, 2020-2024" belongs — as supporting detail under the actual insight.
+- **Annotate insights, not features.** Highlight what the viewer would miss or misinterpret
+  without guidance. "30% higher than 2019" communicates. "45%" does not.
+- **Annotate external context that explains patterns.** A spike on March 2020 means nothing
+  until annotated "COVID-19 lockdowns begin."
+- **Show uncertainty honestly.** Dash projected lines. Add confidence bands. Distinguish
+  historical from forecast. A clean line into the future presents false precision.
+
+### Spacing — whitespace is structure
+
+- **Generous margins around all charts.** The data is visually busy; surrounding space provides
+  relief. Padding around text improves readability.
+- **Tight spacing within groups, generous spacing between groups.** Proximity communicates
+  hierarchy without labels or borders.
+- **Isolate the most important element with whitespace.** Crowded elements compete. An element
+  surrounded by space commands attention without changing the element itself.
+
+### Simplicity — what earns its place
+
+- **For every non-data element, ask: does this reveal data, explain data, or orient the reader?**
+  If none, remove it.
+- **Remove 3D effects from 2D data without exception.** Perspective distorts length, angle, and
+  area simultaneously.
+- **Gridlines should be barely visible.** If gridlines are darker than data marks, the hierarchy
+  is inverted.
+- **Highlight the important few, gray the unimportant many.** For more than 7 categories, pick
+  3-5 that matter, color them, push the rest to oc-gray-4.
+- **When aggregation hides distribution, show the distribution.** Means lie by omission. Add
+  box plots, jittered points, or at minimum confidence intervals.
+
+---
+
+## Workflow
+
+Six phases — research heavy, implementation light.
 
 ```
-Phase 1        Phase 2         Phase 3            Phase 4        Phase 5       Phase 6
-Context   →   Research   →   Implement   →   Refine   →   Present   →   Complete
-              [checkpoint]                                [checkpoint]
-                  ↑               ↑                           │
-                  └───────────────┴───── feedback loops ──────┘
+Think   →   Research   →   Build   →   Verify   →   Present   →   Save
+           [checkpoint]                [MANDATORY     [checkpoint]
+                ↑             ↑        2nd draft]         │
+                └─────────────┴──── feedback loops ───────┘
 ```
 
-Feedback loops: user review at Phase 5 may route back — "change chart type" → Phase 2, "fix layout" → Phase 3:compose, "something feels off" → Phase 4.
+| Phase | What happens | Reference |
+|-------|-------------|-----------|
+| 1. Think | Find the claim. Identify the viewer. Determine inference vs. recognition mode. Honesty check. | `references/phase-context.md` |
+| 2. Research | Classify data (Q/O/N/T). Plan encoding. Select engine + template. Plan transforms. **User checkpoint.** | `references/phase-research.md` |
+| 3. Build | Write spec/HTML. Apply encoding, composition, narrative, interaction, accessibility. | `references/phase-implement.md` |
+| 4. Verify | **Mandatory second draft.** Structural verification (read back HTML). Visual verification (open in Chrome, read screenshot). Both must agree. Apply `/frontend-design` for style pass. Fix and re-verify. | `references/phase-refine.md` |
+| 5. Present | Output final HTML. Restate argument. **User checkpoint.** Route feedback to the right phase. | `references/phase-present.md` |
+| 6. Save | Persist to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. Optionally register via CLI. | `references/phase-present.md` |
 
-## Signal Detection → Phase Routing
+Feedback routing: "change chart type" → Phase 2. "fix layout" → Phase 3. "something feels off" → Phase 4.
 
-| Signal | Route To |
-|--------|----------|
-| "visualize this data", "create a chart", "make a graph" | Phase 1 (full workflow) |
-| "what chart type", "encode", "bar vs line", "represent" | Phase 2: plan-encoding |
-| "layout", "arrange", "hierarchy", "whitespace", "grid" | Phase 3: compose |
-| "annotate", "title", "story", "explain", "highlight" | Phase 3: narrate |
-| "accessible", "WCAG", "colorblind", "screen reader", "ARIA" | Phase 3: access-audit |
-| "interactive", "filter", "zoom", "hover", "brush", "animate" | Phase 3: interact |
-| "improve", "refine", "what's wrong", "simplify", "clearer" | Phase 4 |
-| "network", "graph", "nodes", "force-directed" | Phase 2 + `network-patterns.md` |
-| "large dataset", "100k", "millions", "performance" | Phase 2 + `canvas-patterns.md` |
-| "why visualize", "what's the point", "who is this for" | Phase 1 |
+### Phase 4 Verification Protocol (mandatory)
 
-## Targeted Entry
+Every visualization goes through two verification paths in parallel:
 
-When the user enters with a specific need rather than a full visualization request:
+1. **Structural:** Read back the generated HTML. Verify the Vega spec or D3 code is syntactically
+   correct. Check that data fields match the encoding. Verify units on axes. Verify OpenColors palette.
+2. **Visual:** Run `open -a "Google Chrome" <file>`. Read the screenshot. Inspect the rendered
+   output for: correct chart type, readable labels, appropriate spacing, working tooltips,
+   color contrast, overall clarity.
 
-1. Identify the target phase and subtask from signal detection
-2. Verify prerequisites exist (argument, encoding plan, draft HTML — whatever the target phase requires)
-3. If prerequisites are missing, gather them through focused questions — do not run earlier phases in full
-4. Load the target phase reference and proceed
+Both paths must agree the chart is correct. If they disagree, fix and re-verify. Only proceed
+to Phase 5 after the second draft passes both checks.
 
-Example: "make this chart accessible" → Phase 3: access-audit. Verify draft HTML exists; if not, ask for it. Load `phase-implement.md` and jump to the access-audit subtask.
+---
 
-## Anti-Patterns
+## Engine Selection
 
-| Never Do | Instead |
-|----------|---------|
-| Rainbow colormaps | Sequential single-hue or diverging palette (viridis, Tableau10) |
-| 3D charts for 2D data | 2D equivalent with opacity or faceting |
-| Pie charts with >7 slices | Bar chart (length encodes more accurately) |
-| Truncated y-axis on bar charts | Start at zero, or use dot plot |
-| Color as sole differentiator | Pair with shape, pattern, or direct label |
-| Full Vega when Vega-Lite suffices | Check `engine-selection.md` — VL first, Vega only when transforms require it |
-
-For the full list with rationale, load `references/common-pitfalls.md`.
-
-## Workflow Tracking
-
-Create a task for each phase and update status as each completes. Use dependency tracking for sequential phases — parallel tasks share the same blockers but do not block each other.
+Two data-viz engines. Default to Vega. Use D3 when you need full DOM control.
 
 ```
-[Phase 1] Context — define argument and viewer for <description>
-[Phase 2] Research — assess data, select engine, plan encoding
-[Phase 2: checkpoint] User review of engine choice and encoding plan
-[Phase 3: encode] Implement VL/Vega spec or D3 scales and marks (+ color access)
-[Phase 3: compose] Arrange layout with hierarchy (+ semantic SVG)
-[Phase 3: narrate] Add annotations and storytelling        ← parallel with next
-[Phase 3: interact] Add tooltip and filter controls        ← parallel with above
-[Phase 3: access-audit] ARIA roles, keyboard navigation
-[Phase 4: structural] Structural audit                     ← parallel with next
-[Phase 4: perceptual] Perceptual audit                     ← parallel with above
-[Phase 4: clarity] Clarity audit and glance test
-[Phase 5] Present visualization and collect feedback
-[Phase 5: checkpoint] User review of final output
-[Phase 6] Persist and exit
+What are you visualizing?
+├── Data (quantitative/categorical)
+│   ├── Default → Vega (.vg.json spec in wrapper HTML)
+│   └── Needs full DOM control, custom keyboard nav, or sankey? → D3 (standalone HTML)
+├── Process/flow/structure → [Mermaid — future]
+└── Network topology only  → [Graphviz — future]
 ```
 
-## Browser-Runnable Output
+**Vega** is declarative JSON. It handles bar, line, scatter, area, pie, histogram, box plot,
+violin, heatmap, bubble, treemap, sunburst, choropleth, force graph, tree diagram, candlestick,
+and more via transforms. Use it for everything unless you need D3.
 
-All visualizations produce standalone HTML files that open directly in a browser with no build step.
+**D3** is imperative JavaScript. It gives full control over the DOM. Use it when Vega can't
+express what you need (sankey), or when you need full keyboard navigation and ARIA support
+that Vega's SVG renderer doesn't provide.
 
-**Vega/VL charts** (18 templates): Copy `assets/vega/wrapper.html`, inject the JSON spec, fill in frontmatter and title. The wrapper loads Vega stack from CDN, renders via `vegaEmbed`, and auto-generates an accessibility data table. See `references/base-vega-wrapper.md`.
+Every chart type has templates in both engines. Load `references/engine-selection.md` for the
+full capability matrix and decision criteria.
 
-**D3 charts** (sankey only): Generate standalone HTML with ESM imports from CDN. See `references/base-template.md`.
-
-### Persisting Visualizations
-
-Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. If Python 3 is available, register with `python3 scripts/visualizer.py create --file <path>` for organized storage. See `references/phase-present.md` for the full persist workflow.
+---
 
 ## Templates
 
-12 Vega-Lite specs + 6 Vega specs + 1 D3 template across 8 categories. Use `references/engine-selection.md` to choose the engine, then select the template from `assets/vega/templates/` (VL/Vega) or `assets/d3/templates/` (sankey only). See `references/template-selection.md` for the full decision tree. For chart types not covered (radar, chord diagram, parallel coordinates, etc.), follow the Custom Template Workflow below.
+25 Vega specs + D3 templates across 8 categories in `assets/vega/templates/` and `assets/d3/templates/`.
 
-## Custom Template Workflow
+| Category | Charts | Engine |
+|----------|--------|--------|
+| Comparisons | bar, grouped-bar, stacked-bar, dot-plot, dumbbell | Vega + D3 |
+| Compositions | pie, sunburst, treemap, waffle | Vega + D3 |
+| Distributions | histogram, box-plot, violin-plot | Vega + D3 |
+| Geographic | choropleth | Vega + D3 |
+| Hierarchical | tree-diagram | Vega + D3 |
+| Networks | force-graph, sankey | Vega + D3 |
+| Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar | Vega + D3 |
+| Temporal | line-chart, area-chart, candlestick, slope, sparkline | Vega + D3 |
 
-When the user needs a visualization type not covered by the 19 built-in templates (e.g., radar chart, chord diagram, parallel coordinates, streamgraph, waffle chart):
+Load `references/template-selection.md` for the decision tree from question type → template.
 
-### 1. Confirm No Existing Template
+### Custom Template Workflow
 
-Check `assets/vega/templates/` and `assets/d3/templates/` — if a template exists for the requested chart type, use it instead.
+For chart types not in the template library (chord diagram, streamgraph, etc.):
 
-### 2. Craft the Template
+1. Confirm no existing template covers it
+2. Craft using `references/base-vega-wrapper.md` (Vega) or `references/base-template.md` (D3)
+3. Requirements: browser-runnable, CDN dependencies, OpenColors, 4.5:1 contrast, data table
+   fallback, responsive sizing, units on all axes, sample data embedded
 
-Prefer Vega-Lite or Vega specs when possible. Use D3 HTML only for chart types neither can express (like sankey). Follow `references/base-vega-wrapper.md` (Vega/VL) or `references/base-template.md` (D3).
+---
 
-| Requirement | Standard |
+## Anti-Patterns
+
+These are positioned here — before implementation references — so they are loaded when decisions
+are being made, not after.
+
+| Do Not | The Problem | Do Instead |
+|--------|-------------|------------|
+| Rainbow colormaps | No perceptual order; false boundaries; colorblind-hostile | Sequential single-hue or diverging (OpenColors) |
+| 3D charts for 2D data | Distorts length, angle, area simultaneously | 2D with opacity or faceting |
+| Pie charts with >5 slices | Angle comparison is inaccurate beyond 5 | Bar chart; length encodes more accurately |
+| Truncated y-axis on bars | Non-zero baseline makes 5% look like 300% | Start at zero; use dot plot if differences are small |
+| Color as sole differentiator | 8% of males are red-green colorblind | Pair with shape, pattern, or direct label |
+| Dual y-axes | Any correlation can be manufactured by adjusting scales | Two stacked panels with shared x-axis |
+| Lines connecting categorical points | Lines imply continuity between unordered items | Use bars or dots for categorical data |
+| Alphabetical category sorting | Turns visual pattern into noise | Sort by value |
+| Averages without distribution | Hides the shape of the data | Add box plot, jitter, or confidence interval |
+| Cherry-picked time windows | Supports narrative by hiding contradicting history | Show full history; zoom with inset if needed |
+
+---
+
+## Signal Detection → Phase Routing
+
+| User signal | Route to |
 |-------------|----------|
-| **Correctness** | Renders when opened directly in a browser — no build step, no server |
-| **Completeness** | All dependencies via CDN, sample data embedded, styles inlined |
-| **Customizability** | `_metadata` block documents data format and customization points (VL/Vega) or inline comments (D3) |
-| **Accessibility** | SVG title/description, Tableau10 colors, 4.5:1 contrast, data table fallback |
-| **Responsiveness** | `width: "container"` (VL) or viewBox-based scaling (D3) |
+| "visualize this", "create a chart", "make a graph", "show me" | Phase 1 (full workflow) |
+| "what chart type", "bar vs line", "how should I represent" | Phase 2 |
+| "layout", "arrange", "hierarchy", "whitespace", "grid" | Phase 3: compose |
+| "annotate", "title", "label", "story", "explain" | Phase 3: narrate |
+| "accessible", "WCAG", "colorblind", "screen reader" | Phase 3: access |
+| "interactive", "filter", "zoom", "hover", "brush" | Phase 3: interact |
+| "improve", "refine", "simplify", "what's wrong" | Phase 4 |
+| "network", "nodes", "force-directed", "graph" | Phase 2 + `network-patterns.md` |
+| "large dataset", "performance", "100k+", "millions" | Phase 2 + `canvas-patterns.md` |
 
-For VL/Vega specs, use patterns from `references/vega-lite-patterns.md` and `references/vega-patterns.md`. For D3, use patterns from `references/chart-patterns.md`.
+When entering at a specific phase, verify prerequisites exist (argument, encoding plan, draft
+HTML). If missing, gather through focused questions — do not run earlier phases in full.
 
-### 3. Quality Checklist
+---
 
-Before completing, verify:
+## Browser-Runnable Output
 
-- [ ] Opens and renders in browser without errors
-- [ ] Sample data produces visible, meaningful visualization
-- [ ] Tooltip appears on hover with correct data
-- [ ] SVG has title and description elements
-- [ ] Color scheme is colorblind-safe (Tableau10 default)
-- [ ] Responsive sizing (`width: "container"` for VL, viewBox for D3)
-- [ ] `_metadata` block documents data format (VL/Vega) or DATA section (D3)
-- [ ] Data table fallback renders in `<details>` block
+**Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec. The wrapper loads
+Vega from CDN, renders via `vegaEmbed`, and auto-generates an accessibility data table.
+See `references/base-vega-wrapper.md`.
 
-## CLI Workflows
+**D3 charts:** Generate standalone HTML with ESM imports from CDN.
+See `references/base-template.md`.
 
-The visualization management CLI (`scripts/visualizer.py`) requires Python 3. Check availability with `python3 --version` before use. Commands: `create --file <path>`, `list [--type <chart-type>]`, `search <term>`, `show <id>`, `delete <id> --force`. See `references/phase-present.md` for natural language routing.
+Both paths produce a single `.html` file that opens directly in any browser.
 
-## Plan-Aware Execution
+### Persisting
 
-If a plan file exists at `.claude/plans/*.md` describing a visualization task:
+Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. If Python 3 is
+available, register with `python3 scripts/visualizer.py create --file <path>` for organized
+storage.
 
-1. Read the plan file
-2. Identify which phases are already resolved
-3. Create tasks only for remaining phases
-4. Begin from the first unresolved phase
-
-When producing a plan, include: exact data file paths, Frame decisions verbatim, chart type and encoding assignments, selected template, accessibility constraints.
+---
 
 ## References
 
-**Mode methodology** (loaded during Phase 3 implementation):
+Load these conditionally — never load more than one pattern doc at a time.
 
-| Mode | Reference | Purpose |
-|------|-----------|---------|
-| Encode | `references/mode-encode.md` | Cleveland-McGill rankings, channel selection, data type mapping |
-| Compose | `references/mode-compose.md` | Gestalt principles, visual hierarchy, layout |
-| Narrate | `references/mode-narrate.md` | Segel-Heer framework, annotation patterns |
-| Access | `references/mode-access.md` | WCAG compliance, color accessibility, ARIA |
-| Interact | `references/mode-interact.md` | Selections, brushing, linking, transitions |
-| Refine | `references/mode-refine.md` | Iteration workflow, common pitfalls |
+**Phase guides** (load at phase entry):
 
-**Implementation patterns:**
+| Phase | Reference |
+|-------|-----------|
+| Think | `references/phase-context.md` |
+| Research | `references/phase-research.md` |
+| Build | `references/phase-implement.md` |
+| Verify | `references/phase-refine.md` |
+| Present + Save | `references/phase-present.md` |
+
+**Mode guides** (load during Build phase, one at a time):
+
+| Mode | Reference | When to load |
+|------|-----------|-------------|
+| Encode | `references/mode-encode.md` | Writing scales, marks, channels |
+| Compose | `references/mode-compose.md` | Arranging layout, hierarchy, spacing |
+| Narrate | `references/mode-narrate.md` | Adding titles, annotations, story |
+| Access | `references/mode-access.md` | ARIA, keyboard nav, color access |
+| Interact | `references/mode-interact.md` | Tooltips, brushing, filtering |
+| Refine | `references/mode-refine.md` | Auditing and fixing issues |
+
+**Pattern docs** (load ONE based on engine choice):
+
+| Engine | Reference |
+|--------|-----------|
+| Vega | `references/vega-patterns.md` |
+| D3 | `references/d3-patterns.md` |
+
+**Specialized** (load only when relevant):
 
 | Topic | Reference |
 |-------|-----------|
-| Vega-Lite specs | `references/vega-lite-patterns.md` |
-| Full Vega specs | `references/vega-patterns.md` |
-| Engine selection | `references/engine-selection.md` |
-| Template selection | `references/template-selection.md` |
-| VL/Vega HTML wrapper | `references/base-vega-wrapper.md` |
-| D3 HTML skeleton | `references/base-template.md` |
-| D3 patterns (sankey) | `references/d3-patterns.md`, `references/chart-patterns.md` |
+| Engine + template selection | `references/engine-selection.md`, `references/template-selection.md` |
+| Vega/D3 HTML scaffolding | `references/base-vega-wrapper.md`, `references/base-template.md` |
 | Data transforms | `references/data-preparation.md` |
 | Networks | `references/network-patterns.md` |
-| Large datasets | `references/canvas-patterns.md` |
-
-**Theory** (cross-referenced from mode docs): `cleveland-mcgill.md`, `gestalt.md`, `segel-heer.md`, `hierarchy.md`, `channel-guide.md`, `color-accessibility.md`, `common-pitfalls.md`, `assistive-tech.md`, `annotation-patterns.md`, `iteration-workflow.md`
+| Large datasets (Canvas) | `references/canvas-patterns.md` |

@@ -1,6 +1,6 @@
 # Phase 1: Context
 
-Establish the visualization's argument, viewer, cognitive mode, and constraints before any encoding decisions. These patterns synthesize established visualization practice. Primary sources are cited where available.
+Establish the visualization's argument, viewer, cognitive mode, and constraints before any encoding decisions. This is the highest-leverage phase — getting the argument right matters more than getting the encoding right.
 
 ## When to Use
 
@@ -71,6 +71,14 @@ What complexity exists that simplification might hide?
 
 If the honest answer undermines the argument, the argument needs revision — not the honesty check.
 
+### 6. Editorial Integrity
+
+These checks catch subtle biases that standard visualization audits miss:
+
+- **Threshold-based pre-interpretation:** Did you choose category boundaries, color breakpoints, or bin edges that support the narrative? Would different thresholds tell a different story?
+- **Metric selection bias:** Would this metric be included if it showed the opposite trend? The metrics you leave out shape interpretation as much as the ones you include.
+- **Designer's epistemic commitment:** After spending time with data, you form conclusions. Are contradictory findings in footnotes while the "interesting" finding gets visual prominence? Ask: "Would this simplification survive if the finding went the other way?" If yes, it is clarity. If no, it is comfort.
+
 ### When the Argument Is Hard to Articulate
 
 If the user struggles to complete "This visualization shows that ___":
@@ -98,9 +106,5 @@ Proceed to **Phase 2: Research** with:
 - Viewer and task sentence
 - Cognitive mode (inference or recognition)
 - Constraints documented
+- Editorial integrity check completed
 - Data status (available | pending)
-
-## Sources
-
-- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press.
-- Segel, E. and Heer, J. (2010). "Narrative Visualization." https://vis.stanford.edu/papers/narrative

@@ -1,7 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v6.json",
   "_metadata": {
-    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- KDE transform computes the density curve.",
     "customization": [
       "Replace 'values' array in data[0] with your raw observations",
       "Change 'group' and 'value' field names in data transforms, scales, and marks",
@@ -10,35 +8,57 @@
       "Update axes titles for your variable names",
       "Modify title.text and title.subtitle for your context"
     ],
+    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- KDE transform computes the density curve.",
     "notes": "The bandwidth signal defaults to 0 (auto-detect). The interactive range slider lets users adjust KDE smoothing."
   },
-  "description": "Violin plot comparing distribution shapes across four classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations), and Class D is roughly uniform.",
-  "width": 500,
-  "height": 400,
-  "padding": 5,
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "axes": [
+    {
+      "domainColor": "#dee2e6",
+      "labelColor": "#868e96",
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "layout",
+      "tickColor": "#dee2e6",
+      "title": "Class",
+      "titleColor": "#495057",
+      "titleFontSize": 13,
+      "zindex": 1
+    },
+    {
+      "domainColor": "#dee2e6",
+      "grid": true,
+      "gridColor": "#f1f3f5",
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelColor": "#868e96",
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "yscale",
+      "tickColor": "#dee2e6",
+      "title": "Test Score (points)",
+      "titleColor": "#495057",
+      "titleFontSize": 13,
+      "zindex": 1
+    }
+  ],
   "config": {
+    "aria": true,
+    "axis": {
+      "labelFont": "system-ui, -apple-system, sans-serif",
+      "titleFont": "system-ui, -apple-system, sans-serif"
+    },
     "axisBand": {
       "bandPosition": 1,
       "tickExtra": true,
       "tickOffset": 0
+    },
+    "title": {
+      "font": "system-ui, -apple-system, sans-serif"
     }
   },
-  "signals": [
-    {
-      "name": "plotWidth",
-      "value": 60
-    },
-    {
-      "name": "bandwidth",
-      "value": 0,
-      "bind": {
-        "input": "range",
-        "min": 0,
-        "max": 10,
-        "step": 0.1
-      }
-    }
-  ],
   "data": [
     {
       "name": "table",
@@ -486,18 +506,18 @@
       "source": "table",
       "transform": [
         {
-          "type": "kde",
-          "field": "value",
-          "groupby": [
-            "group"
-          ],
           "bandwidth": {
             "signal": "bandwidth"
           },
           "extent": [
             40,
             100
-          ]
+          ],
+          "field": "value",
+          "groupby": [
+            "group"
+          ],
+          "type": "kde"
         }
       ]
     },
@@ -506,152 +526,85 @@
       "source": "table",
       "transform": [
         {
-          "type": "aggregate",
-          "groupby": [
-            "group"
+          "as": [
+            "q1",
+            "median",
+            "q3"
           ],
           "fields": [
             "value",
             "value",
             "value"
           ],
+          "groupby": [
+            "group"
+          ],
           "ops": [
             "q1",
             "median",
             "q3"
           ],
-          "as": [
-            "q1",
-            "median",
-            "q3"
-          ]
+          "type": "aggregate"
         }
       ]
     }
   ],
-  "scales": [
-    {
-      "name": "layout",
-      "type": "band",
-      "range": "width",
-      "domain": {
-        "data": "table",
-        "field": "group"
-      }
-    },
-    {
-      "name": "yscale",
-      "type": "linear",
-      "range": "height",
-      "round": true,
-      "domain": {
-        "data": "table",
-        "field": "value"
-      },
-      "domainMin": 40,
-      "domainMax": 100,
-      "zero": false,
-      "nice": true
-    },
-    {
-      "name": "hscale",
-      "type": "linear",
-      "range": [
-        0,
-        {
-          "signal": "plotWidth"
-        }
-      ],
-      "domain": {
-        "data": "density",
-        "field": "density"
-      }
-    },
-    {
-      "name": "color",
-      "type": "ordinal",
-      "domain": {
-        "data": "table",
-        "field": "group"
-      },
-      "range": {
-        "scheme": "tableau10"
-      }
-    }
-  ],
-  "axes": [
-    {
-      "orient": "bottom",
-      "scale": "layout",
-      "zindex": 1,
-      "title": "Class"
-    },
-    {
-      "orient": "left",
-      "scale": "yscale",
-      "zindex": 1,
-      "title": "Test Score"
-    }
-  ],
+  "description": "Violin plot comparing distribution shapes across four classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations), and Class D is roughly uniform.",
+  "height": 400,
   "marks": [
     {
-      "type": "group",
-      "from": {
-        "facet": {
-          "data": "density",
-          "name": "violin",
-          "groupby": "group"
-        }
-      },
-      "encode": {
-        "enter": {
-          "xc": {
-            "scale": "layout",
-            "field": "group",
-            "band": 0.5
-          },
-          "width": {
-            "signal": "plotWidth"
-          },
-          "height": {
-            "signal": "height"
-          }
-        }
-      },
       "data": [
         {
           "name": "summary",
           "source": "stats",
           "transform": [
             {
-              "type": "filter",
-              "expr": "datum.group === parent.group"
+              "expr": "datum.group === parent.group",
+              "type": "filter"
             }
           ]
         }
       ],
+      "encode": {
+        "enter": {
+          "height": {
+            "signal": "height"
+          },
+          "width": {
+            "signal": "plotWidth"
+          },
+          "xc": {
+            "band": 0.5,
+            "field": "group",
+            "scale": "layout"
+          }
+        }
+      },
+      "from": {
+        "facet": {
+          "data": "density",
+          "groupby": "group",
+          "name": "violin"
+        }
+      },
       "marks": [
         {
-          "type": "area",
-          "from": {
-            "data": "violin"
-          },
           "encode": {
             "enter": {
               "fill": {
-                "scale": "color",
                 "field": {
                   "parent": "group"
-                }
+                },
+                "scale": "color"
               },
               "fillOpacity": {
                 "value": 0.7
               },
               "stroke": {
-                "scale": "color",
                 "field": {
                   "parent": "group"
-                }
+                },
+                "scale": "color"
               },
               "strokeWidth": {
                 "value": 1.5
@@ -661,27 +614,30 @@
               }
             },
             "update": {
+              "width": {
+                "field": "density",
+                "scale": "hscale"
+              },
               "xc": {
                 "signal": "plotWidth / 2"
               },
-              "width": {
-                "scale": "hscale",
-                "field": "density"
-              },
               "y": {
-                "scale": "yscale",
-                "field": "value"
+                "field": "value",
+                "scale": "yscale"
               }
             }
-          }
+          },
+          "from": {
+            "data": "violin"
+          },
+          "type": "area"
         },
         {
-          "type": "rect",
-          "from": {
-            "data": "summary"
-          },
           "encode": {
             "enter": {
+              "cornerRadius": {
+                "value": 2
+              },
               "fill": {
                 "value": "white"
               },
@@ -696,9 +652,6 @@
               },
               "width": {
                 "value": 8
-              },
-              "cornerRadius": {
-                "value": 2
               }
             },
             "update": {
@@ -706,31 +659,31 @@
                 "signal": "plotWidth / 2"
               },
               "y": {
-                "scale": "yscale",
-                "field": "q3"
+                "field": "q3",
+                "scale": "yscale"
               },
               "y2": {
-                "scale": "yscale",
-                "field": "q1"
+                "field": "q1",
+                "scale": "yscale"
               }
             }
-          }
-        },
-        {
-          "type": "symbol",
+          },
           "from": {
             "data": "summary"
           },
+          "type": "rect"
+        },
+        {
           "encode": {
             "enter": {
               "fill": {
                 "value": "#333"
               },
-              "size": {
-                "value": 30
-              },
               "shape": {
                 "value": "circle"
+              },
+              "size": {
+                "value": 30
               },
               "tooltip": {
                 "signal": "{'Median': format(datum.median, '.1f'), 'Q1': format(datum.q1, '.1f'), 'Q3': format(datum.q3, '.1f')}"
@@ -741,17 +694,107 @@
                 "signal": "plotWidth / 2"
               },
               "y": {
-                "scale": "yscale",
-                "field": "median"
+                "field": "median",
+                "scale": "yscale"
               }
             }
-          }
+          },
+          "from": {
+            "data": "summary"
+          },
+          "type": "symbol"
         }
-      ]
+      ],
+      "type": "group"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "table",
+        "field": "group"
+      },
+      "name": "layout",
+      "range": "width",
+      "type": "band"
+    },
+    {
+      "domain": {
+        "data": "table",
+        "field": "value"
+      },
+      "domainMax": 100,
+      "domainMin": 40,
+      "name": "yscale",
+      "nice": true,
+      "range": "height",
+      "round": true,
+      "type": "linear",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "density",
+        "field": "density"
+      },
+      "name": "hscale",
+      "range": [
+        0,
+        {
+          "signal": "plotWidth"
+        }
+      ],
+      "type": "linear"
+    },
+    {
+      "domain": {
+        "data": "table",
+        "field": "group"
+      },
+      "name": "color",
+      "range": [
+        "#1c7ed6",
+        "#e8590c",
+        "#0ca678",
+        "#f03e3e",
+        "#ae3ec9",
+        "#1098ad",
+        "#74b816",
+        "#d6336c"
+      ],
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "plotWidth",
+      "value": 60
+    },
+    {
+      "bind": {
+        "input": "range",
+        "max": 10,
+        "min": 0,
+        "step": 0.1
+      },
+      "name": "bandwidth",
+      "value": 0
     }
   ],
   "title": {
-    "text": "Test Score Distribution by Class",
-    "subtitle": "Violin plots revealing distribution shapes -- wider sections indicate more common values"
-  }
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Test score distribution by class; wider = more common values (points, 0–100)",
+    "subtitleColor": "#868e96",
+    "subtitleFontSize": 12,
+    "text": "Class C shows a bimodal split — two distinct score clusters emerge"
+  },
+  "width": 500
 }

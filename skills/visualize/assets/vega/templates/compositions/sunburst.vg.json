@@ -1,7 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v6.json",
   "_metadata": {
-    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'value' (quantitative, null for branch nodes) fields. Hierarchical parent-child structure with 3+ depth levels.",
     "customization": [
       "Replace 'values' array in data[0] with your hierarchical data",
       "Update scales[0].domain with your top-level category names",
@@ -9,21 +7,55 @@
       "Adjust the partition size parameter (data[0].transform[1].size[1]) to control outer radius",
       "Modify title.text and description for your context"
     ],
+    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'value' (quantitative, null for branch nodes) fields. Hierarchical parent-child structure with 3+ depth levels.",
     "notes": "Leaf nodes must have numeric 'value'; branch nodes should have null 'value'. The stratify transform builds the hierarchy from id/parent fields."
   },
-  "description": "Sunburst chart showing disk storage usage across Documents, Media, Applications, and System categories with 3-level hierarchy.",
-  "width": 600,
-  "height": 600,
-  "padding": 5,
-  "autosize": "none",
-  "title": {
-    "text": "Disk Storage Usage by Folder",
-    "anchor": "start",
-    "fontSize": 16
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+
+  "config": {
+    "aria": true,
+    "axis": {
+      "labelFont": "system-ui, -apple-system, sans-serif",
+      "titleFont": "system-ui, -apple-system, sans-serif"
+    },
+    "title": {
+      "font": "system-ui, -apple-system, sans-serif"
+    }
   },
   "data": [
     {
       "name": "tree",
+      "transform": [
+        {
+          "key": "id",
+          "parentKey": "parent",
+          "type": "stratify"
+        },
+        {
+          "as": [
+            "a0",
+            "r0",
+            "a1",
+            "r1",
+            "depth",
+            "children"
+          ],
+          "field": "value",
+          "size": [
+            6.283185307179586,
+            270
+          ],
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+          "type": "partition"
+        }
+      ],
       "values": [
         {
           "id": "Storage",
@@ -190,90 +222,39 @@
           "parent": "System",
           "value": 800
         }
-      ],
-      "transform": [
-        {
-          "type": "stratify",
-          "key": "id",
-          "parentKey": "parent"
-        },
-        {
-          "type": "partition",
-          "field": "value",
-          "sort": {
-            "field": "value",
-            "order": "descending"
-          },
-          "size": [
-            6.283185307179586,
-            270
-          ],
-          "as": [
-            "a0",
-            "r0",
-            "a1",
-            "r1",
-            "depth",
-            "children"
-          ]
-        }
       ]
     }
   ],
-  "scales": [
-    {
-      "name": "color",
-      "type": "ordinal",
-      "domain": [
-        "Documents",
-        "Media",
-        "Applications",
-        "System"
-      ],
-      "range": [
-        "#4e79a7",
-        "#f28e2c",
-        "#e15759",
-        "#76b7b2"
-      ]
-    }
-  ],
+  "description": "Sunburst chart showing disk storage usage across Documents, Media, Applications, and System categories with 3-level hierarchy. Media dominates at 18,200 MB, driven by Photos and Videos.",
+  "height": 600,
   "marks": [
     {
-      "type": "arc",
-      "from": {
-        "data": "tree"
-      },
       "encode": {
         "enter": {
+          "tooltip": {
+            "signal": "datum.depth > 0 ? { 'Name': datum.id, 'Parent': datum.parent, 'Size (MB)': datum.value || datum.value === 0 ? datum.value : null } : null"
+          },
           "x": {
             "signal": "width / 2"
           },
           "y": {
             "signal": "height / 2"
-          },
-          "tooltip": {
-            "signal": "datum.depth > 0 ? { 'Name': datum.id, 'Parent': datum.parent, 'Size (MB)': datum.value || datum.value === 0 ? datum.value : null } : null"
           }
         },
+        "hover": {
+          "fillOpacity": [
+            {
+              "test": "datum.depth === 0",
+              "value": 0
+            },
+            {
+              "value": 0.9
+            }
+          ]
+        },
         "update": {
-          "startAngle": {
-            "field": "a0"
-          },
           "endAngle": {
             "field": "a1"
-          },
-          "innerRadius": {
-            "field": "r0"
-          },
-          "outerRadius": {
-            "field": "r1"
-          },
-          "stroke": {
-            "value": "white"
-          },
-          "strokeWidth": {
-            "value": 0.5
           },
           "fill": [
             {
@@ -281,13 +262,13 @@
               "value": "transparent"
             },
             {
-              "test": "datum.depth === 1",
+              "field": "id",
               "scale": "color",
-              "field": "id"
+              "test": "datum.depth === 1"
             },
             {
-              "test": "datum.depth === 2",
-              "signal": "scale('color', datum.parent)"
+              "signal": "scale('color', datum.parent)",
+              "test": "datum.depth === 2"
             },
             {
               "signal": "scale('color', data('tree')[datum.index] ? pluck(data('tree'), 'parent')[pluck(data('tree'), 'id').indexOf(datum.parent)] : datum.parent)"
@@ -309,33 +290,37 @@
             {
               "value": 0.55
             }
-          ]
-        },
-        "hover": {
-          "fillOpacity": [
-            {
-              "test": "datum.depth === 0",
-              "value": 0
-            },
-            {
-              "value": 0.9
-            }
-          ]
+          ],
+          "innerRadius": {
+            "field": "r0"
+          },
+          "outerRadius": {
+            "field": "r1"
+          },
+          "startAngle": {
+            "field": "a0"
+          },
+          "stroke": {
+            "value": "white"
+          },
+          "strokeWidth": {
+            "value": 0.5
+          }
         }
-      }
-    },
-    {
-      "type": "text",
+      },
       "from": {
         "data": "tree"
       },
+      "type": "arc"
+    },
+    {
       "encode": {
         "enter": {
-          "x": {
-            "signal": "width / 2"
+          "align": {
+            "value": "center"
           },
-          "y": {
-            "signal": "height / 2"
+          "baseline": {
+            "value": "middle"
           },
           "fill": {
             "value": "white"
@@ -346,16 +331,16 @@
           "fontWeight": {
             "value": "bold"
           },
-          "baseline": {
-            "value": "middle"
+          "x": {
+            "signal": "width / 2"
           },
-          "align": {
-            "value": "center"
+          "y": {
+            "signal": "height / 2"
           }
         },
         "update": {
-          "theta": {
-            "signal": "(datum.a0 + datum.a1) / 2"
+          "opacity": {
+            "signal": "(datum.a1 - datum.a0) > 0.2 && datum.depth > 0 ? 1 : 0"
           },
           "radius": {
             "signal": "(datum.r0 + datum.r1) / 2"
@@ -363,11 +348,49 @@
           "text": {
             "signal": "(datum.a1 - datum.a0) > 0.2 && datum.depth > 0 ? datum.id : ''"
           },
-          "opacity": {
-            "signal": "(datum.a1 - datum.a0) > 0.2 && datum.depth > 0 ? 1 : 0"
+          "theta": {
+            "signal": "(datum.a0 + datum.a1) / 2"
           }
         }
-      }
+      },
+      "from": {
+        "data": "tree"
+      },
+      "type": "text"
     }
-  ]
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        "Documents",
+        "Media",
+        "Applications",
+        "System"
+      ],
+      "name": "color",
+      "range": [
+        "#1c7ed6",
+        "#e8590c",
+        "#0ca678",
+        "#f03e3e"
+      ],
+      "type": "ordinal"
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Disk storage by folder category, 3-level hierarchy (MB)",
+    "subtitleColor": "#868e96",
+    "subtitleFontSize": 12,
+    "text": "Media files consume over half of total disk storage"
+  },
+  "width": 600
 }

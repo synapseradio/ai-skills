@@ -1,0 +1,603 @@
+{
+  "_metadata": {
+    "customization": [
+      "Replace 'values' array with your data",
+      "Change 'metric' field values to your metric names",
+      "Update title and subtitle to match your context and units",
+      "Adjust 'rowHeight' signal to control vertical spacing",
+      "Add or remove metrics — group marks stack automatically"
+    ],
+    "dataFormat": "Array of objects with 'metric' (nominal), 'month' (ordinal 1-12), and 'value' (quantitative) fields. All metrics share a scale; normalize values to the same unit for meaningful comparison."
+  },
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+
+  "config": {
+    "aria": true,
+    "axis": {
+      "labelFont": "system-ui, -apple-system, sans-serif",
+      "titleFont": "system-ui, -apple-system, sans-serif"
+    },
+    "title": {
+      "font": "system-ui, -apple-system, sans-serif"
+    }
+  },
+
+  "data": [
+    {
+      "name": "source",
+      "values": [
+        {
+          "metric": "Revenue",
+          "month": 1,
+          "value": 100
+        },
+        {
+          "metric": "Revenue",
+          "month": 2,
+          "value": 104
+        },
+        {
+          "metric": "Revenue",
+          "month": 3,
+          "value": 108
+        },
+        {
+          "metric": "Revenue",
+          "month": 4,
+          "value": 110
+        },
+        {
+          "metric": "Revenue",
+          "month": 5,
+          "value": 115
+        },
+        {
+          "metric": "Revenue",
+          "month": 6,
+          "value": 119
+        },
+        {
+          "metric": "Revenue",
+          "month": 7,
+          "value": 122
+        },
+        {
+          "metric": "Revenue",
+          "month": 8,
+          "value": 125
+        },
+        {
+          "metric": "Revenue",
+          "month": 9,
+          "value": 128
+        },
+        {
+          "metric": "Revenue",
+          "month": 10,
+          "value": 130
+        },
+        {
+          "metric": "Revenue",
+          "month": 11,
+          "value": 132
+        },
+        {
+          "metric": "Revenue",
+          "month": 12,
+          "value": 134
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 1,
+          "value": 100
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 2,
+          "value": 101
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 3,
+          "value": 100
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 4,
+          "value": 102
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 5,
+          "value": 101
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 6,
+          "value": 103
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 7,
+          "value": 102
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 8,
+          "value": 104
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 9,
+          "value": 103
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 10,
+          "value": 105
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 11,
+          "value": 104
+        },
+        {
+          "metric": "Operating Costs",
+          "month": 12,
+          "value": 105
+        },
+        {
+          "metric": "Headcount",
+          "month": 1,
+          "value": 100
+        },
+        {
+          "metric": "Headcount",
+          "month": 2,
+          "value": 100
+        },
+        {
+          "metric": "Headcount",
+          "month": 3,
+          "value": 101
+        },
+        {
+          "metric": "Headcount",
+          "month": 4,
+          "value": 101
+        },
+        {
+          "metric": "Headcount",
+          "month": 5,
+          "value": 101
+        },
+        {
+          "metric": "Headcount",
+          "month": 6,
+          "value": 102
+        },
+        {
+          "metric": "Headcount",
+          "month": 7,
+          "value": 102
+        },
+        {
+          "metric": "Headcount",
+          "month": 8,
+          "value": 102
+        },
+        {
+          "metric": "Headcount",
+          "month": 9,
+          "value": 102
+        },
+        {
+          "metric": "Headcount",
+          "month": 10,
+          "value": 102
+        },
+        {
+          "metric": "Headcount",
+          "month": 11,
+          "value": 102
+        },
+        {
+          "metric": "Headcount",
+          "month": 12,
+          "value": 102
+        }
+      ]
+    },
+    {
+      "name": "first_values",
+      "source": "source",
+      "transform": [
+        {
+          "expr": "datum.month === 1",
+          "type": "filter"
+        }
+      ]
+    },
+    {
+      "name": "last_values",
+      "source": "source",
+      "transform": [
+        {
+          "expr": "datum.month === 12",
+          "type": "filter"
+        }
+      ]
+    },
+    {
+      "name": "metrics",
+      "source": "source",
+      "transform": [
+        {
+          "groupby": [
+            "metric"
+          ],
+          "type": "aggregate"
+        }
+      ]
+    }
+  ],
+  "description": "Sparkline panel showing three monthly metrics for 2024. Revenue grew from 100 to 134 (index). Operating costs remained flat around 100–105. Headcount held at 100–102.",
+  "height": 420,
+
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "clip": {
+            "value": true
+          },
+          "height": {
+            "signal": "rowHeight - 20"
+          },
+          "width": {
+            "signal": "sparklineWidth"
+          },
+          "x": {
+            "signal": "labelWidth + 16"
+          },
+          "y": {
+            "field": "metric",
+            "scale": "y_facet"
+          }
+        }
+      },
+      "from": {
+        "facet": {
+          "data": "source",
+          "groupby": "metric",
+          "name": "faceted"
+        }
+      },
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "interpolate": {
+                "value": "monotone"
+              },
+              "strokeWidth": {
+                "value": 2
+              },
+              "x": {
+                "field": "month",
+                "scale": "x"
+              },
+              "y": {
+                "field": "value",
+                "scale": "y_local"
+              }
+            },
+            "update": {
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.metric === datum.metric",
+                  "value": 1
+                },
+                {
+                  "value": 0.25
+                }
+              ],
+              "stroke": {
+                "field": "metric",
+                "scale": "color"
+              }
+            }
+          },
+          "from": {
+            "data": "faceted"
+          },
+          "sort": {
+            "field": "month"
+          },
+          "type": "line"
+        },
+        {
+          "encode": {
+            "enter": {
+              "shape": {
+                "value": "circle"
+              },
+              "size": {
+                "value": 30
+              },
+              "x": {
+                "field": "month",
+                "scale": "x"
+              },
+              "y": {
+                "field": "value",
+                "scale": "y_local"
+              }
+            },
+            "update": {
+              "fill": {
+                "field": "metric",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.metric === datum.metric",
+                  "value": 1
+                },
+                {
+                  "value": 0.25
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "faceted"
+          },
+          "transform": [
+            {
+              "expr": "datum.month === 1 || datum.month === 12",
+              "type": "filter"
+            }
+          ],
+          "type": "symbol"
+        },
+        {
+          "encode": {
+            "enter": {
+              "align": {
+                "value": "right"
+              },
+              "baseline": {
+                "value": "middle"
+              },
+              "dx": {
+                "value": -4
+              },
+              "fill": {
+                "value": "#868e96"
+              },
+              "fontSize": {
+                "value": 10
+              },
+              "text": {
+                "signal": "format(datum.value, '.0f')"
+              },
+              "x": {
+                "field": "month",
+                "scale": "x"
+              },
+              "y": {
+                "field": "value",
+                "scale": "y_local"
+              }
+            }
+          },
+          "from": {
+            "data": "faceted"
+          },
+          "transform": [
+            {
+              "expr": "datum.month === 1",
+              "type": "filter"
+            }
+          ],
+          "type": "text"
+        },
+        {
+          "encode": {
+            "enter": {
+              "align": {
+                "value": "left"
+              },
+              "baseline": {
+                "value": "middle"
+              },
+              "dx": {
+                "value": 4
+              },
+              "fill": {
+                "field": "metric",
+                "scale": "color"
+              },
+              "fontSize": {
+                "value": 10
+              },
+              "fontWeight": {
+                "value": "bold"
+              },
+              "text": {
+                "signal": "format(datum.value, '.0f')"
+              },
+              "x": {
+                "field": "month",
+                "scale": "x"
+              },
+              "y": {
+                "field": "value",
+                "scale": "y_local"
+              }
+            }
+          },
+          "from": {
+            "data": "faceted"
+          },
+          "transform": [
+            {
+              "expr": "datum.month === 12",
+              "type": "filter"
+            }
+          ],
+          "type": "text"
+        }
+      ],
+      "scales": [
+        {
+          "domain": {
+            "data": "faceted",
+            "field": "value"
+          },
+          "name": "y_local",
+          "nice": false,
+          "range": [
+            {
+              "signal": "rowHeight - 28"
+            },
+            4
+          ],
+          "type": "linear",
+          "zero": false
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "encode": {
+        "enter": {
+          "align": {
+            "value": "right"
+          },
+          "baseline": {
+            "value": "top"
+          },
+          "fill": {
+            "field": "metric",
+            "scale": "color"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fontWeight": {
+            "value": "600"
+          },
+          "text": {
+            "field": "metric"
+          },
+          "x": {
+            "signal": "labelWidth + 8"
+          },
+          "y": {
+            "field": "metric",
+            "offset": 10,
+            "scale": "y_facet"
+          }
+        }
+      },
+      "from": {
+        "data": "metrics"
+      },
+      "type": "text"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+
+  "scales": [
+    {
+      "domain": [
+        "Revenue",
+        "Operating Costs",
+        "Headcount"
+      ],
+      "name": "y_facet",
+      "range": [
+        0,
+        120,
+        240
+      ],
+      "type": "ordinal"
+    },
+    {
+      "domain": [
+        "Revenue",
+        "Operating Costs",
+        "Headcount"
+      ],
+      "name": "color",
+      "range": [
+        "#1c7ed6",
+        "#e8590c",
+        "#0ca678"
+      ],
+      "type": "ordinal"
+    },
+    {
+      "domain": [
+        1,
+        12
+      ],
+      "name": "x",
+      "range": [
+        0,
+        360
+      ],
+      "type": "linear"
+    }
+  ],
+
+  "signals": [
+    {
+      "name": "rowHeight",
+      "value": 120
+    },
+    {
+      "name": "sparklineWidth",
+      "value": 360
+    },
+    {
+      "name": "labelWidth",
+      "value": 110
+    },
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "path:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "path:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Monthly KPIs Jan–Dec 2024 (indexed to Jan = 100)",
+    "subtitleColor": "#868e96",
+    "subtitleFontSize": 12,
+    "text": "Revenue up 34%, costs and headcount steady through the year"
+  },
+  "width": 600
+}

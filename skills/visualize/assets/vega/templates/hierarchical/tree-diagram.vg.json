@@ -1,7 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v6.json",
   "_metadata": {
-    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'name' (display label) fields. Hierarchical parent-child structure.",
     "customization": [
       "Replace 'values' array in data[0] with your hierarchy",
       "Change 'name' field or add additional fields for richer tooltips",
@@ -10,76 +8,41 @@
       "Switch orientation by swapping x/y assignments in the tree transform 'as' array",
       "Modify title.text and description for your context"
     ],
+    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'name' (display label) fields. Hierarchical parent-child structure.",
     "notes": "The tidy layout algorithm spaces nodes evenly. Use 'cluster' method to align leaf nodes at the same depth."
   },
-  "description": "Organizational hierarchy tree diagram with tidy layout. Nodes represent people and departments with parent-child relationships shown as curved links.",
-  "width": 800,
-  "height": 500,
-  "padding": 5,
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "config": {
+    "aria": true,
+    "axis": {
+      "labelFont": "system-ui, -apple-system, sans-serif",
+      "titleFont": "system-ui, -apple-system, sans-serif"
+    },
+    "title": {
+      "font": "system-ui, -apple-system, sans-serif"
+    },
+    "view": {
+      "stroke": null
+    }
+  },
   "data": [
     {
       "name": "tree",
-      "values": [
-        {
-          "id": "1",
-          "parent": null,
-          "name": "Alex Chen (CEO)"
-        },
-        {
-          "id": "2",
-          "parent": "1",
-          "name": "Jordan Smith (CTO)"
-        },
-        {
-          "id": "3",
-          "parent": "1",
-          "name": "Riley Johnson (CFO)"
-        },
-        {
-          "id": "4",
-          "parent": "1",
-          "name": "Drew Martinez (COO)"
-        },
-        {
-          "id": "5",
-          "parent": "2",
-          "name": "Sam Lee (Engineer)"
-        },
-        {
-          "id": "6",
-          "parent": "2",
-          "name": "Pat Wilson (Engineer)"
-        },
-        {
-          "id": "7",
-          "parent": "2",
-          "name": "Morgan Davis (Product)"
-        },
-        {
-          "id": "8",
-          "parent": "3",
-          "name": "Casey White (Controller)"
-        },
-        {
-          "id": "9",
-          "parent": "3",
-          "name": "Jamie Green (Analyst)"
-        },
-        {
-          "id": "10",
-          "parent": "4",
-          "name": "Avery Thompson (Ops)"
-        }
-      ],
       "transform": [
         {
-          "type": "stratify",
           "key": "id",
-          "parentKey": "parent"
+          "parentKey": "parent",
+          "type": "stratify"
         },
         {
-          "type": "tree",
+          "as": [
+            "y",
+            "x",
+            "depth",
+            "children"
+          ],
           "method": "tidy",
+          "separation": true,
           "size": [
             {
               "signal": "height"
@@ -88,13 +51,59 @@
               "signal": "width - 160"
             }
           ],
-          "separation": true,
-          "as": [
-            "y",
-            "x",
-            "depth",
-            "children"
-          ]
+          "type": "tree"
+        }
+      ],
+      "values": [
+        {
+          "id": "1",
+          "name": "Alex Chen (CEO)",
+          "parent": null
+        },
+        {
+          "id": "2",
+          "name": "Jordan Smith (CTO)",
+          "parent": "1"
+        },
+        {
+          "id": "3",
+          "name": "Riley Johnson (CFO)",
+          "parent": "1"
+        },
+        {
+          "id": "4",
+          "name": "Drew Martinez (COO)",
+          "parent": "1"
+        },
+        {
+          "id": "5",
+          "name": "Sam Lee (Engineer)",
+          "parent": "2"
+        },
+        {
+          "id": "6",
+          "name": "Pat Wilson (Engineer)",
+          "parent": "2"
+        },
+        {
+          "id": "7",
+          "name": "Morgan Davis (Product)",
+          "parent": "2"
+        },
+        {
+          "id": "8",
+          "name": "Casey White (Controller)",
+          "parent": "3"
+        },
+        {
+          "id": "9",
+          "name": "Jamie Green (Analyst)",
+          "parent": "3"
+        },
+        {
+          "id": "10",
+          "name": "Avery Thompson (Ops)",
+          "parent": "4"
         }
       ]
     },
@@ -106,39 +115,17 @@
           "type": "treelinks"
         },
         {
-          "type": "linkpath",
           "orient": "horizontal",
-          "shape": "diagonal"
+          "shape": "diagonal",
+          "type": "linkpath"
         }
       ]
     }
   ],
-  "scales": [
-    {
-      "name": "depthColor",
-      "type": "ordinal",
-      "domain": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
-      "range": [
-        "#0072B2",
-        "#E69F00",
-        "#009E73",
-        "#CC79A7",
-        "#56B4E9"
-      ]
-    }
-  ],
+  "description": "Organizational hierarchy tree diagram with tidy layout. Nodes represent people and departments with parent-child relationships shown as curved links.",
+  "height": 500,
   "marks": [
     {
-      "type": "path",
-      "from": {
-        "data": "links"
-      },
       "encode": {
         "update": {
           "path": {
@@ -151,21 +138,21 @@
             "value": 1.5
           }
         }
-      }
+      },
+      "from": {
+        "data": "links"
+      },
+      "type": "path"
     },
     {
-      "type": "symbol",
-      "from": {
-        "data": "tree"
-      },
       "encode": {
         "enter": {
           "size": {
             "value": 200
           },
           "stroke": {
-            "scale": "depthColor",
-            "field": "depth"
+            "field": "depth",
+            "scale": "depthColor"
           },
           "strokeWidth": {
             "value": 2
@@ -174,24 +161,6 @@
             "signal": "{ 'Name': datum.name, 'Depth': datum.depth, 'Children': datum.children }"
           }
         },
-        "update": {
-          "x": {
-            "field": "x"
-          },
-          "y": {
-            "field": "y"
-          },
-          "fill": [
-            {
-              "test": "datum.children > 0",
-              "value": "#fff"
-            },
-            {
-              "scale": "depthColor",
-              "field": "depth"
-            }
-          ]
-        },
         "hover": {
           "stroke": {
             "value": "#333"
@@ -199,57 +168,102 @@
           "strokeWidth": {
             "value": 3
           }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {
-        "data": "tree"
-      },
-      "encode": {
-        "enter": {
-          "text": {
-            "field": "name"
-          },
-          "fontSize": {
-            "value": 11
-          },
-          "fill": {
-            "value": "#333"
-          },
-          "baseline": {
-            "value": "middle"
-          }
         },
         "update": {
+          "fill": [
+            {
+              "test": "datum.children > 0",
+              "value": "#fff"
+            },
+            {
+              "field": "depth",
+              "scale": "depthColor"
+            }
+          ],
           "x": {
             "field": "x"
           },
           "y": {
             "field": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "tree"
+      },
+      "type": "symbol"
+    },
+    {
+      "encode": {
+        "enter": {
+          "baseline": {
+            "value": "middle"
+          },
+          "fill": {
+            "value": "#333"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "text": {
+            "field": "name"
+          }
+        },
+        "update": {
+          "align": {
+            "signal": "datum.children > 0 ? 'right' : 'left'"
           },
           "dx": {
             "signal": "datum.children > 0 ? -10 : 10"
           },
-          "align": {
-            "signal": "datum.children > 0 ? 'right' : 'left'"
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "field": "y"
           }
         }
-      }
+      },
+      "from": {
+        "data": "tree"
+      },
+      "type": "text"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "name": "depthColor",
+      "range": [
+        "#1c7ed6",
+        "#e8590c",
+        "#0ca678",
+        "#f03e3e",
+        "#ae3ec9"
+      ],
+      "type": "ordinal"
     }
   ],
   "title": {
-    "text": "Organization Structure",
-    "subtitle": "Interactive tree diagram -- hover nodes for details",
+    "anchor": "start",
     "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Organizational hierarchy — hover nodes for role details",
+    "subtitleColor": "#868e96",
     "subtitleFontSize": 12,
-    "subtitleColor": "#666",
-    "anchor": "start"
+    "text": "Engineering carries the deepest reporting chain under the CTO"
   },
-  "config": {
-    "view": {
-      "stroke": null
-    }
-  }
+  "width": 800
 }

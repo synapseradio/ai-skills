@@ -1,7 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v6.json",
   "_metadata": {
-    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'value' (quantitative, null for branch nodes) fields. Two-level hierarchy: root -> categories -> leaf items.",
     "customization": [
       "Replace 'values' array in data[0] with your hierarchical data",
       "Update scales[0].domain with your top-level category names",
@@ -9,21 +7,53 @@
       "Adjust treemap transform parameters: 'method', 'paddingInner', 'paddingOuter', 'paddingTop'",
       "Modify title.text and description for your context"
     ],
+    "dataFormat": "Array of objects with 'id' (unique string), 'parent' (string referencing another id, or null for root), and 'value' (quantitative, null for branch nodes) fields. Two-level hierarchy: root -> categories -> leaf items.",
     "notes": "Leaf nodes must have numeric 'value'; branch nodes should have null 'value'. The squarify method with golden-ratio produces visually balanced rectangles."
   },
-  "description": "Treemap showing file system storage usage across Documents, Media, Applications, System, and Downloads categories. Media dominates with Photos and Videos as largest items.",
-  "width": 700,
-  "height": 450,
-  "padding": 5,
-  "autosize": "none",
-  "title": {
-    "text": "File System Storage by Category",
-    "anchor": "start",
-    "fontSize": 16
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+
+  "config": {
+    "aria": true,
+    "axis": {
+      "labelFont": "system-ui, -apple-system, sans-serif",
+      "titleFont": "system-ui, -apple-system, sans-serif"
+    },
+    "title": {
+      "font": "system-ui, -apple-system, sans-serif"
+    }
   },
   "data": [
     {
       "name": "tree",
+      "transform": [
+        {
+          "key": "id",
+          "parentKey": "parent",
+          "type": "stratify"
+        },
+        {
+          "field": "value",
+          "method": "squarify",
+          "paddingInner": 2,
+          "paddingOuter": 4,
+          "paddingTop": 20,
+          "ratio": 1.6180339887,
+          "round": true,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ],
+          "type": "treemap"
+        }
+      ],
       "values": [
         {
           "id": "Storage",
@@ -130,31 +160,6 @@
           "parent": "Downloads",
           "value": 600
         }
-      ],
-      "transform": [
-        {
-          "type": "stratify",
-          "key": "id",
-          "parentKey": "parent"
-        },
-        {
-          "type": "treemap",
-          "field": "value",
-          "method": "squarify",
-          "ratio": 1.6180339887,
-          "paddingInner": 2,
-          "paddingOuter": 4,
-          "paddingTop": 20,
-          "round": true,
-          "size": [
-            {
-              "signal": "width"
-            },
-            {
-              "signal": "height"
-            }
-          ]
-        }
       ]
     },
     {
@@ -162,8 +167,8 @@
       "source": "tree",
       "transform": [
         {
-          "type": "filter",
-          "expr": "!datum.children"
+          "expr": "!datum.children",
+          "type": "filter"
         }
       ]
     },
@@ -172,38 +177,16 @@
       "source": "tree",
       "transform": [
         {
-          "type": "filter",
-          "expr": "datum.children && datum.depth === 1"
+          "expr": "datum.children && datum.depth === 1",
+          "type": "filter"
         }
       ]
     }
   ],
-  "scales": [
-    {
-      "name": "color",
-      "type": "ordinal",
-      "domain": [
-        "Documents",
-        "Media",
-        "Applications",
-        "System",
-        "Downloads"
-      ],
-      "range": [
-        "#4e79a7",
-        "#f28e2c",
-        "#e15759",
-        "#76b7b2",
-        "#59a14f"
-      ]
-    }
-  ],
+  "description": "Treemap showing file system storage usage across Documents, Media, Applications, System, and Downloads categories. Media dominates with Photos and Videos as largest items.",
+  "height": 450,
   "marks": [
     {
-      "type": "rect",
-      "from": {
-        "data": "branches"
-      },
       "encode": {
         "enter": {
           "tooltip": {
@@ -211,57 +194,51 @@
           }
         },
         "update": {
-          "x": {
-            "field": "x0"
-          },
-          "y": {
-            "field": "y0"
-          },
-          "x2": {
-            "field": "x1"
-          },
-          "y2": {
-            "field": "y1"
+          "cornerRadius": {
+            "value": 3
           },
           "fill": {
-            "scale": "color",
-            "field": "id"
+            "field": "id",
+            "scale": "color"
           },
           "fillOpacity": {
             "value": 0.25
           },
           "stroke": {
-            "scale": "color",
-            "field": "id"
+            "field": "id",
+            "scale": "color"
           },
           "strokeWidth": {
             "value": 1.5
           },
-          "cornerRadius": {
-            "value": 3
+          "x": {
+            "field": "x0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "y2": {
+            "field": "y1"
           }
         }
-      }
-    },
-    {
-      "type": "text",
+      },
       "from": {
         "data": "branches"
       },
+      "type": "rect"
+    },
+    {
       "encode": {
         "update": {
-          "x": {
-            "signal": "datum.x0 + 4"
-          },
-          "y": {
-            "signal": "datum.y0 + 14"
-          },
-          "text": {
-            "signal": "(datum.x1 - datum.x0) > 60 ? datum.id : ''"
+          "baseline": {
+            "value": "middle"
           },
           "fill": {
-            "scale": "color",
-            "field": "id"
+            "field": "id",
+            "scale": "color"
           },
           "fontSize": {
             "value": 11
@@ -269,35 +246,37 @@
           "fontWeight": {
             "value": "bold"
           },
-          "baseline": {
-            "value": "middle"
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 60 ? datum.id : ''"
+          },
+          "x": {
+            "signal": "datum.x0 + 4"
+          },
+          "y": {
+            "signal": "datum.y0 + 14"
           }
         }
-      }
+      },
+      "from": {
+        "data": "branches"
+      },
+      "type": "text"
     },
     {
-      "type": "rect",
-      "from": {
-        "data": "leaves"
-      },
       "encode": {
         "enter": {
           "tooltip": {
             "signal": "{ 'Name': datum.id, 'Category': datum.parent, 'Size (MB)': datum.value }"
           }
         },
+        "hover": {
+          "fillOpacity": {
+            "value": 0.8
+          }
+        },
         "update": {
-          "x": {
-            "field": "x0"
-          },
-          "y": {
-            "field": "y0"
-          },
-          "x2": {
-            "field": "x1"
-          },
-          "y2": {
-            "field": "y1"
+          "cornerRadius": {
+            "value": 2
           },
           "fill": {
             "signal": "scale('color', datum.parent)"
@@ -308,32 +287,30 @@
           "strokeWidth": {
             "value": 1
           },
-          "cornerRadius": {
-            "value": 2
-          }
-        },
-        "hover": {
-          "fillOpacity": {
-            "value": 0.8
+          "x": {
+            "field": "x0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "y2": {
+            "field": "y1"
           }
         }
-      }
-    },
-    {
-      "type": "text",
+      },
       "from": {
         "data": "leaves"
       },
+      "type": "rect"
+    },
+    {
       "encode": {
         "update": {
-          "x": {
-            "signal": "datum.x0 + 4"
-          },
-          "y": {
-            "signal": "datum.y0 + 14"
-          },
-          "text": {
-            "signal": "(datum.x1 - datum.x0) > 40 && (datum.y1 - datum.y0) > 25 ? datum.id : ''"
+          "baseline": {
+            "value": "middle"
           },
           "fill": {
             "value": "white"
@@ -344,27 +321,27 @@
           "fontWeight": {
             "value": "bold"
           },
-          "baseline": {
-            "value": "middle"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {
-        "data": "leaves"
-      },
-      "encode": {
-        "update": {
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 40 && (datum.y1 - datum.y0) > 25 ? datum.id : ''"
+          },
           "x": {
             "signal": "datum.x0 + 4"
           },
           "y": {
-            "signal": "datum.y0 + 27"
-          },
-          "text": {
-            "signal": "(datum.x1 - datum.x0) > 40 && (datum.y1 - datum.y0) > 40 ? datum.value + ' MB' : ''"
+            "signal": "datum.y0 + 14"
+          }
+        }
+      },
+      "from": {
+        "data": "leaves"
+      },
+      "type": "text"
+    },
+    {
+      "encode": {
+        "update": {
+          "baseline": {
+            "value": "middle"
           },
           "fill": {
             "value": "rgba(255,255,255,0.8)"
@@ -372,11 +349,57 @@
           "fontSize": {
             "value": 10
           },
-          "baseline": {
-            "value": "middle"
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 40 && (datum.y1 - datum.y0) > 40 ? datum.value + ' MB' : ''"
+          },
+          "x": {
+            "signal": "datum.x0 + 4"
+          },
+          "y": {
+            "signal": "datum.y0 + 27"
           }
         }
-      }
+      },
+      "from": {
+        "data": "leaves"
+      },
+      "type": "text"
     }
-  ]
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        "Documents",
+        "Media",
+        "Applications",
+        "System",
+        "Downloads"
+      ],
+      "name": "color",
+      "range": [
+        "#1c7ed6",
+        "#e8590c",
+        "#0ca678",
+        "#f03e3e",
+        "#ae3ec9"
+      ],
+      "type": "ordinal"
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "File system storage by category and subfolder (MB)",
+    "subtitleColor": "#868e96",
+    "subtitleFontSize": 12,
+    "text": "Media (Videos + Photos) accounts for nearly half of total storage"
+  },
+  "width": 700
 }

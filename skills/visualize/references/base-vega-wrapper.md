@@ -71,7 +71,7 @@ created: [ISO timestamp]
     <div id="vis"></div>
     <!-- Screen-reader-accessible data table, auto-generated after render -->
     <details>
-      <summary>Data table (accessibility fallback)</summary>
+      <summary>View data table</summary>
       <div id="data-table"></div>
     </details>
   </div>
@@ -214,12 +214,14 @@ vegaEmbed('#vis', spec, {
 - **SVG renderer produces DOM-accessible marks.** Each bar, point, or line segment is a real SVG element that assistive technology can traverse. This is why the wrapper defaults to `renderer: 'svg'`.
 
 - **Spec-level `title` and `description` map to SVG `<title>` and `<desc>`.** Include both in every spec:
+
   ```json
   {
     "title": "Monthly Revenue by Product Line",
     "description": "Bar chart showing revenue for three product lines from Jan to Dec 2025."
   }
   ```
+
   vegaEmbed writes these into the SVG root element, which screen readers announce.
 
 - **Auto-generated data table in `<details>`.** The wrapper script reads the rendered dataset from the Vega view and builds an HTML `<table>` inside a collapsed `<details>` element. Screen readers can expand this to access raw values when the chart itself is not navigable.
@@ -288,8 +290,8 @@ Each `vegaEmbed` call is independent. Specs can mix Vega-Lite and full Vega on t
 
 ## Sources
 
-- Vega-Embed documentation — https://github.com/vega/vega-embed
-- Vega-Lite specification — https://vega.github.io/vega-lite/docs/spec.html
-- Vega accessibility configuration — https://vega.github.io/vega/docs/config/#aria
-- vegaEmbed options reference — https://github.com/vega/vega-embed#options
-- SVG Accessibility API Mappings — https://www.w3.org/TR/svg-aam-1.0/
+- Vega-Embed documentation — <https://github.com/vega/vega-embed>
+- Vega-Lite specification — <https://vega.github.io/vega-lite/docs/spec.html>
+- Vega accessibility configuration — <https://vega.github.io/vega/docs/config/#aria>
+- vegaEmbed options reference — <https://github.com/vega/vega-embed#options>
+- SVG Accessibility API Mappings — <https://www.w3.org/TR/svg-aam-1.0/>

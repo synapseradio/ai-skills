@@ -1,212 +1,258 @@
 # Narrate Mode
 
-Structure visualization narrative through annotation, titles, and guided revelation. Verify the Segel-Heer narrative framework and d3-annotation API against their primary sources before applying.
+Implementation guidance for titles, annotations, and narrative structure in standalone HTML
+output. For principles (insight titles, annotate context, show uncertainty), see SKILL.md
+§Narrative. This document covers how to build it.
 
-## When to Use
+## Story vs Exploration
 
-- Adding annotations to a chart
-- Creating titles and subtitles
-- Telling a story with data
-- Guiding the reader through insights
-- Explaining what's happening in the visualization
-- Highlighting key findings
-- Making a chart self-explanatory
+One decision shapes everything: is this chart telling a story or enabling exploration?
 
-## Applicability Check
+**Story** (author-driven): Title states the insight. Annotations create a reading path.
+Visual hierarchy guides the eye — primary bold/colored, secondary lighter, tertiary barely
+visible. The viewer receives one clear takeaway without interaction.
 
-**In comprehensive mode**: Runs when storytelling would aid comprehension.
+**Exploration** (reader-driven): Title describes the data. Tooltips reveal detail on demand.
+Filters and consistent scales support self-directed discovery. No annotations dictate
+interpretation.
 
-**Signals to check**:
+**Most charts are hybrid.** Deliver one clear insight by default (title + 1-3 annotations),
+let tooltips reveal depth. That covers nearly every standalone HTML chart this skill produces.
 
-- Is this visualization explanatory (communicating to others) rather than exploratory (for personal analysis)?
-- Does the visualization have an insight that viewers might miss without guidance?
-- Is there context (events, comparisons, benchmarks) that adds meaning to the data?
+When uncertain, default to story. A chart with a clear point that also supports exploration
+beats a chart that supports exploration but makes no point.
 
-**Quick check**: Would a viewer understand the significance without explanation? If no → run this mode. If the visualization is purely exploratory for personal analysis → skip with "Exploratory visualization—narrative deferred."
+## Title Craft
 
-## What Narrative Provides
+### Title types
 
-**Guided attention** directs viewers to what matters. Without guidance, viewers scan randomly, often missing the insight the visualization exists to communicate. Narrative elements—annotations, visual hierarchy, sequential revelation—create a path through the data.
+| Type | Pattern | When |
+|------|---------|------|
+| Insight | "Northeast drives 60% of growth" | Default. Chart exists to make a point. |
+| Descriptive | "Revenue by Region" | Dashboard tile; context established elsewhere. |
+| Question | "What drives regional growth?" | Exploration-first; answer varies by viewer. |
 
-**Contextual meaning** transforms numbers into significance. A bar reaching 47% means nothing without context: Is that good? Compared to what? What changed? Narrative provides the interpretive frame that makes data meaningful.
+Default to insight titles. 5-10 words max for the headline.
 
-**Memory anchors** create lasting understanding. Viewers forget raw data within minutes. They remember stories, contrasts, and revelations. Narrative structure encodes insights in memorable form.
+### Subtitle
 
-## The Author-Reader Spectrum
+Context the title assumes: time range, data source, scope. "Monthly revenue, North America,
+2020-2024." The subtitle is where "Revenue by Region" belongs — as supporting detail under the
+actual insight.
 
-Visualizations exist on a spectrum from author-driven to reader-driven (Segel and Heer, 2010). Position on this spectrum determines narrative strategy.
+### The screenshot test
 
-**Author-driven** visualizations guide viewers through a predetermined sequence. The author controls pacing, ordering, and attention. Techniques include scrollytelling (narrative unfolds as viewer scrolls), slideshow presentations, and annotated video tours. Author-driven approaches work when the insight is specific, the audience unfamiliar, or the story complex enough to require guidance.
+If someone screenshots this chart with no surrounding context, does the title + subtitle make
+it interpretable? If not, revise. The title is the most-read element. The subtitle is the
+second-most-read element. Everything else is optional.
 
-**Reader-driven** visualizations provide tools for exploration. Viewers choose their own path through the data. Techniques include interactive dashboards, filter controls, and drill-down hierarchies. Reader-driven approaches work when viewers have domain expertise, multiple valid insights exist, or personalized exploration serves the purpose.
-
-**Hybrid structures** combine both. The martini glass structure presents an author-driven narrative (the stem) before opening into reader-driven exploration (the bowl). Drill-down story points offer authored context at each node while allowing free navigation between nodes.
-
-Before crafting narrative elements, identify where on the spectrum this visualization should fall. The answer shapes every subsequent decision.
-
-See `segel-heer.md` for detailed framework.
-
-## The Narrative Arc
-
-Visual narratives follow the same arc as written ones: setup, tension, revelation, resolution.
-
-**Setup** establishes context. What is this data? What time period? What population? What should viewers already understand before encountering the main insight? Setup annotation includes titles, subtitles, axis labels, and contextual callouts that orient viewers.
-
-**Tension** creates a question. What's surprising here? What doesn't fit expectations? What problem does this data reveal? Tension can be explicit (an annotated question) or implicit (visual contrast that invites explanation). Without tension, visualizations inform without engaging.
-
-**Revelation** delivers the insight. This is the moment the visualization exists for—the "aha" that changes understanding. Revelation requires emphasis: annotation callouts, visual highlighting, or sequential disclosure that creates anticipation before the reveal.
-
-**Resolution** provides implications. Now that viewers understand the insight, what should they do? What does it mean? Resolution connects the specific insight to broader significance.
-
-Not every visualization needs all four elements in explicit form. Simple charts may embed tension and revelation in a single annotated callout. Complex dashboards may distribute the arc across multiple views. But the arc structure provides a diagnostic: if a visualization lacks tension, it may inform without engaging; if it lacks resolution, it may surprise without meaning.
-
-## Annotation Strategy
-
-Annotations are the primary vehicle for narrative in static visualizations. Effective annotation requires decisions about what to annotate, how to annotate, and when annotation serves versus clutters.
-
-### What to Annotate
-
-**Annotate insights, not features.** The goal is not to label every data point but to highlight what matters. Ask: what would viewers miss without this annotation? What interpretation would they get wrong?
-
-**Annotate exceptions and outliers.** When a data point breaks from pattern, annotate to explain why. Unexplained outliers invite incorrect speculation.
-
-**Annotate comparisons.** When the insight requires comparing two points, annotate both and make the relationship explicit. Annotations that say "30% higher than 2019" communicate more than annotations that say "45%."
-
-**Annotate context.** When external events explain data patterns, annotate the event. A spike on March 2020 means something different when annotated "COVID-19 lockdowns begin."
-
-**Annotate uncertainty.** When data quality varies, annotate the variation. Ranges, confidence intervals, and data source notes maintain trust.
-
-### How to Annotate
-
-**Annotation anatomy**: Effective annotations have three components—
-
-1. **Subject**: What is being annotated (the data point, region, or pattern)
-2. **Connector**: Visual link between annotation and subject (line, arrow, or bracket)
-3. **Note**: The text content that provides meaning
-
-Keep notes concise. Three to seven words for labels, one to two sentences for callouts. If more explanation is needed, consider whether the annotation belongs in a separate legend or caption.
-
-**Positioning**: Place annotations to minimize eye travel between note and subject. Avoid crossing data lines with connectors. When annotations cluster, use leader lines that exit in the same direction before diverging.
-
-**Hierarchy**: Not all annotations are equal. Create visual hierarchy through font weight, color, or connector style. Primary insights receive prominent treatment; supporting context receives subtle treatment.
-
-**Progressive disclosure**: In interactive visualizations, layer annotation depth. Show primary annotations by default; reveal secondary annotations on hover or click.
-
-See `annotation-patterns.md` for implementation techniques.
-
-### When Not to Annotate
-
-**Avoid annotation clutter.** When annotations cover more area than data, the visualization has become a diagram. Step back: is this the right chart type? Should data be filtered?
-
-**Avoid redundant annotation.** If the axis label says "Revenue (millions)", annotations don't need to repeat "revenue" or "M". If a color legend exists, annotations don't need to name what colors represent.
-
-**Avoid patronizing annotation.** If the audience has domain expertise, annotating obvious patterns insults their intelligence. Match annotation density to audience expertise.
-
-## Titles That Work
-
-Titles are the first—and often only—text viewers read. A title that wastes this attention with generic description ("Sales by Region") squanders the most valuable real estate in the visualization.
-
-### Title Types
-
-**Descriptive titles** name what the chart shows: "Monthly Revenue, 2020-2024". These work when the visualization is one of many in a dashboard, when context is established elsewhere, or when the audience will draw their own conclusions.
-
-**Insight-revealing titles** state what the chart means: "Revenue doubled after product launch". These work when a specific insight drives the visualization, when the audience needs guidance, or when the chart appears without supporting text.
-
-**Question titles** frame exploration: "Where did growth come from?" These work for reader-driven visualizations where the answer varies by viewer, or when setting up a reveal that follows.
-
-### Title Anatomy
-
-**Headline**: The main title. Either descriptive or insight-revealing. 5-10 words maximum.
-
-**Subtitle**: Contextual detail. Time period, data source, scope limitations. Smaller font, secondary emphasis.
-
-**Caption**: Extended explanation. Methodology notes, caveats, calls to action. Placed below the visualization.
-
-Not every visualization needs all three. A dashboard tile may have only a headline. An explanatory graphic in a report may have headline, subtitle, and caption. Match title complexity to context.
-
-### Title Testing
-
-Apply these tests to evaluate titles:
-
-1. **The screenshot test**: If someone screenshots this chart with no context, does the title make it interpretable?
-
-2. **The skimmer test**: If someone reads only the title and glances at the chart, do they get the main point?
-
-3. **The accuracy test**: Does the title actually match what the chart shows? Insight-revealing titles that overstate the data undermine trust.
-
-## Sequential Revelation
-
-Some insights land harder when revealed progressively. Sequential revelation creates anticipation, then delivers satisfaction.
-
-### Revelation Techniques
-
-**Scrollytelling**: Narrative elements appear as the viewer scrolls. New annotations, highlighted regions, or transformed views emerge in sequence. The scroll position becomes a narrative timeline.
-
-**Animation**: Data elements animate in sequence, building toward the full picture. The order of animation creates narrative emphasis—what appears last receives most attention.
-
-**Click-through**: Each click advances the narrative. Explicit user action creates psychological investment; viewers feel they are discovering rather than receiving.
-
-**Zoom-in structure**: Start with overview, then zoom to detail. The macro view provides context; the micro view delivers insight. The transition itself communicates the relationship between scales.
-
-### When to Use Sequential Revelation
-
-Sequential revelation adds production complexity. Use it when:
-
-- The insight requires building understanding through stages
-- The audience would be overwhelmed by all information at once
-- The revelation moment has emotional significance worth amplifying
-- The medium supports interaction (web, presentation)
-
-Avoid sequential revelation when:
-
-- The audience needs quick reference access
-- The visualization will be printed or embedded as static image
-- Multiple valid reading orders exist
-- Production constraints make maintenance impractical
-
-## Implementation Patterns
-
-### Vega-Lite Annotations (primary)
-
-VL provides declarative annotation through spec properties and layered text marks:
-
-**Title and subtitle** — the most important narrative elements:
+### Vega title spec
 
 ```json
 {
-  "title": {"text": "Revenue doubled after product launch", "subtitle": "Q1 2024 – Q4 2025, North America"},
-  "description": "Line chart showing revenue growth from $1.2M to $2.4M following the March 2024 launch."
+  "title": {
+    "text": "Northeast drives 60% of revenue growth",
+    "subtitle": "Monthly revenue by region, 2020-2024",
+    "anchor": "start",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "subtitleColor": "#868e96"
+  }
 }
 ```
 
-**Reference lines** — mark thresholds, targets, or events using `rule` marks with `datum`:
+## Annotation Implementation
+
+### Annotation density
+
+- Labels: 3-7 words. "30% higher than 2019."
+- Callouts: 1-2 sentences max. Title (2-5 words bold) + body.
+- Total: 1-3 primary annotations per chart. 2-4 secondary if needed.
+- When annotations cover more area than data, step back. Wrong chart type or too much to say.
+
+### Annotation hierarchy
+
+| Level | Treatment | Example |
+|-------|-----------|---------|
+| Primary | Bold, oc-blue-7 or oc-red-7, larger font | The main insight callout |
+| Secondary | Regular weight, oc-gray-6 | Supporting context, event markers |
+| Tertiary | Small, oc-gray-5, no connector | Axis clarifications, source notes |
+
+### Vega: text marks for labels
+
+Position text marks relative to data using the same scales. `dx`/`dy` offset from the anchor.
 
 ```json
-{"mark": {"type": "rule", "color": "red", "strokeDash": [4, 4]}, "encoding": {"y": {"datum": 50}}}
+{
+  "type": "text",
+  "from": {"data": "annotations"},
+  "encode": {
+    "enter": {
+      "x": {"scale": "x", "field": "date"},
+      "y": {"scale": "y", "field": "value"},
+      "dx": {"value": 5},
+      "dy": {"value": -10},
+      "text": {"field": "label"},
+      "fontSize": {"value": 11},
+      "fontWeight": {"value": "bold"},
+      "fill": {"value": "#1864ab"},
+      "align": {"value": "left"},
+      "baseline": {"value": "bottom"}
+    }
+  }
+}
 ```
 
-**Text annotations** — layer text marks to label specific data points:
+For a single hardcoded annotation, skip the data source and use `signal` or `value`:
 
 ```json
-{"mark": {"type": "text", "dy": -10, "fontSize": 11}, "encoding": {"text": {"field": "label"}}}
+{
+  "type": "text",
+  "encode": {
+    "enter": {
+      "x": {"signal": "scale('x', datetime(2020, 2, 15))"},
+      "y": {"signal": "scale('y', 142)"},
+      "text": {"value": "COVID-19 lockdowns begin"},
+      "fontSize": {"value": 11},
+      "fill": {"value": "#868e96"},
+      "align": {"value": "left"}
+    }
+  }
+}
 ```
 
-For complex annotations with connector lines, use a layered spec with calculated positions. See `vega-lite-patterns.md` for layering patterns.
+### Vega: rule marks for reference lines
 
-### D3 Annotations (sankey and custom templates)
+Horizontal threshold, vertical event marker, or connecting line between annotation and data.
 
-For D3-based charts, the `d3-annotation` library provides structured callouts with connector lines. See `annotation-patterns.md` for implementation details.
+```json
+{
+  "type": "rule",
+  "encode": {
+    "enter": {
+      "y": {"scale": "y", "value": 80},
+      "x": {"value": 0},
+      "x2": {"signal": "width"},
+      "stroke": {"value": "#e03131"},
+      "strokeDash": {"value": [4, 4]},
+      "strokeWidth": {"value": 1}
+    }
+  }
+}
+```
 
-## Sources
+Vertical event marker (e.g., product launch date):
 
-- Segel, E. and Heer, J. (2010). "Narrative Visualization: Telling Stories with Data." https://vis.stanford.edu/papers/narrative
-- d3-annotation library — https://d3-annotation.susielu.com/
-- Tufte, E. (1983). *The Visual Display of Quantitative Information*. Graphics Press.
+```json
+{
+  "type": "rule",
+  "encode": {
+    "enter": {
+      "x": {"scale": "x", "signal": "datetime(2024, 2, 1)"},
+      "y": {"value": 0},
+      "y2": {"signal": "height"},
+      "stroke": {"value": "#868e96"},
+      "strokeDash": {"value": [6, 3]},
+      "strokeWidth": {"value": 1}
+    }
+  }
+}
+```
+
+### Vega: rect marks for highlight regions
+
+Shade a region to draw attention to a time period or value range.
+
+```json
+{
+  "type": "rect",
+  "encode": {
+    "enter": {
+      "x": {"scale": "x", "signal": "datetime(2024, 0, 1)"},
+      "x2": {"scale": "x", "signal": "datetime(2024, 5, 30)"},
+      "y": {"value": 0},
+      "y2": {"signal": "height"},
+      "fill": {"value": "#1864ab"},
+      "fillOpacity": {"value": 0.07}
+    }
+  }
+}
+```
+
+### Vega: leader lines (text + rule pair)
+
+When the label can't sit next to the data point, draw a thin rule from data to label.
+
+```json
+[
+  {
+    "type": "rule",
+    "encode": {
+      "enter": {
+        "x": {"scale": "x", "signal": "datetime(2023, 5, 1)"},
+        "y": {"scale": "y", "value": 142},
+        "x2": {"scale": "x", "signal": "datetime(2023, 7, 1)"},
+        "y2": {"scale": "y", "value": 170},
+        "stroke": {"value": "#adb5bd"},
+        "strokeWidth": {"value": 1}
+      }
+    }
+  },
+  {
+    "type": "text",
+    "encode": {
+      "enter": {
+        "x": {"scale": "x", "signal": "datetime(2023, 7, 1)"},
+        "y": {"scale": "y", "value": 172},
+        "text": {"value": "Record high: unprecedented demand"},
+        "fontSize": {"value": 11},
+        "fill": {"value": "#495057"}
+      }
+    }
+  }
+]
+```
+
+### D3: positioning and collision avoidance
+
+For D3 charts, append annotation elements after data marks so they render on top.
+
+**Positioning strategy**: Default to upper-right of the data point (dx > 0, dy < 0). Fall
+back: upper-left, lower-right, lower-left. Avoid crossing data lines with connector paths.
+
+**Collision avoidance**: When annotations cluster, route leader lines in the same direction
+before diverging (parallel exit pattern). Manual `dx`/`dy` offsets are more reliable than
+algorithmic placement for static charts.
+
+**Implementation**: Standard D3 — append `<text>`, `<line>`, `<rect>` elements positioned via
+the same scales used for data. The `d3-annotation` library exists but Claude knows the API;
+use it when the chart has 4+ annotations that benefit from structured connector routing.
+
+## What Cannot Be Built in Standalone HTML
+
+These narrative techniques appear in references and tutorials but require frameworks or
+infrastructure our output format does not include.
+
+| Technique | Why it fails | What to do instead |
+|-----------|-------------|-------------------|
+| Scrollytelling | Requires scroll-step observer framework (Scrollama, GSAP ScrollTrigger) | Show all annotations at once; use opacity hierarchy |
+| Slide shows / steppers | Requires stepper UI with state management | Single annotated view with the key frame |
+| Martini glass (stem→bowl) | Requires transition from author-driven to reader-driven mode | Hybrid: annotations visible by default, tooltips for depth |
+| Animated reveal sequences | Requires orchestrated transitions with timing | Static chart with visual hierarchy doing the work |
+
+What standalone HTML CAN do:
+
+- **Selection-driven highlighting**: Vega signals + conditional encoding to highlight on
+  click/hover while dimming everything else.
+- **Tooltip-based progressive disclosure**: Primary annotations always visible; secondary
+  detail in tooltips on hover.
+- **Layered annotations**: All visible at once, but hierarchy (bold/light, large/small,
+  colored/gray) creates a natural reading order.
 
 ## Phase Transition
 
 After adding narrative, consider:
 
-- **Access** to provide text alternatives for screen readers
-- **Interact** if users should be able to explore beyond the authored story
-- **Refine** to verify annotations don't clutter or obscure
+- **Access** — text alternatives for annotations (screen readers need annotation content)
+- **Interact** — if users should explore beyond the authored story
+- **Refine** — verify annotations don't clutter or obscure data
