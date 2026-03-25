@@ -193,10 +193,6 @@ claude install-skill github:[owner]/[repo]/skills/{{skill-name}}
 \`\`\`
 /{{skill-name}} [example usage]
 \`\`\`
-
-## License
-
-MIT
 ```
 
 ## Hard Rules
