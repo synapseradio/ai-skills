@@ -6,6 +6,7 @@ navigational markers. Given a direction, discover the full graph autonomously.
 ## Input
 
 A direction — a description of the process or pipeline to trace. Examples:
+
 - "trace the sourcemap upload process from CI to deployment"
 - "map how RELEASE version propagates through the build"
 - "add waypoints for the authentication flow from login to session creation"
@@ -84,6 +85,7 @@ Use `◁`/`▷` instead of `←`/`→` for reference relationships (sinks). Expa
 the legend to include all symbols present in the block.
 
 **Placement rules:**
+
 - Top of file for configs, scripts, manifests, and pipeline-specific files
 - Above the relevant code section for source files where the pipeline touches a specific function or block
 - Respect the file's native comment syntax

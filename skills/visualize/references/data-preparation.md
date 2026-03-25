@@ -485,6 +485,6 @@ for (let i = 0; i < 300; i++) simulation.tick();
 
 ## Sources
 
-- D3.js documentation — https://d3js.org/getting-started
-- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
-- Wickham, H. (2014). "Tidy Data." *Journal of Statistical Software*, 59(10). https://doi.org/10.18637/jss.v059.i10
+- D3.js documentation — <https://d3js.org/getting-started>
+- D3 API Reference — <https://github.com/d3/d3/blob/main/API.md>
+- Wickham, H. (2014). "Tidy Data." *Journal of Statistical Software*, 59(10). <https://doi.org/10.18637/jss.v059.i10>

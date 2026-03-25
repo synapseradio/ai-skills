@@ -3,8 +3,9 @@
 Validate progressive disclosure, task tracking instructions, workflow metadata, and README completeness.
 
 **Sources:**
-- Agent Skills Specification: https://agentskills.io/specification
-- Anthropic Best Practices: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+
+- Agent Skills Specification: <https://agentskills.io/specification>
+- Anthropic Best Practices: <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices>
 
 ## Progressive Disclosure
 
@@ -13,6 +14,7 @@ Validate progressive disclosure, task tracking instructions, workflow metadata, 
 **What to check:** SKILL.md is under 500 lines.
 
 **How to check:**
+
 1. Count the total lines in SKILL.md (include blank lines)
 2. Report the actual count
 
@@ -20,13 +22,14 @@ Validate progressive disclosure, task tracking instructions, workflow metadata, 
 
 **Fail action:** Report the count and recommend moving detailed content to reference files.
 
-**Source:** https://agentskills.io/specification#progressive-disclosure ("Keep your main SKILL.md under 500 lines")
+**Source:** <https://agentskills.io/specification#progressive-disclosure> ("Keep your main SKILL.md under 500 lines")
 
 ### Check 2: Details in References
 
 **What to check:** Detailed checklists, long code examples, and exhaustive documentation live in `references/` (or `scripts/`, `assets/`), not crammed into SKILL.md.
 
 **How to check:**
+
 1. Read SKILL.md
 2. Look for signs of excessive detail: checklists longer than 10 items, code blocks longer than 20 lines, multi-paragraph explanations of a single topic
 3. Verify that such content lives in reference files with SKILL.md pointing to them
@@ -35,13 +38,14 @@ Validate progressive disclosure, task tracking instructions, workflow metadata, 
 
 **Fail action:** Identify sections in SKILL.md that should be extracted to reference files.
 
-**Source:** https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices ("SKILL.md serves as an overview that points Claude to detailed materials as needed")
+**Source:** <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices> ("SKILL.md serves as an overview that points Claude to detailed materials as needed")
 
 ### Check 3: Conditional Reference Loading
 
 **What to check:** SKILL.md loads reference files conditionally (table, if/then, or context-dependent pattern), not all at once.
 
 **How to check:**
+
 1. Read SKILL.md
 2. Find where reference files are mentioned
 3. Determine the loading pattern:
@@ -52,20 +56,21 @@ Validate progressive disclosure, task tracking instructions, workflow metadata, 
 
 **Fail action:** Describe the current loading pattern and suggest a conditional alternative.
 
-**Source:** https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices (progressive disclosure patterns — "Claude loads FORMS.md, REFERENCE.md, or EXAMPLES.md only when needed")
+**Source:** <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices> (progressive disclosure patterns — "Claude loads FORMS.md, REFERENCE.md, or EXAMPLES.md only when needed")
 
 ### Check 4: Reference Self-Containment
 
 **What to check:** Each reference file can be understood independently.
 
 **How to check:**
+
 1. Read each file in `references/`
 2. Ask: can an agent act on this file's topic without reading other reference files?
 3. Check for undefined terms or forward references that require another file
 
 **Pass criteria:** Each reference file provides enough context for its topic without depending on other reference files.
 
-**Source:** https://agentskills.io/specification#references and progressive disclosure principle.
+**Source:** <https://agentskills.io/specification#references> and progressive disclosure principle.
 
 ## Task Tracking
 
@@ -74,11 +79,13 @@ Validate progressive disclosure, task tracking instructions, workflow metadata, 
 **What to check:** If the skill describes 3 or more procedural steps, SKILL.md instructs the consuming agent to track progress through those steps.
 
 **How to check:**
+
 1. Read SKILL.md
 2. Count the procedural steps (numbered lists, sequential phases, workflow steps)
 3. If 3 or more steps exist, search for task tracking instructions — phrases like "track progress", "use available task tracking tools", "break into tasks", or references to specific task tools
 
 **Pass criteria:**
+
 - If fewer than 3 procedural steps: N/A (pass automatically)
 - If 3 or more steps: SKILL.md contains an instruction to track progress through the steps
 
@@ -95,6 +102,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** Each workflow file declares execution metadata.
 
 **How to check:**
+
 1. Identify workflow files
 2. For each, search for these metadata fields (in frontmatter or structured header):
    - `execution:` — how the workflow runs (e.g., `inline`, `subagent`, `background`)
@@ -112,6 +120,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** Workflows that require user interaction are marked `execution: inline`.
 
 **How to check:**
+
 1. Read each workflow file
 2. Search for user interaction patterns: questions to the user, AskUserQuestion, confirmation prompts, "wait for user input"
 3. If user interaction is found, verify `execution: inline`
@@ -127,6 +136,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** Workflow prompts that spawn subagents follow the structured prompt format.
 
 **How to check:**
+
 1. Read each workflow file
 2. Find subagent spawn instructions (prompts for agents, task descriptions)
 3. Check for presence of these components: Role, Task, Onboarding, Perspective (optional), Success, Why
@@ -144,6 +154,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** A `README.md` file exists in the skill root directory.
 
 **How to check:**
+
 1. List files in the skill root directory
 2. Check for `README.md` (case-sensitive)
 
@@ -156,6 +167,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** README contains an install command.
 
 **How to check:**
+
 1. Read README.md
 2. Search for an install command pattern, typically in a code block: `claude install-skill ...`
 
@@ -170,6 +182,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** README describes what the skill does in 2–4 sentences.
 
 **How to check:**
+
 1. Read README.md
 2. Identify the introductory description (typically the first paragraph after the title)
 3. Count sentences
@@ -183,6 +196,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** README lists reference files in a table format.
 
 **How to check:**
+
 1. Read README.md
 2. Search for a Markdown table listing reference files with their purposes
 
@@ -197,6 +211,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** README contains 1–2 usage examples.
 
 **How to check:**
+
 1. Read README.md
 2. Search for usage examples — code blocks showing how to invoke the skill, or natural-language example prompts
 
@@ -209,6 +224,7 @@ Apply these checks only if workflow files exist (files with `.md` extension in a
 **What to check:** README contains no stub or placeholder content.
 
 **How to check:**
+
 1. Read README.md
 2. Search for placeholder patterns: "TODO", "TBD", "FIXME", "Coming soon", "Lorem ipsum", "[placeholder]", "Description goes here", empty sections with only headers
 

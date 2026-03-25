@@ -27,6 +27,7 @@ Agent skills and agent definitions for [Claude Code](https://docs.anthropic.com/
 ## Install
 
 Skills:
+
 ```sh
 claude install-skill github:synapseradio/ai-skills/skills/<skill-name>
 ```

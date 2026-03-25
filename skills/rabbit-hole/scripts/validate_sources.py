@@ -37,11 +37,15 @@ def validate_file(entry: dict) -> dict:
                 matched = sum(1 for kw in keywords if kw in content_lower)
                 ratio = matched / len(keywords)
                 if ratio >= 0.3:
-                    result["details"] = f"File exists, claim keywords partially matched ({matched}/{len(keywords)})"
+                    result["details"] = (
+                        f"File exists, claim keywords partially matched ({matched}/{len(keywords)})"
+                    )
                 else:
-                    result["details"] = f"File exists, but claim keywords not found ({matched}/{len(keywords)})"
+                    result["details"] = (
+                        f"File exists, but claim keywords not found ({matched}/{len(keywords)})"
+                    )
                     result["status"] = "valid"  # file still valid, just noting mismatch
-        except (OSError, UnicodeDecodeError):
+        except OSError, UnicodeDecodeError:
             result["details"] = "File exists but could not be read for claim verification"
 
     return result
@@ -72,19 +76,23 @@ def validate_url(entry: dict) -> dict:
         if e.code == 405:
             # HEAD not allowed, try GET with range
             try:
-                req = Request(url, method="GET", headers={
-                    "User-Agent": "rabbit-hole-validator/1.0",
-                    "Range": "bytes=0-0",
-                })
+                req = Request(
+                    url,
+                    method="GET",
+                    headers={
+                        "User-Agent": "rabbit-hole-validator/1.0",
+                        "Range": "bytes=0-0",
+                    },
+                )
                 with urlopen(req, timeout=10) as resp:
                     result["status"] = "valid"
                     result["details"] = f"HTTP {resp.status} (HEAD rejected, GET ok)"
             except Exception:
                 result["status"] = "broken"
-                result["details"] = f"HTTP 405 (HEAD) and GET also failed"
+                result["details"] = "HTTP 405 (HEAD) and GET also failed"
         elif e.code == 404:
             result["status"] = "not_found"
-            result["details"] = f"HTTP 404"
+            result["details"] = "HTTP 404"
         else:
             result["status"] = "broken"
             result["details"] = f"HTTP {e.code}"
@@ -110,7 +118,10 @@ def main() -> None:
     try:
         sources = json.loads(raw)
     except json.JSONDecodeError as e:
-        print(json.dumps([{"source": "stdin", "status": "broken", "details": f"Invalid JSON: {e}"}]), file=sys.stdout)
+        print(
+            json.dumps([{"source": "stdin", "status": "broken", "details": f"Invalid JSON: {e}"}]),
+            file=sys.stdout,
+        )
         sys.exit(1)
 
     if not isinstance(sources, list):
@@ -124,11 +135,13 @@ def main() -> None:
         elif src_type == "url":
             results.append(validate_url(entry))
         else:
-            results.append({
-                "source": entry.get("path_or_url", "unknown"),
-                "status": "broken",
-                "details": f"Unknown source type: {src_type}",
-            })
+            results.append(
+                {
+                    "source": entry.get("path_or_url", "unknown"),
+                    "status": "broken",
+                    "details": f"Unknown source type: {src_type}",
+                }
+            )
 
     json.dump(results, sys.stdout, indent=2)
 

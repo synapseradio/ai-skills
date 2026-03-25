@@ -15,6 +15,7 @@ Steps separated by `->`. Whitespace around arrows is ignored.
 ```
 
 Produces:
+
 1. `[skill] /skill-review path/to/skill`
 2. `[inline] fix any issues found`
 3. `[skill] /commit`
@@ -75,6 +76,7 @@ Everything inside `( ... )` where `|` separates sub-steps. Each sub-step is pars
 ```
 
 Produces a parallel group containing:
+
 1. `[skill] /lint`
 2. `[skill] /test`
 3. `[agent] explorer: do research`
@@ -90,6 +92,7 @@ Anything that doesn't match the patterns above. These are natural-language instr
 ### Quoted text
 
 `"quoted text"` could be any type. Interpret from surrounding context:
+
 - `"run the tests"` → inline step
 - `"/commit"` → skill step (the `/` gives it away)
 - If genuinely ambiguous, ask the user
@@ -105,6 +108,7 @@ When prose doesn't clearly separate steps, propose your interpretation and ask t
 > Input: "review the code and fix issues then run tests and commit"
 >
 > Proposed interpretation:
+>
 > 1. [inline] review the code and fix issues
 > 2. [inline] run tests
 > 3. [skill] /commit

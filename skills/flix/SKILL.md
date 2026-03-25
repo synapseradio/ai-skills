@@ -280,6 +280,7 @@ flix build-fatjar            # standalone JAR with all deps
 ```
 
 Manifest (`flix.toml`):
+
 ```toml
 [package]
 name    = "my-project"

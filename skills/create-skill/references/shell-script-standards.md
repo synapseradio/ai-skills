@@ -35,12 +35,14 @@ Why: When an agent runs a script, the user sees output but not the script source
 ### 2. Non-Destructive by Default
 
 Scripts must never:
+
 - `rm -rf` without explicit confirmation
 - `git push --force` or `git reset --hard`
 - Overwrite files without existence check
 - Delete directories without user consent
 
 If destruction is necessary:
+
 1. Warn what will happen and why
 2. Either prompt for confirmation or tell the user to run the command manually
 
@@ -91,8 +93,8 @@ Not just "failed" — include what failed and where.
 | Functions | `snake_case()` | `validate_input()` |
 | Local vars | `local snake_case` | `local file_path` |
 
-For the full style guide: https://google.github.io/styleguide/shellguide.html
+For the full style guide: <https://google.github.io/styleguide/shellguide.html>
 
 ## Agent Instructions
 
-Before writing scripts for a skill, fetch and read the Google Shell Style Guide at https://google.github.io/styleguide/shellguide.html. The rules above are a condensed subset — the full guide covers additional conventions for functions, comments, and control flow. Do not rely on patterns from training data for shell style — the guide is the source of truth.
+Before writing scripts for a skill, fetch and read the Google Shell Style Guide at <https://google.github.io/styleguide/shellguide.html>. The rules above are a condensed subset — the full guide covers additional conventions for functions, comments, and control flow. Do not rely on patterns from training data for shell style — the guide is the source of truth.

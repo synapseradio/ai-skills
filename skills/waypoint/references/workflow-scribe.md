@@ -7,6 +7,7 @@ are immutable.
 ## Input
 
 One of:
+
 - A pipeline name (e.g., "sourcemap-upload") — polish that pipeline's blocks
 - "all" — polish every waypoint block in the repo
 - A file path — polish the waypoint block in that specific file
@@ -14,7 +15,7 @@ One of:
 ## Process
 
 1. **Load voice**: Read `references/waypoint-voice.md` and internalize the principles.
-2. **Find blocks**: Grep the codebase for `Waypoint ` (with trailing space) to locate all waypoint comment blocks. If a pipeline name was given, filter to blocks matching that pipeline name.
+2. **Find blocks**: Grep the codebase for `Waypoint` (with trailing space) to locate all waypoint comment blocks. If a pipeline name was given, filter to blocks matching that pipeline name.
 3. **Read each block**: For each block, identify:
    - The role description (first line after the header)
    - Each relationship description (the `— <text>` after neighbor references)

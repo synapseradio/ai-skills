@@ -150,6 +150,7 @@ Always use these when running stax commands in agent/automated context:
 ### JSON Output for Parsing
 
 Use `--json` when you need to parse command output:
+
 ```
 stax status --json          # stack structure as JSON
 stax ci --json              # CI check results as JSON
@@ -168,21 +169,25 @@ stax ll --json              # branches + PR URLs as JSON
 ## Common Compositions
 
 **New feature stack → submit → merge:**
+
 ```
 stax sync && stax create feature-a -m "Add feature A" && stax modify && stax submit --yes --no-prompt
 ```
 
 **Respond to PR feedback:**
+
 ```
 stax checkout <branch> && stax modify -m "Address review feedback" && stax cascade
 ```
 
 **Full sync + restack + submit:**
+
 ```
 stax sync --restack && stax submit --yes --no-prompt
 ```
 
 **Check stack health before submitting:**
+
 ```
 stax validate && stax doctor && stax submit --yes --no-prompt
 ```

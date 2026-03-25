@@ -140,11 +140,13 @@ def pythagoras(x: Float64, y: Float64): Float64 =
 **Only use `unsafe` on expressions that genuinely have no side-effects.** If the Java code actually mutates state, reads files, or does I/O, marking it `unsafe` breaks the type-and-effect system. The compiler may make incorrect optimization decisions, changing program behavior in subtle or catastrophic ways.
 
 Safe uses of `unsafe`:
+
 - Pure mathematical functions (`Math.sin`, `Math.sqrt`, `Math.pow`)
 - String operations that create new strings without side-effects
 - Constructors for immutable value objects
 
 Unsafe uses of `unsafe` (do not do):
+
 - File I/O, network calls, database queries
 - Methods that modify the object or any global state
 - Methods that read system properties, environment variables, or time

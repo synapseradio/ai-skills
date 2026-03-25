@@ -155,7 +155,7 @@ Data sources are named and can reference other sources. Transforms are applied i
 }
 ```
 
-### stratify -- Convert flat tables to hierarchies.
+### stratify -- Convert flat tables to hierarchies
 
 Converts a flat array with `id` and `parent` fields into a tree structure required by hierarchical transforms (`treemap`, `partition`, `tree`).
 
@@ -180,7 +180,7 @@ Input format -- flat array:
 
 Root node has `parent: null`. Only leaf nodes need numeric values -- branch nodes derive values from children via sum aggregation in downstream transforms.
 
-### treemap -- Rectangular subdivision layout.
+### treemap -- Rectangular subdivision layout
 
 Subdivides a rectangular area into nested rectangles where area encodes value. Requires `stratify` upstream.
 
@@ -223,7 +223,7 @@ Filtering leaves and branches for separate rendering:
 }
 ```
 
-### partition -- Radial or rectangular hierarchical layout.
+### partition -- Radial or rectangular hierarchical layout
 
 Used for sunburst and icicle charts. Requires `stratify` upstream.
 
@@ -241,7 +241,7 @@ For sunburst: `size` is `[2*PI, outerRadius]`. Output fields `a0`, `a1` are star
 
 For icicle (rectangular): set `size` to `[{"signal": "width"}, {"signal": "height"}]` and use `x0`, `y0`, `x1`, `y1` output fields.
 
-### tree -- Tidy tree and cluster layouts.
+### tree -- Tidy tree and cluster layouts
 
 Positions nodes for tree diagrams and dendrograms. Requires `stratify` upstream.
 
@@ -262,7 +262,7 @@ Positions nodes for tree diagrams and dendrograms. Requires `stratify` upstream.
 
 For horizontal (left-to-right) trees, swap x and y in the `as` array: `"as": ["y", "x", "depth", "children"]`. This maps tree depth to the x-axis and sibling position to the y-axis.
 
-### treelinks + linkpath -- Generate connecting paths between parent and child nodes.
+### treelinks + linkpath -- Generate connecting paths between parent and child nodes
 
 ```json
 {
@@ -305,7 +305,7 @@ For force-directed graphs, `linkpath` uses explicit coordinates instead of `tree
 }
 ```
 
-### force -- Force-directed layout simulation.
+### force -- Force-directed layout simulation
 
 Wraps d3-force for network graph positioning. Applied as a mark-level transform on symbol marks.
 
@@ -353,7 +353,7 @@ Available forces:
 
 The `signal` property exposes the force simulation state so that `linkpath` transforms can reference it via `"require": {"signal": "force"}`.
 
-### kde -- Kernel density estimation.
+### kde -- Kernel density estimation
 
 Computes a smooth density curve from discrete observations. Used for violin plots.
 
@@ -380,7 +380,7 @@ Output fields: `value` (x position) and `density` (estimated density).
 
 Minimum sample size per group: ~10 for meaningful estimation.
 
-### geoshape -- Geographic projection of GeoJSON/TopoJSON.
+### geoshape -- Geographic projection of GeoJSON/TopoJSON
 
 Applied as a mark-level transform to render geographic features.
 
@@ -755,6 +755,7 @@ Legend orient options: `"left"`, `"right"`, `"top"`, `"bottom"`, `"top-left"`, `
 Data format: two arrays -- nodes with `name` and `group`, edges with `source` and `target` (zero-based indices).
 
 Key components:
+
 1. Signals for `cx`, `cy`, `nodeRadius`, `nbodyStrength`, `linkDistance`, drag (`fx`/`fy`), hover
 2. Data: `node-data` (values), `link-data` (values)
 3. Scales: ordinal color by group
@@ -767,6 +768,7 @@ The force transform is applied on the symbol marks (nodes). Edge paths reference
 Data format: flat array with `id`, `parent`, `value` (leaves only).
 
 Key components:
+
 1. Data pipeline: raw values -> stratify -> treemap transform
 2. Derived datasets: `leaves` (no children), `branches` (depth === 1)
 3. Marks: branch rectangles (background), branch labels, leaf rectangles, leaf labels, leaf values
@@ -777,6 +779,7 @@ Key components:
 Data format: same as treemap (flat array with `id`, `parent`, `value`).
 
 Key components:
+
 1. Data pipeline: raw values -> stratify -> partition transform with `size: [2*PI, radius]`
 2. Marks: arc marks with `startAngle`, `endAngle`, `innerRadius`, `outerRadius` from partition output
 3. Color by depth: full opacity at depth 1, reduced at deeper levels
@@ -789,6 +792,7 @@ Key components:
 Data format: flat array with `id`, `parent`, `name`.
 
 Key components:
+
 1. Data pipeline: raw values -> stratify -> tree transform (tidy or cluster)
 2. Links derived via: source tree -> treelinks -> linkpath (diagonal, horizontal)
 3. Marks: path (links), symbol (nodes), text (labels)
@@ -800,6 +804,7 @@ Key components:
 Data format: array of observations with `group` and `value` fields. Minimum ~10 per group.
 
 Key components:
+
 1. Data pipeline: raw observations -> KDE transform (grouped) -> density curves
 2. Separate stats dataset: aggregate with `q1`, `median`, `q3` operations
 3. Group mark: one group per category via facet
@@ -812,6 +817,7 @@ Key components:
 Data format: values array with region IDs and rates; TopoJSON for geography.
 
 Key components:
+
 1. Data: values dataset, geographic features loaded from URL with topojson format
 2. Lookup transform joins values to features by ID
 3. Projection defined at top level
@@ -840,8 +846,8 @@ Key components:
 
 ## Sources
 
-- Vega documentation -- https://vega.github.io/vega/docs/
-- Vega examples -- https://vega.github.io/vega/examples/
-- Vega schema v6 -- https://vega.github.io/schema/vega/v6.json
-- Vega transforms -- https://vega.github.io/vega/docs/transforms/
-- d3-force documentation -- https://d3js.org/d3-force
+- Vega documentation -- <https://vega.github.io/vega/docs/>
+- Vega examples -- <https://vega.github.io/vega/examples/>
+- Vega schema v6 -- <https://vega.github.io/schema/vega/v6.json>
+- Vega transforms -- <https://vega.github.io/vega/docs/transforms/>
+- d3-force documentation -- <https://d3js.org/d3-force>

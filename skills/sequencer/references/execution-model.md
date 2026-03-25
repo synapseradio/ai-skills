@@ -25,6 +25,7 @@ Every subagent receives the prior step's output file path in its prompt. This is
 **Step 0** (first step): no prior context exists. Omit the context line from the prompt.
 
 **Step N** (N > 0): include this line in the subagent prompt:
+
 ```
 Read /tmp/seq-{run-id}/step-{N-1}.md for context from the previous step.
 ```
@@ -54,6 +55,7 @@ Include: what you did, what changed, any artifacts produced, and what the next s
 ### Why inline steps stay in the main conversation
 
 Inline steps are natural-language instructions that may need:
+
 - User interaction (clarifying questions, confirmations)
 - Access to the full conversation history
 - Ability to show intermediate results the user reacts to
@@ -82,7 +84,7 @@ When a parallel group is encountered:
 {contents of step-{N}-b.md}
 ```
 
-5. **Next step**: receives the merged file as context, same as any sequential step.
+1. **Next step**: receives the merged file as context, same as any sequential step.
 
 ### Parallel group constraints
 
@@ -105,6 +107,7 @@ Before asking the user anything, try to understand what went wrong:
 ### 2. Retry with decomposition
 
 If the step can be broken down:
+
 - Present the proposed sub-steps to the user
 - On approval, execute the sub-steps in place of the original step
 - The final sub-step writes to the original step's output file
@@ -112,12 +115,13 @@ If the step can be broken down:
 ### 3. Ask the user
 
 If decomposition doesn't help or the failure is fundamental:
+
 - Report what happened (the error, not just "it failed")
 - Report what you tried (decomposition attempts)
 - Offer alternatives:
-  - Skip this step and continue (output file will note the skip)
-  - Retry with modified instructions
-  - Abort the pipeline
+    - Skip this step and continue (output file will note the skip)
+    - Retry with modified instructions
+    - Abort the pipeline
 
 ### 4. Never silently skip
 

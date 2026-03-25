@@ -24,6 +24,7 @@ Gather requirements from the user for the skill being created, informed by the r
 ### Step 1: Present Research Summary
 
 Briefly summarize what the research phase found:
+
 - What documentation exists for the topic
 - Key concepts the skill should cover
 - Any gotchas or constraints discovered
@@ -34,16 +35,19 @@ Briefly summarize what the research phase found:
 Use AskUserQuestion to gather requirements. Ask these questions (adapt phrasing to context):
 
 **Core scope:**
+
 - What should this skill enable Claude to do? (Primary capability)
 - When should the skill trigger? (Trigger phrases for the description field)
 - What's the expected output when the skill is used? (Code, analysis, files, etc.)
 
 **Structure:**
+
 - Are there procedural workflows that need step-by-step templates? (e.g., "deploy to X" has ordered steps)
 - Should scripts be included? If so, what should they do?
 - Any constraints on tool access? (allowed-tools in frontmatter)
 
 **Boundaries:**
+
 - What should the skill explicitly NOT do? (Non-goals prevent scope creep)
 - Are there related skills that already exist? (Avoid overlap)
 
@@ -52,6 +56,7 @@ Use AskUserQuestion to gather requirements. Ask these questions (adapt phrasing 
 Ask the user where the skill should be created:
 
 Use AskUserQuestion with these options:
+
 - **Personal skills** (`~/.claude/skills/{{skill-name}}/`) — available across all projects
 - **Project skills** (`.claude/skills/{{skill-name}}/`) — scoped to current project
 - **Custom path** — user specifies
@@ -59,6 +64,7 @@ Use AskUserQuestion with these options:
 ### Step 4: Flag Claude-Specific Requirements
 
 If any requirements mention or relate to Claude Code features (MCP servers, hooks, slash commands, agents, etc.):
+
 - Flag that Claude Code documentation must be referenced in the skill
 - Note which specific Claude Code features are relevant
 

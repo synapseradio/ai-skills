@@ -15,6 +15,7 @@ context: fork
 Apply Tree of Thought reasoning to the user's query through four phases.
 
 ## Query
+
 `$ARGUMENTS`
 
 ## Phase 1: Decomposition
@@ -57,6 +58,7 @@ Present scores in a comparison table per component. Select the best approach for
 ## Summary
 
 Conclude with:
+
 - **Recommended Solution**: one-paragraph synthesis.
 - **Next Steps**: 2-3 immediate actions.
 - **Success Metrics**: how to validate the solution works.

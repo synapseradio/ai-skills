@@ -3,14 +3,16 @@
 Validate reference files for topic coherence, citation quality, URL reachability, and self-containment.
 
 **Sources:**
-- Agent Skills Specification: https://agentskills.io/specification
-- Anthropic Best Practices: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+
+- Agent Skills Specification: <https://agentskills.io/specification>
+- Anthropic Best Practices: <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices>
 
 ## Check 1: URL Reachability
 
 **What to check:** Every URL in every reference file resolves to reachable content.
 
 **How to check:**
+
 1. Scan all files in `references/` for URLs (patterns matching `http://` or `https://`)
 2. Also scan SKILL.md and README.md for URLs
 3. For each unique URL, use WebFetch to attempt retrieval
@@ -27,6 +29,7 @@ Validate reference files for topic coherence, citation quality, URL reachability
 **What to check:** Every claim about external technology, specification rules, or third-party behavior includes a source URL.
 
 **How to check:**
+
 1. Read each reference file
 2. Identify factual claims about external systems (API behavior, spec requirements, tool capabilities)
 3. For each claim, check whether a URL accompanies it (inline link, footnote, or "Source:" annotation)
@@ -42,6 +45,7 @@ Validate reference files for topic coherence, citation quality, URL reachability
 **What to check:** Reference files instruct the consuming agent to verify information against cited URLs, not to trust the file blindly.
 
 **How to check:**
+
 1. Read each reference file
 2. Look for instructions directing the agent to follow, fetch, or verify URLs (e.g., "Verify against...", "Fetch the latest from...", "Confirm at...")
 3. A single verification instruction per file is sufficient if it applies broadly
@@ -57,6 +61,7 @@ Validate reference files for topic coherence, citation quality, URL reachability
 **What to check:** Each reference file covers one coherent topic, not a mix of unrelated concerns.
 
 **How to check:**
+
 1. Read each reference file
 2. Identify the primary topic from the heading or first paragraph
 3. Scan the remaining content — does everything relate to that topic?
@@ -66,13 +71,14 @@ Validate reference files for topic coherence, citation quality, URL reachability
 
 **Fail action:** Identify files with mixed topics and suggest how to split them.
 
-**Source:** https://agentskills.io/specification#references ("Keep individual reference files focused")
+**Source:** <https://agentskills.io/specification#references> ("Keep individual reference files focused")
 
 ## Check 5: Official Docs Availability Disclosure
 
 **What to check:** If official documentation for a technology is unavailable, the reference file states this explicitly rather than silently omitting sources.
 
 **How to check:**
+
 1. Read each reference file
 2. Identify any technology or tool discussed without a citation
 3. Check whether the file explicitly states that official docs are unavailable, limited, or could not be found
@@ -86,6 +92,7 @@ Validate reference files for topic coherence, citation quality, URL reachability
 **What to check:** File references from SKILL.md go one level deep — SKILL.md points to reference files, but reference files do not chain to other reference files.
 
 **How to check:**
+
 1. Read SKILL.md and identify all file references (links to files in `references/`, `scripts/`, etc.)
 2. Read each referenced file
 3. Check whether those files in turn reference other files in the skill directory (internal cross-references)
@@ -95,13 +102,14 @@ Validate reference files for topic coherence, citation quality, URL reachability
 
 **Fail action:** Identify chain references and suggest inlining the content or restructuring.
 
-**Source:** https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices ("Keep references one level deep from SKILL.md")
+**Source:** <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices> ("Keep references one level deep from SKILL.md")
 
 ## Check 7: Self-Containment
 
 **What to check:** Each reference file is self-contained for its topic — an agent reading just that file gets a complete picture of the topic without needing to read other files.
 
 **How to check:**
+
 1. Read each reference file in isolation
 2. Ask: does this file provide enough context for an agent to act on its topic?
 3. Check for undefined terms, unexplained acronyms, or instructions that only make sense if another file was read first
@@ -110,4 +118,4 @@ Validate reference files for topic coherence, citation quality, URL reachability
 
 **Fail action:** Identify files that require reading other files to be useful, and suggest what context to add.
 
-**Source:** https://agentskills.io/specification#references ("Keep individual reference files focused") and progressive disclosure principle — files loaded on demand must work on their own.
+**Source:** <https://agentskills.io/specification#references> ("Keep individual reference files focused") and progressive disclosure principle — files loaded on demand must work on their own.

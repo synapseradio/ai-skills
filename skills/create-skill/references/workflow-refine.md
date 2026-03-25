@@ -25,6 +25,7 @@ Read the review report for the skill at **{{SKILL_PATH}}**, apply every required
 ### Step 1: Triage Fixes
 
 Read the review report's "Fixes Required" section. For each fix:
+
 - Classify as: **content** (text changes), **structure** (file moves/renames), or **missing** (new content needed)
 - Order by dependency: structural fixes first, then content, then missing
 

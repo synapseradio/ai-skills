@@ -355,6 +355,7 @@ asyncio.run(load())
 **Supported input formats:** CSV, MultiCSV, Avro, Parquet, Azure Blob Storage.
 
 **Best practice for bulk loads:**
+
 1. Load all data first without indexes.
 2. Create indexes after load completes — building indexes on an empty or partially-filled table is wasted work.
 3. Run `ANALYZE graph_name."Label"` after indexing to update planner statistics.
@@ -435,6 +436,7 @@ Understanding where AGE performs well and where it struggles helps with architec
 Use this before deploying any graph query to production.
 
 **Indexing:**
+
 - [ ] BTREE index on `id` for every vertex and edge label
 - [ ] BTREE indexes on `start_id` and `end_id` for every edge label
 - [ ] GIN index on `properties` if queries use varied property filters
@@ -442,6 +444,7 @@ Use this before deploying any graph query to production.
 - [ ] `ANALYZE` run after bulk loads
 
 **Query shape:**
+
 - [ ] `EXPLAIN` run inside Cypher — confirmed index scan (not seq scan) for filtered queries
 - [ ] `WHERE n.prop = val` used (not inline `{prop: val}`) when BTREE index exists on that key
 - [ ] Variable-length traversals have explicit depth bounds (`*1..N`)
@@ -449,6 +452,7 @@ Use this before deploying any graph query to production.
 - [ ] Cypher predicates filter early; SQL predicates applied only for post-graph SQL operations
 
 **Schema:**
+
 - [ ] `SET search_path = ag_catalog, "$user", public;` at session start, or all `cypher()` calls fully qualified
 - [ ] Result AS clause column count matches RETURN clause exactly
 - [ ] agtype cast to target SQL type before numeric/string comparison

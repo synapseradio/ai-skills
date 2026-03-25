@@ -8,6 +8,7 @@ things to different stakeholders.
 ## When to Model
 
 **Load this reference when:**
+
 - Multiple entity types emerge ("orders contain line items, which
   reference products from a catalog")
 - Business rules constrain behavior ("an order can't be modified after
@@ -17,6 +18,7 @@ things to different stakeholders.
 - The solution has data relationships that affect the design
 
 **Do NOT model when:**
+
 - The system is simple CRUD with obvious entities
 - The system is pure integration/plumbing (connecting APIs, no domain logic)
 - The system has a single primary entity with no meaningful relationships
@@ -71,6 +73,7 @@ valuable output of domain modeling:
 - "If someone tried to [violation], what should the system do?"
 
 Examples of invariants:
+
 - "An order cannot be modified after it ships."
 - "A customer's email must be unique across the system."
 - "Line item quantity must be positive."

@@ -534,7 +534,7 @@ Before finalizing a network visualization:
 
 ## Sources
 
-- D3.js documentation — https://d3js.org/getting-started
-- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
-- WCAG 2.2 Quick Reference — https://www.w3.org/WAI/WCAG22/quickref/
-- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
+- D3.js documentation — <https://d3js.org/getting-started>
+- D3 API Reference — <https://github.com/d3/d3/blob/main/API.md>
+- WCAG 2.2 Quick Reference — <https://www.w3.org/WAI/WCAG22/quickref/>
+- WAI-ARIA 1.2 specification — <https://www.w3.org/TR/wai-aria-1.2/>

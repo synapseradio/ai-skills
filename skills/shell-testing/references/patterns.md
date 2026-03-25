@@ -1,6 +1,7 @@
 # BATS Patterns & Examples
 
 ## Table of Contents
+
 - [Sourcing Code Under Test](#sourcing-code-under-test)
 - [Multi-line Output](#multi-line-output)
 - [Testing stdin](#testing-stdin)
@@ -264,6 +265,7 @@ Tests are safe for `bats --jobs N` when they use per-test state:
 ```
 
 Unsafe patterns to avoid:
+
 - Shared files outside `$BATS_TEST_TMPDIR` (e.g., `/tmp/shared.txt`)
 - Fixed port numbers
 - Modifying global PATH with bats-mock (use `--no-parallelize-within-file`)
@@ -294,16 +296,16 @@ jobs:
 .PHONY: test test-unit test-integration test-parallel
 
 test:
-	bats tests/ --recursive
+ bats tests/ --recursive
 
 test-unit:
-	bats tests/ --recursive --filter-tags "unit"
+ bats tests/ --recursive --filter-tags "unit"
 
 test-integration:
-	bats tests/ --recursive --filter-tags "integration"
+ bats tests/ --recursive --filter-tags "integration"
 
 test-parallel:
-	bats tests/ --recursive --jobs 4
+ bats tests/ --recursive --jobs 4
 ```
 
 ## Performance Testing

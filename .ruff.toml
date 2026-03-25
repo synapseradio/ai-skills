@@ -1,5 +1,6 @@
 line-length = 100
-target-version = "py36"
+target-version = "py315"
 
 [lint]
 select = ["E", "F", "W", "I"]
+ignore = ["E501"]

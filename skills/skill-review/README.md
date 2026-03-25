@@ -34,6 +34,7 @@ Review the skill at ~/.claude/skills/my-skill/
 ```
 
 Or after creating a skill:
+
 ```
 /skill-review path/to/skill
 ```

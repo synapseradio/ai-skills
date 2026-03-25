@@ -51,6 +51,7 @@ Ask directly: "Before we go deeper — how much time and effort is this worth
 to you? A few days? A couple of weeks? A quarter?"
 
 If the user is unsure, use AskUserQuestion with structured options:
+
 - Small batch: days to 2 weeks — scope must be minimal
 - Standard cycle: 4–6 weeks — a solid feature or modest system
 - Large project: multi-cycle — warrants phasing and staged delivery

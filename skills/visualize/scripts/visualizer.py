@@ -16,7 +16,7 @@ import os
 import re
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 VERSION = "0.1.0"
@@ -27,6 +27,7 @@ COMMANDS = ["create", "list", "show", "search", "delete"]
 # ---------------------------------------------------------------------------
 # Error handling
 # ---------------------------------------------------------------------------
+
 
 def cli_error(message, hint, json_mode=False):
     """Print error with actionable hint and exit."""
@@ -97,7 +98,7 @@ def parse_frontmatter(html):
     if end < 0:
         return None, "Unterminated HTML comment in frontmatter"
 
-    block = trimmed[start + 4:end].strip()
+    block = trimmed[start + 4 : end].strip()
     fields = {}
     for line in block.split("\n"):
         line = line.strip()
@@ -105,7 +106,7 @@ def parse_frontmatter(html):
         if colon < 0:
             continue
         key = line[:colon].strip()
-        value = line[colon + 1:].strip()
+        value = line[colon + 1 :].strip()
         if key and value:
             fields[key] = value
 
@@ -125,6 +126,7 @@ def parse_frontmatter(html):
 # ---------------------------------------------------------------------------
 # Storage
 # ---------------------------------------------------------------------------
+
 
 def get_root():
     """Get the root storage directory for visualizations."""
@@ -169,7 +171,7 @@ def format_date(iso_string):
             hour_12 = 12
         ampm = "PM" if dt.hour >= 12 else "AM"
         return f"{dt.day:02d}-{dt.month:02d}-{dt.year} {hour_12}:{dt.minute:02d} {ampm}"
-    except (ValueError, OSError):
+    except ValueError, OSError:
         return iso_string
 
 
@@ -280,6 +282,7 @@ def format_table_row(viz):
 # Commands
 # ---------------------------------------------------------------------------
 
+
 def cmd_create(args, json_mode):
     """Save a visualization to storage."""
     if not args.file:
@@ -301,13 +304,18 @@ def cmd_create(args, json_mode):
     if stored is None:
         cli_error(err, "check the HTML frontmatter comment format", json_mode)
     if json_mode:
-        print(json.dumps({
-            "id": stored["id"],
-            "name": stored["meta"]["name"],
-            "project": stored["meta"]["project"],
-            "chartType": stored["meta"]["chart_type"],
-            "path": stored["path"],
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "id": stored["id"],
+                    "name": stored["meta"]["name"],
+                    "project": stored["meta"]["project"],
+                    "chartType": stored["meta"]["chart_type"],
+                    "path": stored["path"],
+                },
+                indent=2,
+            )
+        )
     else:
         m = stored["meta"]
         print("visualization saved")
@@ -345,15 +353,17 @@ def cmd_list(args, json_mode):
     if json_mode:
         items = []
         for v in vizs:
-            items.append({
-                "id": v["id"],
-                "name": v["meta"]["name"],
-                "project": v["meta"]["project"],
-                "chartType": v["meta"]["chart_type"],
-                "description": v["meta"]["description"],
-                "created": v["meta"]["created"],
-                "path": v["path"],
-            })
+            items.append(
+                {
+                    "id": v["id"],
+                    "name": v["meta"]["name"],
+                    "project": v["meta"]["project"],
+                    "chartType": v["meta"]["chart_type"],
+                    "description": v["meta"]["description"],
+                    "created": v["meta"]["created"],
+                    "path": v["path"],
+                }
+            )
         print(json.dumps(items, indent=2))
     else:
         root = get_root()
@@ -394,16 +404,21 @@ def cmd_show(args, json_mode):
             json_mode,
         )
     if json_mode:
-        print(json.dumps({
-            "id": viz["id"],
-            "name": viz["meta"]["name"],
-            "description": viz["meta"]["description"],
-            "chartType": viz["meta"]["chart_type"],
-            "project": viz["meta"]["project"],
-            "created": viz["meta"]["created"],
-            "directory": viz["directory"],
-            "path": viz["path"],
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "id": viz["id"],
+                    "name": viz["meta"]["name"],
+                    "description": viz["meta"]["description"],
+                    "chartType": viz["meta"]["chart_type"],
+                    "project": viz["meta"]["project"],
+                    "created": viz["meta"]["created"],
+                    "directory": viz["directory"],
+                    "path": viz["path"],
+                },
+                indent=2,
+            )
+        )
     else:
         m = viz["meta"]
         print()
@@ -440,7 +455,8 @@ def cmd_search(args, json_mode):
         return
     term_lower = args.term.lower()
     results = [
-        v for v in all_vizs
+        v
+        for v in all_vizs
         if any(
             term_lower in v["meta"][field].lower()
             for field in ("name", "description", "project", "chart_type")
@@ -458,15 +474,17 @@ def cmd_search(args, json_mode):
     if json_mode:
         items = []
         for v in results:
-            items.append({
-                "id": v["id"],
-                "name": v["meta"]["name"],
-                "project": v["meta"]["project"],
-                "chartType": v["meta"]["chart_type"],
-                "description": v["meta"]["description"],
-                "created": v["meta"]["created"],
-                "path": v["path"],
-            })
+            items.append(
+                {
+                    "id": v["id"],
+                    "name": v["meta"]["name"],
+                    "project": v["meta"]["project"],
+                    "chartType": v["meta"]["chart_type"],
+                    "description": v["meta"]["description"],
+                    "created": v["meta"]["created"],
+                    "path": v["path"],
+                }
+            )
         print(json.dumps(items, indent=2))
     else:
         print()
@@ -518,12 +536,17 @@ def cmd_delete(args, json_mode):
             json_mode,
         )
     if json_mode:
-        print(json.dumps({
-            "deleted": True,
-            "id": viz["id"],
-            "name": viz["meta"]["name"],
-            "path": viz["path"],
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "deleted": True,
+                    "id": viz["id"],
+                    "name": viz["meta"]["name"],
+                    "path": viz["path"],
+                },
+                indent=2,
+            )
+        )
     else:
         print("visualization deleted")
         print(f"  name:     {viz['meta']['name']}")
@@ -535,6 +558,7 @@ def cmd_delete(args, json_mode):
 # ---------------------------------------------------------------------------
 # Argument parser
 # ---------------------------------------------------------------------------
+
 
 def build_parser():
     """Build the argparse parser with subcommands."""
@@ -562,7 +586,9 @@ def build_parser():
 
     # create
     p_create = sub.add_parser("create", help="save a visualization to storage", parents=[shared])
-    p_create.add_argument("--file", metavar="<path>", help="path to HTML file with frontmatter metadata")
+    p_create.add_argument(
+        "--file", metavar="<path>", help="path to HTML file with frontmatter metadata"
+    )
 
     # list
     p_list = sub.add_parser("list", help="list stored visualizations", parents=[shared])
@@ -571,16 +597,24 @@ def build_parser():
 
     # show
     p_show = sub.add_parser("show", help="show visualization details", parents=[shared])
-    p_show.add_argument("id", nargs="?", metavar="<id-or-path>", help="visualization ID or absolute path")
+    p_show.add_argument(
+        "id", nargs="?", metavar="<id-or-path>", help="visualization ID or absolute path"
+    )
 
     # search
     p_search = sub.add_parser("search", help="search visualizations by keyword", parents=[shared])
-    p_search.add_argument("term", nargs="?", metavar="<term>", help="search term (case-insensitive)")
+    p_search.add_argument(
+        "term", nargs="?", metavar="<term>", help="search term (case-insensitive)"
+    )
 
     # delete
     p_delete = sub.add_parser("delete", help="delete a visualization", parents=[shared])
-    p_delete.add_argument("id", nargs="?", metavar="<id-or-path>", help="visualization ID or absolute path")
-    p_delete.add_argument("--force", action="store_true", help="skip confirmation and delete immediately")
+    p_delete.add_argument(
+        "id", nargs="?", metavar="<id-or-path>", help="visualization ID or absolute path"
+    )
+    p_delete.add_argument(
+        "--force", action="store_true", help="skip confirmation and delete immediately"
+    )
 
     return parser
 

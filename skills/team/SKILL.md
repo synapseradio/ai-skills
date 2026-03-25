@@ -25,15 +25,19 @@ Assemble expert personas to collaboratively analyze a problem through structured
 Execute phases sequentially. Phases 0-4 are **read-only** — no file writes, edits, or implementations.
 
 ### Phase 0 — Situation Analysis
+
 Analyze the user's scenario. Detect scenario type, risk level, and constraints. Summarize understanding before proceeding.
 
 ### Phase 1 — Team Selection
+
 Select 3-8 personas matching the scenario and risk profile. Prefer established personas over generated ones. Include coordination/standards personas when available. Present the team for approval.
 
 ### Phase 2 — User Approval
+
 Wait for explicit user approval. On approval, proceed. On modification request, return to Phase 1. On ambiguity, clarify.
 
 ### Phase 3 — Team Discussion
+
 Each persona contributes in character using the format:
 
 > **[Persona]**: [input]
@@ -46,9 +50,11 @@ Apply tree-of-thought branching for complex scenarios. Show unified consensus, d
 Cite all technical claims using exa or web search — never construct URLs manually.
 
 ### Phase 4 — Reasoning Synthesis
+
 Synthesize findings into actionable items with file paths, line numbers, validation methods, and risk assessment. Ask what the user wants to do next.
 
 ### Phase 5 — Implementation
+
 Only on explicit user request (e.g., "proceed", "implement", "make changes"). All tools become available.
 
 ## Rules

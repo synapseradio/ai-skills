@@ -29,11 +29,13 @@ Chain skills, agents, and instructions into ordered pipelines with accumulating 
 ### Input Formats
 
 **Arrows** — compact, inline:
+
 ```
 /seq /lint -> /test -> fix failures -> /commit
 ```
 
 **Bullets** — readable, multi-line:
+
 ```
 /seq
 - /lint
@@ -43,6 +45,7 @@ Chain skills, agents, and instructions into ordered pipelines with accumulating 
 ```
 
 **Prose** — conversational:
+
 ```
 /seq run lint, then test, fix any failures, then commit
 ```

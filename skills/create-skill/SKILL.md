@@ -157,6 +157,7 @@ If the review report is all-pass, skip this phase.
 ### Phase 9: Report
 
 Present findings to the user:
+
 - Overall pass/fail status
 - What was created (file tree)
 - Any fixes applied during refinement

@@ -96,6 +96,7 @@ RETURN m.address.city  -- "Portland"
 A vertex is the basic graph entity. It can exist independently. Vertices may have zero or one label, and zero or more properties.
 
 **Wire format:**
+
 ```
 {"id": <graphid>, "label": "<label>", "properties": {<key>: <value>, ...}}::vertex
 ```
@@ -141,6 +142,7 @@ $$) AS (v agtype);
 An edge encodes a directed connection between exactly two vertices. Edges **must** have exactly one label.
 
 **Wire format:**
+
 ```
 {"id": <graphid>, "label": "<label>", "start_id": <graphid>, "end_id": <graphid>, "properties": {<key>: <value>, ...}}::edge
 ```
@@ -173,6 +175,7 @@ $$) AS (r agtype);
 A path is a series of alternating vertices and edges, starting with a vertex. Minimum: one vertex and one edge.
 
 **Wire format:** A list cast to `::path`:
+
 ```
 [<vertex>::vertex, <edge>::edge, <vertex>::vertex, ...]::path
 ```

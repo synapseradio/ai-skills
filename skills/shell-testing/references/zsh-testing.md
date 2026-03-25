@@ -1,6 +1,7 @@
 # Zsh-Specific Testing
 
 ## Table of Contents
+
 - [Decision: BATS vs Zunit vs Zsh-Test-Runner](#decision-bats-vs-zunit-vs-zsh-test-runner)
 - [BATS with --shell zsh](#bats-with---shell-zsh)
 - [Testing Zsh Code from BATS](#testing-zsh-code-from-bats)
@@ -224,6 +225,7 @@ echo "${arr[0]}"   # bash: "a", zsh: "a" (if KSH_ARRAYS set, else "b")
 ```
 
 **Recommendation:** If arrays are needed, either:
+
 1. Write bash-only code and test with BATS
 2. Write zsh-only code and test with zunit
 3. Use `"$@"` positional parameters for polyglot code

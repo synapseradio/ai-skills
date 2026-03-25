@@ -40,6 +40,7 @@ $$) AS (col1 agtype, col2 agtype);
 **Signature:** `cypher(graph_name text, query_string text, parameters agtype DEFAULT NULL)`
 
 **Rules:**
+
 - Always wrap the Cypher string in `$$...$$` dollar-quoting.
 - Always alias the result set with `AS (col_name agtype, ...)`. Column count and order must match the `RETURN` clause exactly.
 - If the Cypher query returns no rows (e.g., a bare `CREATE`), a result definition is still required — use `AS (result agtype)` and discard it.
@@ -93,6 +94,7 @@ WHERE g.id::bigint IN (SELECT id FROM active_employees);
 ```
 
 **Notes:**
+
 - Cast `agtype` to a native SQL type for comparison: `::text`, `::bigint`, `::int`, `::float`, `::boolean`.
 - Cypher cannot appear directly inside an expression — it must appear in `FROM` or as a subquery in `WHERE ... IN (...)`.
 
@@ -286,6 +288,7 @@ EXECUTE find_person_by_age('{"name": "Alice", "min_age": 25}');
 ```
 
 **Constraints:**
+
 - The `parameters` argument to `cypher()` can only be used with prepared statements — passing a literal map outside a prepared statement throws an error.
 - Only read queries are documented as supported in prepared statements. Use CTEs for mutation.
 

@@ -48,6 +48,7 @@ If the total file count exceeds 3, track each file as a separate task.
 The SKILL.md is the most important file. It must:
 
 **Frontmatter:**
+
 ```yaml
 ---
 name: {{skill-name}}
@@ -61,6 +62,7 @@ description: >-
 - `description`: present tense, includes trigger phrases for when to activate
 
 **Body (< 500 lines):**
+
 - Start with a 1-2 sentence summary of what this skill is
 - Include a conditional loading table (load only what the task requires)
 - Reference files by relative path: `references/[topic].md`
@@ -68,6 +70,7 @@ description: >-
 - End with anti-hallucination rules specific to this domain
 
 **Body structure template:**
+
 ```markdown
 # [Skill Title]
 
@@ -109,6 +112,7 @@ For each reference file identified in the requirements:
 4. **Examples** — from official docs, attributed with source
 
 **Reference file template:**
+
 ```markdown
 # [Topic]
 
@@ -137,6 +141,7 @@ Every reference file must contain at least one source URL. If a topic has no cit
 For procedural tasks identified in requirements:
 
 1. **Execution metadata** at the top (in HTML comment):
+
    ```
    <!--
    execution: subagent | inline
@@ -144,6 +149,7 @@ For procedural tasks identified in requirements:
    needs-user-interaction: true | false
    -->
    ```
+
 2. **Role, Task, Onboarding, Perspective, Success, Why** — standard agent prompt structure
 3. Step-by-step process with clear decision points
 4. Success conditions that are objectively testable
@@ -151,6 +157,7 @@ For procedural tasks identified in requirements:
 ### Step 5: Write Scripts (if needed)
 
 Follow `references/shell-script-standards.md` strictly:
+
 - `#!/usr/bin/env bash` + `set -euo pipefail`
 - Announce before acting
 - Non-destructive by default

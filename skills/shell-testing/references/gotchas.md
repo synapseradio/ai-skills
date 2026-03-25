@@ -1,6 +1,7 @@
 # BATS Anti-Patterns & Gotchas
 
 ## Table of Contents
+
 - [Dangerous Teardown](#dangerous-teardown)
 - [Negation Bug](#negation-bug)
 - [Variable Scope After run](#variable-scope-after-run)

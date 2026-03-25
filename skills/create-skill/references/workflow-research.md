@@ -27,15 +27,17 @@ Produce a comprehensive research report on **{{SKILL_TOPIC}}** that will feed in
 ### Step 1: Identify the Domain
 
 Determine what {{SKILL_TOPIC}} is:
+
 - A programming language? → Find language docs, stdlib reference, style guide
 - A framework/library? → Find API reference, getting started guide, migration guides
 - A tool/CLI? → Find man pages, official docs, configuration reference
 - A concept/methodology? → Find canonical papers, authoritative guides
-- A Claude feature? → Fetch docs from https://docs.anthropic.com and https://docs.anthropic.com/en/docs/claude-code/overview
+- A Claude feature? → Fetch docs from <https://docs.anthropic.com> and <https://docs.anthropic.com/en/docs/claude-code/overview>
 
 ### Step 2: Search for Official Documentation
 
 Use WebSearch and WebFetch (never curl/wget) to find:
+
 - Official project website and documentation
 - GitHub repository README and docs/ directory
 - API reference / stdlib reference
@@ -44,6 +46,7 @@ Use WebSearch and WebFetch (never curl/wget) to find:
 - Known gotchas, limitations, or common mistakes
 
 Search queries to try:
+
 - `{{SKILL_TOPIC}} official documentation`
 - `{{SKILL_TOPIC}} API reference`
 - `{{SKILL_TOPIC}} style guide`
@@ -54,6 +57,7 @@ Search queries to try:
 ### Step 3: Fetch and Read Each Source
 
 For every source found:
+
 1. Fetch the URL with WebFetch
 2. Extract key facts, constraints, patterns, and gotchas
 3. Note whether information is from official docs (high confidence) or community sources (lower confidence)
@@ -62,13 +66,15 @@ For every source found:
 ### Step 4: Check for Claude-Specific Context
 
 If the skill topic relates to any Claude feature (Claude Code, MCP, skills, hooks, agents, etc.):
-- Fetch https://docs.anthropic.com for relevant API/feature docs
-- Fetch https://docs.anthropic.com/en/docs/claude-code/overview for Claude Code-specific docs
+
+- Fetch <https://docs.anthropic.com> for relevant API/feature docs
+- Fetch <https://docs.anthropic.com/en/docs/claude-code/overview> for Claude Code-specific docs
 - These are mandatory sources — do not skip them
 
 ### Step 5: Catalog Findings
 
 Categorize everything found:
+
 - **Core concepts** — fundamental things the skill must teach
 - **API/syntax reference** — specific methods, functions, or syntax the agent needs
 - **Patterns** — doc-verified approaches (mark each: "verified from [URL]")

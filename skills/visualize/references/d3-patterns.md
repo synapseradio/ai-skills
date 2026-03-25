@@ -443,7 +443,7 @@ Note: `file://` URLs have CORS restrictions that prevent external data loading. 
 
 ## Sources
 
-- D3.js documentation — https://d3js.org/getting-started
-- D3 API Reference — https://github.com/d3/d3/blob/main/API.md
-- SVG Accessibility API Mappings — https://www.w3.org/TR/svg-aam-1.0/
-- WAI-ARIA 1.2 specification — https://www.w3.org/TR/wai-aria-1.2/
+- D3.js documentation — <https://d3js.org/getting-started>
+- D3 API Reference — <https://github.com/d3/d3/blob/main/API.md>
+- SVG Accessibility API Mappings — <https://www.w3.org/TR/svg-aam-1.0/>
+- WAI-ARIA 1.2 specification — <https://www.w3.org/TR/wai-aria-1.2/>

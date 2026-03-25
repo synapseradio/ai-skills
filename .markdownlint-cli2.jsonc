@@ -1,4 +1,45 @@
 {
+  "config": {
+    "default": false,
+
+    // --- Fixable rules: enabled ---
+    "MD004": true, // ul-style
+    "MD005": true, // list-indent
+    "MD007": {
+      "indent": 4
+    }, // ul-indent
+    "MD009": true, // no-trailing-spaces
+    "MD010": true, // no-hard-tabs
+    "MD011": true, // no-reversed-links
+    "MD012": true, // no-multiple-blanks
+    "MD014": true, // commands-show-output
+    "MD018": true, // no-missing-space-atx
+    "MD019": true, // no-multiple-space-atx
+    "MD020": true, // no-missing-space-closed-atx
+    "MD021": true, // no-multiple-space-closed-atx
+    "MD022": true, // blanks-around-headings
+    "MD023": true, // headings-start-left
+    "MD026": true, // no-trailing-punctuation
+    "MD027": true, // no-multiple-space-blockquote
+    "MD029": true, // ol-prefix
+
+    // --- Fixable rules: disabled for this repo ---
+    "MD030": false, // list-marker-space: Allow varied spacing for visual separation
+    "MD031": true, // blanks-around-fences
+    "MD032": true, // blanks-around-lists
+    "MD034": true, // no-bare-urls
+    "MD037": true, // no-space-in-emphasis
+    "MD038": true, // no-space-in-code
+    "MD039": true, // no-space-in-links
+    "MD044": true, // proper-names
+    "MD047": true, // single-trailing-newline
+    "MD049": true, // emphasis-style
+    "MD050": true, // strong-style
+    "MD051": true, // link-fragments
+    "MD053": true, // link-image-reference-definitions
+    "MD054": true, // link-image-style
+    "MD058": true // blanks-around-tables
+  },
   // markdownlint-cli2 configuration
   //
   // Only fixable rules are enabled. The pre-commit hook runs --fix,
@@ -10,44 +51,5 @@
   "ignores": [
     "node_modules/**",
     "**/node_modules/**"
-  ],
-  "config": {
-    "default": false,
-
-    // --- Fixable rules: enabled ---
-    "MD004": true,   // ul-style
-    "MD005": true,   // list-indent
-    "MD007": { "indent": 4 },  // ul-indent
-    "MD009": true,   // no-trailing-spaces
-    "MD010": true,   // no-hard-tabs
-    "MD011": true,   // no-reversed-links
-    "MD012": true,   // no-multiple-blanks
-    "MD014": true,   // commands-show-output
-    "MD018": true,   // no-missing-space-atx
-    "MD019": true,   // no-multiple-space-atx
-    "MD020": true,   // no-missing-space-closed-atx
-    "MD021": true,   // no-multiple-space-closed-atx
-    "MD022": true,   // blanks-around-headings
-    "MD023": true,   // headings-start-left
-    "MD026": true,   // no-trailing-punctuation
-    "MD027": true,   // no-multiple-space-blockquote
-    "MD029": true,   // ol-prefix
-    "MD031": true,   // blanks-around-fences
-    "MD032": true,   // blanks-around-lists
-    "MD034": true,   // no-bare-urls
-    "MD037": true,   // no-space-in-emphasis
-    "MD038": true,   // no-space-in-code
-    "MD039": true,   // no-space-in-links
-    "MD044": true,   // proper-names
-    "MD047": true,   // single-trailing-newline
-    "MD049": true,   // emphasis-style
-    "MD050": true,   // strong-style
-    "MD051": true,   // link-fragments
-    "MD053": true,   // link-image-reference-definitions
-    "MD054": true,   // link-image-style
-    "MD058": true,   // blanks-around-tables
-
-    // --- Fixable rules: disabled for this repo ---
-    "MD030": false   // list-marker-space: Allow varied spacing for visual separation
-  }
+  ]
 }

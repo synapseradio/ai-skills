@@ -6,22 +6,22 @@ Criteria are grouped by source: **Spec** items come from the [Agent Skills Speci
 
 ## Spec Compliance
 
-*Source: https://agentskills.io/specification*
+*Source: <https://agentskills.io/specification>*
 
 - [ ] `name` in frontmatter uses lowercase alphanumeric + hyphens, ≤ 64 chars, matches directory name
 - [ ] `name` does not start/end with hyphen, no consecutive hyphens, no reserved words (`anthropic`, `claude`)
 - [ ] `description` in frontmatter is present and < 1024 characters
-- [ ] `description` is written in **third person** ("Processes Excel files", not "I can help you" or "Use this to…") — Source: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+- [ ] `description` is written in **third person** ("Processes Excel files", not "I can help you" or "Use this to…") — Source: <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices>
 - [ ] `description` includes trigger phrases describing both what the skill does AND when to use it
 - [ ] SKILL.md body exists and contains actionable instructions
 - [ ] SKILL.md is < 500 lines (spec recommendation for optimal performance)
 - [ ] File references from SKILL.md are one level deep (no nested reference chains)
 - [ ] No `.skill` file created unless explicitly requested
-- [ ] Scripts avoid interactive prompts (hard requirement — agents run in non-interactive shells) — Source: https://agentskills.io/skill-creation/using-scripts.md
+- [ ] Scripts avoid interactive prompts (hard requirement — agents run in non-interactive shells) — Source: <https://agentskills.io/skill-creation/using-scripts.md>
 
 ## Progressive Disclosure
 
-*Source: https://agentskills.io/specification*
+*Source: <https://agentskills.io/specification>*
 
 - [ ] Details live in `references/`, not crammed into SKILL.md
 - [ ] SKILL.md loads references conditionally (table or if/then) — not all at once
@@ -43,9 +43,9 @@ Criteria are grouped by source: **Spec** items come from the [Agent Skills Speci
 
 - [ ] Procedural tasks have step-by-step workflow files in `references/` or `assets/workflows/`
 - [ ] Each workflow file declares execution metadata at the top:
-  - `execution: subagent | inline` — whether it runs as a spawned subagent or inline in main context
-  - `parallelism: sequential | parallel | batch` — whether it can run alongside other workflows
-  - `needs-user-interaction: true | false` — whether it requires user input (forces inline)
+    - `execution: subagent | inline` — whether it runs as a spawned subagent or inline in main context
+    - `parallelism: sequential | parallel | batch` — whether it can run alongside other workflows
+    - `needs-user-interaction: true | false` — whether it requires user input (forces inline)
 - [ ] Workflows that need user interaction are marked `execution: inline`
 - [ ] Workflow prompts follow agent-prompting conventions: Role, Task, Onboarding, Perspective, Success, Why
 
@@ -69,7 +69,7 @@ Criteria are grouped by source: **Spec** items come from the [Agent Skills Speci
 
 ## Script Standards
 
-*Extends: https://agentskills.io/skill-creation/using-scripts.md and https://google.github.io/styleguide/shellguide.html*
+*Extends: <https://agentskills.io/skill-creation/using-scripts.md> and <https://google.github.io/styleguide/shellguide.html>*
 
 - [ ] Scripts follow Google Shell Style Guide
 - [ ] Scripts output what they are about to do before doing it *(convention)*

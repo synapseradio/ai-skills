@@ -29,6 +29,7 @@ All three share the same flags:
 ## 2. Branch Creation & Management
 
 ### `stax create` — Create a new branch stacked on current
+
 Aliases: `c`
 
 | Flag | Description |
@@ -47,6 +48,7 @@ Aliases: `c`
 | `--all-prs` | Track all open PRs authored by you |
 
 ### `stax branch untrack` — Stop tracking a branch (remove stax metadata only)
+
 Aliases: `b ut`
 
 Takes optional `[BRANCH]` (defaults to current).
@@ -59,9 +61,11 @@ Takes optional `[BRANCH]` (defaults to current).
 | `-p, --parent <PARENT>` | New parent branch name |
 
 ### `stax branch rename` — Rename the current branch
+
 Aliases: `b r`. Same as `stax rename` (see Restructuring).
 
 ### `stax branch delete` — Delete a branch and its metadata
+
 Aliases: `b d`
 
 | Flag | Description |
@@ -70,6 +74,7 @@ Aliases: `b d`
 | `-f, --force` | Force delete even if not merged |
 
 ### `stax branch squash` — Squash all commits on current branch into one
+
 Aliases: `b sq`
 
 | Flag | Description |
@@ -78,6 +83,7 @@ Aliases: `b sq`
 | `--yes` | Skip confirmation prompt |
 
 ### `stax branch fold` — Fold current branch into its parent
+
 Aliases: `b f`
 
 | Flag | Description |
@@ -90,6 +96,7 @@ Aliases: `b f`
 ## 3. Navigation
 
 ### `stax checkout` — Checkout a branch in the stack
+
 Aliases: `co`, `bco`
 
 | Flag | Description |
@@ -100,9 +107,11 @@ Aliases: `co`, `bco`
 | `--child <CHILD>` | Jump to child branch by index (1-based) |
 
 ### `stax up` — Move up the stack (to child branch)
+
 Aliases: `u`. Takes optional `[COUNT]` (default: 1).
 
 ### `stax down` — Move down the stack (to parent branch)
+
 Aliases: `d`. Takes optional `[COUNT]` (default: 1).
 
 ### `stax top` — Move to the top of the stack (tip/leaf branch)
@@ -110,9 +119,11 @@ Aliases: `d`. Takes optional `[COUNT]` (default: 1).
 ### `stax bottom` — Move to the bottom of the stack (first branch above trunk)
 
 ### `stax prev` — Switch to the previous branch (like `git checkout -`)
+
 Aliases: `p`
 
 ### `stax trunk` — Switch to the trunk branch
+
 Aliases: `t`
 
 ---
@@ -120,6 +131,7 @@ Aliases: `t`
 ## 4. Committing
 
 ### `stax modify` — Stage all changes and amend them to the current commit
+
 Aliases: `m`
 
 | Flag | Description |
@@ -132,6 +144,7 @@ Aliases: `m`
 ## 5. Sync & Restack
 
 ### `stax sync` — Sync repo: pull trunk, delete merged branches
+
 Aliases: `rs`
 
 | Flag | Description |
@@ -225,6 +238,7 @@ Submit flags are shared across `submit`, `branch submit`, `upstack submit`, and 
 ## 8. PR & Repo
 
 ### `stax pr` — Open the PR for the current branch in browser
+
 ### `stax open` — Open the repository in browser
 
 ### `stax comments` — Show comments on the current branch's PR
@@ -256,6 +270,7 @@ Submit flags are shared across `submit`, `branch submit`, `upstack submit`, and 
 ## 9. Conflict Resolution
 
 ### `stax continue` — Continue after resolving conflicts
+
 Aliases: `cont`. No flags.
 
 ### `stax resolve` — Resolve rebase conflicts using AI and continue automatically
@@ -267,6 +282,7 @@ Aliases: `cont`. No flags.
 | `--max-rounds <N>` | Maximum AI resolve rounds before stopping [default: 5] |
 
 ### `stax abort` — Abort an in-progress rebase/conflict resolution
+
 No flags.
 
 ---
@@ -280,6 +296,7 @@ No flags.
 | `--auto-stash-pop` | Auto-stash and auto-pop dirty worktrees during restack |
 
 ### `stax downstack get` — Show branches below current
+
 No flags.
 
 For `upstack submit` and `downstack submit`, see Submission above.
@@ -296,9 +313,11 @@ For `upstack submit` and `downstack submit`, see Submission above.
 | `--yes` | Skip confirmation prompt |
 
 ### `stax reorder` — Interactively reorder branches within a stack
+
 Flag: `--yes` to skip confirmation.
 
 ### `stax split` — Split current branch into multiple stacked branches (interactive)
+
 No flags.
 
 ### `stax diff` — Show diffs for each branch vs parent plus aggregate stack diff
@@ -341,6 +360,7 @@ No flags.
 ## 13. AI Features
 
 ### `stax resolve` — Resolve rebase conflicts using AI
+
 See Conflict Resolution above.
 
 ### `stax generate` — Generate content using AI
@@ -390,12 +410,15 @@ See Conflict Resolution above.
 | `--no-hook` | Skip post-create hook even if configured |
 
 ### `stax agent open` — Open (reattach to) an agent worktree
+
 Aliases: `ag attach`. Takes optional `[NAME]` (interactive picker if omitted).
 
 ### `stax agent list` — List all registered agent worktrees
+
 Aliases: `ag ls`. No flags.
 
 ### `stax agent register` — Register current directory as a managed agent worktree
+
 No flags.
 
 ### `stax agent remove` — Remove an agent worktree (and optionally its branch)
@@ -407,12 +430,15 @@ No flags.
 | `--delete-branch` | Also delete the branch and its stax metadata |
 
 ### `stax agent prune` — Remove stale registry entries and run `git worktree prune`
+
 No flags.
 
 ### `stax agent sync` — Restack all registered agent worktrees
+
 No flags.
 
 ### `stax worktree create` — Create a new worktree for a branch
+
 Aliases: `wt c`
 
 | Flag | Description |
@@ -421,15 +447,19 @@ Aliases: `wt c`
 | `--name <NAME>` | Override the short name for the worktree directory |
 
 ### `stax worktree list` — List all worktrees
+
 Aliases: `wt ls`. No flags.
 
 ### `stax worktree go` — Navigate to a worktree (requires shell integration)
+
 Takes `<NAME>` (required).
 
 ### `stax worktree path` — Print the absolute path of a worktree
+
 Takes `<NAME>` (required).
 
 ### `stax worktree remove` — Remove a worktree
+
 Aliases: `wt rm`. Takes `<NAME>` (required). Flag: `-f, --force` to force removal.
 
 ---
@@ -448,6 +478,7 @@ Both share the same flags:
 | `--quiet` | Suppress extra output |
 
 ### `stax validate` — Validate stack metadata health
+
 No flags.
 
 ### `stax fix` — Auto-repair broken metadata
@@ -458,6 +489,7 @@ No flags.
 | `--yes` | Auto-approve prompts |
 
 ### `stax doctor` — Check stax configuration and repo health
+
 No flags.
 
 ---
@@ -474,9 +506,11 @@ No flags.
 Subcommand: `stax auth status` — Show which auth source is currently active.
 
 ### `stax config` — Show config file path and contents
+
 No flags.
 
 ### `stax shell-setup` — Output shell integration snippet
+
 Add to shell config: `eval "$(stax shell-setup)"`
 
 | Flag | Description |

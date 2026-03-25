@@ -9,12 +9,14 @@ tags: apache-age, cypher, wrapper, cypher-function, unsupported, gotchas
 Every Cypher query in AGE runs through the `cypher()` SQL function. This is not optional — there is no standalone Cypher REPL.
 
 **Signature:**
+
 ```sql
 cypher(graph_name text, query_string text [, params agtype])
   RETURNS SETOF agtype
 ```
 
 **Minimal form:**
+
 ```sql
 SELECT * FROM cypher('graph_name', $$
   <Cypher here>
@@ -22,6 +24,7 @@ $$) AS (col agtype);
 ```
 
 **Column list rules:**
+
 - One `agtype` column per value returned by `RETURN`
 - Column names are arbitrary — they do not need to match Cypher variable names
 - When a terminal `CREATE`/`MERGE`/`DELETE` produces no rows, declare a placeholder column anyway:

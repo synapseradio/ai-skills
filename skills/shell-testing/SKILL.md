@@ -294,12 +294,14 @@ For CLI stubs, use PATH manipulation:
 ## Testing Zsh Code
 
 **Polyglot code** — test with BATS directly, optionally verify under zsh:
+
 ```bash
 bats tests/my.bats              # default (bash)
 bats --shell zsh tests/my.bats  # verify under zsh
 ```
 
 **Zsh-only features** — invoke zsh explicitly or use zunit:
+
 ```bash
 @test "zsh completion works" {
   run zsh -c "source lib/completions.zsh; _my_completion"

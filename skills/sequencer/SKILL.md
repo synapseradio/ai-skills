@@ -76,6 +76,7 @@ Wait for user confirmation before executing. If the user modifies the plan, re-p
 For each step in order:
 
 **Skill steps** — spawn a general-purpose subagent:
+
 ```
 Prompt: "Invoke Skill('{{skill-name}}') with args '{{args}}'.
          Read /tmp/seq-{run-id}/step-{N-1}.md for context from the previous step.
@@ -83,6 +84,7 @@ Prompt: "Invoke Skill('{{skill-name}}') with args '{{args}}'.
 ```
 
 **Agent steps** — spawn the named agent type:
+
 ```
 Prompt: "{{original instruction}}.
          Read /tmp/seq-{run-id}/step-{N-1}.md for context from the previous step.
@@ -98,6 +100,7 @@ After each step completes, mark the corresponding task as completed via TaskUpda
 ### 4. Report
 
 After all steps complete, present a summary:
+
 - Steps completed (with pass/fail status)
 - Any errors encountered and how they were resolved
 - Path to the run directory for reference

@@ -6,6 +6,7 @@ Do not create, modify, or place waypoints — only observe and report.
 ## Input
 
 One of:
+
 - A pipeline name (e.g., "sourcemap-upload") — report that specific pipeline
 - "all" or no specific name — report every pipeline found
 - "validate" with an optional pipeline name — check for drift and stale IDs

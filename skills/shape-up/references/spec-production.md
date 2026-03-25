@@ -112,48 +112,57 @@ decision it blocks.]
 ## Section-by-Section Production Instructions
 
 ### Problem
+
 Distill the opening conversation into a narrative. One specific story —
 not a list of features, not a persona template. Name the affected
 stakeholders inline. State the baseline explicitly: this is what success
 is measured against.
 
 ### Appetite
+
 State the time budget. If appetite was set during elicitation, reproduce
 it. If it was a soft-fail in the gate check, note: "Appetite not
 constrained — scope reflects full requirements without time budget."
 
 ### Solution — Elements
+
 Each named element from the shaping conversation becomes a row. Use the
 names that emerged during conversation — they form the ubiquitous
 language for the project. Do NOT rename for consistency unless the user
 confirmed the rename during elicitation.
 
 ### Solution — Key Flows
+
 Distill the scenario traces and breadboard sketches from elicitation
 into numbered flow steps. Include only flows that shape the solution —
 not exhaustive use case documentation. Happy path + critical edge cases.
 
 ### Solution — Technical Context
+
 Include only if technical context emerged during elicitation (existing
 APIs, schemas, deployment constraints). For customer-facing specs, this
 section may be minimal or omitted.
 
 ### Rabbit Holes
+
 Each risk from the risk-probing phase becomes a row. State both the risk
 and the resolution. "Patched" means a decision was made upfront. "Spike"
 means investigation is needed before committing.
 
 ### No-Gos
+
 Convert exclusions into specific, recognizable statements. "No mobile
 app" is good. "No unnecessary features" is not — it's too vague to
 enforce during building.
 
 ### Boundaries
+
 Group constraints by type. Include measurable thresholds where they were
 surfaced. Use the must-have / nice-to-have distinction only if scope was
 explicitly trimmed during elicitation.
 
 ### Success
+
 This is the single most important sentence in the spec. It must be
 measurable against the baseline stated in the Problem section. "Users
 can self-serve order status in under 10 seconds, eliminating 90% of
@@ -161,6 +170,7 @@ support emails" — measured against "customers currently email support and
 wait 4 hours."
 
 ### Open Questions
+
 Only include if there are genuinely unresolved questions. Each question
 should name what decision it blocks. This prevents the spec from
 pretending completeness where uncertainty exists.
@@ -168,7 +178,9 @@ pretending completeness where uncertainty exists.
 ## Scaling Guidance
 
 ### Small feature (single capability, tight scope)
+
 Use a minimal template:
+
 - Problem (2-3 sentences)
 - Appetite (one line)
 - Solution — elements + one flow
@@ -179,9 +191,11 @@ Omit: Rabbit Holes (if none), Technical Context (if trivial),
 Boundaries table (if standard defaults), Open Questions (if none).
 
 ### Medium project (feature set, moderate complexity)
+
 Full template as shown above.
 
 ### Large system (multi-area, many stakeholders)
+
 Full template with Solution elements grouped by area:
 
 ```markdown
@@ -224,6 +238,7 @@ section entirely.
 ## Plan-Mode Formatting
 
 The spec is written as a plan file. Format for scannability:
+
 - Use headers, tables, and lists — minimize prose paragraphs
 - Every section should be scannable in under 10 seconds
 - Tables for structured data (elements, constraints, risks)

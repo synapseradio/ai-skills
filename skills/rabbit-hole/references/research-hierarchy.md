@@ -45,16 +45,21 @@ Sources that discuss or interpret the thing.
 When sources at different tiers disagree:
 
 ### Tier 1 vs Tier 2
+
 **Tier 1 wins.** The code IS the behavior; docs describe intended behavior. Note the discrepancy — it may indicate a bug or outdated docs.
 
 ### Tier 1 vs Tier 3
+
 **Tier 1 wins.** Community sources may be outdated, context-specific, or wrong. Discard the Tier 3 claim and note it was contradicted by primary evidence.
 
 ### Tier 2 vs Tier 3
+
 **Tier 2 wins by default**, but flag when multiple independent Tier 3 sources agree against a single Tier 2 source — this pattern often indicates outdated docs or undocumented behavior changes.
 
 ### Same-tier conflicts
+
 When sources at the same tier disagree:
+
 1. **Recency**: newer source wins (check dates)
 2. **Specificity**: more specific source wins (e.g., API changelog > general docs)
 3. **Independence**: if multiple independent sources agree, they collectively outweigh a single dissenter
@@ -75,21 +80,25 @@ When sources at the same tier disagree:
 ## Domain-Specific Guidance
 
 ### Code Investigation
+
 - A local file is ground truth for "what the code does" but NOT for "what the code should do"
 - Test files are primary for "expected behavior" — they encode developer intent
 - Git blame/log are secondary for "why the code changed"
 
 ### API / Library Investigation
+
 - Official docs are primary for "how to use" but secondary for "how it actually works under the hood"
 - Source code (if available) is primary for implementation behavior
 - Deprecation notices in docs override any community examples still using old APIs
 
 ### Web / General Knowledge
+
 - Apply standard journalistic source evaluation: who published it, when, what's their expertise
 - .gov, .edu, and established institution domains get slight trust boost within their domain
 - Recency matters more for technology topics than for conceptual/theoretical ones
 
 ### Academic Investigation
+
 - Systematic reviews and meta-analyses outrank individual studies
 - Sample size and methodology quality matter — note these when available
 - Preprints are Tier 1 for recency but Tier 2 for rigor (not yet peer-reviewed)

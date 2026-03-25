@@ -7,6 +7,7 @@ Task-oriented reference for the Flix standard library at [api.flix.dev](https://
 Before using any stdlib function, internalize these patterns:
 
 **Subject-last**: Every function takes the collection/string/data as the final argument.
+
 ```flix
 List.map(f, xs)        // NOT xs.map(f)
 String.split(regex = r"...", s)
@@ -15,6 +16,7 @@ Option.flatMap(f, o)
 ```
 
 **Named record arguments**: Functions with ambiguous same-type parameters use records:
+
 ```flix
 String.contains(substr = "foo", s)
 String.replace(src = "a", dst = "b", s)
@@ -22,6 +24,7 @@ String.startsWith(prefix = "http", s)
 ```
 
 **Pipeline with `|>`**: Subject-last enables natural pipelines:
+
 ```flix
 "hello world"
     |> String.toUpperCase

@@ -13,11 +13,13 @@ Or copy the `skills/sequencer/` directory into `~/.claude/skills/sequencer/`.
 ## Usage
 
 ### Arrow syntax
+
 ```
 /seq /skill-review skills/my-skill -> fix any issues -> /commit
 ```
 
 ### Bullet list
+
 ```
 /seq
 - /skill-review skills/my-skill
@@ -26,21 +28,25 @@ Or copy the `skills/sequencer/` directory into `~/.claude/skills/sequencer/`.
 ```
 
 ### Prose
+
 ```
 /seq review the skill, fix issues, then commit
 ```
 
 ### Parallel steps
+
 ```
 /seq /analyze -> ( /lint | /test ) -> /commit
 ```
 
 ### Generate from description
+
 ```
 /seq generate review the new skill and ship it
 ```
 
 ### Help
+
 ```
 /seq help
 ```

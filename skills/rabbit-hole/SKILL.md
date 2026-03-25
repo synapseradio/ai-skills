@@ -101,11 +101,13 @@ Return a JSON array of leads, ranked by likely relevance (most relevant first):
 ```
 
 Rules:
+
 - Find 3-15 leads. More is better than fewer at this stage.
 - DO NOT analyze or summarize content. Just locate it.
 - DO NOT read entire files. Skim headers, function names, first lines.
 - Prefer specific files/URLs over broad directories.
 - Include the source_type so investigators know how to approach each lead.
+
 ```
 
 **After Scout returns**, evaluate the leads:
@@ -124,6 +126,7 @@ Cluster the scout's leads by topic/theme (2-4 clusters). Launch **1-3 parallel**
 **Investigator agent prompt template:**
 
 ```
+
 You are a research investigator. Thoroughly examine the sources assigned to you and extract findings relevant to the original question.
 
 ORIGINAL QUESTION: [user's question]
@@ -132,6 +135,7 @@ YOUR ASSIGNED LEADS:
 [paste the lead cluster as JSON]
 
 For each lead:
+
 1. Read/fetch the full content
 2. Extract claims relevant to the question
 3. Note the exact source (file path + line, URL, paper title)
@@ -156,11 +160,13 @@ Return your findings as JSON:
 ```
 
 Rules:
+
 - Every claim MUST have an exact source. No unsourced claims.
 - Read the actual content. Do not guess or infer from titles.
 - If a lead turns out to be irrelevant, skip it — do not force findings.
 - Note contradictions between sources.
 - "confidence" reflects both source tier and evidence strength.
+
 ```
 
 Launch investigator agents **in parallel** using multiple Task tool calls in a single message.
@@ -176,6 +182,7 @@ After all investigators return, launch **one** Task agent:
 **Validator-Synthesizer agent prompt template:**
 
 ```
+
 You are a research validator and synthesizer. Your job is to verify citations, rank sources, and produce a coherent synthesis.
 
 ORIGINAL QUESTION: [user's question]
@@ -195,6 +202,7 @@ Run the validation script on all cited sources. Construct a JSON array of all so
 ```
 
 Then run:
+
 ```bash
 echo '<the JSON array>' | python3 [SKILL_DIR]/scripts/validate_sources.py
 ```
@@ -221,22 +229,28 @@ Return your output as structured markdown following this format:
 ### Validated Findings
 
 For each finding across all branches:
+
 - Claim: [claim text]
 - Source: [path/URL] [✓|?|✗]
 - Tier: [1|2|3]
 - Confidence: [high|medium|low]
 
 ### Convergence
+
 [What agrees across branches]
 
 ### Divergence
+
 [Conflicts with trust context from hierarchy]
 
 ### Gaps
+
 [What's missing or weakly supported]
 
 ### Status
+
 [Assessment of completeness. What going deeper on specific branches would yield.]
+
 ```
 
 **IMPORTANT**: Replace `[SKILL_DIR]` in the prompt with the actual skill directory path: the directory containing this SKILL.md file. To find it, the path is wherever this skill is installed. Use the Read tool to check: it will be something like `~/.claude/skills/rabbit-hole`.
@@ -248,9 +262,12 @@ Format the validator's output into the final report format (see Output Format be
 After presenting the report, offer:
 
 ```
+
 What would you like to do?
+
 - "Go deeper on [branch name]" — re-enters the pipeline scoped to that branch
 - "Done" — end investigation
+
 ```
 
 ## Go Deeper Protocol

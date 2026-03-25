@@ -93,12 +93,14 @@ Feature lens example:           Migration lens example:
 Only raise this when the problem's structure warrants it.
 
 **Signals that tight loop is right (default):**
+
 - Single codebase area
 - One clear lens
 - Work is bounded and convergent
 - User wants to set it and check back later
 
 **Signals that recursive decomposition is needed:**
+
 - Multiple independent sub-problems
 - Different lenses needed for different areas
 - Work benefits from separate focus/report cycles

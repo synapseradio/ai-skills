@@ -3,6 +3,7 @@
 Complete reference of the 6 values and 41 principles from the Flix language design, sourced from the Onward! 2022 paper ([PDF](https://flix.dev/paper/onward2022.pdf)).
 
 The **Delta** column rates how likely an AI agent trained on Scala/Haskell/Java is to violate the principle:
+
 - **HIGH** — Agent will likely violate without warning
 - **MEDIUM** — Agent might get this wrong
 - **LOW** — Familiar from other languages

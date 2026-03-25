@@ -105,6 +105,7 @@ Produce the following artifacts in the project root (or a user-specified directo
 ### Deployment
 
 Present the loop prompt and offer deployment options:
+
 - Deploy now via CronCreate (specify interval)
 - Save to a file for manual use
 - Display for copy-paste

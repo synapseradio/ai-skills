@@ -30,11 +30,13 @@ $$) AS (a agtype, b agtype);
 | Nothing Is Automatic | [nothing-is-automatic.md](references/nothing-is-automatic.md) | **MANDATORY** before performance work. Indexes, EXPLAIN, batch loading, when to use SQL instead |
 
 **Do NOT load:**
+
 - schema-is-storage.md for pure query questions (no schema design involved)
 - nothing-is-automatic.md for schema design unless indexing is the concern
 - the-wrapper-contract.md for users already familiar with cypher() mechanics
 
 **Freedom calibration:**
+
 - **Low freedom** (follow exactly): cypher() wrapper syntax, AS column lists, search_path, index DDL, mutation CTE guards
 - **Medium freedom** (adapt to context): graph modeling, hybrid query composition, performance tuning
 - **High freedom** (choose freely): property naming, schema partitioning, application-layer validation

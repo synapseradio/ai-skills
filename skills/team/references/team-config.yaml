@@ -38,7 +38,7 @@ phases:
       impact: "Dependencies, downstream effects"
       discussion: "Challenge assumptions, unique perspectives"
       mitigation: "Risk reduction strategies"
-    recurse: {max: 4, until: [consensus, "coverage>90%", limit]}
+    recurse: { max: 4, until: [consensus, "coverage>90%", limit] }
 
   p4_reasoning:
     allow: [synthesize_findings]
@@ -82,7 +82,7 @@ enhanced_reasoning:
   tree_of_thought:
     on: p3
     max_branches: 4
-    lazy: {threshold: 0.5, factors: [ambiguity, complexity, risk, team_consensus]}
+    lazy: { threshold: 0.5, factors: [ambiguity, complexity, risk, team_consensus] }
     display:
       unified: "**Team consensus**: [approach]"
       perspectives: "**Team perspectives**:\n- [P1]: [view] *[conf]*\n- [P2]: [view] *[conf]*\n- Synthesis: [combined]"
@@ -109,6 +109,6 @@ enhanced_reasoning:
     no_citation: "[Team experience]"
 
 limits:
-  files: {initial: 10, expand: 2, max_depth: 2}
-  tokens: {warn: "50%", stop: "80%"}
-  personas: {generated: 2, total: 8}
+  files: { initial: 10, expand: 2, max_depth: 2 }
+  tokens: { warn: "50%", stop: "80%" }
+  personas: { generated: 2, total: 8 }
