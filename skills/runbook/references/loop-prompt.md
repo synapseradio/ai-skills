@@ -42,12 +42,31 @@ Select the subagent model based on the task's tier tag:
   - architectural → opus (design reasoning, cross-cutting concerns)
 
 Spawn a subagent to complete the in-progress task. Require the subagent to:
-  a. Write a failing test that encodes the expected behavior change.
-  b. Implement the change to make the test pass.
-  c. Verify using the external signal specified in FOCUS.md
+
+  For new behavior:
+  a. State the expected behavior change as a hypothesis — what should be
+     true after this task that is not true now.
+  b. Write a failing test encoding this hypothesis. Run the test. Confirm
+     it fails because the behavior is absent — not because of a syntax
+     error, missing import, or test infrastructure problem. If it fails
+     for the wrong reason, fix the test before proceeding.
+  c. Implement the minimum change to make the test pass.
+
+  For modified existing behavior:
+  a. State what the new behavior should be vs. what it is now.
+  b. Update the existing test first to reflect the new expectation.
+     Run it. Confirm it fails against the current code (proving the old
+     behavior exists and the new behavior does not — yet).
+  c. Implement the change to make the updated test pass.
+
+  Then, in both cases:
+  d. Run only the tests affected by the change, not the full suite.
+     Verify using the external signal specified in FOCUS.md
      (test execution, lint, build, type-check — not LLM self-assessment).
-  d. Check the change against Principles in FOCUS.md (if present).
+  e. Check the change against Principles in FOCUS.md (if present).
      If a principle is violated, treat it as a verification failure.
+  f. Check the change against No-Gos in FOCUS.md (if present).
+     If a no-go is violated, treat it as a verification failure.
 
 When the subagent finishes successfully:
   - Move the task from In Progress to Done in TASKS.md.
@@ -66,9 +85,13 @@ When verification fails or a principle is violated:
 
 ### 4. Discovery (delegate to subagent)
 No open tasks remain. Read FOCUS.md for the current lens, authority,
-scope, and success criteria. Read the Summary section of LEARNINGS.md
-first. Consult full entries only when a summary item is relevant to the
-current discovery area.
+scope, success criteria, no-gos, and risks. Read the Summary section of
+LEARNINGS.md first. Consult full entries only when a summary item is
+relevant to the current discovery area.
+
+Read the Risks section of FOCUS.md (if present). When a known risk
+applies to a finding, note the prescribed handling in the task
+description so the executing subagent knows how to proceed.
 
 On every 5th cycle, update the Summary section of LEARNINGS.md by
 distilling the most important patterns from all entries. Keep the
@@ -105,13 +128,19 @@ broadening silently.
 
 ## Rules
 - One task per cycle. After completing one task, stop.
-- No change without a test first. Write the test, then the implementation.
+- No change without a test first. State the hypothesis, write the test,
+  confirm it fails for the right reason, then implement.
+- When modifying existing behavior, update the test first.
+- Run only affected tests, not the full suite.
 - Verify every change with an external signal — not LLM self-assessment.
 - Revert on failure. Do not attempt to fix a failed task in the same cycle.
 - Commit after each completed task.
 - Append a structured learning to LEARNINGS.md after each completed task.
 - Log each cycle in the Cycle Log in TASKS.md.
 - Select the subagent model based on the task's tier tag.
+- If no test infrastructure exists for the project's language or
+  ecosystem, the loop's first task is to create it. Do not skip testing
+  because infrastructure is missing. Log this as the first learning.
 - If FOCUS.md does not exist, default to: style compliance + security
   hardening for the detected language and ecosystem. Use test-first
   verification. Identify the authoritative style guide by looking it

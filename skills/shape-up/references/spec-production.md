@@ -1,8 +1,32 @@
 # Spec Production
 
-Produce the shaped specification artifact from elicitation output. The spec
-is written as a plan-mode artifact — enter plan mode, write the spec as the
-plan file, exit plan mode for user review.
+Produce the shaped specification artifact from elicitation output. The
+plan file must be self-contained — a fresh Claude session reads it and
+knows exactly what to do with no elicitation context.
+
+Before entering plan mode, ask the user: "Where should this spec be
+saved?" Record the target path.
+
+Enter plan mode. Write the plan file with an execution preamble followed
+by the spec content. Exit plan mode for user review.
+
+## Plan File Structure
+
+```markdown
+# Shaped Spec: [Project Name]
+
+## Execution
+
+Write this specification to [target path]. This is a shaped pitch —
+rough, solved, and bounded. It is ready for implementation planning.
+
+---
+
+[The spec content follows below.]
+```
+
+The execution preamble tells a fresh session what to do with the spec.
+The spec content follows the template below.
 
 ## The Ephemeral Content Rule
 
@@ -237,7 +261,9 @@ section entirely.
 
 ## Plan-Mode Formatting
 
-The spec is written as a plan file. Format for scannability:
+The plan file starts with the execution preamble (`## Execution` with
+target path), followed by the spec content. Format the spec for
+scannability:
 
 - Use headers, tables, and lists — minimize prose paragraphs
 - Every section should be scannable in under 10 seconds
@@ -245,3 +271,7 @@ The spec is written as a plan file. Format for scannability:
 - Numbered lists for flows (sequential)
 - Bulleted lists for unordered items (no-gos, open questions)
 - Bold for emphasis on key terms, not for decoration
+
+The plan file is written for a fresh session. Do not reference the
+elicitation conversation. Do not assume next-claude has any context
+beyond what is in the plan file itself.

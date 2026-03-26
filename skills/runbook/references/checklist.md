@@ -30,7 +30,28 @@ Explicit boundaries on what the loop touches.
   and exclusions are stated.
 - **Fail:** "The whole codebase" with no exclusions, or scope is unstated.
 
-### 4. Success criteria set
+### 4. Risks addressed
+
+Known risks identified and handled.
+
+- **Pass:** At least one risk identified and addressed — as a principle in
+  FOCUS.md, a discovery-first task, or a scope exclusion. Or explicitly:
+  "No significant risks identified for this scope."
+- **Fail (soft):** Not discussed. For narrow, well-understood scopes this
+  may be acceptable. Note: "No risks probed — the loop may encounter
+  surprises during execution."
+
+### 5. No-gos stated
+
+Behavioral exclusions that prevent unwanted changes.
+
+- **Pass:** At least one behavioral exclusion. Example: "Do not modify
+  public API signatures." "Do not delete existing tests." "Do not
+  introduce new dependencies."
+- **Fail (soft):** Not discussed. Note: "No behavioral exclusions set —
+  the loop may make any change within scope that the lens supports."
+
+### 6. Success criteria set
 
 A concrete definition of "done" that the loop can evaluate.
 
@@ -39,23 +60,26 @@ A concrete definition of "done" that the loop can evaluate.
   in lib/."
 - **Fail:** Open-ended ("keep improving") or subjective ("code feels clean").
 
-### 5. Mode chosen
+### 7. Mode chosen
 
 Tight loop (default) or recursive decomposition.
 
 - **Pass:** Explicitly chosen, with rationale if recursive.
 - **Fail (soft):** Not discussed. Default to tight loop and note the assumption.
 
-### 6. No conflicting constraints
+### 8. No conflicting constraints
 
 Elements do not contradict each other.
 
-- **Pass:** Scope, lens, and authority are compatible. Success criteria
+- **Pass:** Scope, lens, authority, no-gos, and success criteria are
+  compatible. No-gos don't prevent work the lens requires. Success criteria
   are achievable within the stated scope.
 - **Fail:** Example: lens says "performance optimization" but scope excludes
-  the hot paths. Surface the conflict and resolve with the user.
+  the hot paths. Or a no-go says "don't change function signatures" but
+  the lens requires API redesign. Surface the conflict and resolve with
+  the user.
 
-### 7. Optional sections validated (if present)
+### 9. Optional sections validated (if present)
 
 Convergence, Principles, and Model sections are optional. If the user
 provided them during alignment, validate they are well-formed.
@@ -74,6 +98,8 @@ Alignment checklist:
   [x] Lens: Security hardening — injection and input validation
   [x] Authority: OWASP cheat sheets + project style guide at docs/style.md
   [x] Scope: lib/ and src/ only (excluding vendor/, generated/)
+  [x] Risks: Brittle legacy tests — patched: log and skip if test fails after correct change
+  [x] No-gos: Do not modify public API signatures; do not delete existing tests
   [x] Success: Two consecutive clean audit rounds
   [x] Mode: Tight loop
   [x] No conflicts detected
@@ -82,5 +108,8 @@ Alignment checklist:
 Ready to seed. Confirm?
 ```
 
-If any gate fails, state what's missing and return to alignment conversation
-to resolve it. Do not proceed to seeding with failed gates.
+If any required gate fails, state what's missing and return to alignment
+conversation to resolve it. Do not proceed to seeding with failed gates.
+
+Soft-fail gates can proceed with noted assumptions — but state each
+assumption explicitly so the user can override if needed.

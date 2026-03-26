@@ -113,9 +113,13 @@ Apply all three, in order:
 
 Load `references/spec-production.md`.
 
-Enter plan mode. Write the shaped specification as the plan file following
-the pitch template. The artifact must stand alone — no conversational
-residue from Phase 1.
+Before entering plan mode, ask the user: "Where should this spec be
+saved?" Record the target path.
+
+Enter plan mode. Write the plan file with an execution preamble (target
+path and action instruction) followed by the spec content. The plan must
+be self-contained — a fresh session reads it and knows exactly what to
+do with no elicitation context.
 
 Exit plan mode for user review.
 

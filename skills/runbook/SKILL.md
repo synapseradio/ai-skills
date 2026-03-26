@@ -25,10 +25,14 @@ using available task tracking tools.
 
 **Phase 1 — Alignment.** Open-ended dialogue to decompose the user's intent
 into a concrete lens: what the loop looks for, what authority it consults,
-what scope it covers, and what success looks like.
+what scope it covers, what behavioral boundaries apply, and what success
+looks like. Actively probe for risks and no-gos.
 
-**Phase 2 — Seeding.** Produce three files (FOCUS.md, TASKS.md, LEARNINGS.md)
-and a loop prompt. Optionally deploy via CronCreate.
+**Phase 2 — Seeding.** Enter plan mode. Write the complete runbook
+artifacts (FOCUS.md, TASKS.md, LEARNINGS.md, loop prompt) into the plan
+file as a self-contained execution spec. Exit plan mode for user review.
+The plan must stand alone — a fresh session reads it and creates the
+files mechanically, with no alignment context.
 
 ## Context Loading
 
@@ -53,6 +57,11 @@ The alignment conversation surfaces seven elements:
 5. **Scope** — directories, files, or areas in and out of bounds
 6. **Success** — what "done" looks like, concretely
 7. **Mode** — tight loop (default) or recursive decomposition (opt-in)
+
+The alignment conversation also surfaces behavioral exclusions (no-gos)
+and risks as part of the scope and decomposition discussion. These are
+not separate elements — they emerge naturally from probing scope
+boundaries and hidden risks.
 
 Use inline visualizations, scope diagrams, and AskUserQuestion for structured
 choices. Decompose vague intent into specific, testable goals.
@@ -84,31 +93,28 @@ Apply all three, in order:
 
 Load `references/seeding-guide.md` and `references/loop-prompt.md`.
 
-Produce the following artifacts in the project root (or a user-specified directory):
+Before entering plan mode, ask the user for:
 
-### Tight loop output
+- Target directory for artifacts (FOCUS.md, TASKS.md, LEARNINGS.md)
+- Deployment preference (CronCreate with interval, save to file, display)
 
-| File | Purpose | Who writes it |
-|------|---------|--------------|
-| `FOCUS.md` | Lens, authority, scope, verification, success criteria, and optional convergence, principles, model tier | This skill, during seeding |
-| `TASKS.md` | Empty board skeleton with Cycle Log | This skill, during seeding |
-| `LEARNINGS.md` | Empty, structured append-only memory (Summary + Entries) | This skill, during seeding |
-| Loop prompt | Customized from `references/loop-prompt.md` with this runbook's lens | This skill, presented to user |
+Enter plan mode. Write the plan file following the structure in
+`references/seeding-guide.md`. The plan file contains:
 
-### Recursive decomposition output (additionally)
+| Section | Content |
+|---------|---------|
+| Context | Why this loop exists — motivation and intended outcome |
+| FOCUS.md → path | Complete FOCUS.md with all sections populated |
+| TASKS.md → path | Empty board skeleton |
+| LEARNINGS.md → path | Empty structured memory |
+| Loop prompt | Complete prompt from `references/loop-prompt.md` |
+| Deployment | User's chosen deployment method |
 
-| File | Purpose |
-|------|---------|
-| Child `FOCUS.md` files | One per sub-lens, scoped tighter than the parent |
-| Parent `FOCUS.md` | References children, defines aggregation strategy |
+Exit plan mode for user review.
 
-### Deployment
-
-Present the loop prompt and offer deployment options:
-
-- Deploy now via CronCreate (specify interval)
-- Save to a file for manual use
-- Display for copy-paste
+Nothing from the alignment conversation survives as conversational
+residue in the plan. The plan reads as if written by someone who already
+knew the requirements.
 
 ## Rules
 
@@ -116,13 +122,16 @@ Present the loop prompt and offer deployment options:
    user correct. Do not interrogate with a checklist upfront.
 2. **Never seed without explicit approval.** Checklist gates are necessary
    but not sufficient. The user's confirmation is the hard stop.
-3. **Default to tight loop.** Only propose recursive decomposition when
+3. **Conversation content is ephemeral.** Explanations, diagrams, and
+   AskUserQuestion interactions from Phase 1 do not appear in the plan
+   file. The plan stands alone.
+4. **Default to tight loop.** Only propose recursive decomposition when
    sub-problems are clearly independent.
-4. **LEARNINGS.md is append-only.** The loop writes, the user reads. Never
+5. **LEARNINGS.md is append-only.** The loop writes, the user reads. Never
    overwrite or delete entries.
-5. **Scope belongs in FOCUS.md, not the prompt.** Keep the loop prompt
+6. **Scope belongs in FOCUS.md, not the prompt.** Keep the loop prompt
    generic. Keep specifics in the lens file.
-6. **Resist adding machinery.** If something can be a line in FOCUS.md
+7. **Resist adding machinery.** If something can be a line in FOCUS.md
    instead of a feature in the prompt, put it in FOCUS.md.
 
 ## Additional Resources

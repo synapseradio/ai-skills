@@ -1,15 +1,60 @@
 # Seeding Guide
 
-Produce the artifacts that drive the autonomous loop from the alignment output.
+Write the alignment output into a plan file. The plan must be
+self-contained — a fresh Claude session reads it and creates the files
+mechanically, with no alignment context.
 
-## Artifact Overview
+Enter plan mode before writing. Exit plan mode when done.
 
-| File | Purpose | Written by | Read by |
-|------|---------|-----------|---------|
-| `FOCUS.md` | Lens, authority, scope, success criteria | This skill | The loop prompt (discovery phase) |
-| `TASKS.md` | Task board — Open / In Progress / Done | This skill (skeleton) | The loop prompt (every cycle) |
-| `LEARNINGS.md` | Append-only memory across cycles | The loop (after each task) | The loop (during discovery) |
-| Loop prompt | The autonomous execution prompt | This skill (from template) | CronCreate or manual use |
+## Plan File Structure
+
+The plan file serves two audiences: the user reviewing it (do the
+lens/scope/success look right?) and next-claude executing it (what files
+to create, with what content, where).
+
+Nothing from the Phase 1 alignment conversation survives as
+conversational residue. No "as we discussed." The plan reads as if
+written by someone who already knew the requirements.
+
+Write the plan file with this structure:
+
+```markdown
+# Runbook: [Lens Summary]
+
+## Context
+[Why this loop exists. 2-3 sentences. State the motivation and the
+intended outcome. No conversational residue.]
+
+## Artifacts
+
+### FOCUS.md → [target path]
+
+[Complete FOCUS.md content — the actual markdown, not a template.
+Populate every section from the alignment output.]
+
+### TASKS.md → [target path]
+
+[Complete TASKS.md skeleton — the board structure with empty sections.]
+
+### LEARNINGS.md → [target path]
+
+[Complete LEARNINGS.md skeleton — Summary and Entries sections, empty.]
+
+## Loop Prompt
+
+[Complete loop prompt — customized from references/loop-prompt.md with
+this runbook's lens. Ready to deploy.]
+
+## Deployment
+
+[How to deploy: CronCreate with interval, save to file path, or display
+for copy-paste. Include the user's stated preference from alignment.]
+```
+
+## Artifact Templates
+
+Use these templates when populating the plan file. Fill in every
+placeholder from the alignment output.
 
 ## FOCUS.md Template
 
@@ -30,11 +75,32 @@ Produce the artifacts that drive the autonomous loop from the alignment output.
 ### Out
 {{Directories, file patterns, or areas to exclude.}}
 
+## No-Gos
+{{Behavioral exclusions — things the loop must not do even within scope.
+Examples: "Do not modify public API signatures",
+"Do not delete existing tests", "Do not introduce new dependencies".
+No-gos are constraints on behavior, not location. Scope/Out says where
+the loop cannot go. No-gos say what the loop cannot do.}}
+
+## Risks
+<!-- Optional. Known risks identified during alignment. Each names what
+could go wrong and how the loop should handle it. Examples:
+"Legacy tests may be brittle — if a test fails after a correct change,
+log it in LEARNINGS.md and move on",
+"API rate limits on the authority source — cache responses locally". -->
+
 ## Verification
-{{How to confirm a task is done. Examples: "test-first — write a failing
-test, then implement", "existing tests pass after each change",
+{{How to confirm a task is done. The loop follows a scientific method:
+1. State the hypothesis (what should be true after this task).
+2. Write or update a failing test encoding the hypothesis.
+3. Confirm the test fails for the right reason (absent behavior, not
+   broken test).
+4. Implement the minimum change.
+5. Run the test to confirm it passes. Run only affected tests.
+
+Override when the lens requires a different strategy:
 "output matches the spec in docs/api-spec.md", "builds clean with no
-new warnings".}}
+new warnings", "linter passes with zero violations".}}
 
 ## Success
 {{Observable condition for convergence. When this is true, the loop
@@ -81,14 +147,22 @@ Default: contextual. Override per-task when signals indicate otherwise.}}
 - **Scope/In** can use glob patterns: `src/**/*.py`, `lib/`, `packages/core/`.
 - **Scope/Out** should include anything that must not be modified: generated
   files, dependencies, stable infrastructure the lens doesn't apply to.
-- **Verification** tells the loop how to prove each task is done. This varies
-  by lens: test-first for implementation, spec-match for features, linter-clean
-  for style work. Verification must produce an external, observable signal —
-  a test pass/fail, build output, lint result, or type-check. LLM
-  self-assessment is not verification. No change ships without a test
-  contract first. If no automated verification exists for the lens, the
-  loop's first task is to create one. If omitted, the loop defaults to
-  test-first.
+- **No-Gos** are constraints on behavior, not location. Scope/Out says
+  where the loop cannot go. No-gos say what the loop cannot do. If both
+  No-Gos and Scope/Out are empty, the loop has unconstrained authority
+  within scope — confirm this is intentional.
+- **Risks** are optional. Include them when alignment surfaced known
+  hazards. Each risk names what could go wrong and how the loop should
+  handle it. Risks without a prescribed handling are incomplete — either
+  patch them with a decision or exclude the risky area from scope.
+- **Verification** tells the loop how to prove each task is done. This
+  varies by lens: test-first for implementation, spec-match for features,
+  linter-clean for style work. Verification must produce an external,
+  observable signal — a test pass/fail, build output, lint result, or
+  type-check. LLM self-assessment is not verification. No change ships
+  without a test contract first. If no automated verification exists for
+  the lens, the loop's first task is to create one. If omitted, the loop
+  defaults to test-first.
 - **Success** must be evaluable by the loop. "All spec endpoints implemented
   and tested" works. "Two consecutive clean audit rounds" works. "Code
   feels better" does not.
@@ -183,32 +257,27 @@ when children run sequentially.
 
 ## Loop Prompt Production
 
-Load `references/loop-prompt.md` for the template. Customize by replacing
-the discovery section's hardcoded lens with a FOCUS.md reference:
+Load `references/loop-prompt.md` for the template. Include the complete
+prompt in the plan file under `## Loop Prompt`. The prompt reads FOCUS.md
+at runtime for the lens, authority, and scope — do not inline those
+values into the prompt itself.
 
-```
-Read FOCUS.md for the current lens, authority, and scope.
-Read LEARNINGS.md for context from prior cycles.
-```
+Before entering plan mode, ask the user for deployment preference:
 
-Present the complete prompt to the user. Offer three deployment options:
-
-1. **Deploy now** — invoke CronCreate with a user-specified interval
+1. **Deploy now** — CronCreate with a user-specified interval
 2. **Save to file** — write to a location the user chooses
 3. **Display only** — show for copy-paste, do not write
 
-Always confirm deployment before invoking CronCreate.
+Record the preference in the plan file under `## Deployment` so
+next-claude can execute it.
 
-## Post-Seeding Summary
+## Plan Mode Workflow
 
-After producing all artifacts, present a summary:
-
-```
-Runbook seeded:
-  FOCUS.md    — [lens summary]
-  TASKS.md    — empty board (loop will populate via discovery)
-  LEARNINGS.md — empty (loop will append after each task)
-  Loop prompt — [deployment choice]
-
-Mode: [tight loop / recursive with N children]
-```
+1. Ask the user for the target directory (where to write FOCUS.md,
+   TASKS.md, LEARNINGS.md) and deployment preference.
+2. Enter plan mode.
+3. Write the plan file following the structure above. Populate every
+   section from the alignment output. Use the artifact templates for
+   FOCUS.md, TASKS.md, and LEARNINGS.md. Include the complete loop
+   prompt from `references/loop-prompt.md`.
+4. Exit plan mode for user review.
