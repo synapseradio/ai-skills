@@ -1,0 +1,24 @@
+{
+  "author": {
+    "name": "Nick Krause",
+    "url": "https://github.com/synapseradio"
+  },
+  "description": "Conversational coach for non-EU expats preparing for German government appointments — visa, residency, citizenship. Researches every claim live and cites each factual statement with a URL.",
+  "homepage": "https://github.com/synapseradio/ai-skills/tree/main/extensions/de-residency",
+  "keywords": [
+    "germany",
+    "visa",
+    "residency",
+    "citizenship",
+    "bureaucracy",
+    "ausländerbehörde",
+    "einbürgerung",
+    "approbation",
+    "fiktionsbescheinigung",
+    "blue-card"
+  ],
+  "license": "EUPL-1.2",
+  "name": "de-residency",
+  "repository": "https://github.com/synapseradio/ai-skills",
+  "version": "0.1.0"
+}
