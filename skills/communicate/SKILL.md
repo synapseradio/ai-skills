@@ -11,7 +11,8 @@ description: >-
   "I can't find the right words", "in [language] we say...", or when any
   writing improvement, composition, structural adaptation, or cross-lingual
   expression work is needed.
-context: fork
+metadata:
+  context: fork
 ---
 
 # Communicate

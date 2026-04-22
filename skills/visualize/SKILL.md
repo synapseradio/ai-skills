@@ -12,8 +12,9 @@ description: >
   "show the trend", "make a dashboard", "show me a map". Use this skill even when the
   user just provides data and says "show me" or "what does this look like" — any request
   to see data visually should route here.
-context: fork
-user-invocable: true
+metadata:
+  context: fork
+  user-invocable: true
 ---
 
 # Visualize

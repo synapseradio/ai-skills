@@ -1,6 +1,5 @@
 ---
 name: flix
-version: 0.2.0
 description: >
   This skill should be used when the user asks to "write Flix code",
   "translate to Flix", "set up a Flix project", "fix Flix compiler errors",
@@ -8,6 +7,8 @@ description: >
   Context engineering runbook providing design constraints from Flix's 41
   principles, stdlib-first discipline via api.flix.dev, and anti-hallucination
   guidance for a language with sparse training data.
+metadata:
+  version: 0.2.0
 ---
 
 # Flix Context Engineering Runbook

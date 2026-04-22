@@ -4,9 +4,9 @@ description: >-
   Parse concise pipeline instructions into ordered task sequences and execute
   them with accumulating context. This skill should be used when the user asks
   to "run a sequence", "chain skills together", "pipeline these steps",
-  "seq", types "/seq", or provides arrow-separated (->), bulleted, or
-  prose-described multi-step instructions that mix skills, agents, and
-  natural-language tasks.
+  "seq", types "/seq", or provides arrow-separated (via the arrow symbol),
+  bulleted, or prose-described multi-step instructions that mix skills,
+  agents, and natural-language tasks.
 ---
 
 # Sequencer

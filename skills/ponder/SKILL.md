@@ -10,7 +10,8 @@ description: >-
   assumption-surfacing, or systematic questioning before action. Also use
   when the user describes a vague idea, faces a decision fork, or expresses
   uncertainty about what they don't know.
-context: fork
+metadata:
+  context: fork
 ---
 
 # Ponder

@@ -8,7 +8,8 @@ description: >-
   who collaboratively analyze problem spaces through phased conversation:
   situation analysis, team selection, discussion, reasoning, and optional
   implementation.
-context: fork
+metadata:
+  context: fork
 ---
 
 # Team

@@ -6,8 +6,9 @@ description: >-
   findings, and validating citations. Triggered by: "rabbit hole [topic]",
   "deep dive into [topic]", or any complex research question where a single search would be
   insufficient. Readonly — never modifies files. Always cites sources. Always validates citations.
-user-invocable: true
-context: fork
+metadata:
+  context: fork
+  user-invocable: true
 ---
 
 # Rabbit Hole

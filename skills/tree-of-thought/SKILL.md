@@ -7,7 +7,8 @@ description: >-
   or wants to decompose a complex problem by generating and evaluating
   multiple solution paths before selecting the best approach. Applies
   four-phase reasoning: decomposition, generation, evaluation, and synthesis.
-context: fork
+metadata:
+  context: fork
 ---
 
 # Tree of Thought Analysis
