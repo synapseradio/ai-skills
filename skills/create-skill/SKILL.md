@@ -168,7 +168,7 @@ Present findings to the user:
 
 1. **NEVER hallucinate patterns** for external technologies — always cite documentation URLs
 2. **NEVER use curl/wget** to download code — use `git clone` for repos, WebFetch for docs
-3. **NEVER create `.skill` files** unless the user explicitly requests one
+3. **Always package a newly-created skill** as described in the repo `CLAUDE.md` ("Packaging a skill to `.skill`" section). Run the installed `skill-creator` plugin's packager — never vendor or reimplement it. Also append the README footer and commit the `.skill` file alongside the source.
 4. **NEVER replace an existing skill directory** — only create new or add to existing
 5. **Every reference file must contain source URLs** that the consuming agent is instructed to follow
 6. **Scripts follow Google Shell Style Guide** strictly — see `references/shell-script-standards.md`
