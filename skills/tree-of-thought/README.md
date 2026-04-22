@@ -32,6 +32,12 @@ Use it when the right approach is not obvious and the cost of choosing wrong is 
 
 For straightforward questions with clear answers, this is overkill. Just ask directly.
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`tree-of-thought.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/tree-of-thought.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

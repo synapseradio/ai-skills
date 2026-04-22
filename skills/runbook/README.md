@@ -47,6 +47,12 @@ Not useful for one-off tasks you can describe in a single prompt.
 | `references/seeding-guide.md` | Artifact templates and production instructions |
 | `references/loop-prompt.md` | Autonomous loop prompt template |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`runbook.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/runbook.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

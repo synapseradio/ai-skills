@@ -73,6 +73,12 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 - **Required**: None
 - **Optional**: Python 3.6+ (for visualization management CLI)
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`visualize.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/visualize.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

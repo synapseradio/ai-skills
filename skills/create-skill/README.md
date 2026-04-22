@@ -54,6 +54,12 @@ The Agent Skills Specification is detailed — frontmatter fields, progressive d
 |------|---------|
 | `scripts/ensure_spec_repo.sh` | Clone or update the Agent Skills Spec repo to `~/.agent-skills-spec` |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`create-skill.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/create-skill.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

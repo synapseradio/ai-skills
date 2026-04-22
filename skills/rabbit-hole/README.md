@@ -44,6 +44,12 @@ For quick factual lookups, just ask directly.
 | `scripts/validate_sources.py` | Deterministic citation validator (stdlib only) |
 | `references/research-hierarchy.md` | Source tier definitions and conflict resolution rules |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`rabbit-hole.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/rabbit-hole.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

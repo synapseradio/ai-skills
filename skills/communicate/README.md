@@ -71,6 +71,12 @@ Use it when writing matters: proposals, documentation, anything that will be rea
 
 For throwaway messages or internal notes, just write.
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`communicate.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/communicate.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

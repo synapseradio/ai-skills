@@ -44,6 +44,12 @@ Requires persona files in `~/.claude/personas/*.md`.
 |------|---------|
 | `references/team-config.yaml` | Phase rules, persona mapping, reasoning settings |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`team.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/team.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

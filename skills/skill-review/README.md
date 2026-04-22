@@ -45,6 +45,12 @@ Run it after creating or modifying a skill, before publishing. The spec has enou
 | `references/checks-structure.md` | README, task tracking, progressive disclosure, workflow metadata |
 | `references/report-template.md` | Output report format |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`skill-review.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/skill-review.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

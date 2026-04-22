@@ -46,6 +46,12 @@ Not useful for single-file scripts or processes that are already obvious from th
 | `scripts/waypoint-id.ts` | Generate waypoint IDs from file paths |
 | `scripts/validate-waypoints.ts` | Validate manifests against actual file contents |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`waypoint.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/waypoint.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

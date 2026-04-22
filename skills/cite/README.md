@@ -23,6 +23,12 @@ Or copy `skills/cite/` into `~/.claude/skills/cite/`.
 
 A plain prompt will format citations, but it tends to hallucinate publication details — wrong years, missing authors, invented DOIs. This skill fetches metadata from the source before formatting, so the citation matches what was actually published.
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`cite.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/cite.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

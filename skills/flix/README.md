@@ -40,6 +40,12 @@ A plain prompt will produce Flix-like code that borrows syntax from Scala, Haske
 | `references/translate-python.md` | Python to Flix patterns |
 | `references/translate-rust.md` | Rust to Flix patterns |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`flix.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/flix.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

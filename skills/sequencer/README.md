@@ -63,6 +63,12 @@ For single-step tasks, just invoke the skill directly. The sequencer adds value 
 | `references/execution-model.md` | Subagent spawning, context accumulation, parallelism |
 | `references/syntax-reference.md` | Quick-reference card (`/seq help`) |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`sequencer.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/sequencer.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

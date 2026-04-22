@@ -37,6 +37,12 @@ Shell testing has sharp edges. A plain prompt will write tests that pass locally
 | `references/gotchas.md` | Anti-patterns: dangerous teardown, negation bugs, variable scope, portability |
 | `references/zsh-testing.md` | Zunit syntax, zsh-test-runner, completions, widgets |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`shell-testing.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/shell-testing.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

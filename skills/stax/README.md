@@ -49,6 +49,12 @@ Not useful if the repository does not use stax.
 | `references/concepts.md` | Mental model: stacks, trunk, parent/child, risk classification |
 | `references/stax-first.md` | Exhaustive git-to-stax operation mapping |
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`stax.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/stax.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

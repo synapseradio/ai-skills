@@ -34,6 +34,12 @@ Ponder is for problems that need thinking before solving. Use it when a problem 
 
 Not for problems that need information (use rabbit-hole), not for generating creative variations on something concrete (use scamper), not for making a decision between well-understood options (just decide).
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`ponder.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/ponder.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)

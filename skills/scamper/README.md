@@ -29,6 +29,12 @@ The cycle repeats until you have something worth building.
 
 SCAMPER works best when you have a concrete thing — a product, a workflow, a feature — and want to explore variations. It is less useful for greenfield problems where nothing exists yet. If you need to brainstorm from scratch, start with a plain conversation to establish the thing first, then run SCAMPER on it.
 
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`scamper.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/scamper.skill)
+
 ## License
 
 [EUPL-1.2](/LICENSE)
