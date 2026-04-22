@@ -10,6 +10,7 @@ Agent skills and agent definitions for [Claude Code](https://docs.anthropic.com/
 | **cite** | Generate APA-format citations from paper links |
 | **communicate** | Written communication with 16 techniques and 5 structured workflows |
 | **create-skill** | Research-first pipeline for producing spec-compliant Agent Skills |
+| **de-residency-advisor** | Conversational coach for non-EU expats preparing for German government appointments — visa, residency, citizenship |
 | **flix** | Write, translate, and reason about [Flix](https://flix.dev) code |
 | **ponder** | Exploration skill for problems that need thinking before solving |
 | **rabbit-hole** | Multi-agent investigation pipeline for deep research questions |
