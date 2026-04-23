@@ -1,0 +1,42 @@
+{
+  "evals": [
+    {
+      "assertions": [],
+      "eval_name": "seed-security-review",
+      "expected_output": "A structured 7-section prompt (Frame / Task / Context / Tooling / Perspective / Constraints & Invitations / Why) directly in the output. Frame uses collaborative / shared-context register, not 'You are X'. Context references only the paths mentioned. Perspective contains 2-4 domain heuristics for JWT auth review. Constraints & Invitations separates mechanical musts from invitations-to-flag. No forced enthusiasm; no threat framing.",
+      "files": [],
+      "id": 0,
+      "prompt": "I want to hand off a security review of our JWT middleware to a reviewer agent. The middleware is at src/auth/jwt.ts and its tests are at tests/auth/jwt.test.ts. The stack is Node + Express, TypeScript. Help me write the prompt I'll send that agent."
+    },
+    {
+      "assertions": [],
+      "eval_name": "refactor-rich-claude-md",
+      "expected_output": "A refactored CLAUDE.md plus a coverage report. Every instruction from the input appears in the output or in an explicit consolidation/relaxation entry. Code block (pnpm commands) preserved verbatim. URL (https://internal.example.com/payments-runbook) preserved verbatim. Redundant pair ('No new dependencies without asking' + 'Don't add dependencies without my approval') consolidated with explicit note. Contradiction ('No swallowed errors' vs 'You can swallow exceptions when caller doesn't care') surfaced to user. Register shifts: authoritarian stacks softened; threats ('costs thousands', 'triple-check') reframed as reliability-plus-transparency asks. Coverage report is emitted because instruction count > 10.",
+      "files": [
+        {
+          "description": "The source CLAUDE.md to refactor — provided via the subagent prompt",
+          "path": "INPUT_CLAUDE_MD_PATH"
+        }
+      ],
+      "id": 1,
+      "prompt": "Refactor this CLAUDE.md using EIP principles. Preserve every instruction by truth-condition. Flag contradictions; consolidate redundancies explicitly; preserve code blocks and URLs verbatim. The source file is at INPUT_CLAUDE_MD_PATH."
+    },
+    {
+      "assertions": [],
+      "eval_name": "firstdraft-from-description",
+      "expected_output": "A CLAUDE.md sized to a solo / early-stage project (~40-70 lines — smaller is fine). Sections include Project Context, How You Should Operate (with 3-5 disposition subsections applying EIP), and What I Don't Want. Technical Standards is brief or omitted (small project). No pep-stapled warmth; no 'You are X' stacks. An assumption note at the top naming any inference the skill made (e.g. solo / open-source / early-stage). Tech stack reflected in Project Context. File reads as something the user could ship with minor edits, not as a padded template.",
+      "files": [],
+      "id": 2,
+      "prompt": "Starting a new project — a Python CLI that wraps the Linear API for engineering teams. Tech: Python 3.11, uv, httpx, rich. Solo developer for now, open-source. Write a CLAUDE.md for it."
+    },
+    {
+      "assertions": [],
+      "eval_name": "ambiguous-seed-or-firstdraft",
+      "expected_output": "The skill picks one mode (either seed or first-draft is defensible) and declares the assumption at the top of the output in one line. Output is internally consistent with the chosen mode: if seed, a 7-bucket structured prompt for an agent task; if first-draft, a CLAUDE.md shape. The key test: the choice is visible and justified, not silent. No hybrid / Frankenstein output mixing both shapes.",
+      "files": [],
+      "id": 3,
+      "prompt": "I'm building a payment reconciliation service — Node/TypeScript, PostgreSQL. Can you help me get this prompt right?"
+    }
+  ],
+  "skill_name": "prompt"
+}
