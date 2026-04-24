@@ -77,7 +77,7 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`visualize.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/visualize.skill)
+[`visualize.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/visualize.skill)
 
 ## License
 

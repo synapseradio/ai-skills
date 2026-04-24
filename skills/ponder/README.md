@@ -38,7 +38,7 @@ Not for problems that need information (use rabbit-hole), not for generating cre
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`ponder.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/ponder.skill)
+[`ponder.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/ponder.skill)
 
 ## License
 

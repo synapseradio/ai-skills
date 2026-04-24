@@ -58,7 +58,7 @@ The Agent Skills Specification is detailed — frontmatter fields, progressive d
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`create-skill.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/create-skill.skill)
+[`create-skill.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/create-skill.skill)
 
 ## License
 

@@ -33,7 +33,7 @@ SCAMPER works best when you have a concrete thing — a product, a workflow, a f
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`scamper.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/scamper.skill)
+[`scamper.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/scamper.skill)
 
 ## License
 

@@ -48,7 +48,7 @@ Requires persona files in `~/.claude/personas/*.md`.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`team.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/team.skill)
+[`team.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/team.skill)
 
 ## License
 

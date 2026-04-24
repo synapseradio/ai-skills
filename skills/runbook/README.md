@@ -51,7 +51,7 @@ Not useful for one-off tasks you can describe in a single prompt.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`runbook.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/runbook.skill)
+[`runbook.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/runbook.skill)
 
 ## License
 

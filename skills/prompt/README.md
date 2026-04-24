@@ -52,4 +52,4 @@ and asks for improvement.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`prompt.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/prompt.skill)
+[`prompt.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/prompt.skill)

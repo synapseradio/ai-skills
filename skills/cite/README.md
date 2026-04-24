@@ -27,7 +27,7 @@ A plain prompt will format citations, but it tends to hallucinate publication de
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`cite.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/cite.skill)
+[`cite.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/cite.skill)
 
 ## License
 

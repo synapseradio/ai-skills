@@ -16,7 +16,7 @@ Or copy the `apache-age/` directory into `~/.claude/skills/`.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`apache-age.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/apache-age.skill)
+[`apache-age.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/apache-age.skill)
 
 ## License
 

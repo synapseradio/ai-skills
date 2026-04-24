@@ -36,7 +36,7 @@ For straightforward questions with clear answers, this is overkill. Just ask dir
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`tree-of-thought.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/tree-of-thought.skill)
+[`tree-of-thought.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/tree-of-thought.skill)
 
 ## License
 

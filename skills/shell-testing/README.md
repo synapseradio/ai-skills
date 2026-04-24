@@ -41,7 +41,7 @@ Shell testing has sharp edges. A plain prompt will write tests that pass locally
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`shell-testing.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/shell-testing.skill)
+[`shell-testing.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/shell-testing.skill)
 
 ## License
 

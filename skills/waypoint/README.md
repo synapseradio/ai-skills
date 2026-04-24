@@ -50,7 +50,7 @@ Not useful for single-file scripts or processes that are already obvious from th
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`waypoint.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/waypoint.skill)
+[`waypoint.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/waypoint.skill)
 
 ## License
 

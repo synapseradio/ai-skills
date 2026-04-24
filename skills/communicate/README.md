@@ -75,7 +75,7 @@ For throwaway messages or internal notes, just write.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`communicate.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/communicate.skill)
+[`communicate.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/communicate.skill)
 
 ## License
 

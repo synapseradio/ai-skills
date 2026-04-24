@@ -53,7 +53,7 @@ Not useful if the repository does not use stax.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`stax.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/stax.skill)
+[`stax.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/stax.skill)
 
 ## License
 

@@ -44,7 +44,7 @@ A plain prompt will produce Flix-like code that borrows syntax from Scala, Haske
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`flix.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/flix.skill)
+[`flix.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/flix.skill)
 
 ## License
 

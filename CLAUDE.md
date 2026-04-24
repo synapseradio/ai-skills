@@ -5,14 +5,14 @@ Repo-wide guidance for Claude sessions working in `ai-skills`. Skill-specific gu
 ## Layout
 
 - `skills/<name>/` — source skills. Each has a `SKILL.md` with YAML frontmatter and optional `references/`, `scripts/`, `assets/` subdirectories.
-- `skills/packaged/<name>.skill` — distributable ZIP of the matching source skill. Committed to git so the README remote URLs on `main` resolve without a release pipeline.
+- `packaged/<name>.skill` — distributable ZIP of the matching source skill. Sibling to `skills/` so it never lives inside the source tree it mirrors. Committed to git so the README remote URLs on `main` resolve without a release pipeline.
 - `extensions/<plugin-name>/` — Claude Code plugin bundles wrapping one or more skills. Each has `.claude-plugin/plugin.json` at the plugin root and a `skills/<skill-name>/` copy of the source skill.
 - `agents/<name>.md` — subagent definitions.
 - `examples/` — runnable usage fixtures; not installable.
 
 ## Packaging a skill to `.skill`
 
-Every source skill must have a matching `skills/packaged/<name>.skill`. Regenerate whenever the source skill changes.
+Every source skill must have a matching `packaged/<name>.skill`. Regenerate whenever the source skill changes.
 
 **Use the official packager from the installed `skill-creator` plugin. Do not vendor or reimplement it** — the plugin updates independently and a local copy would drift.
 
@@ -29,7 +29,7 @@ SKILL_CREATOR_DIR="$(find "${HOME}/.claude/plugins/marketplaces" \
   -type d -path '*skill-creator/skills/skill-creator' 2>/dev/null | head -n1)"
 (cd "${SKILL_CREATOR_DIR}" && python3 -m scripts.package_skill \
   "${PWD_OF_REPO}/skills/<skill-name>" \
-  "${PWD_OF_REPO}/skills/packaged")
+  "${PWD_OF_REPO}/packaged")
 ```
 
 To (re)package every skill:
@@ -39,10 +39,8 @@ SKILL_CREATOR_DIR="$(find "${HOME}/.claude/plugins/marketplaces" \
   -type d -path '*skill-creator/skills/skill-creator' 2>/dev/null | head -n1)"
 REPO="$(pwd -P)"
 for skill in skills/*/; do
-  name="$(basename "${skill}")"
-  [[ "${name}" == packaged ]] && continue
   (cd "${SKILL_CREATOR_DIR}" && python3 -m scripts.package_skill \
-    "${REPO}/${skill%/}" "${REPO}/skills/packaged")
+    "${REPO}/${skill%/}" "${REPO}/packaged")
 done
 ```
 
@@ -57,10 +55,10 @@ Every source skill's `README.md` ends with an install footer. The link target is
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`<name>.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/<name>.skill)
+[`<name>.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/<name>.skill)
 ```
 
-When adding a new skill, append this footer and regenerate `skills/packaged/`.
+When adding a new skill, append this footer and regenerate `packaged/`.
 
 ## Extensions
 

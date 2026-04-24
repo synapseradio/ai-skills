@@ -49,7 +49,7 @@ Run it after creating or modifying a skill, before publishing. The spec has enou
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`skill-review.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/skill-review.skill)
+[`skill-review.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/skill-review.skill)
 
 ## License
 

@@ -53,7 +53,7 @@ When the user mentions an upcoming appointment, the skill follows a five-phase w
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`de-residency-advisor.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/de-residency-advisor.skill)
+[`de-residency-advisor.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/de-residency-advisor.skill)
 
 ## License
 

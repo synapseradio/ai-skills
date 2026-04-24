@@ -47,7 +47,7 @@ Not useful if you already have a detailed spec and just need implementation.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`shape-up.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/shape-up.skill)
+[`shape-up.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/shape-up.skill)
 
 ## License
 

@@ -46,7 +46,7 @@ Skills, three options:
 # Option 1 — Claude Code / Cursor / Codex / any agentskills.io-compatible client:
 npx skills add https://github.com/synapseradio/ai-skills
 
-# Option 2 — Claude.ai upload: download the .skill file from skills/packaged/
+# Option 2 — Claude.ai upload: download the .skill file from packaged/
 #   and upload it via Settings → Skills → Upload. Each skill's README has a
 #   direct link to its .skill.
 
@@ -59,7 +59,7 @@ Extensions: `claude --plugin-dir extensions/<plugin-name>` for local use, or ins
 
 ## Packaging
 
-Every source skill has a matching `.skill` ZIP under [`skills/packaged/`](./skills/packaged/). The packaging tool is the `skill-creator` plugin's `package_skill.py` — invoked in place, not vendored. See [`CLAUDE.md`](./CLAUDE.md) for the full convention and re-packaging commands.
+Every source skill has a matching `.skill` ZIP under [`packaged/`](./packaged/). The packaging tool is the `skill-creator` plugin's `package_skill.py` — invoked in place, not vendored. See [`CLAUDE.md`](./CLAUDE.md) for the full convention and re-packaging commands.
 
 ## Development
 

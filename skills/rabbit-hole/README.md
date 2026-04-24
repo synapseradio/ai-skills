@@ -48,7 +48,7 @@ For quick factual lookups, just ask directly.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`rabbit-hole.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/rabbit-hole.skill)
+[`rabbit-hole.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/rabbit-hole.skill)
 
 ## License
 

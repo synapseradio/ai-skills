@@ -47,4 +47,4 @@ See the repo `CLAUDE.md` for the full set of rules. Most relevant here:
 - `name` in `plugin.json` must be kebab-case and unique.
 - Use `${CLAUDE_PLUGIN_ROOT}` for any intra-plugin path reference (hook commands, MCP server args). Never hardcode absolute paths.
 
-For the companion `.skill` ZIP format (Claude.ai upload), see `/skills/packaged/` and the "Packaging a skill to `.skill`" section of the repo `CLAUDE.md`.
+For the companion `.skill` ZIP format (Claude.ai upload), see `/packaged/` and the "Packaging a skill to `.skill`" section of the repo `CLAUDE.md`.
