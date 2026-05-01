@@ -23,6 +23,13 @@ engine: d3
         --oc-gray-8: #343a40;
         --oc-gray-9: #212529;
         --oc-blue-7: #1c7ed6;
+        --oc-orange-7: #e8590c;
+        --oc-teal-7: #0ca678;
+        --oc-red-7: #f03e3e;
+        --oc-grape-7: #ae3ec9;
+        --oc-cyan-7: #1098ad;
+        --oc-lime-7: #74b816;
+        --oc-pink-7: #d6336c;
       }
       * {
         box-sizing: border-box;
@@ -67,12 +74,21 @@ engine: d3
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .state:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 1px;
+      .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
       }
-      .state:focus:not(:focus-visible) {
-        outline: none;
+      .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
+      }
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
+      }
+      .axis line,
+      .axis path {
+        stroke: var(--oc-gray-3);
       }
       details {
         margin-top: 24px;
@@ -103,6 +119,13 @@ engine: d3
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .state:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 1px;
+      }
+      .state:focus:not(:focus-visible) {
+        outline: none;
       }
       #loading {
         color: var(--oc-gray-6);

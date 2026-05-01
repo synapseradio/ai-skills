@@ -10,77 +10,9 @@ engine: d3
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Product A leads revenue across all four quarters</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="../_shared/tooltip.css" />
     <style>
-      :root {
-        --oc-gray-0: #f8f9fa;
-        --oc-gray-1: #f1f3f5;
-        --oc-gray-2: #e9ecef;
-        --oc-gray-3: #dee2e6;
-        --oc-gray-4: #ced4da;
-        --oc-gray-5: #adb5bd;
-        --oc-gray-6: #868e96;
-        --oc-gray-7: #495057;
-        --oc-gray-8: #343a40;
-        --oc-gray-9: #212529;
-        --oc-blue-7: #1c7ed6;
-        --oc-orange-7: #e8590c;
-        --oc-teal-7: #0ca678;
-        --oc-red-7: #f03e3e;
-        --oc-grape-7: #ae3ec9;
-        --oc-cyan-7: #1098ad;
-        --oc-lime-7: #74b816;
-        --oc-pink-7: #d6336c;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        font-family:
-          system-ui,
-          -apple-system,
-          sans-serif;
-        margin: 0;
-        padding: 40px 20px;
-        background: var(--oc-gray-0);
-        color: var(--oc-gray-9);
-      }
-      #chart-container {
-        max-width: 960px;
-        margin: 0 auto;
-        background: white;
-        padding: 32px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      }
-      h1 {
-        font-size: 18px;
-        margin: 0 0 4px;
-        color: var(--oc-gray-9);
-      }
-      .subtitle {
-        font-size: 13px;
-        color: var(--oc-gray-6);
-        margin: 0 0 24px;
-      }
-      .tooltip {
-        position: absolute;
-        pointer-events: none;
-        background: white;
-        border: 1px solid var(--oc-gray-3);
-        border-radius: 4px;
-        padding: 8px 12px;
-        font-size: 13px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        opacity: 0;
-        transition: opacity 0.15s;
-      }
-      .bar:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 1px;
-      }
-      .bar:focus:not(:focus-visible) {
-        outline: none;
-      }
       .axis-label {
         fill: var(--oc-gray-6);
         font-size: 12px;
@@ -96,6 +28,13 @@ engine: d3
       .axis line,
       .axis path {
         stroke: var(--oc-gray-3);
+      }
+      .bar:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 1px;
+      }
+      .bar:focus:not(:focus-visible) {
+        outline: none;
       }
       .legend {
         display: flex;
@@ -115,36 +54,6 @@ engine: d3
         height: 12px;
         border-radius: 2px;
         flex-shrink: 0;
-      }
-      details {
-        margin-top: 24px;
-        border-top: 1px solid var(--oc-gray-2);
-        padding-top: 16px;
-      }
-      summary {
-        cursor: pointer;
-        color: var(--oc-gray-6);
-        font-size: 13px;
-      }
-      table {
-        border-collapse: collapse;
-        font-size: 13px;
-        width: 100%;
-        margin-top: 12px;
-      }
-      th,
-      td {
-        border: 1px solid var(--oc-gray-2);
-        padding: 8px 12px;
-        text-align: left;
-      }
-      th {
-        background: var(--oc-gray-1);
-        font-weight: 600;
-        color: var(--oc-gray-8);
-      }
-      tr:nth-child(even) {
-        background: var(--oc-gray-0);
       }
     </style>
   </head>
@@ -168,7 +77,7 @@ engine: d3
     </div>
 
     <script type="module">
-      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@latest/+esm";
 
       // --- DATA ---
       const products = ["Product A", "Product B", "Product C"];
@@ -251,19 +160,7 @@ engine: d3
         .attr("text-anchor", "middle")
         .text("Revenue ($K)");
 
-      // --- TOOLTIP ---
       const tooltip = d3.select("#tooltip");
-
-      function showTooltip(event, d) {
-        tooltip
-          .style("opacity", 1)
-          .html(`<strong>${d.product}</strong><br>${d.quarter}: $${d.value}K`)
-          .style("left", `${event.pageX + 12}px`)
-          .style("top", `${event.pageY - 28}px`);
-      }
-      function hideTooltip() {
-        tooltip.style("opacity", 0);
-      }
 
       // --- GROUPED BARS ---
       // Flatten data for easier join
@@ -296,9 +193,11 @@ engine: d3
         .on("pointerenter", function (event, d) {
           d3.selectAll(".bar").attr("opacity", 0.3);
           d3.select(this).attr("opacity", 1);
-          showTooltip(event, d);
+          showTooltip(event, `<strong>${d.product}</strong><br>${d.quarter}: $${d.value}K`);
         })
-        .on("pointermove", showTooltip)
+        .on("pointermove", function (event, d) {
+          showTooltip(event, `<strong>${d.product}</strong><br>${d.quarter}: $${d.value}K`);
+        })
         .on("pointerleave", function () {
           d3.selectAll(".bar").attr("opacity", 1);
           hideTooltip();
@@ -318,7 +217,7 @@ engine: d3
           hideTooltip();
         });
 
-      // Keyboard navigation: arrow keys move between bars
+      // Keyboard navigation
       bars.on("keydown", function (event) {
         const nodes = bars.nodes();
         const idx = nodes.indexOf(this);
@@ -330,7 +229,6 @@ engine: d3
           nodes[idx - 1].focus();
         } else if (event.key === "ArrowUp" || event.key === "ArrowDown") {
           event.preventDefault();
-          // Move across products within same quarter (step by product count)
           const step = event.key === "ArrowDown" ? products.length : -products.length;
           const target = nodes[idx + step];
           if (target) target.focus();
@@ -338,20 +236,13 @@ engine: d3
       });
 
       // --- DATA TABLE ---
-      const table = d3
-        .select("#data-table")
-        .append("table")
-        .attr("role", "table")
-        .attr("aria-label", "Data table for grouped bar chart");
-      const thead = table.append("thead").append("tr");
-      thead.append("th").attr("scope", "col").text("Quarter");
-      products.forEach((p) => thead.append("th").attr("scope", "col").text(p));
-      const tbody = table.append("tbody");
-      data.forEach((d) => {
-        const tr = tbody.append("tr");
-        tr.append("td").text(d.quarter);
-        products.forEach((p) => tr.append("td").text(`$${d[p]}K`));
-      });
+      renderDataTable(
+        "data-table",
+        data.map((d) => [d.quarter, ...products.map((p) => `$${d[p]}K`)]),
+        ["Quarter", ...products],
+      );
     </script>
+    <script src="../_shared/tooltip.js"></script>
+    <script src="../_shared/data-table.js"></script>
   </body>
 </html>

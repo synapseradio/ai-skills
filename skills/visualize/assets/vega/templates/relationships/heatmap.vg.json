@@ -14,7 +14,6 @@
     "contains": "padding",
     "type": "fit"
   },
-
   "axes": [
     {
       "domainColor": "#dee2e6",
@@ -38,7 +37,6 @@
       "tickColor": "#dee2e6"
     }
   ],
-
   "config": {
     "aria": true,
     "axis": {
@@ -49,21 +47,10 @@
       "font": "system-ui, -apple-system, sans-serif"
     }
   },
-
   "data": [
     {
       "name": "source",
       "values": [
-        {
-          "day": "Monday",
-          "hour": "00:00",
-          "value": 2
-        },
-        {
-          "day": "Monday",
-          "hour": "03:00",
-          "value": 1
-        },
         {
           "day": "Monday",
           "hour": "06:00",
@@ -88,21 +75,6 @@
           "day": "Monday",
           "hour": "18:00",
           "value": 8
-        },
-        {
-          "day": "Monday",
-          "hour": "21:00",
-          "value": 5
-        },
-        {
-          "day": "Tuesday",
-          "hour": "00:00",
-          "value": 1
-        },
-        {
-          "day": "Tuesday",
-          "hour": "03:00",
-          "value": 0
         },
         {
           "day": "Tuesday",
@@ -130,21 +102,6 @@
           "value": 10
         },
         {
-          "day": "Tuesday",
-          "hour": "21:00",
-          "value": 3
-        },
-        {
-          "day": "Wednesday",
-          "hour": "00:00",
-          "value": 3
-        },
-        {
-          "day": "Wednesday",
-          "hour": "03:00",
-          "value": 2
-        },
-        {
           "day": "Wednesday",
           "hour": "06:00",
           "value": 5
@@ -170,21 +127,6 @@
           "value": 12
         },
         {
-          "day": "Wednesday",
-          "hour": "21:00",
-          "value": 7
-        },
-        {
-          "day": "Thursday",
-          "hour": "00:00",
-          "value": 2
-        },
-        {
-          "day": "Thursday",
-          "hour": "03:00",
-          "value": 1
-        },
-        {
           "day": "Thursday",
           "hour": "06:00",
           "value": 4
@@ -208,159 +150,25 @@
           "day": "Thursday",
           "hour": "18:00",
           "value": 9
-        },
-        {
-          "day": "Thursday",
-          "hour": "21:00",
-          "value": 4
-        },
-        {
-          "day": "Friday",
-          "hour": "00:00",
-          "value": 1
-        },
-        {
-          "day": "Friday",
-          "hour": "03:00",
-          "value": 0
-        },
-        {
-          "day": "Friday",
-          "hour": "06:00",
-          "value": 2
-        },
-        {
-          "day": "Friday",
-          "hour": "09:00",
-          "value": 14
-        },
-        {
-          "day": "Friday",
-          "hour": "12:00",
-          "value": 11
-        },
-        {
-          "day": "Friday",
-          "hour": "15:00",
-          "value": 15
-        },
-        {
-          "day": "Friday",
-          "hour": "18:00",
-          "value": 6
-        },
-        {
-          "day": "Friday",
-          "hour": "21:00",
-          "value": 8
-        },
-        {
-          "day": "Saturday",
-          "hour": "00:00",
-          "value": 4
-        },
-        {
-          "day": "Saturday",
-          "hour": "03:00",
-          "value": 2
-        },
-        {
-          "day": "Saturday",
-          "hour": "06:00",
-          "value": 1
-        },
-        {
-          "day": "Saturday",
-          "hour": "09:00",
-          "value": 5
-        },
-        {
-          "day": "Saturday",
-          "hour": "12:00",
-          "value": 7
-        },
-        {
-          "day": "Saturday",
-          "hour": "15:00",
-          "value": 8
-        },
-        {
-          "day": "Saturday",
-          "hour": "18:00",
-          "value": 6
-        },
-        {
-          "day": "Saturday",
-          "hour": "21:00",
-          "value": 9
-        },
-        {
-          "day": "Sunday",
-          "hour": "00:00",
-          "value": 3
-        },
-        {
-          "day": "Sunday",
-          "hour": "03:00",
-          "value": 1
-        },
-        {
-          "day": "Sunday",
-          "hour": "06:00",
-          "value": 0
-        },
-        {
-          "day": "Sunday",
-          "hour": "09:00",
-          "value": 4
-        },
-        {
-          "day": "Sunday",
-          "hour": "12:00",
-          "value": 6
-        },
-        {
-          "day": "Sunday",
-          "hour": "15:00",
-          "value": 10
-        },
-        {
-          "day": "Sunday",
-          "hour": "18:00",
-          "value": 12
-        },
-        {
-          "day": "Sunday",
-          "hour": "21:00",
-          "value": 7
         }
       ]
     }
   ],
-  "description": "Heatmap showing commit activity across days of week and time of day. Peak activity on Wednesday at 09:00. Weekday afternoons consistently higher than mornings and evenings. Weekend activity is lower and more evenly spread.",
-  "height": 280,
-
+  "description": "Heatmap showing commit activity across days of week and time of day. Peak activity on Wednesday at 09:00. Weekday afternoons consistently higher than mornings and evenings.",
+  "height": 200,
   "legends": [
     {
       "encode": {
         "labels": {
           "update": {
-            "fill": {
-              "value": "#868e96"
-            },
-            "fontSize": {
-              "value": 11
-            }
+            "fill": "#868e96",
+            "fontSize": 11
           }
         },
         "title": {
           "update": {
-            "fill": {
-              "value": "#495057"
-            },
-            "fontSize": {
-              "value": 12
-            }
+            "fill": "#495057",
+            "fontSize": 12
           }
         }
       },
@@ -369,7 +177,6 @@
       "title": "Commits"
     }
   ],
-
   "marks": [
     {
       "encode": {
@@ -379,9 +186,7 @@
           }
         },
         "update": {
-          "cornerRadius": {
-            "value": 2
-          },
+          "cornerRadius": 2,
           "fill": {
             "field": "value",
             "scale": "color"
@@ -427,7 +232,6 @@
     "right": 24,
     "top": 16
   },
-
   "scales": [
     {
       "domain": {
@@ -468,7 +272,6 @@
       "zero": true
     }
   ],
-
   "signals": [
     {
       "name": "hovered",
@@ -492,7 +295,7 @@
     "subtitle": "Commit activity by day of week and hour of day (count)",
     "subtitleColor": "#868e96",
     "subtitleFontSize": 12,
-    "text": "Wednesday afternoon is peak commit time, weekends trail off sharply"
+    "text": "Wednesday afternoon is peak commit time, weekday mornings start slow"
   },
-  "width": 600
+  "width": 400
 }

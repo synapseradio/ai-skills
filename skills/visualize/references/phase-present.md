@@ -11,11 +11,9 @@ verification on the second draft.
 
 **Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec. Add HTML
 comment frontmatter (name, description, chart-type, project, created). Embed data inline.
-Verify CDN URLs: `vega@6`, `vega-embed@7` from jsdelivr.
 
 **D3 charts:** Generate standalone HTML following `base-template.md`. Add frontmatter.
-Embed data inline. Include all styles inline. Verify ESM imports use CDN URLs
-(`https://cdn.jsdelivr.net/npm/d3@7/+esm`).
+Embed data inline. Include all styles inline.
 
 **Dashboard mode:** Multiple Vega specs in a single HTML file — call `vegaEmbed` multiple
 times with distinct container selectors (`#chart-1`, `#chart-2`).

@@ -1,6 +1,6 @@
 # visualize
 
-Create browser-runnable data visualizations using Vega (declarative, default) or D3 (imperative, full control). Every output is a standalone HTML file — no build step, no server. The workflow is principles-first: find the claim before touching data.
+Create data visualizations for the surface where they will actually be read. Three engines: **Vega** (declarative, default for browser charts), **D3** (imperative, full control), and **Markdown** (tables, unicode bars, sparklines, mermaid diagrams that drop into pull requests, READMEs, tickets, and Slack posts). Every browser output is a standalone HTML file — no build step, no server. The workflow is principles-first: find the claim before touching data.
 
 ## Install
 
@@ -29,9 +29,16 @@ Targeted entry — jump into a specific phase:
 Visualization management (requires Python 3):
 
 ```
-"save this visualization"    → registers in ~/.visualizer-skill/visualizations/
+"save this visualization"    → registers in ~/.visualizations/
 "list my charts"             → shows all stored visualizations
 "search for revenue"         → finds matching visualizations
+```
+
+Storage moved from `~/.visualizer-skill/visualizations/` to `~/.visualizations/`. The new layout is flat (no chart-type subdirectories) and accepts both `.html` and `.md` outputs. To migrate prior data manually:
+
+```bash
+mkdir -p ~/.visualizations
+find ~/.visualizer-skill/visualizations -name '*.html' -exec mv {} ~/.visualizations/ \;
 ```
 
 ## Why use this instead of prompting?
@@ -40,26 +47,27 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 
 ## What's included
 
-- **19 Vega templates** — declarative JSON specs across 8 chart categories
-- **19 D3 templates** — standalone HTML with keyboard navigation and ARIA support
-- **HTML wrapper** — renders Vega specs via `vegaEmbed`
-- **20 reference docs** — encoding, composition, narrative, accessibility, interaction, refinement
-- **Python CLI** (`scripts/visualizer.py`) — visualization storage and management
+- **25 Vega templates** — declarative JSON specs across 8 chart categories
+- **26 D3 templates** — standalone HTML with keyboard navigation and ARIA support; sankey is D3-only
+- **9 Markdown templates** — comparison tables, unicode bars, ranked lists, sparklines, emoji heatmaps, ASCII trees, plus mermaid flowchart / sequence / gantt in both `.md` and `.html` formats
+- **HTML wrapper** — renders Vega specs via `vegaEmbed` (Vega + Vega-Lite + Vega-Embed)
+- **D3 build pipeline** — `scripts/build_d3.py` regenerates the 25 deduplicated D3 templates from shared scaffolding (`assets/d3/_shared/`) plus per-chart fragments (`assets/d3/fragments/`)
+- **Reference docs** — encoding, composition, narrative, accessibility, interaction, refinement, plus the markdown surface matrix (`markdown-patterns.md`)
+- **Python CLI** (`scripts/visualizer.py`) — visualization storage and management for `.html` and `.md` outputs
 
 ## Templates
 
-| Category | Charts | Vega | D3 |
-|----------|--------|------|-----|
-| Comparisons | bar, grouped-bar, stacked-bar | Yes | Yes |
-| Compositions | pie, sunburst, treemap | Yes | Yes |
-| Distributions | histogram, box-plot, violin-plot | Yes | Yes |
-| Geographic | choropleth | Yes | Yes |
-| Hierarchical | tree-diagram | Yes | Yes |
-| Networks | force-graph, sankey | Yes* | Yes |
-| Relationships | scatter-plot, heatmap, bubble-chart | Yes | Yes |
-| Temporal | line-chart, area-chart, candlestick | Yes | Yes |
-
-*Sankey is D3-only (no Vega transform exists).
+| Category      | Charts                                                        | Vega          | D3   | Markdown                                |
+| ------------- | ------------------------------------------------------------- | ------------- | ---- | --------------------------------------- |
+| Comparisons   | bar, grouped-bar, stacked-bar, dot-plot, dumbbell             | Yes           | Yes  | unicode-bar-chart, comparison-table, ranked-list |
+| Compositions  | pie, sunburst, treemap, waffle                                | Yes           | Yes  | comparison-table, ascii-tree, emoji-heatmap |
+| Distributions | histogram, box-plot, violin-plot                              | Yes           | Yes  | unicode-bar-chart, comparison-table     |
+| Geographic    | choropleth                                                    | Yes           | Yes  | —                                       |
+| Hierarchical  | tree-diagram                                                  | Yes           | Yes  | ascii-tree                              |
+| Networks      | force-graph, sankey                                           | force-graph only | Yes (sankey D3-only) | —                            |
+| Process/flow  | flowchart, sequence, gantt                                    | —             | —    | mermaid-flowchart / mermaid-sequence / mermaid-gantt |
+| Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar   | Yes           | Yes  | emoji-heatmap (heatmap)                 |
+| Temporal      | line-chart, area-chart, candlestick, slope, sparkline         | Yes           | Yes  | sparkline-row, comparison-table         |
 
 ## Design system
 

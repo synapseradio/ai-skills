@@ -14,7 +14,6 @@
     "contains": "padding",
     "type": "fit"
   },
-
   "axes": [
     {
       "domainColor": "#dee2e6",
@@ -45,7 +44,6 @@
       "titleFontSize": 13
     }
   ],
-
   "config": {
     "aria": true,
     "axis": {
@@ -56,8 +54,35 @@
       "font": "system-ui, -apple-system, sans-serif"
     }
   },
-
   "data": [
+    {
+      "name": "axis_labels",
+      "values": [
+        {
+          "side": "left",
+          "text": "Before"
+        },
+        {
+          "side": "right",
+          "text": "After"
+        }
+      ]
+    },
+    {
+      "name": "axis_rules",
+      "values": [
+        {
+          "pos": {
+            "signal": "leftX"
+          }
+        },
+        {
+          "pos": {
+            "signal": "rightX"
+          }
+        }
+      ]
+    },
     {
       "name": "source",
       "transform": [
@@ -103,7 +128,6 @@
   ],
   "description": "Slope chart showing before/after training scores for 6 departments. Engineering gained 18 points; Customer Support declined 4 points.",
   "height": 420,
-
   "legends": [
     {
       "fill": "color",
@@ -116,115 +140,62 @@
       "titleFontSize": 12
     }
   ],
-
   "marks": [
     {
-      "encode": {
-        "enter": {
-          "align": {
-            "value": "center"
+      "description": "Left/right axis header labels and vertical rules",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "align": "center",
+              "fill": "#495057",
+              "fontSize": 12,
+              "fontWeight": 700,
+              "text": {
+                "field": "text"
+              },
+              "x": {
+                "signal": "datum.side === 'left' ? leftX : rightX"
+              },
+              "y": {
+                "value": -8
+              }
+            }
           },
-          "fill": {
-            "value": "#495057"
+          "from": {
+            "data": "axis_labels"
           },
-          "fontSize": {
-            "value": 12
+          "type": "text"
+        },
+        {
+          "encode": {
+            "enter": {
+              "stroke": "#dee2e6",
+              "strokeWidth": 1,
+              "x": {
+                "field": "pos"
+              },
+              "x2": {
+                "field": "pos"
+              },
+              "y": {
+                "value": 0
+              },
+              "y2": {
+                "signal": "height"
+              }
+            }
           },
-          "fontWeight": {
-            "value": "bold"
+          "from": {
+            "data": "axis_rules"
           },
-          "text": {
-            "value": "Before"
-          },
-          "x": {
-            "signal": "leftX"
-          },
-          "y": {
-            "value": -8
-          }
+          "type": "rule"
         }
-      },
-      "type": "text"
+      ],
+      "type": "group"
     },
     {
-      "encode": {
-        "enter": {
-          "align": {
-            "value": "center"
-          },
-          "fill": {
-            "value": "#495057"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fontWeight": {
-            "value": "bold"
-          },
-          "text": {
-            "value": "After"
-          },
-          "x": {
-            "signal": "rightX"
-          },
-          "y": {
-            "value": -8
-          }
-        }
-      },
-      "type": "text"
-    },
-    {
-      "encode": {
-        "enter": {
-          "stroke": {
-            "value": "#dee2e6"
-          },
-          "strokeWidth": {
-            "value": 1
-          },
-          "x": {
-            "signal": "leftX"
-          },
-          "x2": {
-            "signal": "leftX"
-          },
-          "y": {
-            "value": 0
-          },
-          "y2": {
-            "signal": "height"
-          }
-        }
-      },
-      "type": "rule"
-    },
-    {
-      "encode": {
-        "enter": {
-          "stroke": {
-            "value": "#dee2e6"
-          },
-          "strokeWidth": {
-            "value": 1
-          },
-          "x": {
-            "signal": "rightX"
-          },
-          "x2": {
-            "signal": "rightX"
-          },
-          "y": {
-            "value": 0
-          },
-          "y2": {
-            "signal": "height"
-          }
-        }
-      },
-      "type": "rule"
-    },
-    {
+      "description": "Slope lines connecting before/after values",
       "encode": {
         "enter": {
           "tooltip": {
@@ -259,9 +230,7 @@
             "field": "direction",
             "scale": "color"
           },
-          "strokeWidth": {
-            "value": 2
-          }
+          "strokeWidth": 2
         }
       },
       "from": {
@@ -270,99 +239,92 @@
       "type": "rule"
     },
     {
-      "encode": {
-        "enter": {
-          "shape": {
-            "value": "circle"
-          },
-          "size": {
-            "value": 80
-          },
-          "tooltip": {
-            "signal": "{'Department': datum.department, 'Before': datum.before + ' pts'}"
-          },
-          "x": {
-            "signal": "leftX"
-          },
-          "y": {
-            "field": "before",
-            "scale": "yBefore"
-          }
-        },
-        "update": {
-          "fill": {
-            "field": "direction",
-            "scale": "color"
-          },
-          "opacity": [
-            {
-              "test": "hovered === null || hovered.department === datum.department",
-              "value": 1
+      "description": "Endpoint symbols on both sides",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "shape": "circle",
+              "size": 80,
+              "tooltip": {
+                "signal": "{'Department': datum.department, 'Before': datum.before + ' pts'}"
+              },
+              "x": {
+                "signal": "leftX"
+              },
+              "y": {
+                "field": "before",
+                "scale": "yBefore"
+              }
             },
-            {
-              "value": 0.1
+            "update": {
+              "fill": {
+                "field": "direction",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.department === datum.department",
+                  "value": 1
+                },
+                {
+                  "value": 0.1
+                }
+              ]
             }
-          ]
+          },
+          "from": {
+            "data": "source"
+          },
+          "type": "symbol"
+        },
+        {
+          "encode": {
+            "enter": {
+              "shape": "circle",
+              "size": 80,
+              "tooltip": {
+                "signal": "{'Department': datum.department, 'After': datum.after + ' pts'}"
+              },
+              "x": {
+                "signal": "rightX"
+              },
+              "y": {
+                "field": "after",
+                "scale": "yAfter"
+              }
+            },
+            "update": {
+              "fill": {
+                "field": "direction",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.department === datum.department",
+                  "value": 1
+                },
+                {
+                  "value": 0.1
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "source"
+          },
+          "type": "symbol"
         }
-      },
-      "from": {
-        "data": "source"
-      },
-      "type": "symbol"
+      ],
+      "type": "group"
     },
     {
+      "description": "Department name labels on the left side",
       "encode": {
         "enter": {
-          "shape": {
-            "value": "circle"
-          },
-          "size": {
-            "value": 80
-          },
-          "tooltip": {
-            "signal": "{'Department': datum.department, 'After': datum.after + ' pts'}"
-          },
-          "x": {
-            "signal": "rightX"
-          },
-          "y": {
-            "field": "after",
-            "scale": "yAfter"
-          }
-        },
-        "update": {
-          "fill": {
-            "field": "direction",
-            "scale": "color"
-          },
-          "opacity": [
-            {
-              "test": "hovered === null || hovered.department === datum.department",
-              "value": 1
-            },
-            {
-              "value": 0.1
-            }
-          ]
-        }
-      },
-      "from": {
-        "data": "source"
-      },
-      "type": "symbol"
-    },
-    {
-      "encode": {
-        "enter": {
-          "align": {
-            "value": "right"
-          },
-          "baseline": {
-            "value": "middle"
-          },
-          "fontSize": {
-            "value": 11
-          },
+          "align": "right",
+          "baseline": "middle",
+          "fontSize": 11,
           "text": {
             "field": "department"
           },
@@ -375,9 +337,7 @@
           }
         },
         "update": {
-          "fill": {
-            "value": "#868e96"
-          },
+          "fill": "#868e96",
           "opacity": [
             {
               "test": "hovered === null || hovered.department === datum.department",
@@ -401,7 +361,6 @@
     "right": 24,
     "top": 16
   },
-
   "scales": [
     {
       "domain": [
@@ -438,7 +397,6 @@
       "type": "ordinal"
     }
   ],
-
   "signals": [
     {
       "name": "hovered",

@@ -1,9 +1,9 @@
 <!--
-     name: Sparkline (D3)
-     description: Standalone D3 sparkline panel showing compact inline trends for 3 metrics, with keyboard navigation and ARIA support
-     chart-type: sparkline
-     engine: d3
-     -->
+name: Sparkline (D3)
+description: Standalone D3 sparkline panel showing compact inline trends for 3 metrics, with keyboard navigation and ARIA support
+chart-type: sparkline
+engine: d3
+-->
 <!doctype html>
 <html lang="en">
   <head>
@@ -74,6 +74,52 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
+      .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
+      }
+      .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
+      }
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
+      }
+      .axis line,
+      .axis path {
+        stroke: var(--oc-gray-3);
+      }
+      details {
+        margin-top: 24px;
+        border-top: 1px solid var(--oc-gray-2);
+        padding-top: 16px;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--oc-gray-6);
+        font-size: 13px;
+      }
+      table {
+        border-collapse: collapse;
+        font-size: 13px;
+        width: 100%;
+        margin-top: 12px;
+      }
+      th,
+      td {
+        border: 1px solid var(--oc-gray-2);
+        padding: 8px 12px;
+        text-align: left;
+      }
+      th {
+        background: var(--oc-gray-1);
+        font-weight: 600;
+        color: var(--oc-gray-8);
+      }
+      tr:nth-child(even) {
+        background: var(--oc-gray-0);
+      }
       .sparkline-row {
         display: flex;
         align-items: center;
@@ -118,36 +164,6 @@
       }
       .spark-point:focus:not(:focus-visible) {
         outline: none;
-      }
-      details {
-        margin-top: 24px;
-        border-top: 1px solid var(--oc-gray-2);
-        padding-top: 16px;
-      }
-      summary {
-        cursor: pointer;
-        color: var(--oc-gray-6);
-        font-size: 13px;
-      }
-      table {
-        border-collapse: collapse;
-        font-size: 13px;
-        width: 100%;
-        margin-top: 12px;
-      }
-      th,
-      td {
-        border: 1px solid var(--oc-gray-2);
-        padding: 8px 12px;
-        text-align: left;
-      }
-      th {
-        background: var(--oc-gray-1);
-        font-weight: 600;
-        color: var(--oc-gray-8);
-      }
-      tr:nth-child(even) {
-        background: var(--oc-gray-0);
       }
     </style>
   </head>

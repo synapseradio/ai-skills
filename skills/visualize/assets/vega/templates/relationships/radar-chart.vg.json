@@ -2,20 +2,19 @@
   "_metadata": {
     "customization": [
       "Replace 'values' array with your data",
-      "Update 'dimensions' signal array to match your dimension names — order controls angular placement",
+      "Update 'dimensions' signal array to match your dimension names -- order controls angular placement",
       "Update 'products' signal array to match your product/series names",
       "All values must be on the same 0–100 scale; normalize before rendering if needed",
       "Update title, subtitle, and description to reflect your context"
     ],
     "dataFormat": "Array of objects with 'product' (nominal), 'dimension' (nominal), and 'value' (quantitative, 0–100) fields.",
-    "note": "Radar charts are perceptually weak — angles and areas are hard to compare accurately. Use parallel coordinates when precision matters."
+    "note": "Radar charts are perceptually weak -- angles and areas are hard to compare accurately. Use parallel coordinates when precision matters."
   },
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "autosize": {
     "contains": "padding",
     "type": "fit"
   },
-
   "config": {
     "aria": true,
     "axis": {
@@ -30,7 +29,6 @@
       "font": "system-ui, -apple-system, sans-serif"
     }
   },
-
   "data": [
     {
       "name": "source",
@@ -155,36 +153,6 @@
       ]
     },
     {
-      "name": "product_a",
-      "source": "source",
-      "transform": [
-        {
-          "expr": "datum.product === 'Product A'",
-          "type": "filter"
-        }
-      ]
-    },
-    {
-      "name": "product_b",
-      "source": "source",
-      "transform": [
-        {
-          "expr": "datum.product === 'Product B'",
-          "type": "filter"
-        }
-      ]
-    },
-    {
-      "name": "product_c",
-      "source": "source",
-      "transform": [
-        {
-          "expr": "datum.product === 'Product C'",
-          "type": "filter"
-        }
-      ]
-    },
-    {
       "name": "axes",
       "transform": [
         {
@@ -247,9 +215,8 @@
       ]
     }
   ],
-  "description": "Radar chart comparing 3 products across 6 dimensions. Product A leads in Reliability (88) and Quality (82). Product C scores highest on Price (85). Product B is well-rounded with no standout dimension.",
+  "description": "Radar chart comparing 3 products across 6 dimensions. Product A leads in Reliability (88) and Quality (82). Product C scores highest on Price (85). Product B is well-rounded.",
   "height": 480,
-
   "legends": [
     {
       "direction": "horizontal",
@@ -264,270 +231,257 @@
       "titleFontSize": 13
     }
   ],
-
   "marks": [
     {
-      "encode": {
-        "enter": {
-          "stroke": {
-            "value": "#dee2e6"
-          },
-          "strokeWidth": {
-            "value": 1
-          },
-          "x": {
-            "signal": "cx"
-          },
-          "x2": {
-            "field": "x2"
-          },
-          "y": {
-            "signal": "cy"
-          },
-          "y2": {
-            "field": "y2"
-          }
-        }
-      },
+      "description": "Background grid: axis spokes and concentric rings",
       "from": {
         "data": "axes"
       },
-      "type": "rule"
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "stroke": "#dee2e6",
+              "strokeWidth": 1,
+              "x": {
+                "signal": "cx"
+              },
+              "x2": {
+                "field": "x2"
+              },
+              "y": {
+                "signal": "cy"
+              },
+              "y2": {
+                "field": "y2"
+              }
+            }
+          },
+          "type": "rule"
+        }
+      ],
+      "type": "group"
     },
     {
-      "encode": {
-        "enter": {
-          "endAngle": {
-            "signal": "2 * PI"
+      "description": "Concentric ring arcs with scale labels",
+      "from": {
+        "data": "rings"
+      },
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "endAngle": {
+                "signal": "2 * PI"
+              },
+              "fill": "transparent",
+              "innerRadius": 0,
+              "outerRadius": {
+                "field": "r"
+              },
+              "startAngle": 0,
+              "stroke": "#f1f3f5",
+              "strokeDash": [
+                2,
+                2
+              ],
+              "strokeWidth": 1,
+              "x": {
+                "signal": "cx"
+              },
+              "y": {
+                "signal": "cy"
+              }
+            }
           },
-          "fill": {
-            "value": "transparent"
+          "type": "arc"
+        },
+        {
+          "encode": {
+            "enter": {
+              "baseline": "bottom",
+              "fill": "#adb5bd",
+              "fontSize": 9,
+              "text": {
+                "signal": "datum.ringValue + ''"
+              },
+              "x": {
+                "signal": "cx + 4"
+              },
+              "y": {
+                "signal": "cy - datum.r"
+              }
+            }
           },
-          "innerRadius": {
-            "value": 0
+          "type": "text"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Data polygon for each product",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "defined": true,
+              "strokeWidth": 2,
+              "tooltip": {
+                "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
+              },
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              }
+            },
+            "update": {
+              "fill": "#1c7ed6",
+              "fillOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product A'",
+                  "value": 0.1
+                },
+                {
+                  "value": 0.02
+                }
+              ],
+              "stroke": "#1c7ed6",
+              "strokeOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product A'",
+                  "value": 1
+                },
+                {
+                  "value": 0.2
+                }
+              ]
+            }
           },
-          "outerRadius": {
-            "field": "r"
-          },
-          "startAngle": {
-            "value": 0
-          },
-          "stroke": {
-            "value": "#f1f3f5"
-          },
-          "strokeDash": {
-            "value": [
-              2,
-              2
+          "from": {
+            "data": "source",
+            "transform": [
+              {
+                "expr": "datum.product === 'Product A'",
+                "type": "filter"
+              }
             ]
           },
-          "strokeWidth": {
-            "value": 1
+          "sort": {
+            "field": "dimIndex"
           },
-          "x": {
-            "signal": "cx"
-          },
-          "y": {
-            "signal": "cy"
-          }
-        }
-      },
-      "from": {
-        "data": "rings"
-      },
-      "type": "arc"
-    },
-    {
-      "encode": {
-        "enter": {
-          "baseline": {
-            "value": "bottom"
-          },
-          "fill": {
-            "value": "#adb5bd"
-          },
-          "fontSize": {
-            "value": 9
-          },
-          "text": {
-            "signal": "datum.ringValue + ''"
-          },
-          "x": {
-            "signal": "cx + 4"
-          },
-          "y": {
-            "signal": "cy - datum.r"
-          }
-        }
-      },
-      "from": {
-        "data": "rings"
-      },
-      "type": "text"
-    },
-    {
-      "encode": {
-        "enter": {
-          "defined": {
-            "value": true
-          },
-          "strokeWidth": {
-            "value": 2
-          },
-          "tooltip": {
-            "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
-          },
-          "x": {
-            "field": "px"
-          },
-          "y": {
-            "field": "py"
-          }
+          "type": "line"
         },
-        "update": {
-          "fill": {
-            "value": "#1c7ed6"
-          },
-          "fillOpacity": [
-            {
-              "test": "hovered === null || hovered.product === 'Product A'",
-              "value": 0.1
+        {
+          "encode": {
+            "enter": {
+              "defined": true,
+              "strokeWidth": 2,
+              "tooltip": {
+                "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
+              },
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              }
             },
-            {
-              "value": 0.02
+            "update": {
+              "fill": "#e8590c",
+              "fillOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product B'",
+                  "value": 0.1
+                },
+                {
+                  "value": 0.02
+                }
+              ],
+              "stroke": "#e8590c",
+              "strokeOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product B'",
+                  "value": 1
+                },
+                {
+                  "value": 0.2
+                }
+              ]
             }
-          ],
-          "stroke": {
-            "value": "#1c7ed6"
           },
-          "strokeOpacity": [
-            {
-              "test": "hovered === null || hovered.product === 'Product A'",
-              "value": 1
-            },
-            {
-              "value": 0.2
-            }
-          ]
-        }
-      },
-      "from": {
-        "data": "product_a"
-      },
-      "sort": {
-        "field": "dimIndex"
-      },
-      "type": "line"
-    },
-    {
-      "encode": {
-        "enter": {
-          "defined": {
-            "value": true
+          "from": {
+            "data": "source",
+            "transform": [
+              {
+                "expr": "datum.product === 'Product B'",
+                "type": "filter"
+              }
+            ]
           },
-          "strokeWidth": {
-            "value": 2
+          "sort": {
+            "field": "dimIndex"
           },
-          "tooltip": {
-            "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
-          },
-          "x": {
-            "field": "px"
-          },
-          "y": {
-            "field": "py"
-          }
+          "type": "line"
         },
-        "update": {
-          "fill": {
-            "value": "#e8590c"
-          },
-          "fillOpacity": [
-            {
-              "test": "hovered === null || hovered.product === 'Product B'",
-              "value": 0.1
+        {
+          "encode": {
+            "enter": {
+              "defined": true,
+              "strokeWidth": 2,
+              "tooltip": {
+                "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
+              },
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              }
             },
-            {
-              "value": 0.02
+            "update": {
+              "fill": "#0ca678",
+              "fillOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product C'",
+                  "value": 0.1
+                },
+                {
+                  "value": 0.02
+                }
+              ],
+              "stroke": "#0ca678",
+              "strokeOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product C'",
+                  "value": 1
+                },
+                {
+                  "value": 0.2
+                }
+              ]
             }
-          ],
-          "stroke": {
-            "value": "#e8590c"
           },
-          "strokeOpacity": [
-            {
-              "test": "hovered === null || hovered.product === 'Product B'",
-              "value": 1
-            },
-            {
-              "value": 0.2
-            }
-          ]
+          "from": {
+            "data": "source",
+            "transform": [
+              {
+                "expr": "datum.product === 'Product C'",
+                "type": "filter"
+              }
+            ]
+          },
+          "sort": {
+            "field": "dimIndex"
+          },
+          "type": "line"
         }
-      },
-      "from": {
-        "data": "product_b"
-      },
-      "sort": {
-        "field": "dimIndex"
-      },
-      "type": "line"
+      ],
+      "type": "group"
     },
     {
-      "encode": {
-        "enter": {
-          "defined": {
-            "value": true
-          },
-          "strokeWidth": {
-            "value": 2
-          },
-          "tooltip": {
-            "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
-          },
-          "x": {
-            "field": "px"
-          },
-          "y": {
-            "field": "py"
-          }
-        },
-        "update": {
-          "fill": {
-            "value": "#0ca678"
-          },
-          "fillOpacity": [
-            {
-              "test": "hovered === null || hovered.product === 'Product C'",
-              "value": 0.1
-            },
-            {
-              "value": 0.02
-            }
-          ],
-          "stroke": {
-            "value": "#0ca678"
-          },
-          "strokeOpacity": [
-            {
-              "test": "hovered === null || hovered.product === 'Product C'",
-              "value": 1
-            },
-            {
-              "value": 0.2
-            }
-          ]
-        }
-      },
-      "from": {
-        "data": "product_c"
-      },
-      "sort": {
-        "field": "dimIndex"
-      },
-      "type": "line"
-    },
-    {
+      "description": "Axis dimension labels",
       "encode": {
         "enter": {
           "align": {
@@ -536,15 +490,9 @@
           "baseline": {
             "signal": "datum.labelY < cy - 10 ? 'bottom' : datum.labelY > cy + 10 ? 'top' : 'middle'"
           },
-          "fill": {
-            "value": "#495057"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fontWeight": {
-            "value": "600"
-          },
+          "fill": "#495057",
+          "fontSize": 12,
+          "fontWeight": 600,
           "text": {
             "field": "label"
           },
@@ -568,7 +516,6 @@
     "right": 24,
     "top": 16
   },
-
   "scales": [
     {
       "domain": [
@@ -585,7 +532,6 @@
       "type": "ordinal"
     }
   ],
-
   "signals": [
     {
       "name": "cx",
@@ -641,7 +587,7 @@
     "anchor": "start",
     "fontSize": 16,
     "offset": 16,
-    "subtitle": "Product ratings across 6 dimensions, Q4 2024 (score 0–100)",
+    "subtitle": "Product ratings across 6 dimensions (score 0–100)",
     "subtitleColor": "#868e96",
     "subtitleFontSize": 12,
     "text": "Product A leads on reliability; Product C wins on price"

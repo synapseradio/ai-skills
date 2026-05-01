@@ -1,89 +1,25 @@
 <!--
-     name: Dumbbell Chart (D3)
+name: Dumbbell Chart (D3)
      description: Standalone D3 dumbbell chart showing before/after range comparison with full keyboard navigation and ARIA support
      chart-type: dumbbell-chart
      engine: d3
-     -->
+-->
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Customer satisfaction improved most in Support, up 24 points</title>
+    <link rel="stylesheet" href="../_shared/base.css" />
+    <link rel="stylesheet" href="../_shared/tooltip.css" />
     <style>
-      :root {
-        --oc-gray-0: #f8f9fa;
-        --oc-gray-1: #f1f3f5;
-        --oc-gray-2: #e9ecef;
-        --oc-gray-3: #dee2e6;
-        --oc-gray-4: #ced4da;
-        --oc-gray-5: #adb5bd;
-        --oc-gray-6: #868e96;
-        --oc-gray-7: #495057;
-        --oc-gray-8: #343a40;
-        --oc-gray-9: #212529;
-        --oc-blue-7: #1c7ed6;
-        --oc-orange-7: #e8590c;
-        --oc-teal-7: #0ca678;
-        --oc-red-7: #f03e3e;
-        --oc-grape-7: #ae3ec9;
-        --oc-cyan-7: #1098ad;
-        --oc-lime-7: #74b816;
-        --oc-pink-7: #d6336c;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        font-family:
-          system-ui,
-          -apple-system,
-          sans-serif;
-        margin: 0;
-        padding: 40px 20px;
-        background: var(--oc-gray-0);
-        color: var(--oc-gray-9);
-      }
-      #chart-container {
-        max-width: 960px;
-        margin: 0 auto;
-        background: white;
-        padding: 32px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      }
-      h1 {
-        font-size: 18px;
-        margin: 0 0 4px;
-        color: var(--oc-gray-9);
-      }
-      .subtitle {
-        font-size: 13px;
-        color: var(--oc-gray-6);
-        margin: 0 0 24px;
-      }
-      .tooltip {
-        position: absolute;
-        pointer-events: none;
-        background: white;
-        border: 1px solid var(--oc-gray-3);
-        border-radius: 4px;
-        padding: 8px 12px;
-        font-size: 13px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        opacity: 0;
-        transition: opacity 0.15s;
-      }
-      .endpoint:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 2px;
-      }
-      .endpoint:focus:not(:focus-visible) {
-        outline: none;
-      }
       .axis-label {
         fill: var(--oc-gray-6);
         font-size: 12px;
+      }
+      .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
       }
       .grid line {
         stroke: var(--oc-gray-1);
@@ -92,6 +28,13 @@
       .axis line,
       .axis path {
         stroke: var(--oc-gray-3);
+      }
+      .endpoint:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 2px;
+      }
+      .endpoint:focus:not(:focus-visible) {
+        outline: none;
       }
       .legend {
         display: flex;
@@ -106,36 +49,6 @@
         border-radius: 50%;
         display: inline-block;
         margin-right: 4px;
-      }
-      details {
-        margin-top: 24px;
-        border-top: 1px solid var(--oc-gray-2);
-        padding-top: 16px;
-      }
-      summary {
-        cursor: pointer;
-        color: var(--oc-gray-6);
-        font-size: 13px;
-      }
-      table {
-        border-collapse: collapse;
-        font-size: 13px;
-        width: 100%;
-        margin-top: 12px;
-      }
-      th,
-      td {
-        border: 1px solid var(--oc-gray-2);
-        padding: 8px 12px;
-        text-align: left;
-      }
-      th {
-        background: var(--oc-gray-1);
-        font-weight: 600;
-        color: var(--oc-gray-8);
-      }
-      tr:nth-child(even) {
-        background: var(--oc-gray-0);
       }
     </style>
   </head>
@@ -168,7 +81,7 @@
     </div>
 
     <script type="module">
-      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@latest/+esm";
 
       // --- DATA ---
       const data = [
@@ -226,12 +139,6 @@
         .selectAll("text")
         .attr("class", "axis-label");
 
-      // --- TOOLTIP ---
-      const tooltip = d3.select("#tooltip");
-      function hideTooltip() {
-        tooltip.style("opacity", 0);
-      }
-
       // --- ROWS ---
       const rowGroups = g.selectAll(".row-group").data(data).join("g").attr("class", "row-group");
 
@@ -260,27 +167,24 @@
           .attr("role", "listitem")
           .attr("aria-label", (d) => `${d.metric} — ${labelPrefix}: ${d[valueKey]}`)
           .on("pointerenter", function (event, d) {
-            tooltip
-              .style("opacity", 1)
-              .html(
-                `<strong>${d.metric}</strong><br>2022: ${d.before} &rarr; 2024: ${d.after}<br>Change: ${d.after - d.before > 0 ? "+" : ""}${d.after - d.before}`,
-              )
-              .style("left", `${event.pageX + 12}px`)
-              .style("top", `${event.pageY - 28}px`);
+            showTooltip(
+              event,
+              `<strong>${d.metric}</strong><br>2022: ${d.before} &rarr; 2024: ${d.after}<br>Change: ${d.after - d.before > 0 ? "+" : ""}${d.after - d.before}`,
+            );
           })
           .on("pointermove", function (event, d) {
-            tooltip.style("left", `${event.pageX + 12}px`).style("top", `${event.pageY - 28}px`);
+            showTooltip(
+              event,
+              `<strong>${d.metric}</strong><br>2022: ${d.before} &rarr; 2024: ${d.after}<br>Change: ${d.after - d.before > 0 ? "+" : ""}${d.after - d.before}`,
+            );
           })
           .on("pointerleave", hideTooltip)
           .on("focus", function (event, d) {
             const rect = this.getBoundingClientRect();
-            tooltip
-              .style("opacity", 1)
-              .html(
-                `<strong>${d.metric}</strong><br>2022: ${d.before} &rarr; 2024: ${d.after}<br>Change: ${d.after - d.before > 0 ? "+" : ""}${d.after - d.before}`,
-              )
-              .style("left", `${rect.x + rect.width / 2}px`)
-              .style("top", `${rect.y - 40}px`);
+            showTooltip(
+              { pageX: rect.x + rect.width / 2, pageY: rect.y - 40 },
+              `<strong>${d.metric}</strong><br>2022: ${d.before} &rarr; 2024: ${d.after}<br>Change: ${d.after - d.before > 0 ? "+" : ""}${d.after - d.before}`,
+            );
           })
           .on("blur", hideTooltip);
 
@@ -303,24 +207,18 @@
       makeEndpoints("after-dot", "after", "#1c7ed6", "2024");
 
       // --- DATA TABLE ---
-      const table = d3
-        .select("#data-table")
-        .append("table")
-        .attr("role", "table")
-        .attr("aria-label", "Data table for dumbbell chart");
-      const thead = table.append("thead").append("tr");
-      ["Department", "2022 Score", "2024 Score", "Change"].forEach((col) =>
-        thead.append("th").attr("scope", "col").text(col),
+      renderDataTable(
+        "data-table",
+        data.map((d) => [
+          d.metric,
+          d.before,
+          d.after,
+          `${d.after - d.before > 0 ? "+" : ""}${d.after - d.before}`,
+        ]),
+        ["Department", "2022 Score", "2024 Score", "Change"],
       );
-      const tbody = table.append("tbody");
-      data.forEach((d) => {
-        const tr = tbody.append("tr");
-        tr.append("td").text(d.metric);
-        tr.append("td").text(d.before);
-        tr.append("td").text(d.after);
-        const diff = d.after - d.before;
-        tr.append("td").text(`${diff > 0 ? "+" : ""}${diff}`);
-      });
     </script>
+    <script src="../_shared/tooltip.js"></script>
+    <script src="../_shared/data-table.js"></script>
   </body>
 </html>

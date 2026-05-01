@@ -1,9 +1,9 @@
 <!--
-     name: Parallel Coordinates (D3)
+name: Parallel Coordinates (D3)
      description: Standalone D3 parallel coordinates chart for 15 items across 5 dimensions, with hover highlight and full keyboard navigation and ARIA support
      chart-type: parallel-coordinates
      engine: d3
-     -->
+-->
 <!doctype html>
 <html lang="en">
   <head>
@@ -74,31 +74,21 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .pc-line:focus {
-        outline: none;
-      }
-      .pc-line.focused {
-        outline: none;
-      }
-      .pc-focus-handle:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 2px;
-      }
-      .pc-focus-handle:focus:not(:focus-visible) {
-        outline: none;
-      }
       .axis-label {
         fill: var(--oc-gray-6);
-        font-size: 11px;
+        font-size: 12px;
       }
-      .dim-label {
-        fill: var(--oc-gray-8);
+      .axis-title {
+        fill: var(--oc-gray-7);
         font-size: 13px;
-        font-weight: 600;
+      }
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
       }
       .axis line,
       .axis path {
-        stroke: var(--oc-gray-4);
+        stroke: var(--oc-gray-3);
       }
       details {
         margin-top: 24px;
@@ -129,6 +119,32 @@
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .pc-line:focus {
+        outline: none;
+      }
+      .pc-line.focused {
+        outline: none;
+      }
+      .pc-focus-handle:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 2px;
+      }
+      .pc-focus-handle:focus:not(:focus-visible) {
+        outline: none;
+      }
+      .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 11px;
+      }
+      .dim-label {
+        fill: var(--oc-gray-8);
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .axis line,
+      .axis path {
+        stroke: var(--oc-gray-4);
       }
     </style>
   </head>

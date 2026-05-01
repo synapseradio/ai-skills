@@ -1,5 +1,5 @@
 <!--
-     name: Histogram (D3)
+name: Histogram (D3)
      description: Standalone D3 histogram with full keyboard navigation and ARIA support
      chart-type: histogram
      engine: d3
@@ -74,13 +74,6 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .bar:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 1px;
-      }
-      .bar:focus:not(:focus-visible) {
-        outline: none;
-      }
       .axis-label {
         fill: var(--oc-gray-6);
         font-size: 12px;
@@ -126,6 +119,13 @@
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .bar:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 1px;
+      }
+      .bar:focus:not(:focus-visible) {
+        outline: none;
       }
     </style>
   </head>

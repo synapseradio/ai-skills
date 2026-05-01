@@ -1,27 +1,29 @@
 ---
 name: visualize
 description: >
-  Create browser-runnable data visualizations using Vega and D3.js — from bar charts to
-  force-directed networks. Every output is a standalone HTML file with no build step.
-  This skill should be used when the user asks to "create a visualization",
-  "make a chart", "graph this data", "show this visually", "visualize this",
-  "encode data", "design a layout", "annotate my chart", "make this accessible",
-  "add interactivity", "refine this visualization", "plot this", or "diagram this data".
-  Also triggers on: "data viz", "chart question", "vega", "D3", "best chart type for",
-  "how should I display this", "what visualization", "compare these numbers",
-  "show the trend", "make a dashboard", "show me a map". Use this skill even when the
-  user just provides data and says "show me" or "what does this look like" — any request
-  to see data visually should route here.
+  Visualize data, concepts, relations, or diagrams. Produces browser-runnable
+  HTML charts and markdown outputs that drop into pull requests, READMEs,
+  tickets, and chat. Use whenever the user asks to visualize anything, make
+  a chart or diagram, plot a trend, compare numbers, show a flow or timeline,
+  or pick the right chart type.
 metadata:
-  context: fork
   user-invocable: true
 ---
 
 # Visualize
 
-Create browser-runnable data visualizations. Every output is a standalone HTML file — no
-build step, no server, no dependencies beyond CDN. Two engines: Vega (declarative, default)
-and D3 (imperative, for full control and accessibility).
+Create data visualizations for the surface where they will actually be read.
+Three engines:
+
+- **Markdown** — `.md` files (or `.html` with mermaid.js bundled) that render
+  inside pull requests, READMEs, tickets, Notion, Slack, wiki posts.
+- **Vega** — declarative JSON specs rendered in a standalone HTML wrapper.
+  Default for browser-runnable charts.
+- **D3** — imperative JavaScript with full DOM control, keyboard navigation,
+  and ARIA on individual marks. Use when Vega cannot express what you need.
+
+Every browser output is a standalone HTML file — no build step, no server, no
+dependencies beyond CDN.
 
 ## Core Principles
 
@@ -152,61 +154,104 @@ Feedback routing: "change chart type" → Phase 2. "fix layout" → Phase 3. "so
 
 ### Phase 4 Verification Protocol (mandatory)
 
-Every visualization goes through two verification paths in parallel:
+The verification protocol depends on the engine.
 
-1. **Structural:** Read back the generated HTML. Verify the Vega spec or D3 code is syntactically
-   correct. Check that data fields match the encoding. Verify units on axes. Verify OpenColors palette.
-2. **Visual:** Run `open -a "Google Chrome" <file>`. Read the screenshot. Inspect the rendered
-   output for: correct chart type, readable labels, appropriate spacing, working tooltips,
-   color contrast, overall clarity.
+**HTML output (Vega, D3, mermaid-html).** Two parallel paths must agree:
 
-Both paths must agree the chart is correct. If they disagree, fix and re-verify. Only proceed
-to Phase 5 after the second draft passes both checks.
+1. **Structural:** Read back the generated HTML. Verify the Vega spec or D3
+   code is syntactically correct. Check that data fields match the encoding.
+   Verify units on axes. Verify OpenColors palette.
+2. **Visual:** Run `open -a "Google Chrome" <file>`. Read the screenshot.
+   Inspect for: correct chart type, readable labels, appropriate spacing,
+   working tooltips, color contrast, overall clarity. For mermaid-html,
+   confirm the diagram renders to SVG without console errors.
+
+**Markdown output (`.md`).** No browser screenshot is possible; the protocol
+adapts:
+
+1. **Structural read-back.** Confirm frontmatter complete, units present on
+   every numeric column or bar, sort order matches the value being compared,
+   source line present.
+2. **Render confirmation.** If the output contains a ```` ```mermaid ```` block,
+   either paste it into the GitHub markdown preview or open the committed
+   file in a renderer that auto-renders mermaid. If the output is plain-text
+   safe, view it in a generic markdown previewer (or the destination surface)
+   and confirm character alignment holds.
+
+Both paths must agree the artifact is correct. If they disagree, fix and
+re-verify. Only proceed to Phase 5 after the second draft passes the
+appropriate checks. The full markdown checklist lives in
+`references/markdown-patterns.md`.
 
 ---
 
 ## Engine Selection
 
-Two data-viz engines. Default to Vega. Use D3 when you need full DOM control.
+Three engines. Pick by where the visualization will be read, not by what it
+shows.
 
 ```
-What are you visualizing?
-├── Data (quantitative/categorical)
-│   ├── Default → Vega (.vg.json spec in wrapper HTML)
-│   └── Needs full DOM control, custom keyboard nav, or sankey? → D3 (standalone HTML)
-├── Process/flow/structure → [Mermaid — future]
-└── Network topology only  → [Graphviz — future]
+Level 0: Where will this render?
+  ├── Markdown surface (PR, README, ticket, Notion, Slack, *.md file) → Markdown engine
+  ├── Browser / standalone HTML / dashboard                            → Vega or D3 (Level 2)
+  └── Unknown                                                          → ask, or default to
+                                                                         Markdown without mermaid
+
+Level 1 (Markdown branch): What's being shown?
+  ├── Quantitative values  → comparison-table | unicode-bar-chart | ranked-list | sparkline-row | emoji-heatmap
+  ├── Process / structure  → mermaid-flowchart | mermaid-sequence | mermaid-gantt | ascii-tree
+  └── (Mermaid output format depends on target rendering: see Level 1.5)
+
+Level 1.5 (Mermaid only): Does the surface auto-render mermaid?
+  ├── Yes (GitHub, GitLab, Notion, Obsidian, recent VS Code) → emit `.md` with ```mermaid block
+  ├── No  (Slack, email, generic chat, plain ticket)         → emit `.html` with mermaid.js
+  └── Unknown                                                → emit `.html` (works wherever HTML opens)
+
+Level 2: Which data-viz engine for browser output?
+  ├── Need full DOM control, custom keyboard nav, or sankey? → D3
+  └── Everything else                                        → Vega (default)
 ```
 
-**Vega** is declarative JSON. It handles bar, line, scatter, area, pie, histogram, box plot,
-violin, heatmap, bubble, treemap, sunburst, choropleth, force graph, tree diagram, candlestick,
-and more via transforms. Use it for everything unless you need D3.
+**Markdown** is for surfaces that render markdown (and sometimes mermaid) but
+not arbitrary HTML. Use it for pull requests, READMEs, tickets, Notion pages,
+Slack posts, wiki articles. Load `references/markdown-patterns.md` for the
+surface matrix, the honesty checklist, and the Phase 4 verification checklist
+(markdown variant).
 
-**D3** is imperative JavaScript. It gives full control over the DOM. Use it when Vega can't
-express what you need (sankey), or when you need full keyboard navigation and ARIA support
-that Vega's SVG renderer doesn't provide.
+**Vega** is declarative JSON. It handles bar, line, scatter, area, pie,
+histogram, box plot, violin, heatmap, bubble, treemap, sunburst, choropleth,
+force graph, tree diagram, candlestick, and more via transforms. Default for
+browser output.
 
-Every chart type has templates in both engines. Load `references/engine-selection.md` for the
-full capability matrix and decision criteria.
+**D3** is imperative JavaScript. It gives full control over the DOM. Use it
+when Vega cannot express what you need (sankey), or when you need full
+keyboard navigation and ARIA support that Vega's SVG renderer does not
+provide.
+
+Load `references/engine-selection.md` for the full capability matrix and the
+chart-type-to-template mapping across all three engines.
 
 ---
 
 ## Templates
 
-25 Vega specs + D3 templates across 8 categories in `assets/vega/templates/` and `assets/d3/templates/`.
+25 Vega specs + 26 D3 templates + 9 Markdown templates in
+`assets/vega/templates/`, `assets/d3/templates/`, `assets/markdown/templates/`.
 
-| Category | Charts | Engine |
-|----------|--------|--------|
-| Comparisons | bar, grouped-bar, stacked-bar, dot-plot, dumbbell | Vega + D3 |
-| Compositions | pie, sunburst, treemap, waffle | Vega + D3 |
-| Distributions | histogram, box-plot, violin-plot | Vega + D3 |
-| Geographic | choropleth | Vega + D3 |
-| Hierarchical | tree-diagram | Vega + D3 |
-| Networks | force-graph, sankey | Vega + D3 |
-| Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar | Vega + D3 |
-| Temporal | line-chart, area-chart, candlestick, slope, sparkline | Vega + D3 |
+| Category      | Charts                                                    | Engines                |
+| ------------- | --------------------------------------------------------- | ---------------------- |
+| Comparisons   | bar, grouped-bar, stacked-bar, dot-plot, dumbbell         | Vega + D3 + Markdown   |
+| Compositions  | pie, sunburst, treemap, waffle                            | Vega + D3 + Markdown   |
+| Distributions | histogram, box-plot, violin-plot                          | Vega + D3              |
+| Geographic    | choropleth                                                | Vega + D3              |
+| Hierarchical  | tree-diagram                                              | Vega + D3 + Markdown (ascii-tree) |
+| Networks      | force-graph, sankey                                       | Vega + D3 (sankey D3-only) |
+| Process/flow  | flowchart, sequence, gantt                                | Markdown only          |
+| Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar | Vega + D3 (+ Markdown for heatmap) |
+| Temporal      | line-chart, area-chart, candlestick, slope, sparkline     | Vega + D3 + Markdown (sparkline-row) |
 
-Load `references/template-selection.md` for the decision tree from question type → template.
+Load `references/template-selection.md` for the decision tree from question
+type → template.
 
 ### Custom Template Workflow
 
@@ -258,22 +303,49 @@ HTML). If missing, gather through focused questions — do not run earlier phase
 
 ---
 
-## Browser-Runnable Output
+## Producing the Final Output
 
-**Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec. The wrapper loads
-Vega from CDN, renders via `vegaEmbed`, and auto-generates an accessibility data table.
-See `references/base-vega-wrapper.md`.
+**Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec.
+The wrapper loads Vega + Vega-Lite + Vega-Embed from CDN, renders via
+`vegaEmbed`, and auto-generates an accessibility data table. See
+`references/base-vega-wrapper.md`.
 
-**D3 charts:** Generate standalone HTML with ESM imports from CDN.
-See `references/base-template.md`.
+**D3 charts:** Read the matching `assets/d3/templates/<category>/<name>.html`
+file directly. Each template is a standalone HTML page with all CSS and
+JavaScript inline; copy, edit the data and labels, and you have the final
+artifact. See `references/base-template.md` for the structure. Maintainers who
+want to change the shared scaffold (CSS palette, accessibility helpers) edit
+the fragment and base files in `assets/d3/_shared/` and `assets/d3/fragments/`,
+then run `python3 scripts/build_d3.py --all` to regenerate every template.
 
-Both paths produce a single `.html` file that opens directly in any browser.
+**Markdown output:** Copy the matching `assets/markdown/templates/<name>.md.tmpl`
+(or `.html.tmpl` for mermaid diagrams that need bundled SVG rendering). Replace
+the example data with the user's data and update the title to state the takeaway.
+The frontmatter format mirrors HTML outputs but uses YAML fences (`---`) instead
+of HTML comments. See `references/markdown-patterns.md`.
 
 ### Persisting
 
-Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. If Python 3 is
-available, register with `python3 scripts/visualizer.py create --file <path>` for organized
-storage.
+The save target depends on the harness:
+
+- **Claude.ai (with `artifacts` tool):** emit the visualization as an
+  artifact. Use MIME type `text/html` for Vega, D3, and mermaid-html outputs;
+  use `text/markdown` for markdown engine `.md` outputs. The artifact title
+  is the visualization's `name`. No filesystem write is required.
+- **Claude Code (with `Bash` and `Write`):** save to
+  `~/.visualizations/<slug>-<YYYYMMDD-HHMMSS>.<ext>`, where `<ext>` is `html`
+  for browser-runnable charts and `md` for markdown engine `.md` outputs.
+  Create `~/.visualizations/` if missing. For `.html` outputs, open in the
+  default browser (`open` on macOS, `xdg-open` on Linux, `start` on Windows).
+  For `.md` outputs, print the path — do not auto-open since markdown
+  preview varies by environment.
+- **Other harnesses:** print the artifact in a fenced code block and
+  instruct the user to copy.
+
+Optionally call `python3 scripts/visualizer.py create --file <path>` after a
+filesystem write to register the artifact for `list` / `search` / `show`. The
+CLI reads HTML and markdown frontmatter from the same flat
+`~/.visualizations/` root.
 
 ---
 

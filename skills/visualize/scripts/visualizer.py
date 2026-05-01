@@ -3,9 +3,9 @@
 
 Commands: create, list, show, search, delete
 
-Storage: ~/.claude/.visualizer/ organized by pluralized chart type.
-Each visualization is a standalone HTML file with frontmatter metadata
-in an HTML comment block at the top of the file.
+Storage: ~/.visualizations/ flat directory. Each visualization is a standalone
+HTML or markdown file with frontmatter metadata. HTML files use an HTML-comment
+frontmatter block; markdown files use a YAML frontmatter block delimited by `---`.
 
 Requires only Python 3.6+ stdlib. No external dependencies.
 """
@@ -73,32 +73,8 @@ def suggest_command(input_cmd, commands):
 REQUIRED_FIELDS = ["name", "description", "chart-type", "project", "created"]
 
 
-def parse_frontmatter(html):
-    """Parse YAML-style metadata from an HTML frontmatter comment.
-
-    Expects a comment block at the very start of the file (allowing
-    leading whitespace):
-
-        <!--
-        name: Visualization Name
-        description: Brief description
-        chart-type: bar-chart
-        project: my-project
-        created: 2024-01-13T14:30:22Z
-        -->
-
-    Returns (meta_dict, None) on success or (None, error_message) on failure.
-    """
-    trimmed = html.strip()
-    start = trimmed.find("<!--")
-    if start < 0 or trimmed[:start].strip():
-        return None, "No HTML comment frontmatter found at start of file"
-
-    end = trimmed.find("-->", start)
-    if end < 0:
-        return None, "Unterminated HTML comment in frontmatter"
-
-    block = trimmed[start + 4 : end].strip()
+def _parse_kv_block(block):
+    """Parse a `key: value` block (one per line) into a dict."""
     fields = {}
     for line in block.split("\n"):
         line = line.strip()
@@ -109,7 +85,45 @@ def parse_frontmatter(html):
         value = line[colon + 1 :].strip()
         if key and value:
             fields[key] = value
+    return fields
 
+
+def parse_frontmatter(text):
+    """Parse frontmatter from HTML or markdown.
+
+    HTML form (file starts with an HTML comment):
+
+        <!--
+        name: Visualization Name
+        chart-type: bar-chart
+        ...
+        -->
+
+    Markdown form (file starts with `---` fence):
+
+        ---
+        name: Visualization Name
+        chart-type: bar-chart
+        ...
+        ---
+
+    Returns (meta_dict, None) on success or (None, error_message) on failure.
+    """
+    trimmed = text.strip()
+    if trimmed.startswith("<!--"):
+        end = trimmed.find("-->", 4)
+        if end < 0:
+            return None, "Unterminated HTML comment in frontmatter"
+        block = trimmed[4:end].strip()
+    elif trimmed.startswith("---"):
+        end = trimmed.find("\n---", 3)
+        if end < 0:
+            return None, "Unterminated YAML frontmatter (missing closing ---)"
+        block = trimmed[3:end].strip()
+    else:
+        return None, "No frontmatter found at start of file (expected <!-- or ---)"
+
+    fields = _parse_kv_block(block)
     missing = [f for f in REQUIRED_FIELDS if f not in fields]
     if missing:
         return None, f"Missing required fields: {', '.join(missing)}"
@@ -134,7 +148,7 @@ def get_root():
     if env:
         return env
     home = os.environ.get("HOME", str(Path.home()))
-    return os.path.join(home, ".visualizer-skill", "visualizations")
+    return os.path.join(home, ".visualizations")
 
 
 def slugify(text):
@@ -145,20 +159,16 @@ def slugify(text):
     return re.sub(r"^-+|-+$", "", hyphen)
 
 
-def pluralize_chart_type(chart_type):
-    """Pluralize a chart type string for directory naming."""
-    if chart_type.endswith("sis"):
-        return chart_type[:-3] + "ses"
-    if chart_type.endswith("s"):
-        return chart_type
-    return chart_type + "s"
-
-
-def generate_filename(project, created):
-    """Generate a filename from project slug and ISO timestamp."""
-    slug = slugify(project)
-    compact = created.replace("-", "").replace(":", "").replace("Z", "")
-    return f"{slug}-{compact}.html"
+def generate_filename(name, created, ext):
+    """Generate a filename: <slug-of-name>-<YYYYMMDD-HHMMSS>.<ext>."""
+    slug = slugify(name) or "viz"
+    try:
+        dt = datetime.fromisoformat(created.replace("Z", "+00:00"))
+        ts = dt.strftime("%Y%m%d-%H%M%S")
+    except ValueError, TypeError:
+        # Fall back: strip non-digits from raw value
+        ts = re.sub(r"[^0-9]", "", created)[:14] or "00000000-000000"
+    return f"{slug}-{ts}.{ext}"
 
 
 def format_date(iso_string):
@@ -175,14 +185,14 @@ def format_date(iso_string):
         return iso_string
 
 
-def read_and_parse(file_path, directory):
+def read_and_parse(file_path):
     """Read a file and parse its frontmatter. Returns dict or None."""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
-            html = f.read()
+            text = f.read()
     except OSError:
         return None
-    meta, _err = parse_frontmatter(html)
+    meta, _err = parse_frontmatter(text)
     if meta is None:
         return None
     name = Path(file_path).stem
@@ -190,33 +200,33 @@ def read_and_parse(file_path, directory):
         "id": name,
         "meta": meta,
         "path": str(Path(file_path).resolve()),
-        "directory": directory,
+        "ext": Path(file_path).suffix.lstrip("."),
     }
 
 
+VIZ_EXTENSIONS = (".html", ".md")
+
+
 def scan_storage(chart_type_filter=None, project_filter=None):
-    """Scan storage directory, return list of stored visualizations sorted newest first."""
+    """Scan storage directory (flat), return visualizations sorted newest first."""
     root = get_root()
     if not os.path.isdir(root):
         return []
     results = []
-    for subdir_name in os.listdir(root):
-        subdir_path = os.path.join(root, subdir_name)
-        if not os.path.isdir(subdir_path):
+    for fname in os.listdir(root):
+        if not fname.endswith(VIZ_EXTENSIONS):
             continue
-        if chart_type_filter is not None:
-            if subdir_name != pluralize_chart_type(chart_type_filter):
-                continue
-        for fname in os.listdir(subdir_path):
-            if not fname.endswith(".html"):
-                continue
-            fpath = os.path.join(subdir_path, fname)
-            viz = read_and_parse(fpath, subdir_name)
-            if viz is None:
-                continue
-            if project_filter is not None and viz["meta"]["project"] != project_filter:
-                continue
-            results.append(viz)
+        fpath = os.path.join(root, fname)
+        if not os.path.isfile(fpath):
+            continue
+        viz = read_and_parse(fpath)
+        if viz is None:
+            continue
+        if chart_type_filter is not None and viz["meta"]["chart_type"] != chart_type_filter:
+            continue
+        if project_filter is not None and viz["meta"]["project"] != project_filter:
+            continue
+        results.append(viz)
     results.sort(key=lambda v: v["meta"]["created"], reverse=True)
     return results
 
@@ -226,8 +236,7 @@ def get_visualization(id_or_path):
     if "/" in id_or_path:
         if not os.path.isfile(id_or_path):
             return None
-        parent = os.path.basename(os.path.dirname(id_or_path))
-        return read_and_parse(id_or_path, parent)
+        return read_and_parse(id_or_path)
     for viz in scan_storage():
         if viz["id"] == id_or_path or id_or_path in viz["path"]:
             return viz
@@ -235,24 +244,23 @@ def get_visualization(id_or_path):
 
 
 def save_visualization(source_path):
-    """Save a visualization HTML file into organized storage. Returns stored dict."""
+    """Save a visualization file into flat storage. Returns (stored_dict, None) or (None, err)."""
     with open(source_path, "r", encoding="utf-8") as f:
-        html = f.read()
-    meta, err = parse_frontmatter(html)
+        text = f.read()
+    meta, err = parse_frontmatter(text)
     if meta is None:
         return None, f"invalid visualization: {err}"
     root = get_root()
-    directory = pluralize_chart_type(meta["chart_type"])
-    dir_path = os.path.join(root, directory)
-    os.makedirs(dir_path, exist_ok=True)
-    fname = generate_filename(meta["project"], meta["created"])
-    dest_path = os.path.join(dir_path, fname)
+    os.makedirs(root, exist_ok=True)
+    src_ext = Path(source_path).suffix.lstrip(".") or "html"
+    fname = generate_filename(meta["name"], meta["created"], src_ext)
+    dest_path = os.path.join(root, fname)
     shutil.copy2(source_path, dest_path)
     return {
         "id": Path(fname).stem,
         "meta": meta,
         "path": dest_path,
-        "directory": directory,
+        "ext": src_ext,
     }, None
 
 
@@ -413,7 +421,7 @@ def cmd_show(args, json_mode):
                     "chartType": viz["meta"]["chart_type"],
                     "project": viz["meta"]["project"],
                     "created": viz["meta"]["created"],
-                    "directory": viz["directory"],
+                    "ext": viz["ext"],
                     "path": viz["path"],
                 },
                 indent=2,
@@ -429,7 +437,7 @@ def cmd_show(args, json_mode):
         print(f"  chart type:   {m['chart_type']}")
         print(f"  project:      {m['project']}")
         print(f"  created:      {format_date(m['created'])}")
-        print(f"  directory:    {viz['directory']}/")
+        print(f"  format:       {viz['ext']}")
         print(f"  path:         {viz['path']}")
         print(BORDER)
         print()

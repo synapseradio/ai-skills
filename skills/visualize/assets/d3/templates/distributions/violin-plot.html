@@ -1,5 +1,5 @@
 <!--
-     name: Violin Plot (D3)
+name: Violin Plot (D3)
      description: Standalone D3 violin plot with kernel density estimation, full keyboard navigation and ARIA support
      chart-type: violin-plot
      engine: d3
@@ -74,13 +74,6 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .violin-group:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 2px;
-      }
-      .violin-group:focus:not(:focus-visible) {
-        outline: none;
-      }
       .axis-label {
         fill: var(--oc-gray-6);
         font-size: 12px;
@@ -126,6 +119,13 @@
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .violin-group:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 2px;
+      }
+      .violin-group:focus:not(:focus-visible) {
+        outline: none;
       }
     </style>
   </head>

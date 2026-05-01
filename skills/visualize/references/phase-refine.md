@@ -24,7 +24,6 @@ Read back the generated HTML file. Check:
 - [ ] Redundant encoding for accessibility (color + shape or color + label)
 - [ ] SVG `<title>` and `<desc>` elements present
 - [ ] Data table fallback in `<details>` block
-- [ ] CDN URLs correct: `vega@6`, `vega-embed@7` from jsdelivr (Vega) or `d3@7` (D3)
 
 ### Path B: Visual Verification
 

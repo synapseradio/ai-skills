@@ -1,10 +1,10 @@
 <!--
-     name: Radar Chart (D3)
+name: Radar Chart (D3)
      description: Standalone D3 radar chart comparing 3 products across 6 dimensions, with full keyboard navigation and ARIA support.
                   Note: radar charts are perceptually weak — use parallel coordinates when precision matters.
      chart-type: radar-chart
      engine: d3
-     -->
+-->
 <!doctype html>
 <html lang="en">
   <head>
@@ -61,16 +61,7 @@
       .subtitle {
         font-size: 13px;
         color: var(--oc-gray-6);
-        margin: 0 0 8px;
-      }
-      .perceptual-note {
-        font-size: 12px;
-        background: #fff3bf;
-        border-left: 3px solid #f59f00;
-        padding: 8px 12px;
-        border-radius: 0 4px 4px 0;
-        color: var(--oc-gray-8);
-        margin: 0 0 20px;
+        margin: 0 0 24px;
       }
       .tooltip {
         position: absolute;
@@ -84,35 +75,21 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .radar-polygon:focus {
-        outline: none;
+      .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
       }
-      .radar-vertex:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 2px;
-      }
-      .radar-vertex:focus:not(:focus-visible) {
-        outline: none;
-      }
-      .legend {
-        display: flex;
-        gap: 20px;
-        margin-top: 16px;
+      .axis-title {
+        fill: var(--oc-gray-7);
         font-size: 13px;
-        flex-wrap: wrap;
       }
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
       }
-      .legend-swatch {
-        width: 14px;
-        height: 14px;
-        border-radius: 2px;
-        flex-shrink: 0;
-        opacity: 0.5;
-        border: 2px solid;
+      .axis line,
+      .axis path {
+        stroke: var(--oc-gray-3);
       }
       details {
         margin-top: 24px;
@@ -143,6 +120,50 @@
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .subtitle {
+        font-size: 13px;
+        color: var(--oc-gray-6);
+        margin: 0 0 8px;
+      }
+      .perceptual-note {
+        font-size: 12px;
+        background: #fff3bf;
+        border-left: 3px solid #f59f00;
+        padding: 8px 12px;
+        border-radius: 0 4px 4px 0;
+        color: var(--oc-gray-8);
+        margin: 0 0 20px;
+      }
+      .radar-polygon:focus {
+        outline: none;
+      }
+      .radar-vertex:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 2px;
+      }
+      .radar-vertex:focus:not(:focus-visible) {
+        outline: none;
+      }
+      .legend {
+        display: flex;
+        gap: 20px;
+        margin-top: 16px;
+        font-size: 13px;
+        flex-wrap: wrap;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend-swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 2px;
+        flex-shrink: 0;
+        opacity: 0.5;
+        border: 2px solid;
       }
     </style>
   </head>

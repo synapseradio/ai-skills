@@ -74,13 +74,6 @@ engine: d3
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .dot:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 2px;
-      }
-      .dot:focus:not(:focus-visible) {
-        outline: none;
-      }
       .axis-label {
         fill: var(--oc-gray-6);
         font-size: 12px;
@@ -96,9 +89,6 @@ engine: d3
       .axis line,
       .axis path {
         stroke: var(--oc-gray-3);
-      }
-      .legend {
-        font-size: 13px;
       }
       details {
         margin-top: 24px;
@@ -129,6 +119,16 @@ engine: d3
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .dot:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 2px;
+      }
+      .dot:focus:not(:focus-visible) {
+        outline: none;
+      }
+      .legend {
+        font-size: 13px;
       }
     </style>
   </head>

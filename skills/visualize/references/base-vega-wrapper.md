@@ -4,138 +4,7 @@ Browser-runnable HTML wrapper for Vega-Lite (`.vl.json`) and full Vega (`.vg.jso
 
 ## Wrapper HTML
 
-```html
-<!--
-name: [Descriptive Name]
-description: [What the visualization shows]
-chart-type: [chart-type]
-engine: [vega-lite|vega]
-project: [project-name]
-created: [ISO timestamp]
--->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Page title: appears in browser tab and search results -->
-  <title>[Chart Title]</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #fafafa;
-    }
-    /* Centered card container matching the D3 base template layout */
-    #chart-container {
-      max-width: 960px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    /* Style the export/editor action links rendered by vegaEmbed */
-    .vega-actions a {
-      margin-right: 8px;
-      font-size: 12px;
-    }
-    /* Accessibility data table: collapsed by default via <details> */
-    #data-table {
-      margin-top: 12px;
-      overflow-x: auto;
-    }
-    #data-table table {
-      border-collapse: collapse;
-      font-size: 13px;
-      width: 100%;
-    }
-    #data-table th, #data-table td {
-      border: 1px solid #ddd;
-      padding: 6px 10px;
-      text-align: left;
-    }
-    #data-table th {
-      background: #f5f5f5;
-      font-weight: 600;
-    }
-    #data-table tr:nth-child(even) {
-      background: #fafafa;
-    }
-  </style>
-</head>
-<body>
-  <div id="chart-container">
-    <!-- vegaEmbed renders the SVG/canvas into this div -->
-    <div id="vis"></div>
-    <!-- Screen-reader-accessible data table, auto-generated after render -->
-    <details>
-      <summary>View data table</summary>
-      <div id="data-table"></div>
-    </details>
-  </div>
-
-  <!-- CDN imports: vega runtime, vega-lite compiler, vegaEmbed helper -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
-
-  <script>
-    // ============================================
-    // SPEC INJECTION POINT
-    // Replace the placeholder object with the full
-    // Vega-Lite or Vega JSON spec.
-    // ============================================
-    const spec = { /* JSON spec injected here */ };
-
-    // ============================================
-    // RENDER
-    // vegaEmbed compiles VL to Vega if needed,
-    // then renders into #vis.
-    // ============================================
-    vegaEmbed('#vis', spec, {
-      actions: { export: true, source: false, compiled: false, editor: true },
-      renderer: 'svg'
-    }).then(result => {
-      // ============================================
-      // AUTO-GENERATE ACCESSIBILITY DATA TABLE
-      // Reads the rendered dataset from the Vega view
-      // and builds an HTML <table> inside <details>.
-      // ============================================
-      const view = result.view;
-      const data = view.data('data_0') || view.data('source_0') || view.data('source');
-      if (data && data.length > 0) {
-        const keys = Object.keys(data[0]).filter(k => !k.startsWith('_'));
-        const table = document.createElement('table');
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        keys.forEach(k => {
-          const th = document.createElement('th');
-          th.scope = 'col';
-          th.textContent = k;
-          headerRow.appendChild(th);
-        });
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-        const tbody = document.createElement('tbody');
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          keys.forEach(k => {
-            const td = document.createElement('td');
-            td.textContent = row[k] != null ? String(row[k]) : '';
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-        document.getElementById('data-table').appendChild(table);
-      }
-    }).catch(console.error);
-  </script>
-</body>
-</html>
-```
+The wrapper source lives at `assets/vega/wrapper.html`. That file is the single source of truth — copy it directly when producing a Vega visualization. This document describes how to use it; the file itself contains the markup.
 
 ## How to Inject a Spec
 
@@ -174,15 +43,13 @@ The `engine` field is the only addition over the D3 `base-template.md` frontmatt
 
 ## CDN Versions
 
-The wrapper loads three libraries from jsDelivr:
+The wrapper loads three libraries from jsDelivr. All three are required even when embedding a full Vega spec, because vegaEmbed depends on both libraries. All CDN pins use `@latest` to track the most recent stable release.
 
 | Library | CDN URL | Purpose |
 |---|---|---|
-| Vega | `https://cdn.jsdelivr.net/npm/vega@6` | Runtime: parses Vega specs, runs the dataflow, renders marks |
-| Vega-Lite | `https://cdn.jsdelivr.net/npm/vega-lite@6` | Compiler: translates Vega-Lite specs to full Vega |
-| Vega-Embed | `https://cdn.jsdelivr.net/npm/vega-embed@7` | Helper: handles spec detection, compilation, rendering, and action links |
-
-All three are required even when embedding a full Vega spec, because vegaEmbed depends on both libraries. The `@6` / `@7` semver ranges pin to the latest patch within the major version.
+| Vega | `https://cdn.jsdelivr.net/npm/vega@latest` | Runtime: parses Vega specs, runs the dataflow, renders marks |
+| Vega-Lite | `https://cdn.jsdelivr.net/npm/vega-lite@latest` | Compiler: translates Vega-Lite specs to full Vega |
+| Vega-Embed | `https://cdn.jsdelivr.net/npm/vega-embed@latest` | Helper: handles spec detection, compilation, rendering, and action links |
 
 ## vegaEmbed Options
 

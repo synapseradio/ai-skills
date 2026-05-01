@@ -7,14 +7,13 @@
       "Adjust IQR multiplier (1.5) in whisker bound formulas to change fence width",
       "Modify title and description for your context"
     ],
-    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group — Vega computes quartiles, whiskers, and outliers from the raw data."
+    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- Vega computes quartiles, whiskers, and outliers from the raw data."
   },
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "autosize": {
     "contains": "padding",
     "type": "fit"
   },
-
   "axes": [
     {
       "domainColor": "#dee2e6",
@@ -45,7 +44,6 @@
       "titleFontSize": 13
     }
   ],
-
   "config": {
     "aria": true,
     "axis": {
@@ -56,7 +54,6 @@
       "font": "system-ui, -apple-system, sans-serif"
     }
   },
-
   "data": [
     {
       "name": "source",
@@ -71,155 +68,59 @@
         },
         {
           "group": "Class A",
-          "value": 70
-        },
-        {
-          "group": "Class A",
           "value": 71
         },
         {
           "group": "Class A",
+          "value": 74
+        },
+        {
+          "group": "Class A",
+          "value": 75
+        },
+        {
+          "group": "Class A",
+          "value": 78
+        },
+        {
+          "group": "Class A",
+          "value": 82
+        },
+        {
+          "group": "Class A",
+          "value": 85
+        },
+        {
+          "group": "Class B",
+          "value": 55
+        },
+        {
+          "group": "Class B",
+          "value": 62
+        },
+        {
+          "group": "Class B",
           "value": 72
         },
         {
-          "group": "Class A",
-          "value": 73
-        },
-        {
-          "group": "Class A",
-          "value": 74
-        },
-        {
-          "group": "Class A",
-          "value": 74
-        },
-        {
-          "group": "Class A",
-          "value": 75
-        },
-        {
-          "group": "Class A",
-          "value": 75
-        },
-        {
-          "group": "Class A",
-          "value": 76
-        },
-        {
-          "group": "Class A",
-          "value": 76
-        },
-        {
-          "group": "Class A",
-          "value": 77
-        },
-        {
-          "group": "Class A",
-          "value": 78
-        },
-        {
-          "group": "Class A",
-          "value": 79
-        },
-        {
-          "group": "Class A",
-          "value": 80
-        },
-        {
-          "group": "Class A",
-          "value": 82
-        },
-        {
-          "group": "Class A",
-          "value": 84
-        },
-        {
-          "group": "Class A",
-          "value": 85
-        },
-        {
-          "group": "Class A",
-          "value": 88
-        },
-        {
           "group": "Class B",
           "value": 78
         },
         {
           "group": "Class B",
-          "value": 79
-        },
-        {
-          "group": "Class B",
-          "value": 80
-        },
-        {
-          "group": "Class B",
-          "value": 81
-        },
-        {
-          "group": "Class B",
-          "value": 81
-        },
-        {
-          "group": "Class B",
-          "value": 82
-        },
-        {
-          "group": "Class B",
-          "value": 82
-        },
-        {
-          "group": "Class B",
-          "value": 83
-        },
-        {
-          "group": "Class B",
-          "value": 83
-        },
-        {
-          "group": "Class B",
           "value": 84
-        },
-        {
-          "group": "Class B",
-          "value": 84
-        },
-        {
-          "group": "Class B",
-          "value": 84
-        },
-        {
-          "group": "Class B",
-          "value": 85
-        },
-        {
-          "group": "Class B",
-          "value": 85
-        },
-        {
-          "group": "Class B",
-          "value": 86
-        },
-        {
-          "group": "Class B",
-          "value": 87
         },
         {
           "group": "Class B",
           "value": 88
-        },
-        {
-          "group": "Class B",
-          "value": 89
-        },
-        {
-          "group": "Class B",
-          "value": 90
         },
         {
           "group": "Class B",
           "value": 92
+        },
+        {
+          "group": "Class B",
+          "value": 95
         },
         {
           "group": "Class C",
@@ -227,159 +128,31 @@
         },
         {
           "group": "Class C",
+          "value": 50
+        },
+        {
+          "group": "Class C",
           "value": 55
         },
         {
           "group": "Class C",
-          "value": 58
-        },
-        {
-          "group": "Class C",
           "value": 60
         },
         {
           "group": "Class C",
-          "value": 62
-        },
-        {
-          "group": "Class C",
-          "value": 63
-        },
-        {
-          "group": "Class C",
-          "value": 64
-        },
-        {
-          "group": "Class C",
           "value": 65
         },
         {
           "group": "Class C",
-          "value": 65
-        },
-        {
-          "group": "Class C",
-          "value": 66
-        },
-        {
-          "group": "Class C",
-          "value": 66
-        },
-        {
-          "group": "Class C",
-          "value": 67
-        },
-        {
-          "group": "Class C",
           "value": 68
-        },
-        {
-          "group": "Class C",
-          "value": 68
-        },
-        {
-          "group": "Class C",
-          "value": 69
-        },
-        {
-          "group": "Class C",
-          "value": 70
-        },
-        {
-          "group": "Class C",
-          "value": 71
         },
         {
           "group": "Class C",
           "value": 72
-        },
-        {
-          "group": "Class C",
-          "value": 74
         },
         {
           "group": "Class C",
           "value": 95
-        },
-        {
-          "group": "Class D",
-          "value": 48
-        },
-        {
-          "group": "Class D",
-          "value": 52
-        },
-        {
-          "group": "Class D",
-          "value": 56
-        },
-        {
-          "group": "Class D",
-          "value": 60
-        },
-        {
-          "group": "Class D",
-          "value": 64
-        },
-        {
-          "group": "Class D",
-          "value": 66
-        },
-        {
-          "group": "Class D",
-          "value": 68
-        },
-        {
-          "group": "Class D",
-          "value": 70
-        },
-        {
-          "group": "Class D",
-          "value": 72
-        },
-        {
-          "group": "Class D",
-          "value": 74
-        },
-        {
-          "group": "Class D",
-          "value": 76
-        },
-        {
-          "group": "Class D",
-          "value": 78
-        },
-        {
-          "group": "Class D",
-          "value": 80
-        },
-        {
-          "group": "Class D",
-          "value": 82
-        },
-        {
-          "group": "Class D",
-          "value": 84
-        },
-        {
-          "group": "Class D",
-          "value": 86
-        },
-        {
-          "group": "Class D",
-          "value": 88
-        },
-        {
-          "group": "Class D",
-          "value": 90
-        },
-        {
-          "group": "Class D",
-          "value": 92
-        },
-        {
-          "group": "Class D",
-          "value": 96
         }
       ]
     },
@@ -458,262 +231,193 @@
       ]
     }
   ],
-  "description": "Box plots comparing score distributions across four classes. Class B has the highest median (84 points), while Class D shows the widest spread. Class C contains outliers at both extremes.",
+  "description": "Box plots comparing score distributions across three classes. Class B has the highest median. Class C contains an outlier at the upper extreme.",
   "height": 400,
-
   "marks": [
     {
-      "description": "Whisker: lower fence to Q1",
-      "encode": {
-        "enter": {
-          "stroke": {
-            "field": "group",
-            "scale": "color"
-          },
-          "strokeDash": {
-            "value": [
-              3,
-              2
-            ]
-          },
-          "strokeWidth": {
-            "value": 1.5
-          },
-          "x": {
-            "band": 0.5,
-            "field": "group",
-            "scale": "x"
-          },
-          "y": {
-            "field": "whiskerLow",
-            "scale": "y"
-          },
-          "y2": {
-            "field": "q1",
-            "scale": "y"
-          }
-        }
-      },
       "from": {
         "data": "stats"
       },
-      "type": "rule"
-    },
-    {
-      "description": "Whisker: Q3 to upper fence",
-      "encode": {
-        "enter": {
-          "stroke": {
-            "field": "group",
-            "scale": "color"
-          },
-          "strokeDash": {
-            "value": [
-              3,
-              2
-            ]
-          },
-          "strokeWidth": {
-            "value": 1.5
-          },
-          "x": {
-            "band": 0.5,
-            "field": "group",
-            "scale": "x"
-          },
-          "y": {
-            "field": "q3",
-            "scale": "y"
-          },
-          "y2": {
-            "field": "whiskerHigh",
-            "scale": "y"
-          }
-        }
-      },
-      "from": {
-        "data": "stats"
-      },
-      "type": "rule"
-    },
-    {
-      "description": "Lower whisker cap tick",
-      "encode": {
-        "enter": {
-          "stroke": {
-            "field": "group",
-            "scale": "color"
-          },
-          "strokeWidth": {
-            "value": 1.5
-          },
-          "x": {
-            "band": 0.25,
-            "field": "group",
-            "scale": "x"
-          },
-          "x2": {
-            "band": 0.75,
-            "field": "group",
-            "scale": "x"
-          },
-          "y": {
-            "field": "whiskerLow",
-            "scale": "y"
-          },
-          "y2": {
-            "field": "whiskerLow",
-            "scale": "y"
-          }
-        }
-      },
-      "from": {
-        "data": "stats"
-      },
-      "type": "rule"
-    },
-    {
-      "description": "Upper whisker cap tick",
-      "encode": {
-        "enter": {
-          "stroke": {
-            "field": "group",
-            "scale": "color"
-          },
-          "strokeWidth": {
-            "value": 1.5
-          },
-          "x": {
-            "band": 0.25,
-            "field": "group",
-            "scale": "x"
-          },
-          "x2": {
-            "band": 0.75,
-            "field": "group",
-            "scale": "x"
-          },
-          "y": {
-            "field": "whiskerHigh",
-            "scale": "y"
-          },
-          "y2": {
-            "field": "whiskerHigh",
-            "scale": "y"
-          }
-        }
-      },
-      "from": {
-        "data": "stats"
-      },
-      "type": "rule"
-    },
-    {
-      "description": "IQR box (Q1 to Q3)",
-      "encode": {
-        "enter": {
-          "cornerRadius": {
-            "value": 2
-          },
-          "tooltip": {
-            "signal": "{'Class': datum.group, 'Median': datum.median + ' pts', 'Q1': datum.q1 + ' pts', 'Q3': datum.q3 + ' pts', 'Whisker low': datum.whiskerLow + ' pts', 'Whisker high': datum.whiskerHigh + ' pts'}"
-          },
-          "x": {
-            "field": "group",
-            "offset": 4,
-            "scale": "x"
-          },
-          "x2": {
-            "band": 1,
-            "field": "group",
-            "offset": -4,
-            "scale": "x"
-          },
-          "y": {
-            "field": "q3",
-            "scale": "y"
-          },
-          "y2": {
-            "field": "q1",
-            "scale": "y"
-          }
-        },
-        "update": {
-          "fill": {
-            "field": "group",
-            "scale": "color"
-          },
-          "opacity": [
-            {
-              "test": "hovered === null || hovered.group === datum.group",
-              "value": 0.7
-            },
-            {
-              "value": 0.15
+      "marks": [
+        {
+          "description": "Whisker from lower fence to upper fence",
+          "encode": {
+            "enter": {
+              "stroke": {
+                "field": "group",
+                "scale": "color"
+              },
+              "strokeDash": [
+                3,
+                2
+              ],
+              "strokeWidth": 1.5,
+              "x": {
+                "band": 0.5,
+                "field": "group",
+                "scale": "x"
+              },
+              "y": {
+                "field": "whiskerLow",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "whiskerHigh",
+                "scale": "y"
+              }
             }
-          ]
+          },
+          "type": "rule"
+        },
+        {
+          "description": "Lower whisker cap",
+          "encode": {
+            "enter": {
+              "stroke": {
+                "field": "group",
+                "scale": "color"
+              },
+              "strokeWidth": 1.5,
+              "x": {
+                "band": 0.25,
+                "field": "group",
+                "scale": "x"
+              },
+              "x2": {
+                "band": 0.75,
+                "field": "group",
+                "scale": "x"
+              },
+              "y": {
+                "field": "whiskerLow",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "whiskerLow",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
+        },
+        {
+          "description": "Upper whisker cap",
+          "encode": {
+            "enter": {
+              "stroke": {
+                "field": "group",
+                "scale": "color"
+              },
+              "strokeWidth": 1.5,
+              "x": {
+                "band": 0.25,
+                "field": "group",
+                "scale": "x"
+              },
+              "x2": {
+                "band": 0.75,
+                "field": "group",
+                "scale": "x"
+              },
+              "y": {
+                "field": "whiskerHigh",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "whiskerHigh",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
+        },
+        {
+          "description": "IQR box (Q1 to Q3)",
+          "encode": {
+            "enter": {
+              "cornerRadius": 2,
+              "tooltip": {
+                "signal": "{'Class': datum.group, 'Median': datum.median + ' pts', 'Q1': datum.q1 + ' pts', 'Q3': datum.q3 + ' pts', 'Whisker low': datum.whiskerLow + ' pts', 'Whisker high': datum.whiskerHigh + ' pts'}"
+              },
+              "x": {
+                "field": "group",
+                "offset": 4,
+                "scale": "x"
+              },
+              "x2": {
+                "band": 1,
+                "field": "group",
+                "offset": -4,
+                "scale": "x"
+              },
+              "y": {
+                "field": "q3",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "q1",
+                "scale": "y"
+              }
+            },
+            "update": {
+              "fill": {
+                "field": "group",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.group === datum.group",
+                  "value": 0.7
+                },
+                {
+                  "value": 0.15
+                }
+              ]
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "description": "Median line",
+          "encode": {
+            "enter": {
+              "stroke": "#212529",
+              "strokeWidth": 2.5,
+              "x": {
+                "field": "group",
+                "offset": 4,
+                "scale": "x"
+              },
+              "x2": {
+                "band": 1,
+                "field": "group",
+                "offset": -4,
+                "scale": "x"
+              },
+              "y": {
+                "field": "median",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "median",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
         }
-      },
-      "from": {
-        "data": "stats"
-      },
-      "type": "rect"
-    },
-    {
-      "description": "Median line",
-      "encode": {
-        "enter": {
-          "stroke": {
-            "value": "#212529"
-          },
-          "strokeWidth": {
-            "value": 2.5
-          },
-          "x": {
-            "field": "group",
-            "offset": 4,
-            "scale": "x"
-          },
-          "x2": {
-            "band": 1,
-            "field": "group",
-            "offset": -4,
-            "scale": "x"
-          },
-          "y": {
-            "field": "median",
-            "scale": "y"
-          },
-          "y2": {
-            "field": "median",
-            "scale": "y"
-          }
-        }
-      },
-      "from": {
-        "data": "stats"
-      },
-      "type": "rule"
+      ],
+      "type": "group"
     },
     {
       "description": "Outlier points",
       "encode": {
         "enter": {
-          "fill": {
-            "value": "#f03e3e"
-          },
-          "shape": {
-            "value": "circle"
-          },
-          "size": {
-            "value": 40
-          },
-          "stroke": {
-            "value": "white"
-          },
-          "strokeWidth": {
-            "value": 1
-          },
+          "fill": "#f03e3e",
+          "shape": "circle",
+          "size": 40,
+          "stroke": "white",
+          "strokeWidth": 1,
           "tooltip": {
             "signal": "{'Class': datum.group, 'Outlier': datum.value + ' pts'}"
           },
@@ -732,6 +436,36 @@
         "data": "outliers"
       },
       "type": "symbol"
+    },
+    {
+      "description": "Jittered sample data points",
+      "encode": {
+        "enter": {
+          "fill": {
+            "field": "group",
+            "scale": "color"
+          },
+          "fillOpacity": {
+            "value": 0.35
+          },
+          "shape": "circle",
+          "size": 25,
+          "tooltip": {
+            "signal": "{'Class': datum.group, 'Score': datum.value + ' pts'}"
+          },
+          "x": {
+            "signal": "scale('x', datum.group) + bandwidth('x') * (random() - 0.5) * 0.6"
+          },
+          "y": {
+            "field": "value",
+            "scale": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "symbol"
     }
   ],
   "padding": {
@@ -740,7 +474,6 @@
     "right": 24,
     "top": 16
   },
-
   "scales": [
     {
       "domain": {
@@ -772,13 +505,11 @@
       "range": [
         "#1c7ed6",
         "#e8590c",
-        "#0ca678",
-        "#f03e3e"
+        "#0ca678"
       ],
       "type": "ordinal"
     }
   ],
-
   "signals": [
     {
       "name": "hovered",
@@ -802,7 +533,7 @@
     "subtitle": "Test score distribution by class (points, 0–100)",
     "subtitleColor": "#868e96",
     "subtitleFontSize": 12,
-    "text": "Class B scores highest; Class D spans the widest range"
+    "text": "Class B scores highest; Class C has the widest spread"
   },
   "width": 600
 }

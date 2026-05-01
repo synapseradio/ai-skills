@@ -1,5 +1,5 @@
 <!--
-     name: Treemap (D3)
+name: Treemap (D3)
      description: Standalone D3 treemap with 2-level hierarchy, full keyboard navigation and ARIA support
      chart-type: treemap
      engine: d3
@@ -74,21 +74,21 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .tree-cell:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: -2px;
-      }
-      .tree-cell:focus:not(:focus-visible) {
-        outline: none;
-      }
-      .cell-label {
+      .axis-label {
+        fill: var(--oc-gray-6);
         font-size: 12px;
-        font-weight: 600;
-        pointer-events: none;
       }
-      .cell-value {
-        font-size: 11px;
-        pointer-events: none;
+      .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
+      }
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
+      }
+      .axis line,
+      .axis path {
+        stroke: var(--oc-gray-3);
       }
       details {
         margin-top: 24px;
@@ -119,6 +119,22 @@
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .tree-cell:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: -2px;
+      }
+      .tree-cell:focus:not(:focus-visible) {
+        outline: none;
+      }
+      .cell-label {
+        font-size: 12px;
+        font-weight: 600;
+        pointer-events: none;
+      }
+      .cell-value {
+        font-size: 11px;
+        pointer-events: none;
       }
     </style>
   </head>

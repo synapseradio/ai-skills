@@ -23,11 +23,13 @@ engine: d3
         --oc-gray-8: #343a40;
         --oc-gray-9: #212529;
         --oc-blue-7: #1c7ed6;
-        --oc-blue-1: #d0ebff;
+        --oc-orange-7: #e8590c;
         --oc-teal-7: #0ca678;
-        --oc-teal-1: #c3fae8;
+        --oc-red-7: #f03e3e;
         --oc-grape-7: #ae3ec9;
-        --oc-grape-1: #f3d9fa;
+        --oc-cyan-7: #1098ad;
+        --oc-lime-7: #74b816;
+        --oc-pink-7: #d6336c;
       }
       * {
         box-sizing: border-box;
@@ -72,18 +74,21 @@ engine: d3
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .node-group:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 3px;
-        border-radius: 4px;
+      .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
       }
-      .node-group:focus:not(:focus-visible) {
-        outline: none;
+      .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
       }
-      .link {
-        fill: none;
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
+      }
+      .axis line,
+      .axis path {
         stroke: var(--oc-gray-3);
-        stroke-width: 1.5;
       }
       details {
         margin-top: 24px;
@@ -114,6 +119,19 @@ engine: d3
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .node-group:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+      .node-group:focus:not(:focus-visible) {
+        outline: none;
+      }
+      .link {
+        fill: none;
+        stroke: var(--oc-gray-3);
+        stroke-width: 1.5;
       }
     </style>
   </head>

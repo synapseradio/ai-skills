@@ -1,9 +1,9 @@
 <!--
-     name: Waffle Chart (D3)
+name: Waffle Chart (D3)
      description: Standalone D3 waffle chart showing part-of-whole proportions on a 10×10 grid with full keyboard navigation and ARIA support
      chart-type: waffle-chart
      engine: d3
-     -->
+-->
 <!doctype html>
 <html lang="en">
   <head>
@@ -74,30 +74,21 @@
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .cell:focus {
-        outline: 2px solid var(--oc-blue-7);
-        outline-offset: 1px;
+      .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
       }
-      .cell:focus:not(:focus-visible) {
-        outline: none;
-      }
-      .legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px 24px;
-        margin-top: 20px;
+      .axis-title {
+        fill: var(--oc-gray-7);
         font-size: 13px;
       }
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+      .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
       }
-      .legend-swatch {
-        width: 14px;
-        height: 14px;
-        border-radius: 2px;
-        flex-shrink: 0;
+      .axis line,
+      .axis path {
+        stroke: var(--oc-gray-3);
       }
       details {
         margin-top: 24px;
@@ -128,6 +119,31 @@
       }
       tr:nth-child(even) {
         background: var(--oc-gray-0);
+      }
+      .cell:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 1px;
+      }
+      .cell:focus:not(:focus-visible) {
+        outline: none;
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        margin-top: 20px;
+        font-size: 13px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend-swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 2px;
+        flex-shrink: 0;
       }
     </style>
   </head>

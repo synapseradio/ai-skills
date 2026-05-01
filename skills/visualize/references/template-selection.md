@@ -1,8 +1,10 @@
 # Template Selection
 
-Choose the right template based on your data and the question you're answering. Every chart
-type has both a Vega and a D3 variant. Default to Vega unless you need D3 capabilities
-(see `engine-selection.md`).
+Choose the right template based on your data and the question you're answering. Each
+chart type has at least one Vega and one D3 variant; many also have a markdown
+variant for pull requests, READMEs, tickets, and other markdown surfaces. Default
+to Vega for browser output; default to the markdown engine when the destination is
+a markdown surface (see `engine-selection.md`).
 
 ## Quick Selection
 
@@ -62,6 +64,26 @@ What's your primary question?
 
 If no template fits, use the Custom Template Workflow in SKILL.md.
 
+## Markdown engine quick selection
+
+When the destination is a markdown surface, route to one of these:
+
+| Question                                  | Markdown template     |
+| ----------------------------------------- | --------------------- |
+| "Compare items across columns"            | comparison-table      |
+| "Compare amounts at a glance"             | unicode-bar-chart     |
+| "Top-N with deltas"                       | ranked-list           |
+| "Show a trend over time inline"           | sparkline-row         |
+| "Bin values by two categorical axes"      | emoji-heatmap         |
+| "Show a hierarchy"                        | ascii-tree            |
+| "Show a process or flow"                  | mermaid-flowchart     |
+| "Show a sequence between actors"          | mermaid-sequence      |
+| "Show a project timeline"                 | mermaid-gantt         |
+
+For mermaid templates, choose `.md` if the surface auto-renders mermaid
+(GitHub, GitLab, Notion, Obsidian, recent VS Code) and `.html` otherwise.
+See `markdown-patterns.md` for the surface matrix and the honesty checklist.
+
 ## Data Shape Examples
 
 ### bar-chart
@@ -90,36 +112,13 @@ If no template fits, use the Custom Template Workflow in SKILL.md.
 
 ## Template Directory
 
-All templates at `assets/vega/templates/` (Vega) and `assets/d3/templates/` (D3):
+All templates at `assets/vega/templates/` (Vega), `assets/d3/templates/` (D3),
+and `assets/markdown/templates/` (Markdown). The full engine ↔ chart mapping
+lives in `engine-selection.md`. The summary:
 
-| Category | Chart | Vega (.vg.json) | D3 (.html) |
-|----------|-------|-----------------|------------|
-| comparisons | bar-chart | Yes | Yes |
-| comparisons | grouped-bar | Yes | Yes |
-| comparisons | stacked-bar | Yes | Yes |
-| compositions | pie-chart | Yes | Yes |
-| compositions | sunburst | Yes | Yes |
-| compositions | treemap | Yes | Yes |
-| distributions | histogram | Yes | Yes |
-| distributions | box-plot | Yes | Yes |
-| distributions | violin-plot | Yes | Yes |
-| geographic | choropleth | Yes | Yes |
-| hierarchical | tree-diagram | Yes | Yes |
-| networks | force-graph | Yes | Yes |
-| networks | sankey | — | Yes |
-| relationships | scatter-plot | Yes | Yes |
-| relationships | heatmap | Yes | Yes |
-| relationships | bubble-chart | Yes | Yes |
-| temporal | line-chart | Yes | Yes |
-| temporal | area-chart | Yes | Yes |
-| temporal | candlestick | Yes | Yes |
-| comparisons | dot-plot (lollipop) | Yes | Yes |
-| comparisons | dumbbell-chart | Yes | Yes |
-| compositions | waffle-chart | Yes | Yes |
-| relationships | parallel-coordinates | Yes | Yes |
-| relationships | radar-chart | Yes | Yes |
-| temporal | slope-chart | Yes | Yes |
-| temporal | sparkline | Yes | Yes |
+- 25 Vega specs (`.vg.json`)
+- 26 D3 templates (`.html`) — sankey is D3-only
+- 9 Markdown templates (6 plain-text + 3 mermaid in `.md` and `.html` variants)
 
 ## Tiebreakers (in priority order)
 

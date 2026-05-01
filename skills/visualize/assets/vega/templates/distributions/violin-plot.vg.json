@@ -8,8 +8,7 @@
       "Update axes titles for your variable names",
       "Modify title.text and title.subtitle for your context"
     ],
-    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- KDE transform computes the density curve.",
-    "notes": "The bandwidth signal defaults to 0 (auto-detect). The interactive range slider lets users adjust KDE smoothing."
+    "dataFormat": "Array of objects with 'group' (nominal category) and 'value' (quantitative measurement) fields. Multiple observations per group -- KDE transform computes the density curve."
   },
   "$schema": "https://vega.github.io/schema/vega/v6.json",
   "axes": [
@@ -77,18 +76,6 @@
         },
         {
           "group": "Class A",
-          "value": 68
-        },
-        {
-          "group": "Class A",
-          "value": 69
-        },
-        {
-          "group": "Class A",
-          "value": 70
-        },
-        {
-          "group": "Class A",
           "value": 70
         },
         {
@@ -97,35 +84,7 @@
         },
         {
           "group": "Class A",
-          "value": 71
-        },
-        {
-          "group": "Class A",
-          "value": 72
-        },
-        {
-          "group": "Class A",
           "value": 73
-        },
-        {
-          "group": "Class A",
-          "value": 73
-        },
-        {
-          "group": "Class A",
-          "value": 74
-        },
-        {
-          "group": "Class A",
-          "value": 74
-        },
-        {
-          "group": "Class A",
-          "value": 75
-        },
-        {
-          "group": "Class A",
-          "value": 75
         },
         {
           "group": "Class A",
@@ -134,18 +93,6 @@
         {
           "group": "Class A",
           "value": 76
-        },
-        {
-          "group": "Class A",
-          "value": 76
-        },
-        {
-          "group": "Class A",
-          "value": 77
-        },
-        {
-          "group": "Class A",
-          "value": 77
         },
         {
           "group": "Class A",
@@ -153,15 +100,7 @@
         },
         {
           "group": "Class A",
-          "value": 79
-        },
-        {
-          "group": "Class A",
           "value": 80
-        },
-        {
-          "group": "Class A",
-          "value": 81
         },
         {
           "group": "Class A",
@@ -193,10 +132,6 @@
         },
         {
           "group": "Class B",
-          "value": 78
-        },
-        {
-          "group": "Class B",
           "value": 80
         },
         {
@@ -205,18 +140,6 @@
         },
         {
           "group": "Class B",
-          "value": 83
-        },
-        {
-          "group": "Class B",
-          "value": 84
-        },
-        {
-          "group": "Class B",
-          "value": 85
-        },
-        {
-          "group": "Class B",
           "value": 85
         },
         {
@@ -225,43 +148,11 @@
         },
         {
           "group": "Class B",
-          "value": 86
-        },
-        {
-          "group": "Class B",
-          "value": 87
-        },
-        {
-          "group": "Class B",
-          "value": 87
-        },
-        {
-          "group": "Class B",
-          "value": 88
-        },
-        {
-          "group": "Class B",
-          "value": 88
-        },
-        {
-          "group": "Class B",
           "value": 88
         },
         {
           "group": "Class B",
           "value": 89
-        },
-        {
-          "group": "Class B",
-          "value": 89
-        },
-        {
-          "group": "Class B",
-          "value": 90
-        },
-        {
-          "group": "Class B",
-          "value": 90
         },
         {
           "group": "Class B",
@@ -269,15 +160,7 @@
         },
         {
           "group": "Class B",
-          "value": 92
-        },
-        {
-          "group": "Class B",
           "value": 93
-        },
-        {
-          "group": "Class B",
-          "value": 94
         },
         {
           "group": "Class B",
@@ -289,10 +172,6 @@
         },
         {
           "group": "Class C",
-          "value": 47
-        },
-        {
-          "group": "Class C",
           "value": 48
         },
         {
@@ -301,23 +180,11 @@
         },
         {
           "group": "Class C",
-          "value": 51
-        },
-        {
-          "group": "Class C",
           "value": 53
         },
         {
           "group": "Class C",
-          "value": 54
-        },
-        {
-          "group": "Class C",
           "value": 55
-        },
-        {
-          "group": "Class C",
-          "value": 56
         },
         {
           "group": "Class C",
@@ -325,23 +192,11 @@
         },
         {
           "group": "Class C",
-          "value": 58
-        },
-        {
-          "group": "Class C",
           "value": 59
         },
         {
           "group": "Class C",
-          "value": 60
-        },
-        {
-          "group": "Class C",
           "value": 82
-        },
-        {
-          "group": "Class C",
-          "value": 83
         },
         {
           "group": "Class C",
@@ -349,15 +204,7 @@
         },
         {
           "group": "Class C",
-          "value": 86
-        },
-        {
-          "group": "Class C",
           "value": 87
-        },
-        {
-          "group": "Class C",
-          "value": 88
         },
         {
           "group": "Class C",
@@ -365,139 +212,11 @@
         },
         {
           "group": "Class C",
-          "value": 90
-        },
-        {
-          "group": "Class C",
           "value": 91
         },
         {
           "group": "Class C",
-          "value": 92
-        },
-        {
-          "group": "Class C",
           "value": 93
-        },
-        {
-          "group": "Class C",
-          "value": 94
-        },
-        {
-          "group": "Class C",
-          "value": 95
-        },
-        {
-          "group": "Class D",
-          "value": 50
-        },
-        {
-          "group": "Class D",
-          "value": 52
-        },
-        {
-          "group": "Class D",
-          "value": 54
-        },
-        {
-          "group": "Class D",
-          "value": 56
-        },
-        {
-          "group": "Class D",
-          "value": 58
-        },
-        {
-          "group": "Class D",
-          "value": 60
-        },
-        {
-          "group": "Class D",
-          "value": 62
-        },
-        {
-          "group": "Class D",
-          "value": 64
-        },
-        {
-          "group": "Class D",
-          "value": 66
-        },
-        {
-          "group": "Class D",
-          "value": 68
-        },
-        {
-          "group": "Class D",
-          "value": 70
-        },
-        {
-          "group": "Class D",
-          "value": 72
-        },
-        {
-          "group": "Class D",
-          "value": 74
-        },
-        {
-          "group": "Class D",
-          "value": 76
-        },
-        {
-          "group": "Class D",
-          "value": 78
-        },
-        {
-          "group": "Class D",
-          "value": 80
-        },
-        {
-          "group": "Class D",
-          "value": 82
-        },
-        {
-          "group": "Class D",
-          "value": 84
-        },
-        {
-          "group": "Class D",
-          "value": 86
-        },
-        {
-          "group": "Class D",
-          "value": 88
-        },
-        {
-          "group": "Class D",
-          "value": 90
-        },
-        {
-          "group": "Class D",
-          "value": 92
-        },
-        {
-          "group": "Class D",
-          "value": 94
-        },
-        {
-          "group": "Class D",
-          "value": 51
-        },
-        {
-          "group": "Class D",
-          "value": 55
-        },
-        {
-          "group": "Class D",
-          "value": 61
-        },
-        {
-          "group": "Class D",
-          "value": 67
-        },
-        {
-          "group": "Class D",
-          "value": 73
         }
       ]
     },
@@ -506,9 +225,7 @@
       "source": "table",
       "transform": [
         {
-          "bandwidth": {
-            "signal": "bandwidth"
-          },
+          "bandwidth": 0,
           "extent": [
             40,
             100
@@ -549,7 +266,7 @@
       ]
     }
   ],
-  "description": "Violin plot comparing distribution shapes across four classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations), and Class D is roughly uniform.",
+  "description": "Violin plot comparing distribution shapes across three classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations).",
   "height": 400,
   "marks": [
     {
@@ -597,18 +314,14 @@
                 },
                 "scale": "color"
               },
-              "fillOpacity": {
-                "value": 0.7
-              },
+              "fillOpacity": 0.7,
               "stroke": {
                 "field": {
                   "parent": "group"
                 },
                 "scale": "color"
               },
-              "strokeWidth": {
-                "value": 1.5
-              },
+              "strokeWidth": 1.5,
               "tooltip": {
                 "signal": "{'Group': parent.group, 'Score': format(datum.value, '.1f'), 'Density': format(datum.density, '.4f')}"
               }
@@ -635,21 +348,11 @@
         {
           "encode": {
             "enter": {
-              "cornerRadius": {
-                "value": 2
-              },
-              "fill": {
-                "value": "white"
-              },
-              "fillOpacity": {
-                "value": 0.9
-              },
-              "stroke": {
-                "value": "#333"
-              },
-              "strokeWidth": {
-                "value": 1
-              },
+              "cornerRadius": 2,
+              "fill": "white",
+              "fillOpacity": 0.9,
+              "stroke": "#333",
+              "strokeWidth": 1,
               "width": {
                 "value": 8
               }
@@ -676,15 +379,9 @@
         {
           "encode": {
             "enter": {
-              "fill": {
-                "value": "#333"
-              },
-              "shape": {
-                "value": "circle"
-              },
-              "size": {
-                "value": 30
-              },
+              "fill": "#333",
+              "shape": "circle",
+              "size": 30,
               "tooltip": {
                 "signal": "{'Median': format(datum.median, '.1f'), 'Q1': format(datum.q1, '.1f'), 'Q3': format(datum.q3, '.1f')}"
               }
@@ -761,12 +458,7 @@
       "range": [
         "#1c7ed6",
         "#e8590c",
-        "#0ca678",
-        "#f03e3e",
-        "#ae3ec9",
-        "#1098ad",
-        "#74b816",
-        "#d6336c"
+        "#0ca678"
       ],
       "type": "ordinal"
     }
@@ -775,16 +467,6 @@
     {
       "name": "plotWidth",
       "value": 60
-    },
-    {
-      "bind": {
-        "input": "range",
-        "max": 10,
-        "min": 0,
-        "step": 0.1
-      },
-      "name": "bandwidth",
-      "value": 0
     }
   ],
   "title": {
