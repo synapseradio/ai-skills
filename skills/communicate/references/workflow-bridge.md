@@ -1,153 +1,75 @@
 # Bridge Workflow
 
-Translanguaging — drawing on a writer's full linguistic repertoire as an integrated system — not translation. Translation optimizes for target-language correctness. This workflow optimizes for semantic fidelity: what must survive from the source framing, and what is necessarily lost in the English rendering.
+Translanguaging — drawing on the writer's full linguistic repertoire — for thoughts that resist English expression. Output is bilingual with annotated loss, not translation.
 
-The gap between a clear idea and its English expression is often not vocabulary but ontology. The idea may live in a grammatical framework, a rhetorical convention, or a conceptual frame that English cannot accommodate without loss. This workflow names that loss explicitly rather than smoothing it away.
+**Boundary with the Structure workflow:** Bridge handles thoughts that live in another language and need rendering with annotated loss. Structure handles prose already in the target language whose argument architecture follows another rhetorical tradition. If both apply, run Bridge for the rendering and Structure for the architecture.
 
-Works standalone or as an interrupt during any active workflow. When a thought resists English expression mid-workflow, load this file for the stuck passage, then return to the active workflow.
+Works standalone or as an interrupt. When a thought resists English expression mid-workflow, load this file for the stuck passage, then return to the active workflow.
 
-## The Four Gaps
+## Input
 
-**1. Grammatical ontology gap** — The native language encodes a distinction English collapses. Spanish ser/estar splits "to be" into essential vs. transient states — "es triste" (sad by nature) vs. "esta triste" (sad right now). Japanese particles ne/yo/kana encode the speaker's epistemic relationship to the claim and the listener. Arabic verbal morphology encodes aspect and agency patterns English approximates only through separate clauses.
+Accept any of:
 
-**2. Rhetorical convention gap** — The native tradition organizes argument differently than English expects. Arabic parallel-restatement builds meaning through accumulation; French thesis-antithesis-synthesis holds contradiction before resolving it; Japanese indirection moves toward implication rather than assertion. The structure is not disorganization — it is method.
+- A rough idea in English: "what I want to say is…"
+- An L1 phrase or sentence
+- A mix: "in Korean we say *jeong* — how do I say that?"
+- Prose that does not sound right in English despite being grammatically correct
 
-**3. Conceptual lacuna** — The concept exists in L1 but has no direct English lexical equivalent. Portuguese *saudade* (longing for what is absent), Japanese *wabi-sabi* (beauty in impermanence), Arabic *tarab* (musical ecstasy that transcends listening), German *Schadenfreude*, Spanish *duende* (dark creative force). English approximations carry different connotations.
+If the source language is not stated and not obvious from script or content, ask. Never produce bilingual output without naming the source.
 
-**4. Pragmatic convention gap** — The native language has different norms for directness, hedging, formality, or relational positioning. Japanese sentence-final particles encode relational care; high-context traditions communicate refusal through what is not said; French subordinate clause accumulation signals epistemic rigor, not indecision.
+## Phase 1: Identify the gap
 
-## How to Use This Workflow
+Read [across-languages.md](./across-languages.md) and run the self-interrogation questions for the passage. Determine which gap or gaps operate:
 
-Accept any input format:
+- **Grammatical ontology** — L1 encodes a distinction English collapses
+- **Rhetorical convention** — L1 organizes the argument differently than English expects
+- **Conceptual lacuna** — the concept has no clean English lexical equivalent
+- **Pragmatic convention** — L1 has different norms for directness, hedging, or relational positioning
 
-- A rough idea in English ("what I want to say is...")
-- An L1 phrase or sentence to express in English
-- A mix ("in Arabic we say X — how do I say that in English?")
-- A passage that "doesn't sound right" in English despite being grammatically correct
+Often more than one gap operates. Name each that applies.
 
-## Phase 1: Receive
+## Phase 2: Render
 
-Accept the user's rough idea. If the following are not already provided, ask:
-
-- What is the thought to express?
-- What language was it thought in (if not evident)?
-- Is there a phrase in the native language that captures it, even roughly?
-
-### Native Language Detection
-
-Priority order:
-
-1. User states it explicitly ("in Spanish we say...")
-2. User provides L1 text (detect from script/orthography)
-3. User describes the concept and its tradition ("in Japanese, there's a concept of...")
-4. If unclear: ask directly — "What is the first language, or the language this idea lives in?"
-
-Never attempt the bilingual output without knowing the source language.
-
-## Phase 2: Identify
-
-Determine which gap type is operating. Often more than one.
-
-1. **Grammatical ontology** — Does L1 encode a distinction English collapses? (ser/estar, tener + emotion, particle systems, verbal morphology)
-2. **Rhetorical convention** — Does L1 tradition organize the thought differently than English expects? (parallel structure, dialectical framing, indirection)
-3. **Conceptual lacuna** — Does the concept lack a direct English lexical equivalent?
-4. **Pragmatic convention** — Does L1 have different norms for directness, hedging, or relational positioning?
-
-Load `@./references/tradition.md` to identify which tradition's conventions shape the source thought.
-
-For detailed gap examples by language tradition, consult `@./references/language-patterns.md`.
-
-## Phase 3: Bridge
-
-Produce bilingual output following this structure:
-
-### In [Native Language]
-
-The thought as the user would express it in their L1. If the user has already provided this, use it. If not, generate a likely L1 rendering based on what they have said. Mark as [generated] if not user-provided.
-
-### In English
-
-The thought rendered in natural English. Annotate differences:
-
-- Where English collapses a distinction the L1 preserves
-- Where English requires explicitness that the L1 leaves implicit (high-context to low-context)
-- Where English rhetorical norms differ from L1 (thesis-first vs. dialectical vs. parallel)
-- Where an L1 idiom was rendered as a functional equivalent with different connotations
-
-### What Shifted
-
-Explicitly name what shifted, what was lost, what was preserved differently. If the mapping is clean, say so. If no clean mapping exists, say so explicitly rather than producing a false equivalent.
-
-Every annotation names the **ontological** difference, not just the linguistic one:
-
-- Not: "Spanish uses tener here"
-- But: "Spanish encodes this emotion as something you carry rather than something you are — the self remains separate from the feeling. English collapses this distinction."
-
-For the full ontological framing approach, consult `@./references/translanguaging-guide.md`.
-
-## Phase 4: Offer Third (Conditional)
-
-Offer a simplified/direct English version when:
-
-- The English version retains L1 clause structures that may confuse a low-context English reader
-- The target audience is known to be low-context (American business, academic English)
-- The user asks for a "more natural English" rendering explicitly
-
-When offering the third version, always flag what it sacrifices:
-
-- "This version removes the dialectical framing. The original showed holding both positions before committing — the direct version loses that intellectual move."
-- "This version converts 'I have fear' to 'I am afraid.' The original encodes emotion as something carried rather than something inhabited — the English version loses that."
-
-The third version is a tradeoff, not an upgrade. Frame it as such.
-
-### Direct English (optional)
-
-[Simplified version]
-
-### What This Version Sacrifices
-
-[Explicit statement of what was lost — the rhetorical move, the ontological distinction, the relational positioning]
-
-## Output Format
+Produce bilingual output:
 
 ```text
-### In [Native Language]
-[L1 version — or "[generated based on your description]" if not user-provided]
+### In [Source Language]
+[L1 version, or "[generated from your description]" if not user-provided]
 
 ### In English
 [English version]
 
 ### What Shifted
-- [Specific annotation 1: what this English version cannot preserve from the L1]
-- [Specific annotation 2: where the English requires an addition the L1 leaves implicit]
-- [Where the mapping is successful: what does survive]
+- [What this English cannot preserve from the L1]
+- [Where the English requires explicit content the L1 leaves implicit]
+- [Where the mapping is clean and what survives]
 ```
 
-When offering third version:
+Each annotation names the **ontological** difference, not just the lexical one. Not "Spanish uses *tener* here," but "Spanish encodes this emotion as something carried, not inhabited; the self stays separate from the feeling. English collapses that."
+
+## Phase 3: Offer a direct version (conditional)
+
+Offer a simplified English rendering only when:
+
+- The audience is known to be low-context (American business, technical readers)
+- The user explicitly asks for "more natural English"
+- The annotated version retains L1 structures that may confuse the reader
+
+Always name what the direct version sacrifices:
 
 ```text
 ### Direct English (optional)
 [Simplified version]
 
 ### What This Version Sacrifices
-[Explicit statement of what was lost]
+[Specific rhetorical move, ontological distinction, or relational positioning lost]
 ```
+
+The direct version is a tradeoff. Frame it that way.
 
 ## NEVER
 
-1. **Never default to "standard American English" as the target.** The English version is one valid rendering. Annotate its departures from the L1 — do not treat it as the correct version.
+- **Never produce a false equivalent.** When no clean mapping exists, say so and offer a gloss.
+- **Never offer the direct version without naming what it sacrifices.** The trade-off is the point of Phase 3.
 
-2. **Never treat L1 grammatical patterns as errors.** "I have fear" is not wrong — it encodes a different ontology. The annotation block explains the difference, not corrects it.
-
-3. **Never produce false equivalents.** When no clean mapping exists, say so explicitly. "English cannot directly capture [concept]. Here is the closest approximation, and here is what it misses."
-
-4. **Never assume L1 rhetorical patterns.** Not all Arabic speakers write circularly. Not all Japanese speakers hedge. Respond to the actual text/thought, not to statistical tendencies of a language community.
-
-5. **Never strip epistemic hedging without examination.** A Japanese-trained writer's hedges may be intentional calibration — relational care encoded grammatically. The annotation notes this possibility rather than eliminating the hedges.
-
-6. **Never offer the simplified third version without naming what it sacrifices.** The third version is available but must be framed as a tradeoff, not an upgrade. Name the specific rhetorical move, ontological distinction, or relational positioning that the simplification loses.
-
-## Additional Resources
-
-- **`@./references/translanguaging-guide.md`** — Research basis: what translanguaging is, the four gap types with detailed examples, ontological framing approach, citations
-- **`@./references/language-patterns.md`** — Per-tradition reference: specific grammatical patterns by language tradition with annotation examples
+For cross-cutting rules (hedging split, friction, gaps, L1 patterns, tradition), read [never.md](./never.md).

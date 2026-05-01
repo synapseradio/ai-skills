@@ -1,0 +1,1 @@
+This approach runs on your existing infrastructure, so it fits into your current workflow without additional setup. The framework includes a broad set of features for handling complex scenarios, and users can inspect the underlying details to understand what is happening and why. It is built for the demands of modern software environments.

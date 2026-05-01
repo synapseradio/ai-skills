@@ -1,0 +1,1 @@
+This approach uses your existing infrastructure, so it fits your current workflow. No reconfiguration needed. The framework covers a wide range of features, from routine tasks to complex scenarios. Users can examine the details directly and find what they need. It's built for teams running digital-first operations.

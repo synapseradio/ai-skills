@@ -103,7 +103,7 @@ The identified tradition modifies how Frame outputs are used:
 - **Position** conventions vary. Anglo-American academic writing claims objectivity. French writing demonstrates intellectual rigor through dialectical positioning. Japanese writing positions through indirection and deference.
 - **Purpose** articulation differs. Some traditions expect explicit thesis statements; others build toward implied conclusions.
 
-For full tradition taxonomy and structural signatures, load `tradition.md`.
+For tradition self-interrogation questions and per-language patterns, load `across-languages.md`.
 
 ---
 

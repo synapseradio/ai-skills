@@ -2,3 +2,5 @@ node_modules/
 .ruff_cache/
 .claude/**/*.lock
 .a5c/
+# Thinkies persistence data (local, not committed)
+.thinkies/

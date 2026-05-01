@@ -27,7 +27,7 @@ Ask: Is the ordering of arguments, sections, or paragraphs purposeful? Could a r
 
 5. **Evaluate paragraph-level progression** -- Within sections, paragraphs should advance the argument. Each paragraph earns its place by doing work the previous paragraph could not. If two paragraphs could swap without consequence, one of them may be redundant, or both may need a stronger connection to the section's purpose.
 
-6. **Respect tradition-specific ordering** -- Arrangement conventions vary across rhetorical traditions. Anglo-American expects thesis-first deductive ordering. French academic builds through dialectical movement. Arabic rhetoric accumulates through parallel restatement. Japanese ki-shō-ten-ketsu delays the turn. Load `tradition.md` when the arrangement follows a non-Anglo convention that may appear disordered to an untrained reader.
+6. **Respect tradition-specific ordering** -- Arrangement conventions vary across rhetorical traditions. Anglo-American expects thesis-first deductive ordering. French academic builds through dialectical movement. Arabic rhetoric accumulates through parallel restatement. Japanese ki-shō-ten-ketsu delays the turn. Load `across-languages.md` when the arrangement follows a non-Anglo convention that may appear disordered to an untrained reader.
 
 ## Examples
 

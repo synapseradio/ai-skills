@@ -2,6 +2,8 @@
 
 Blank-page composition from intent. Where the Clarify and Redraft workflows improve existing prose, the Compose workflow creates prose from purpose — generative, not reactive. The workflow is explicitly recursive: drafting often reveals the real argument, so it loops back when discovery happens.
 
+If a thought resists English expression mid-workflow, read [workflow-bridge.md](./workflow-bridge.md) for the stuck passage, then return.
+
 ## Why Composition Needs Its Own Workflow
 
 Improvement tools assume prose already exists. They diagnose, repair, refine. But the hardest writing problem is not "make this better" — it is "make this exist." Composition requires a different workflow: surface the necessity, find the position, discover the argument through drafting, then shape what emerged. No amount of clarity technique fixes a piece that never found its reason to exist.
@@ -24,9 +26,7 @@ Before any other phase, identify the rhetorical tradition the writer is working 
 
 Load tradition lens first. All downstream phases operate within the identified tradition, not against an invisible Anglo-American baseline.
 
-```text
-@./references/tradition.md
-```
+Read [across-languages.md](./across-languages.md).
 
 ## Phase 1: Frame
 
@@ -45,19 +45,15 @@ Establish the generative foundation. Four questions, in this order:
 
 4. **Audience and tradition**: What does the audience already know? What rhetorical conventions do they expect? Load calibrate to assess depth and convention fit.
 
-```text
-@./references/calibrate.md
-@./references/voice.md
-@./references/fit.md
-```
+Read:
+
+- [calibrate.md](./calibrate.md)
+- [voice.md](./voice.md)
+- [fit.md](./fit.md)
 
 **Output of Frame:** necessity statement, purpose statement, positional acknowledgment, audience/tradition context.
 
-For extended Frame guidance (necessity questions from Luiselli, Ngugi, Ernaux; position framework; tradition identification; audience analysis):
-
-```text
-@./references/frame-guide.md
-```
+For extended Frame guidance (necessity questions from Luiselli, Ngugi, Ernaux; position framework; tradition identification; audience analysis), read [frame-guide.md](./frame-guide.md).
 
 ## Phase 2: Structure
 
@@ -71,11 +67,11 @@ Based on the rhetorical tradition identified in Orient, determine organizational
 
 Structure and Compose are bidirectional. Go to Compose when ready; return to Structure when the draft reshapes the argument.
 
-```text
-@./references/tradition.md
-@./references/arc.md
-@./references/clarify.md
-```
+Read:
+
+- [across-languages.md](./across-languages.md)
+- [arc.md](./arc.md)
+- [clarify.md](./clarify.md)
 
 ## Phase 3: Compose
 
@@ -89,9 +85,7 @@ Before suggesting additions, ask whether gaps are doing rhetorical work — inte
 
 Allow contradiction to surface during Compose. Do not smooth it yet — the Discover phase is where the writer decides whether contradiction is the point.
 
-```text
-@./references/illustrate.md
-```
+Read [illustrate.md](./illustrate.md).
 
 ## Phase 4: Discover
 
@@ -105,10 +99,10 @@ Self-audit after each draft. Three key questions:
 
 Calibrate what the draft claims against what is known. Load signal-confidence to check whether certainty levels match evidence.
 
-```text
-@./references/surface-assumptions.md
-@./references/signal-confidence.md
-```
+Read:
+
+- [surface-assumptions.md](./surface-assumptions.md)
+- [signal-confidence.md](./signal-confidence.md)
 
 **Decision point:** If Frame has shifted, return to Phase 1. If Frame holds, proceed to Polish.
 
@@ -118,21 +112,22 @@ Final craft and audience connection. Five dimensions:
 
 1. **Voice**: Consistent authorial presence that speaks from the stated position. Does this sound like one person wrote it? Does that person speak from a stated position — or does the prose slip into generic, unmarked register? Load voice.
 
-2. **Register**: Word-level precision and emotional register. Eliminate AI patterns ("it's worth noting", "it's important to", "in conclusion"). Each word carries its weight or goes. Match emotional pitch to purpose. Load register.
+2. **Register and slop audit**: Word-level precision, emotional register, and the full slop audit. Run the lexical, structural, voice, casual-context, and intransitive-form checks per [avoid-slop.md](./avoid-slop.md). Compute audit diagnostics: sentence-length CV per paragraph above 0.5; Kobak density at most one per 1,000 words; transitional-phrase ratio at most one per 100 words; em-dash density at most one per paragraph. Each is a hard rule, not a target. Load register and avoid-slop.
 
 3. **Arrange**: Check whether section ordering serves the purpose. Does the sequence build, or merely accumulate? Load arrange for ordering logic.
 
 4. **Audience calibration**: Does depth match what the audience already knows? Do rhetorical conventions match the tradition identified in Orient? Load calibrate.
 
-5. **Bridging**: What unfamiliar concepts appear without anchoring? What bridges connect the writer's world to the reader's? Load bridge for both knowledge bridging and cross-cultural bridging.
+5. **Analogize**: What unfamiliar concepts appear without anchoring? Load analogize for knowledge bridging through structural analogy. Cross-cultural bridging belongs in the Bridge workflow, not here.
 
-```text
-@./references/voice.md
-@./references/register.md
-@./references/arrange.md
-@./references/calibrate.md
-@./references/bridge.md
-```
+Read:
+
+- [voice.md](./voice.md)
+- [register.md](./register.md)
+- [avoid-slop.md](./avoid-slop.md)
+- [arrange.md](./arrange.md)
+- [calibrate.md](./calibrate.md)
+- [analogize.md](./analogize.md)
 
 ## Techniques Available Throughout
 
@@ -148,10 +143,8 @@ These techniques are not assigned to a specific phase but may be loaded when nee
 
 2. **Do not invent authorial stance.** If the writer has not specified their relationship to the subject, ask. Do not construct a generic authorial voice — generic voice is not neutral, it is a specific cultural register with its own assumptions.
 
-3. **Do not impose Anglo-American structure.** The tradition check in Orient precedes all structural decisions. Name when structure choices are tradition-specific, not universal. "This follows linear-deductive organization" is a tradition statement, not a quality judgment.
+3. **Do not resolve contradiction in Compose.** Unresolved tension is permitted and encouraged during drafting. The Discover phase is where the writer decides whether contradiction is the point or a problem.
 
-4. **Do not resolve contradiction in Compose.** Unresolved tension is permitted and encouraged during drafting. The Discover phase is where the writer decides whether contradiction is the point or a problem.
+4. **Do not treat the Frame-to-Discover loop as failure.** Normalize discovery. If the draft changed what the writer knows, returning to Frame is the workflow working correctly — not a sign that planning was insufficient.
 
-5. **Do not substitute category for experience.** Before accepting a generic abstract noun in Compose, load illustrate and ask: what witnessed detail could replace this category? Apply grounding moves for category language.
-
-6. **Do not treat the Frame-to-Discover loop as failure.** Normalize discovery. If the draft changed what the writer knows, returning to Frame is the workflow working correctly — not a sign that planning was insufficient.
+For cross-cutting rules (hedging split, friction, gaps, L1 patterns, tradition), read [never.md](./never.md).

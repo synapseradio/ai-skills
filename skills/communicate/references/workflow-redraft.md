@@ -2,7 +2,9 @@
 
 Apply expression techniques in cascading sequence until prose reaches natural completion — the point where techniques stop finding substantial improvements. Each pass makes subsequent passes more effective: streamlining reveals structure that enables arc; arc reveals assumptions that invite surfacing. The cascade is multiplicative, not additive.
 
-Contrast with the **Clarify workflow** (`@./references/workflow-clarify.md`, Clarity category only — fast, focused diagnostic) and **ad-hoc technique use** (technique access without workflow overhead, handled by the router).
+Contrast with the **Clarify workflow** ([workflow-clarify.md](./workflow-clarify.md), Clarity category only — fast, focused diagnostic) and **ad-hoc technique use** (technique access without workflow overhead, handled by the router).
+
+If a thought resists English expression mid-workflow, read [workflow-bridge.md](./workflow-bridge.md) for the stuck passage, then return.
 
 ## Why This Order
 
@@ -27,9 +29,9 @@ Pass 4: Depth → Pass 5: Connection → Converge?
 - **NEVER** run Pass 4 on structurally disordered prose — implications extracted from unclear claims create coherent-sounding confusion, not insight.
 - **NEVER** declare stabilization after one round unless all five passes found only cosmetic changes.
 - **NEVER** apply Pass 3 before Pass 2 — voice on dishonest claims amplifies, not repairs, the honesty problem.
-- **NEVER** strip hedges without the hedging split — distinguish epistemic calibration (preserve) from habitual cushioning (cut).
 - **NEVER** skip Pass 0 — tradition, fit, and authorial stance must precede all technique application.
-- **NEVER** smooth productive friction in Pass 3 — irregular rhythm, unresolved tension, and deliberate register shifts are asked about before normalized.
+
+For cross-cutting rules (hedging split, friction, gaps, L1 patterns, tradition), read [never.md](./never.md).
 
 ## Pass 0: Orient
 
@@ -47,12 +49,10 @@ Before any technique fires, establish the lens that modifies all downstream pass
 
 4. **Check prose purpose.** Is this prose resisting clarity rules deliberately? Writing-as-resistance must be recognized, not corrected.
 
-Load:
+Read:
 
-```text
-@./references/tradition.md
-@./references/fit.md
-```
+- [across-languages.md](./across-languages.md)
+- [fit.md](./fit.md)
 
 ## Pass 1: Clarity
 
@@ -69,14 +69,12 @@ Apply clarity techniques in order:
 3. **Language commitment** (strengthen): Eliminate hedges, weak verbs, nominalizations, filler. **Hedging split mandatory**: distinguish epistemic calibration (preserve) from habitual cushioning (cut). Cultural calibration — Japanese hedges may be relational care, not weakness; check tradition before cutting.
 4. **Illustration** (illustrate): Ground abstractions in concrete instances. For category language, apply grounding moves — what witnessed detail could replace this abstraction?
 
-Load:
+Read:
 
-```text
-@./references/clarify.md
-@./references/activate.md
-@./references/strengthen.md
-@./references/illustrate.md
-```
+- [clarify.md](./clarify.md)
+- [activate.md](./activate.md)
+- [strengthen.md](./strengthen.md)
+- [illustrate.md](./illustrate.md)
 
 **After this pass**: Prose is leaner, logically ordered within its tradition, active, committed. Structure is visible, actors are named.
 
@@ -88,13 +86,11 @@ Ask: Does certainty match evidence? Where does this apply vs. break down? What m
 2. **Bound scope** (bound-scope): Define where claims apply and where they break down. State boundary conditions explicitly.
 3. **Surface assumptions** (surface-assumptions): Make unstated premises explicit. Identify what must be true for the reasoning to hold.
 
-Load:
+Read:
 
-```text
-@./references/signal-confidence.md
-@./references/bound-scope.md
-@./references/surface-assumptions.md
-```
+- [signal-confidence.md](./signal-confidence.md)
+- [bound-scope.md](./bound-scope.md)
+- [surface-assumptions.md](./surface-assumptions.md)
 
 **After this pass**: Claims are calibrated, boundaries are clear, assumptions are visible.
 
@@ -104,19 +100,19 @@ Ask: What tension drives this forward? Does the ordering serve the purpose? Does
 
 1. **Arc** (arc): Structure with tension and resolution. Create pull, not just sequence.
 2. **Arrange** (arrange): Check whether the ordering of sections and arguments serves the purpose. Does the sequence build, or merely accumulate?
-3. **Rhythm** (rhythm): Vary sentence length and structure. Irregular rhythm may be intentional — ask before regularizing.
-4. **Voice** (voice): Establish consistent authorial presence. Does this person speak from a stated position? Generic unmarked voice defaults to dominant-culture register; make that visible. Includes authorial stance — verify the writer's relationship to the subject established in Pass 0 is carried through the prose.
-5. **Register** (register): Word-level precision and emotional pitch. Eliminate AI diction patterns ("it's worth noting", "it's important to", "in conclusion"). Each word carries its weight or goes. Match emotional register to purpose.
+3. **Rhythm** (rhythm): Vary sentence length and structure. Apply the cadence laws — sentence-length CV per paragraph above 0.5, paragraph-length CV above 0.4, the long-sentence cascade, fragment continuation test. Irregular rhythm may be intentional — ask before regularizing.
+4. **Slop audit** (avoid-slop): Run the lexical, structural, voice, casual-context, and intransitive-form checks against the draft. Compute the audit diagnostics — Kobak density, transitional-phrase ratio, em-dash density, bullet ratio. Each is a hard rule, not a target.
+5. **Voice** (voice): Establish consistent authorial presence. Does this person speak from a stated position? Generic unmarked voice defaults to dominant-culture register; make that visible. Includes authorial stance — verify the writer's relationship to the subject established in Pass 0 is carried through the prose.
+6. **Register** (register): Word-level precision and emotional pitch. Each word carries its weight or goes. Match emotional register to purpose. Apply the register-by-context rules for code comments, commits, PR descriptions, chat, and evergreen documentation.
 
-Load:
+Read:
 
-```text
-@./references/arc.md
-@./references/arrange.md
-@./references/rhythm.md
-@./references/voice.md
-@./references/register.md
-```
+- [arc.md](./arc.md)
+- [arrange.md](./arrange.md)
+- [rhythm.md](./rhythm.md)
+- [avoid-slop.md](./avoid-slop.md)
+- [voice.md](./voice.md)
+- [register.md](./register.md)
 
 **After this pass**: The prose has shape, flow, and voice. It reads as crafted, not assembled.
 
@@ -130,13 +126,11 @@ Ask: What follows from these claims that goes unsaid? Where does feedback confla
 2. **Dimensionalize** (dimensionalize): Reveal independent aspects of concepts that feedback conflates.
 3. **Pose questions** (pose-questions): Create structured gaps that invite exploration rather than closing inquiry.
 
-Load:
+Read:
 
-```text
-@./references/extract-implications.md
-@./references/dimensionalize.md
-@./references/pose-questions.md
-```
+- [extract-implications.md](./extract-implications.md)
+- [dimensionalize.md](./dimensionalize.md)
+- [pose-questions.md](./pose-questions.md)
 
 **After this pass**: The prose invites engagement. It opens rather than closes.
 
@@ -147,12 +141,10 @@ Ask: What does this audience already know and what rhetorical conventions do the
 1. **Calibrate** (calibrate): Adjust depth and terminology for audience. Cultural dimension added — not just "what does the audience know?" but "what rhetorical conventions does the audience expect?" High-context audiences may find over-explanation condescending.
 2. **Bridge** (bridge): Connect unfamiliar to familiar through analogy. Cross-cultural bridging as well as knowledge bridging — what concepts need tradition-aware framing?
 
-Load:
+Read:
 
-```text
-@./references/calibrate.md
-@./references/bridge.md
-```
+- [calibrate.md](./calibrate.md)
+- [analogize.md](./analogize.md)
 
 **After this pass**: The prose meets its audience where they are, within their rhetorical expectations.
 

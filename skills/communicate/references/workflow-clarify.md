@@ -1,6 +1,8 @@
 # Clarify Workflow
 
-Scoped clarity audit and repair. Diagnose existing prose for structural disorder, hidden actors, and weak language, then apply fixes in strict priority order. The fast, focused diagnostic tool — scoped to the Clarity category (structure, voice, language). For comprehensive multi-pass refinement across all 5 expression dimensions, load `@./references/workflow-redraft.md`. For ad-hoc technique access without workflow overhead, return to the router and apply techniques directly.
+Scoped clarity audit and repair. Diagnose existing prose for structural disorder, hidden actors, and weak language, then apply fixes in strict priority order. The fast, focused diagnostic tool — scoped to the Clarity category (structure, voice, language). For comprehensive multi-pass refinement across all 5 expression dimensions, read [workflow-redraft.md](./workflow-redraft.md). For ad-hoc technique access without workflow overhead, return to the router and apply techniques directly.
+
+If a thought resists English expression mid-workflow, read [workflow-bridge.md](./workflow-bridge.md) for the stuck passage, then return.
 
 ## Fix Sequence
 
@@ -11,11 +13,9 @@ Structural fixes cascade downstream — misordered prose creates redundancy and 
 ## NEVER
 
 - **Never start with word-level before structural.** The fix sequence is enforced: structural -> voice -> language. Hedge removal on misordered prose wastes effort.
-- **Never fill intentional gaps.** Gap-check precedes every addition suggestion — ask "is this gap doing rhetorical work?" before filling.
-- **Never smooth productive friction.** Irregular rhythm, unresolved tension, deliberate register shifts — ask before regularizing.
-- **Never correct L1 grammatical patterns as errors.** Diagnose what the pattern encodes before treating it as a problem. L1-inflected syntax (Arabic right-branching, German verb-final, French subordinate structure) may produce unusual English rhythms that carry intended precision.
-- **Never treat all hedging as weakness.** The hedging split is mandatory in the language commitment audit — distinguish epistemic calibration (preserve) from habitual cushioning (cut).
 - **Never preserve passive voice without naming why.** If passive is preserved, the Present phase must state the reason explicitly.
+
+For cross-cutting rules (hedging split, friction, gaps, L1 patterns, tradition), read [never.md](./never.md).
 
 ## Phase 0: Orient
 
@@ -23,7 +23,7 @@ Before diagnosing: load the tradition lens. Identify what rhetorical tradition t
 
 Also: identify whether difficulty comes from subject or expression. Essential complexity (intrinsic cognitive load) must be preserved, not smoothed. Prose that is hard to parse because the ideas are genuinely complex is working correctly.
 
-Load: `@./references/tradition.md`
+Read [across-languages.md](./across-languages.md).
 
 ## Phase 1: Diagnose
 
@@ -31,7 +31,7 @@ Four audits in sequence. Each surfaces issues; fixes apply in Phase 2.
 
 ### Structural audit
 
-Load: `@./references/clarify.md`
+Read [clarify.md](./clarify.md).
 
 - **Sequence** — Are concepts introduced before they are referenced?
 - **Information flow** — Given information before new?
@@ -40,7 +40,7 @@ Load: `@./references/clarify.md`
 
 ### Content audit
 
-Load: `@./references/clarify.md` (continued)
+Continue with [clarify.md](./clarify.md).
 
 - **Streamline** — Remove redundancy, ceremonial language, filler
 - **Load type** — Distinguish extraneous cognitive load (poor expression) from intrinsic load (complex subject) from germane load (productive challenge). Preserve intrinsic load.
@@ -54,7 +54,7 @@ Load: `@./references/clarify.md` (continued)
 
 ### Voice activation audit
 
-Load: `@./references/activate.md`
+Read [activate.md](./activate.md).
 
 - Scan for passive patterns (was/were + past participle, "it was determined", "it has been observed")
 - For each passive: who performs this action? Is the passive intentional?
@@ -66,7 +66,7 @@ Load: `@./references/activate.md`
 
 ### Language commitment audit
 
-Load: `@./references/strengthen.md`
+Read [strengthen.md](./strengthen.md).
 
 Flag: hedge words, weak verbs, nominalizations, filler phrases, false certainty.
 
@@ -77,6 +77,19 @@ Flag: hedge words, weak verbs, nominalizations, filler phrases, false certainty.
 2. **Habitual cushioning** (cut) — The hedge is protective filler with no informational content. The writer does not mean "somewhat" — they mean the thing, and are cushioning the claim.
 
 For each flag: delete if unnecessary, replace with precise alternative, or preserve with justification. Cultural calibration: check tradition before cutting hedges that may encode relational care or epistemic sophistication.
+
+### Slop quick-check
+
+Read [avoid-slop.md](./avoid-slop.md).
+
+Proofreading is the most common entry point to this workflow, and slop tells often hide under "the prose seems polished." Run the targeted checks:
+
+- **Lexical**: scan for Kobak vocabulary (delve, intricate, realm, pivotal, underscore, tapestry, robust, seamless, leverage, navigate, foster, transformative, illuminate, harness, embark, cultivate, embrace, glean). Cut unless the technical sense is exact.
+- **Transitional overhang**: count transitional phrases. Maximum one per 100 words. "It's worth noting," "in essence," "ultimately," "at its core," "additionally," "moreover," "furthermore" — cut on sight.
+- **Intransitive forms**: scan for "the ***is real," "the*** is the signal," and negation-then-affirmation cadence ("X is Y, not Z"). If the noun in the slot is swappable, cut.
+- **Closing exhortations**: "embrace the journey," "let's explore," "let's dive in," conclusion-restating paragraphs. Cut.
+
+Mark each finding for repair in Phase 2.
 
 ## Phase 2: Repair
 
@@ -106,5 +119,5 @@ Output the improved prose. Then summarize changes, explicitly naming what was pr
 
 For detailed patterns and extended examples beyond what the technique references provide:
 
-- **`@./references/clarify-patterns.md`** — Detection heuristics, repair strategies, domain-specific considerations
-- **`@./references/clarify-examples.md`** — Before/after transformations organized by issue type
+- [clarify-patterns.md](./clarify-patterns.md) — Detection heuristics, repair strategies, domain-specific considerations
+- [clarify-examples.md](./clarify-examples.md) — Before/after transformations organized by issue type

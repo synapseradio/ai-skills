@@ -39,6 +39,37 @@ Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where
 
 5. **Maintain consistency while allowing purposeful variation** -- Check whether emotional register creates smooth flow. Variation is purposeful when content shifts emotional territory. Consistency serves when building cumulative argument.
 
+### Register by Context
+
+Each writing context has its own register and its own slop signature. Match the context.
+
+**Code comments.** Explain *why* the code is here and *what matters for change*. Identifiers say what the code does.
+
+- Slop signature: restating what the code already says (`// Loop through users`).
+- Cared-for: capture the non-obvious — a constraint, an invariant, a workaround for a specific bug, behavior that would surprise a reader.
+
+**Commit messages.** Imperative present, subject ≤72 characters, body explains intent and any non-obvious tradeoff.
+
+- Slop signature: "Updated X.md" / "Various changes" / "Fix issue."
+- Cared-for: "Replace X with Y to fix Z." / "Move helper out of public API; unused since v2."
+
+**PR descriptions.** Why, test plan, risk. Not a bullet-padded restatement of the diff.
+
+- Slop signature: a "## Changes" section with one bullet per file restating the file path.
+- Cared-for: one paragraph on motivation, explicit test plan, explicit risk and mitigation.
+
+**Slack and chat.** Short, direct, no preamble.
+
+- Slop signature: "Hi! I hope you're well. I just wanted to quickly reach out about…"
+- Cared-for: "Got a sec? Question about the deploy." / "Done."
+
+**Documentation (evergreen).** Describe the current state as fact. No transitional framing — no "migration in progress," no "(intended surface)," no "Phase 2 will add X." Document what is, why it is, and what matters for changes.
+
+- Slop signature: a banner that rots the moment the migration lands.
+- Cared-for: a description that reads true six months from now, or that the writer would happily delete.
+
+Each register also carries the universal slop signature — Kobak vocabulary, transitional overhang, tricolon-as-default. `avoid-slop.md` covers those.
+
 ## Examples
 
 ### From AI patterns to natural expression

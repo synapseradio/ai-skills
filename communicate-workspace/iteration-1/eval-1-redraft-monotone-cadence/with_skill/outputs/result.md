@@ -1,0 +1,1 @@
+Incoming requests land in a queue. Background workers pull from it in order, processing each one and writing the result to the database — which the frontend queries to show users the current state. Refresh to see what's new.

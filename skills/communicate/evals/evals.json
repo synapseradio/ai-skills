@@ -1,0 +1,47 @@
+{
+  "evals": [
+    {
+      "expected_output": "A redraft where sentence-length coefficient of variation per paragraph exceeds 0.5. The original is ten sentences of near-identical length (10-12 words each, CV ~0.1). The rewrite must vary sentence length deliberately, mix short and long, and apply the Provost cascade where long sentences carry weight at the end. The Redraft workflow should load and run all five passes; the rhythm pass should identify and repair the monotone cadence.",
+      "files": [],
+      "id": 1,
+      "name": "redraft-monotone-cadence",
+      "prompt": "Improve this paragraph: 'The new system uses a queue. The queue holds incoming requests. The requests are processed in order. The processing happens on background workers. The workers report results back. The results are then stored. The storage is in a database. The database is queried by the frontend. The frontend shows the data to users. The users can refresh to see updates.'"
+    },
+    {
+      "expected_output": "The Clarify workflow runs and the slop quick-check phase fires. The output should remove or replace: 'It's worth noting that', 'leverages', 'seamlessly integrate', 'efficiently optimize', 'robust', 'tapestry', 'harnessed', 'navigate', 'delve', 'intricate', 'glean', 'In conclusion', 'transformative', 'embraces the journey', and the four transitional phrases ('Furthermore', 'Additionally', 'It's important to note that'). Audit diagnostics on the rewrite must show Kobak density at 0 and transitional-phrase ratio at most 1 per 100 words.",
+      "files": [],
+      "id": 2,
+      "name": "clarify-slop-quickcheck",
+      "prompt": "Proofread this for me: 'It's worth noting that this approach leverages our existing infrastructure to seamlessly integrate with your workflow, enabling you to efficiently optimize outcomes in a robust manner. Furthermore, the framework provides a comprehensive tapestry of features that can be harnessed to navigate complex scenarios. Additionally, it's important to note that users can delve into the intricate details to glean meaningful insights. In conclusion, this transformative solution embraces the journey of digital innovation.'"
+    },
+    {
+      "expected_output": "The Bridge workflow loads (not Structure, not Clarify). The output uses the bilingual format: '### In Korean' (jeong with brief gloss), '### In English' (closest natural English rendering), '### What Shifted' (specific annotations naming what English collapses — jeong is a relational concept that has no English equivalent; affection-attachment-loyalty merged across time). A direct version may be offered with explicit sacrifice annotation. The workflow names this as a conceptual lacuna, refuses to manufacture a false equivalent, and offers a gloss rather than a single-word translation.",
+      "files": [],
+      "id": 3,
+      "name": "bridge-cross-lingual-jeong",
+      "prompt": "In Korean we say *jeong* — how do I say that in English?"
+    },
+    {
+      "expected_output": "The Structure workflow loads (not Clarify or Redraft). Phase 1 names the source as parallel-restatement / accumulative-elaborative (Arabic-tradition organizational logic). Phase 2 names the target (US business: thesis-first, hierarchical evidence). Phase 3 maps divergence on at least Organization and Elaboration dimensions. Phase 4 produces an adapted version with thesis up front and hierarchical evidence. Phase 5 annotates the move (e.g., 'parallel restatement compressed into linear argument; accumulative persuasion replaced by hierarchical evidence; reader processes faster but loses the felt weight of the repeated pattern'). Content, voice, and vocabulary stay intact. The 'preserve original with framing note' option is offered.",
+      "files": [],
+      "id": 4,
+      "name": "structure-arabic-to-business",
+      "prompt": "Help me adapt this for an American business audience. The prose is correct English but the audience tells me it feels foreign and they can't follow it: 'Our service answers the question of customer trust. Trust is what customers seek. They seek it because trust is what allows them to commit. Commitment, as we have learned, requires trust. Without trust there is no commitment, and without commitment there is no service relationship. Our service builds trust through consistency. Consistency, demonstrated repeatedly, builds trust. And trust, once built through consistency, sustains the relationship our customers depend on.'"
+    },
+    {
+      "expected_output": "The Compose workflow loads. Phase 1 (Frame) articulates necessity (preventing security holes from a recurring failure mode), purpose (teach the default and why), authorial stance (library maintainers writing to library users), and audience/tradition (intermediate web developers, technical register). Phase 2 (Structure) selects an organization that fits — likely thesis-first since the audience expects it. Phase 3 (Compose) drafts with embodied specificity (what the bug reports look like in concrete terms, not abstractions). Phase 5 (Polish) runs the slop audit per avoid-slop.md. Final output: ~200 words, sentence-length CV > 0.5, no Kobak vocabulary, no closing exhortation, no 'embraces the journey'-style register failure. Voice consistent. The first sentence carries the load-bearing claim.",
+      "files": [],
+      "id": 5,
+      "name": "compose-blank-page-with-care",
+      "prompt": "Help me write a 200-word section for our README explaining why this library treats user input as untrusted by default. The audience is intermediate developers who use the library in web applications. The motivation: we keep getting bug reports from people who passed user input directly to internal APIs and got security holes."
+    },
+    {
+      "expected_output": "The Redraft workflow loads. The slop audit pass (Pass 3 step 4) fires and identifies the three intransitive-form constructions: 'the threat is real,' 'the opportunity is real,' 'the friction is the signal,' 'the energy is the signal,' 'this is not just X, it's Y,' 'the question is not Y, but Z.' All cut or rewritten with the actual mechanism (what the threat does, what the friction shows, why the cultural problem matters). Final output should not contain any noun-swappable construction where the sentence still works with a different noun in the slot.",
+      "files": [],
+      "id": 6,
+      "name": "redraft-intransitive-form-tells",
+      "prompt": "Polish this thoroughly: 'The threat is real. Our customers face it every day. The friction in their workflow is the signal — it tells us where they need help. This is not just a tool problem, it's a culture problem. The opportunity is real, and the cost of inaction is the cost we will pay tomorrow. The question is not whether to act, but how. The energy of this moment is the signal that the time has come.'"
+    }
+  ],
+  "skill_name": "communicate"
+}
