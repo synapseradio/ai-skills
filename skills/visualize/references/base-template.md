@@ -1,6 +1,6 @@
 # Base HTML Template
 
-> **Scope:** This reference covers the D3 HTML template structure used by the sankey template and template-crafter. For the Vega/VL wrapper pattern, see `base-vega-wrapper.md`.
+> **Scope:** This reference covers the D3 HTML template structure used by the sankey template and template-crafter. For the Vega/VL wrapper pattern, see [base-vega-wrapper.md](base-vega-wrapper.md).
 
 Browser-runnable HTML structure for D3 visualization templates. Copy and customize for custom D3 chart types. Verify D3.js CDN import URLs and API usage against the current D3 documentation before deploying.
 
@@ -206,7 +206,7 @@ created: [ISO timestamp]
 
 ## See Also
 
-- **`base-vega-wrapper.md`** — Vega/VL HTML wrapper template used for all standard chart types (bar, line, scatter, pie, histogram, etc.). Most new visualizations should use the Vega-Lite wrapper instead of this D3 base template.
+- **[base-vega-wrapper.md](base-vega-wrapper.md)** — Vega/VL HTML wrapper template used for all standard chart types (bar, line, scatter, pie, histogram, etc.). Most new visualizations should use the Vega-Lite wrapper instead of this D3 base template.
 
 ## Sources
 

@@ -35,7 +35,7 @@ Then identify:
 - **Key relationships** — which attributes the argument requires comparing
 - **Units** — what unit each attribute measures (mandatory for all axes and labels)
 
-Load `mode-encode.md` for the full encoding methodology.
+Load [mode-encode.md](mode-encode.md) for the full encoding methodology.
 
 ### 2. Plan Encoding
 
@@ -57,7 +57,7 @@ Before presenting to the user, validate:
 
 ### 3. Select Engine and Template (parallel with step 4)
 
-Determine engine using `engine-selection.md`:
+Determine engine using [engine-selection.md](engine-selection.md):
 
 - **Default: Vega** — declarative, handles most chart types
 - **D3** — when you need full DOM control, custom keyboard nav, or sankey
@@ -98,7 +98,7 @@ For chart types not in the template library, use the Custom Template Workflow in
 Document the transformation sequence. Order matters: filter before aggregate produces
 different results than aggregate before filter.
 
-Load `data-preparation.md` for implementation patterns.
+Load [data-preparation.md](data-preparation.md) for implementation patterns.
 
 ## No-Data-Yet Flow
 

@@ -54,7 +54,7 @@ Fix all issues found by either path.
 
 ## Editorial Integrity Check
 
-After structural and visual checks, load `mode-refine.md` for the full audit:
+After structural and visual checks, load [mode-refine.md](mode-refine.md) for the full audit:
 
 - **Threshold-based pre-interpretation:** Did you choose breakpoints that support the narrative?
 - **Metric selection bias:** Would this metric be included if it showed the opposite trend?

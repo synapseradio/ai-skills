@@ -105,6 +105,6 @@ Verify that the fix didn't introduce new problems:
 
 ## Phase Routing After Refine
 
-- Accessibility not verified → load `mode-access.md`
-- Fundamental encoding problem found → load `mode-encode.md`
+- Accessibility not verified → load [mode-access.md](mode-access.md)
+- Fundamental encoding problem found → load [mode-encode.md](mode-encode.md)
 - Structural problems revealed by refine pass → return to Phase 3 (Build)

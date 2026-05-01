@@ -38,7 +38,7 @@ file, you stop at Level 0 — there is no need to consider Vega vs D3.
 examples: pull request descriptions, READMEs, GitHub or Jira tickets, Notion
 pages, Slack posts, wiki articles, plain text exports. The output is a `.md`
 file or, for diagrams that need SVG, an `.html` file with mermaid.js bundled.
-See `markdown-patterns.md` for the surface matrix and template catalogue.
+See [markdown-patterns.md](markdown-patterns.md) for the surface matrix and template catalogue.
 
 **Vega.** Default for any browser-runnable chart. Vega is declarative JSON —
 less code, fewer bugs, easier to audit. It handles bar, line, scatter, area,
@@ -119,7 +119,7 @@ Vega or D3 even if the destination claims to be a markdown surface.
   navigation or screen-reader support for individual data points, use D3
   regardless of chart type.
 - **Performance.** Vega handles tens of thousands of points. For hundreds of
-  thousands, use D3 with Canvas 2D API. See `canvas-patterns.md`.
+  thousands, use D3 with Canvas 2D API. See [canvas-patterns.md](canvas-patterns.md).
 - **Pixel-precise layout.** Infographic-style designs where exact placement
   matters → D3.
 - **Custom interactivity.** Complex drag interactions, custom brush shapes →

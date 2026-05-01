@@ -4,7 +4,7 @@ Choose the right template based on your data and the question you're answering. 
 chart type has at least one Vega and one D3 variant; many also have a markdown
 variant for pull requests, READMEs, tickets, and other markdown surfaces. Default
 to Vega for browser output; default to the markdown engine when the destination is
-a markdown surface (see `engine-selection.md`).
+a markdown surface (see [engine-selection.md](engine-selection.md)).
 
 ## Quick Selection
 
@@ -82,7 +82,7 @@ When the destination is a markdown surface, route to one of these:
 
 For mermaid templates, choose `.md` if the surface auto-renders mermaid
 (GitHub, GitLab, Notion, Obsidian, recent VS Code) and `.html` otherwise.
-See `markdown-patterns.md` for the surface matrix and the honesty checklist.
+See [markdown-patterns.md](markdown-patterns.md) for the surface matrix and the honesty checklist.
 
 ## Data Shape Examples
 
@@ -114,7 +114,7 @@ See `markdown-patterns.md` for the surface matrix and the honesty checklist.
 
 All templates at `assets/vega/templates/` (Vega), `assets/d3/templates/` (D3),
 and `assets/markdown/templates/` (Markdown). The full engine ↔ chart mapping
-lives in `engine-selection.md`. The summary:
+lives in [engine-selection.md](engine-selection.md). The summary:
 
 - 25 Vega specs (`.vg.json`)
 - 26 D3 templates (`.html`) — sankey is D3-only

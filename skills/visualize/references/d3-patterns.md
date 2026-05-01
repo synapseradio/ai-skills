@@ -1,6 +1,6 @@
 # D3 Browser-Runnable Patterns
 
-> **Scope:** This reference applies to the sankey template (`assets/d3/templates/networks/sankey.html`) and custom D3 charts created by template-crafter. For Vega/VL patterns, see `vega-lite-patterns.md` and `vega-patterns.md`.
+> **Scope:** This reference applies to the sankey template (`assets/d3/templates/networks/sankey.html`) and custom D3 charts created by template-crafter. For Vega/VL patterns, see [vega-patterns.md](vega-patterns.md).
 
 Create standalone HTML files with D3.js visualizations that run directly in the browser with no build step. Verify D3 API usage, CDN import URLs, and SVG accessibility attributes against current documentation before deploying.
 
@@ -253,7 +253,7 @@ const data = await d3.csv("data.csv", d => ({
 
 ### Force-Directed Graph
 
-Force-directed networks require specific patterns for visibility and interaction. See `network-patterns.md` for comprehensive coverage.
+Force-directed networks require specific patterns for visibility and interaction. See [network-patterns.md](network-patterns.md) for comprehensive coverage.
 
 **Basic setup:**
 

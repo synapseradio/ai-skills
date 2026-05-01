@@ -172,6 +172,6 @@ After producing a markdown output, verify by reading it back and checking:
 
 ## Cross-references
 
-- **Engine selection (Vega vs D3 vs Markdown)** — `engine-selection.md`
+- **Engine selection (Vega vs D3 vs Markdown)** — [engine-selection.md](engine-selection.md)
 - **Template selection inside the markdown engine** — see the catalogue above
 - **HTML wrapper for mermaid** — see `assets/markdown/templates/mermaid-flowchart.html.tmpl`

@@ -141,14 +141,16 @@ Think   →   Research   →   Build   →   Verify   →   Present   →   Save
                 └─────────────┴──── feedback loops ───────┘
 ```
 
+Before phase 1, call `TaskCreate` once per phase below so progress is tracked through the workflow.
+
 | Phase | What happens | Reference |
 |-------|-------------|-----------|
-| 1. Think | Find the claim. Identify the viewer. Determine inference vs. recognition mode. Honesty check. | `references/phase-context.md` |
-| 2. Research | Classify data (Q/O/N/T). Plan encoding. Select engine + template. Plan transforms. **User checkpoint.** | `references/phase-research.md` |
-| 3. Build | Write spec/HTML. Apply encoding, composition, narrative, interaction, accessibility. | `references/phase-implement.md` |
-| 4. Verify | **Mandatory second draft.** Structural verification (read back HTML). Visual verification (open in Chrome, read screenshot). Both must agree. Apply `/frontend-design` for style pass. Fix and re-verify. | `references/phase-refine.md` |
-| 5. Present | Output final HTML. Restate argument. **User checkpoint.** Route feedback to the right phase. | `references/phase-present.md` |
-| 6. Save | Persist to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. Optionally register via CLI. | `references/phase-present.md` |
+| 1. Think | Find the claim. Identify the viewer. Determine inference vs. recognition mode. Honesty check. | [phase-context.md](references/phase-context.md) |
+| 2. Research | Classify data (Q/O/N/T). Plan encoding. Select engine + template. Plan transforms. **User checkpoint.** | [phase-research.md](references/phase-research.md) |
+| 3. Build | Write spec/HTML. Apply encoding, composition, narrative, interaction, accessibility. | [phase-implement.md](references/phase-implement.md) |
+| 4. Verify | **Mandatory second draft.** Structural verification (read back HTML). Visual verification (open in Chrome, read screenshot). Both must agree. Apply `/frontend-design` for style pass. Fix and re-verify. | [phase-refine.md](references/phase-refine.md) |
+| 5. Present | Output final HTML. Restate argument. **User checkpoint.** Route feedback to the right phase. | [phase-present.md](references/phase-present.md) |
+| 6. Save | Persist to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. Optionally register via CLI. | [phase-present.md](references/phase-present.md) |
 
 Feedback routing: "change chart type" → Phase 2. "fix layout" → Phase 3. "something feels off" → Phase 4.
 
@@ -181,7 +183,7 @@ adapts:
 Both paths must agree the artifact is correct. If they disagree, fix and
 re-verify. Only proceed to Phase 5 after the second draft passes the
 appropriate checks. The full markdown checklist lives in
-`references/markdown-patterns.md`.
+[markdown-patterns.md](references/markdown-patterns.md).
 
 ---
 
@@ -214,9 +216,9 @@ Level 2: Which data-viz engine for browser output?
 
 **Markdown** is for surfaces that render markdown (and sometimes mermaid) but
 not arbitrary HTML. Use it for pull requests, READMEs, tickets, Notion pages,
-Slack posts, wiki articles. Load `references/markdown-patterns.md` for the
-surface matrix, the honesty checklist, and the Phase 4 verification checklist
-(markdown variant).
+Slack posts, wiki articles. Load [markdown-patterns.md](references/markdown-patterns.md)
+for the surface matrix, the honesty checklist, and the Phase 4 verification
+checklist (markdown variant).
 
 **Vega** is declarative JSON. It handles bar, line, scatter, area, pie,
 histogram, box plot, violin, heatmap, bubble, treemap, sunburst, choropleth,
@@ -228,8 +230,8 @@ when Vega cannot express what you need (sankey), or when you need full
 keyboard navigation and ARIA support that Vega's SVG renderer does not
 provide.
 
-Load `references/engine-selection.md` for the full capability matrix and the
-chart-type-to-template mapping across all three engines.
+Load [engine-selection.md](references/engine-selection.md) for the full capability
+matrix and the chart-type-to-template mapping across all three engines.
 
 ---
 
@@ -250,15 +252,15 @@ chart-type-to-template mapping across all three engines.
 | Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar | Vega + D3 (+ Markdown for heatmap) |
 | Temporal      | line-chart, area-chart, candlestick, slope, sparkline     | Vega + D3 + Markdown (sparkline-row) |
 
-Load `references/template-selection.md` for the decision tree from question
-type → template.
+Load [template-selection.md](references/template-selection.md) for the decision
+tree from question type → template.
 
 ### Custom Template Workflow
 
 For chart types not in the template library (chord diagram, streamgraph, etc.):
 
 1. Confirm no existing template covers it
-2. Craft using `references/base-vega-wrapper.md` (Vega) or `references/base-template.md` (D3)
+2. Craft using [base-vega-wrapper.md](references/base-vega-wrapper.md) (Vega) or [base-template.md](references/base-template.md) (D3)
 3. Requirements: browser-runnable, CDN dependencies, OpenColors, 4.5:1 contrast, data table
    fallback, responsive sizing, units on all axes, sample data embedded
 
@@ -295,8 +297,8 @@ are being made, not after.
 | "accessible", "WCAG", "colorblind", "screen reader" | Phase 3: access |
 | "interactive", "filter", "zoom", "hover", "brush" | Phase 3: interact |
 | "improve", "refine", "simplify", "what's wrong" | Phase 4 |
-| "network", "nodes", "force-directed", "graph" | Phase 2 + `network-patterns.md` |
-| "large dataset", "performance", "100k+", "millions" | Phase 2 + `canvas-patterns.md` |
+| "network", "nodes", "force-directed", "graph" | Phase 2 + [network-patterns.md](references/network-patterns.md) |
+| "large dataset", "performance", "100k+", "millions" | Phase 2 + [canvas-patterns.md](references/canvas-patterns.md) |
 
 When entering at a specific phase, verify prerequisites exist (argument, encoding plan, draft
 HTML). If missing, gather through focused questions — do not run earlier phases in full.
@@ -308,21 +310,22 @@ HTML). If missing, gather through focused questions — do not run earlier phase
 **Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec.
 The wrapper loads Vega + Vega-Lite + Vega-Embed from CDN, renders via
 `vegaEmbed`, and auto-generates an accessibility data table. See
-`references/base-vega-wrapper.md`.
+[base-vega-wrapper.md](references/base-vega-wrapper.md).
 
 **D3 charts:** Read the matching `assets/d3/templates/<category>/<name>.html`
 file directly. Each template is a standalone HTML page with all CSS and
 JavaScript inline; copy, edit the data and labels, and you have the final
-artifact. See `references/base-template.md` for the structure. Maintainers who
-want to change the shared scaffold (CSS palette, accessibility helpers) edit
-the fragment and base files in `assets/d3/_shared/` and `assets/d3/fragments/`,
-then run `python3 scripts/build_d3.py --all` to regenerate every template.
+artifact. See [base-template.md](references/base-template.md) for the structure.
+Maintainers who want to change the shared scaffold (CSS palette, accessibility
+helpers) edit the fragment and base files in `assets/d3/_shared/` and
+`assets/d3/fragments/`, then run `python3 scripts/build_d3.py --all` to regenerate
+every template.
 
 **Markdown output:** Copy the matching `assets/markdown/templates/<name>.md.tmpl`
 (or `.html.tmpl` for mermaid diagrams that need bundled SVG rendering). Replace
 the example data with the user's data and update the title to state the takeaway.
 The frontmatter format mirrors HTML outputs but uses YAML fences (`---`) instead
-of HTML comments. See `references/markdown-patterns.md`.
+of HTML comments. See [markdown-patterns.md](references/markdown-patterns.md).
 
 ### Persisting
 
@@ -357,36 +360,39 @@ Load these conditionally — never load more than one pattern doc at a time.
 
 | Phase | Reference |
 |-------|-----------|
-| Think | `references/phase-context.md` |
-| Research | `references/phase-research.md` |
-| Build | `references/phase-implement.md` |
-| Verify | `references/phase-refine.md` |
-| Present + Save | `references/phase-present.md` |
+| Think | [phase-context.md](references/phase-context.md) |
+| Research | [phase-research.md](references/phase-research.md) |
+| Build | [phase-implement.md](references/phase-implement.md) |
+| Verify | [phase-refine.md](references/phase-refine.md) |
+| Present + Save | [phase-present.md](references/phase-present.md) |
 
 **Mode guides** (load during Build phase, one at a time):
 
 | Mode | Reference | When to load |
 |------|-----------|-------------|
-| Encode | `references/mode-encode.md` | Writing scales, marks, channels |
-| Compose | `references/mode-compose.md` | Arranging layout, hierarchy, spacing |
-| Narrate | `references/mode-narrate.md` | Adding titles, annotations, story |
-| Access | `references/mode-access.md` | ARIA, keyboard nav, color access |
-| Interact | `references/mode-interact.md` | Tooltips, brushing, filtering |
-| Refine | `references/mode-refine.md` | Auditing and fixing issues |
+| Encode | [mode-encode.md](references/mode-encode.md) | Writing scales, marks, channels |
+| Compose | [mode-compose.md](references/mode-compose.md) | Arranging layout, hierarchy, spacing |
+| Narrate | [mode-narrate.md](references/mode-narrate.md) | Adding titles, annotations, story |
+| Access | [mode-access.md](references/mode-access.md) | ARIA, keyboard nav, color access |
+| Interact | [mode-interact.md](references/mode-interact.md) | Tooltips, brushing, filtering |
+| Refine | [mode-refine.md](references/mode-refine.md) | Auditing and fixing issues |
 
 **Pattern docs** (load ONE based on engine choice):
 
 | Engine | Reference |
 |--------|-----------|
-| Vega | `references/vega-patterns.md` |
-| D3 | `references/d3-patterns.md` |
+| Markdown | [markdown-patterns.md](references/markdown-patterns.md) |
+| Vega | [vega-patterns.md](references/vega-patterns.md) |
+| D3 | [d3-patterns.md](references/d3-patterns.md) |
 
 **Specialized** (load only when relevant):
 
 | Topic | Reference |
 |-------|-----------|
-| Engine + template selection | `references/engine-selection.md`, `references/template-selection.md` |
-| Vega/D3 HTML scaffolding | `references/base-vega-wrapper.md`, `references/base-template.md` |
-| Data transforms | `references/data-preparation.md` |
-| Networks | `references/network-patterns.md` |
-| Large datasets (Canvas) | `references/canvas-patterns.md` |
+| Engine selection | [engine-selection.md](references/engine-selection.md) |
+| Template selection | [template-selection.md](references/template-selection.md) |
+| Vega HTML scaffolding | [base-vega-wrapper.md](references/base-vega-wrapper.md) |
+| D3 HTML scaffolding | [base-template.md](references/base-template.md) |
+| Data transforms | [data-preparation.md](references/data-preparation.md) |
+| Networks | [network-patterns.md](references/network-patterns.md) |
+| Large datasets (Canvas) | [canvas-patterns.md](references/canvas-patterns.md) |

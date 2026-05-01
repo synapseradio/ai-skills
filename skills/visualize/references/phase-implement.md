@@ -13,10 +13,10 @@ Phase 2 (Research) complete with user approval:
 ## Engine Paths
 
 **Vega:** Define data transforms, signals, scales, axes, marks in a `.vg.json` spec.
-Load `vega-patterns.md` for syntax reference.
+Load [vega-patterns.md](vega-patterns.md) for syntax reference.
 
 **D3:** Implement scales, axes, marks, interaction in standalone HTML.
-Load `d3-patterns.md` for syntax reference.
+Load [d3-patterns.md](d3-patterns.md) for syntax reference.
 
 **Load ONE pattern doc. Never load both.**
 
@@ -47,7 +47,7 @@ Apply the encoding table from Phase 2.
 - If custom colors needed, verify no distinction depends on color alone
 - Check contrast: graphical objects ≥ 3:1 against adjacent colors in the code
 
-Load `mode-encode.md` for encoding methodology.
+Load [mode-encode.md](mode-encode.md) for encoding methodology.
 
 ### 2. Compose — Layout and Hierarchy
 
@@ -60,7 +60,7 @@ Arrange encoded elements into a coherent spatial layout.
 5. For Vega: add `"role": "img"` and `"aria-labelledby"` on SVG root via config
 6. For D3: add semantic SVG roles (`role="img"`, `aria-labelledby`, group data with `role="list"`)
 
-Load `mode-compose.md` for composition methodology.
+Load [mode-compose.md](mode-compose.md) for composition methodology.
 
 ### 3. Narrate — Titles, Annotations, Story (parallel with interact)
 
@@ -75,7 +75,7 @@ Load `mode-compose.md` for composition methodology.
 **What NOT to attempt:** scrollytelling, slide shows, animated revelation sequences.
 The output format is standalone HTML — narrative works through title, annotations, and tooltips.
 
-Load `mode-narrate.md` for annotation methodology.
+Load [mode-narrate.md](mode-narrate.md) for annotation methodology.
 
 **Skip condition:** Dashboard component where narration lives in surrounding UI. Still write alt text.
 
@@ -87,7 +87,7 @@ Load `mode-narrate.md` for annotation methodology.
 4. Responsive layout: Vega `autosize`, D3 `viewBox`
 5. Temporal states: loading skeleton, error display, empty state
 
-Load `mode-interact.md` for interaction patterns.
+Load [mode-interact.md](mode-interact.md) for interaction patterns.
 
 **Skip condition:** Static medium (print, slide, PDF).
 
@@ -115,7 +115,7 @@ Verify accessibility holds together across all subtasks.
 individual marks, implement keyboard navigation of data points, or manage focus. The data
 table fallback and SVG `<title>`/`<desc>` are the primary accessible paths for Vega charts.
 
-Load `mode-access.md` for full accessibility methodology.
+Load [mode-access.md](mode-access.md) for full accessibility methodology.
 
 ## Exit
 

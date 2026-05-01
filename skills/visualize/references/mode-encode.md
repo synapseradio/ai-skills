@@ -198,7 +198,7 @@ How many data points changes which channels work.
 | **< 20** | Everything — all channels discriminable | Nothing | Direct-label every mark. Consider whether a table is clearer. |
 | **20–200** | Position, color, size all effective | Shape past ~50 points starts blurring | Standard multi-channel encoding. This is the sweet spot. |
 | **200–10K** | Position dominates. Hue: ~8 categories max. | Area unreliable for comparison. Shape useless. Individual labels impossible. | Use transparency (alpha 0.2–0.5) to reveal density. Aggregate where possible. |
-| **10K+** | Position + density encoding | Individual marks meaningless. Color categories merge. | Aggregate: heatmap, hexbin, contour, density plot. Or sample. See `canvas-patterns.md` for rendering. |
+| **10K+** | Position + density encoding | Individual marks meaningless. Color categories merge. | Aggregate: heatmap, hexbin, contour, density plot. Or sample. See [canvas-patterns.md](canvas-patterns.md) for rendering. |
 
 ---
 

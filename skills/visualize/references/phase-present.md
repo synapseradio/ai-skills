@@ -12,7 +12,7 @@ verification on the second draft.
 **Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec. Add HTML
 comment frontmatter (name, description, chart-type, project, created). Embed data inline.
 
-**D3 charts:** Generate standalone HTML following `base-template.md`. Add frontmatter.
+**D3 charts:** Generate standalone HTML following [base-template.md](base-template.md). Add frontmatter.
 Embed data inline. Include all styles inline.
 
 **Dashboard mode:** Multiple Vega specs in a single HTML file — call `vegaEmbed` multiple

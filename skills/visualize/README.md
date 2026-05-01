@@ -43,7 +43,7 @@ find ~/.visualizer-skill/visualizations -name '*.html' -exec mv {} ~/.visualizat
 
 ## Why use this instead of prompting?
 
-A plain prompt will produce a chart, but it skips the work that makes a chart good — identifying what claim the visualization supports, choosing encodings that match the data's structure, adding units and context, checking accessibility. This skill enforces a six-phase workflow (context, research, implement, refine, present) so the output communicates clearly, not just renders correctly.
+A plain prompt will produce a chart, but it skips the work that makes a chart good — identifying what claim the visualization supports, choosing encodings that match the data's structure, adding units and context, checking accessibility. This skill enforces a six-phase workflow (context, research, implement, refine, present, save) so the output communicates clearly, not just renders correctly.
 
 ## What's included
 
@@ -68,6 +68,34 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 | Process/flow  | flowchart, sequence, gantt                                    | —             | —    | mermaid-flowchart / mermaid-sequence / mermaid-gantt |
 | Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar   | Yes           | Yes  | emoji-heatmap (heatmap)                 |
 | Temporal      | line-chart, area-chart, candlestick, slope, sparkline         | Yes           | Yes  | sparkline-row, comparison-table         |
+
+## References
+
+The skill loads these files conditionally during the workflow. Each focuses on a single topic and is loaded only when the relevant phase, mode, engine, or specialization applies.
+
+| Reference | Purpose |
+|-----------|---------|
+| [phase-context.md](references/phase-context.md) | Phase 1 — find the claim, identify the viewer, honesty check |
+| [phase-research.md](references/phase-research.md) | Phase 2 — classify data, plan encoding, select engine and template |
+| [phase-implement.md](references/phase-implement.md) | Phase 3 — write spec or HTML, apply the build subtasks |
+| [phase-refine.md](references/phase-refine.md) | Phase 4 — mandatory second draft and verification protocol |
+| [phase-present.md](references/phase-present.md) | Phases 5 and 6 — produce the final output and persist it |
+| [mode-encode.md](references/mode-encode.md) | Channel ranking, scales, marks, encoding hierarchy |
+| [mode-compose.md](references/mode-compose.md) | Layout, spatial hierarchy, whitespace, grouping |
+| [mode-narrate.md](references/mode-narrate.md) | Titles, annotations, story devices, alt text |
+| [mode-access.md](references/mode-access.md) | ARIA, keyboard navigation, color access, data table fallback |
+| [mode-interact.md](references/mode-interact.md) | Tooltips, brushing, filtering, responsive layout |
+| [mode-refine.md](references/mode-refine.md) | Audit checklist, editorial integrity check, fix routing |
+| [engine-selection.md](references/engine-selection.md) | Markdown, Vega, and D3 capability matrix and selection criteria |
+| [template-selection.md](references/template-selection.md) | Decision tree from question type to template |
+| [vega-patterns.md](references/vega-patterns.md) | Full Vega spec patterns — signals, transforms, force layouts |
+| [d3-patterns.md](references/d3-patterns.md) | D3 standalone HTML patterns for sankey and template-crafter |
+| [markdown-patterns.md](references/markdown-patterns.md) | Surface matrix, honesty checklist, markdown engine catalogue |
+| [base-vega-wrapper.md](references/base-vega-wrapper.md) | Vega and Vega-Lite HTML wrapper structure |
+| [base-template.md](references/base-template.md) | D3 base HTML template structure |
+| [data-preparation.md](references/data-preparation.md) | Data transforms: pivot, aggregate, derive, coerce, filter |
+| [network-patterns.md](references/network-patterns.md) | Force-directed layouts, edge bundling, hairball mitigation |
+| [canvas-patterns.md](references/canvas-patterns.md) | Canvas 2D rendering for hundreds of thousands of points |
 
 ## Design system
 

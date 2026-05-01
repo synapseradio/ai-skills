@@ -1,6 +1,6 @@
 # Base Vega Wrapper
 
-Browser-runnable HTML wrapper for Vega-Lite (`.vl.json`) and full Vega (`.vg.json`) specs. The wrapper loads the Vega stack from CDN, injects the spec, renders to SVG, and auto-generates an accessibility data table. For D3-based visualizations (sankey and template-crafter), see `base-template.md`.
+Browser-runnable HTML wrapper for Vega-Lite (`.vl.json`) and full Vega (`.vg.json`) specs. The wrapper loads the Vega stack from CDN, injects the spec, renders to SVG, and auto-generates an accessibility data table. For D3-based visualizations (sankey and template-crafter), see [base-template.md](base-template.md).
 
 ## Wrapper HTML
 
@@ -151,9 +151,9 @@ Each `vegaEmbed` call is independent. Specs can mix Vega-Lite and full Vega on t
 
 ## Cross-references
 
-- **D3 HTML pattern** (sankey and template-crafter mode): see `base-template.md`
-- **Engine selection criteria**: see `engine-selection.md`
-- **Chart type selection**: see `chart-patterns.md`
+- **D3 HTML pattern** (sankey and template-crafter mode): see [base-template.md](base-template.md)
+- **Engine selection criteria**: see [engine-selection.md](engine-selection.md)
+- **Chart type selection**: see [template-selection.md](template-selection.md)
 
 ## Sources
 
