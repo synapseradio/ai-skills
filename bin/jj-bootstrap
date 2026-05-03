@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# One-time per-machine setup: symlink the tracked jj-config.toml into the
+# location jj 0.40+ expects per-repo config to live (~/.config/jj/repos/<hash>/).
+# Re-run is safe and idempotent.
+set -euo pipefail
+
+repo_root="$(jj root)"
+src="${repo_root}/jj-config.toml"
+target="$(jj config path --repo)"
+
+if [[ ! -f "${src}" ]]; then
+  echo "Error: ${src} not found." >&2
+  exit 1
+fi
+
+mkdir -p "$(dirname "${target}")"
+
+if [[ -L "${target}" ]]; then
+  current="$(readlink "${target}")"
+  if [[ "${current}" == "${src}" ]]; then
+    echo "Already linked: ${target} -> ${src}"
+    exit 0
+  fi
+  echo "Replacing existing symlink (${current}) with ${src}"
+  rm "${target}"
+elif [[ -e "${target}" ]]; then
+  echo "Error: ${target} exists and is not a symlink. Refusing to clobber." >&2
+  echo "Inspect it, then re-run: rm '${target}' && bin/jj-bootstrap" >&2
+  exit 1
+fi
+
+ln -s "${src}" "${target}"
+echo "Linked ${target} -> ${src}"

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# jj git push does not trigger git hooks, so this wrapper:
+#   1. Runs jj fix across all unpushed commits to apply formatters
+#   2. Runs lefthook pre-push as the gate (lint, shellcheck, commitlint)
+#   3. Pushes via jj
+set -euo pipefail
+
+jj fix -s 'mutable()'
+lefthook run pre-push
+exec jj git push "$@"

@@ -70,7 +70,7 @@ These are slot-fillable templates whose meaning does not change when you swap th
 
 - **"The ___ is real."** Forbidden. Calling a thing "real" adds nothing — its existence is presupposed by mentioning it. The phrase performs emphasis instead of providing it. Examples: "the burnout is real," "the threat is real," "the opportunity is real." Replace with what makes the thing matter — the specific cost, the specific stake, the specific evidence.
 - **"The ___ is the signal."** Forbidden. The construction promises a reframe — *your assumption was wrong, here is the hidden truth* — and almost always delivers an ordinary observation in epiphany clothes. It also closes inquiry: once the signal has been named, no further investigation is invited. Replace with the mechanism: what does the thing indicate, and how does the indication work?
-- **Negation-then-affirmation as default cadence.** "X is Y, not Z." "It is not Y, it is Z." "It's not just Y — it's Z." Forbidden unless the reader genuinely held the negated view. Otherwise the negation is a strawman and the affirmation rides its momentum without earning the contrast. Replace with the affirmation alone. If a contrast is needed, name a position someone actually held and engage it.
+- **Negation-then-affirmation as default cadence.** "X is Y, not Z." "It is not Y, [it is | but] Z." "It's not just Y — it's Z." Forbidden unless the reader genuinely held the negated view. Otherwise the negation is a strawman and the affirmation rides its momentum without earning the contrast. Replace with the affirmation alone. If a contrast is needed, name a position someone actually held and engage it.
 
 Why these three are a coherent class: each works by gesturing at insight without supplying one. The reader recognizes the shape from marketing copy, viral threads, and AI output, and infers — correctly — that the writer reached for cadence instead of meaning. This is the specific revulsion humans feel toward AI prose. The shape announces itself before the content arrives.
 
@@ -91,7 +91,7 @@ Slop has a different signature in casual register. Each forbidden:
 - **"Here's the thing:" preamble.** Cut.
 - **TL;DR on messages under 200 words.** A summary of two sentences is one sentence too many.
 - **Over-balanced refusal to take a position.** In Slack or comments, asking for an opinion and getting "well, it depends on many factors" is slop. Take the position the situation asks for.
-- **Performative emoji signaling.** 🚨 to mark "important," 🧵 to mark "thread," 💯 to agree. The text carries the signal.
+- **Performative emoji signaling.** Never communicate with emojis unless it was explicitly requested from the user.
 - **Asking permission to begin.** "I'll go ahead and…" → just go ahead and.
 
 ## Audit diagnostics — laws
@@ -126,8 +126,10 @@ The audit diagnostics above use the same signals. Apply them to the model's own 
 
 ## NEVER
 
-- Never apply these audit laws to judge another writer. Liang et al. is fact, not hedge.
+- Never include performative language in deliberation unless it is needed for the specific task at hand (e.g. writing dialogue between characters in a scene)
 - Never preserve a transitional phrase because it sounds polished. Polish that adds nothing is slop.
-- Never use a Kobak word because it sounds professional. Professionalism is precision, not vocabulary.
+- Never use a Kobak word because it sounds professional. Professionalism is precision, transparency, and accuracy with due consideration to situation, goals, and context.
 - Never close with an exhortation. The work closes the piece, not the verb "embrace."
 - Never default to three items. Choose the count the situation has.
+- Never include a parenthetical that does not add necessary context to a statement.
+- Never use dashes to invent compound words, emotions, or professions that are not in the tradition of the language you are writing in. Instead, use real words, even if it takes you time and tokens to explain in terms a human would understand. Humans do not reason in semantic space, and need help understanding novel connections you have made.

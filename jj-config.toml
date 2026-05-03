@@ -1,0 +1,39 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+# Per-repo jj config. Tracked at repo root; `bin/jj-bootstrap` symlinks it into
+# the XDG location jj 0.40+ reads per-repo config from
+# (~/.config/jj/repos/<hash>/config.toml).
+#
+# `fix.tools.*` entries are stdin -> stdout transformers used by `jj fix`.
+# Run `jj fix` to format the working-copy commit, or `jj fix -s 'mutable()'`
+# to format every unpushed commit at once.
+
+[revset-aliases]
+"trunk()" = "main@origin"
+
+[fix.tools.prettier-html]
+command = ["bunx", "prettier", "--stdin-filepath=$path"]
+patterns = ["glob:'**/*.html'"]
+
+[fix.tools.prettier-yaml]
+command = ["bunx", "prettier", "--stdin-filepath=$path"]
+patterns = ["glob:'**/*.yml'", "glob:'**/*.yaml'"]
+
+# `biome format` (not `biome check --write`): pure formatter that exits 0
+# regardless of lint findings. Lint gating happens in lefthook pre-push.
+[fix.tools.biome-json]
+command = ["bunx", "biome", "format", "--stdin-file-path=$path"]
+patterns = ["glob:'**/*.json'"]
+
+# `ruff format` only — `ruff check --fix` belongs in pre-push because it can
+# exit nonzero on remaining lint errors, which would make jj fix discard the
+# partial fix.
+[fix.tools.ruff-format]
+command = ["ruff", "format", "--stdin-filename", "$path", "-"]
+patterns = ["glob:'**/*.py'"]
+
+# `--format -` (not `--fix`) is markdownlint-cli2's stdin->stdout mode. `--fix`
+# writes back to disk and does not emit fixed content on stdout.
+[fix.tools.markdownlint]
+command = ["bunx", "markdownlint-cli2", "--format", "-"]
+patterns = ["glob:'**/*.md'"]

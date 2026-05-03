@@ -8,31 +8,45 @@ pre-commit:
             glob: "*.md"
             run: bun run lint:fix:md {staged_files}
             stage_fixed: true
-            skip_empty: true
           - name: biome
             glob: "*.json"
             run: bunx biome check --write {staged_files}
             stage_fixed: true
-            skip_empty: true
           - name: prettier-html
             glob: "*.html"
             run: bunx prettier --write {staged_files}
             stage_fixed: true
-            skip_empty: true
           - name: prettier-yaml
             glob: "*.{yml,yaml}"
             run: bunx prettier --write {staged_files}
             stage_fixed: true
-            skip_empty: true
           - name: ruff
             glob: "*.py"
             run: ruff check --fix {staged_files} && ruff format {staged_files}
             stage_fixed: true
-            skip_empty: true
           - name: shellcheck
             glob: "*.sh"
             run: shellcheck {staged_files}
-            skip_empty: true
+
+# pre-push gate: catches what `jj fix` does not. `jj git push` does not trigger
+# git hooks, so the bin/jj-push wrapper invokes lefthook explicitly.
+pre-push:
+  jobs:
+    - name: lint
+      group:
+        parallel: true
+        jobs:
+          - name: biome-check
+            glob: "*.json"
+            run: bunx biome check --no-errors-on-unmatched {push_files}
+          - name: ruff-check
+            glob: "*.py"
+            run: ruff check {push_files}
+          - name: shellcheck
+            glob: "*.sh"
+            run: shellcheck {push_files}
+    - name: commitlint
+      run: bunx commitlint --from origin/main --to HEAD
 
 commit-msg:
   jobs:
