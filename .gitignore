@@ -1,6 +1,63 @@
-node_modules/
+# ---------- macOS ----------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ---------- Editors ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.netrwhist
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
 .ruff_cache/
-.claude/**/*.lock
-.a5c/
+.venv/
+venv/
+env/
+.tox/
+
+# ---------- Node ----------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+
+# ---------- Logs and temp ----------
+*.log
+*.tmp
+*.bak
+
+# ---------- Local-only tooling ----------
+# Claude Code per-session state, settings, and locks
+.claude/
 # Thinkies persistence data (local, not committed)
 .thinkies/
+# a5c local agent state
+.a5c/
+# Serena local indexer state
+.serena/
