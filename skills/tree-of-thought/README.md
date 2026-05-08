@@ -40,4 +40,4 @@ Upload this file in Claude.ai → Settings → Skills:
 
 ## License
 
-[EUPL-1.2](/LICENSE)
+[EUPL-1.2](https://github.com/synapseradio/ai-skills/blob/main/LICENSE)
