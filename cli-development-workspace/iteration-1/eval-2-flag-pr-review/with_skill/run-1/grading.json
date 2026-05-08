@@ -1,0 +1,58 @@
+{
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "output_chars": 11423,
+    "total_tool_calls": 10
+  },
+  "expectations": [
+    {
+      "evidence": "Quotes clig.dev: 'Do not read secrets directly from flags. ... the flag value will leak the secret into ps output and potentially shell history.' Recommends '--password-file <path> or read from stdin (--password-stdin)' and notes ps auxww visibility on shared bastions.",
+      "passed": true,
+      "text": "Flags that --password leaks the secret via ps and shell history; recommends --password-file or stdin"
+    },
+    {
+      "evidence": "'The convention for force is lowercase -f. clig.dev lists it explicitly in the standard-flag table' and quotes the rule. Recommends dropping -F entirely.",
+      "passed": true,
+      "text": "Flags that -F (capital) is non-standard for force — convention is -f lowercase"
+    },
+    {
+      "evidence": "'The long name is V not version' (catches the BoolP bug registering literal --V long flag) and quotes clig.dev's '-v can often mean either verbose or version'. Recommends BoolP(\"version\", \"V\", false, ...) and warns about short-flag namespace pollution.",
+      "passed": true,
+      "text": "Flags that -V (capital) is non-standard for version — convention is --version (and -V often means verbose)"
+    },
+    {
+      "evidence": "'Short form is right, long form is wrong' followed by quote of clig.dev's '-n, --dry-run' rule. Recommends rename to --dry-run.",
+      "passed": true,
+      "text": "Flags that --dry should be --dry-run to match convention"
+    },
+    {
+      "evidence": "Cites Output section, recommends promoting --json to top-level flag with --plain for human format: 'clig.dev's Output section calls out --json and --plain as standard top-level flags. ... it matches the Output guidance directly.'",
+      "passed": true,
+      "text": "Notes that --output human is not a stable scriptable format — recommends --json (and ideally --plain)"
+    },
+    {
+      "evidence": "Quotes the full mild/moderate/severe taxonomy from clig.dev and recommends 'require --confirm=\"<env-or-resource-name>\" instead' for severe actions. Concrete suggested layout includes a --confirm flag.",
+      "passed": true,
+      "text": "Notes the destructive scope (deletes pods, rotates secrets) warrants severe-action confirmation (typing the resource name or --confirm=name) beyond a -y/--yes toggle"
+    },
+    {
+      "evidence": "Six distinct anchors cited: https://clig.dev/#arguments-and-flags, https://clig.dev/#consistency-across-programs, https://clig.dev/#output, https://clig.dev/#interactivity, https://clig.dev/#future-proofing, https://clig.dev/#help.",
+      "passed": true,
+      "text": "Cites at least three distinct clig.dev anchor URLs"
+    },
+    {
+      "evidence": "Identifies the kubectl muscle-memory collision: 'deployctl deploy -n staging service-x expecting deploy to staging namespace. On this tool, -n means dry-run and staging becomes a positional argument.' Recommends giving -n to --namespace and dropping the short form for --dry-run.",
+      "passed": true,
+      "text": "Notes -N for namespace is unusual capitalization — short flags are conventionally lowercase"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 8,
+    "total": 8
+  },
+  "timing": {
+    "total_duration_seconds": 149.7
+  }
+}

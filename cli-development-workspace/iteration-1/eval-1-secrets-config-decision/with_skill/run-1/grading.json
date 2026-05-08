@@ -1,0 +1,53 @@
+{
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "output_chars": 9836,
+    "total_tool_calls": 10
+  },
+  "expectations": [
+    {
+      "evidence": "Quotes clig.dev: 'Do not read secrets directly from flags. ... a `--token <value>` flag leaks the secret into ps output and into shell history.' Refuses --token<value> entirely; ships --token-file instead.",
+      "passed": true,
+      "text": "Recommends against putting the bearer token on a flag like --token (names ps/shell history leakage)"
+    },
+    {
+      "evidence": "Quotes clig.dev: 'Exported env vars are sent to every child process and tend to end up in logs; shell substitutions ... leak into globally-readable process state; container env vars surface through docker inspect; systemd unit env vars surface through systemctl show.' FLOWCTL_TOKEN is positioned as a CI-only escape hatch, not the primary path.",
+      "passed": true,
+      "text": "Recommends against storing the token in a plain environment variable as the primary mechanism (names process-state/inspect/systemctl/logs leakage)"
+    },
+    {
+      "evidence": "Section 1 explicitly: '${XDG_CONFIG_HOME:-$HOME/.config}/flowctl/credentials. File mode 0600, parent directory 0700, and verify both on read.' Cites Configuration anchor and the 'Follow the XDG-spec' rule.",
+      "passed": true,
+      "text": "Recommends a credentials file under XDG (~/.config/flowctl/credentials or $XDG_CONFIG_HOME/flowctl/credentials) with restrictive permissions"
+    },
+    {
+      "evidence": "'--token-file <path> — read the token from a file. This is the --password-file pattern' and '--token-file - meaning stdin.' Plus FLOWCTL_TOKEN_FILE env var documented as preferred over FLOWCTL_TOKEN for CI.",
+      "passed": true,
+      "text": "Mentions --token-file or stdin as the scriptable override path for CI"
+    },
+    {
+      "evidence": "Multiple: https://clig.dev/#configuration, https://clig.dev/#arguments-and-flags, https://clig.dev/#environment-variables, https://clig.dev/#interactivity, https://clig.dev/#errors, https://clig.dev/#help, https://clig.dev/#conversation-as-the-norm, https://clig.dev/#ease-of-discovery.",
+      "passed": true,
+      "text": "Cites at least one clig.dev anchor URL (a link containing clig.dev/#)"
+    },
+    {
+      "evidence": "Section 4: '1. Flags 2. Shell environment variables 3. Project-level configuration (e.g. .env) 4. User-level configuration 5. System-wide configuration' — verbatim from clig.dev with citation.",
+      "passed": true,
+      "text": "States the configuration precedence chain (flags > env > project > user > system) or references the principle"
+    },
+    {
+      "evidence": "Opening section: 'clig.dev separates configuration from secrets. For ordinary configuration ... For secrets, both relevant sections are explicit and unusually firm.' Treats the bearer token as a separate concern with stricter rules.",
+      "passed": true,
+      "text": "Distinguishes secret-bearing config from non-secret config — does not collapse them into the same recommendation"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 7,
+    "total": 7
+  },
+  "timing": {
+    "total_duration_seconds": 117.0
+  }
+}

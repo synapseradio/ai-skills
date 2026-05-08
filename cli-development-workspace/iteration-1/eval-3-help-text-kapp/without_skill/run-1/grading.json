@@ -1,0 +1,68 @@
+{
+  "execution_metrics": {
+    "errors_encountered": 0,
+    "output_chars": 2615,
+    "total_tool_calls": 2
+  },
+  "expectations": [
+    {
+      "evidence": "Two code blocks back to back, each starting with the respective synopsis ('kapp - deploy and manage Kubernetes applications' / 'kapp deploy - apply a manifest to a cluster').",
+      "passed": true,
+      "text": "Output contains both a top-level kapp help block and a kapp deploy help block (labeled or visually distinct)"
+    },
+    {
+      "evidence": "All five listed under 'These are the common kapp commands'.",
+      "passed": true,
+      "text": "Top-level help lists all five subcommands: deploy, delete, status, logs, version"
+    },
+    {
+      "evidence": "'usage: kapp <command> [<args>]'",
+      "passed": true,
+      "text": "Top-level help shows a USAGE/synopsis line"
+    },
+    {
+      "evidence": "'Docs: https://docs.example.internal/kapp'",
+      "passed": true,
+      "text": "Top-level help links to docs.example.internal/kapp"
+    },
+    {
+      "evidence": "'usage: kapp deploy <manifest> [flags]' and '<manifest> is a path to a YAML file, or - to read from stdin'.",
+      "passed": true,
+      "text": "Deploy help shows the positional manifest arg AND the - convention for stdin"
+    },
+    {
+      "evidence": "All four shown with '--timeout <duration> ... (default: 10m).'",
+      "passed": true,
+      "text": "Deploy help shows all four flags: --namespace/-n, --dry-run, --wait, --timeout (with default like 10m visible)"
+    },
+    {
+      "evidence": "Examples section with five examples (interactive, namespaced, piped, dry-run, CI) — though placed after Flags rather than before.",
+      "passed": true,
+      "text": "Deploy help has an EXAMPLES section that appears prominently (lead with examples per clig.dev)"
+    },
+    {
+      "evidence": "'Deploys to namespaces marked as production (resolved from KAPP_PROD_NAMESPACES, defaulting to prod, production, and any namespace prefixed with prod-) prompt for confirmation before applying.'",
+      "passed": true,
+      "text": "Deploy help notes the prod-namespace confirmation behavior"
+    },
+    {
+      "evidence": "Uses sentence-case section headers ('Flags:', 'Examples:', 'Exit codes:', 'See also:') rather than ALL-CAPS or bold — closer to git-help style than heroku/clig.dev's bold-heading example. Strict reading fails the clig.dev formatting recommendation.",
+      "passed": false,
+      "text": "Both blocks use visual section headings (bold or ALL-CAPS like USAGE/OPTIONS/EXAMPLES, heroku/git style)"
+    },
+    {
+      "evidence": "Two code blocks back to back, no surrounding prose.",
+      "passed": true,
+      "text": "Output is the raw help text only, with minimal or no surrounding commentary (the user said 'just give me the text')"
+    }
+  ],
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.9,
+    "passed": 9,
+    "total": 10
+  },
+  "timing": {
+    "total_duration_seconds": 30.1
+  }
+}
