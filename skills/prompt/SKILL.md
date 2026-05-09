@@ -157,6 +157,12 @@ Produce the artifact. The shape depends on the mode:
 Write files directly when the user has given a path, or inline-display the
 output when they haven't. Do not fabricate file paths.
 
+### Output discipline
+
+Emit only the prompt artifact. No preamble, no postscript, no surrounding
+commentary, no closing question. Required assumption notes live on the
+first line of the artifact, not around it.
+
 ## The Precedence Rule
 
 > Write the natural phrasing first. Check it against the nine anti-patterns
