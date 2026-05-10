@@ -35,38 +35,30 @@ Where do concepts appear before their foundations? Where do sentences open with 
 
 6. **Present the result** - Output the improved prose and summarize what changed: structural issues fixed, content streamlined, expression issues resolved, complexity preserved.
 
-## Examples
+## Questions
 
-### Streamlining bloated technical prose
+- Where does this passage assume a foundation it has not given the reader — a concept, a definition, a context, an earlier event in the chain?
+- Where does a sentence open on the unfamiliar before the familiar is in place to anchor it?
+- Where is cushioning doing the writer's work — softening the absence of a claim, padding silence where meaning should be?
+- For each quantifier — "many," "often," "significant," "soon" — do I have the number, duration, or comparison that would make it concrete?
+- For each claim that asserts an effect, does the prose name the mechanism — through what process, by what means, in what intermediate steps — or is the reader being asked to take it on faith?
+- Where is the difficulty coming from the subject itself, and where from the way I wrote it?
+- Where does a negation tell the reader what to avoid, when a positive instruction would give them a direction to move?
+- Trace each pronoun and demonstrative back to its anchor. Where does the trace stretch more than two sentences, or split between two possible antecedents?
 
-**Input**: "The architecture was designed for scalability and is built to handle increasing demands over time, providing a foundation that can accommodate future requirements and expanding needs as usage grows and more features are added."
+## Quality Criteria
 
-**Audit findings**:
+When clarity is sound:
 
-- Streamline: 43 words to express one idea. "Scalability", "increasing demands", "expanding needs", "usage grows" all mean "grows"
-- Load type: Extraneous—difficulty is ceremonial, not essential
-- Mechanism: Missing. How does the architecture scale?
-
-**Fixed output**: "The architecture scales horizontally by adding nodes as load increases."
-
-**Summary**: Streamlined from 43 words to 10. Added mechanism (horizontal scaling via nodes). Preserved the core claim while making it concrete.
-
-### Fixing information flow in documentation
-
-**Input**: "A distributed lock using Redis prevents race conditions. The inventory service needs this because multiple instances handle concurrent checkout requests."
-
-**Audit findings**:
-
-- Information flow: Opens with solution (distributed lock) before establishing problem
-- Sequence: Cause (concurrent requests) follows effect (race conditions)
-
-**Fixed output**: "Multiple instances of the inventory service handle concurrent checkout requests. Without coordination, race conditions corrupt stock counts. A distributed lock using Redis prevents this."
-
-**Summary**: Reordered to establish problem (concurrent requests → race conditions) before solution (distributed lock). Each sentence now opens with familiar ground.
+- [ ] Every concept the prose uses has been introduced before it is referenced.
+- [ ] Each sentence opens on ground the reader has been given.
+- [ ] Every quantifier has been backed by the specific number, duration, or comparison the writer can stand behind.
+- [ ] Every claim that asserts an effect names how the effect happens — through what process, by what means.
+- [ ] Difficulty in the prose comes from difficulty in the subject, and the surrounding scaffolding helps the reader carry it.
+- [ ] Negations have given way to positive direction unless the absence is itself the point.
+- [ ] Every pronoun and demonstrative traces cleanly to one antecedent within two sentences.
+- [ ] When repair lands across multiple layers, the structural fixes were made first, and the word-level fixes built on those.
 
 ## Additional Resources
 
-For detection heuristics, repair strategies, and domain-specific patterns:
-
-- **`clarify-patterns.md`** — Detailed patterns for each audit technique
-- **`clarify-examples.md`** — Before/after transformations organized by issue type
+For detection heuristics, repair strategies, and domain-specific patterns: [`clarify-patterns.md`](./clarify-patterns.md).

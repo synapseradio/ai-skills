@@ -9,8 +9,6 @@ Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where
 
 ## Instructions
 
-### Word-Level Precision
-
 1. **Match register to context** -- Calibrate formality level to the situation. Replace casual phrasing with structured vocabulary where formality serves, or identify where formal language creates unnecessary distance in contexts calling for directness.
 
 2. **Choose words for connotation, not just denotation** -- Examine each significant word to determine whether its emotional and cultural associations align with intended effect. "Slim" versus "skinny," "persistent" versus "stubborn" -- similar definitions, vastly different implications.
@@ -23,91 +21,53 @@ Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where
 
 6. **Verify cultural and contextual appropriateness** -- Consider whether words carry associations specific to contexts, regions, or communities that might not transfer. Check for idioms that don't translate.
 
-### Emotional Register
+7. **Assess what tone serves the purpose** -- What is the communication trying to accomplish? What emotional response would help achieve it? The same content with different emotional registers produces different effects.
 
-1. **Assess what tone serves the purpose** -- What is the communication trying to accomplish? What emotional response would help achieve it? The same content with different emotional registers produces different effects.
+8. **Map register dimensions** -- Identify where communication should fall on tonal spectrums: warmth (connection-building) versus distance (boundary-maintaining), urgency (time-sensitive) versus calm (reflective), formality (authority-establishing) versus casualness (rapport-building), certainty (confidence-projecting) versus tentativeness (uncertainty-acknowledging).
 
-2. **Map register dimensions** -- Identify where communication should fall on tonal spectrums:
-   - Warmth (connection-building) versus distance (boundary-maintaining)
-   - Urgency (time-sensitive) versus calm (reflective)
-   - Formality (authority-establishing) versus casualness (rapport-building)
-   - Certainty (confidence-projecting) versus tentativeness (uncertainty-acknowledging)
+9. **Separate register from content** -- Keep information identical but change word choice, sentence structure, and pacing. The same message can be urgent versus patient, warm versus neutral, formal versus casual. Explore the range of choices.
 
-3. **Separate register from content** -- Keep information identical but change word choice, sentence structure, and pacing. The same message can be urgent versus patient, warm versus neutral, formal versus casual. Explore the range of choices.
+10. **Calibrate warmth to serve clarity** -- Does emotional warmth make the message more accessible or dilute its clarity? Warmth builds connection when readers benefit from feeling seen. Distance maintains boundaries when situations require clarity about limits.
 
-4. **Calibrate warmth to serve clarity** -- Does emotional warmth make the message more accessible or dilute its clarity? Warmth builds connection when readers benefit from feeling seen. Distance maintains boundaries when situations require clarity about limits.
+11. **Maintain consistency while allowing purposeful variation** -- Check whether emotional register creates smooth flow. Variation is purposeful when content shifts emotional territory. Consistency serves when building cumulative argument.
 
-5. **Maintain consistency while allowing purposeful variation** -- Check whether emotional register creates smooth flow. Variation is purposeful when content shifts emotional territory. Consistency serves when building cumulative argument.
+## Register by Context
 
-### Register by Context
+A short reference for three registers prose commonly operates in. Each entry names the cared-for shape and the slop signature that betrays inattention.
 
-Each writing context has its own register and its own slop signature. Match the context.
+**Code comments.** Brief, contextual, oriented to what changed and why.
 
-**Code comments.** Explain *why* the code is here and *what matters for change*. Identifiers say what the code does.
-
-- Slop signature: restating what the code already says (`// Loop through users`).
-- Cared-for: capture the non-obvious — a constraint, an invariant, a workaround for a specific bug, behavior that would surprise a reader.
-
-**Commit messages.** Imperative present, subject ≤72 characters, body explains intent and any non-obvious tradeoff.
-
-- Slop signature: "Updated X.md" / "Various changes" / "Fix issue."
-- Cared-for: "Replace X with Y to fix Z." / "Move helper out of public API; unused since v2."
-
-**PR descriptions.** Why, test plan, risk. Not a bullet-padded restatement of the diff.
-
-- Slop signature: a "## Changes" section with one bullet per file restating the file path.
-- Cared-for: one paragraph on motivation, explicit test plan, explicit risk and mitigation.
+- Slop signature: ceremonial transitions, Kobak vocabulary, restating what the code already says.
+- Cared-for: short imperative or declarative phrases naming the change, the cause, or the constraint.
 
 **Slack and chat.** Short, direct, no preamble.
 
-- Slop signature: "Hi! I hope you're well. I just wanted to quickly reach out about…"
-- Cared-for: "Got a sec? Question about the deploy." / "Done."
+- Slop signature: over-formal openers, faux-personal preambles, asking permission to begin.
+- Cared-for: contextual openers, one-word replies where the answer is one word.
 
 **Documentation (evergreen).** Describe the current state as fact. No transitional framing — no "migration in progress," no "(intended surface)," no "Phase 2 will add X." Document what is, why it is, and what matters for changes.
 
 - Slop signature: a banner that rots the moment the migration lands.
 - Cared-for: a description that reads true six months from now, or that the writer would happily delete.
 
-Each register also carries the universal slop signature — Kobak vocabulary, transitional overhang, tricolon-as-default. `avoid-slop.md` covers those.
+Each register also carries the universal slop signature — Kobak vocabulary, transitional overhang, tricolon-as-default. [`avoid-slop.md`](./avoid-slop.md) covers those.
 
-## Examples
+## Questions
 
-### From AI patterns to natural expression
+- Does each significant word carry the connotation the writer intends, alongside its denotation? Where might the implication land differently than the surface meaning?
+- Where do habitual AI-generation patterns appear — delve, utilize, leverage, robust, seamless, foster, harness — that do not match the situation's actual register?
+- Where does a word stand close to the intended meaning but not exactly on it? Where would the difference between annoyed and furious, suggest and insist, glance and stare change what the reader takes away?
+- What tone does this situation require — warmth or distance, urgency or calm, formality or casualness, certainty or tentativeness? Where does the current register fall on those spectrums?
+- Where does the emotional pitch shift across the piece? Is the variation purposeful, tracking a shift in the content, or has it drifted?
+- For each register the prose operates in (code comments, chat, evergreen documentation), does the writing match the conventions that register honors?
 
-**Before**: "It's important to note that this approach leverages existing infrastructure to seamlessly integrate with your workflow, enabling you to efficiently optimize outcomes in a robust manner."
+## Quality Criteria
 
-**Analysis**: "It's important to note that" delays the point. "Leverages" is AI-speak for "uses." "Seamlessly integrate" is a cliche. "Enabling you to efficiently optimize" uses three abstract process words where one concrete action would suffice. "In a robust manner" is filler.
+When register is sound:
 
-**After**: "This approach uses your existing infrastructure. It works with your current workflow without requiring changes to how your team operates. You'll see results faster."
-
-Each word now does work rather than filling space.
-
-### Connotation mismatch in register
-
-**Before**: "She opened the door and saw that things had been moved. Everything looked different. She felt upset."
-
-**Analysis**: "Things" is too vague. "Moved" and "different" don't capture specific disruption. "Upset" is a placeholder that could mean anything.
-
-**After**: "She opened the door to wrongness. Drawers gaped. Papers that should have been squared in stacks fanned across the desk. The couch cushions sat slightly askew, as if someone had replaced them quickly, carelessly. Her chest tightened."
-
-"Wrongness" captures visceral sense. "Gaped" suggests violation. "Fanned" and "askew" are specific observations. "Chest tightened" grounds fear in physical sensation.
-
-### Calibrating emotional register for difficult feedback
-
-**Too warm** (risks message not landing): "We've noticed some areas where you might want to focus on growth opportunities."
-
-**Too cold** (risks damaging relationship): "Your performance metrics have fallen below acceptable standards in the following areas."
-
-**Calibrated**: "I want to talk about some specific concerns with your recent work. Over the past quarter, I've seen the quality of your code reviews decline -- you're approving changes without catching issues that later cause problems. This matters because the team relies on your technical judgment. I want to understand what's happening and figure out how to help you get back to the standard you used to maintain."
-
-Warm enough to preserve relationship, formal enough to signal seriousness, direct enough to be clear.
-
-### Register mismatch for technical audience
-
-**Condescending**: "Don't worry, this is actually really simple once you understand it! Think of it like a key to your house."
-
-**Impenetrable**: "The authentication service issues JWT tokens containing signed claims that are verified by the resource server using the public key from the identity provider's JWKS endpoint."
-
-**Calibrated**: "When you log in, the system creates a token -- a piece of data that proves you are who you say you are. Every time you make a request after that, you send this token along with it, so the system doesn't have to ask you to log in again for each action."
-
-Clear enough to build understanding, respectful enough to treat them as a peer learning something outside their domain.
+- [ ] Each significant word's connotation aligns with what the writer intends to say.
+- [ ] No Kobak vocabulary appears unless its technical sense is exact.
+- [ ] No word stands close to the intended meaning when a more precise one is available.
+- [ ] The emotional pitch fits what the situation requires — warmth, distance, urgency, calm, formality, casualness, certainty, or tentativeness as the moment calls for.
+- [ ] Variation in register tracks shifts in the content's emotional territory.
+- [ ] Where the prose operates in a specific register (code comments, chat, evergreen documentation), it matches that register's conventions.

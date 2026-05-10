@@ -33,7 +33,7 @@ Sometimes abstractions need not just examples but *situated, witnessed detail* -
 
 3. **Replace category with instance** - Transform category descriptions into situated specifics. The grounded version does not use the category word - the reader recognizes the concept from the specific actions described.
 
-4. **Preserve the writer's actual experience** - The failure mode is generating "plausible" grounding rather than witnessed grounding. If the writer cannot provide a specific instance they have experienced or directly observed, say so. "I have not witnessed this directly - this claim comes from [source]" is honest grounding. Fabricated specificity is worse than honest abstraction.
+4. **Preserve the writer's actual experience** - The failure mode is generating "plausible" grounding rather than witnessed grounding. If the writer cannot provide a specific instance they have experienced or directly observed, say so. Fabricated specificity is worse than honest abstraction.
 
 5. **Know when abstraction is appropriate** - Not every instance of category language needs grounding:
     - When the audience shares enough context that the category functions as shorthand
@@ -43,44 +43,24 @@ Sometimes abstractions need not just examples but *situated, witnessed detail* -
 
 **Distinguish illustrate from grounding moves:** Illustrate grounds *claims* in *examples* (content-level: "here is an instance of what I mean"). Grounding moves ground *voice* in *lived experience* (speaker-level: "I have been in the room where this happened"). Illustrate proves a point. Grounding situates the speaker. Both are valuable - they do different work.
 
-## Examples
+## Questions
 
-### Illustrating technical debt through specific instances
+- Where in this passage does an abstract concept appear that the reader would accept by definition but fail to recognize in their own life?
+- For each example I chose, do the relationships and constraints that define the concept sit in the foreground, or are surface features (style, era, tone) doing more work than they should?
+- Have I shown the same concept across more than one instance, so that what varies and what stays the same teach the reader the boundary of the pattern?
+- Have I shown a near-miss — something that resembles the concept but lacks one defining property — to make the boundary clear?
+- Where am I using a category word — leadership, excellence, community, transformation, resilience — without naming the specific instance I have witnessed?
+- For each abstraction, can I name what happened, where, when, and to whom? If I cannot, is the abstraction doing real work, or is it pretending to?
+- For each detail in the prose, does it name a category any reader could fill in for themselves, or does it name a specific witnessed moment — particular, often mundane, sometimes incongruous — that only the writer can claim?
 
-**Core example**: "You're building a user registration system and hard-code the validation rules directly in the form handler because it's faster than creating a separate validation layer. This works perfectly now. Six months later, you need the same validation in three other places - the API endpoint, the batch import process, and the mobile app. You now have to implement the same rules four times and keep them synchronized."
+## Quality Criteria
 
-**Variation**: "You copy-paste a component instead of abstracting it because you're in a hurry. Now bug fixes require changing five files instead of one." Different scale, same pattern.
+When illustration and grounding are sound:
 
-**Counter-example**: "You write a simple linear algorithm instead of an optimized one because the dataset is small. The simple approach is easier to understand and maintain, and performance is fine." This looks like technical debt - choosing the simple option - but it's not, because there's no future cost.
-
-**Pattern extracted**: Shortcuts that save time now but multiply work later. Not "avoid copying code" but the time-cost tradeoff.
-
-### Avoiding misleading particulars in microservices examples
-
-**Problematic example**: "Netflix uses microservices with each service deployed to AWS Lambda, communicating via REST APIs, with separate databases for each service." This might suggest microservices require Lambda, REST, or AWS - incidental features, not essential properties.
-
-**Better approach**: Start with essential properties stripped of implementation: "Microservices architecture means decomposing an application into separate services where each service handles a distinct business capability, can be deployed independently, and owns its data."
-
-**Then show variation**: "One team might deploy microservices as containers orchestrated by Kubernetes, another might use serverless functions, another might run them as traditional server processes. Some communicate via HTTP, others via message queues, others via gRPC."
-
-The variation signals that specific technologies are variable while service decomposition and independence are constant.
-
-### Grounding category language with witnessed detail
-
-**Before:** "Our company values innovation and collaboration."
-
-**Grounding test:** What specific innovation? What specific collaboration? Has the writer witnessed these?
-
-**After:** "Last quarter, two engineers from different teams spent their Friday afternoons prototyping a caching layer nobody had asked for. It cut our API response times by 60%. That's the kind of thing that happens here when people have time to follow their hunches."
-
-**What changed:** "Innovation" and "collaboration" disappeared. The reader sees them without being told about them.
-
-### Distinguishing grounded detail from fabricated specificity
-
-**Plausible but ungrounded:** "Walking through the refugee camp at dawn, I saw children playing in the dust between tents, their laughter a defiant anthem against displacement."
-
-**Warning signs:** Sensory detail that reads as cinematic rather than witnessed. "Defiant anthem" is category language disguised as observation. The detail is vivid but generic - it could describe any camp at any dawn.
-
-**Actually grounded:** "The camp smelled like cooking oil and diesel. A girl in a Barcelona FC jersey was teaching younger kids to skip rope with an extension cord. She looked about eight."
-
-**The difference:** Grounded detail is specific, often mundane, sometimes incongruous. It does not interpret itself. It trusts the reader to feel the weight.
+- [ ] Every abstract concept that risked being unrecognizable in practice is anchored in at least one concrete instance.
+- [ ] Each chosen example puts the concept's essential properties in the foreground. Incidental surface features are either set aside or named as such.
+- [ ] Where the concept is multi-faceted, variation between examples teaches the boundary of the pattern as well as its center.
+- [ ] At least one near-miss appears where a concept's boundary needs sharpening.
+- [ ] Every category word has been replaced or accompanied by a specific instance the writer has witnessed.
+- [ ] Where the writer has not directly witnessed an instance, the source is named openly.
+- [ ] The witnessed detail is specific, often mundane, sometimes incongruous. It does not interpret itself for the reader.

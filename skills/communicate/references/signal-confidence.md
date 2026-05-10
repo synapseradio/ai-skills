@@ -13,40 +13,30 @@ Does the certainty language reflect that foundation? Where does absolute languag
 
 2. **Use evidence-matched qualifiers** - State documented facts and verified observations directly. Use "likely" or "appears to" for strong inferences from data. Use "possibly" or "might" for reasoning from partial information. Use "one possibility" or "speculatively" for analogical thinking.
 
-3. **Calibrate absolute language** - Find where absolute terms describe inferred or remembered content. Transform "this framework lacks feature X" to "this framework lacked X in version 3.2, but current versions may differ" when certainty comes from outdated memory.
+3. **Calibrate absolute language** - Find where absolute terms describe inferred or remembered content. When certainty comes from outdated memory, name the version of reality the claim was true in, and acknowledge that the current state may differ.
 
-4. **Strengthen well-supported claims** - Detect rhetorical hedging on solid evidence. When data supports a claim directly, state it directly. Transform "perhaps we could consider denormalizing this table" to "denormalize this table" when measurements show 90% of queries would benefit.
+4. **Strengthen well-supported claims** - Detect rhetorical hedging on solid evidence. When data supports a claim directly, state it directly.
 
-5. **Separate mixed-certainty components** - Split complex claims where different parts carry different evidence. State "Error X occurs in middleware Y (confirmed from logs). The pattern suggests edge case Z triggers it, though the exact condition remains unidentified" rather than hedging all components uniformly.
+5. **Separate mixed-certainty components** - Split complex claims where different parts carry different evidence. Hedging all components uniformly obscures what is solid.
 
-6. **Make uncertainty actionable** - Express uncertainty by stating boundaries: what is known, what remains unknown, why uncertainty exists, what would resolve it. Transform "uncertainty about scaling" to "This handles current 100-user load (tested). Whether it scales to 10K users is uncertain without load testing that workload."
+6. **Make uncertainty actionable** - Express uncertainty by stating boundaries: what is known, what remains unknown, why uncertainty exists, what would resolve it.
 
-## Examples
+## Questions
 
-### Calibrating outdated certainty
+- For each claim, what does the evidence actually rest on — verified documentation, direct observation, current measurement, reliable inference, partial information, analogy, or a memory whose validity has a date?
+- Where does the language commit more strongly than the evidence supports?
+- Where does the language hedge more cautiously than the evidence demands — where does habit cushion something the data already establishes?
+- For each claim built on memory, observation, or measurement, what is its temporal validity window? When was this true, and what would have to be true now for it to still hold?
+- Where does a single claim mix components with different evidence strengths, so that hedging the whole obscures what is solid?
+- For each remaining uncertainty, can I name what is certain, what is uncertain, why the uncertainty exists, and what would resolve it?
 
-**Draft**: "This library doesn't support async callbacks in version 3.x."
+## Quality Criteria
 
-**Evidence check**: Memory from working with version 3.2 six months ago. The library is actively maintained.
+When confidence-signaling is sound:
 
-**Revised**: "I recall this library lacking async callback support in version 3.2. Current versions may have added this feature—verification against recent documentation would confirm."
-
-The revision signals: I have relevant experience (past tense), current state is uncertain (modal verbs), verification would resolve it (explicit path).
-
-### Strengthening well-supported claims
-
-**Draft**: "It might perhaps be worth considering that we could possibly benefit from denormalizing the user preferences table."
-
-**Evidence check**: Query patterns show 90% of user preference access occurs during profile loads. Denormalizing eliminates a join on every profile page load. This is measured data, not speculation.
-
-**Revised**: "Denormalize the user preferences table. Query measurements show 90% of preference access occurs during profile loads—denormalizing eliminates this join and reduces page load time."
-
-The hedging (might, perhaps, possibly) was rhetorical habit, not epistemic uncertainty.
-
-### Making uncertainty actionable
-
-**Draft**: "I'm not sure if that will help."
-
-**Revised**: "This optimization reduces memory allocations, which appear in our profiles. Whether allocation is the primary bottleneck or a minor factor remains uncertain without benchmarking. A benchmark against the current hot path would show whether the magnitude of improvement justifies the effort."
-
-Actionable uncertainty states: what's certain (mechanism), what's uncertain (magnitude), why (no measurement), resolution (benchmark).
+- [ ] Every claim's evidence foundation is identifiable: verified, observed, measured, inferred, speculated, or remembered with a stated temporal window.
+- [ ] Direct assertion stands where the evidence supports it.
+- [ ] Hedges are calibrated to the kind and degree of partiality in the evidence.
+- [ ] Claims based on memory, observation, or measurement carry their temporal frame. The reader can tell when the claim was last verified.
+- [ ] Where a claim mixes solid and inferred components, the components are separated and signaled independently.
+- [ ] Each remaining uncertainty names what is certain, what is uncertain, why the uncertainty exists, and what would resolve it.

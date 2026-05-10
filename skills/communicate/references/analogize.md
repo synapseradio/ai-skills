@@ -23,69 +23,24 @@ What structural analogies could make the strange accessible? Where could compari
 
 7. **Refine progressively** - Start with the simplest version that captures the core relationship, then add nuance and detail as understanding develops.
 
-## Examples
+## Questions
 
-### Explaining API endpoints to non-technical stakeholders
+- What is the unfamiliar thing actually doing in the reader's mind right now — sitting as a definition without grip, sliding past as jargon, lighting up as something half-recognized?
+- What experience does the reader already have that *moves the same way* — same cause-and-effect, same feeling of how parts depend on each other, same shape of constraint?
+- When I match the two, am I matching how the elements relate, or am I matching how they look on the surface?
+- When I name the mapping, can I walk through it piece by piece — this corresponds to that, this part to that part — or am I asking the reader to infer the connections themselves?
+- Where does the bridge stop carrying weight? What aspects of the unfamiliar thing the analogy actively misrepresents, and have I named those?
+- If I built only one bridge, am I leaving the reader with a partial picture? Would a second analogy reach what the first cannot?
+- Is this analogy the simplest one that holds the core relationship, or have I reached for a clever one that brings its own freight?
 
-**Bridge to restaurant service**:
+## Quality Criteria
 
-"An API endpoint works like a restaurant waiter. When you want something from the kitchen, you don't go into the kitchen yourself. You tell the waiter what you want from the menu, they take your order to the kitchen, the kitchen prepares it, and the waiter brings back what you requested."
+When the analogy is doing its work:
 
-**Explicit mapping**:
-
-- Customer → our application
-- Waiter → API endpoint
-- Kitchen → external service
-- Menu → API documentation
-- Placing order → making API call
-- Receiving food → getting response
-
-**Where the analogy ends**: Unlike a waiter who might interpret vague requests, APIs require precise formatting.
-
-**What the analogy teaches**: Why we can't "get the data directly" and why API documentation matters—you need to order from the menu.
-
-### Explaining Git branching to collaborators new to version control
-
-**Bridge to document editing**:
-
-"A Git branch is like making a copy of a shared document to propose changes. You make a copy, edit your copy however you want, then show the changes to the team for review. While you're editing, others can edit their own copies independently. Eventually, you compare versions, discuss changes, and merge the good parts back."
-
-**Explicit mapping**:
-
-- Main branch → canonical document
-- Creating branch → making copy for proposed changes
-- Commits → saving versions of edits
-- Merging → incorporating accepted changes
-
-**Where the analogy ends**: Unlike document copies, Git merge requires reconciling line-by-line changes, and branches maintain connection to original.
-
-**What the analogy teaches**: Why branches enable parallel work, why you need to "merge" rather than just replace, why merge conflicts happen when two people edit same section.
-
-### Explaining database indexing
-
-**Bridge to book index**:
-
-"A database index works like the index in the back of a textbook. Without an index, finding information about a specific topic means reading through every page. With an index, you look up the topic alphabetically, find the page numbers, and jump directly there."
-
-**Extend for write cost**: "Every time you add or change content in the book, you need to update the index. That's why writes are slower with indexes. If you indexed every word, finding anything would be instant, but updating the index would take forever."
-
-**Where the analogy ends**: Book indexes are manually created; database indexes maintain themselves automatically.
-
-**What the analogy teaches**: Why we can't index everything, why certain columns benefit more, why the planner might not use an index for small tables.
-
-### Explaining async programming to synchronous thinkers
-
-**Bridge to kitchen operations**:
-
-"Synchronous cooking: completely finish one dish before starting the next. Asynchronous cooking: start tasks that take time, then work on other things while waiting. Put rice on to cook, and while it's cooking, prep vegetables. You don't stand watching the rice."
-
-**Explicit mapping**:
-
-- Synchronous code → single-task cooking
-- Async operations → tasks you start and check on later
-- Await → checking whether task is done
-- Callbacks/promises → reminders when to return to task
-
-**Where the analogy ends**: Code doesn't have physical constraints like stove burners—you can have thousands of async operations.
-
-**What the analogy teaches**: Why async isn't "running in parallel" but rather "not blocking while waiting," why you can't treat async functions like synchronous ones—you can't serve rice before it's cooked.
+- [ ] The familiar domain comes from what the reader has lived through. A clever invention on the writer's end does not qualify.
+- [ ] The mapping is between *relationships* (cause, dependency, function), and the surface features that came along for the ride have been named or set aside.
+- [ ] Each element of the mapping is stated, so the reader does not have to reconstruct the analogy themselves.
+- [ ] The places the analogy breaks are stated — what the bridge cannot carry, where it actively misleads.
+- [ ] When the concept is multi-faceted, more than one analogy is offered, each holding a different aspect.
+- [ ] The simplest version of the analogy is the one that appears first.
+- [ ] Complications arise only where understanding requires them.

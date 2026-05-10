@@ -50,45 +50,15 @@ Sentence-length variance creates contrast against which any single sentence beco
 
 Note three things. Provost begins in monotone (nine consecutive five-word sentences). He breaks it with a one-word sentence ("Music."). He resolves into a 47-word period whose length is itself the meaning. The cascade demonstrates that variance must be motivated. Long earns its length by carrying a build. Short carries its meaning partly through contrast with what surrounds it.
 
-## Examples
+## Questions
 
-### From monotonous documentation to varied flow
-
-**Before:** "The system processes the input data from the user. The validation module checks the data for errors. The formatter transforms the data into the required structure. The database stores the processed data in the appropriate table."
-
-Every sentence the same length, same structure. Subject, verb, object, prepositional phrase. CV near zero.
-
-**After:** "The system receives input from the user. First, validation. The validation module examines every field, checking data types, testing constraints, ensuring nothing violates the expected format. If validation succeeds, the formatter takes over, transforming raw input into the precise structure the database expects. Then storage. The processed data lands in its designated table, ready for retrieval."
-
-Short sentences mark transitions. Longer sentences explore processes that need explanation.
-
-### From flat narrative to paced scene
-
-**Before:** "Sarah walked into the office and noticed the door was already unlocked. She felt surprised because she had locked it the night before. She moved toward her desk slowly and carefully. She saw that papers were scattered across the floor."
-
-**After:** "Sarah reached for her office door. Unlocked. But she had locked it last night, she was certain, she remembered checking twice before leaving. She pushed the door open slowly. Papers scattered across the floor. Her desk drawers hung open, contents rifled through and abandoned."
-
-"Unlocked." hits harder than "she noticed the door was already unlocked." The longer sentence about her certainty lets anxiety build. The fragment "Papers scattered across the floor" reads as the previous sentence's continuation — separated for accent, not by accident.
-
-### Periodic sentence carrying a build
-
-**Before:** "We need to release the feature this quarter. Engineering velocity is steady, the design is signed off, and customer demand is well-documented."
-
-The point lands first; the evidence dribbles after. The sentences are nearly the same length. Flat.
-
-**After:** "Engineering velocity is steady, the design is signed off, customer demand is well-documented — we ship this quarter."
-
-The periodic structure delays the commitment until the end. The em-dash pivots from setup to verdict. The verdict ("we ship this quarter") is short, hard, and lands last because everything before it set it up.
-
-### From listing to flowing argument
-
-**Before:** "The design succeeded because it was simple. It succeeded because it addressed user needs directly. It succeeded because it avoided unnecessary features. It succeeded because the team iterated based on feedback."
-
-The repetition of "it succeeded because" creates a plodding rhythm. Tricolon-as-default; four-item parallel pretending to be persuasive.
-
-**After:** "The design succeeded through simplicity. The team focused on core user needs and built only what served those needs directly. Clarity of purpose made iteration faster — when feedback came in, the team could evaluate it against a clear standard rather than getting lost in competing priorities. Simplicity enabled focus, focus enabled responsiveness, and responsiveness built a design that worked."
-
-The final sentence uses parallel structure deliberately, where the parallelism *is* the resolution. Earlier sentences vary in length and structure.
+- Where does sentence length cluster — three or more sentences in a row within ±2 words of each other?
+- For each long sentence, does the strongest clause sit at the end, or does it dribble into a qualifier?
+- For each short sentence after a long one, what work is it doing — closure, reversal, accent, punchline — or is it standing there only for variety?
+- Does each fragment read as a continuation of the previous full sentence, separated for accent, or is it a typo claiming to be a fragment?
+- For each em-dash, is it doing interrupt or pivot work, or is it standing where a comma would have done?
+- Does the parataxis/hypotaxis ratio match the register the content asks for, or does the sentence-grammar style argue against the situation?
+- Read the passage aloud at speaking pace. Where does the breath misalign with the punctuation, and what does the misalignment reveal?
 
 ## Diagnostics in practice
 

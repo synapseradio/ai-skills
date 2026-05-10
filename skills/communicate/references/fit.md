@@ -5,7 +5,7 @@ Assess whether the prose's form serves its communicative purpose -- does the sha
 ## Diagnostic Question
 
 Ask: Does the form match the function? Where does the shape undermine the intent?
-For each section, ask: is this argumentative when it should be expository? Evocative when it should be precise? Dense when it should be accessible? What would happen if the form changed -- would the purpose be served better?
+For each section, ask: is this argumentative when it should be expository? Evocative when it should be precise? Dense when it should be accessible? What would happen if the form changed - would the purpose be served better?
 
 ## Instructions
 
@@ -19,36 +19,25 @@ For each section, ask: is this argumentative when it should be expository? Evoca
 
 5. **Assess necessity** -- Why must this prose exist? What would be lost if it were not written? If the writer cannot answer, the form-function question is premature -- the piece has not yet found its reason. Necessity precedes form: you cannot choose the right shape for a piece that has no purpose.
 
-6. **Recommend form adjustments** -- When form and function diverge, propose specific structural changes. Do not rewrite -- name what would change and why. "This section argues when it should demonstrate. Moving from 'X is better because' to 'here is X in practice, here is Y in practice' would let the reader draw the conclusion the current form asserts."
+6. **Recommend form adjustments** -- When form and function diverge, propose specific structural changes. Do not rewrite -- name what would change and why.
 
-## Examples
+## Questions
 
-### Argumentative form undermining exploratory purpose
+A short interrogation to run on a passage when form-function alignment is in doubt. The questions name what to inspect. They don't prescribe what to conclude.
 
-**Before:** "Agile methodology is clearly superior to waterfall for modern software development. The evidence overwhelmingly supports..."
+- What verb names what this prose is actually trying to do — inform, persuade, instruct, explore, evoke, narrate?
+- Look at the shape on the page, separately from what I meant. Where does the architecture lean — argumentative, expository, exploratory, instructional, evocative?
+- Where do those two answers diverge?
+- If a reader stopped where I stopped writing, would they be in the state I needed them in — informed, moved, ready to act, drawn into the question, witnessed?
+- Where is the shape doing the opposite of what the content invites? An argumentative form on an open question closes inquiry the content meant to keep alive. An expository form on persuasive content leaves the reader informed but unmoved. An evocative form on instructional content stirs the reader and leaves them unable to act on Tuesday.
+- What would actually change if I switched form? If I am reluctant to switch, is the reluctance about the reader, or about me?
 
-**Form-function test:** The stated purpose is exploring methodology choices, but the form is argumentative -- it has already concluded. The reader who disagrees stops reading; the reader who agrees learns nothing new.
+## Quality Criteria
 
-**After:** "Agile and waterfall solve different problems. Agile assumes requirements will change; waterfall assumes they can be known upfront. The question is not which is better but which assumption holds for your project."
+When the form-function alignment is sound:
 
-**What changed:** The form shifted from argumentative to exploratory. The purpose -- helping the reader choose -- is now served by the structure instead of undermined by it.
-
-### Expository form weakening persuasive purpose
-
-**Before:** "Our team completed the migration in three weeks. The new system handles 10x more traffic. Response times improved by 40%."
-
-**Form-function test:** This reads as a status report (expository), but the context is a proposal asking for budget to do the same migration for two other services. The reader needs to be moved to act, not just informed.
-
-**After:** "The first migration took three weeks and immediately handled 10x our previous traffic at 40% faster response times. Two services still run on the old system. Each outage costs us [X]. The same migration pattern is ready to apply."
-
-**What changed:** Same facts, but the form now builds toward a decision point. The expository content serves a persuasive arc.
-
-### Evocative form obscuring instructional purpose
-
-**Before:** "Debugging is like archaeology -- you brush away layers of sediment, each revealing a deeper stratum of the system's history, until you find the artifact that explains everything."
-
-**Form-function test:** The purpose is teaching someone to debug. The metaphor is evocative but gives no actionable guidance. The reader feels the romance of debugging but cannot do it.
-
-**After:** "Start with what you can observe: the error message, the stack trace, the last known good state. Form a hypothesis about which layer is failing. Test it by isolating that layer. If the hypothesis fails, move one layer deeper."
-
-**What changed:** The form shifted from evocative to instructional. The metaphor was replaced by a procedure the reader can follow.
+- [ ] The communicative purpose is nameable as a single verb — inform, persuade, instruct, explore, evoke, narrate.
+- [ ] The shape of the writing matches that verb. Argumentative content lives in argumentative shape; open questions stay in exploratory shape; persuasive content lives in a shape that builds toward decision; instructional content lives in a shape the reader can act from.
+- [ ] A reader who stops mid-passage is left in the state the verb required — informed, moved, ready to act, drawn in, witnessed.
+- [ ] No section is doing the opposite of what its content invites.
+- [ ] The current form survives the question "would changing this serve the reader better?" — and the honest answer is no.

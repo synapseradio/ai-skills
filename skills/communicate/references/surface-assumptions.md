@@ -23,34 +23,22 @@ What premises operate silently beneath the visible argument? What would break if
 
 7. **Position assumptions at dependency points** - Place assumption disclosure where readers need it for evaluation. State foundational premises before dependent arguments. Define terms at introduction.
 
-## Examples
+## Questions
 
-### Making technical assumptions visible
+- What must be true for this reasoning to hold? What premises operate silently beneath the visible claims?
+- Where does a claim treat as obvious a judgment that someone with different values might contest? What value is hiding behind "obviously," "clearly," or the implied common ground?
+- For each abstract term — quality, performance, simplicity, good design, difficult, fair, healthy — has the prose committed to a definition for this specific usage, or is it borrowing the reader's definition without acknowledging that several exist?
+- What background knowledge does the prose assume the reader brings — terminology, prior conversations, domain familiarity, shared culture — that may not actually be shared?
+- Could a reader who started from a different premise reconstruct the reasoning and reach the same conclusion using only what the prose has stated?
+- Which assumptions, if false, would force the conclusion to change? Which would not? Surface the validity-affecting ones first.
 
-**Draft**: "We chose eventual consistency because it provides better availability and performance. Strong consistency would create unacceptable latency for users distributed globally."
+## Quality Criteria
 
-**Hidden assumptions**: CAP theorem knowledge, consistency model definitions, shared values about "unacceptable" latency, agreement that availability outweighs consistency here.
+When assumptions are surfaced well:
 
-**Revised**: "In distributed systems, we face a trade-off between consistency (all nodes see same data immediately) and availability (system responds despite unreachable nodes). We prioritized availability: users expect instant UI response during network partitions, and showing slightly stale data (up to 5 seconds) beats showing error messages. This assumes users value responsiveness over perfect accuracy for this interaction."
-
-Now evaluable: Is the user value assumption correct? Is 5 seconds acceptable staleness?
-
-### Surfacing value assumptions
-
-**Draft**: "We should migrate to microservices because our monolith has become unmaintainable."
-
-**Hidden value judgments**: Maintainability problems justify migration cost, microservices solve these specific issues better than alternatives, deployment flexibility worth operational complexity trade.
-
-**Revised**: "Our monolith deployment takes 45 minutes and requires cross-team release coordination, slowing deployment frequency from daily to weekly. I recommend microservices because faster independent deployment per team is worth increased operational overhead of multiple services. This assumes we value deployment flexibility over operational simplicity, our team has distributed systems expertise, and monolith coordination cost exceeds service integration cost. If we don't share those assumptions, improving monolith modularity without distributing it might serve better."
-
-Now engageable: Readers can evaluate the value trade-offs directly.
-
-### Defining ambiguous terms
-
-**Draft**: "This codebase has serious quality problems that need immediate attention."
-
-**Definitional ambiguity**: "Quality problems" could mean performance, bugs, security, readability, test coverage, coupling, or combinations.
-
-**Revised**: "I'm defining quality problems as issues increasing the cost of making changes safely. This codebase lacks automated tests (95% no coverage), uses inconsistent naming (navigation difficulty), and has tight module coupling (changes ripple unexpectedly). These aren't performance or security problems—the code works correctly in production. Making changes requires extensive manual testing and risks breaking unrelated functionality. When I say this needs immediate attention, I'm prioritizing system evolution ability over short-term feature velocity."
-
-Now precise: Readers understand the specific definition and can evaluate whether issues deserve priority.
+- [ ] The premises the argument depends on are named explicitly in the prose.
+- [ ] Value judgments are stated as values, leaving the reader free to weigh them against their own.
+- [ ] Each abstract term that admits multiple valid interpretations has a definition stated for this specific usage.
+- [ ] Required prior knowledge is named openly as a required prior. The reader can tell what they need to bring to the piece before reading further.
+- [ ] A reader starting from different premises could reconstruct the reasoning using only the prose's explicit content.
+- [ ] The validity-affecting assumptions are surfaced at the points where the reader needs them — foundational premises before dependent arguments, term definitions at first use.

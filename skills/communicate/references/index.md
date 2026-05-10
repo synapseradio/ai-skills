@@ -42,17 +42,7 @@ Per-technique navigation. One line per file, with a short summary. The diagnosti
 - [dimensionalize.md](./dimensionalize.md) — Separate independent aspects of conflated feedback
 - [pose-questions.md](./pose-questions.md) — Open inquiry instead of closing it
 
-## Cross-cutting and sub-files
+## Sub-files
 
-- [never.md](./never.md) — Cross-cutting disciplines (tradition, hedging, sequencing, friction)
 - [clarify-patterns.md](./clarify-patterns.md) — Detection heuristics and repair strategies for clarify
-- [clarify-examples.md](./clarify-examples.md) — Before/after transformations by issue type for clarify
-- [frame-guide.md](./frame-guide.md) — Necessity, position, audience guidance for the Compose Frame phase
-
-## Workflow files
-
-- [workflow-clarify.md](./workflow-clarify.md) — Scoped clarity audit and repair
-- [workflow-redraft.md](./workflow-redraft.md) — Five-pass cascade across all categories
-- [workflow-compose.md](./workflow-compose.md) — Blank-page composition with discovery loop
-- [workflow-structure.md](./workflow-structure.md) — Cross-tradition argument adaptation
-- [workflow-bridge.md](./workflow-bridge.md) — Bilingual rendering with annotated loss
+- [frame-guide.md](./frame-guide.md) — Necessity, position, and audience guidance for composing from a blank page

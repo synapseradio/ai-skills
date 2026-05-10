@@ -33,38 +33,24 @@ What does the reader want to know, and when do they get resolution? Is there sha
 
 Arc structure sacrifices speed for impact. Use arc when persuasion, engagement, or emotional connection serves the purpose better than quick information transfer.
 
-## Examples
+## Questions
 
-### Customer case study presentation
+- What question, problem, or unmet need is driving this piece forward? What is the reader waiting to find out?
+- What raises the stakes — what makes this matter to the reader beyond the writer's interest?
+- Where does the middle escalate, and where does it only accumulate? What new obstacle, reversal, or revelation does each section introduce?
+- Where does the climax land — the moment of highest tension just before resolution — and is it positioned where the reader's investment can carry its weight?
+- Does the resolution connect back to the initial tension so the reader feels the arc complete, or does the closing answer a different question than the one that opened the piece?
+- At the paragraph level, do individual sections carry their own question and answer, or do they release tension before they have built any?
+- Where does the writer reveal too soon, deflating the build? Where does the writer withhold too long, exhausting the reader before they reach the resolution?
 
-**Opening tension**: The customer's team spent 40 hours per week on manual processes. Delays accumulated. Errors degraded customer satisfaction. The question becomes: can this team scale without burning out?
+## Quality Criteria
 
-**Rising complications**: They automate simple tasks. Success reveals deeper problems—process inefficiency, data quality issues. Each solution exposes new obstacles. Tension escalates from "can we save time?" to "do we need systemic change?"
+When the arc is doing its work:
 
-**Climax**: They restructure their entire workflow around our platform. Short-term disruption for long-term transformation. Will it pay off?
-
-**Resolution**: 40 hours becomes 2 hours. Error rates drop 95 percent. The team shifts from firefighting to strategic work. The arc completes—initial tension (can they scale?) finds resolution (yes, through transformation).
-
-### Persuasive proposal for organizational change
-
-**Opening tension**: Features take 9 months from conception to customer hands. By delivery, market conditions have shifted. We stay perpetually behind. The stakes: can we compete?
-
-**Rising complications**: The annual cycle compounds delays. Three months gathering requirements—they grow stale. Four months building in isolation—features don't integrate cleanly. Two months testing and fixing. Each phase makes the next harder.
-
-**Climax**: Continuous delivery represents a fundamental shift—small batches, constant integration, rapid feedback.
-
-**Resolution**: Features reach customers in weeks, not months. We learn from real usage, adapt to market changes, ship against current needs instead of year-old assumptions.
-
-Arc makes the proposal feel like solution to shared problem, not challenge to current practice.
-
-### Business email about project status
-
-**Opening tension**: We committed to end-of-quarter launch to support the sales pipeline. That timeline is at risk.
-
-**Rising complications**: Vendor API integration proved more complex than scoped—their documentation was incomplete. We discovered this two weeks in, after building against documented spec.
-
-**Climax**: Decision point emerges. Ship with manual workarounds by deadline, or delay two weeks for proper integration?
-
-**Resolution**: We're choosing the delay. Manual workarounds create ongoing support burden. Sales confirms their pipeline absorbs the shift. The path forward is clear, grounded in trade-off analysis.
-
-Arc transforms potentially defensive status update into decision story.
+- [ ] A specific question, need, or tension drives the piece forward, and a reader can name it after the first paragraphs.
+- [ ] The stakes are visible — what is gained through resolution, what is lost through failure.
+- [ ] The middle escalates: each section raises complexity, reverses expectation, or deepens the cost.
+- [ ] The climax lands at the position of highest tension, with enough investment behind it to carry the moment.
+- [ ] The resolution connects explicitly back to the opening tension. The question that drove the piece finds its answer.
+- [ ] Within sections, paragraphs carry their own micro-arcs of question and answer.
+- [ ] The information flow paces revelations. Load-bearing claims arrive where the reader can carry them — neither announced before the reader has invested, nor buried where the reader will leave before reaching them.

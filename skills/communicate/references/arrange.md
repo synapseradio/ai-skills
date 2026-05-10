@@ -29,42 +29,20 @@ Ask: Is the ordering of arguments, sections, or paragraphs purposeful? Could a r
 
 6. **Respect tradition-specific ordering** -- Arrangement conventions vary across rhetorical traditions. Anglo-American expects thesis-first deductive ordering. French academic builds through dialectical movement. Arabic rhetoric accumulates through parallel restatement. Japanese ki-shō-ten-ketsu delays the turn. Load `across-languages.md` when the arrangement follows a non-Anglo convention that may appear disordered to an untrained reader.
 
-## Examples
+## Questions
 
-### Dependency ordering violated
+- For each major section or argument, can I name the ordering principle this piece is using — dependency, chronology, priority, accumulation, comparison, problem-solution, general-to-specific, specific-to-general?
+- For each section, does it depend on a concept introduced earlier in the piece, or does it reference something that arrives later? Could a reader at this point follow without backtracking?
+- What is the strongest claim in the piece, and where is it placed? Does the reader meet it where they can carry it, or does it sit buried because the writer found it last?
+- Within sections, does each paragraph earn its place by doing work the previous paragraph could not? If two paragraphs could swap without consequence, what is each one doing that the other is not?
+- If the writing follows a non-Anglo tradition's logic — French dialectical, Arabic parallel-restatement, Japanese ki-shō-ten-ketsu, German scaffolded accumulation — is the structure named, or is it being silently normalized?
 
-**Before:**
+## Quality Criteria
 
-- Section 1: How to configure the caching layer
-- Section 2: Why caching improves performance
-- Section 3: What caching is
+When the arrangement is sound:
 
-**Ordering test:** Section 1 assumes the reader understands caching (Section 3) and why they want it (Section 2). The dependency chain runs backward.
-
-**After:**
-
-- Section 1: What caching is
-- Section 2: Why caching improves performance
-- Section 3: How to configure the caching layer
-
-**What changed:** Sections now follow dependency order. Each section can be understood without reading ahead.
-
-### Buried lead
-
-**Before:** A blog post opens with three paragraphs of background context, then discusses related work, then in paragraph seven states: "What none of these approaches address is that the problem is not algorithmic -- it is organizational."
-
-**Ordering test:** The strongest claim -- the reframing -- is buried. The reader wades through context they cannot evaluate because they do not yet know what the piece argues.
-
-**After:** Open with the reframing: "The performance problem is not algorithmic -- it is organizational. Here is why that matters and what to do about it." Background and related work follow, now purposeful -- the reader knows what they are being prepared to evaluate.
-
-**What changed:** The arrangement shifted from writer's discovery order (background → insight) to reader's need order (insight → supporting context).
-
-### Arbitrary section order revealed
-
-**Before:** A proposal with four sections -- Budget, Timeline, Technical Approach, Risk Assessment -- presented in that order.
-
-**Ordering test:** Could these sections appear in any order? Budget before Technical Approach means the reader evaluates cost before understanding what they are paying for. Risk Assessment at the end means risks are an afterthought.
-
-**After:** Technical Approach → Risk Assessment → Timeline → Budget. The reader first understands what is proposed, then what could go wrong, then how long it takes, then what it costs. Each section builds on the previous.
-
-**What changed:** The arrangement now follows a decision logic -- understand, evaluate risk, assess feasibility, approve cost.
+- [ ] The ordering principle for the piece is nameable — dependency, chronology, priority, accumulation, comparison, problem-solution.
+- [ ] Each section depends only on what has come before it in the piece.
+- [ ] The strongest claim sits where the reader can meet it without backtracking through the writer's discovery process.
+- [ ] Each paragraph does work the previous paragraph could not.
+- [ ] When the arrangement follows a non-Anglo tradition's logic, the structure is named so the reader can read it as method.

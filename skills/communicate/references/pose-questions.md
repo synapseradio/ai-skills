@@ -23,42 +23,24 @@ Where could a declaration become an invitation to explore? What questions does t
 
 7. **Create question sequences** - Generate questions that build on each other. First question opens a dimension, second explores it, third tests boundaries. The sequence creates momentum rather than scattering attention.
 
-## Examples
+## Questions
 
-### From closed explanation to open investigation
+A short interrogation to run when prose may be closing inquiry that should stay open. The questions name what to inspect. They don't prescribe what to conclude.
 
-**Before**: "The cache improves performance by storing frequently accessed data in memory. This reduces database queries and speeds up response times. The cache expires entries after 60 seconds to ensure data freshness."
+- Where does the prose state an outcome without showing the question that produced it? Where could a declaration become an invitation to investigate alongside the writer?
+- For each question I draft, does it open a dimension to explore, or does it only ask for a yes-no verdict?
+- Where am I writing a question that pretends to invite but is actually asserting? "Isn't it obvious that..." is a claim wearing a question mark.
+- Does each gap I leave for the reader pull them forward in a direction, or does it leave them unable to take a step?
+- Do my questions match the depth of the claim — examples for surface claims, assumptions for deeper claims, adversary positions for contested claims?
+- Where questions appear in sequence, do they build on each other and gather momentum, or do they scatter the reader's attention?
 
-This explains what happens but closes the investigation. A reader who wants to understand deeply has nowhere to go.
+## Quality Criteria
 
-**After**: "The cache stores frequently accessed data in memory, which reduces database queries. But how does the system decide what's 'frequently accessed'? What happens when memory fills up—which entries get evicted? And why 60 seconds for expiration? What changes if we make that window longer or shorter?"
+When the questions are doing their work:
 
-Now the prose teaches through invitation. The questions reveal the design space: frequency detection strategies, eviction policies, expiration tradeoffs.
-
-### From assertion to dimensional exploration
-
-**Before**: "The feature succeeded because it was simple to use and solved a real problem."
-
-This closes meaning—asserts causes without inviting investigation into what "simple" means or what "real problem" was addressed.
-
-**After**: "What made this feature 'simple'? Was it fewer steps, clearer labels, better defaults, or something else? And when we say it 'solved a real problem,' what problem exactly, and how do we know it was real rather than imagined? What would we expect to observe if the simplicity claim is true?"
-
-The questions preserve the claim's content while revealing its structure. "Simple" and "real problem" become dimensions to explore.
-
-### From tutorial closure to educational opening
-
-**Before**: "Recursion is when a function calls itself. It's useful for problems that can be broken into smaller versions of themselves, like calculating factorials or traversing trees. Always include a base case to prevent infinite recursion."
-
-This explains mechanics but doesn't invite understanding the concept's depth.
-
-**After**: "Recursion is when a function calls itself. But why would you want a function to call itself? What kinds of problems become simpler when you can assume you've already solved a smaller version? Let's explore: What happens if we try to traverse a tree without recursion? What gets harder? And here's a puzzle: why does recursion sometimes feel magical when you first see it, then become obvious once you understand it?"
-
-The questions guide investigation along specific dimensions: motivation, problem structure, comparison, meta-understanding.
-
-### From research summary to investigative framework
-
-**Before**: "Studies show remote work increases productivity for individual tasks but decreases it for collaborative work."
-
-**After**: "What counts as 'productivity' in these studies—output quantity, quality, or something else? When we say collaboration suffers, what specific collaborative activities degrade? Which ones improve? And here's what puzzles me: if interruptions decrease but communication overhead increases, what changed about how people communicate?"
-
-Now the prose invites investigation into measurement assumptions, collaborative activity categories, and causal mechanisms.
+- [ ] Each declaration that warrants investigation is paired with a question the reader can follow into the inquiry.
+- [ ] Each question opens a dimension to explore, with multiple valid paths through it.
+- [ ] No question is asserting an answer behind a question mark.
+- [ ] Gaps left for the reader carry direction. The reader can take a step from where the prose stops.
+- [ ] Question depth matches claim depth — examples for surface claims, assumptions for deeper claims, adversary positions for contested claims.
+- [ ] Where questions appear in sequence, each one builds on the last.

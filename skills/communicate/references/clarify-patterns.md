@@ -71,11 +71,11 @@ To understand B, must understand A
 Therefore: teach A → B → C
 ```
 
-**Common prerequisite patterns in technical writing:**
+**Common prerequisite patterns:**
 
-- Architecture before implementation details
+- Context before claim
 - Problem before solution
-- Concepts before procedures
+- Concept before procedure
 - Simple cases before edge cases
 
 ## Content Patterns
@@ -161,11 +161,6 @@ Therefore: teach A → B → C
 [Effect] because [Cause] through [Mechanism].
 ```
 
-Example:
-
-- Before: "Caching improves performance."
-- After: "Caching improves performance because frequently accessed data stays in memory, eliminating database round-trips that take 10-100x longer than memory access."
-
 ### Quantifier Grounding
 
 **Vague quantifiers to flag:**
@@ -180,11 +175,11 @@ Example:
 
 | Vague | Grounded |
 |-------|----------|
-| many users | 2,847 users (34% of active base) |
-| significant improvement | 45% reduction in latency |
-| most requests | 94% of requests |
-| recently | in the March 2024 release |
-| soon | by Q2 2024 |
+| many couples | 210 of 333 surveyed couples (63%) |
+| significant improvement | fights got shorter, from three days to under an hour |
+| most days | five out of seven |
+| recently | three weeks ago |
+| soon | by the end of this month |
 
 **When data isn't available:**
 
@@ -206,11 +201,6 @@ Example:
 | Not recommended | Recommend against / Prefer Y |
 | Shouldn't X | Should Y |
 
-**Definitions by exclusion:**
-
-- Before: "REST is not SOAP, not RPC, not..."
-- After: "REST is an architectural style using stateless HTTP requests to manipulate resources identified by URIs."
-
 **Conversion principle**: Tell readers what to do, not what to avoid. Negations leave an unbounded space of prohibited actions; positive instructions provide specific direction.
 
 ### Referent Tracking
@@ -229,32 +219,27 @@ Example:
 
 **Resolution strategies:**
 
-1. **Replace with noun**: "It failed" → "The authentication check failed"
+1. **Replace with noun**: "It fell apart" → "The conversation fell apart"
 2. **Move antecedent closer**: Restructure so referent is in previous sentence
-3. **Scope demonstratives**: "This approach" not just "This"
-
-**Demonstrative scoping:**
-
-- Before: "This is important."
-- After: "This validation step is important."
+3. **Scope demonstratives**: "This approach" instead of bare "This"
 
 ## Domain-Specific Considerations
 
-### Technical Documentation
+### Personal Writing (memoir, letters, journals)
 
 **Common clarity issues:**
 
-- Assuming reader knows the codebase
-- Mixing conceptual and procedural content
-- Under-explaining error conditions
-- Screenshots without annotations
+- Assuming the reader knows the family
+- Mixing scene and reflection without signposts
+- Under-naming the people and places
+- Cutting away from a feeling before it lands
 
-**Technical clarity additions:**
+**Personal clarity additions:**
 
-- Code examples for abstract concepts
-- Command-line examples with expected output
-- Error messages and their meanings
-- Version numbers and compatibility notes
+- One concrete image per claimed feeling
+- The names of people, towns, and dates
+- Sensory detail (smell, sound, weather) before judgment
+- Permission for the reader to feel before being told what to feel
 
 ### Business Writing
 
@@ -272,18 +257,18 @@ Example:
 - Numbers with comparison points
 - One domain's vocabulary, defined
 
-### API Documentation
+### Persuasive Writing (essays, reviews, arguments)
 
 **Common clarity issues:**
 
-- Parameter descriptions that repeat the name
-- Missing error responses
-- No examples of actual requests/responses
-- Unclear authentication requirements
+- Claim without the strongest counter-argument named
+- Examples that flatter the writer's position
+- Generalizations the reader cannot anchor to anything specific
+- A conclusion that does not change what the reader does
 
-**API clarity checklist:**
+**Persuasive clarity checklist:**
 
-- Every parameter explained with type and constraints
-- All error codes documented with causes
-- Complete request/response examples
-- Authentication clearly stated upfront
+- The claim, in one sentence the reader could repeat back
+- The strongest argument against, named and engaged
+- At least one example the reader can place in their own life
+- A close that names what changes if the reader agrees

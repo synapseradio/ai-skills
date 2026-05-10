@@ -67,7 +67,7 @@ Look for patterns that weaken assertion without adding epistemic value.
 
 | Nominalization | Verb | Example transformation |
 |----------------|------|------------------------|
-| utilization | use | "the utilization of caching" → "using caching" |
+| utilization | use | "the utilization of forgiveness" → "forgiving" |
 | implementation | implement | "the implementation of the feature" → "implementing the feature" |
 | facilitation | facilitate / help | "facilitation of communication" → "helping teams communicate" |
 | optimization | optimize | "optimization of queries" → "optimizing queries" |
@@ -114,64 +114,22 @@ Look for patterns that weaken assertion without adding epistemic value.
 | definitely | Overstates certainty | Qualify or provide evidence |
 | without question | Overstates certainty | Address the question |
 
-## Examples
+## Questions
 
-### Hedge word removal
+- For each hedge — somewhat, perhaps, rather, fairly, possibly, arguably — does the word reflect genuine uncertainty about partial evidence, or is it cushioning a claim the writer means but does not want to say plainly?
+- For each weak verb — "seems," "appears," "tends to," "might possibly" — does the language reflect what the evidence actually shows, or does it create distance the writer is using as an exit ramp?
+- For each abstract noun — utilization, implementation, facilitation, optimization, determination — what verb is hiding inside it, and who acts when that verb returns to the prose?
+- For each filler phrase — "in terms of," "due to the fact that," "it is important to note that," "for all intents and purposes" — does the phrase survive deletion, or does its meaning come back unchanged with fewer words?
+- For each false-certainty word — obviously, clearly, of course, undoubtedly, certainly — is the thing actually obvious to a reader who has not yet been argued into agreement, or is the word doing the rhetorical work of skipping argument?
+- Where does cushioning protect the writer from saying the thing, more than it protects the reader from receiving it?
 
-**Before:** "This approach is somewhat more efficient and could potentially reduce latency fairly significantly."
+## Quality Criteria
 
-**Ask:** Does "somewhat," "potentially," "fairly" reflect genuine uncertainty, or habitual cushioning?
+When language commitment is sound:
 
-**After:** "This approach is more efficient and reduces latency by 40%." (if measured) or "This approach should be more efficient—benchmark to confirm." (if uncertain)
-
-**What changed:** Removed hedges that added no epistemic value. Made uncertainty actionable when genuine.
-
-### Weak verb strengthening
-
-**Before:** "The results seem to suggest that caching might possibly improve performance."
-
-**Ask:** What does the evidence actually show?
-
-**After:** "The results show caching improves performance." (if measured) or "Initial results suggest caching improves performance—further testing required." (if partial)
-
-**What changed:** Replaced "seem to suggest" and "might possibly" with direct assertion calibrated to evidence.
-
-### Nominalization repair
-
-**Before:** "The utilization of caching enables the optimization of database performance."
-
-**Ask:** What verbs hide in "utilization" and "optimization"?
-
-**After:** "Using caching optimizes database performance." → even better: "Caching makes the database faster."
-
-**What changed:** Unpacked nominalizations to verbs. Second revision uses concrete language ("faster") instead of abstract ("optimizes performance").
-
-### Filler phrase removal
-
-**Before:** "In terms of the implementation, due to the fact that we have a large number of users, we need to consider scalability."
-
-**Ask:** What remains if filler phrases are deleted?
-
-**After:** "Because we have 50,000 users, we need scalable implementation."
-
-**What changed:** Removed "in terms of," "due to the fact that," "a large number of." Quantified "large number." Same meaning, fewer words.
-
-### False certainty calibration
-
-**Before:** "Obviously, microservices are the right architecture for this problem."
-
-**Ask:** Is this actually obvious? What argument does "obviously" replace?
-
-**After:** "Microservices fit this problem because the services have independent scaling needs and separate deployment cycles."
-
-**What changed:** Removed "obviously" which was doing rhetorical work to avoid stating reasons. Added the actual argument.
-
-### Combined transformation
-
-**Before:** "It is important to note that the implementation of the new authentication system will potentially require the utilization of somewhat significant resources in terms of developer time."
-
-**Ask:** Audit all patterns: filler phrase (it is important to note), nominalization (implementation, utilization), hedge (potentially, somewhat), filler (in terms of).
-
-**After:** "Implementing the new authentication system requires significant developer time—estimate three engineer-weeks."
-
-**What changed:** Removed filler opener, unpacked nominalizations, deleted hedges, removed filler phrase, quantified "significant."
+- [ ] Each hedge that survived has been kept because it reflects genuine epistemic calibration — partial evidence, scope limitation, or relational care that the language cannot encode any other way.
+- [ ] Each hedge that was removed was habitual cushioning around a claim the writer meant directly.
+- [ ] Weak verbs have been replaced with direct assertions calibrated to what the evidence actually shows, or with named uncertainty when uncertainty is genuine.
+- [ ] Verbs no longer hide inside abstract nouns. Whoever acts is visible in the verb form.
+- [ ] No phrase remains whose deletion would leave the meaning unchanged.
+- [ ] False-certainty words have either been replaced with the argument they were standing in for, or removed entirely.

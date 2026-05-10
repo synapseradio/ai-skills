@@ -11,11 +11,11 @@ What consequences, requirements, or contradictions lurk in the logical wake? Wha
 
 1. **Identify claims and assertions** - Detect statements that make factual claims, take positions, or commit to principles. Mark where prose asserts "X is true" or "we should do Y" or "this approach works because Z." These are anchor points where implications radiate outward.
 
-2. **Trace logical consequences** - Examine what must be true if the claim holds. If someone asserts "all documentation should be comprehensive," that commits them to documentation taking significant time, to valuing thoroughness over speed. The claim carries these consequences whether or not they're acknowledged.
+2. **Trace logical consequences** - Examine what must be true if the claim holds. An absolute prescription commits to the time it demands, the priorities it ranks above each other, and the alternatives it forecloses. The claim carries those consequences whether or not the writer acknowledges them.
 
-3. **Surface unstated commitments** - Detect positions that commit to values, priorities, or approaches without naming them. "We should always test before deploying" implies that safety matters more than speed, that prevention beats remediation. Make these implicit commitments explicit.
+3. **Surface unstated commitments** - Detect positions that commit to values, priorities, or approaches without naming them. When a rule asserts a preference between two costs, the rule ranks those costs even where the writer has not said so. Make the implicit ranking explicit.
 
-4. **Distinguish direct implications from speculative extensions** - Separate what necessarily follows from what might follow. If "code should be readable" then it follows that readability has priority over brevity when they conflict. It does not necessarily follow that comments are required everywhere. Mark this distinction clearly.
+4. **Distinguish direct implications from speculative extensions** - Separate what necessarily follows from what might follow. A claim that ranks one quality over another carries that ranking strictly. It does not carry every plausible-looking corollary that happens to sit comfortably alongside it. Test whether each implication you draw must follow from the claim, or only happens to be consistent with it.
 
 5. **Examine implications across domains** - Check what a claim implies:
    - **Practically**: what actions it demands or prohibits
@@ -25,77 +25,27 @@ What consequences, requirements, or contradictions lurk in the logical wake? Wha
 
 6. **Articulate reach without overreach** - State clearly what follows while avoiding projecting implications the claim doesn't actually carry. Test: if someone accepts the claim, must they also accept this consequence?
 
-## Examples
+## Questions
 
-### From policy claim to visible commitments
+A short interrogation to run on a passage when a claim's reach is in doubt. The questions name what to inspect. They don't prescribe what to conclude.
 
-**Claim**: "All code changes should require review by at least two other developers before merging."
+- What follows from this claim that the claim itself doesn't say? If a reader accepts the claim, what else are they signing on for?
+- Where does the cost of acting on the claim land? Some other relationship, some other time, some part of the writer's own life that hasn't been named?
+- Where does absolute language — anything, always, never, everywhere, comprehensive — quietly import requirements onto someone or something the writer hasn't acknowledged?
+- What does the claim assume is already true for the surface assertion to hold?
+- For each implication I notice, is it a consequence the claim must carry, or one that only happens to sit comfortably alongside it?
+- Across which domains does the reach extend — practical (what the claim demands or prohibits), epistemic (what it requires knowing), ethical (what it ranks), systematic (what it changes around it)?
+- Would the writer endorse the full reach of the claim once it's stated, or would the implications make the position one the writer would back away from?
 
-**Direct implications**:
+## Quality Criteria
 
-- Development velocity will decrease (every change waits for two reviewers)
-- Team size affects feasibility (teams smaller than three cannot sustain this)
-- Solo work becomes impossible (no individual can ship independently)
-- Review quality matters (perfunctory reviews provide security theater)
+When the implication-tracing is sound:
 
-**Epistemic commitments**:
-
-- Individual judgment is insufficient (assumes two perspectives catch what one misses)
-- Defects are more costly than delay (values prevention over speed)
-
-**Systematic implications**:
-
-- Review becomes a bottleneck requiring management
-- Knowledge distribution across the team matters more
-- The policy itself requires justification (why two, not three?)
-
-Making implications explicit enables honest evaluation of whether commitments align with actual constraints and values.
-
-### From design principle to unstated consequences
-
-**Claim**: "User interfaces should be intuitive."
-
-**Direct implications**:
-
-- "Intuitive" requires a reference population (intuitive to whom?)
-- Designing for existing mental models rather than training new ones
-- Features that don't map to existing intuition become questionable
-- Discovery through exploration valued over discovery through instruction
-
-**Practical implications**:
-
-- Design process must include user research
-- Novel interaction paradigms face higher burden of proof
-- Documentation can't compensate for unintuitive interfaces
-
-**The tension it creates**:
-
-- Innovation often requires going beyond intuition
-- "Intuitive" for different user groups may conflict
-- What's intuitive initially may not be optimal for sustained use
-
-Extracting implications reveals that "interfaces should be intuitive" isn't a simple truism—it's a position with significant reach.
-
-### From architectural claim to cascading commitments
-
-**Claim**: "Services should be stateless to enable horizontal scaling."
-
-**Direct implications**:
-
-- State must live somewhere (pushes complexity to databases, caches, or client-side)
-- Every request must be self-contained
-- Sessions become more complex
-
-**Practical consequences**:
-
-- Response times may increase (fetching state from external storage adds latency)
-- Debugging changes character (can't inspect running service memory)
-- Some use cases become harder (real-time features with rapidly changing state)
-
-**Epistemic assumptions**:
-
-- Horizontal scaling is the primary scaling concern
-- Statelessness is achievable for the domain
-- Costs of externalizing state are worth the scaling benefits
-
-Making implications visible enables evaluating whether the claim serves actual needs.
+- [ ] The claims that anchor implication chains are named explicitly.
+- [ ] Direct consequences (what must follow) and speculative extensions (what might follow) are marked apart.
+- [ ] Where the claim places weight on someone or something, the reach onto that party is visible.
+- [ ] Absolute words — anything, always, never, everywhere, comprehensive — carry visible accounting of what they require.
+- [ ] The implications cover the domains the claim actually touches: practical, epistemic, ethical, systematic, where each applies.
+- [ ] The cost of acting on the claim is visible: where the cost lands, and who carries it.
+- [ ] No implication is projected that the claim does not actually carry.
+- [ ] The writer endorses the full reach the claim has, or revises the claim once the implications make the position unrecognizable.

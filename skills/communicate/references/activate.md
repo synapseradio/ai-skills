@@ -16,13 +16,13 @@ Where is the actor hidden, absent, or displaced to the end of the sentence?
    - Is the actor genuinely unknown or unimportant?
    - Would naming the actor add clarity or accountability?
 
-3. **Rewrite with actor as subject** — Move the doer to the front of the sentence. Transform "The API was deprecated by the platform team" to "The platform team deprecated the API."
+3. **Rewrite with actor as subject** — Move the doer to the front of the sentence so the action and its agent sit together.
 
 4. **Preserve intentional passives** — Keep passive voice when:
-   - The actor is genuinely unknown ("The vulnerability was discovered in March")
-   - The action matters more than the actor ("The building was constructed in 1892")
-   - Passive serves rhetorical purpose (emphasizing receiver of action)
-   - Scientific convention requires it ("The samples were analyzed")
+   - The actor is genuinely unknown
+   - The action matters more than the actor
+   - Passive serves a rhetorical purpose (emphasizing the receiver of the action)
+   - Scientific convention requires it
 
 5. **Eliminate bureaucratic distance** — Watch for "it has been determined", "it is believed", "there exists a need"—constructions that create false distance between author and assertion. Replace with direct statements.
 
@@ -52,52 +52,22 @@ Where is the actor hidden, absent, or displaced to the end of the sentence?
 | Consideration should be given to | Consider |
 | A decision was made to | [Actor] decided to |
 
-## Examples
+## Questions
 
-### Hidden actor in passive construction
+- Where does the prose name an action without naming who performs it?
+- Where does a sequence of actions string together with no actor in any of them, leaving the reader watching events happen with no body in the room?
+- For each passive construction: who or what performs this action, and would naming them change what the reader sees about choice, responsibility, or cost?
+- Where is naming the actor genuinely irrelevant — the action mattering more than the agent — and is the passive doing that work, or hiding behind that excuse?
+- Where do bureaucratic openers ("It has been determined," "It is recommended," "There exists a need") create distance the situation does not require?
+- Where does the actor sit far from the verb, with clauses between them, so the reader has to hold the action in suspension before learning who performs it?
 
-**Before:** "The decision was made to deprecate the API."
+## Quality Criteria
 
-**Ask:** Who made this decision?
+When voice activation is sound:
 
-**After:** "The platform team decided to deprecate the API."
-
-**What changed:** Actor moved from implicit (who?) to explicit (platform team). Accountability is now visible.
-
-### Intentional passive preserved
-
-**Before:** "The vulnerability was discovered in March 2024."
-
-**Ask:** Is the actor important here? Does naming them add clarity?
-
-**After:** Keep as-is. The discovery matters more than who discovered it. Passive is appropriate.
-
-### Bureaucratic distance
-
-**Before:** "It has been determined that the project will be discontinued."
-
-**Ask:** Who determined this? Why the formal distance?
-
-**After:** "We're discontinuing the project." (or "Leadership discontinued the project.")
-
-**What changed:** Removed bureaucratic passive ("it has been determined") that creates false distance. Named the actor.
-
-### Chain of passives
-
-**Before:** "The request was received, was processed by the middleware, and was forwarded to the backend."
-
-**Ask:** Who receives, processes, forwards?
-
-**After:** "The API gateway receives the request, the middleware processes it, and the router forwards it to the backend."
-
-**What changed:** Each action now has a visible actor. The flow of responsibility is clear.
-
-### "There is/are" opener
-
-**Before:** "There are several factors that need to be considered when designing the API."
-
-**Ask:** Who needs to consider? What factors specifically?
-
-**After:** "When designing the API, consider authentication requirements, rate limiting, and versioning strategy."
-
-**What changed:** Eliminated "there are" opener, named the factors, addressed the reader directly with imperative.
+- [ ] Every action has a visible actor, unless the agent is genuinely unimportant or unknown.
+- [ ] Each preserved passive has a named reason — scientific convention, agentless construction in another tradition, or the action mattering more than the agent.
+- [ ] No bureaucratic opener substitutes for direct statement when the situation does not require distance.
+- [ ] No "there is" or "there are" opener stands where a named subject would do work.
+- [ ] Subject and verb sit close enough that the reader does not lose the action while waiting to learn who performs it.
+- [ ] In sequences of actions, each action carries its own actor. No chain of passives leaves the reader watching events happen with no body in the room.
