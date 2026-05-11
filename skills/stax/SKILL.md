@@ -44,7 +44,7 @@ Before running any git command, check this table. If stax has an equivalent, use
 | `git push --force-with-lease` | `stax submit --yes --no-prompt` | Stax handles force-push |
 | `git rebase <parent> && git push` | `stax cascade` | Restack + submit in one |
 
-Full mapping with edge cases: `references/stax-first.md`
+Full mapping with edge cases: [`references/stax-first.md`](references/stax-first.md)
 
 ## Git Fallback — No Stax Equivalent
 
@@ -70,10 +70,10 @@ Load references only when needed:
 
 | Situation | Load | Skip |
 |-----------|------|------|
-| Need exact flags for a command | `references/commands.md` | workflows, concepts |
-| Multi-step workflow (submit stack, merge, recover) | `references/workflows.md` | commands, concepts |
-| Understanding stack model or risk levels | `references/concepts.md` | commands, workflows |
-| Deciding git vs stax for an operation | `references/stax-first.md` | commands, workflows |
+| Need exact flags for a command | [`references/commands.md`](references/commands.md) | workflows, concepts |
+| Multi-step workflow (submit stack, merge, recover) | [`references/workflows.md`](references/workflows.md) | commands, concepts |
+| Understanding stack model or risk levels | [`references/concepts.md`](references/concepts.md) | commands, workflows |
+| Deciding git vs stax for an operation | [`references/stax-first.md`](references/stax-first.md) | commands, workflows |
 | Simple create/modify/submit | Nothing extra — SKILL.md is sufficient | all references |
 
 ## Quick Reference
@@ -192,7 +192,7 @@ stax sync --restack && stax submit --yes --no-prompt
 stax validate && stax doctor && stax submit --yes --no-prompt
 ```
 
-More workflows: `references/workflows.md`
+More workflows: [`references/workflows.md`](references/workflows.md)
 
 ## NEVER
 

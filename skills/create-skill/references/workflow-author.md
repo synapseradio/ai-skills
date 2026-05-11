@@ -20,8 +20,8 @@ Create the complete skill directory for **{{SKILL_NAME}}** at **{{SKILL_PATH}}**
 2. **Read the spec** at `~/.agent-skills-spec` — understand current frontmatter requirements, naming conventions, and directory structure expectations.
 3. **Read the research report** — this contains all verified facts and source URLs.
 4. **Read the requirements document** — this defines scope, non-goals, structure, and target location.
-5. **Read `references/quality-criteria.md`** from the create-skill skill — this is your acceptance criteria.
-6. **Read `references/shell-script-standards.md`** if any scripts are needed.
+5. **Read [`references/quality-criteria.md`](quality-criteria.md)** from the create-skill skill — this is your acceptance criteria.
+6. **Read [`references/shell-script-standards.md`](shell-script-standards.md)** if any scripts are needed.
 
 ## Process
 
@@ -156,7 +156,7 @@ For procedural tasks identified in requirements:
 
 ### Step 5: Write Scripts (if needed)
 
-Follow `references/shell-script-standards.md` strictly:
+Follow [`references/shell-script-standards.md`](shell-script-standards.md) strictly:
 
 - `#!/usr/bin/env bash` + `set -euo pipefail`
 - Announce before acting

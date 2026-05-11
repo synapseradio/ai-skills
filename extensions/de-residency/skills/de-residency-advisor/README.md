@@ -42,19 +42,19 @@ When the user mentions an upcoming appointment, the skill follows a five-phase w
 
 | File | Purpose |
 |------|---------|
-| `references/sources.md` | Tiered authoritative-source map (federal / state-city / general) with `site:` query hints and a "gotchas" list |
-| `references/voice.md` | Voice guide with 10 before/after examples and anti-patterns |
-| `references/research-playbook.md` | How to research live — query patterns, citation format, recency check, conflict resolution, fallback when sources are silent |
-| `references/permits-glossary.md` | Short orientation entries for common permit and process terms |
-| `references/appointment-prep.md` | Five-phase conversational walkthrough for prepping any government appointment |
-| `references/workflow-prep-appointment.md` | Procedural workflow file with execution metadata for the appointment-prep workflow |
+| [`references/sources.md`](references/sources.md) | Tiered authoritative-source map (federal / state-city / general) with `site:` query hints and a "gotchas" list |
+| [`references/voice.md`](references/voice.md) | Voice guide with 10 before/after examples and anti-patterns |
+| [`references/research-playbook.md`](references/research-playbook.md) | How to research live — query patterns, citation format, recency check, conflict resolution, fallback when sources are silent |
+| [`references/permits-glossary.md`](references/permits-glossary.md) | Short orientation entries for common permit and process terms |
+| [`references/appointment-prep.md`](references/appointment-prep.md) | Five-phase conversational walkthrough for prepping any government appointment |
+| [`references/workflow-prep-appointment.md`](references/workflow-prep-appointment.md) | Procedural workflow file with execution metadata for the appointment-prep workflow |
 
 ## Install as a `.skill`
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`de-residency-advisor.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/de-residency-advisor.skill)
+[`de-residency-advisor.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/de-residency-advisor.skill)
 
 ## License
 
-[EUPL-1.2](/LICENSE)
+[EUPL-1.2](https://github.com/synapseradio/ai-skills/blob/main/LICENSE)

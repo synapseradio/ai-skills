@@ -40,13 +40,13 @@ Load references only when the current phase needs them.
 
 | Phase | Load | Do NOT Load |
 |-------|------|-------------|
-| Alignment | `references/alignment-guide.md` | seeding-guide, loop-prompt, checklist |
-| Gate check | `references/checklist.md` | alignment-guide, seeding-guide |
-| Seeding | `references/seeding-guide.md`, `references/loop-prompt.md` | alignment-guide, checklist |
+| Alignment | [`references/alignment-guide.md`](references/alignment-guide.md) | seeding-guide, loop-prompt, checklist |
+| Gate check | [`references/checklist.md`](references/checklist.md) | alignment-guide, seeding-guide |
+| Seeding | [`references/seeding-guide.md`](references/seeding-guide.md), [`references/loop-prompt.md`](references/loop-prompt.md) | alignment-guide, checklist |
 
 ## Phase 1: Alignment
 
-Load `references/alignment-guide.md` and follow its protocol.
+Load [`references/alignment-guide.md`](references/alignment-guide.md) and follow its protocol.
 
 The alignment conversation surfaces seven elements:
 
@@ -84,14 +84,14 @@ Apply all three, in order:
 
 1. **Convergence detection.** Notice when questions stop producing new
    constraints. State this observation explicitly.
-2. **Checklist gates.** Load `references/checklist.md`. Validate every gate.
+2. **Checklist gates.** Load [`references/checklist.md`](references/checklist.md). Validate every gate.
    Present pass/fail to the user.
 3. **Explicit approval.** Halt and request confirmation before seeding.
    Never seed without the user's "go."
 
 ## Phase 2: Seeding
 
-Load `references/seeding-guide.md` and `references/loop-prompt.md`.
+Load [`references/seeding-guide.md`](references/seeding-guide.md) and [`references/loop-prompt.md`](references/loop-prompt.md).
 
 Before entering plan mode, ask the user for:
 
@@ -99,7 +99,7 @@ Before entering plan mode, ask the user for:
 - Deployment preference (CronCreate with interval, save to file, display)
 
 Enter plan mode. Write the plan file following the structure in
-`references/seeding-guide.md`. The plan file contains:
+[`references/seeding-guide.md`](references/seeding-guide.md). The plan file contains:
 
 | Section | Content |
 |---------|---------|
@@ -107,7 +107,7 @@ Enter plan mode. Write the plan file following the structure in
 | FOCUS.md → path | Complete FOCUS.md with all sections populated |
 | TASKS.md → path | Empty board skeleton |
 | LEARNINGS.md → path | Empty structured memory |
-| Loop prompt | Complete prompt from `references/loop-prompt.md` |
+| Loop prompt | Complete prompt from [`references/loop-prompt.md`](references/loop-prompt.md) |
 | Deployment | User's chosen deployment method |
 
 Exit plan mode for user review.
@@ -138,11 +138,11 @@ knew the requirements.
 
 ### Reference Files
 
-- **`references/alignment-guide.md`** — Conversation protocol for Phase 1:
+- **[`references/alignment-guide.md`](references/alignment-guide.md)** — Conversation protocol for Phase 1:
   decomposition techniques, question patterns, visualization approaches
-- **`references/checklist.md`** — Structured gate validating alignment
+- **[`references/checklist.md`](references/checklist.md)** — Structured gate validating alignment
   completeness before seeding
-- **`references/seeding-guide.md`** — Artifact templates and production
+- **[`references/seeding-guide.md`](references/seeding-guide.md)** — Artifact templates and production
   instructions for FOCUS.md, TASKS.md, LEARNINGS.md
-- **`references/loop-prompt.md`** — The autonomous loop prompt template,
+- **[`references/loop-prompt.md`](references/loop-prompt.md)** — The autonomous loop prompt template,
   customizable per runbook

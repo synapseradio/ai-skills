@@ -40,19 +40,19 @@ The Agent Skills Specification is detailed — frontmatter fields, progressive d
 
 | File | Purpose |
 |------|---------|
-| `references/workflow-research.md` | Subagent prompt for research phase |
-| `references/workflow-requirements.md` | Inline prompt for requirements gathering |
-| `references/workflow-author.md` | Subagent prompt for skill authoring |
-| `references/workflow-review.md` | Subagent prompt for post-creation review |
-| `references/workflow-refine.md` | Subagent prompt for fix-and-reverify loop |
-| `references/quality-criteria.md` | Quality bar: what makes a good skill |
-| `references/shell-script-standards.md` | Shell style rules for scripts |
+| [`references/workflow-research.md`](references/workflow-research.md) | Subagent prompt for research phase |
+| [`references/workflow-requirements.md`](references/workflow-requirements.md) | Inline prompt for requirements gathering |
+| [`references/workflow-author.md`](references/workflow-author.md) | Subagent prompt for skill authoring |
+| [`references/workflow-review.md`](references/workflow-review.md) | Subagent prompt for post-creation review |
+| [`references/workflow-refine.md`](references/workflow-refine.md) | Subagent prompt for fix-and-reverify loop |
+| [`references/quality-criteria.md`](references/quality-criteria.md) | Quality bar: what makes a good skill |
+| [`references/shell-script-standards.md`](references/shell-script-standards.md) | Shell style rules for scripts |
 
 ## Scripts
 
 | File | Purpose |
 |------|---------|
-| `scripts/ensure_spec_repo.sh` | Clone or update the Agent Skills Spec repo to `~/.agent-skills-spec` |
+| [`scripts/ensure_spec_repo.sh`](scripts/ensure_spec_repo.sh) | Clone or update the Agent Skills Spec repo to `~/.agent-skills-spec` |
 
 ## Install as a `.skill`
 

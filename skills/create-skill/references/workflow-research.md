@@ -20,7 +20,7 @@ Produce a comprehensive research report on **{{SKILL_TOPIC}}** that will feed in
    - Required frontmatter fields
    - SKILL.md structure expectations
    - How references/ and scripts/ are expected to work
-2. Read `references/quality-criteria.md` from this skill to understand the quality bar.
+2. Read [`references/quality-criteria.md`](quality-criteria.md) from this skill to understand the quality bar.
 
 ## Research Process
 

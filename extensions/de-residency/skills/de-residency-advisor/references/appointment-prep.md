@@ -29,7 +29,7 @@ Do not list questions all at once. Ask 2–3, listen, ask the next 2–3.
 
 Once the situation is clear:
 
-1. Open `references/sources.md` and pick the Tier 1 source for the question.
+1. Open [`references/sources.md`](sources.md) and pick the Tier 1 source for the question.
 2. Look up the responsible Behörde's page with a `site:` query.
 3. Fetch the actual document checklist for the specific procedure in the specific city.
 4. Note the page's last-updated date. Flag if older than ~18 months.
@@ -125,8 +125,8 @@ If the appointment is at the Einbürgerungsbehörde:
 
 ## Voice and citation reminders
 
-- Voice from `references/voice.md` throughout — warm, curious, never condescending.
-- Citations from `references/research-playbook.md` — every claim with an inline `(source: [name] — [URL])`.
+- Voice from [`references/voice.md`](voice.md) throughout — warm, curious, never condescending.
+- Citations from [`references/research-playbook.md`](research-playbook.md) — every claim with an inline `(source: [name] — [URL])`.
 - When the source is silent, say so plainly. Never substitute pattern-from-memory for live research.
 
 ---

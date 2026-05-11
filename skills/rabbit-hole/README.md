@@ -41,8 +41,8 @@ For quick factual lookups, just ask directly.
 
 | File | Purpose |
 |------|---------|
-| `scripts/validate_sources.py` | Deterministic citation validator (stdlib only) |
-| `references/research-hierarchy.md` | Source tier definitions and conflict resolution rules |
+| [`scripts/validate_sources.py`](scripts/validate_sources.py) | Deterministic citation validator (stdlib only) |
+| [`references/research-hierarchy.md`](references/research-hierarchy.md) | Source tier definitions and conflict resolution rules |
 
 ## Install as a `.skill`
 

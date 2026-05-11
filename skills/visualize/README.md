@@ -51,9 +51,9 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 - **26 D3 templates** — standalone HTML with keyboard navigation and ARIA support; sankey is D3-only
 - **9 Markdown templates** — comparison tables, unicode bars, ranked lists, sparklines, emoji heatmaps, ASCII trees, plus mermaid flowchart / sequence / gantt in both `.md` and `.html` formats
 - **HTML wrapper** — renders Vega specs via `vegaEmbed` (Vega + Vega-Lite + Vega-Embed)
-- **D3 build pipeline** — `scripts/build_d3.py` regenerates the 25 deduplicated D3 templates from shared scaffolding (`assets/d3/_shared/`) plus per-chart fragments (`assets/d3/fragments/`)
+- **D3 build pipeline** — [`scripts/build_d3.py`](scripts/build_d3.py) regenerates the 25 deduplicated D3 templates from shared scaffolding (`assets/d3/_shared/`) plus per-chart fragments (`assets/d3/fragments/`)
 - **Reference docs** — encoding, composition, narrative, accessibility, interaction, refinement, plus the markdown surface matrix (`markdown-patterns.md`)
-- **Python CLI** (`scripts/visualizer.py`) — visualization storage and management for `.html` and `.md` outputs
+- **Python CLI** ([`scripts/visualizer.py`](scripts/visualizer.py)) — visualization storage and management for `.html` and `.md` outputs
 
 ## Templates
 

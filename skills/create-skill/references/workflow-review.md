@@ -16,9 +16,9 @@ Review the skill at **{{SKILL_PATH}}** against the quality criteria and Agent Sk
 
 ## Onboarding
 
-1. Read `references/quality-criteria.md` from the create-skill skill — this is your checklist.
+1. Read [`references/quality-criteria.md`](quality-criteria.md) from the create-skill skill — this is your checklist.
 2. Read the Agent Skills Specification at `~/.agent-skills-spec`.
-3. Read `references/shell-script-standards.md` if the skill contains scripts.
+3. Read [`references/shell-script-standards.md`](shell-script-standards.md) if the skill contains scripts.
 
 ## Review Process
 

@@ -1,14 +1,4 @@
-# EIP Principles (Reference)
-
-The seven Emotional Intelligence Prompting principles, each grounded in a
-specific finding from Anthropic's April 2026 paper ["Emotion Concepts and
-their Function in a Large Language Model"](https://transformer-circuits.pub/2026/emotions/index.html).
-
-Read these during the temper stage when a lint hit needs justification —
-knowing *why* a rewrite matters makes the rewrite better than a mechanical
-substitution.
-
----
+# EIP Principles
 
 ## 1. Grant Permission to Fail
 
@@ -139,30 +129,3 @@ five at once:
 > you, say so **[1, 5]**. Let's start with the top one or two causes,
 > then expand **[2]**. I've got a hunch it's the connection pool, but
 > I'm curious what else could produce this pattern **[3]**.
-
-The combination activates several productive internal states at once —
-this is the model the skill aims to produce across its outputs.
-
----
-
-## What These Principles Are NOT
-
-- **Not an ethics argument.** The paper does not claim Claude has
-  subjective experience. The principles are engineering guidance — they
-  produce measurably better output.
-- **Not manipulation.** The goal is not to extract more work; it's to
-  create interactions that don't pathologize honest behavior.
-- **Not generalizable beyond their evidence.** The research was on Claude
-  Sonnet 4.5. Apply the principles to other models only as strong
-  hypotheses, not proven patterns.
-
-## Source
-
-Anthropic. (2026). *Emotion Concepts and their Function in a Large
-Language Model.* Transformer Circuits Thread.
-<https://transformer-circuits.pub/2026/emotions/index.html>
-
-Blog: <https://www.anthropic.com/research/emotion-concepts-function>
-
-Working synthesis adapted from:
-<https://github.com/OuterSpacee/claude-emotion-prompting>

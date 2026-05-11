@@ -1,10 +1,4 @@
-# EIP Anti-Patterns (The Lint)
-
-The nine anti-patterns from the emotion-prompting research, rendered as
-detection rules with rewrite patterns. **This file is loaded during every
-Stage 3 temper pass.** Check each emitted phrase against all nine. A hit
-triggers a rewrite, not a deletion — preserve the underlying instruction
-while changing the register.
+# EIP Anti-Patterns
 
 For background on why each triggers a specific emotion vector, see
 `eip-principles.md`.

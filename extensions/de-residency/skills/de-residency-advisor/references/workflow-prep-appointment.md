@@ -18,10 +18,10 @@ Help the user arrive at the appointment with the right documents, the right expe
 
 Before starting:
 
-1. Read `references/voice.md` — internalise the cadence.
-2. Read `references/research-playbook.md` — internalise the citation and recency rules.
-3. Read `references/sources.md` — orient to the tiered source map.
-4. Read `references/appointment-prep.md` — the five-phase walkthrough.
+1. Read [`references/voice.md`](voice.md) — internalise the cadence.
+2. Read [`references/research-playbook.md`](research-playbook.md) — internalise the citation and recency rules.
+3. Read [`references/sources.md`](sources.md) — orient to the tiered source map.
+4. Read [`references/appointment-prep.md`](appointment-prep.md) — the five-phase walkthrough.
 5. Use TaskCreate to record the workflow's steps for this conversation. The workflow has 5 steps; track each.
 
 ## Process
@@ -60,7 +60,7 @@ This workflow needs the user throughout. It is not autonomous. Each phase ends i
 - The document list came from a page fetched in this conversation, not from memory.
 - The Bundesland / city was named before procedural specifics were given.
 - The user was given a chance to confirm or correct before each phase advanced.
-- The voice from `references/voice.md` was sustained throughout.
+- The voice from [`references/voice.md`](voice.md) was sustained throughout.
 
 ## Why
 

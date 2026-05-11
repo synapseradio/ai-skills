@@ -18,11 +18,11 @@ Load only the reference files needed for the current check group. Do NOT load al
 
 | Check Group | Load | Do NOT Load |
 |-------------|------|-------------|
-| Spec Compliance | `references/checks-spec.md` | checks-references, checks-scripts, checks-structure |
-| Reference Quality | `references/checks-references.md` | checks-spec, checks-scripts, checks-structure |
-| Script Standards | `references/checks-scripts.md` | checks-spec, checks-references, checks-structure |
-| Structure & README | `references/checks-structure.md` | checks-spec, checks-references, checks-scripts |
-| Report Generation | `references/report-template.md` | All checks-*.md files |
+| Spec Compliance | [`references/checks-spec.md`](references/checks-spec.md) | checks-references, checks-scripts, checks-structure |
+| Reference Quality | [`references/checks-references.md`](references/checks-references.md) | checks-spec, checks-scripts, checks-structure |
+| Script Standards | [`references/checks-scripts.md`](references/checks-scripts.md) | checks-spec, checks-references, checks-structure |
+| Structure & README | [`references/checks-structure.md`](references/checks-structure.md) | checks-spec, checks-references, checks-scripts |
+| Report Generation | [`references/report-template.md`](references/report-template.md) | All checks-*.md files |
 
 **Skip guidance based on skill contents:**
 
@@ -42,11 +42,11 @@ Resolve the target skill path. Confirm `SKILL.md` exists at the root. If it does
 
 ### 2. Spec Compliance
 
-Load `references/checks-spec.md`. Validate the `name` field, `description` field, frontmatter structure, and body content against the Agent Skills Specification.
+Load [`references/checks-spec.md`](references/checks-spec.md). Validate the `name` field, `description` field, frontmatter structure, and body content against the Agent Skills Specification.
 
 ### 3. Reference Quality
 
-Load `references/checks-references.md`. Audit every file in `references/` for topic coherence, citation presence, and self-containment. Use WebFetch to verify every URL found in reference files — record each URL's reachability status.
+Load [`references/checks-references.md`](references/checks-references.md). Audit every file in `references/` for topic coherence, citation presence, and self-containment. Use WebFetch to verify every URL found in reference files — record each URL's reachability status.
 
 ### 4. URL Reachability
 
@@ -54,27 +54,27 @@ This is part of the Reference Quality check group but reported separately. For e
 
 ### 5. Progressive Disclosure
 
-Load `references/checks-structure.md`. Count the lines in `SKILL.md` (report the actual number). Verify that detailed content lives in reference files, not in the main SKILL.md. Confirm reference loading is conditional (table or if/then pattern), not a blanket "load everything" instruction.
+Load [`references/checks-structure.md`](references/checks-structure.md). Count the lines in `SKILL.md` (report the actual number). Verify that detailed content lives in reference files, not in the main SKILL.md. Confirm reference loading is conditional (table or if/then pattern), not a blanket "load everything" instruction.
 
 ### 6. Workflow Files
 
-Load `references/checks-structure.md` (workflow metadata section). If workflow files exist, verify each declares `execution:`, `parallelism:`, and `needs-user-interaction:` metadata. If no workflow files exist, mark as N/A.
+Load [`references/checks-structure.md`](references/checks-structure.md) (workflow metadata section). If workflow files exist, verify each declares `execution:`, `parallelism:`, and `needs-user-interaction:` metadata. If no workflow files exist, mark as N/A.
 
 ### 7. Task Tracking
 
-Load `references/checks-structure.md` (task tracking section). If the skill describes 3 or more procedural steps, verify that SKILL.md instructs the consuming agent to track progress through those steps. If fewer than 3 steps, mark as N/A.
+Load [`references/checks-structure.md`](references/checks-structure.md) (task tracking section). If the skill describes 3 or more procedural steps, verify that SKILL.md instructs the consuming agent to track progress through those steps. If fewer than 3 steps, mark as N/A.
 
 ### 8. Script Standards
 
-Load `references/checks-scripts.md`. If a `scripts/` directory exists, audit every script against shell and script standards. If no scripts exist, mark as N/A.
+Load [`references/checks-scripts.md`](references/checks-scripts.md). If a `scripts/` directory exists, audit every script against shell and script standards. If no scripts exist, mark as N/A.
 
 ### 9. README
 
-Load `references/checks-structure.md` (README section). Verify README.md exists and meets all completeness criteria.
+Load [`references/checks-structure.md`](references/checks-structure.md) (README section). Verify README.md exists and meets all completeness criteria.
 
 ### 10. Generate Report
 
-Load `references/report-template.md`. Compile all check results into the report format. List every failure with the specific file path and what to change. Separate required fixes from optional recommendations.
+Load [`references/report-template.md`](references/report-template.md). Compile all check results into the report format. List every failure with the specific file path and what to change. Separate required fixes from optional recommendations.
 
 ## Rules
 

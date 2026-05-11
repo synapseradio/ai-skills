@@ -44,10 +44,10 @@ Not useful if the repository does not use stax.
 
 | File | Purpose |
 |------|---------|
-| `references/commands.md` | Complete command reference — every command, every flag |
-| `references/workflows.md` | 12+ composable step-by-step workflows |
-| `references/concepts.md` | Mental model: stacks, trunk, parent/child, risk classification |
-| `references/stax-first.md` | Exhaustive git-to-stax operation mapping |
+| [`references/commands.md`](references/commands.md) | Complete command reference — every command, every flag |
+| [`references/workflows.md`](references/workflows.md) | 12+ composable step-by-step workflows |
+| [`references/concepts.md`](references/concepts.md) | Mental model: stacks, trunk, parent/child, risk classification |
+| [`references/stax-first.md`](references/stax-first.md) | Exhaustive git-to-stax operation mapping |
 
 ## Install as a `.skill`
 

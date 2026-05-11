@@ -42,10 +42,10 @@ Not useful for one-off tasks you can describe in a single prompt.
 
 | File | Purpose |
 |------|---------|
-| `references/alignment-guide.md` | Conversation protocol: decomposition, question patterns, visualization |
-| `references/checklist.md` | Gates validating alignment completeness before seeding |
-| `references/seeding-guide.md` | Artifact templates and production instructions |
-| `references/loop-prompt.md` | Autonomous loop prompt template |
+| [`references/alignment-guide.md`](references/alignment-guide.md) | Conversation protocol: decomposition, question patterns, visualization |
+| [`references/checklist.md`](references/checklist.md) | Gates validating alignment completeness before seeding |
+| [`references/seeding-guide.md`](references/seeding-guide.md) | Artifact templates and production instructions |
+| [`references/loop-prompt.md`](references/loop-prompt.md) | Autonomous loop prompt template |
 
 ## Install as a `.skill`
 

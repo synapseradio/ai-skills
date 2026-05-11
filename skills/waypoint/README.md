@@ -35,16 +35,16 @@ Not useful for single-file scripts or processes that are already obvious from th
 
 | Workflow | Reference | Trigger |
 |----------|-----------|---------|
-| **Setter** | `references/workflow-setter.md` | "add waypoints", "trace this pipeline", "map this process" |
-| **Reader** | `references/workflow-reader.md` | "list waypoints", "show pipelines", "check for drift" |
-| **Scribe** | `references/workflow-scribe.md` | Runs automatically after setter; polishes descriptions |
+| **Setter** | [`references/workflow-setter.md`](references/workflow-setter.md) | "add waypoints", "trace this pipeline", "map this process" |
+| **Reader** | [`references/workflow-reader.md`](references/workflow-reader.md) | "list waypoints", "show pipelines", "check for drift" |
+| **Scribe** | [`references/workflow-scribe.md`](references/workflow-scribe.md) | Runs automatically after setter; polishes descriptions |
 
 ## Scripts
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/waypoint-id.ts` | Generate waypoint IDs from file paths |
-| `scripts/validate-waypoints.ts` | Validate manifests against actual file contents |
+| [`scripts/waypoint_id.py`](scripts/waypoint_id.py) | Generate waypoint IDs from file paths |
+| [`scripts/validate_waypoints.py`](scripts/validate_waypoints.py) | Validate manifests against actual file contents |
 
 ## Install as a `.skill`
 

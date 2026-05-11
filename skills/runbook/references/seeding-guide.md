@@ -257,7 +257,7 @@ when children run sequentially.
 
 ## Loop Prompt Production
 
-Load `references/loop-prompt.md` for the template. Include the complete
+Load [`references/loop-prompt.md`](loop-prompt.md) for the template. Include the complete
 prompt in the plan file under `## Loop Prompt`. The prompt reads FOCUS.md
 at runtime for the lens, authority, and scope — do not inline those
 values into the prompt itself.
@@ -279,5 +279,5 @@ next-claude can execute it.
 3. Write the plan file following the structure above. Populate every
    section from the alignment output. Use the artifact templates for
    FOCUS.md, TASKS.md, and LEARNINGS.md. Include the complete loop
-   prompt from `references/loop-prompt.md`.
+   prompt from [`references/loop-prompt.md`](loop-prompt.md).
 4. Exit plan mode for user review.

@@ -19,9 +19,9 @@ Load only the reference needed for the current phase. Do NOT load all references
 
 | Phase | Load | Do NOT Load |
 |-------|------|-------------|
-| Parsing input | `references/parsing-guide.md` | execution-model, syntax-reference |
-| Executing steps | `references/execution-model.md` | parsing-guide, syntax-reference |
-| Showing help | `references/syntax-reference.md` | parsing-guide, execution-model |
+| Parsing input | [`references/parsing-guide.md`](references/parsing-guide.md) | execution-model, syntax-reference |
+| Executing steps | [`references/execution-model.md`](references/execution-model.md) | parsing-guide, syntax-reference |
+| Showing help | [`references/syntax-reference.md`](references/syntax-reference.md) | parsing-guide, execution-model |
 
 **Skip guidance based on input:**
 
@@ -37,7 +37,7 @@ Determine which subcommand the user invoked:
 
 | Input starts with | Subcommand | Action |
 |-------------------|------------|--------|
-| `/seq help` | **help** | Load `references/syntax-reference.md` and display it verbatim |
+| `/seq help` | **help** | Load [`references/syntax-reference.md`](references/syntax-reference.md) and display it verbatim |
 | `/seq generate <description>` | **generate** | Parse the natural-language description into DSL form, show the user for approval, then execute via the default flow below |
 | Everything else (`/seq <pipeline>`) | **execute** | Parse and execute the pipeline |
 
@@ -47,7 +47,7 @@ Track progress using available task tracking tools — pipelines of 3+ steps alw
 
 ### 1. Parse
 
-Load `references/parsing-guide.md`. Read the user's input and identify each step and its type:
+Load [`references/parsing-guide.md`](references/parsing-guide.md). Read the user's input and identify each step and its type:
 
 - **Skill step**: matches `/something` — will invoke via `Skill("something")`
 - **Agent step**: matches `(agent: name)` or `@agent-name` — will spawn a named agent

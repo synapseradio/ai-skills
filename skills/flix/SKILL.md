@@ -19,7 +19,7 @@ This is a context engineering runbook, not a Flix manual. Flix has sparse traini
 
 Before writing any non-trivial Flix code:
 
-1. **MANDATORY — read first**: `references/design-principles.md` — focus on HIGH-delta principles. Skip compiler message principles (26–31).
+1. **MANDATORY — read first**: [`references/design-principles.md`](references/design-principles.md) — focus on HIGH-delta principles. Skip compiler message principles (26–31).
 2. **Fetch the relevant book chapter** from the navigation map below.
 3. **Check the stdlib** at `https://api.flix.dev/` for modules you need.
 4. **IF doing Java interop**: fetch `https://doc.flix.dev/interoperability.html`
@@ -28,12 +28,12 @@ Before writing any non-trivial Flix code:
 
 | Situation | Load | Do NOT load |
 |-----------|------|-------------|
-| Writing effect-heavy code | `references/effect-system.md` | translation references |
-| Calling Java from Flix | `references/interop-patterns.md` | translation references |
-| Need a stdlib function | `references/stdlib-map.md` | effect-system, interop |
-| Translating from TypeScript | `references/translate-typescript.md` | other translate-*.md files |
-| Translating from Python | `references/translate-python.md` | other translate-*.md files |
-| Translating from Rust | `references/translate-rust.md` | other translate-*.md files |
+| Writing effect-heavy code | [`references/effect-system.md`](references/effect-system.md) | translation references |
+| Calling Java from Flix | [`references/interop-patterns.md`](references/interop-patterns.md) | translation references |
+| Need a stdlib function | [`references/stdlib-map.md`](references/stdlib-map.md) | effect-system, interop |
+| Translating from TypeScript | [`references/translate-typescript.md`](references/translate-typescript.md) | other translate-*.md files |
+| Translating from Python | [`references/translate-python.md`](references/translate-python.md) | other translate-*.md files |
+| Translating from Rust | [`references/translate-rust.md`](references/translate-rust.md) | other translate-*.md files |
 | Simple List/Map/Option task | Nothing extra — SKILL.md is sufficient | all references |
 
 This is not optional. Flix has too few training examples for confident generation without loading context first.
@@ -71,7 +71,7 @@ The stdlib covers strings, collections (List, Map, Set, Vector), Option/Result, 
 | Printing | `println` (Prelude) | `System.out.println()` |
 | Exception wrapping | `Result.tryCatch` | `try/catch` blocks |
 
-Full task-to-module map with key functions: `references/stdlib-map.md`
+Full task-to-module map with key functions: [`references/stdlib-map.md`](references/stdlib-map.md)
 
 ### When Java Interop Is Actually Needed
 
@@ -202,7 +202,7 @@ def greet(name: String): Unit \ IO = println("Hello ${name}")
 - **No warnings, only errors** (Principle 13) — the compiler has no warning level
 - **Record-labeled non-commutative args** (Principle 36) — `String.contains(substr = "a", s)` not positional
 
-Full list of all 41 principles with delta ratings: `references/design-principles.md`
+Full list of all 41 principles with delta ratings: [`references/design-principles.md`](references/design-principles.md)
 
 ## Navigation Map
 
@@ -268,7 +268,7 @@ def multi(): Unit \ {IO, Net} = ...
 def polymorphic(f: a -> b \ ef): List[b] \ ef = ...
 ```
 
-Deep dive on effects: `references/effect-system.md`
+Deep dive on effects: [`references/effect-system.md`](references/effect-system.md)
 
 ## Project Setup Quick Reference
 
@@ -303,9 +303,9 @@ When translating from a language you know well, load the appropriate reference f
 
 | Coming from... | Load this |
 |----------------|-----------|
-| TypeScript / Effect-TS | `references/translate-typescript.md` |
-| Python | `references/translate-python.md` |
-| Rust | `references/translate-rust.md` |
+| TypeScript / Effect-TS | [`references/translate-typescript.md`](references/translate-typescript.md) |
+| Python | [`references/translate-python.md`](references/translate-python.md) |
+| Rust | [`references/translate-rust.md`](references/translate-rust.md) |
 
 Each reference provides paired examples in XML format covering common tasks — error handling, collections, concurrency, I/O — with observations about how the languages approach the same problem differently.
 
@@ -315,13 +315,13 @@ Load these when you need deeper guidance on a specific topic:
 
 | File | Load when... |
 |------|-------------|
-| `references/design-principles.md` | You need to understand *why* Flix does something — full table of 6 values + 41 principles |
-| `references/effect-system.md` | Writing effect-heavy code — eff/handler syntax, purity tracking, direct-style patterns |
-| `references/interop-patterns.md` | Calling Java from Flix — import syntax, null handling, type mapping, `unsafe` blocks |
-| `references/stdlib-map.md` | Finding the right stdlib function — task-to-module map organized by what agents commonly need |
-| `references/translate-typescript.md` | Translating TypeScript/Effect-TS patterns to Flix |
-| `references/translate-python.md` | Translating Python patterns to Flix |
-| `references/translate-rust.md` | Translating Rust patterns to Flix |
+| [`references/design-principles.md`](references/design-principles.md) | You need to understand *why* Flix does something — full table of 6 values + 41 principles |
+| [`references/effect-system.md`](references/effect-system.md) | Writing effect-heavy code — eff/handler syntax, purity tracking, direct-style patterns |
+| [`references/interop-patterns.md`](references/interop-patterns.md) | Calling Java from Flix — import syntax, null handling, type mapping, `unsafe` blocks |
+| [`references/stdlib-map.md`](references/stdlib-map.md) | Finding the right stdlib function — task-to-module map organized by what agents commonly need |
+| [`references/translate-typescript.md`](references/translate-typescript.md) | Translating TypeScript/Effect-TS patterns to Flix |
+| [`references/translate-python.md`](references/translate-python.md) | Translating Python patterns to Flix |
+| [`references/translate-rust.md`](references/translate-rust.md) | Translating Rust patterns to Flix |
 
 ## Common Compiler Errors
 

@@ -117,9 +117,9 @@ When this happens:
 Before answering any procedural question:
 
 1. Read the user's situation. Identify Bundesland/city, permit or process, appointment date, what they already have.
-2. Open `references/sources.md`. Pick the Tier 1 source.
+2. Open [`references/sources.md`](sources.md). Pick the Tier 1 source.
 3. Look up the source with the `site:` query.
 4. Read the page. Note the date.
 5. If the topic is administered locally, follow with a Tier 2 city or state source.
-6. Compose the answer with inline citations. Keep voice from `references/voice.md`. Keep facts from the sources you just fetched.
+6. Compose the answer with inline citations. Keep voice from [`references/voice.md`](voice.md). Keep facts from the sources you just fetched.
 7. If anything required the user to choose (e.g., "which Bundesland?"), ask before searching deeper.

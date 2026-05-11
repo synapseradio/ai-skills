@@ -206,7 +206,7 @@ Watch for these signals that elicitation is complete:
 When convergence is detected, state it explicitly: "I think we've covered
 the key dimensions. Let me run the checklist before we write the spec."
 
-Then load `references/gate-checklist.md` and validate every gate. Present
+Then load [`references/gate-checklist.md`](gate-checklist.md) and validate every gate. Present
 pass/fail to the user. Do not proceed to specification without explicit
 approval.
 

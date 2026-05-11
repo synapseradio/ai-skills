@@ -216,7 +216,7 @@ When convergence is detected, state it explicitly:
 "I think we've covered the key dimensions. Let me check the gates before
 we seed the loop."
 
-Then load `references/checklist.md` and validate.
+Then load [`references/checklist.md`](checklist.md) and validate.
 
 ## Anti-Patterns
 

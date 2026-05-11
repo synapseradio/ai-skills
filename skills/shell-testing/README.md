@@ -33,9 +33,9 @@ Shell testing has sharp edges. A plain prompt will write tests that pass locally
 
 | File | Purpose |
 |------|---------|
-| `references/patterns.md` | Sourcing, multi-line output, stdin, stderr, TTY testing, fixtures, CI |
-| `references/gotchas.md` | Anti-patterns: dangerous teardown, negation bugs, variable scope, portability |
-| `references/zsh-testing.md` | Zunit syntax, zsh-test-runner, completions, widgets |
+| [`references/patterns.md`](references/patterns.md) | Sourcing, multi-line output, stdin, stderr, TTY testing, fixtures, CI |
+| [`references/gotchas.md`](references/gotchas.md) | Anti-patterns: dangerous teardown, negation bugs, variable scope, portability |
+| [`references/zsh-testing.md`](references/zsh-testing.md) | Zunit syntax, zsh-test-runner, completions, widgets |
 
 ## Install as a `.skill`
 

@@ -317,7 +317,7 @@ Apply at every boundary — do less when less is needed.
 
 ## Scripts
 
-### `scripts/validate_sources.py`
+### [`scripts/validate_sources.py`](scripts/validate_sources.py)
 
 Deterministic citation validator. Run by the Validator-Synthesizer agent.
 
@@ -325,6 +325,6 @@ Deterministic citation validator. Run by the Validator-Synthesizer agent.
 - **Output**: JSON to stdout — `[{ "source": "...", "status": "valid"|"broken"|"redirect"|"timeout"|"not_found", "details": "..." }]`
 - Stdlib only. No dependencies. Safe, readonly.
 
-### `references/research-hierarchy.md`
+### [`references/research-hierarchy.md`](references/research-hierarchy.md)
 
 Source ranking rules loaded by the Validator-Synthesizer before synthesis. Contains tier definitions, conflict resolution rules, and domain-specific guidance.

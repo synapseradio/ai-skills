@@ -14,7 +14,7 @@ One of:
 
 ## Process
 
-1. **Load voice**: Read `references/waypoint-voice.md` and internalize the principles.
+1. **Load voice**: Read [`references/waypoint-voice.md`](waypoint-voice.md) and internalize the principles.
 2. **Find blocks**: Grep the codebase for `Waypoint` (with trailing space) to locate all waypoint comment blocks. If a pipeline name was given, filter to blocks matching that pipeline name.
 3. **Read each block**: For each block, identify:
    - The role description (first line after the header)

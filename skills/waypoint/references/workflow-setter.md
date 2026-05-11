@@ -31,7 +31,7 @@ description (lowercase, hyphenated, concise).
 Generate waypoint IDs using the skill's script. Paths must be relative to git root:
 
 ```bash
-bun run <skill-path>/scripts/waypoint-id.ts <path> [path...]
+python3 <skill-path>/scripts/waypoint_id.py <path> [path...]
 ```
 
 Each ID is the first 8 hex chars of SHA-256 of the relative path. Generate all IDs
@@ -121,13 +121,13 @@ After placing all waypoints, report:
 ## Writing Voice
 
 Before writing role and relationship descriptions, read the voice guide at
-`references/waypoint-voice.md`. Apply its principles: concrete over abstract,
+[`references/waypoint-voice.md`](waypoint-voice.md). Apply its principles: concrete over abstract,
 active over passive, orient-first, purpose over mechanics, self-evident,
 warm over telegraphic. Every description should be clear to someone encountering
 waypoints for the first time, and every action should carry its reason.
 
 After placement completes, the caller **must** spawn a scribe subagent using
-the scribe workflow (`references/workflow-scribe.md`) to polish all placed
+the scribe workflow ([`references/workflow-scribe.md`](workflow-scribe.md)) to polish all placed
 descriptions. This is not optional — every setter run is followed by a scribe
 pass.
 

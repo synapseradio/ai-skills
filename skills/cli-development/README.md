@@ -41,7 +41,7 @@ Examples:
 
 The skill points at clig.dev as the source of truth. When invoked, it:
 
-1. Reads `references/sitemap.md` to identify which sections of
+1. Reads [`references/sitemap.md`](references/sitemap.md) to identify which sections of
    clig.dev apply to the task — usually one to four.
 2. Fetches the live canonical text from `https://clig.dev/llms.txt`
    using the `tavily-extract` skill (preferred) or `WebFetch`. The
@@ -58,24 +58,24 @@ that it does not cover these.
 
 | File | Covers |
 |------|--------|
-| `references/sitemap.md` | Index of every clig.dev anchor with canonical URL + one-line summary |
-| `references/philosophy.md` | The nine principles (human-first, composability, consistency, conversation, robustness, empathy, chaos, etc.) |
-| `references/the-basics.md` | Argument-parsing libraries, exit codes, stdout vs stderr |
-| `references/help.md` | Help text content and behavior on `-h`/`--help` |
-| `references/documentation.md` | Web docs, terminal docs, man pages |
-| `references/output.md` | Human/machine output, color, `--plain`, `--json`, pagers, ASCII density |
-| `references/errors.md` | Rewriting errors, signal-to-noise, debug info, bug-report flow |
-| `references/arguments-and-flags.md` | Flag conventions, common flag names, dangerous-action confirmation, secrets |
-| `references/interactivity.md` | TTY checks, `--no-input`, password prompts, escape paths |
-| `references/subcommands.md` | When subcommands earn their keep, naming consistency |
-| `references/robustness.md` | Validation, responsiveness, progress, parallelism, timeouts, recovery |
-| `references/future-proofing.md` | Additive changes, deprecation, abbreviations, time bombs |
-| `references/signals.md` | Ctrl-C handling, double-Ctrl-C semantics |
-| `references/configuration.md` | XDG base directories, precedence order, project-level config |
-| `references/environment-variables.md` | Naming, `.env` files, well-known variables, why secrets do not belong here |
-| `references/naming.md` | Picking a memorable, typeable, lowercase command name |
-| `references/distribution.md` | Single binary preference, easy uninstall |
-| `references/analytics.md` | Consent for telemetry, alternatives to collecting analytics |
+| [`references/sitemap.md`](references/sitemap.md) | Index of every clig.dev anchor with canonical URL + one-line summary |
+| [`references/philosophy.md`](references/philosophy.md) | The nine principles (human-first, composability, consistency, conversation, robustness, empathy, chaos, etc.) |
+| [`references/the-basics.md`](references/the-basics.md) | Argument-parsing libraries, exit codes, stdout vs stderr |
+| [`references/help.md`](references/help.md) | Help text content and behavior on `-h`/`--help` |
+| [`references/documentation.md`](references/documentation.md) | Web docs, terminal docs, man pages |
+| [`references/output.md`](references/output.md) | Human/machine output, color, `--plain`, `--json`, pagers, ASCII density |
+| [`references/errors.md`](references/errors.md) | Rewriting errors, signal-to-noise, debug info, bug-report flow |
+| [`references/arguments-and-flags.md`](references/arguments-and-flags.md) | Flag conventions, common flag names, dangerous-action confirmation, secrets |
+| [`references/interactivity.md`](references/interactivity.md) | TTY checks, `--no-input`, password prompts, escape paths |
+| [`references/subcommands.md`](references/subcommands.md) | When subcommands earn their keep, naming consistency |
+| [`references/robustness.md`](references/robustness.md) | Validation, responsiveness, progress, parallelism, timeouts, recovery |
+| [`references/future-proofing.md`](references/future-proofing.md) | Additive changes, deprecation, abbreviations, time bombs |
+| [`references/signals.md`](references/signals.md) | Ctrl-C handling, double-Ctrl-C semantics |
+| [`references/configuration.md`](references/configuration.md) | XDG base directories, precedence order, project-level config |
+| [`references/environment-variables.md`](references/environment-variables.md) | Naming, `.env` files, well-known variables, why secrets do not belong here |
+| [`references/naming.md`](references/naming.md) | Picking a memorable, typeable, lowercase command name |
+| [`references/distribution.md`](references/distribution.md) | Single binary preference, easy uninstall |
+| [`references/analytics.md`](references/analytics.md) | Consent for telemetry, alternatives to collecting analytics |
 
 ## Install as a `.skill`
 

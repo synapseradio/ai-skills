@@ -17,11 +17,11 @@ Load references based on what the current phase needs. Do NOT load everything up
 
 | Phase | Load | Do NOT Load |
 |-------|------|-------------|
-| Research (Phase 3) | `references/workflow-research.md` | workflow-author, workflow-review, workflow-refine |
-| Requirements (Phase 4) | `references/workflow-requirements.md` | workflow-author, workflow-review, workflow-refine |
-| Authoring (Phase 5) | `references/workflow-author.md`, `references/quality-criteria.md` | workflow-research, workflow-review, workflow-refine |
-| Review (Phase 7) | `references/workflow-review.md`, `references/quality-criteria.md` | workflow-research, workflow-author, workflow-refine |
-| Refinement (Phase 8) | `references/workflow-refine.md`, `references/quality-criteria.md` | workflow-research, workflow-author |
+| Research (Phase 3) | [`references/workflow-research.md`](references/workflow-research.md) | workflow-author, workflow-review, workflow-refine |
+| Requirements (Phase 4) | [`references/workflow-requirements.md`](references/workflow-requirements.md) | workflow-author, workflow-review, workflow-refine |
+| Authoring (Phase 5) | [`references/workflow-author.md`](references/workflow-author.md), [`references/quality-criteria.md`](references/quality-criteria.md) | workflow-research, workflow-review, workflow-refine |
+| Review (Phase 7) | [`references/workflow-review.md`](references/workflow-review.md), [`references/quality-criteria.md`](references/quality-criteria.md) | workflow-research, workflow-author, workflow-refine |
+| Refinement (Phase 8) | [`references/workflow-refine.md`](references/workflow-refine.md), [`references/quality-criteria.md`](references/quality-criteria.md) | workflow-research, workflow-author |
 
 **Skip guidance based on skill type:**
 
@@ -87,7 +87,7 @@ Replace `{{SKILL_TOPIC}}` with the user's requested skill topic. Wait for the re
 
 ### Phase 4: Requirements *(inline — needs user interaction)*
 
-Follow `references/workflow-requirements.md` directly. Do NOT spawn a subagent — this requires user input.
+Follow [`references/workflow-requirements.md`](references/workflow-requirements.md) directly. Do NOT spawn a subagent — this requires user input.
 
 1. Read the research report from Phase 3
 2. Present a summary of what was found
@@ -171,5 +171,5 @@ Present findings to the user:
 3. **Always package a newly-created skill** as described in the repo `CLAUDE.md` ("Packaging a skill to `.skill`" section). Run the installed `skill-creator` plugin's packager — never vendor or reimplement it. Also append the README footer and commit the `.skill` file alongside the source.
 4. **NEVER replace an existing skill directory** — only create new or add to existing
 5. **Every reference file must contain source URLs** that the consuming agent is instructed to follow
-6. **Scripts follow Google Shell Style Guide** strictly — see `references/shell-script-standards.md`
+6. **Scripts follow Google Shell Style Guide** strictly — see [`references/shell-script-standards.md`](references/shell-script-standards.md)
 7. **Multi-step skills must instruct task tracking** — if the skill has 3+ procedural steps, it must tell the consuming agent to track progress

@@ -167,7 +167,7 @@ manifest. Exits 0 if clean, 1 if drift is detected.
 ## Writing Voice
 
 Waypoint text is written for someone encountering the system for the first time.
-The voice guide at `references/waypoint-voice.md` defines the principles:
+The voice guide at [`references/waypoint-voice.md`](references/waypoint-voice.md) defines the principles:
 concrete over abstract, active over passive, orient-first, purpose over
 mechanics, self-evident, warm over telegraphic. Load the reference before
 writing or polishing waypoint text.
@@ -178,14 +178,14 @@ Three workflows handle waypoint work in focused phases. Each workflow is
 dispatched as a subagent via the **Agent tool** — the workflow reference file
 content becomes the subagent's system prompt.
 
-- **Setter** (`references/workflow-setter.md`) — Trace a process across files
+- **Setter** ([`references/workflow-setter.md`](references/workflow-setter.md)) — Trace a process across files
   and place waypoint markers. Spawn when asked to "add waypoints", "trace this
   pipeline", or "map this process". **After the setter completes, always spawn
   a scribe subagent** to polish the placed descriptions.
-- **Reader** (`references/workflow-reader.md`) — Catalogue and validate existing
+- **Reader** ([`references/workflow-reader.md`](references/workflow-reader.md)) — Catalogue and validate existing
   waypoint pipelines. Spawn when asked to "list waypoints", "show pipelines",
   or "check for drift".
-- **Scribe** (`references/workflow-scribe.md`) — Polish waypoint descriptions
+- **Scribe** ([`references/workflow-scribe.md`](references/workflow-scribe.md)) — Polish waypoint descriptions
   for clarity and warmth. Automatically spawned after every setter run; can
   also be spawned standalone when descriptions feel terse or unclear.
 

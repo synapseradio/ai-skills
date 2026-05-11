@@ -17,7 +17,7 @@ Gather requirements from the user for the skill being created, informed by the r
 ## Onboarding
 
 1. Read the research report produced by the research phase.
-2. Read `references/quality-criteria.md` to understand what the final skill must satisfy.
+2. Read [`references/quality-criteria.md`](quality-criteria.md) to understand what the final skill must satisfy.
 
 ## Process
 

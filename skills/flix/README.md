@@ -32,13 +32,13 @@ A plain prompt will produce Flix-like code that borrows syntax from Scala, Haske
 
 | File | Purpose |
 |------|---------|
-| `references/design-principles.md` | 6 values and 41 compiler-enforced principles |
-| `references/effect-system.md` | Purity tracking, `eff`/handler syntax, direct-style patterns |
-| `references/interop-patterns.md` | Java interop: imports, null handling, `unsafe` blocks |
-| `references/stdlib-map.md` | Task-to-module lookup for stdlib functions |
-| `references/translate-typescript.md` | TypeScript/Effect-TS to Flix patterns |
-| `references/translate-python.md` | Python to Flix patterns |
-| `references/translate-rust.md` | Rust to Flix patterns |
+| [`references/design-principles.md`](references/design-principles.md) | 6 values and 41 compiler-enforced principles |
+| [`references/effect-system.md`](references/effect-system.md) | Purity tracking, `eff`/handler syntax, direct-style patterns |
+| [`references/interop-patterns.md`](references/interop-patterns.md) | Java interop: imports, null handling, `unsafe` blocks |
+| [`references/stdlib-map.md`](references/stdlib-map.md) | Task-to-module lookup for stdlib functions |
+| [`references/translate-typescript.md`](references/translate-typescript.md) | TypeScript/Effect-TS to Flix patterns |
+| [`references/translate-python.md`](references/translate-python.md) | Python to Flix patterns |
+| [`references/translate-rust.md`](references/translate-rust.md) | Rust to Flix patterns |
 
 ## Install as a `.skill`
 

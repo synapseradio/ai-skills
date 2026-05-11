@@ -39,11 +39,11 @@ Run it after creating or modifying a skill, before publishing. The spec has enou
 
 | File | Purpose |
 |------|---------|
-| `references/checks-spec.md` | Frontmatter and spec compliance checks |
-| `references/checks-references.md` | Reference file quality and URL reachability |
-| `references/checks-scripts.md` | Shell script standards |
-| `references/checks-structure.md` | README, task tracking, progressive disclosure, workflow metadata |
-| `references/report-template.md` | Output report format |
+| [`references/checks-spec.md`](references/checks-spec.md) | Frontmatter and spec compliance checks |
+| [`references/checks-references.md`](references/checks-references.md) | Reference file quality and URL reachability |
+| [`references/checks-scripts.md`](references/checks-scripts.md) | Shell script standards |
+| [`references/checks-structure.md`](references/checks-structure.md) | README, task tracking, progressive disclosure, workflow metadata |
+| [`references/report-template.md`](references/report-template.md) | Output report format |
 
 ## Install as a `.skill`
 

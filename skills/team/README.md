@@ -42,7 +42,7 @@ Requires persona files in `~/.claude/personas/*.md`.
 
 | File | Purpose |
 |------|---------|
-| `references/team-config.yaml` | Phase rules, persona mapping, reasoning settings |
+| [`references/team-config.yaml`](references/team-config.yaml) | Phase rules, persona mapping, reasoning settings |
 
 ## Install as a `.skill`
 

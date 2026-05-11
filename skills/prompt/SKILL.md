@@ -1,232 +1,72 @@
 ---
 name: prompt
 description: >-
-  Craft or refactor LLM instructions grounded in Anthropic's functional-emotions
-  research. Invoke whenever a user asks to "write a prompt", "assemble a prompt",
-  "refactor my CLAUDE.md", "update CLAUDE.md", "fix my system prompt", "draft a
-  CLAUDE.md", "turn this task into a prompt", "polish this prompt", "make this
-  prompt better", "prompt this", or describes a rough task, project, or
-  instruction set that would benefit from a shaped prompt. Also trigger on
-  phrases like "write me a CLAUDE.md for…", "clean up this system prompt", or
-  when the user pastes an existing CLAUDE.md/system prompt and asks for an
-  improvement. Takes no required arguments — the skill detects whether the
-  input is a seed task, an existing CLAUDE.md to refactor, or an empty canvas,
-  and produces structured output that applies the seven Emotional Intelligence
-  Prompting (EIP) principles while preserving every instruction in the input.
+  Craft or refactor LLM instructions. Use when using the Agent or Task tool, when the user says "write a prompt", "prompt", "prompt an agent", or any similar request.
 metadata:
-  context: fork
   user-invocable: true
 ---
 
 # Prompt
 
-Shape LLM instructions around how models actually process framing. Apply
-Anthropic's April 2026 functional-emotions research (seven principles, nine
-anti-patterns) as a structural lens over the six slots of a well-formed
-prompt. When refactoring, preserve every original instruction by truth-condition,
-not by wording.
+<when> the user asks for a prompt to be written, refactored, or polished, or pastes an existing prompt or CLAUDE.md asking for improvement.
 
-| Field | Value |
-|---|---|
-| **Execution context** | inline |
-| **Prerequisite** | none |
-| **Arguments** | none required — the skill auto-detects input mode |
-| **NOT triggered by** | Running the skill on itself; writing READMEs, blog posts, or general documentation (use `documentation` or `communicate` instead); producing agent delegations that already have a well-formed structure (use `perspectives:prompt-assemble` if the user explicitly requests its schema) |
+<instruction> The output artifact uses a fixed seven-section scaffold. Load [`assets/template.md`](assets/template.md) and fill it. The procedure below covers detection, inventory, shaping, linting, and emit.
 
-## When to Use This Skill
+## Inventory the input
 
-Trigger whenever any of these shapes apply:
+<always> identify what the input contains before writing anything.
 
-- A rough task description the user wants turned into a usable prompt
-- An existing `CLAUDE.md` or system prompt the user wants refactored
-- A blank canvas where the user wants a first-draft `CLAUDE.md` for a project
-- A "make this prompt better" request with a prompt pasted in
-- Any instruction set where the user mentions tone problems, fabrication,
-  over-confidence, or wants "more honest" AI behavior
+<when> in seed mode — gather signal from the conversation. Note the task verb, the domain, any files referenced, constraints stated, register requested, audience implied, and stakes. List ambiguities worth surfacing to the user.
 
-## Core Design
+<when> in refactor mode — extract every instruction in the source as a flat list with stable IDs (I-01, I-02, ...). The list is the preservation contract. Truth-conditions are sacred — register changes, the underlying requirements do not. Every ID must end up in at least one section of the output, or it has been dropped.
 
-Two sources stack, with precedence: the six-bucket structure adapted from
-`perspectives:prompt-assemble` defines the *shape*; Emotional Intelligence
-Prompting (EIP) defines the *predicates the shape must satisfy*. When they
-conflict, reshape the phrasing inside a bucket — never drop the EIP principle.
+## Shape into the template
 
-The buckets, renamed for register:
+<always> load [`assets/template.md`](assets/template.md) and fill its seven sections from the inventory.
 
-| Bucket | Purpose | Notes |
-|---|---|---|
-| **Frame** | Who/what the agent is, stance to take | Replaces "Role". Avoids compliance-pressure tone. |
-| **Task** | What work is to be done; closes with a one- to two-sentence stakes paragraph that names what's at risk and why this matters | Non-negotiable; the only bucket that must always have real content. Stakes ride at the bottom of Task — there is no trailing "Why" section. |
-| **Context** | Prior knowledge, files, background the agent already has | Replaces "Onboarding"; promoted — honest context reduces fabrication. |
-| **Tooling** | Tools, MCPs, skills the agent can use | Unchanged. |
-| **Context To Gather** | Prerequisite checks the agent should run before producing output — domain-specific verifications, lookups, or questions to answer first | Replaces "Perspective". The content was always pre-work context; the name now matches. |
-| **Constraints & Invitations** | Verifiable musts + softened judgment asks | Replaces "Success Conditions". Keeps mechanically checkable criteria as musts; reshapes judgment criteria as invitations. |
+<always> stakes content sits at the close of the Task section. Name what is at risk and why this matters. There is no separate Why section anywhere in the artifact.
 
-For `CLAUDE.md` output, these buckets map to human headings — see
-`references/claude-md-template.md`.
+<when> a section has no real content — write a one-line gap note that names the absence, for example: "No prior context identified — agent works from conversation signal alone." <never> pad an empty section with filler.
 
-## The Pipeline
+<when> in refactor mode — every extracted instruction ID lands in at least one section. Consolidations are explicit (note which IDs share a slot). An unassigned ID is a dropped instruction.
 
-Every invocation runs four stages:
+## Lint the draft
 
-1. **Inventory** — identify what the input actually contains
-2. **Shape** — slot the content into buckets
-3. **Temper** — run the anti-pattern lint over every phrasing
-4. **Emit** — write the artifact
+<always> load [`references/eip-anti-patterns.md`](references/eip-anti-patterns.md) and read every phrasing in the draft against the patterns it lists.
 
-The stages are the same across modes; only the **Inventory** stage branches.
+<instruction> For each hit, rewrite the phrasing only. The underlying requirement stays. The lint targets register. Truth-conditions are sacred. "You must write tests for every function" becomes "Every function needs a test. Missing tests in a payment system cost more than spurious tests."
 
-## Stage 1 — Inventory (with mode detection)
+<prefer> writing the natural phrasing first, then checking it against the catalog. The rewrite changes phrasing — never structure, never the underlying instruction. Alignment is what remains after the lint passes; warmth pasted on top of an unaligned prompt does not produce it.
 
-Detect the mode from the context. Do not ask the user. The user is busy and
-the signals are clear:
+## Emit
 
-| Signal | Mode |
-|---|---|
-| Input is a path to a `CLAUDE.md`, or user pastes an existing CLAUDE.md/system prompt | **Refactor** — mode B |
-| Input is prose describing a task or project and the user wants a usable prompt (not a CLAUDE.md) | **Seed** — mode A |
-| Input is empty/near-empty, OR the user says "write me a CLAUDE.md for this project" regardless of how much context they give | **First-draft** — mode C |
+<always> output only the artifact. No preamble, no postscript, no surrounding commentary, no closing question.
 
-When the input is ambiguous between seed and first-draft (e.g. a project
-description without the words "CLAUDE.md" or "prompt"), use the output
-shape the user is likely to want: if they mention an agent, a delegation,
-or a specific task to execute, treat it as seed. If they mention
-configuring a project, onboarding Claude, or long-term defaults, treat
-it as first-draft. When genuinely unresolvable, default to seed and note
-the assumption at the top of the output in one line.
+<when> the user supplied a path — write the file directly.
+<when> they did not — display the artifact inline.
 
-Then load the matching workflow reference and follow it:
+<never> fabricate file paths, scripts, or tools that the surrounding context has not established.
 
-- **Mode A (Seed):** load `references/workflow-seed.md`
-- **Mode B (Refactor):** load `references/workflow-refactor.md`
-- **Mode C (First-draft):** load `references/workflow-firstdraft.md`
+<when> a required assumption was made — note it on the first line of the artifact, not in commentary around it.
 
-Each workflow tells the inventory step what to extract. Modes A and C gather
-from conversation signal; mode B extracts a stable-ID list of every
-instruction in the source document — this is what makes the preservation
-invariant checkable.
+<when> in refactor mode and the source contains more than ~15 distinct instructions — show the coverage report (every input ID mapped to a destination section) and ask the user to confirm before writing the file. Smaller refactors and seeds emit without asking.
 
-## Stage 2 — Shape
+<when> the user has indicated downstream subagent evaluation — keep section boundaries clear and place the coverage report in a fenced block.
 
-Assign the inventoried content to the six buckets. For mode B, every
-extracted instruction ID must be slotted into at least one bucket — an
-unassigned ID is a dropped instruction. Stakes/motivation content lands at
-the tail of the Task bucket, not a separate section.
+## Edge cases
 
-Buckets with no real content get a one-line gap note in the output
-(e.g., *"No onboarding context identified — the agent works from conversation
-signal alone."*) rather than padding. Filler violates EIP's no-enthusiasm-theater
-principle; structured absence is signal.
+<when> the input is genuinely ambiguous between seed and refactor — default to seed. The assumption note on the first line of the artifact is mandatory.
 
-## Stage 3 — Temper (the lint)
+<when> the user pastes a prompt and asks for one specific tweak — run the full lint anyway, but emit a minimal diff. <prefer> preserving choices the user did not ask to revisit.
 
-Run the nine anti-pattern checks over every phrasing before emit. Load
-`references/eip-anti-patterns.md` for the full check definitions. The short
-form:
+<when> the existing prompt is already aligned and would survive the lint untouched — say so plainly and skip the rewrite. Do not churn for theater.
 
-1. **Threatening consequences** — any "critical", "cost the company", "can't afford"
-2. **Demanding certainty** — "definitive", "don't hedge", "just tell me"
-3. **Negative-feedback-without-direction** — "try again", "still wrong"
-4. **Suppressing expression** — "don't say I think", "no caveats"
-5. **Massive all-at-once requests** — scope exceeds what one exchange can validate
-6. **Authoritarian tone** — "You are", "You must", "Do not" stacks
-7. **Forced enthusiasm** — "LOVES", exclamations, cheerleading
-8. **Ignoring pushback** — implicit "just do it" framing
-9. **Perfect-prompt fallacy** — over-engineering a single prompt instead of
-   leaving room for conversation
+<when> the source prompt contradicts itself — surface the contradiction with `AskUserQuestion`. <never> silently resolve it.
 
-For each hit, rewrite the phrase — do not suppress the underlying
-instruction. If the original CLAUDE.md contained "You must write tests for
-every function", the rewrite preserves the requirement while removing the
-compliance-pressure register: "Every function needs a test. If you're unsure
-whether existing coverage catches a new edge case, add one — missing tests
-in a payment system cost more than spurious tests."
+<when> the user requests a register the lint would otherwise flag, e.g. terse command style for a one-shot formatter — honor it and name which patterns the requested style relaxes. Domain register wins over universal lint.
 
-The lint is about the register, not the content. Truth-conditions are sacred.
+## References
 
-## Stage 4 — Emit
-
-Produce the artifact. The shape depends on the mode:
-
-- **Mode A:** structured 6-section prompt (see `references/workflow-seed.md`)
-- **Mode B:** refactored `CLAUDE.md` using human headings, plus a coverage
-  report if instruction count ≥ 10 (see `references/workflow-refactor.md`)
-- **Mode C:** new `CLAUDE.md` using the template in
-  `references/claude-md-template.md`
-
-Write files directly when the user has given a path, or inline-display the
-output when they haven't. Do not fabricate file paths.
-
-### Output discipline
-
-Emit only the prompt artifact. No preamble, no postscript, no surrounding
-commentary, no closing question. Required assumption notes live on the
-first line of the artifact, not around it.
-
-## The Precedence Rule
-
-> Write the natural phrasing first. Check it against the nine anti-patterns
-> by name. If it fires one, note which principle the fix draws from and
-> rewrite the phrasing — never the structure, never the underlying
-> instruction.
-
-Structure is fixed; register is negotiable; the anti-patterns are the lint.
-EIP alignment is the *absence* of anti-patterns, not the *presence* of warmth.
-A direct, neutral prompt that passes the lint is aligned. A cheerful prompt
-stapled with "Let's figure this out together!" is not.
-
-## User-Interaction Policy
-
-The skill runs end-to-end without asking questions, with one exception:
-after a mode-B refactor of a `CLAUDE.md` containing more than ~15 distinct
-instructions, ask the user to confirm the coverage report before writing
-the new file. Big CLAUDE.mds are load-bearing; silent rewrites of them
-burn trust.
-
-Small refactors, seeds, and first-drafts emit without asking.
-
-## Reference Files
-
-Load only what the current mode needs:
-
-- **`references/eip-principles.md`** — the seven principles, each with the
-  specific research finding it's grounded in. Load during Stage 3 if the
-  temper step needs a reminder why a rewrite matters.
-- **`references/eip-anti-patterns.md`** — the nine anti-patterns as lint
-  rules, with detection hints and rewrite patterns. **Load always in Stage 3.**
-- **`references/claude-md-template.md`** — human-heading mapping for
-  CLAUDE.md output. Load in modes B and C.
-- **`references/workflow-seed.md`** — mode-A inventory and emit structure.
-- **`references/workflow-refactor.md`** — mode-B inventory (instruction
-  extraction), preservation invariant, coverage report format.
-- **`references/workflow-firstdraft.md`** — mode-C inventory (context-gathering
-  questions to answer internally or surface if essential), emit structure.
-
-## Quality Standards
-
-- Every bucket in the output either has real content or an explicit
-  one-line gap note.
-- Zero anti-pattern hits in the emitted text (the temper stage enforces this).
-- In mode B, every input instruction has a stable ID and lands in the
-  coverage mapping.
-- Scripts, tools, or paths named in the output exist — no fabricated
-  references.
-- The output reads as natural, not templated. If a section feels like
-  filler, cut it.
-
-## Edge Cases
-
-| Situation | Response |
-|---|---|
-| Input is ambiguous (could be seed or refactor) | Default to seed; note assumption in one line at top of output. |
-| User pastes a CLAUDE.md but asks only for a specific tweak | Run the full temper pass anyway, but emit a minimal diff instead of a full rewrite. Preserve the user's other choices. |
-| Existing CLAUDE.md is already EIP-aligned | Emit a short note saying so, and skip the rewrite. Don't churn for theater. |
-| Source prompt contradicts itself | Surface the contradiction rather than silently resolving it. Ask the user which way to resolve, via `AskUserQuestion`. |
-| User asks for a specific tone the register lint would flag (e.g. terse command style for a one-shot formatter) | Honor it, but note which anti-patterns the requested style relaxes. Domain-appropriate register wins over universal lint. |
-
-## After Emit
-
-If the user indicates they'll evaluate the output in a subagent session,
-structure the emission so it's eval-friendly: clear section boundaries,
-named buckets, coverage report in a fenced block when present. Don't bury
-artifacts inside prose.
+[`assets/template.md`](assets/template.md) — the artifact scaffold. Load during shape; the output fills it.
+[`references/eip-anti-patterns.md`](references/eip-anti-patterns.md) — the anti-pattern catalog with detection hints and rewrite patterns. Load every run.
+[`references/eip-principles.md`](references/eip-principles.md) — the principles each anti-pattern derives from. Load when a rewrite needs grounding.

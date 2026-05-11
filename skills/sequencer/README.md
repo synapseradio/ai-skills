@@ -59,9 +59,9 @@ For single-step tasks, just invoke the skill directly. The sequencer adds value 
 
 | File | Purpose |
 |------|---------|
-| `references/parsing-guide.md` | Input format recognition and step extraction |
-| `references/execution-model.md` | Subagent spawning, context accumulation, parallelism |
-| `references/syntax-reference.md` | Quick-reference card (`/seq help`) |
+| [`references/parsing-guide.md`](references/parsing-guide.md) | Input format recognition and step extraction |
+| [`references/execution-model.md`](references/execution-model.md) | Subagent spawning, context accumulation, parallelism |
+| [`references/syntax-reference.md`](references/syntax-reference.md) | Quick-reference card (`/seq help`) |
 
 ## Install as a `.skill`
 

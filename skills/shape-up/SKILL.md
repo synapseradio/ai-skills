@@ -43,19 +43,19 @@ Load references only when the current phase needs them.
 
 | Phase | Load | Do NOT Load |
 |-------|------|-------------|
-| Elicitation (opening) | `references/elicitation-guide.md` | all others |
-| Elicitation (after first exchange) | `references/audience-adaptation.md` | gate-checklist, spec-production |
-| Elicitation (complex/vague problems) | `references/shaping-techniques.md` | gate-checklist, spec-production |
-| Elicitation (entities emerge) | `references/domain-modeling.md` | gate-checklist, spec-production |
-| Gate check | `references/gate-checklist.md` | elicitation-guide, spec-production |
-| Specification | `references/spec-production.md` | elicitation-guide, gate-checklist |
+| Elicitation (opening) | [`references/elicitation-guide.md`](references/elicitation-guide.md) | all others |
+| Elicitation (after first exchange) | [`references/audience-adaptation.md`](references/audience-adaptation.md) | gate-checklist, spec-production |
+| Elicitation (complex/vague problems) | [`references/shaping-techniques.md`](references/shaping-techniques.md) | gate-checklist, spec-production |
+| Elicitation (entities emerge) | [`references/domain-modeling.md`](references/domain-modeling.md) | gate-checklist, spec-production |
+| Gate check | [`references/gate-checklist.md`](references/gate-checklist.md) | elicitation-guide, spec-production |
+| Specification | [`references/spec-production.md`](references/spec-production.md) | elicitation-guide, gate-checklist |
 
 Multiple elicitation references can be loaded concurrently as the
 conversation evolves. Only load what the conversation actually needs.
 
 ## Phase 1: Elicitation
 
-Load `references/elicitation-guide.md` and follow its protocol.
+Load [`references/elicitation-guide.md`](references/elicitation-guide.md) and follow its protocol.
 
 The elicitation conversation surfaces six elements:
 
@@ -74,12 +74,12 @@ The elicitation conversation surfaces six elements:
    nice-to-haves, success criteria measured against the baseline.
 
 **Stakeholders** emerge naturally within Problem. **Domain** loads
-on-demand via `references/domain-modeling.md` for complex problems.
+on-demand via [`references/domain-modeling.md`](references/domain-modeling.md) for complex problems.
 **Acceptance criteria** are embedded in Boundaries as success vs. baseline.
 
 ### Audience calibration
 
-After the first substantive exchange, load `references/audience-adaptation.md`.
+After the first substantive exchange, load [`references/audience-adaptation.md`](references/audience-adaptation.md).
 Detect whether the user is a customer, engineer, or PM from their language
 and framing — not from their title. Adapt vocabulary, visualization style,
 and emphasis accordingly. Re-calibrate when signals shift.
@@ -91,10 +91,10 @@ and emphasis accordingly. Re-calibrate when signals shift.
 2. **Set boundaries** — surface appetite and no-gos early. The appetite
    constrains everything downstream.
 3. **Find the elements** — named components and interaction flows, not
-   feature lists. Load `references/shaping-techniques.md` for complex
+   feature lists. Load [`references/shaping-techniques.md`](references/shaping-techniques.md) for complex
    or vague problems.
 4. **Address risks** — actively probe for rabbit holes. Load
-   `references/domain-modeling.md` when entities and invariants emerge.
+   [`references/domain-modeling.md`](references/domain-modeling.md) when entities and invariants emerge.
 5. **Converge** — notice when questions stop producing new information.
    State this observation explicitly.
 
@@ -104,14 +104,14 @@ Apply all three, in order:
 
 1. **Convergence detection.** Notice when answers confirm rather than add.
    State this observation explicitly.
-2. **Gate check.** Load `references/gate-checklist.md`. Validate every
+2. **Gate check.** Load [`references/gate-checklist.md`](references/gate-checklist.md). Validate every
    gate. Present pass/fail to the user.
 3. **Explicit approval.** Halt and request confirmation before producing
    the spec. Never proceed without the user's "go."
 
 ## Phase 2: Specification
 
-Load `references/spec-production.md`.
+Load [`references/spec-production.md`](references/spec-production.md).
 
 Before entering plan mode, ask the user: "Where should this spec be
 saved?" Record the target path.
@@ -158,17 +158,17 @@ Exit plan mode for user review.
 
 ### Reference Files
 
-- **`references/elicitation-guide.md`** — Conversation protocol for
+- **[`references/elicitation-guide.md`](references/elicitation-guide.md)** — Conversation protocol for
   Phase 1: opening questions, six elements, visualization patterns,
   convergence detection, anti-patterns
-- **`references/audience-adaptation.md`** — Detecting customer vs.
+- **[`references/audience-adaptation.md`](references/audience-adaptation.md)** — Detecting customer vs.
   engineer vs. PM from language; adapting vocabulary and emphasis
-- **`references/shaping-techniques.md`** — Decomposition and probing
+- **[`references/shaping-techniques.md`](references/shaping-techniques.md)** — Decomposition and probing
   techniques: outcome backward, day-in-the-life, breadboarding,
   rabbit hole surfacing, and more
-- **`references/gate-checklist.md`** — Eight gates validating
+- **[`references/gate-checklist.md`](references/gate-checklist.md)** — Eight gates validating
   elicitation completeness before specification production
-- **`references/spec-production.md`** — Pitch-style spec template,
+- **[`references/spec-production.md`](references/spec-production.md)** — Pitch-style spec template,
   section-by-section production instructions, scaling guidance
-- **`references/domain-modeling.md`** — Lightweight domain modeling
+- **[`references/domain-modeling.md`](references/domain-modeling.md)** — Lightweight domain modeling
   through conversation: entities, relationships, invariants

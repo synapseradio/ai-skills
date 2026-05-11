@@ -240,7 +240,7 @@ Key Flows section may also be grouped by area.
 
 ## Domain Model Inclusion
 
-If `references/domain-modeling.md` was loaded during elicitation and
+If [`references/domain-modeling.md`](domain-modeling.md) was loaded during elicitation and
 entities were modeled, include a Domain Model subsection within Solution:
 
 ```markdown

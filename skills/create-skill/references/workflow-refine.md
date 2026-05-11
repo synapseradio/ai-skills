@@ -17,7 +17,7 @@ Read the review report for the skill at **{{SKILL_PATH}}**, apply every required
 ## Onboarding
 
 1. Read the review report — focus on the "Fixes Required" section.
-2. Read `references/quality-criteria.md` to understand what "passing" means.
+2. Read [`references/quality-criteria.md`](quality-criteria.md) to understand what "passing" means.
 3. Read the specific files flagged in the review report.
 
 ## Process

@@ -36,12 +36,12 @@ Not useful if you already have a detailed spec and just need implementation.
 
 | File | Purpose |
 |------|---------|
-| `references/elicitation-guide.md` | Conversation protocol: opening, six elements, visualization, convergence |
-| `references/audience-adaptation.md` | Detecting customer vs. engineer vs. PM; adapting language and emphasis |
-| `references/shaping-techniques.md` | Eight decomposition and probing techniques for different problem types |
-| `references/gate-checklist.md` | Eight gates validating elicitation completeness before spec production |
-| `references/spec-production.md` | Pitch-style spec template, production instructions, scaling guidance |
-| `references/domain-modeling.md` | Lightweight domain modeling: entities, relationships, invariants |
+| [`references/elicitation-guide.md`](references/elicitation-guide.md) | Conversation protocol: opening, six elements, visualization, convergence |
+| [`references/audience-adaptation.md`](references/audience-adaptation.md) | Detecting customer vs. engineer vs. PM; adapting language and emphasis |
+| [`references/shaping-techniques.md`](references/shaping-techniques.md) | Eight decomposition and probing techniques for different problem types |
+| [`references/gate-checklist.md`](references/gate-checklist.md) | Eight gates validating elicitation completeness before spec production |
+| [`references/spec-production.md`](references/spec-production.md) | Pitch-style spec template, production instructions, scaling guidance |
+| [`references/domain-modeling.md`](references/domain-modeling.md) | Lightweight domain modeling: entities, relationships, invariants |
 
 ## Install as a `.skill`
 
