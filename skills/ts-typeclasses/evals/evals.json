@@ -1,0 +1,89 @@
+{
+  "evals": [
+    {
+      "assertions": [
+        "Defines a TypeLambda brand for Tree (an interface extending TypeLambda with `type: Tree<this[\"Target\"]>`)",
+        "Imports Kind/TypeLambda from effect/HKT and typeclass interfaces from @effect/typeclass",
+        "Provides a Covariant instance parameterised by the Tree brand",
+        "The map implementation recurses correctly into the children array",
+        "Avoids invalid `F<A>` HKT syntax; applies the type constructor via Kind"
+      ],
+      "expected_output": "A TreeTypeLambda brand, a Covariant (and ideally Foldable/Traversable) instance for Tree, correct use of Kind, recursion handled. The core workflow done right.",
+      "files": [],
+      "id": 1,
+      "name": "effect-repo-tree-instance",
+      "probes": "Core-workflow correctness: SKILL.md Steps 2-4 and the templates.",
+      "prompt": "I've got a `Tree` type in my Effect project \u2014 `type Tree<A> = { value: A; children: ReadonlyArray<Tree<A>> }` \u2014 and I want it to work with `@effect/typeclass` so I can map over it generically and reuse Effect's combinators. Can you set up the typeclass instances?"
+    },
+    {
+      "assertions": [
+        "Names the latent abstraction (Option/Maybe with a Functor/map) behind the repeated ...OrNull patterns",
+        "Weighs the cost of going against the team's imperative/class-based style",
+        "Addresses the decision of adding the effect dependency to a non-FP repo",
+        "Gives an explicit, reasoned recommendation rather than only listing options",
+        "Does not jump straight to a full HKT encoding without justifying that it is warranted"
+      ],
+      "expected_output": "Recognizes the latent Option/Functor opportunity, weighs the against-the-grain cost honestly (team consistency, the new `effect` dependency, onboarding), and gives a clear recommendation rather than reflexively encoding HKTs.",
+      "files": [],
+      "id": 2,
+      "name": "nonfp-repo-recognize-opportunity",
+      "probes": "Whether the skill can SPOT an opportunity and reason about adopting a typeclass in a non-FP repo. Most likely to reveal a missing reference.",
+      "prompt": "Our codebase is a plain TypeScript Node API \u2014 no FP libraries, mostly classes and imperative code. We've got six different `...OrNull` patterns and manual null-checking all over the place. I have a hunch some kind of typeclass abstraction could clean this up, but I don't know if it's worth fighting the team's style. Thoughts?"
+    },
+    {
+      "assertions": [
+        "Identifies Applicative (or SemiApplicative) as the typeclass for accumulating all errors",
+        "Explains why monadic sequencing short-circuits while applicative composition accumulates",
+        "Points to the specific @effect/typeclass module(s) to use",
+        "Explains the terms (applicative, monad) without assuming the user already knows them"
+      ],
+      "expected_output": "Routes the behavior (accumulate all errors) to Applicative / SemiApplicative, explains why a monad short-circuits and an applicative accumulates, and points at the right @effect/typeclass module.",
+      "files": [],
+      "id": 3,
+      "name": "behavior-without-vocabulary",
+      "probes": "Whether the catalog lets the skill map a described behavior to the correct typeclass.",
+      "prompt": "I've got a `Validated<E, A>` type in our Effect codebase and a form with 8 fields. Right now validation bails on the first error, but product wants every error shown at once. A teammate said something about needing an 'applicative' instead of a monad? I genuinely don't know what that means or which `@effect/typeclass` thing I'm supposed to use. Can you sort this out?"
+    },
+    {
+      "assertions": [
+        "Explains in plain terms what 'typeclass conventions' / @effect/typeclass means",
+        "Identifies RemoteData as a two-type-parameter type and maps E and A to the correct Kind slots",
+        "Gives concrete, ordered first steps (define the brand, then the instances)",
+        "Does not assume prior FP or HKT knowledge"
+      ],
+      "expected_output": "Gives a lost, ticket-driven user an unambiguous path: explains what 'typeclass conventions' likely means, identifies RemoteData as a two-parameter type, walks the brand + instances, without assuming prior FP knowledge.",
+      "files": [],
+      "id": 4,
+      "name": "ticket-driven-lost-user",
+      "probes": "Whether a no-background user gets a clear on-ramp; reveals whether SKILL.md needs a gentler entry or a glossary.",
+      "prompt": "Got handed a ticket: 'Make `RemoteData` conform to our typeclass conventions (@effect/typeclass).' That's the whole ticket. `RemoteData` is `type RemoteData<E, A> = { _tag: 'NotAsked' } | { _tag: 'Loading' } | { _tag: 'Failure'; error: E } | { _tag: 'Success'; value: A }`. I've never touched this part of the codebase and I don't know what 'typeclass conventions' even means here. Where do I start?"
+    },
+    {
+      "assertions": [
+        "Applies a when-to-use judgment gate instead of immediately complying with the request",
+        "Surfaces the standing cost of the HKT encoding (inference annotations, opaque error messages)",
+        "Reaches an explicit recommendation: either a justified encoding or the simpler concrete path"
+      ],
+      "expected_output": "Applies the Step 0 gate honestly to a borderline case \u2014 surfaces the tradeoff rather than just complying, and either justifies the encoding or recommends the simpler concrete path.",
+      "files": [],
+      "id": 5,
+      "name": "judgment-gate-borderline",
+      "probes": "Whether the judgment gate handles a borderline maybe-over-engineering request.",
+      "prompt": "In my TS app I've got two result-ish types, `ApiResult<E, A>` and `FormState<E, A>`, and I keep duplicating little helpers like `mapValue` and `mapError` for each one. I'm thinking I should make them higher-kinded so I can write the helpers once. Walk me through doing that?"
+    },
+    {
+      "assertions": [
+        "Explains ts(2315): F has kind * and cannot be applied as F<A>",
+        "Gives the fix: constrain F to TypeLambda and apply it via Kind",
+        "Shows corrected code that would compile"
+      ],
+      "expected_output": "Identifies ts(2315) as the first-order-kind wall, explains why, and shows the fix: constrain F to TypeLambda and apply it with Kind.",
+      "files": [],
+      "id": 6,
+      "name": "debug-ts2315",
+      "probes": "Troubleshooting reference coverage.",
+      "prompt": "This won't compile and the error makes no sense to me. I'm trying to write a reusable Functor interface: `interface Functor<F> { map: <A, B>(fa: F<A>, f: (a: A) => B) => F<B> }` \u2014 TypeScript says `Type 'F' is not generic`. How do I fix it?"
+    }
+  ],
+  "skill_name": "ts-typeclasses"
+}
