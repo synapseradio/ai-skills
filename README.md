@@ -26,6 +26,49 @@ Agent skills and agent definitions for [Claude Code](https://docs.anthropic.com/
 | **visualize** | Data visualizations using Vega or D3 with 19+ chart templates |
 | **waypoint** | Distributed navigation markers for multi-file pipelines and processes |
 
+### thinkies
+
+Cognitive reasoning skills grouped under [`skills/thinkies/`](./skills/thinkies/). Each is a self-contained thinking technique adapted from the [seed](https://github.com/synapseradio/seed) thinkies plugin.
+
+| Skill | Description |
+|-------|-------------|
+| **argue-the-opposite** | Stress-test a position by building the strongest counter-case |
+| **ask-respond** | Structured Q&A that decomposes questions before answering |
+| **ask-what-breaks** | Find defeaters that would break a conclusion |
+| **assess-current-knowledge** | Map what's known vs assumed vs unknown |
+| **audit-chain-of-thought** | Tag reasoning steps by inference type |
+| **branch-possibilities** | Generate fundamentally divergent directions from one starting point |
+| **calibrate-confidence** | Match certainty to evidence strength |
+| **check-soundness** | Test synthesis for contradictions |
+| **cite-sources** | Track, validate, and cite external sources with working URLs |
+| **connect-domains** | Import solutions from structurally similar problems in distant domains |
+| **consider-alternatives** | Generate competing explanations for the same observations |
+| **decompose** | Break a whole into parts at its natural joints |
+| **detect-diminishing-returns** | Detect when further effort yields little gain |
+| **detect-fallacies** | Spot logical errors in reasoning |
+| **evaluate-evidence** | Assess how well evidence supports claims |
+| **excavate-assumptions** | Surface unstated assumptions at multiple levels and rank them |
+| **find-leverage** | Locate where a small change shifts the whole system |
+| **flip-assumptions** | Test claims by forming the contrapositive |
+| **ideate** | Generate and filter ideas into vetted options |
+| **integrate-other-perspectives** | Combine viewpoints into coherent whole |
+| **integrity** | Verify structural integrity by aligning claims with evidence |
+| **invert-the-problem** | Turn a problem inside out to reveal hidden structure |
+| **probe-boundaries** | Test a claim or framing at its edges and extremes |
+| **question-the-question** | Examine whether the inquiry is aimed at the right target |
+| **question-through-dialogue** | Use Socratic questioning to reveal assumptions |
+| **reason-from-first-principles** | Strip convention to irreducible truths and rebuild |
+| **research-and-teach** | Research deeply, explain progressively |
+| **run-premortem** | Imagine catastrophic failure and work backwards to prevent it |
+| **shift-abstraction-level** | Move up, down, and sideways between levels of abstraction |
+| **shift-perspective** | Inhabit contrasting frames to see what one viewpoint misses |
+| **strategize** | Adaptive multi-phase reasoning for complex problems |
+| **synthesize-opposing-views** | Find higher understanding through dialectic |
+| **trace-logic** | Follow reasoning step-by-step |
+| **trace-logical-justifications** | Trace justification chains to bedrock |
+| **tutor** | Interactive tutoring that adapts to your pace |
+| **wonder** | Open the possibility space through curiosity-driven questioning |
+
 ## Agents
 
 | Agent | Description |

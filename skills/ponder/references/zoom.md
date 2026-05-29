@@ -1,1 +1,6 @@
-Locate the current level of abstraction. Recognize misalignment — lost in details or floating in generalities. Climb up by asking "what does this exemplify?" or "why is this important?" Climb down by asking "what does this look like in practice?" or "what is an example?" Move sideways to find alternatives at the same level. Generate at least three levels up and three down from the current statement. Select the level where understanding is sufficient to act.
+1. Locate the current level of abstraction.
+2. Climb up: "what does this exemplify?", "why is this important?"
+3. Climb down: "what does this look like in practice?", "what is an example?"
+4. Move sideways to find alternatives at the same level.
+5. Generate at least three levels up and three down from the current statement.
+6. Select the level where understanding is sufficient to act.

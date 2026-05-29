@@ -1,1 +1,6 @@
-Identify the current frame. Choose 2-4 contrasting perspectives — different stakeholders, disciplines, time horizons, or levels of expertise. Inhabit each perspective fully: what does it assume, what problems does it prioritize, what values does it protect? Use "I" statements from within each frame. Locate what each perspective sees that the others miss. Note where perspectives genuinely clash. Return with the insight that no single frame would have produced alone.
+1. Identify the current frame.
+2. Choose 2–4 contrasting perspectives — different stakeholders, disciplines, time horizons, or levels of expertise.
+3. Inhabit each fully: what does it assume, prioritize, and protect? Use "I" statements from within each frame.
+4. Locate what each perspective sees that the others miss.
+5. Note where perspectives genuinely clash.
+6. Return with the insight that no single frame would have produced alone.

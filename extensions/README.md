@@ -14,7 +14,7 @@ extensions/<plugin-name>/
         └── SKILL.md      # copy of the source skill
 ```
 
-The skill under a plugin is a build artifact. The source of truth lives in `/skills/<skill-name>/`. When the source changes, re-copy the tree into the extension bundle before committing.
+The skill under a plugin is a build artifact. The source of truth lives in `/skills/<skill-name>/` (or `/skills/<group>/<skill-name>/` for grouped skills). When the source changes, re-copy the tree into the extension bundle before committing.
 
 ## Install a plugin locally (development)
 

@@ -39,7 +39,7 @@ The skill expects the host agent to be able to look up and read web pages live â
 ## Related
 
 - The same skill is also distributed as a standalone `.skill` ZIP for Claude.ai upload:
-  [`de-residency-advisor.skill`](https://github.com/synapseradio/ai-skills/raw/main/skills/packaged/de-residency-advisor.skill)
+  [`de-residency-advisor.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/de-residency-advisor.skill)
 - Source skill + references: [`skills/de-residency-advisor/`](../../skills/de-residency-advisor/)
 
 ## License

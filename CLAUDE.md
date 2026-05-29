@@ -4,8 +4,10 @@ Repo-wide guidance for Claude sessions working in `ai-skills`. Skill-specific gu
 
 ## Layout
 
-- `skills/<name>/` — source skills. Each has a `SKILL.md` with YAML frontmatter and optional `references/`, `scripts/`, `assets/` subdirectories.
-- `packaged/<name>.skill` — distributable ZIP of the matching source skill. Sibling to `skills/` so it never lives inside the source tree it mirrors. Committed to git so the README remote URLs on `main` resolve without a release pipeline.
+- `skills/<name>/` — source skill. Each has a `SKILL.md` with YAML frontmatter and optional `references/`, `scripts/`, `assets/` subdirectories.
+- `skills/<group>/<name>/` — source skill belonging to a namespaced group (e.g. `skills/thinkies/argue-opposite/`). One level of grouping is supported. The group name does not appear in the skill's `name` frontmatter — it is purely an organizational directory above the skill root.
+- `packaged/<name>.skill` — distributable ZIP of a flat source skill. Sibling to `skills/` so it never lives inside the source tree it mirrors. Committed to git so the README remote URLs on `main` resolve without a release pipeline.
+- `packaged/<group>/<name>.skill` — distributable ZIP of a grouped source skill. The packaged tree mirrors the source grouping.
 - `extensions/<plugin-name>/` — Claude Code plugin bundles wrapping one or more skills. Each has `.claude-plugin/plugin.json` at the plugin root and a `skills/<skill-name>/` copy of the source skill.
 - `agents/<name>.md` — subagent definitions.
 - `examples/` — runnable usage fixtures; not installable.
@@ -22,26 +24,39 @@ If `skill-creator` is not installed, install it once via Claude Code:
 /plugin install skill-creator@claude-plugins-official
 ```
 
-To package one skill:
+To package one skill (flat or grouped — the packager only needs the skill directory and the output directory):
 
 ```bash
 SKILL_CREATOR_DIR="$(find "${HOME}/.claude/plugins/marketplaces" \
   -type d -path '*skill-creator/skills/skill-creator' 2>/dev/null | head -n1)"
+# Flat skill:
 (cd "${SKILL_CREATOR_DIR}" && python3 -m scripts.package_skill \
   "${PWD_OF_REPO}/skills/<skill-name>" \
   "${PWD_OF_REPO}/packaged")
+# Grouped skill:
+(cd "${SKILL_CREATOR_DIR}" && python3 -m scripts.package_skill \
+  "${PWD_OF_REPO}/skills/<group>/<skill-name>" \
+  "${PWD_OF_REPO}/packaged/<group>")
 ```
 
-To (re)package every skill:
+To (re)package every skill (handles both flat and grouped):
 
 ```bash
 SKILL_CREATOR_DIR="$(find "${HOME}/.claude/plugins/marketplaces" \
   -type d -path '*skill-creator/skills/skill-creator' 2>/dev/null | head -n1)"
 REPO="$(pwd -P)"
-for skill in skills/*/; do
+while IFS= read -r skill_md; do
+  skill_dir="${skill_md%/SKILL.md}"
+  rel="${skill_dir#skills/}"
+  if [[ "${rel}" == */* ]]; then
+    out_dir="${REPO}/packaged/${rel%/*}"
+  else
+    out_dir="${REPO}/packaged"
+  fi
+  mkdir -p "${out_dir}"
   (cd "${SKILL_CREATOR_DIR}" && python3 -m scripts.package_skill \
-    "${REPO}/${skill%/}" "${REPO}/packaged")
-done
+    "${REPO}/${skill_dir}" "${out_dir}")
+done < <(find skills -type f -name SKILL.md)
 ```
 
 The packager validates frontmatter (requires `PyYAML` — `pip install pyyaml` if missing), excludes `__pycache__`, `node_modules`, `*.pyc`, `.DS_Store`, and root-level `evals/`, then writes `<name>.skill` (ZIP) with `<name>/SKILL.md` at the archive root.
@@ -56,6 +71,12 @@ Every source skill's `README.md` ends with an install footer. The link target is
 Upload this file in Claude.ai → Settings → Skills:
 
 [`<name>.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/<name>.skill)
+```
+
+For a grouped skill, the footer mirrors the packaged path:
+
+```markdown
+[`<name>.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/<group>/<name>.skill)
 ```
 
 When adding a new skill, append this footer and regenerate `packaged/`.

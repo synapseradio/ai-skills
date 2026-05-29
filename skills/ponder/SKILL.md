@@ -108,8 +108,8 @@ references upfront.
 
 ## Technique Reference Files
 
-Each file in `references/` contains a single technique's imperative
-instruction. The files are:
+Each file in `references/` contains a single technique's step-by-step
+instructions. The files are:
 
 | File | Purpose | Category |
 |------|---------|----------|

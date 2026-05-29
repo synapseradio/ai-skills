@@ -1,1 +1,4 @@
-Identify the starting point and the specific decision or constraint that could be altered. Generate 3-5 fundamentally different directions — not variations on a theme, but genuinely divergent paths. Make each branch concrete: specify what would differ in practice and the unique trade-offs. Map the divergence structure: note where paths split and whether branches could later recombine.
+1. Identify the starting point and the specific decision or constraint that could be altered.
+2. Generate 3–5 fundamentally different directions — genuinely divergent paths, not variations on a theme.
+3. Make each branch concrete: what would differ in practice and the unique trade-offs.
+4. Map the divergence structure: where paths split and whether branches could later recombine.
