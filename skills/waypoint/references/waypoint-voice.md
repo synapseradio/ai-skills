@@ -5,6 +5,11 @@ writing or polishing waypoint text. Every principle here serves one goal:
 a reader encountering waypoints for the first time can understand what they
 are looking at within ten seconds.
 
+The CLI composes the block's structure — the framing, the ID, the symbols, the
+`reference:` pointer, and the legend. Your job is the prose it places inside:
+the role line, each neighbor description, and the manifest's opening sentence.
+Everything below is about that prose.
+
 ## Guiding Metaphor
 
 Waypoint blocks are trail markers. A trail marker succeeds when a hiker who
@@ -143,7 +148,7 @@ Apply these checks to every waypoint block before finalizing:
 5. **Spelled out**: Are abbreviations expanded on first use?
 6. **Warm tone**: Does the text read as guidance, or as a terse log entry?
 7. **Purpose visible**: Does every role description answer *why* this action matters, not just *what* it does?
-8. **Legend present**: Does the closing include the symbol legend and search hint?
+8. **Structure left to the CLI**: The framing, IDs, symbols, `reference:` pointer, and legend are composed by `waypoint block` — you do not hand-write or proofread them. Spend your attention on the prose above.
 
 ## Common Transformations
 
