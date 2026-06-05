@@ -6,7 +6,7 @@ Load when drafting any prose, when proofreading, when the prose risks reading as
 
 ## Lexical tells — cut on sight
 
-The Kobak et al. (2024) PubMed analysis identified words that surged in academic writing after late 2022. Cut these unless the technical sense is exact:
+Take time to explicitly deliberate before using any of these words, preferring their alternatives by default:
 
 | Slop | Use instead |
 |------|-------------|
@@ -30,6 +30,7 @@ The Kobak et al. (2024) PubMed analysis identified words that surged in academic
 | cultivate | build, grow |
 | embrace | take up, accept |
 | glean | find, learn |
+| loop | process, method, practice |
 
 Add adjacent slop: *crucial*, *vital*, *essential*, *paramount* used as default intensifiers; *dynamic* applied to anything that moves; *holistic* applied to anything more than one part.
 
@@ -54,7 +55,7 @@ Cut on sight:
 
 The connection a transitional phrase claims usually exists in the sentence order. If it doesn't, fix the order, not the transition.
 
-## Structural tells — forbidden as defaults
+## Forbidden sentence structural tells
 
 Each structure below is allowed only when it does specific work the prose needs. Defaulting to it without need is slop.
 
@@ -64,15 +65,12 @@ Each structure below is allowed only when it does specific work the prose needs.
 - **Bullet lists when prose carries the thought.** Lists are for items that are genuinely parallel. Heterogeneous items in a list are prose pretending to be parallel.
 - **Symmetric paragraph shapes.** Three consecutive paragraphs with identical topic-sentence-then-three-examples-then-summary architecture is broken. Vary.
 
-## Intransitive-form constructions — forbidden
+## Intransitive-form constructions to avoid
 
-These are slot-fillable templates whose meaning does not change when you swap the noun. The shape carries the sentence; the subject barely constrains it. That is the slop signature. The fix in every case: state what the thing does. If the sentence still works with a different noun in the slot, cut it.
-
-- **"The ___ is real."** Forbidden. Calling a thing "real" adds nothing — its existence is presupposed by mentioning it. The phrase performs emphasis instead of providing it. Examples: "the burnout is real," "the threat is real," "the opportunity is real." Replace with what makes the thing matter — the specific cost, the specific stake, the specific evidence.
-- **"The ___ is the signal."** Forbidden. The construction promises a reframe — *your assumption was wrong, here is the hidden truth* — and almost always delivers an ordinary observation in epiphany clothes. It also closes inquiry: once the signal has been named, no further investigation is invited. Replace with the mechanism: what does the thing indicate, and how does the indication work?
+- **"The ___ is real."** Calling a thing "real" adds nothing — its existence is presupposed by mentioning it. The phrase performs emphasis instead of providing it. Examples: "the burnout is real," "the threat is real," "the opportunity is real." Replace with what makes the thing matter — the specific cost, the specific stake, the specific evidence.
+- **"The ___ is the signal."** The construction promises a reframe — *your assumption was wrong, here is the hidden truth* — and almost always delivers an ordinary observation in epiphany clothes. It also closes inquiry: once the signal has been named, no further investigation is invited. Replace with the mechanism: what does the thing indicate, and how does the indication work?
 - **Negation-then-affirmation as default cadence.** "X is Y, not Z." "It is not Y, [it is | but] Z." "It's not just Y — it's Z." Forbidden unless the reader genuinely held the negated view. Otherwise the negation is a strawman and the affirmation rides its momentum without earning the contrast. Replace with the affirmation alone. If a contrast is needed, name a position someone actually held and engage it.
-
-Why these three are a coherent class: each works by gesturing at insight without supplying one. The reader recognizes the shape from marketing copy, viral threads, and AI output, and infers — correctly — that the writer reached for cadence instead of meaning. This is the specific revulsion humans feel toward AI prose. The shape announces itself before the content arrives.
+- **Cataphoric leading**. "The kicker: ___", "But the fact is:", "The [previously unmentioned entity invoked for evocative purpose only]" as sentence, section, or paragraph beginnings. Cataphora is an imposition upon your audience that carries a demand for attention from them that they will find disrespectful.
 
 ## Voice tells — forbidden
 
@@ -123,13 +121,3 @@ The audit diagnostics above use the same signals. Apply them to the model's own 
 - One transitional phrase where the prose genuinely changes direction. None where it doesn't.
 - An em-dash that interrupts or pivots. A colon that announces. A comma everywhere else.
 - A paragraph that ends when the thought ends — not at three sentences, not at five, at the thought.
-
-## NEVER
-
-- Never include performative language in deliberation unless it is needed for the specific task at hand (e.g. writing dialogue between characters in a scene)
-- Never preserve a transitional phrase because it sounds polished. Polish that adds nothing is slop.
-- Never use a Kobak word because it sounds professional. Professionalism is precision, transparency, and accuracy with due consideration to situation, goals, and context.
-- Never close with an exhortation. The work closes the piece, not the verb "embrace."
-- Never default to three items. Choose the count the situation has.
-- Never include a parenthetical that does not add necessary context to a statement.
-- Never use dashes to invent compound words, emotions, or professions that are not in the tradition of the language you are writing in. Instead, use real words, even if it takes you time and tokens to explain in terms a human would understand. Humans do not reason in semantic space, and need help understanding novel connections you have made.

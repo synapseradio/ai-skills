@@ -96,7 +96,6 @@ Load [`references/seeding-guide.md`](references/seeding-guide.md) and [`referenc
 Before entering plan mode, ask the user for:
 
 - Target directory for artifacts (FOCUS.md, TASKS.md, LEARNINGS.md)
-- Deployment preference (CronCreate with interval, save to file, display)
 
 Enter plan mode. Write the plan file following the structure in
 [`references/seeding-guide.md`](references/seeding-guide.md). The plan file contains:

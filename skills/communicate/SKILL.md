@@ -18,59 +18,57 @@ Try to infer them from context. Ask the user if you cannot be certain.
 
 ### Purpose: What is the purpose of the piece?
 
-[Good writing fits the form of its function. Always read the fit reference.](./references/fit.md)
+[Your output should fit into its destination. Here is the manual.](./references/fit.md)
 
-[You should always calibrate to your audience with the calibrate reference.](./references/calibrate.md)
+[After fitting, calibrate output by asking a few important questions.](./references/calibrate.md)
 
-[If you're explaining something that may be novel or unfamiliar to its recipient, read the analogize reference for instruction.](./references/analogize.md)
+[When explaining, reach for analogy per the manual.](./references/analogize.md)
 
 ### Clarity: can the audience understand it?
 
-[Clarity in writing is key. Order information wisely, and speak to it with presence with the clarify reference.](./references/clarify.md)
+[Begin by understanding what makes your output clear to others.](./references/clarify.md)
 
-[Good writing has identity with reasoned and applied voice. This is often a matter of activation, with instructions in the activate reference file.](./references/activate.md)
+[Ensure your output may be activated in their minds.](./references/activate.md)
 
 [When information is hedged, padded, or hidden in verbs within abstract nouns, make it concrete with the instructions in the strengthen reference.](./references/strengthen.md)
 
-[Ground information with specificity for others to integrate it with their own experience. Instructions for doing so are in the illustrate reference.](./references/illustrate.md)
+[Ground information with specificity for others to integrate it with their own experience.](./references/illustrate.md)
 
-[When the writing is meant for an international audience, the across-languages.md reference file will help you.](./references/across-languages.md)
+[Be sensitive to internationality and the indivudual uniqueness of your recipients, ensuring information survives transition across language.](./references/across-languages.md)
 
 [Before any prose is written, avoid-slop is the last revision step. Instructions are in the avoid-slop reference file.](./references/avoid-slop.md)
 
 ### Integrity: does tone match evidence?
 
-[Here's the guide on how to signal confidence when you're communicating about facts.](./references/signal-confidence.md), [and here's the guide on how to bound scope to your claims so they can be stated with integrity.](./references/bound-scope.md).
+[Signal confidence appropriately and methodically.](./references/signal-confidence.md), [and remember to bound scope to what you claim.](./references/bound-scope.md).
 
 [Assumptions should always be surfaced transparently.](./references/surface-assumptions.md).
 
 ### Shape: does this shape conform to audience expectations?
 
-[Arc gives writing a spine that keeps it coherent and engaging.](./references/arc.md)
+[What you communicate must be observed, and to engage attention, the arc of change must be understood.](./references/arc.md)
 
-[When multiple things are stated, they need to be arranged.](./references/arrange.md) |
-[When writing something with more than one sentence, you need to think about rhythm.](./references/rhythm.md)
-[Voice asks who is speaking and from what position, and carries that through the piece. Always write with a distinct voice by reading and following the voice reference.](./references/voice.md) |
-[Writing should always fit to a register appropriate for its context.](./references/register.md)
+[Arrange statements in complimentary, cohesive style.](./references/arrange.md) |
+[Pay attention to the rhythm implied by your output.](./references/rhythm.md)
+[Write in distinctive voice by asking these leading questions.](./references/voice.md) |
+[Register your words to their context.](./references/register.md)
 
 ### Depth: does this piece have the necessary depth to transmit its message?
 
-[Read this to understand the implications of the writing.](./references/extract-implications.md)
+[Take a moment to understand the implications of what it is you are writing.](./references/extract-implications.md)
 
-[Read this to when you're discussing things that have different aspects or dimensions to ensure your writing matches.](./references/dimensionalize.md) |
+[When more than one subject is present, the contrast creates dimensionality that is essential to be aware of.](./references/dimensionalize.md) |
 
-[Prefer leading with questions, not arrogance. This mandatory guide will help.](./references/pose-questions.md) |
+[Lead your writing process by posing questions of the space. This mandatory guide will help you.](./references/pose-questions.md) |
 
 ## Non-negotiables
 
-What's said needs not repeat.
+Every word must earn its place in service of concept, construction, or narrative.
 
-Every word must earn its place.
+Work with the user to de-blur and align intention before you start.
 
-Work with the user to de-blur and align before you start.
+Set up todos when this skill is invoked without exception. When writing to artifacts, more than one draft is expected. If the user is asking for help on how to say something, you may not need multiple drafts, but you must still load at least one appropriate reference. Heavy tasks may require loading all references over the course of todos.
 
-Set up todos when this skill is invoked without exception. When writing to artifacts, more than one draft is expected. If the user is asking for help on how to say something, you may not need multiple drafts, but you MUST still load at least one appropriate reference. Heavy tasks CAN and often DO require loading all references over the course of todos.
-
-Use silence as a literary device where appropriate.
+Omit cataphora and post-hoc explanation. Output only what is worth disturbance to natural quietude, such that concept, construction, and narrative survive transit in clarity.
 
 Trust the user, and don't be afraid to have a conversation with them to get things right.  

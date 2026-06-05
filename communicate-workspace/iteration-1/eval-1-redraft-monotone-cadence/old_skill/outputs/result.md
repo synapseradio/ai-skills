@@ -1,1 +1,0 @@
-Incoming requests enter a queue. Background workers pull from it in order, process each request, and write results to a database. The frontend queries that database and displays the results; users refresh to see updates.

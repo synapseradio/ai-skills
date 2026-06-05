@@ -1,5 +1,0 @@
-Customers lose hours to workarounds they have learned to expect — approval queues that arrive after the decision already happened, search results that surface the wrong version, handoffs that require three follow-up messages to complete. That friction isn't noise; it marks exactly where a better tool would change how people work. And people who work differently for long enough stop expecting anything better. That's the culture problem: learned helplessness dressed as process.
-
-Which means the stakes run in both directions. Build something that removes the friction, and customers gain back the time to do the work that actually matters to them. Delay, and the workarounds become load-bearing — the coping strategies calcify, institutional memory accretes around the wrong way of doing things, and switching cost grows with every month that passes. The window to act on this cleanly is open now.
-
-So: what does acting mean, specifically? It means picking the highest-friction moment in the workflow and making it disappear before anything else.
