@@ -57,12 +57,22 @@ Before presenting to the user, validate:
 
 ### 3. Select Engine and Template (parallel with step 4)
 
-Determine engine using [engine-selection.md](engine-selection.md):
+Select the engine by the no-default criteria in [engine-selection.md](engine-selection.md).
+There is no default. Read that reference and apply the criteria over all three engines
+as equals — Markdown/mermaid, Vega, D3 — then state the criterion that decided:
 
-- **Default: Vega** — declarative, handles most chart types
-- **D3** — when you need full DOM control, custom keyboard nav, or sankey
+- **Content type** (process / flow / sequence / gantt) → Markdown (mermaid), even for a browser surface
+- **Render surface** (markdown-only) → Markdown
+- **Structural capability** (sankey) → D3
+- **Custom interactivity** (hover / filter / brush / drag / keyboard-navigate marks) → D3
+- **Conciseness** (standard static browser chart, nothing above fired) → Vega
 
-Select template from the appropriate directory:
+If the criteria do not discriminate — interactivity is genuinely ambiguous — ask the
+user the informed question (a static picture, or hover and filter the data?) before
+choosing. Do not fall through to a default.
+
+Select the template from the appropriate directory (Markdown templates live in
+`assets/markdown/templates/`, selected per [markdown-patterns.md](markdown-patterns.md)):
 
 | Relationship | Vega templates | D3 templates |
 |-------------|---------------|-------------|

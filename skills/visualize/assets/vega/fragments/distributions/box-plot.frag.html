@@ -1,0 +1,638 @@
+<!-- @section: frontmatter -->
+name: Box Plot
+description: Box plots comparing score distributions across three classes. Class B has the highest median. Class C contains an outlier at the upper extreme.
+chart-type: box-plot
+engine: vega
+<!-- @section: title -->
+Class B scores highest; Class C has the widest spread
+<!-- @section: subtitle -->
+Test score distribution by class (points, 0–100)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "x",
+      "title": "Class",
+      "titleFontSize": 13
+    },
+    {
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "y",
+      "title": "Test Score (points)",
+      "titleFontSize": 13
+    }
+  ],
+  "data": [
+    {
+      "name": "source",
+      "values": [
+        {
+          "group": "Class A",
+          "value": 65
+        },
+        {
+          "group": "Class A",
+          "value": 68
+        },
+        {
+          "group": "Class A",
+          "value": 71
+        },
+        {
+          "group": "Class A",
+          "value": 74
+        },
+        {
+          "group": "Class A",
+          "value": 75
+        },
+        {
+          "group": "Class A",
+          "value": 78
+        },
+        {
+          "group": "Class A",
+          "value": 82
+        },
+        {
+          "group": "Class A",
+          "value": 85
+        },
+        {
+          "group": "Class B",
+          "value": 55
+        },
+        {
+          "group": "Class B",
+          "value": 62
+        },
+        {
+          "group": "Class B",
+          "value": 72
+        },
+        {
+          "group": "Class B",
+          "value": 78
+        },
+        {
+          "group": "Class B",
+          "value": 84
+        },
+        {
+          "group": "Class B",
+          "value": 88
+        },
+        {
+          "group": "Class B",
+          "value": 92
+        },
+        {
+          "group": "Class B",
+          "value": 95
+        },
+        {
+          "group": "Class C",
+          "value": 42
+        },
+        {
+          "group": "Class C",
+          "value": 50
+        },
+        {
+          "group": "Class C",
+          "value": 55
+        },
+        {
+          "group": "Class C",
+          "value": 60
+        },
+        {
+          "group": "Class C",
+          "value": 65
+        },
+        {
+          "group": "Class C",
+          "value": 68
+        },
+        {
+          "group": "Class C",
+          "value": 72
+        },
+        {
+          "group": "Class C",
+          "value": 95
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "source": "source",
+      "transform": [
+        {
+          "as": [
+            "q1",
+            "median",
+            "q3",
+            "min",
+            "max"
+          ],
+          "fields": [
+            "value",
+            "value",
+            "value",
+            "value",
+            "value"
+          ],
+          "groupby": [
+            "group"
+          ],
+          "ops": [
+            "q1",
+            "median",
+            "q3",
+            "min",
+            "max"
+          ],
+          "type": "aggregate"
+        },
+        {
+          "as": "iqr",
+          "expr": "datum.q3 - datum.q1",
+          "type": "formula"
+        },
+        {
+          "as": "whiskerLow",
+          "expr": "max(datum.min, datum.q1 - 1.5 * datum.iqr)",
+          "type": "formula"
+        },
+        {
+          "as": "whiskerHigh",
+          "expr": "min(datum.max, datum.q3 + 1.5 * datum.iqr)",
+          "type": "formula"
+        }
+      ]
+    },
+    {
+      "name": "outliers",
+      "source": "source",
+      "transform": [
+        {
+          "as": [
+            "whiskerLow",
+            "whiskerHigh"
+          ],
+          "fields": [
+            "group"
+          ],
+          "from": "stats",
+          "key": "group",
+          "type": "lookup",
+          "values": [
+            "whiskerLow",
+            "whiskerHigh"
+          ]
+        },
+        {
+          "expr": "datum.value < datum.whiskerLow || datum.value > datum.whiskerHigh",
+          "type": "filter"
+        }
+      ]
+    }
+  ],
+  "description": "Box plots comparing score distributions across three classes. Class B has the highest median. Class C contains an outlier at the upper extreme.",
+  "height": 400,
+  "marks": [
+    {
+      "from": {
+        "data": "stats"
+      },
+      "marks": [
+        {
+          "description": "Whisker from lower fence to upper fence",
+          "encode": {
+            "enter": {
+              "stroke": {
+                "field": "group",
+                "scale": "color"
+              },
+              "strokeDash": [
+                3,
+                2
+              ],
+              "strokeWidth": 1.5,
+              "x": {
+                "band": 0.5,
+                "field": "group",
+                "scale": "x"
+              },
+              "y": {
+                "field": "whiskerLow",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "whiskerHigh",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
+        },
+        {
+          "description": "Lower whisker cap",
+          "encode": {
+            "enter": {
+              "stroke": {
+                "field": "group",
+                "scale": "color"
+              },
+              "strokeWidth": 1.5,
+              "x": {
+                "band": 0.25,
+                "field": "group",
+                "scale": "x"
+              },
+              "x2": {
+                "band": 0.75,
+                "field": "group",
+                "scale": "x"
+              },
+              "y": {
+                "field": "whiskerLow",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "whiskerLow",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
+        },
+        {
+          "description": "Upper whisker cap",
+          "encode": {
+            "enter": {
+              "stroke": {
+                "field": "group",
+                "scale": "color"
+              },
+              "strokeWidth": 1.5,
+              "x": {
+                "band": 0.25,
+                "field": "group",
+                "scale": "x"
+              },
+              "x2": {
+                "band": 0.75,
+                "field": "group",
+                "scale": "x"
+              },
+              "y": {
+                "field": "whiskerHigh",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "whiskerHigh",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
+        },
+        {
+          "description": "IQR box (Q1 to Q3)",
+          "encode": {
+            "enter": {
+              "cornerRadius": 2,
+              "tooltip": {
+                "signal": "{'Class': datum.group, 'Median': datum.median + ' pts', 'Q1': datum.q1 + ' pts', 'Q3': datum.q3 + ' pts', 'Whisker low': datum.whiskerLow + ' pts', 'Whisker high': datum.whiskerHigh + ' pts'}"
+              },
+              "x": {
+                "field": "group",
+                "offset": 4,
+                "scale": "x"
+              },
+              "x2": {
+                "band": 1,
+                "field": "group",
+                "offset": -4,
+                "scale": "x"
+              },
+              "y": {
+                "field": "q3",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "q1",
+                "scale": "y"
+              }
+            },
+            "update": {
+              "fill": {
+                "field": "group",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.group === datum.group",
+                  "value": 0.7
+                },
+                {
+                  "value": 0.15
+                }
+              ]
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "description": "Median line",
+          "encode": {
+            "enter": {
+              "stroke": "$TOKEN$oc-gray-9",
+              "strokeWidth": 2.5,
+              "x": {
+                "field": "group",
+                "offset": 4,
+                "scale": "x"
+              },
+              "x2": {
+                "band": 1,
+                "field": "group",
+                "offset": -4,
+                "scale": "x"
+              },
+              "y": {
+                "field": "median",
+                "scale": "y"
+              },
+              "y2": {
+                "field": "median",
+                "scale": "y"
+              }
+            }
+          },
+          "type": "rule"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Outlier points",
+      "encode": {
+        "enter": {
+          "fill": "$TOKEN$oc-red-7",
+          "shape": "circle",
+          "size": 40,
+          "stroke": "white",
+          "strokeWidth": 1,
+          "tooltip": {
+            "signal": "{'Class': datum.group, 'Outlier': datum.value + ' pts'}"
+          },
+          "x": {
+            "band": 0.5,
+            "field": "group",
+            "scale": "x"
+          },
+          "y": {
+            "field": "value",
+            "scale": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "outliers"
+      },
+      "type": "symbol"
+    },
+    {
+      "description": "Jittered sample data points",
+      "encode": {
+        "enter": {
+          "fill": {
+            "field": "group",
+            "scale": "color"
+          },
+          "fillOpacity": {
+            "value": 0.35
+          },
+          "shape": "circle",
+          "size": 25,
+          "tooltip": {
+            "signal": "{'Class': datum.group, 'Score': datum.value + ' pts'}"
+          },
+          "x": {
+            "signal": "scale('x', datum.group) + bandwidth('x') * (random() - 0.5) * 0.6"
+          },
+          "y": {
+            "field": "value",
+            "scale": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "symbol"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "stats",
+        "field": "group"
+      },
+      "name": "x",
+      "padding": 0.4,
+      "range": "width",
+      "type": "band"
+    },
+    {
+      "domain": {
+        "data": "source",
+        "field": "value"
+      },
+      "name": "y",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "stats",
+        "field": "group"
+      },
+      "name": "color",
+      "range": "category",
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "rect:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "rect:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Test score distribution by class (points, 0\u2013100)",
+    "subtitleFontSize": 12,
+    "text": "Class B scores highest; Class C has the widest spread"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

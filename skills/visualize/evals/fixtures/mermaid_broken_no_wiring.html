@@ -1,0 +1,25 @@
+<!--
+name: Mermaid Flowchart (HTML) — broken: no mermaid.js wiring
+description: A valid diagram source in a pre.mermaid block, but the page never imports or initializes mermaid
+chart-type: mermaid-flowchart
+engine: markdown
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Signup Flow</title>
+  </head>
+  <body>
+    <div id="chart-container">
+      <h1>Signup Flow</h1>
+      <pre class="mermaid">
+flowchart TD
+    A[Visit signup page] --> B[Enter email]
+    B --> C{Email valid?}
+    C -- yes --> D[Receive verification email]
+      </pre>
+    </div>
+    <!-- No mermaid import and no mermaid.initialize call: the diagram never renders. -->
+  </body>
+</html>

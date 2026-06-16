@@ -1,0 +1,576 @@
+<!-- @section: frontmatter -->
+name: Parallel Coordinates
+description: Parallel coordinates chart comparing 15 products across 5 dimensions: speed, efficiency, quality, cost, and reliability. Grouped by 3 product categories.
+chart-type: parallel-coordinates
+engine: vega
+<!-- @section: title -->
+Platform B dominates on reliability; Platform D leads in speed
+<!-- @section: subtitle -->
+Multi-variate performance comparison across 15 products by category (scores 0–100)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "data": [
+    {
+      "name": "source",
+      "values": [
+        {
+          "category": "Platform A",
+          "cost": 55,
+          "efficiency": 74,
+          "name": "A1",
+          "quality": 88,
+          "reliability": 79,
+          "speed": 82
+        },
+        {
+          "category": "Platform A",
+          "cost": 60,
+          "efficiency": 80,
+          "name": "A2",
+          "quality": 85,
+          "reliability": 82,
+          "speed": 78
+        },
+        {
+          "category": "Platform A",
+          "cost": 65,
+          "efficiency": 77,
+          "name": "A3",
+          "quality": 80,
+          "reliability": 76,
+          "speed": 75
+        },
+        {
+          "category": "Platform A",
+          "cost": 58,
+          "efficiency": 71,
+          "name": "A4",
+          "quality": 83,
+          "reliability": 74,
+          "speed": 85
+        },
+        {
+          "category": "Platform A",
+          "cost": 62,
+          "efficiency": 76,
+          "name": "A5",
+          "quality": 87,
+          "reliability": 81,
+          "speed": 80
+        },
+        {
+          "category": "Platform B",
+          "cost": 80,
+          "efficiency": 88,
+          "name": "B1",
+          "quality": 70,
+          "reliability": 94,
+          "speed": 60
+        },
+        {
+          "category": "Platform B",
+          "cost": 85,
+          "efficiency": 91,
+          "name": "B2",
+          "quality": 68,
+          "reliability": 96,
+          "speed": 55
+        },
+        {
+          "category": "Platform B",
+          "cost": 78,
+          "efficiency": 86,
+          "name": "B3",
+          "quality": 72,
+          "reliability": 92,
+          "speed": 63
+        },
+        {
+          "category": "Platform B",
+          "cost": 82,
+          "efficiency": 89,
+          "name": "B4",
+          "quality": 66,
+          "reliability": 95,
+          "speed": 58
+        },
+        {
+          "category": "Platform B",
+          "cost": 79,
+          "efficiency": 84,
+          "name": "B5",
+          "quality": 71,
+          "reliability": 90,
+          "speed": 61
+        },
+        {
+          "category": "Platform D",
+          "cost": 45,
+          "efficiency": 62,
+          "name": "D1",
+          "quality": 76,
+          "reliability": 68,
+          "speed": 94
+        },
+        {
+          "category": "Platform D",
+          "cost": 48,
+          "efficiency": 65,
+          "name": "D2",
+          "quality": 73,
+          "reliability": 65,
+          "speed": 91
+        },
+        {
+          "category": "Platform D",
+          "cost": 42,
+          "efficiency": 59,
+          "name": "D3",
+          "quality": 78,
+          "reliability": 70,
+          "speed": 97
+        },
+        {
+          "category": "Platform D",
+          "cost": 50,
+          "efficiency": 68,
+          "name": "D4",
+          "quality": 75,
+          "reliability": 67,
+          "speed": 89
+        },
+        {
+          "category": "Platform D",
+          "cost": 46,
+          "efficiency": 61,
+          "name": "D5",
+          "quality": 72,
+          "reliability": 63,
+          "speed": 93
+        }
+      ]
+    },
+    {
+      "name": "fields",
+      "values": [
+        {
+          "field": "speed",
+          "label": "Speed"
+        },
+        {
+          "field": "efficiency",
+          "label": "Efficiency"
+        },
+        {
+          "field": "quality",
+          "label": "Quality"
+        },
+        {
+          "field": "cost",
+          "label": "Cost"
+        },
+        {
+          "field": "reliability",
+          "label": "Reliability"
+        }
+      ]
+    }
+  ],
+  "description": "Parallel coordinates chart comparing 15 products across 5 dimensions: speed, efficiency, quality, cost, and reliability. Grouped by 3 product categories.",
+  "height": 420,
+  "legends": [
+    {
+      "labelFontSize": 11,
+      "orient": "top-right",
+      "stroke": "color",
+      "symbolSize": 60,
+      "symbolStrokeWidth": 2,
+      "title": "Category",
+      "titleFontSize": 12
+    }
+  ],
+  "marks": [
+    {
+      "from": {
+        "data": "source"
+      },
+      "key": "datum.name",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "defined": {
+                "signal": "isValid(parent[datum.field])"
+              },
+              "strokeWidth": {
+                "value": 1.5
+              },
+              "tooltip": {
+                "signal": "{'Product': parent.name, 'Category': parent.category, 'Speed': parent.speed, 'Efficiency': parent.efficiency, 'Quality': parent.quality, 'Cost': parent.cost, 'Reliability': parent.reliability}"
+              },
+              "x": {
+                "field": "field",
+                "scale": "dimScale"
+              },
+              "y": {
+                "signal": "scale('yScore', parent[datum.field])"
+              }
+            },
+            "update": {
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered === parent.name",
+                  "value": 0.75
+                },
+                {
+                  "value": 0.05
+                }
+              ],
+              "stroke": {
+                "scale": "color",
+                "signal": "parent.category"
+              }
+            }
+          },
+          "from": {
+            "data": "fields"
+          },
+          "type": "line"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "encode": {
+        "enter": {
+          "stroke": {
+            "value": "$TOKEN$oc-gray-3"
+          },
+          "strokeWidth": {
+            "value": 1
+          },
+          "x": {
+            "field": "field",
+            "scale": "dimScale"
+          },
+          "x2": {
+            "field": "field",
+            "scale": "dimScale"
+          },
+          "y": {
+            "value": 0
+          },
+          "y2": {
+            "signal": "height"
+          }
+        }
+      },
+      "from": {
+        "data": "fields"
+      },
+      "type": "rule"
+    },
+    {
+      "encode": {
+        "enter": {
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "bottom"
+          },
+          "fill": {
+            "value": "$TOKEN$oc-gray-7"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fontWeight": {
+            "value": "600"
+          },
+          "text": {
+            "field": "label"
+          },
+          "x": {
+            "field": "field",
+            "scale": "dimScale"
+          },
+          "y": {
+            "value": -10
+          }
+        }
+      },
+      "from": {
+        "data": "fields"
+      },
+      "type": "text"
+    },
+    {
+      "encode": {
+        "enter": {
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "bottom"
+          },
+          "fill": {
+            "value": "$TOKEN$oc-gray-6"
+          },
+          "fontSize": {
+            "value": 10
+          },
+          "text": {
+            "value": "100"
+          },
+          "x": {
+            "field": "field",
+            "scale": "dimScale"
+          },
+          "y": {
+            "value": -24
+          }
+        }
+      },
+      "from": {
+        "data": "fields"
+      },
+      "type": "text"
+    },
+    {
+      "encode": {
+        "enter": {
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "top"
+          },
+          "fill": {
+            "value": "$TOKEN$oc-gray-6"
+          },
+          "fontSize": {
+            "value": 10
+          },
+          "text": {
+            "value": "0"
+          },
+          "x": {
+            "field": "field",
+            "scale": "dimScale"
+          },
+          "y": {
+            "signal": "height + 14"
+          }
+        }
+      },
+      "from": {
+        "data": "fields"
+      },
+      "type": "text"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "fields",
+        "field": "field"
+      },
+      "name": "dimScale",
+      "range": "width",
+      "type": "point"
+    },
+    {
+      "domain": [
+        0,
+        100
+      ],
+      "name": "yScore",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": true
+    },
+    {
+      "domain": [
+        "Platform A",
+        "Platform B",
+        "Platform D"
+      ],
+      "name": "color",
+      "range": [
+        "$TOKEN$oc-blue-7",
+        "$TOKEN$oc-teal-7",
+        "$TOKEN$oc-orange-8"
+      ],
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "line:pointerover",
+          "update": "datum.name"
+        },
+        {
+          "events": "line:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    },
+    {
+      "name": "fieldCount",
+      "update": "length(data('fields'))"
+    },
+    {
+      "name": "axisStep",
+      "update": "fieldCount > 1 ? width / (fieldCount - 1) : width"
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Multi-variate performance comparison across 15 products by category (scores 0\u2013100)",
+    "subtitleFontSize": 12,
+    "text": "Platform B dominates on reliability; Platform D leads in speed"
+  },
+  "width": 640
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

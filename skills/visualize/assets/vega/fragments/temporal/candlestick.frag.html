@@ -1,0 +1,450 @@
+<!-- @section: frontmatter -->
+name: Candlestick
+description: Candlestick chart showing daily OHLC price movements for ACME Corp over 10 trading days. Stock gained 7% from $142.50 to $152.50. Green candles (close > open) dominate: 7 bullish vs. 3 bearish days.
+chart-type: candlestick
+engine: vega
+<!-- @section: title -->
+ACME rallied 7% over 10 days, closing above $152
+<!-- @section: subtitle -->
+ACME Corp daily OHLC price, Nov 1–14 2024 (USD)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "format": "%b %d",
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelAlign": "right",
+      "labelAngle": -45,
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "x",
+      "title": "Date",
+      "titleFontSize": 13
+    },
+    {
+      "format": "$,.2f",
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "y",
+      "title": "Price (USD)",
+      "titleFontSize": 13
+    }
+  ],
+  "data": [
+    {
+      "name": "source",
+      "transform": [
+        {
+          "as": "dateVal",
+          "expr": "toDate(datum.date)",
+          "type": "formula"
+        },
+        {
+          "as": "bullish",
+          "expr": "datum.open <= datum.close",
+          "type": "formula"
+        },
+        {
+          "as": "bodyHigh",
+          "expr": "max(datum.open, datum.close)",
+          "type": "formula"
+        },
+        {
+          "as": "bodyLow",
+          "expr": "min(datum.open, datum.close)",
+          "type": "formula"
+        }
+      ],
+      "values": [
+        {
+          "close": 144.8,
+          "date": "2024-11-01",
+          "high": 145.2,
+          "low": 141.3,
+          "open": 142.5
+        },
+        {
+          "close": 145.2,
+          "date": "2024-11-04",
+          "high": 146.5,
+          "low": 143.8,
+          "open": 144.9
+        },
+        {
+          "close": 147.3,
+          "date": "2024-11-05",
+          "high": 147.8,
+          "low": 144.5,
+          "open": 145.0
+        },
+        {
+          "close": 148.9,
+          "date": "2024-11-06",
+          "high": 149.2,
+          "low": 146.8,
+          "open": 147.5
+        },
+        {
+          "close": 147.8,
+          "date": "2024-11-07",
+          "high": 150.5,
+          "low": 147.2,
+          "open": 149.0
+        },
+        {
+          "close": 146.2,
+          "date": "2024-11-08",
+          "high": 148.9,
+          "low": 145.3,
+          "open": 147.6
+        },
+        {
+          "close": 145.6,
+          "date": "2024-11-11",
+          "high": 147.5,
+          "low": 144.8,
+          "open": 146.0
+        },
+        {
+          "close": 147.9,
+          "date": "2024-11-12",
+          "high": 148.2,
+          "low": 145.2,
+          "open": 145.8
+        },
+        {
+          "close": 150.8,
+          "date": "2024-11-13",
+          "high": 151.3,
+          "low": 147.5,
+          "open": 148.0
+        },
+        {
+          "close": 152.5,
+          "date": "2024-11-14",
+          "high": 153.2,
+          "low": 150.2,
+          "open": 151.0
+        }
+      ]
+    }
+  ],
+  "description": "Candlestick chart showing daily OHLC price movements for ACME Corp over 10 trading days. Stock gained 7% from $142.50 to $152.50. Green candles (close > open) dominate: 7 bullish vs. 3 bearish days.",
+  "height": 400,
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "strokeWidth": {
+            "value": 1.5
+          },
+          "x": {
+            "field": "dateVal",
+            "scale": "x"
+          },
+          "y": {
+            "field": "low",
+            "scale": "y"
+          },
+          "y2": {
+            "field": "high",
+            "scale": "y"
+          }
+        },
+        "update": {
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.date === datum.date",
+              "value": 1
+            },
+            {
+              "value": 0.25
+            }
+          ],
+          "stroke": [
+            {
+              "test": "datum.bullish",
+              "value": "$TOKEN$oc-teal-7"
+            },
+            {
+              "value": "$TOKEN$oc-red-7"
+            }
+          ]
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "rule"
+    },
+    {
+      "encode": {
+        "enter": {
+          "cornerRadiusBottomLeft": {
+            "value": 1
+          },
+          "cornerRadiusBottomRight": {
+            "value": 1
+          },
+          "cornerRadiusTopLeft": {
+            "value": 1
+          },
+          "cornerRadiusTopRight": {
+            "value": 1
+          },
+          "tooltip": {
+            "signal": "{'Date': timeFormat(datum.dateVal, '%B %d, %Y'), 'Open ($)': '$' + format(datum.open, ',.2f'), 'High ($)': '$' + format(datum.high, ',.2f'), 'Low ($)': '$' + format(datum.low, ',.2f'), 'Close ($)': '$' + format(datum.close, ',.2f')}"
+          },
+          "width": {
+            "signal": "bandWidth"
+          },
+          "x": {
+            "signal": "scale('x', datum.dateVal) - bandWidth / 2"
+          },
+          "y": {
+            "field": "bodyHigh",
+            "scale": "y"
+          },
+          "y2": {
+            "field": "bodyLow",
+            "scale": "y"
+          }
+        },
+        "update": {
+          "fill": [
+            {
+              "test": "datum.bullish",
+              "value": "#ffffff"
+            },
+            {
+              "value": "$TOKEN$oc-red-7"
+            }
+          ],
+          "stroke": [
+            {
+              "test": "datum.bullish",
+              "value": "$TOKEN$oc-teal-7"
+            },
+            {
+              "value": "$TOKEN$oc-red-7"
+            }
+          ],
+          "strokeWidth": {
+            "value": 1.5
+          },
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.date === datum.date",
+              "value": 1
+            },
+            {
+              "value": 0.25
+            }
+          ]
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "rect"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "source",
+        "field": "dateVal"
+      },
+      "name": "x",
+      "padding": 0.1,
+      "range": "width",
+      "type": "time"
+    },
+    {
+      "domain": {
+        "data": "source",
+        "fields": [
+          "low",
+          "high"
+        ]
+      },
+      "name": "y",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": false
+    }
+  ],
+  "signals": [
+    {
+      "name": "bandWidth",
+      "value": 10
+    },
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "rect:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "rect:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "ACME Corp daily OHLC price, Nov 1\u201314 2024 (USD)",
+    "subtitleFontSize": 12,
+    "text": "ACME rallied 7% over 10 days, closing above $152"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

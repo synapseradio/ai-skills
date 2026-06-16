@@ -69,7 +69,7 @@ These checks require reading the Vega spec or HTML source only. No rendering nee
 - [ ] Encoding matches data type — length/position for quantities, hue for categories only
 - [ ] Bar charts: `"zero": true` on the quantitative axis (or domain starts at 0)
 - [ ] Units present on all axis labels and tooltips
-- [ ] OpenColors palette in use — categorical: oc-blue-7, oc-orange-7, oc-teal-7, oc-red-7
+- [ ] OpenColors palette in use — categorical: oc-blue-7, oc-orange-8, oc-teal-7, oc-red-7
 - [ ] No dual y-axes — two series that need comparison use two stacked panels
 - [ ] Categories sorted by value, not alphabetically (no `"sort": "ascending"` on nominal field)
 - [ ] Title states the insight ("Northeast drives 60% of growth"), not the topic ("Revenue by Region")
@@ -78,9 +78,24 @@ These checks require reading the Vega spec or HTML source only. No rendering nee
 
 ---
 
-## Perceptual Audit — Verifiable by Reasoning About the Spec
+## Render Inference — Verifiable by Reasoning About the Spec
 
-These checks require reasoning about what the spec will render, not running it.
+This is the primary render path. It replaces opening the chart and reading a
+screenshot: every check reasons about what the spec will draw, from the source,
+without running it. It pairs one-to-one with Path B in
+[phase-refine.md](phase-refine.md).
+
+First, the defect classes a screenshot used to catch — recovered from the source:
+
+- [ ] Overflow / clipping — mark and label extents fit the declared `width`/`height`/viewBox and margins
+- [ ] Label collision — tick count times estimated label length fits the available axis span
+- [ ] Mark count — declared mark count is consistent with data length (no empty or partial chart)
+- [ ] Legend wiring — the legend is bound to the same field and scale as the series
+- [ ] Engine wiring — required CDN scripts and the render call are present; JSON is well-formed
+- [ ] Scroll containment — no wheel/zoom handler and no `overflow`/`100vh` lets the chart capture the page's scroll
+- [ ] Keyboard-interaction wiring — interactive marks carry `tabindex`, key handlers, and focus styles
+
+Then the perceptual judgments — what the correct geometry will communicate:
 
 - [ ] Primary insight is the visually loudest element — highest contrast, largest mark, or most prominent position
 - [ ] Three-level hierarchy holds: primary (insight) / secondary (context) / tertiary (reference)

@@ -4,19 +4,32 @@ Output the final visualization, collect user feedback, persist the artifact.
 
 ## Entry Conditions
 
-Phase 4 (Verify) complete. The visualization has passed both structural and visual
-verification on the second draft.
+Phase 4 (Verify) complete. The visualization has passed both render-free passes —
+structural read-back and render inference — on the second draft.
 
 ## Produce Final Output
 
-**Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec. Add HTML
-comment frontmatter (name, description, chart-type, project, created). Embed data inline.
+Every browser chart — Vega, D3, or mermaid — is a fragment assembled into one
+self-contained HTML file by the shared wrapper. Pick the chart's fragment at
+`assets/<engine>/fragments/<cat>/<name>.frag.html`, edit its data, labels, and title,
+then assemble it (the assembler injects the wrapper, the OpenColors theme, and the
+shared helpers, and scopes the chart to its own instance):
 
-**D3 charts:** Generate standalone HTML following [base-template.md](base-template.md). Add frontmatter.
-Embed data inline. Include all styles inline.
+```bash
+python3 scripts/build_viz.py --fragment <fragment> --out final.html
+```
 
-**Dashboard mode:** Multiple Vega specs in a single HTML file — call `vegaEmbed` multiple
-times with distinct container selectors (`#chart-1`, `#chart-2`).
+A ready-to-open example for every chart already exists at
+`assets/<engine>/templates/<cat>/<name>.html`.
+
+**Dashboard / multiple charts:** assemble several fragments into the one wrapper —
+they are per-instance scoped, so ids, styles, globals, and scroll never collide:
+
+```bash
+python3 scripts/build_viz.py --compose <frag-a> <frag-b> --out dashboard.html
+```
+
+**Markdown-surface output:** copy the matching `assets/markdown/templates/<name>.md.tmpl`.
 
 ## Present to User
 

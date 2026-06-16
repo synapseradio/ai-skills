@@ -2,9 +2,10 @@
 
 Choose the right template based on your data and the question you're answering. Each
 chart type has at least one Vega and one D3 variant; many also have a markdown
-variant for pull requests, READMEs, tickets, and other markdown surfaces. Default
-to Vega for browser output; default to the markdown engine when the destination is
-a markdown surface (see [engine-selection.md](engine-selection.md)).
+variant for pull requests, READMEs, tickets, and other markdown surfaces. Pick the
+engine first by the no-default criteria in
+[engine-selection.md](engine-selection.md) — there is no default engine — then take
+the matching template from that engine's directory.
 
 ## Quick Selection
 
@@ -112,12 +113,13 @@ See [markdown-patterns.md](markdown-patterns.md) for the surface matrix and the 
 
 ## Template Directory
 
-All templates at `assets/vega/templates/` (Vega), `assets/d3/templates/` (D3),
-and `assets/markdown/templates/` (Markdown). The full engine ↔ chart mapping
-lives in [engine-selection.md](engine-selection.md). The summary:
+Each chart's source fragment lives at `assets/<engine>/fragments/<category>/<name>.frag.html`,
+and a ready-to-open example assembled from it sits at the matching
+`assets/<engine>/templates/` path. The full engine ↔ chart mapping lives in
+[engine-selection.md](engine-selection.md). The summary:
 
-- 25 Vega specs (`.vg.json`)
-- 26 D3 templates (`.html`) — sankey is D3-only
+- 25 Vega fragments (`.frag.html`)
+- 26 D3 fragments (`.frag.html`) — sankey is D3-only
 - 9 Markdown templates (6 plain-text + 3 mermaid in `.md` and `.html` variants)
 
 ## Tiebreakers (in priority order)

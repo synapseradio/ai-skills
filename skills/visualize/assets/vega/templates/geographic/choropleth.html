@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rural Alabama counties face unemployment rates 2× the suburban average</title>
+    <style>
+      /* The single source of color for every visualization engine.
+
+         These OpenColors tokens are the one place a palette change happens. The D3
+         fragments read them as CSS custom properties; the assembler also reads this
+         file to build a matching JS token object (VizHelpers.tokens) so the Vega
+         `config` and the mermaid `themeVariables` draw from the same values. Edit a
+         color here and it propagates to D3, Vega, and mermaid by re-assembly. */
+      :root {
+        --oc-gray-0: #f8f9fa;
+        --oc-gray-1: #f1f3f5;
+        --oc-gray-2: #e9ecef;
+        --oc-gray-3: #dee2e6;
+        --oc-gray-4: #ced4da;
+        --oc-gray-5: #adb5bd;
+        --oc-gray-6: #868e96;
+        --oc-gray-7: #495057;
+        --oc-gray-8: #343a40;
+        --oc-gray-9: #212529;
+        --oc-blue-7: #1c7ed6;
+        --oc-orange-8: #e8590c;
+        --oc-teal-7: #0ca678;
+        --oc-red-7: #f03e3e;
+        --oc-grape-7: #ae3ec9;
+        --oc-cyan-7: #1098ad;
+        --oc-lime-7: #74b816;
+        --oc-pink-7: #d6336c;
+      }
+      /* Page chrome and the shared per-instance card, scoped so several fragments can
+         share one document without their styles colliding.
+
+         The assembler inlines theme.css, then this file, then each fragment's own
+         chart-css, into the wrapper's single <style>. Everything here that styles a
+         chart is scoped under `.viz` (the per-instance section root), so two fragments
+         on one page never leak rules into each other. Only the page-level backdrop and
+         the centering layout are unscoped, because those legitimately belong to the
+         host page and are written once. */
+
+      /* Page backdrop and centered column. Written once for the whole document. */
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 40px 20px;
+        background: var(--oc-gray-0);
+        color: var(--oc-gray-9);
+      }
+      .viz-page {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* The per-instance card. Each fragment is a `<section class="viz">`; it carries
+         its own card so two fragments stack as two cards in the column above. */
+      .viz {
+        box-sizing: border-box;
+        background: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        /* Contain scroll and zoom gestures to this card so a chart never hijacks the
+           host page's scroll. overscroll-behavior stops scroll chaining; touch-action
+           keeps pinch-zoom from bubbling to the page. */
+        overscroll-behavior: contain;
+      }
+      .viz * {
+        box-sizing: border-box;
+      }
+      .viz h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+        color: var(--oc-gray-9);
+      }
+      .viz .subtitle {
+        font-size: 13px;
+        color: var(--oc-gray-6);
+        margin: 0 0 24px;
+      }
+      .viz figure {
+        margin: 0;
+      }
+      .viz figcaption {
+        margin: 0 0 24px;
+      }
+      .viz .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: white;
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 13px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .viz details {
+        margin-top: 24px;
+        border-top: 1px solid var(--oc-gray-2);
+        padding-top: 16px;
+      }
+      .viz summary {
+        cursor: pointer;
+        color: var(--oc-gray-6);
+        font-size: 13px;
+      }
+      .viz table {
+        border-collapse: collapse;
+        font-size: 13px;
+        width: 100%;
+        margin-top: 12px;
+      }
+      .viz th,
+      .viz td {
+        border: 1px solid var(--oc-gray-2);
+        padding: 8px 12px;
+        text-align: left;
+      }
+      .viz th {
+        background: var(--oc-gray-1);
+        font-weight: 600;
+        color: var(--oc-gray-8);
+      }
+      .viz tr:nth-child(even) {
+        background: var(--oc-gray-0);
+      }
+      .viz .vega-mount {
+        margin: 0 auto;
+      }
+      .viz .vega-actions a {
+        margin-right: 8px;
+        font-size: 12px;
+        color: var(--oc-gray-5);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="viz-page">
+      <section class="viz" data-viz="viz-choropleth">
+        <figure>
+          <figcaption>
+            <h1>Rural Alabama counties face unemployment rates 2× the suburban average</h1>
+            <p class="subtitle">US county unemployment rate by FIPS code — sample: 20 Alabama counties (% of labor force)</p>
+          </figcaption>
+          <div class="vega-mount"></div>
+          <div class="tooltip" role="status" aria-live="polite"></div>
+          <details>
+            <summary>View data table</summary>
+            <div class="data-table"></div>
+          </details>
+        </figure>
+      </section>
+
+      <script type="module">
+        import vegaEmbed from "https://cdn.jsdelivr.net/npm/vega-embed@6/+esm";
+
+        window.VizHelpers = window.VizHelpers || {};
+        VizHelpers.tokens = {
+                "oc-gray-0": "#f8f9fa",
+                "oc-gray-1": "#f1f3f5",
+                "oc-gray-2": "#e9ecef",
+                "oc-gray-3": "#dee2e6",
+                "oc-gray-4": "#ced4da",
+                "oc-gray-5": "#adb5bd",
+                "oc-gray-6": "#868e96",
+                "oc-gray-7": "#495057",
+                "oc-gray-8": "#343a40",
+                "oc-gray-9": "#212529",
+                "oc-blue-7": "#1c7ed6",
+                "oc-orange-8": "#e8590c",
+                "oc-teal-7": "#0ca678",
+                "oc-red-7": "#f03e3e",
+                "oc-grape-7": "#ae3ec9",
+                "oc-cyan-7": "#1098ad",
+                "oc-lime-7": "#74b816",
+                "oc-pink-7": "#d6336c",
+        };
+
+        // Root-scoped data-table renderer. It builds the `<details>` fallback table
+        // inside one fragment, locating the mount by class within the fragment root
+        // rather than by a document-global id, so two fragments each render their own
+        // table. The assembler inlines this once on the shared `window.VizHelpers`
+        // namespace.
+        //
+        // Usage from a fragment's script:
+        //   VizHelpers.renderDataTable(root, rows, ["Col A", "Col B"])
+        // where `root` is the `<section class="viz">` and the mount is the
+        // `.data-table` element inside it.
+        VizHelpers.renderDataTable = function (root, rows, columns) {
+          const container = root.querySelector(".data-table");
+          if (!container) return;
+          const table = document.createElement("table");
+          table.setAttribute("role", "table");
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          columns.forEach(function (col) {
+            const th = document.createElement("th");
+            th.scope = "col";
+            th.textContent = col;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+          const tbody = document.createElement("tbody");
+          rows.forEach(function (row) {
+            const tr = document.createElement("tr");
+            row.forEach(function (cell) {
+              const td = document.createElement("td");
+              td.textContent = cell != null ? String(cell) : "";
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          container.appendChild(table);
+        };
+
+        (async function () {
+          const uid = "viz-choropleth";
+          const root = document.querySelector(`[data-viz="${uid}"]`);
+          const tokens = VizHelpers.tokens;
+
+          // Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+          // fills from theme.css). The categorical palette, axis/gridline grays, legend
+          // and title colors, and the shared font all read from one source, so a palette
+          // edit in theme.css propagates to every Vega chart by re-assembly without
+          // touching any spec. Vega merges this config under the spec at embed time.
+          const FONT = "system-ui, -apple-system, sans-serif";
+          const config = {
+            aria: true,
+            // The default categorical palette. A color scale with `"range": "category"`
+            // (or no explicit range) inherits this OpenColors set.
+            range: {
+              category: [
+                tokens["oc-blue-7"],
+                tokens["oc-orange-8"],
+                tokens["oc-teal-7"],
+                tokens["oc-red-7"],
+                tokens["oc-grape-7"],
+                tokens["oc-cyan-7"],
+                tokens["oc-lime-7"],
+                tokens["oc-pink-7"],
+              ],
+            },
+            axis: {
+              domainColor: tokens["oc-gray-3"],
+              gridColor: tokens["oc-gray-1"],
+              tickColor: tokens["oc-gray-3"],
+              labelColor: tokens["oc-gray-6"],
+              titleColor: tokens["oc-gray-7"],
+              labelFont: FONT,
+              titleFont: FONT,
+            },
+            legend: {
+              labelColor: tokens["oc-gray-6"],
+              titleColor: tokens["oc-gray-7"],
+              labelFont: FONT,
+              titleFont: FONT,
+            },
+            title: {
+              color: tokens["oc-gray-9"],
+              subtitleColor: tokens["oc-gray-6"],
+              font: FONT,
+              subtitleFont: FONT,
+            },
+            view: { stroke: null },
+          };
+
+          // The spec, inline and valid JSON. Generic categorical scales use the
+          // `"category"` range and inherit config.range.category; semantic colors (a
+          // candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+          // of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+          // them as plain strings leaves the spec parseable by the render checker.
+          const spec = {
+            "$schema": "https://vega.github.io/schema/vega/v6.json",
+            "autosize": "none",
+            "data": [
+              {
+                "name": "unemployment",
+                "values": [
+                  {
+                    "id": 1001,
+                    "rate": 0.097
+                  },
+                  {
+                    "id": 1003,
+                    "rate": 0.052
+                  },
+                  {
+                    "id": 1005,
+                    "rate": 0.134
+                  },
+                  {
+                    "id": 1007,
+                    "rate": 0.084
+                  },
+                  {
+                    "id": 1009,
+                    "rate": 0.068
+                  },
+                  {
+                    "id": 1011,
+                    "rate": 0.119
+                  },
+                  {
+                    "id": 1013,
+                    "rate": 0.093
+                  },
+                  {
+                    "id": 1015,
+                    "rate": 0.076
+                  },
+                  {
+                    "id": 1017,
+                    "rate": 0.069
+                  },
+                  {
+                    "id": 1019,
+                    "rate": 0.058
+                  },
+                  {
+                    "id": 1021,
+                    "rate": 0.112
+                  },
+                  {
+                    "id": 1023,
+                    "rate": 0.071
+                  },
+                  {
+                    "id": 1025,
+                    "rate": 0.067
+                  },
+                  {
+                    "id": 1027,
+                    "rate": 0.082
+                  },
+                  {
+                    "id": 1029,
+                    "rate": 0.054
+                  },
+                  {
+                    "id": 1031,
+                    "rate": 0.103
+                  },
+                  {
+                    "id": 1033,
+                    "rate": 0.047
+                  },
+                  {
+                    "id": 1035,
+                    "rate": 0.091
+                  },
+                  {
+                    "id": 1037,
+                    "rate": 0.075
+                  },
+                  {
+                    "id": 1039,
+                    "rate": 0.063
+                  }
+                ]
+              },
+              {
+                "format": {
+                  "feature": "counties",
+                  "type": "topojson"
+                },
+                "name": "counties",
+                "transform": [
+                  {
+                    "fields": [
+                      "id"
+                    ],
+                    "from": "unemployment",
+                    "key": "id",
+                    "type": "lookup",
+                    "values": [
+                      "rate"
+                    ]
+                  }
+                ],
+                "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json"
+              }
+            ],
+            "description": "US county-level unemployment rate choropleth map. Sequential blue color scheme encodes unemployment rate by FIPS code.",
+            "height": 600,
+            "legends": [
+              {
+                "encode": {
+                  "labels": {
+                    "update": {
+                      "fill": {
+                        "value": "$TOKEN$oc-gray-7"
+                      },
+                      "fontSize": {
+                        "value": 11
+                      }
+                    }
+                  },
+                  "title": {
+                    "update": {
+                      "fill": {
+                        "value": "$TOKEN$oc-gray-8"
+                      },
+                      "fontSize": {
+                        "value": 12
+                      }
+                    }
+                  }
+                },
+                "fill": "color",
+                "format": ".1%",
+                "orient": "bottom-right",
+                "title": "Unemployment Rate"
+              }
+            ],
+            "marks": [
+              {
+                "encode": {
+                  "enter": {
+                    "tooltip": {
+                      "signal": "datum.rate != null ? { 'County FIPS': datum.id, 'Unemployment': format(datum.rate, '.1%') } : { 'County FIPS': datum.id, 'Unemployment': 'No data' }"
+                    }
+                  },
+                  "hover": {
+                    "stroke": {
+                      "value": "$TOKEN$oc-gray-8"
+                    },
+                    "strokeWidth": {
+                      "value": 1.5
+                    }
+                  },
+                  "update": {
+                    "fill": [
+                      {
+                        "field": "rate",
+                        "scale": "color",
+                        "test": "datum.rate != null"
+                      },
+                      {
+                        "value": "$TOKEN$oc-gray-3"
+                      }
+                    ],
+                    "stroke": {
+                      "value": "#fff"
+                    },
+                    "strokeWidth": {
+                      "value": 0.3
+                    }
+                  }
+                },
+                "from": {
+                  "data": "counties"
+                },
+                "transform": [
+                  {
+                    "projection": "projection",
+                    "type": "geoshape"
+                  }
+                ],
+                "type": "shape"
+              }
+            ],
+            "padding": {
+              "bottom": 16,
+              "left": 24,
+              "right": 24,
+              "top": 16
+            },
+            "projections": [
+              {
+                "name": "projection",
+                "type": "identity"
+              }
+            ],
+            "scales": [
+              {
+                "domain": [
+                  0,
+                  0.15
+                ],
+                "name": "color",
+                "range": {
+                  "count": 7,
+                  "scheme": "blues"
+                },
+                "type": "quantize"
+              }
+            ],
+            "title": {
+              "anchor": "start",
+              "fontSize": 16,
+              "offset": 16,
+              "subtitle": "US county unemployment rate by FIPS code \u2014 sample: 20 Alabama counties (% of labor force)",
+              "subtitleFontSize": 12,
+              "text": "Rural Alabama counties face unemployment rates 2\u00d7 the suburban average"
+            },
+            "width": 960
+          };
+
+          // Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+          // the bridge that keeps mark-level color single-sourced from theme.css.
+          (function resolveTokens(node) {
+            if (Array.isArray(node)) {
+              for (let i = 0; i < node.length; i += 1) {
+                const v = node[i];
+                if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+                  node[i] = tokens[v.slice("$TOKEN$".length)];
+                } else if (v && typeof v === "object") {
+                  resolveTokens(v);
+                }
+              }
+            } else if (node && typeof node === "object") {
+              for (const key of Object.keys(node)) {
+                const v = node[key];
+                if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+                  node[key] = tokens[v.slice("$TOKEN$".length)];
+                } else if (v && typeof v === "object") {
+                  resolveTokens(v);
+                }
+              }
+            }
+          })(spec);
+
+          vegaEmbed(root.querySelector(".vega-mount"), spec, {
+            renderer: "svg",
+            config,
+            actions: { export: true, source: false, compiled: false, editor: true },
+          })
+            .then((result) => {
+              // Accessibility data table, generated from the embedded data and scoped to
+              // this fragment's root (no document-global #data-table).
+              const view = result.view;
+              let data = null;
+              for (const name of ["source", "table", "data_0"]) {
+                try {
+                  const d = view.data(name);
+                  if (d && d.length) {
+                    data = d;
+                    break;
+                  }
+                } catch (e) {
+                  /* dataset not defined in this spec; try the next name */
+                }
+              }
+              if (data && data.length) {
+                const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+                const rows = data.map((row) =>
+                  keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+                );
+                VizHelpers.renderDataTable(root, rows, keys);
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })();
+      </script>
+    </main>
+  </body>
+</html>

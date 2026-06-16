@@ -1,6 +1,6 @@
 # visualize
 
-Create data visualizations for the surface where they will actually be read. Three engines: **Vega** (declarative, default for browser charts), **D3** (imperative, full control), and **Markdown** (tables, unicode bars, sparklines, mermaid diagrams that drop into pull requests, READMEs, tickets, and Slack posts). Every browser output is a standalone HTML file — no build step, no server. The workflow is principles-first: find the claim before touching data.
+Create data visualizations for the surface where they will actually be read. Three engines, weighed as equals with no default: **Vega** (declarative, concise, for standard static browser charts), **D3** (imperative, full control, for custom interactivity and sankey), and **Markdown** (tables, unicode bars, sparklines, mermaid diagrams that drop into pull requests, READMEs, tickets, and Slack posts). Every browser output is a standalone HTML file — no build step, no server. The workflow is principles-first: find the claim before touching data.
 
 ## Install
 
@@ -47,11 +47,10 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 
 ## What's included
 
-- **25 Vega templates** — declarative JSON specs across 8 chart categories
-- **26 D3 templates** — standalone HTML with keyboard navigation and ARIA support; sankey is D3-only
+- **25 Vega fragments** — declarative JSON specs across 8 chart categories, with one assembled example each
+- **26 D3 fragments** — keyboard navigation and per-mark ARIA, with one assembled example each; sankey is D3-only
 - **9 Markdown templates** — comparison tables, unicode bars, ranked lists, sparklines, emoji heatmaps, ASCII trees, plus mermaid flowchart / sequence / gantt in both `.md` and `.html` formats
-- **HTML wrapper** — renders Vega specs via `vegaEmbed` (Vega + Vega-Lite + Vega-Embed)
-- **D3 build pipeline** — [`scripts/build_d3.py`](scripts/build_d3.py) regenerates the 25 deduplicated D3 templates from shared scaffolding (`assets/d3/_shared/`) plus per-chart fragments (`assets/d3/fragments/`)
+- **Fragment build pipeline** — [`scripts/build_viz.py`](scripts/build_viz.py) assembles any engine's fragments (`assets/<engine>/fragments/`) into runnable single-file examples through one shared, engine-agnostic wrapper (`assets/_shared/`), scoping each chart to its own instance so several compose in one document without colliding
 - **Reference docs** — encoding, composition, narrative, accessibility, interaction, refinement, plus the markdown surface matrix (`markdown-patterns.md`)
 - **Python CLI** ([`scripts/visualizer.py`](scripts/visualizer.py)) — visualization storage and management for `.html` and `.md` outputs
 
@@ -91,8 +90,8 @@ The skill loads these files conditionally during the workflow. Each focuses on a
 | [vega-patterns.md](references/vega-patterns.md) | Full Vega spec patterns — signals, transforms, force layouts |
 | [d3-patterns.md](references/d3-patterns.md) | D3 standalone HTML patterns for sankey and template-crafter |
 | [markdown-patterns.md](references/markdown-patterns.md) | Surface matrix, honesty checklist, markdown engine catalogue |
-| [base-vega-wrapper.md](references/base-vega-wrapper.md) | Vega and Vega-Lite HTML wrapper structure |
-| [base-template.md](references/base-template.md) | D3 base HTML template structure |
+| [base-vega-wrapper.md](references/base-vega-wrapper.md) | Authoring a Vega fragment: spec structure, theme, accessibility |
+| [base-template.md](references/base-template.md) | Authoring a D3 fragment: drawing, per-mark ARIA, keyboard nav |
 | [data-preparation.md](references/data-preparation.md) | Data transforms: pivot, aggregate, derive, coerce, filter |
 | [network-patterns.md](references/network-patterns.md) | Force-directed layouts, edge bundling, hairball mitigation |
 | [canvas-patterns.md](references/canvas-patterns.md) | Canvas 2D rendering for hundreds of thousands of points |

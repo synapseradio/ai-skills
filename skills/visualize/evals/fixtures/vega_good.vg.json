@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "width": 600,
+  "height": 400,
+  "description": "Known-good bar chart: zero baseline, encoding fields all present in data.",
+  "data": [
+    {
+      "name": "source",
+      "values": [
+        { "category": "Electronics", "value": 42500 },
+        { "category": "Clothing", "value": 38200 },
+        { "category": "Books", "value": 28400 }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "band",
+      "domain": { "data": "source", "field": "category" },
+      "range": "width",
+      "padding": 0.25
+    },
+    {
+      "name": "y",
+      "type": "linear",
+      "domain": { "data": "source", "field": "value" },
+      "range": "height",
+      "nice": true,
+      "zero": true
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": { "data": "source" },
+      "encode": {
+        "enter": {
+          "x": { "scale": "x", "field": "category" },
+          "width": { "scale": "x", "band": 1 },
+          "y": { "scale": "y", "field": "value" },
+          "y2": { "scale": "y", "value": 0 },
+          "fill": { "value": "#1c7ed6" }
+        }
+      }
+    }
+  ]
+}

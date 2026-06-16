@@ -1,0 +1,370 @@
+<!-- @section: frontmatter -->
+name: Tree Diagram
+description: Organizational hierarchy tree diagram with tidy layout. Nodes represent people and departments with parent-child relationships shown as curved links.
+chart-type: tree-diagram
+engine: vega
+<!-- @section: title -->
+Engineering carries the deepest reporting chain under the CTO
+<!-- @section: subtitle -->
+Organizational hierarchy — hover nodes for role details
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "data": [
+    {
+      "name": "tree",
+      "transform": [
+        {
+          "key": "id",
+          "parentKey": "parent",
+          "type": "stratify"
+        },
+        {
+          "as": [
+            "y",
+            "x",
+            "depth",
+            "children"
+          ],
+          "method": "tidy",
+          "separation": true,
+          "size": [
+            {
+              "signal": "height"
+            },
+            {
+              "signal": "width - 160"
+            }
+          ],
+          "type": "tree"
+        }
+      ],
+      "values": [
+        {
+          "id": "1",
+          "name": "Alex Chen (CEO)",
+          "parent": null
+        },
+        {
+          "id": "2",
+          "name": "Jordan Smith (CTO)",
+          "parent": "1"
+        },
+        {
+          "id": "3",
+          "name": "Riley Johnson (CFO)",
+          "parent": "1"
+        },
+        {
+          "id": "4",
+          "name": "Drew Martinez (COO)",
+          "parent": "1"
+        },
+        {
+          "id": "5",
+          "name": "Sam Lee (Engineer)",
+          "parent": "2"
+        },
+        {
+          "id": "6",
+          "name": "Pat Wilson (Engineer)",
+          "parent": "2"
+        },
+        {
+          "id": "7",
+          "name": "Morgan Davis (Product)",
+          "parent": "2"
+        },
+        {
+          "id": "8",
+          "name": "Casey White (Controller)",
+          "parent": "3"
+        },
+        {
+          "id": "9",
+          "name": "Jamie Green (Analyst)",
+          "parent": "3"
+        },
+        {
+          "id": "10",
+          "name": "Avery Thompson (Ops)",
+          "parent": "4"
+        }
+      ]
+    },
+    {
+      "name": "links",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "treelinks"
+        },
+        {
+          "orient": "horizontal",
+          "shape": "diagonal",
+          "type": "linkpath"
+        }
+      ]
+    }
+  ],
+  "description": "Organizational hierarchy tree diagram with tidy layout. Nodes represent people and departments with parent-child relationships shown as curved links.",
+  "height": 500,
+  "marks": [
+    {
+      "encode": {
+        "update": {
+          "path": {
+            "field": "path"
+          },
+          "stroke": {
+            "value": "$TOKEN$oc-gray-4"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      },
+      "from": {
+        "data": "links"
+      },
+      "type": "path"
+    },
+    {
+      "encode": {
+        "enter": {
+          "size": {
+            "value": 200
+          },
+          "stroke": {
+            "field": "depth",
+            "scale": "depthColor"
+          },
+          "strokeWidth": {
+            "value": 2
+          },
+          "tooltip": {
+            "signal": "{ 'Name': datum.name, 'Depth': datum.depth, 'Children': datum.children }"
+          }
+        },
+        "hover": {
+          "stroke": {
+            "value": "$TOKEN$oc-gray-8"
+          },
+          "strokeWidth": {
+            "value": 3
+          }
+        },
+        "update": {
+          "fill": [
+            {
+              "test": "datum.children > 0",
+              "value": "#fff"
+            },
+            {
+              "field": "depth",
+              "scale": "depthColor"
+            }
+          ],
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "field": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "tree"
+      },
+      "type": "symbol"
+    },
+    {
+      "encode": {
+        "enter": {
+          "baseline": {
+            "value": "middle"
+          },
+          "fill": {
+            "value": "$TOKEN$oc-gray-8"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "text": {
+            "field": "name"
+          }
+        },
+        "update": {
+          "align": {
+            "signal": "datum.children > 0 ? 'right' : 'left'"
+          },
+          "dx": {
+            "signal": "datum.children > 0 ? -10 : 10"
+          },
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "field": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "tree"
+      },
+      "type": "text"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "name": "depthColor",
+      "range": "category",
+      "type": "ordinal"
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Organizational hierarchy \u2014 hover nodes for role details",
+    "subtitleFontSize": 12,
+    "text": "Engineering carries the deepest reporting chain under the CTO"
+  },
+  "width": 800
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

@@ -13,7 +13,11 @@
     "ignoreUnknown": true,
     "includes": [
       "**/*.json",
-      "**/*.jsonc"
+      "**/*.jsonc",
+      // Test fixtures are inputs to the checker's eval suite, not source to format.
+      // Some are intentionally malformed JSON (the malformed-detection fixture), so
+      // formatting them aborts biome and would corrupt the test's premise.
+      "!**/evals/fixtures"
     ]
   },
   "formatter": {

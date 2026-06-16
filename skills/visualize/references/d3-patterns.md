@@ -1,449 +1,229 @@
-# D3 Browser-Runnable Patterns
+# D3 Drawing Patterns
 
-> **Scope:** This reference applies to the sankey template (`assets/d3/templates/networks/sankey.html`) and custom D3 charts created by template-crafter. For Vega/VL patterns, see [vega-patterns.md](vega-patterns.md).
+> **Scope:** This reference covers the D3 technique that goes inside a fragment's `chart-js` section — scales, axes, marks, force layouts, and the pitfalls particular to D3. For the fragment contract itself (the sections, the injected `root`/`uid`/`VizHelpers`, the mount, the helpers), read [base-template.md](base-template.md) first. For Vega spec patterns, see [vega-patterns.md](vega-patterns.md).
 
-Create standalone HTML files with D3.js visualizations that run directly in the browser with no build step. Verify D3 API usage, CDN import URLs, and SVG accessibility attributes against current documentation before deploying.
+These patterns assume the fragment model. The assembler supplies the D3 import and opens your code with `root`, `uid`, and `VizHelpers` already in scope, and your code draws into the `<svg>` the mount already provides. You never write a `<!DOCTYPE html>`, never select by a document-wide id, and never declare `root` or `uid` yourself. Verify D3 API usage, CDN import URLs, and SVG accessibility attributes against current documentation before deploying.
 
-## The Standalone HTML Template
+## The Drawing Skeleton
 
-Every browser-runnable visualization follows this structure:
+Inside `chart-js`, the shape of a typical chart is the D3 margin convention applied to the mount's SVG. Select the SVG through `root`, append an inner group offset by the margins, and draw into that group:
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Visualization Title</title>
-  <style>
-    /* Embedded styles for portability */
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
+```javascript
+// Read theme color from the single source.
+const t = VizHelpers.tokens;
 
-    #container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+// --- DIMENSIONS ---
+const margin = { top: 8, right: 24, bottom: 64, left: 72 };
+const width = 600;
+const height = 400;
+const innerWidth = width - margin.left - margin.right;
+const innerHeight = height - margin.top - margin.bottom;
 
-    /* Chart-specific styles */
-    .axis text {
-      font-size: 12px;
-    }
+// --- SCALES ---
+const x = d3.scaleBand().domain(data.map((d) => d.category)).range([0, innerWidth]).padding(0.25);
+const y = d3.scaleLinear().domain([0, d3.max(data, (d) => d.value)]).nice().range([innerHeight, 0]);
 
-    .axis path,
-    .axis line {
-      stroke: #ccc;
-    }
-  </style>
-</head>
-<body>
-  <div id="container">
-    <h1>Visualization Title</h1>
-    <div id="chart"></div>
-  </div>
+// --- SVG ---  (select the mount's svg through root; never d3.select("#chart"))
+const svg = d3.select(root.querySelector("svg"))
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-  <script type="module">
-    // ESM imports from CDN
-    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+// --- AXES ---
+g.append("g").attr("class", "axis").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(x));
+g.append("g").attr("class", "axis").call(d3.axisLeft(y));
 
-    // ============================================
-    // DATA
-    // Embed data directly for standalone operation
-    // ============================================
-    const data = [
-      { category: "A", value: 100 },
-      { category: "B", value: 200 },
-      { category: "C", value: 150 }
-    ];
-
-    // ============================================
-    // CONFIGURATION
-    // Centralize dimensions and settings
-    // ============================================
-    const margin = { top: 40, right: 30, bottom: 50, left: 60 };
-    const width = 800 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-
-    // ============================================
-    // SCALES
-    // Define data-to-pixel mappings
-    // ============================================
-    const xScale = d3.scaleBand()
-      .domain(data.map(d => d.category))
-      .range([0, width])
-      .padding(0.2);
-
-    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)])
-      .range([height, 0])
-      .nice();
-
-    // ============================================
-    // SVG SETUP
-    // Create responsive container
-    // ============================================
-    const svg = d3.select("#chart")
-      .append("svg")
-      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // ============================================
-    // AXES
-    // ============================================
-    svg.append("g")
-      .attr("class", "axis x-axis")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xScale));
-
-    svg.append("g")
-      .attr("class", "axis y-axis")
-      .call(d3.axisLeft(yScale));
-
-    // ============================================
-    // MARKS
-    // The actual data visualization
-    // ============================================
-    svg.selectAll("rect")
-      .data(data)
-      .join("rect")
-      .attr("x", d => xScale(d.category))
-      .attr("y", d => yScale(d.value))
-      .attr("width", xScale.bandwidth())
-      .attr("height", d => height - yScale(d.value))
-      .attr("fill", "steelblue");
-
-    // ============================================
-    // LABELS (Optional)
-    // ============================================
-    svg.selectAll(".value-label")
-      .data(data)
-      .join("text")
-      .attr("class", "value-label")
-      .attr("x", d => xScale(d.category) + xScale.bandwidth() / 2)
-      .attr("y", d => yScale(d.value) - 5)
-      .attr("text-anchor", "middle")
-      .text(d => d.value);
-  </script>
-</body>
-</html>
+// --- MARKS ---  (bind with .join(), color from tokens, accessibility per mark)
+g.selectAll(".bar").data(data).join("rect")
+  .attr("class", "bar")
+  .attr("x", (d) => x(d.category))
+  .attr("y", (d) => y(d.value))
+  .attr("width", x.bandwidth())
+  .attr("height", (d) => innerHeight - y(d.value))
+  .attr("fill", t["oc-blue-7"])
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => `${d.category}: ${d.value}`);
 ```
+
+Axis label and gridline color belong in the `chart-css` section as CSS reading the same tokens, for example `fill: var(--oc-gray-6)` and `stroke: var(--oc-gray-1)`, so the styling stays with the chart and out of the drawing code.
 
 ## ESM Import Patterns
 
-### Core D3 (Full Library)
+The assembler injects the core D3 import for you:
 
 ```javascript
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 ```
 
-This imports the entire D3 library. Use when you need multiple D3 modules.
-
-### Selective Imports (Smaller Bundle)
+When a chart needs a D3 plugin the core import does not carry, add the import at the top of `chart-js`:
 
 ```javascript
-// Only what you need
-import { select, selectAll } from "https://cdn.jsdelivr.net/npm/d3-selection@3/+esm";
-import { scaleLinear, scaleBand } from "https://cdn.jsdelivr.net/npm/d3-scale@4/+esm";
-import { axisBottom, axisLeft } from "https://cdn.jsdelivr.net/npm/d3-axis@3/+esm";
-import { max, extent } from "https://cdn.jsdelivr.net/npm/d3-array@3/+esm";
-```
-
-### Additional Libraries
-
-```javascript
-// D3 Annotation
-import { annotation, annotationCallout } from "https://cdn.jsdelivr.net/npm/d3-svg-annotation@2/+esm";
+// D3 Sankey layout
+import { sankey, sankeyLinkHorizontal } from "https://cdn.jsdelivr.net/npm/d3-sankey@0.12/+esm";
 
 // Topojson for maps
 import * as topojson from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
 
-// D3 Sankey layout
-import { sankey, sankeyLinkHorizontal } from "https://cdn.jsdelivr.net/npm/d3-sankey@0.12/+esm";
+// D3 Annotation
+import { annotation, annotationCallout } from "https://cdn.jsdelivr.net/npm/d3-svg-annotation@2/+esm";
 ```
 
 ## Responsive SVG Pattern
 
-Use `viewBox` instead of fixed dimensions for responsive scaling:
+Size the SVG with a `viewBox` and a percentage width rather than fixed pixel dimensions, so the chart scales to its container — a slide, a README, or a composed dashboard panel alike:
 
 ```javascript
-const svg = d3.select("#chart")
-  .append("svg")
-  // viewBox defines the coordinate system
+const svg = d3.select(root.querySelector("svg"))
   .attr("viewBox", `0 0 ${totalWidth} ${totalHeight}`)
-  // preserveAspectRatio controls scaling behavior
   .attr("preserveAspectRatio", "xMidYMid meet")
-  // Optional: set a max-width in CSS
-  .style("max-width", "100%")
-  .style("height", "auto");
+  .attr("width", "100%");
 ```
 
-**Why viewBox works**:
-
-- SVG scales to container width
-- Aspect ratio is preserved
-- Coordinates remain consistent
-- No JavaScript resize handlers needed
+A `viewBox` defines the coordinate system once. The SVG then scales to the container width, the aspect ratio holds, the internal coordinates stay consistent, and no JavaScript resize handler is needed.
 
 ## Data Embedding Strategies
 
-### Inline JavaScript Object
+A fragment carries its own sample data inline in `chart-js`. Pick the form that fits the shape.
 
-Best for small datasets (<100 rows):
+For small datasets, a plain array of objects:
 
 ```javascript
 const data = [
   { date: "2024-01-01", value: 100 },
   { date: "2024-01-02", value: 120 },
-  // ...
 ];
 ```
 
-### CSV String with d3.csvParse
-
-For tabular data:
+For tabular data, a CSV string parsed with a row accessor that coerces types:
 
 ```javascript
-const csvString = `date,value
+const data = d3.csvParse(`date,value
 2024-01-01,100
-2024-01-02,120
-2024-01-03,110`;
-
-const data = d3.csvParse(csvString, d => ({
-  date: new Date(d.date),
-  value: +d.value
-}));
+2024-01-02,120`, (d) => ({ date: new Date(d.date), value: +d.value }));
 ```
 
-### JSON String with JSON.parse
-
-For nested structures:
+For nested structures, a JSON string parsed with `JSON.parse`. When a chart genuinely needs an external file, for example a TopoJSON basemap, fetch it inside the chart code — and remember the assembler wraps `chart-js` in an async function, so `await` works directly:
 
 ```javascript
-const jsonString = `{
-  "name": "root",
-  "children": [
-    {"name": "A", "value": 100},
-    {"name": "B", "value": 200}
-  ]
-}`;
-
-const data = JSON.parse(jsonString);
-```
-
-### External File Fetch
-
-When data is too large to embed:
-
-```javascript
-// Note: Requires serving from a web server (not file://)
-const data = await d3.csv("data.csv", d => ({
-  date: new Date(d.date),
-  value: +d.value
-}));
+const us = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json");
 ```
 
 ## Common D3 Chart Patterns
 
-> Standard chart types (bar, line, scatter, area, pie, histogram) are now Vega-Lite templates — see `assets/vega/templates/`. The patterns below cover D3-only chart types used for sankey and custom template-crafter work.
+> Standard static chart types (bar, line, scatter, area, pie, histogram) exist as both D3 and Vega fragments — see the catalogue in [engine-selection.md](engine-selection.md). Choose D3 when the chart needs custom interactivity, per-mark keyboard navigation, or a structural layout. The patterns below cover the D3-only structural work.
 
 ### Force-Directed Graph
 
-Force-directed networks require specific patterns for visibility and interaction. See [network-patterns.md](network-patterns.md) for comprehensive coverage.
-
-**Basic setup:**
+Force-directed networks need particular care for visibility and interaction. See [network-patterns.md](network-patterns.md) for comprehensive coverage; the structural essentials follow.
 
 ```javascript
-// Data structure
-const nodes = [
-  { id: "a", label: "Node A" },
-  { id: "b", label: "Node B" },
-  { id: "c", label: "Node C" }
-];
-
-const links = [
-  { source: "a", target: "b", weight: 1 },
-  { source: "b", target: "c", weight: 2 }
-];
-
-// Force simulation
 const simulation = d3.forceSimulation(nodes)
-  .force("link", d3.forceLink(links).id(d => d.id).distance(80))
+  .force("link", d3.forceLink(links).id((d) => d.id).distance(80))
   .force("charge", d3.forceManyBody().strength(-200))
   .force("center", d3.forceCenter(width / 2, height / 2))
   .force("collision", d3.forceCollide().radius(20));
 ```
 
-**Layer order (critical):**
+Append the layers in order, links before nodes before labels, so nodes draw over their edges:
 
 ```javascript
-// Links MUST be appended before nodes
-const linkLayer = svg.append("g").attr("class", "links");
-const nodeLayer = svg.append("g").attr("class", "nodes");
-const labelLayer = svg.append("g").attr("class", "labels");
+const linkLayer = g.append("g").attr("class", "links");
+const nodeLayer = g.append("g").attr("class", "nodes");
+const labelLayer = g.append("g").attr("class", "labels");
 ```
 
-**Edge rendering with visibility thresholds:**
+Give edges enough weight to be seen — read the colors from tokens rather than hard-coding hex, and keep stroke opacity perceptible:
 
 ```javascript
-const allLinks = linkLayer.selectAll("line")
-  .data(links)
-  .join("line")
-  .attr("stroke", "#666")           // NOT #999 (fails contrast)
-  .attr("stroke-width", d => Math.max(1.5, weightScale(d.weight)))
-  .attr("stroke-opacity", 0.6);     // NOT 0.2 (imperceptible)
+const allLinks = linkLayer.selectAll("line").data(links).join("line")
+  .attr("stroke", t["oc-gray-6"])             // a faint gray fails contrast
+  .attr("stroke-width", (d) => Math.max(1.5, weightScale(d.weight)))
+  .attr("stroke-opacity", 0.6);               // 0.2 is imperceptible
 ```
 
-**Tick function:**
+Update positions on every tick, and route interactive highlighting through the shared helpers so a keyboard reader reaches the same detail as a mouse reader:
 
 ```javascript
 simulation.on("tick", () => {
   allLinks
-    .attr("x1", d => d.source.x)
-    .attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x)
-    .attr("y2", d => d.target.y);
-
-  allNodes.attr("transform", d => `translate(${d.x},${d.y})`);
+    .attr("x1", (d) => d.source.x).attr("y1", (d) => d.source.y)
+    .attr("x2", (d) => d.target.x).attr("y2", (d) => d.target.y);
+  allNodes.attr("transform", (d) => `translate(${d.x},${d.y})`);
 });
 ```
 
-**Interactive highlighting:**
+## Accessibility
+
+The mount already carries the chart-level `<title>` and `<desc>`, keyed to `{{uid}}` (see [base-template.md](base-template.md)). Your drawing code is responsible for the per-mark layer: a `role="listitem"`, a `tabindex`, and an `aria-label` on every data element, under the `role="list"` the mount sets on the SVG. Wire keyboard reach and tooltips through `VizHelpers.navigateMarks(root, prevKey, nextKey)`, `VizHelpers.showTooltip(root, …)`, and `VizHelpers.hideTooltip(root)`, and build the data-table fallback with `VizHelpers.renderDataTable(root, rows, headers)`. The render checker flags a chart whose marks respond to the pointer but offer no key handler.
+
+## Color
+
+Read every color from the OpenColors tokens the theme supplies, never from a D3 built-in scheme or a hard-coded hex:
 
 ```javascript
-allNodes
-  .on("mouseover", (event, d) => {
-    allLinks
-      .style("stroke-opacity", l =>
-        (l.source.id === d.id || l.target.id === d.id) ? 1.0 : 0.1)
-      .style("stroke", l =>
-        (l.source.id === d.id || l.target.id === d.id) ? "#e63946" : "#666");
-  })
-  .on("mouseout", () => {
-    allLinks
-      .style("stroke-opacity", 0.6)
-      .style("stroke", "#666");
-  });
+const t = VizHelpers.tokens;
+
+// Categorical: pick a set of token hues.
+const categorical = [t["oc-blue-7"], t["oc-orange-8"], t["oc-teal-7"], t["oc-red-7"], t["oc-grape-7"]];
+const color = d3.scaleOrdinal().domain(categories).range(categorical);
+
+// Sequential: interpolate between two token endpoints of one hue family.
+const seq = d3.scaleSequential(d3.interpolateRgb(t["oc-blue-1"], t["oc-blue-9"])).domain([0, maxValue]);
+
+// Diverging: interpolate through a neutral midpoint between two hue families.
+const div = d3.scaleSequential((v) =>
+  v < 0.5 ? d3.interpolateRgb(t["oc-red-7"], t["oc-gray-2"])(v * 2)
+          : d3.interpolateRgb(t["oc-gray-2"], t["oc-blue-7"])((v - 0.5) * 2)
+).domain([minValue, maxValue]);
 ```
 
-## Accessibility in Browser-Runnable Files
-
-Always include accessibility attributes:
-
-```javascript
-const svg = d3.select("#chart")
-  .append("svg")
-  .attr("role", "img")
-  .attr("aria-labelledby", "chart-title chart-desc");
-
-svg.append("title")
-  .attr("id", "chart-title")
-  .text("Monthly Sales by Category");
-
-svg.append("desc")
-  .attr("id", "chart-desc")
-  .text("Bar chart showing Category A at 100, Category B at 200, Category C at 150.");
-```
-
-## Color Schemes
-
-Use D3's built-in accessible color schemes:
-
-```javascript
-// Categorical (up to 10 categories)
-const color = d3.scaleOrdinal(d3.schemeTableau10);
-
-// Sequential (quantitative)
-const color = d3.scaleSequential(d3.interpolateBlues)
-  .domain([0, maxValue]);
-
-// Diverging (quantitative with midpoint)
-const color = d3.scaleDiverging(d3.interpolateRdBu)
-  .domain([minValue, 0, maxValue]);
-```
+Keeping color in tokens means a palette edit in `theme.css` reaches the chart on the next assembly. It also keeps the whole skill on one colorblind-considered palette rather than mixing D3's defaults in.
 
 ## Common Pitfalls
 
-### Pitfall: Script runs before DOM ready
+### Pitfall: redeclaring `root` or `uid`
 
-**Problem**: Script executes before `#chart` exists.
+**Problem**: The assembler already declares `const root` and `const uid` at the top of `chart-js`. A second `const root` for a hierarchy layout is a syntax error that runs fine through static checks and fails only when the page loads.
 
-**Solution**: Use `type="module"` (deferred by default) or wrap in DOMContentLoaded:
+**Solution**: Name a hierarchy root something else, `hierarchyRoot` for instance, and leave `root`/`uid` to the assembler.
 
-```javascript
-document.addEventListener("DOMContentLoaded", () => {
-  // D3 code here
-});
-```
+### Pitfall: selecting by document id
 
-### Pitfall: Data types from CSV
+**Problem**: `d3.select("#chart")` binds to the first matching element in the whole page. The same fragment may appear more than once in a composed document, so every copy would draw into the first one.
+
+**Solution**: Select through `root` — `d3.select(root.querySelector("svg"))`.
+
+### Pitfall: data types from CSV
 
 **Problem**: CSV values are strings, not numbers.
 
-**Solution**: Always parse in the row accessor:
+**Solution**: Coerce in the row accessor: `d3.csvParse(csv, (d) => ({ date: new Date(d.date), value: +d.value }))`.
 
-```javascript
-const data = d3.csvParse(csv, d => ({
-  date: new Date(d.date),
-  value: +d.value  // Coerce to number
-}));
-```
+### Pitfall: axes disappear
 
-### Pitfall: SVG doesn't scale
+**Problem**: An axis renders at (0,0), outside the visible area.
 
-**Problem**: Fixed width/height prevents responsive behavior.
+**Solution**: Transform the axis group — ``g.append("g").attr("transform", `translate(0,${innerHeight})`).call(d3.axisBottom(x))``.
 
-**Solution**: Use `viewBox` instead of `width`/`height` attributes.
+### Pitfall: data binding doesn't update
 
-### Pitfall: Axes disappear
+**Problem**: `.append()` inside a selection skips the update and exit selections.
 
-**Problem**: Axes render at (0,0), outside visible area.
-
-**Solution**: Remember to transform the axis group:
-
-```javascript
-svg.append("g")
-  .attr("transform", `translate(0,${height})`)  // Move x-axis to bottom
-  .call(d3.axisBottom(xScale));
-```
-
-### Pitfall: Data binding doesn't update
-
-**Problem**: Using `.append()` instead of `.join()` means no update/exit.
-
-**Solution**: Always use `.join()` for data binding:
-
-```javascript
-// Wrong
-svg.selectAll("rect").data(data).append("rect")...
-
-// Right
-svg.selectAll("rect").data(data).join("rect")...
-```
+**Solution**: Bind with `.join()` — `g.selectAll("rect").data(data).join("rect")`.
 
 ## Testing Locally
 
-To test standalone HTML files locally:
+To open an assembled example or your output file, serve it over HTTP so external data loads are not blocked by `file://` CORS rules:
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js (with npx)
-npx serve
-
-# Then open http://localhost:8000/your-file.html
+python -m http.server 8000   # or: npx serve
+# then open http://localhost:8000/your-file.html
 ```
-
-Note: `file://` URLs have CORS restrictions that prevent external data loading. Always use a local server for development.
 
 ## Sources
 
-- D3.js documentation — <https://d3js.org/getting-started>
+- D3 documentation — <https://d3js.org/getting-started>
 - D3 API Reference — <https://github.com/d3/d3/blob/main/API.md>
 - SVG Accessibility API Mappings — <https://www.w3.org/TR/svg-aam-1.0/>
 - WAI-ARIA 1.2 specification — <https://www.w3.org/TR/wai-aria-1.2/>

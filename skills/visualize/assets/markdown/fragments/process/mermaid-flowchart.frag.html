@@ -1,0 +1,41 @@
+<!-- @section: frontmatter -->
+name: Mermaid Flowchart description: Process flowchart rendered by mermaid.js inside the shared viz
+wrapper chart-type: mermaid-flowchart engine: mermaid
+
+<!-- @section: title -->
+Signup Flow Drops 38% of Users at Email Verification
+
+<!-- @section: subtitle -->
+Funnel for week of 2026-03-24 (user counts)
+
+<!-- @section: mount -->
+<pre class="mermaid">
+flowchart TD
+    A["Visit signup page (1,000)"] --> B["Enter email (820)"]
+    B --> C{Email valid?}
+    C -- yes --> D["Receive verification email (820)"]
+    C -- no --> E["Show error (0 lost)"]
+    D --> F["Click verification link (510)"]
+    F --> G["Set password (495)"]
+    G --> H["Account created (490)"]
+</pre>
+<noscript>
+  This page renders a mermaid diagram and requires JavaScript. The underlying sequence is: Visit
+  signup → Enter email → Validate → Receive verification email → Click verification link → Set
+  password → Account created.
+</noscript>
+
+<!-- @section: chart-js -->
+const tokens = (window.VizHelpers && window.VizHelpers.tokens) || {}; mermaid.initialize({
+startOnLoad: false, theme: "base", themeVariables: { fontFamily: "system-ui, -apple-system, Segoe
+UI, Roboto, sans-serif", fontSize: "15px", primaryColor: tokens["oc-gray-1"] || "#f1f3f5",
+primaryBorderColor: tokens["oc-gray-6"] || "#868e96", primaryTextColor: tokens["oc-gray-9"] ||
+"#212529", lineColor: tokens["oc-gray-8"] || "#343a40", textColor: tokens["oc-gray-9"] || "#212529",
+mainBkg: tokens["oc-gray-1"] || "#f1f3f5", secondaryColor: tokens["oc-gray-2"] || "#e9ecef",
+tertiaryColor: tokens["oc-gray-0"] || "#f8f9fa", nodeBorder: tokens["oc-gray-6"] || "#868e96",
+clusterBkg: tokens["oc-gray-0"] || "#f8f9fa", clusterBorder: tokens["oc-gray-4"] || "#ced4da",
+edgeLabelBackground: tokens["oc-gray-0"] || "#f8f9fa", }, flowchart: { htmlLabels: true,
+defaultRenderer: "dagre-wrapper", curve: "monotoneY", nodeSpacing: 70, rankSpacing: 100, padding:
+34, useMaxWidth: true, diagramPadding: 16, }, themeCSS: ` .nodeLabel, .edgeLabel { white-space:
+normal; } .node .label { padding: 6px 10px; } .edgeLabel { padding: 2px 6px; } `, }); mermaid.run({
+nodes: root.querySelectorAll(".mermaid") });

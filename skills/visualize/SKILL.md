@@ -18,12 +18,14 @@ Three engines:
 - **Markdown** — `.md` files (or `.html` with mermaid.js bundled) that render
   inside pull requests, READMEs, tickets, Notion, Slack, wiki posts.
 - **Vega** — declarative JSON specs rendered in a standalone HTML wrapper.
-  Default for browser-runnable charts.
+  Concise and auditable; selected for standard static browser charts.
 - **D3** — imperative JavaScript with full DOM control, keyboard navigation,
-  and ARIA on individual marks. Use when Vega cannot express what you need.
+  and ARIA on individual marks. Selected when the user needs custom interactivity
+  or a chart only D3 can express (sankey).
 
-Every browser output is a standalone HTML file — no build step, no server, no
-dependencies beyond CDN.
+Every browser output is a single self-contained HTML file — assembled from one
+shared wrapper plus a chart fragment — that runs with no server and no dependencies
+beyond CDN.
 
 ## Core Principles
 
@@ -80,7 +82,7 @@ every chart, regardless of engine or chart type. When in doubt, return to these.
 
 ### Color — OpenColors palette, never the sole differentiator
 
-- **Use the OpenColors palette for all visualizations.** Categorical: oc-blue-7, oc-orange-7,
+- **Use the OpenColors palette for all visualizations.** Categorical: oc-blue-7, oc-orange-8,
   oc-teal-7, oc-red-7, oc-grape-7, oc-cyan-7, oc-lime-7, oc-pink-7. Sequential: single-hue
   light-to-dark. Diverging: two hues meeting at oc-gray-3.
 - **Never rely on color alone.** Pair hue with shape, pattern, position, or direct labels.
@@ -148,7 +150,7 @@ Before phase 1, call `TaskCreate` once per phase below so progress is tracked th
 | 1. Think | Find the claim. Identify the viewer. Determine inference vs. recognition mode. Honesty check. | [phase-context.md](references/phase-context.md) |
 | 2. Research | Classify data (Q/O/N/T). Plan encoding. Select engine + template. Plan transforms. **User checkpoint.** | [phase-research.md](references/phase-research.md) |
 | 3. Build | Write spec/HTML. Apply encoding, composition, narrative, interaction, accessibility. | [phase-implement.md](references/phase-implement.md) |
-| 4. Verify | **Mandatory second draft.** Structural verification (read back HTML). Visual verification (open in Chrome, read screenshot). Both must agree. Apply `/frontend-design` for style pass. Fix and re-verify. | [phase-refine.md](references/phase-refine.md) |
+| 4. Verify | **Mandatory second draft.** Two render-free passes that must agree: structural read-back of the source, and render inference (predict the rendered result from the source — overflow, label collision, baselines, wiring, scroll containment, keyboard wiring). Run a style pass against the Core Principles (composition, color, spacing, simplicity). Fix and re-verify. | [phase-refine.md](references/phase-refine.md) |
 | 5. Present | Output final HTML. Restate argument. **User checkpoint.** Route feedback to the right phase. | [phase-present.md](references/phase-present.md) |
 | 6. Save | Persist to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`. Optionally register via CLI. | [phase-present.md](references/phase-present.md) |
 
@@ -158,80 +160,110 @@ Feedback routing: "change chart type" → Phase 2. "fix layout" → Phase 3. "so
 
 The verification protocol depends on the engine.
 
-**HTML output (Vega, D3, mermaid-html).** Two parallel paths must agree:
+**HTML output (Vega, D3, mermaid-html).** Two render-free passes must agree.
+Neither opens a browser or captures the screen — both read the source:
 
-1. **Structural:** Read back the generated HTML. Verify the Vega spec or D3
-   code is syntactically correct. Check that data fields match the encoding.
-   Verify units on axes. Verify OpenColors palette.
-2. **Visual:** Run `open -a "Google Chrome" <file>`. Read the screenshot.
-   Inspect for: correct chart type, readable labels, appropriate spacing,
-   working tooltips, color contrast, overall clarity. For mermaid-html,
-   confirm the diagram renders to SVG without console errors.
+1. **Structural read-back:** Read the generated source. Verify the Vega spec or
+   D3 code is syntactically correct (JSON well-formed; no JavaScript syntax
+   errors). Check that encoding fields match the bound data. Verify units on axes
+   and tooltips. Verify the OpenColors palette.
+2. **Render inference:** Predict what the source will draw, without running it.
+   Reason from the source about: overflow and clipping (mark and label extents
+   against the declared `width`/`height`/viewBox and margins), label collision
+   (tick count times estimated label length against the available axis span),
+   axis domain and zero baseline on length encodings, encoding fields
+   cross-checked against the data rows, declared mark count against data length,
+   the legend wired to the same field and scale as the series, engine wiring (the
+   required CDN scripts and the render call are present), scroll containment (no
+   wheel or zoom handler and no `overflow`/`100vh` that lets the chart capture the
+   page's scroll), and keyboard-interaction wiring (interactive marks carry
+   `tabindex`, key handlers, and focus styles). For mermaid-html, confirm the
+   diagram source is a recognized type and the mermaid.js wiring and render call
+   are present.
 
-**Markdown output (`.md`).** No browser screenshot is possible; the protocol
-adapts:
+**Markdown output (`.md`).** The same two render-free passes apply, adapted to
+the surface:
 
 1. **Structural read-back.** Confirm frontmatter complete, units present on
    every numeric column or bar, sort order matches the value being compared,
    source line present.
-2. **Render confirmation.** If the output contains a ```` ```mermaid ```` block,
-   either paste it into the GitHub markdown preview or open the committed
-   file in a renderer that auto-renders mermaid. If the output is plain-text
-   safe, view it in a generic markdown previewer (or the destination surface)
-   and confirm character alignment holds.
+2. **Render inference.** If the output contains a ```` ```mermaid ```` block,
+   confirm the diagram source is a recognized type with balanced structure and
+   labels short enough for the target column width. If the output is plain text
+   (unicode bars, tables, ascii tree), confirm character alignment holds by
+   reasoning about column widths against the monospace assumption of the
+   destination surface.
 
-Both paths must agree the artifact is correct. If they disagree, fix and
+Both passes must agree the artifact is correct. If they disagree, fix and
 re-verify. Only proceed to Phase 5 after the second draft passes the
 appropriate checks. The full markdown checklist lives in
 [markdown-patterns.md](references/markdown-patterns.md).
+
+**Optional accelerator (never a gate).** A stdlib-only static-analysis script can
+mechanically flag render-blocking defects across all three engines:
+
+```bash
+python3 scripts/check_render.py <path> [<path> ...]
+```
+
+It prints each defect with file and cause and exits non-zero when it finds one. It
+accelerates the render-inference pass; it does not replace it and never blocks
+presenting. If Python is unavailable, the script is absent, or it errors, the prose
+passes stand on their own and verification proceeds unchanged.
 
 ---
 
 ## Engine Selection
 
-Three engines. Pick by where the visualization will be read, not by what it
-shows.
+There is no default engine. Markdown/mermaid, Vega, and D3 are weighed as equals,
+and a stated criterion selects one. Evaluate the criteria in order; the first that
+fires decides, and you name the criterion that decided.
 
 ```
-Level 0: Where will this render?
-  ├── Markdown surface (PR, README, ticket, Notion, Slack, *.md file) → Markdown engine
-  ├── Browser / standalone HTML / dashboard                            → Vega or D3 (Level 2)
-  └── Unknown                                                          → ask, or default to
-                                                                         Markdown without mermaid
+No default. Reason over all three; the first criterion that fires selects.
 
-Level 1 (Markdown branch): What's being shown?
-  ├── Quantitative values  → comparison-table | unicode-bar-chart | ranked-list | sparkline-row | emoji-heatmap
-  ├── Process / structure  → mermaid-flowchart | mermaid-sequence | mermaid-gantt | ascii-tree
-  └── (Mermaid output format depends on target rendering: see Level 1.5)
+1. Content type     process / flow / sequence / gantt?        → Markdown (mermaid),
+                    (mermaid emits standalone HTML, so this      even for a browser
+                     holds even for browser surfaces)            surface
+2. Render surface   markdown-only surface (PR, README,         → Markdown
+                    ticket, Notion, Slack, *.md)?
+3. Capability       needs something only one engine has        → that engine
+                    (sankey → D3)?
+4. Interactivity    user asked to hover / filter / brush /     → D3
+                    zoom / drag / keyboard-navigate marks?
+5. Conciseness      none of the above; standard static chart   → Vega
+                    for a browser → declarative is less code,    (a stated criterion,
+                    fewer bugs, easier to audit                   not a fallthrough)
 
-Level 1.5 (Mermaid only): Does the surface auto-render mermaid?
-  ├── Yes (GitHub, GitLab, Notion, Obsidian, recent VS Code) → emit `.md` with ```mermaid block
-  ├── No  (Slack, email, generic chat, plain ticket)         → emit `.html` with mermaid.js
-  └── Unknown                                                → emit `.html` (works wherever HTML opens)
+If interactivity is ambiguous, do not guess and do not let criterion 5 pick
+silently — ask the user, in their terms:
+   "Hover over the points or filter the data yourself, or is a static picture
+    enough?"   hover/filter → D3 (4);  static → Vega (5)
 
-Level 2: Which data-viz engine for browser output?
-  ├── Need full DOM control, custom keyboard nav, or sankey? → D3
-  └── Everything else                                        → Vega (default)
+Accessibility is a held-constant FLOOR, never a criterion: every engine meets the
+same floor (data-table fallback, SVG title/desc, redundant encoding). Where
+interaction exists, criterion 4 already routes to D3.
 ```
 
 **Markdown** is for surfaces that render markdown (and sometimes mermaid) but
-not arbitrary HTML. Use it for pull requests, READMEs, tickets, Notion pages,
-Slack posts, wiki articles. Load [markdown-patterns.md](references/markdown-patterns.md)
-for the surface matrix, the honesty checklist, and the Phase 4 verification
-checklist (markdown variant).
+not arbitrary HTML — pull requests, READMEs, tickets, Notion pages, Slack posts,
+wiki articles — and it owns the only flow/sequence/gantt templates (criterion 1).
+Read [markdown-patterns.md](references/markdown-patterns.md) for the surface
+matrix, the honesty checklist, and the Phase 4 verification checklist (markdown
+variant).
 
 **Vega** is declarative JSON. It handles bar, line, scatter, area, pie,
 histogram, box plot, violin, heatmap, bubble, treemap, sunburst, choropleth,
-force graph, tree diagram, candlestick, and more via transforms. Default for
-browser output.
+force graph, tree diagram, candlestick, and more via transforms. Selected by the
+conciseness criterion for a standard static browser chart.
 
-**D3** is imperative JavaScript. It gives full control over the DOM. Use it
-when Vega cannot express what you need (sankey), or when you need full
-keyboard navigation and ARIA support that Vega's SVG renderer does not
-provide.
+**D3** is imperative JavaScript with full DOM control. Selected when the user
+needs custom interactivity (hover, filter, brush, drag, per-mark keyboard
+navigation) or a chart only D3 can express (sankey).
 
-Load [engine-selection.md](references/engine-selection.md) for the full capability
-matrix and the chart-type-to-template mapping across all three engines.
+Read [engine-selection.md](references/engine-selection.md) for the full criteria
+detail, the capability matrix, and the chart-type-to-template mapping across all
+three engines.
 
 ---
 
@@ -307,25 +339,36 @@ HTML). If missing, gather through focused questions — do not run earlier phase
 
 ## Producing the Final Output
 
-**Vega charts:** Copy `assets/vega/wrapper.html`, inject the `.vg.json` spec.
-The wrapper loads Vega + Vega-Lite + Vega-Embed from CDN, renders via
-`vegaEmbed`, and auto-generates an accessibility data table. See
-[base-vega-wrapper.md](references/base-vega-wrapper.md).
+Every browser chart — Vega, D3, or mermaid — is a **fragment** assembled into one
+self-contained HTML file by a single engine-agnostic wrapper. The fragment carries
+only the chart (its mount, its scoped CSS, its draw or embed script); the shared
+`assets/_shared/wrapper.html` supplies the page chrome, the one OpenColors theme,
+and the shared helpers, injected once.
 
-**D3 charts:** Read the matching `assets/d3/templates/<category>/<name>.html`
-file directly. Each template is a standalone HTML page with all CSS and
-JavaScript inline; copy, edit the data and labels, and you have the final
-artifact. See [base-template.md](references/base-template.md) for the structure.
-Maintainers who want to change the shared scaffold (CSS palette, accessibility
-helpers) edit the fragment and base files in `assets/d3/_shared/` and
-`assets/d3/fragments/`, then run `python3 scripts/build_d3.py --all` to regenerate
-every template.
+**A ready-to-use single-chart example** is generated for every chart at
+`assets/<engine>/templates/<category>/<name>.html`. Open or copy one, edit the data
+and labels, and it is the final artifact. Each is built by `scripts/build_viz.py`
+from the wrapper plus the fragment in `assets/<engine>/fragments/`.
 
-**Markdown output:** Copy the matching `assets/markdown/templates/<name>.md.tmpl`
-(or `.html.tmpl` for mermaid diagrams that need bundled SVG rendering). Replace
-the example data with the user's data and update the title to state the takeaway.
-The frontmatter format mirrors HTML outputs but uses YAML fences (`---`) instead
-of HTML comments. See [markdown-patterns.md](references/markdown-patterns.md).
+**To put several charts in one page**, assemble multiple fragments into the one
+wrapper. They are per-instance scoped, so their ids, styles, globals, and scroll
+never collide:
+
+```bash
+python3 scripts/build_viz.py --compose <frag-a> <frag-b> --out combined.html
+```
+
+**To change the shared scaffold** (the OpenColors theme, the page chrome, the
+accessibility helpers), edit `assets/_shared/` and run
+`python3 scripts/build_viz.py --all` to regenerate every example. The build tree is
+the single formatter of record for those files — never hand-edit a generated
+`templates/*.html`.
+
+**Markdown-surface output (`.md`):** for a markdown surface (PR, README, ticket),
+copy the matching `assets/markdown/templates/<name>.md.tmpl`; its fenced
+```` ```mermaid ```` blocks render inline on GitHub, GitLab, and Notion. Replace
+the example data and update the title to state the takeaway. See
+[markdown-patterns.md](references/markdown-patterns.md).
 
 ### Persisting
 
@@ -354,9 +397,15 @@ CLI reads HTML and markdown frontmatter from the same flat
 
 ## References
 
-Load these conditionally — never load more than one pattern doc at a time.
+These are not optional background reading. Each phase and each Build subtask is
+gated on the reference named here: you read it at the point of need and produce the
+gate output that proves you read it (the gate outputs are defined in
+[phase-implement.md](references/phase-implement.md)). The principles inlined above
+tell you WHAT; these references tell you HOW; skipping one leaves a visible hole in
+the gate output. For the pattern docs, read the one matching your chosen engine and
+not the others.
 
-**Phase guides** (load at phase entry):
+**Phase guides** (read on entering each phase; the phase's output is the proof):
 
 | Phase | Reference |
 |-------|-----------|
@@ -366,18 +415,23 @@ Load these conditionally — never load more than one pattern doc at a time.
 | Verify | [phase-refine.md](references/phase-refine.md) |
 | Present + Save | [phase-present.md](references/phase-present.md) |
 
-**Mode guides** (load during Build phase, one at a time):
+**Build-phase mode guides** (each Build subtask gates on its mode doc — read it to
+produce that subtask's required output). The five Build modes are encode, compose,
+narrate, interact, and access. Refine is not a Build mode; it is the Verify phase
+(see below).
 
-| Mode | Reference | When to load |
-|------|-----------|-------------|
+| Mode | Reference | Gates the subtask |
+|------|-----------|-------------------|
 | Encode | [mode-encode.md](references/mode-encode.md) | Writing scales, marks, channels |
 | Compose | [mode-compose.md](references/mode-compose.md) | Arranging layout, hierarchy, spacing |
 | Narrate | [mode-narrate.md](references/mode-narrate.md) | Adding titles, annotations, story |
 | Access | [mode-access.md](references/mode-access.md) | ARIA, keyboard nav, color access |
 | Interact | [mode-interact.md](references/mode-interact.md) | Tooltips, brushing, filtering |
-| Refine | [mode-refine.md](references/mode-refine.md) | Auditing and fixing issues |
 
-**Pattern docs** (load ONE based on engine choice):
+Refine ([mode-refine.md](references/mode-refine.md)) is the audit loaded by the
+Verify phase ([phase-refine.md](references/phase-refine.md)), not a Build-phase mode.
+
+**Pattern docs** (read the one matching your chosen engine):
 
 | Engine | Reference |
 |--------|-----------|
@@ -385,14 +439,14 @@ Load these conditionally — never load more than one pattern doc at a time.
 | Vega | [vega-patterns.md](references/vega-patterns.md) |
 | D3 | [d3-patterns.md](references/d3-patterns.md) |
 
-**Specialized** (load only when relevant):
+**Specialized** (read when the topic applies):
 
 | Topic | Reference |
 |-------|-----------|
 | Engine selection | [engine-selection.md](references/engine-selection.md) |
 | Template selection | [template-selection.md](references/template-selection.md) |
-| Vega HTML scaffolding | [base-vega-wrapper.md](references/base-vega-wrapper.md) |
-| D3 HTML scaffolding | [base-template.md](references/base-template.md) |
+| Authoring a Vega fragment | [base-vega-wrapper.md](references/base-vega-wrapper.md) |
+| Authoring a D3 fragment | [base-template.md](references/base-template.md) |
 | Data transforms | [data-preparation.md](references/data-preparation.md) |
 | Networks | [network-patterns.md](references/network-patterns.md) |
 | Large datasets (Canvas) | [canvas-patterns.md](references/canvas-patterns.md) |

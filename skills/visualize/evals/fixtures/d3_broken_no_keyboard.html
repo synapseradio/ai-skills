@@ -1,0 +1,44 @@
+<!--
+name: Bar Chart (D3) — broken: interactive marks lack keyboard wiring
+description: Marks have pointer/hover interaction but no tabindex, no key handler, and no focus styling
+chart-type: bar-chart
+engine: d3
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Electronics leads product sales at $42.5K</title>
+  </head>
+  <body>
+    <div id="chart-container">
+      <h1>Electronics leads product sales at $42.5K</h1>
+      <svg id="chart" role="img" aria-labelledby="chart-title chart-desc">
+        <title id="chart-title">Electronics leads product sales at $42.5K</title>
+        <desc id="chart-desc">Bar chart comparing product sales across categories.</desc>
+      </svg>
+      <div class="tooltip" id="tooltip"></div>
+      <details>
+        <summary>View data table</summary>
+        <div id="data-table"></div>
+      </details>
+    </div>
+
+    <script type="module">
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+      const data = [{ category: "Electronics", value: 42500 }];
+
+      const svg = d3.select("#chart");
+      const bars = svg
+        .selectAll(".bar")
+        .data(data)
+        .join("rect")
+        .attr("class", "bar")
+        .on("pointerenter", function () {})
+        .on("pointermove", function () {})
+        .on("pointerleave", function () {});
+      // No tabindex, no keydown handler, no :focus style anywhere.
+    </script>
+  </body>
+</html>

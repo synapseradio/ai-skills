@@ -1,0 +1,575 @@
+<!-- @section: frontmatter -->
+name: Violin Plot
+description: Violin plot comparing distribution shapes across three classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations).
+chart-type: violin-plot
+engine: vega
+<!-- @section: title -->
+Class C shows a bimodal split — two distinct score clusters emerge
+<!-- @section: subtitle -->
+Test score distribution by class; wider = more common values (points, 0–100)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "axes": [
+    {
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "layout",
+      "title": "Class",
+      "titleFontSize": 13,
+      "zindex": 1
+    },
+    {
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "yscale",
+      "title": "Test Score (points)",
+      "titleFontSize": 13,
+      "zindex": 1
+    }
+  ],
+  "data": [
+    {
+      "name": "table",
+      "values": [
+        {
+          "group": "Class A",
+          "value": 62
+        },
+        {
+          "group": "Class A",
+          "value": 65
+        },
+        {
+          "group": "Class A",
+          "value": 67
+        },
+        {
+          "group": "Class A",
+          "value": 70
+        },
+        {
+          "group": "Class A",
+          "value": 71
+        },
+        {
+          "group": "Class A",
+          "value": 73
+        },
+        {
+          "group": "Class A",
+          "value": 75
+        },
+        {
+          "group": "Class A",
+          "value": 76
+        },
+        {
+          "group": "Class A",
+          "value": 78
+        },
+        {
+          "group": "Class A",
+          "value": 80
+        },
+        {
+          "group": "Class A",
+          "value": 83
+        },
+        {
+          "group": "Class A",
+          "value": 85
+        },
+        {
+          "group": "Class A",
+          "value": 87
+        },
+        {
+          "group": "Class B",
+          "value": 55
+        },
+        {
+          "group": "Class B",
+          "value": 62
+        },
+        {
+          "group": "Class B",
+          "value": 68
+        },
+        {
+          "group": "Class B",
+          "value": 72
+        },
+        {
+          "group": "Class B",
+          "value": 80
+        },
+        {
+          "group": "Class B",
+          "value": 82
+        },
+        {
+          "group": "Class B",
+          "value": 85
+        },
+        {
+          "group": "Class B",
+          "value": 86
+        },
+        {
+          "group": "Class B",
+          "value": 88
+        },
+        {
+          "group": "Class B",
+          "value": 89
+        },
+        {
+          "group": "Class B",
+          "value": 91
+        },
+        {
+          "group": "Class B",
+          "value": 93
+        },
+        {
+          "group": "Class B",
+          "value": 95
+        },
+        {
+          "group": "Class C",
+          "value": 45
+        },
+        {
+          "group": "Class C",
+          "value": 48
+        },
+        {
+          "group": "Class C",
+          "value": 50
+        },
+        {
+          "group": "Class C",
+          "value": 53
+        },
+        {
+          "group": "Class C",
+          "value": 55
+        },
+        {
+          "group": "Class C",
+          "value": 57
+        },
+        {
+          "group": "Class C",
+          "value": 59
+        },
+        {
+          "group": "Class C",
+          "value": 82
+        },
+        {
+          "group": "Class C",
+          "value": 85
+        },
+        {
+          "group": "Class C",
+          "value": 87
+        },
+        {
+          "group": "Class C",
+          "value": 89
+        },
+        {
+          "group": "Class C",
+          "value": 91
+        },
+        {
+          "group": "Class C",
+          "value": 93
+        }
+      ]
+    },
+    {
+      "name": "density",
+      "source": "table",
+      "transform": [
+        {
+          "bandwidth": 0,
+          "extent": [
+            40,
+            100
+          ],
+          "field": "value",
+          "groupby": [
+            "group"
+          ],
+          "type": "kde"
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "source": "table",
+      "transform": [
+        {
+          "as": [
+            "q1",
+            "median",
+            "q3"
+          ],
+          "fields": [
+            "value",
+            "value",
+            "value"
+          ],
+          "groupby": [
+            "group"
+          ],
+          "ops": [
+            "q1",
+            "median",
+            "q3"
+          ],
+          "type": "aggregate"
+        }
+      ]
+    }
+  ],
+  "description": "Violin plot comparing distribution shapes across three classes. Class A is approximately normal, Class B is left-skewed, Class C is bimodal (two distinct peaks suggesting subpopulations).",
+  "height": 400,
+  "marks": [
+    {
+      "data": [
+        {
+          "name": "summary",
+          "source": "stats",
+          "transform": [
+            {
+              "expr": "datum.group === parent.group",
+              "type": "filter"
+            }
+          ]
+        }
+      ],
+      "encode": {
+        "enter": {
+          "height": {
+            "signal": "height"
+          },
+          "width": {
+            "signal": "plotWidth"
+          },
+          "xc": {
+            "band": 0.5,
+            "field": "group",
+            "scale": "layout"
+          }
+        }
+      },
+      "from": {
+        "facet": {
+          "data": "density",
+          "groupby": "group",
+          "name": "violin"
+        }
+      },
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "fill": {
+                "field": {
+                  "parent": "group"
+                },
+                "scale": "color"
+              },
+              "fillOpacity": 0.7,
+              "stroke": {
+                "field": {
+                  "parent": "group"
+                },
+                "scale": "color"
+              },
+              "strokeWidth": 1.5,
+              "tooltip": {
+                "signal": "{'Group': parent.group, 'Score': format(datum.value, '.1f'), 'Density': format(datum.density, '.4f')}"
+              }
+            },
+            "update": {
+              "width": {
+                "field": "density",
+                "scale": "hscale"
+              },
+              "xc": {
+                "signal": "plotWidth / 2"
+              },
+              "y": {
+                "field": "value",
+                "scale": "yscale"
+              }
+            }
+          },
+          "from": {
+            "data": "violin"
+          },
+          "type": "area"
+        },
+        {
+          "encode": {
+            "enter": {
+              "cornerRadius": 2,
+              "fill": "white",
+              "fillOpacity": 0.9,
+              "stroke": "$TOKEN$oc-gray-8",
+              "strokeWidth": 1,
+              "width": {
+                "value": 8
+              }
+            },
+            "update": {
+              "xc": {
+                "signal": "plotWidth / 2"
+              },
+              "y": {
+                "field": "q3",
+                "scale": "yscale"
+              },
+              "y2": {
+                "field": "q1",
+                "scale": "yscale"
+              }
+            }
+          },
+          "from": {
+            "data": "summary"
+          },
+          "type": "rect"
+        },
+        {
+          "encode": {
+            "enter": {
+              "fill": "$TOKEN$oc-gray-8",
+              "shape": "circle",
+              "size": 30,
+              "tooltip": {
+                "signal": "{'Median': format(datum.median, '.1f'), 'Q1': format(datum.q1, '.1f'), 'Q3': format(datum.q3, '.1f')}"
+              }
+            },
+            "update": {
+              "x": {
+                "signal": "plotWidth / 2"
+              },
+              "y": {
+                "field": "median",
+                "scale": "yscale"
+              }
+            }
+          },
+          "from": {
+            "data": "summary"
+          },
+          "type": "symbol"
+        }
+      ],
+      "type": "group"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "table",
+        "field": "group"
+      },
+      "name": "layout",
+      "range": "width",
+      "type": "band"
+    },
+    {
+      "domain": {
+        "data": "table",
+        "field": "value"
+      },
+      "domainMax": 100,
+      "domainMin": 40,
+      "name": "yscale",
+      "nice": true,
+      "range": "height",
+      "round": true,
+      "type": "linear",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "density",
+        "field": "density"
+      },
+      "name": "hscale",
+      "range": [
+        0,
+        {
+          "signal": "plotWidth"
+        }
+      ],
+      "type": "linear"
+    },
+    {
+      "domain": {
+        "data": "table",
+        "field": "group"
+      },
+      "name": "color",
+      "range": "category",
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "plotWidth",
+      "value": 60
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Test score distribution by class; wider = more common values (points, 0\u2013100)",
+    "subtitleFontSize": 12,
+    "text": "Class C shows a bimodal split \u2014 two distinct score clusters emerge"
+  },
+  "width": 500
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

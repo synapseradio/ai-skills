@@ -1,0 +1,16 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "width": 600,
+  "height": 400,
+  "data": [
+    {
+      "name": "source",
+      "values": [
+        { "category": "Electronics", "value": 42500 },
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": { "data": "source" }

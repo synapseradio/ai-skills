@@ -1,0 +1,30 @@
+<!--
+name: Mermaid Flowchart (HTML) — known good fixture
+description: Process flowchart with mermaid.js bundled and a recognized, balanced diagram
+chart-type: mermaid-flowchart
+engine: markdown
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Signup Flow Drops 38% of Users</title>
+  </head>
+  <body>
+    <div id="chart-container">
+      <h1>Signup Flow Drops 38% of Users</h1>
+      <pre class="mermaid">
+flowchart TD
+    A["Visit signup page (1,000)"] --> B["Enter email (820)"]
+    B --> C{Email valid?}
+    C -- yes --> D["Receive verification email (820)"]
+    C -- no --> E["Show error (0 lost)"]
+    D --> F["Click verification link (510)"]
+      </pre>
+    </div>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "default" });
+    </script>
+  </body>
+</html>

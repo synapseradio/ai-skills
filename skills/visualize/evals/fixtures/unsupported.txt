@@ -1,0 +1,2 @@
+This is a plain text file. It is not a Vega spec, a D3 HTML artifact, or a mermaid
+diagram. The checker should report "not applicable" and exit zero rather than erroring.

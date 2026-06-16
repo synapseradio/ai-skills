@@ -1,24 +1,35 @@
 # Phase 3: Build
 
-Build the visualization across five subtasks. Load mode docs one at a time as needed.
+Build the visualization across five subtasks. Each subtask is gated: it names one
+mode reference that you must read, and a reference-derived output that proves you
+read it. You cannot produce that output from memory — the principles inlined in
+`SKILL.md` tell you WHAT is good, the mode doc tells you HOW, and the gate output
+is the HOW made visible. A subtask whose gate output is missing is incomplete, and
+the build does not advance past it.
 
 ## Entry Conditions
 
 Phase 2 (Research) complete with user approval:
 
 - Encoding table (with units)
-- Selected engine (Vega or D3) and template
+- Selected engine and template. This phase covers the Vega and D3 build paths; for
+  the Markdown/mermaid engine, build from [markdown-patterns.md](markdown-patterns.md).
 - Ordered transformation plan
 
 ## Engine Paths
 
-**Vega:** Define data transforms, signals, scales, axes, marks in a `.vg.json` spec.
-Load [vega-patterns.md](vega-patterns.md) for syntax reference.
+**Vega:** Define data transforms, signals, scales, axes, marks in the fragment's
+inline Vega spec, at `assets/vega/fragments/<category>/<name>.frag.html`. Read
+[base-vega-wrapper.md](base-vega-wrapper.md) for the fragment contract and
+[vega-patterns.md](vega-patterns.md) for the spec patterns before writing it.
 
-**D3:** Implement scales, axes, marks, interaction in standalone HTML.
-Load [d3-patterns.md](d3-patterns.md) for syntax reference.
+**D3:** Implement scales, axes, marks, and interaction in the fragment's chart-js
+section, at `assets/d3/fragments/<category>/<name>.frag.html`. Read
+[base-template.md](base-template.md) for the fragment contract and
+[d3-patterns.md](d3-patterns.md) for the drawing patterns before writing it.
 
-**Load ONE pattern doc. Never load both.**
+**Read the pattern doc for your chosen engine, and only that one** — reading the
+other engine's doc is wasted context, not a safe default.
 
 ## Subtask Dependency Graph
 
@@ -47,7 +58,11 @@ Apply the encoding table from Phase 2.
 - If custom colors needed, verify no distinction depends on color alone
 - Check contrast: graphical objects ≥ 3:1 against adjacent colors in the code
 
-Load [mode-encode.md](mode-encode.md) for encoding methodology.
+**Gate — read [mode-encode.md](mode-encode.md).** Produce the encoding table: each
+variable mapped to a visual channel **with that channel's effectiveness rank** (1–6,
+from the channel-effectiveness ranking in the reference) and its typical error. You
+cannot rank the channels reliably from memory — the ranked table is the proof the
+reference was read. An encoding table without ranks is an incomplete subtask.
 
 ### 2. Compose — Layout and Hierarchy
 
@@ -60,7 +75,11 @@ Arrange encoded elements into a coherent spatial layout.
 5. For Vega: add `"role": "img"` and `"aria-labelledby"` on SVG root via config
 6. For D3: add semantic SVG roles (`role="img"`, `aria-labelledby`, group data with `role="list"`)
 
-Load [mode-compose.md](mode-compose.md) for composition methodology.
+**Gate — read [mode-compose.md](mode-compose.md).** Produce the three-level weight
+assignment: name the primary, secondary, and tertiary elements, and for each name the
+specific visual-weight move (size, contrast, position, or isolation) that places it at
+that level. The named hierarchy with its weight moves is the proof the reference was
+read. "Everything looks balanced" is not a hierarchy.
 
 ### 3. Narrate — Titles, Annotations, Story (parallel with interact)
 
@@ -75,7 +94,11 @@ Load [mode-compose.md](mode-compose.md) for composition methodology.
 **What NOT to attempt:** scrollytelling, slide shows, animated revelation sequences.
 The output format is standalone HTML — narrative works through title, annotations, and tooltips.
 
-Load [mode-narrate.md](mode-narrate.md) for annotation methodology.
+**Gate — read [mode-narrate.md](mode-narrate.md).** Produce the takeaway title (states
+the insight, not the topic), the context subtitle, and the annotation list pairing each
+flagged insight with its annotation text. The insight-bearing title and the annotation
+list are the proof the reference was read. A topic title ("Revenue by Region") means the
+gate is not met.
 
 **Skip condition:** Dashboard component where narration lives in surrounding UI. Still write alt text.
 
@@ -87,7 +110,11 @@ Load [mode-narrate.md](mode-narrate.md) for annotation methodology.
 4. Responsive layout: Vega `autosize`, D3 `viewBox`
 5. Temporal states: loading skeleton, error display, empty state
 
-Load [mode-interact.md](mode-interact.md) for interaction patterns.
+**Gate — read [mode-interact.md](mode-interact.md).** Produce the interaction plan: the
+tooltip fields (with units), the selection or brushing behavior if exploration is needed,
+and the responsive-sizing approach — or state the explicit skip condition (static medium:
+print, slide, PDF). The interaction plan or the stated skip condition is the proof the
+reference was read.
 
 **Skip condition:** Static medium (print, slide, PDF).
 
@@ -115,7 +142,10 @@ Verify accessibility holds together across all subtasks.
 individual marks, implement keyboard navigation of data points, or manage focus. The data
 table fallback and SVG `<title>`/`<desc>` are the primary accessible paths for Vega charts.
 
-Load [mode-access.md](mode-access.md) for full accessibility methodology.
+**Gate — read [mode-access.md](mode-access.md).** Complete the access-audit checklist
+above (the structural checks, plus the D3-additional checks when the engine is D3). The
+completed checklist, every box accounted for, is the proof the reference was read. An
+unfilled checklist is an incomplete subtask.
 
 ## Exit
 

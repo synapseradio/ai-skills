@@ -1,0 +1,31 @@
+<!--
+name: Bar Chart (D3) broken fixture
+description: A D3 artifact that never loads its rendering library and never binds marks
+chart-type: bar-chart
+engine: d3
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Electronics leads product sales at $42.5K</title>
+  </head>
+  <body>
+    <div id="chart-container">
+      <h1>Electronics leads product sales at $42.5K</h1>
+      <svg id="chart" role="img" aria-labelledby="chart-title chart-desc">
+        <title id="chart-title">Electronics leads product sales at $42.5K</title>
+        <desc id="chart-desc">Bar chart comparing product sales across categories.</desc>
+      </svg>
+      <details>
+        <summary>View data table</summary>
+        <div id="data-table"></div>
+      </details>
+    </div>
+
+    <script type="module">
+      const rows = [{ category: "Electronics", value: 42500 }];
+      window.__rows = rows;
+    </script>
+  </body>
+</html>

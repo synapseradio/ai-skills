@@ -1,7 +1,8 @@
 # Phase 4: Verify
 
-Mandatory second draft. Every visualization gets two verification paths in parallel, a
-fix pass, and re-verification before presenting to the user.
+Mandatory second draft. Every visualization gets two render-free verification
+passes, a fix pass, and re-verification before presenting to the user. No pass
+opens a browser or captures the screen — both read the source.
 
 ## Entry Conditions
 
@@ -25,32 +26,51 @@ Read back the generated HTML file. Check:
 - [ ] SVG `<title>` and `<desc>` elements present
 - [ ] Data table fallback in `<details>` block
 
-### Path B: Visual Verification
+### Path B: Render Inference
 
-Open the chart in Chrome and inspect the rendered output:
+Predict what the source will draw, without running it. Every check reads the spec
+or HTML — there is no browser, no screen capture, and no browser MCP. Each item
+below is a defect a screenshot used to catch, recovered as something the source
+already tells you.
 
-```bash
-open -a "Google Chrome" <path-to-html>
-```
+- [ ] Overflow / clipping — mark and label extents fit the declared `width`/`height`/viewBox and margins
+- [ ] Label collision — tick count times estimated label length fits the available axis span
+- [ ] Axis domain / zero baseline — length encodings start at zero; the quantitative domain is correct
+- [ ] Encoding vs. data — every encoded field exists in the bound data rows
+- [ ] Mark count — declared mark count is consistent with data length (no empty or partial chart)
+- [ ] Legend wiring — the legend is bound to the same field and scale as the series
+- [ ] Engine wiring — required CDN scripts and the render call are present; JSON is well-formed
+- [ ] Scroll containment — no wheel/zoom handler and no `overflow`/`100vh` lets the chart capture the page's scroll
+- [ ] Keyboard-interaction wiring — interactive marks carry `tabindex`, key handlers, and focus styles
 
-Read the screenshot. Check:
-
-- [ ] Chart renders without errors
-- [ ] Correct chart type visible
-- [ ] Labels readable at normal zoom
-- [ ] Spacing generous — margins adequate, elements not crowded
-- [ ] Color contrast sufficient — data marks distinct from background
-- [ ] Tooltips appear on hover with correct data and units
-- [ ] Primary insight is the visually loudest element
-- [ ] Three-level hierarchy visible (primary / secondary / tertiary)
+Scroll hijacking and unwired keyboard interaction are exactly the defects the
+mandatory second draft was created to catch. A screenshot never showed either: a
+still image cannot reveal that the wheel is trapped or that Tab reaches nothing.
+The source can.
 
 ### Consensus
 
-Both paths must agree the chart is correct. If structural says "units missing" but visual
-looks fine, trust structural — the code is ground truth. If visual shows rendering errors
-but structural says the spec is valid, trust visual — the rendered output is what users see.
+Both passes must agree the chart is correct. They are distinct on purpose.
+Structural read-back proves the code is correct; render inference reasons forward
+from that code to what it will draw. When they disagree, treat the disagreement
+itself as a defect: re-read the source until you can explain why one pass saw
+what the other missed, then fix.
 
-Fix all issues found by either path.
+Fix all issues found by either pass.
+
+### Optional accelerator (never a gate)
+
+A stdlib-only static-analysis script can mechanically flag render-blocking defects
+across all three engines, as a fast first sweep before the Path B reasoning:
+
+```bash
+python3 scripts/check_render.py <path> [<path> ...]
+```
+
+It prints each defect with file and cause and exits non-zero on a render-blocking
+defect. It accelerates render inference; it never replaces it and never blocks
+presenting. If Python is unavailable, the script is missing, or it errors, the two
+prose passes stand on their own and verification proceeds unchanged.
 
 ## Editorial Integrity Check
 
@@ -70,8 +90,11 @@ After structural and visual checks, load [mode-refine.md](mode-refine.md) for th
 
 ## Second Draft
 
-After fixing, produce a second draft and re-verify both paths. Apply `/frontend-design`
-for a style pass on the second draft. Only proceed to Phase 5 after the second draft passes.
+After fixing, produce a second draft and re-verify both passes. Run a style pass on the
+second draft against the Core Principles — composition, color, spacing, simplicity. Those
+principles are inlined in `SKILL.md` and detailed in [mode-compose.md](mode-compose.md) and
+[mode-narrate.md](mode-narrate.md); the skill carries its own style standard and depends on
+no other skill. Only proceed to Phase 5 after the second draft passes.
 
 ## Regression Check
 

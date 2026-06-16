@@ -133,7 +133,80 @@ Every mermaid HTML output must include:
 - `<noscript>` block describing the diagram in prose — readers without
   JavaScript still get the meaning.
 - ESM import of mermaid: `import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";`
-- `mermaid.initialize({ startOnLoad: true });` — runs on DOMContentLoaded.
+- the hardened `mermaid.initialize` below, applied by default — not the bare
+  `{ startOnLoad: true }`.
+
+### The hardened initialize
+
+A bare `mermaid.initialize({ startOnLoad: true })` is the source of most one-shot
+mermaid failures: long labels overflow their nodes, text renders too small, dense
+flowcharts collide, and special characters wrap unpredictably. The skill applies
+this configuration by default instead. Its colors are OpenColors tokens (dark-gray
+text and lines over light-gray fills for WCAG AA contrast); mermaid cannot read CSS
+variables, so the hex values are inlined to match the shared theme.
+
+```js
+mermaid.initialize({
+  startOnLoad: true,
+  theme: "base",
+  themeVariables: {
+    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+    fontSize: "15px",
+    primaryColor: "#f1f3f5",
+    primaryBorderColor: "#868e96",
+    primaryTextColor: "#212529",
+    lineColor: "#343a40",
+    textColor: "#212529",
+    mainBkg: "#f1f3f5",
+    secondaryColor: "#e9ecef",
+    tertiaryColor: "#f8f9fa",
+    nodeBorder: "#868e96",
+    clusterBkg: "#f8f9fa",
+    clusterBorder: "#ced4da",
+    edgeLabelBackground: "#f8f9fa",
+  },
+  flowchart: {
+    htmlLabels: true,
+    defaultRenderer: "dagre-wrapper",
+    curve: "monotoneY",
+    nodeSpacing: 70,
+    rankSpacing: 100,
+    padding: 34,
+    useMaxWidth: true,
+    diagramPadding: 16,
+  },
+  themeCSS: `
+    .nodeLabel, .edgeLabel { white-space: normal; }
+    .node .label { padding: 6px 10px; }
+    .edgeLabel { padding: 2px 6px; }
+  `,
+});
+```
+
+The `flowchart` block is ignored for sequence and gantt diagrams, so one canonical
+initialize stays correct for every diagram type. `securityLevel` is left unset
+(strict default) — the templates have no `click` cross-links, and loosening the
+security posture is a user decision, never a default.
+
+### Setting → failure it prevents
+
+| Setting | One-shot failure it prevents |
+|---|---|
+| `htmlLabels: true` + `themeCSS` `white-space: normal` | Long labels overflow or clip the node; this pair lets labels wrap inside the box |
+| `useMaxWidth: true` | Diagram overflows the container width on narrow surfaces |
+| `nodeSpacing` / `rankSpacing` / `diagramPadding` | Dense graphs collide; generous spacing keeps nodes and edges legible |
+| `fontSize: "15px"` + `fontFamily` | Text renders too small or in an inconsistent face |
+| `theme: "base"` + `themeVariables` | Default palette ignores the shared theme and can fail contrast |
+| `.node .label` / `.edgeLabel` padding | Labels touch their borders; padding restores breathing room |
+
+### Orientation: `TD`, not `LR`
+
+Author flowcharts top-down (`flowchart TD`), not left-right (`flowchart LR`). `LR`
+forces the diagram wide and shrinks labels unreadably on column-width surfaces — a
+README, a PR, a ticket. A `.md` fenced ```` ```mermaid ```` block cannot carry an
+init directive at all (and per-block `%%{init}%%` is disallowed here), so on that
+surface only `TD` orientation and short labels are portable — the hardened config
+applies to the `.html` form, where the initialize can run.
 
 ## Honesty checklist
 
@@ -162,13 +235,16 @@ After producing a markdown output, verify by reading it back and checking:
 - [ ] Units present on all numeric columns / bars / labels
 - [ ] Sort order matches the value being compared
 - [ ] Source line present
-- [ ] If the target is a mermaid-aware surface and the output is a `.md` with
-      ```` ```mermaid ```` block, confirm the mermaid block parses (open the
-      committed file in a renderer or paste into the GitHub markdown preview)
-- [ ] If the output is `.html` with mermaid, open in Chrome and confirm the
-      diagram renders to SVG without console errors
-- [ ] If the output is plain-text-safe, view it in the destination surface
-      (or a generic markdown previewer) and confirm character alignment holds
+- [ ] If the output is a `.md` with a ```` ```mermaid ```` block, confirm by
+      reading the source that the diagram is a recognized type with balanced
+      structure and labels short enough for the target column width
+- [ ] If the output is `.html` with mermaid, confirm by reading the source that
+      the mermaid.js import, the `mermaid.initialize` call, the
+      `<pre class="mermaid">` source, and the `<noscript>` fallback are all
+      present and the diagram source parses
+- [ ] If the output is plain-text-safe, confirm character alignment holds by
+      reasoning about column widths against the destination's monospace
+      assumption
 
 ## Cross-references
 

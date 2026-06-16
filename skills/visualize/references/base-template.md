@@ -1,215 +1,123 @@
-# Base HTML Template
+# Authoring a D3 Fragment
 
-> **Scope:** This reference covers the D3 HTML template structure used by the sankey template and template-crafter. For the Vega/VL wrapper pattern, see [base-vega-wrapper.md](base-vega-wrapper.md).
+> **Scope:** This reference covers the D3 fragment structure. For Vega fragments, see [base-vega-wrapper.md](base-vega-wrapper.md). The two share one wrapper and one assembler; they differ only in what the chart code does.
 
-Browser-runnable HTML structure for D3 visualization templates. Copy and customize for custom D3 chart types. Verify D3.js CDN import URLs and API usage against the current D3 documentation before deploying.
+A D3 chart is a fragment: a single `.frag.html` file holding one chart's drawing code, styles, and accessibility wiring. The shared assembler at `scripts/build_viz.py` injects each fragment into the one engine-agnostic wrapper, supplies the OpenColors theme and the shared helpers, and scopes the chart to its own instance so several fragments can share one page without colliding. D3 fragments live under `assets/d3/fragments/<category>/<name>.frag.html`. Verify D3 CDN imports and API usage against the current D3 documentation before deploying.
 
-## Frontmatter Metadata
+Reach for D3 when the chart needs something Vega cannot give: a mark a reader can focus and step through from the keyboard, an `aria-label` and a list role on every data point, a hover or filter or brush or drag interaction, or a structural layout like a sankey. That is the line the engine criteria draw in [engine-selection.md](engine-selection.md), and it is the reason a D3 fragment carries more code than its Vega counterpart.
 
-Every visualization must include an HTML comment frontmatter block at the very top of the file. This metadata enables CLI storage and searchability.
+## Fragment Structure
 
-```html
-<!--
-name: Sales by Region Q4 2024
-description: Quarterly sales comparison across geographic regions
-chart-type: bar-chart
-project: sales-dashboard
-created: [current-timestamp-ISO-8601]
--->
+A fragment is a sequence of named sections, each introduced by an HTML comment marker. The assembler reads the markers and places each section in the right slot of the wrapper.
+
+| Section | What it holds |
+|---|---|
+| `frontmatter` | The metadata block: `name`, `description`, `chart-type`, `engine`. |
+| `title` | The headline sentence, the chart's argument in words. |
+| `subtitle` | The supporting line under the title: what is measured, over what range, in what units. |
+| `chart-css` | Styles for this chart, every selector prefixed with `.viz` so the rules reach only this instance. |
+| `mount` | The SVG element the chart draws into, carrying its `<title>` and `<desc>`. |
+| `helpers` | The shared helpers this chart needs. A D3 chart usually asks for `tooltip, a11y, data-table`. |
+| `chart-js` | The data, scales, axes, marks, and interaction code. |
+
+The `engine` frontmatter field reads `d3`. It tells the assembler to inject the D3 import.
+
+## How the Chart Reaches the Page
+
+The assembler injects `import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm"` ahead of the chart code, pinned to the D3 major version. It also opens the chart code with three names already in scope: `root` (this instance's container element), `uid` (this instance's unique id), and `VizHelpers` (the shared helper object). Never redeclare `root` or `uid` inside the chart code; the assembler has already declared them, and a second `const root` is a syntax error that no static check catches until the page fails to run. When a hierarchy layout needs a root node, name it something else, `hierarchyRoot` for instance.
+
+Select into the page through `root`, never through a document-wide id:
+
+```js
+const svg = d3.select(root.querySelector("svg"))
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Human-readable visualization title |
-| `description` | Yes | Brief description of what the visualization shows |
-| `chart-type` | Yes | Chart type: `bar-chart`, `line-chart`, `scatter-plot`, `histogram`, `pie-chart`, etc. |
-| `project` | Yes | Project identifier for grouping related visualizations |
-| `created` | Yes | ISO 8601 timestamp (use `new Date().toISOString()`) |
+The same fragment may appear more than once in a composed document. A `d3.select("#chart")` would bind every copy to the first match; `root.querySelector("svg")` reaches only this instance. The shared helpers follow the same rule: each takes `root` as its first argument.
 
-## Template Structure
+## The Mount
+
+The mount section is the SVG, and it carries the chart's accessibility identity. The `{{uid}}` token expands to this instance's id at assembly, so the `<title>` and `<desc>` ids stay unique even when the chart is composed alongside others:
 
 ```html
-<!--
-name: [Descriptive Name]
-description: [What the visualization shows]
-chart-type: [bar-chart|line-chart|scatter-plot|histogram|pie-chart|...]
-project: [project-name]
-created: [ISO timestamp]
--->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>[Chart Type] — Visualizer Template</title>
-  <style>
-    /* ============================================
-       STYLES
-       Modify colors, fonts, dimensions here
-       ============================================ */
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #fafafa;
-    }
-
-    #container {
-      max-width: 960px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      margin-top: 0;
-      font-size: 1.5rem;
-      color: #333;
-    }
-
-    /* Chart-specific styles */
-    .axis text { font-size: 12px; }
-    .axis path, .axis line { stroke: #ccc; }
-
-    .tooltip {
-      position: absolute;
-      background: white;
-      border: 1px solid #ddd;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 13px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.15s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-  </style>
-</head>
-<body>
-  <div id="container">
-    <h1>[Chart Title]</h1>
-    <div id="chart"></div>
-  </div>
-  <div class="tooltip" id="tooltip"></div>
-
-  <script type="module">
-    // ============================================
-    // IMPORTS
-    // D3.js loaded via CDN (ESM format)
-    // ============================================
-    import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-
-    // ============================================
-    // DATA
-    // Replace this with your own data
-    // Expected format: [documented shape]
-    // ============================================
-    const data = [
-      // Sample data here
-    ];
-
-    // ============================================
-    // CONFIGURATION
-    // Adjust dimensions, colors, and settings
-    // ============================================
-    const margin = { top: 40, right: 30, bottom: 50, left: 60 };
-    const width = 800 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-
-    // Color scheme (colorblind-safe by default)
-    const colors = d3.schemeTableau10;
-
-    // ============================================
-    // SCALES
-    // Data-to-pixel mappings
-    // ============================================
-    // Scale definitions here
-
-    // ============================================
-    // SVG SETUP
-    // Responsive container with viewBox
-    // ============================================
-    const svg = d3.select("#chart")
-      .append("svg")
-      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .attr("role", "img")
-      .attr("aria-labelledby", "chart-title chart-desc")
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // Accessibility: title and description
-    svg.append("title")
-      .attr("id", "chart-title")
-      .text("[Descriptive title for screen readers]");
-
-    svg.append("desc")
-      .attr("id", "chart-desc")
-      .text("[Description of what the chart shows]");
-
-    // ============================================
-    // AXES
-    // ============================================
-    // Axis rendering here
-
-    // ============================================
-    // MARKS
-    // The data visualization elements
-    // ============================================
-    // Mark rendering here
-
-    // ============================================
-    // TOOLTIP
-    // Hover interaction for details
-    // ============================================
-    const tooltip = d3.select("#tooltip");
-
-    function showTooltip(event, d) {
-      tooltip
-        .style("opacity", 1)
-        .style("left", (event.pageX + 10) + "px")
-        .style("top", (event.pageY - 10) + "px")
-        .html(`[Tooltip content]`);
-    }
-
-    function hideTooltip() {
-      tooltip.style("opacity", 0);
-    }
-  </script>
-</body>
-</html>
+<svg role="list" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <title id="{{uid}}-title">Electronics leads product sales at $42.5K</title>
+  <desc id="{{uid}}-desc">
+    Bar chart comparing product sales across six retail categories. Electronics
+    leads at $42,500, followed by Clothing at $38,200.
+  </desc>
+</svg>
 ```
 
-## Section Guidelines
+The `role="list"` on the SVG, paired with `role="listitem"` on each mark, lets a screen reader announce "list of six bars" and move between them. Write a real sentence in `<desc>`, the same argument the headline makes, so a listener who never sees the chart still learns what it shows.
 
-| Section | Purpose | Customization |
-|---------|---------|---------------|
-| STYLES | Visual appearance | Colors, fonts, spacing |
-| IMPORTS | CDN dependencies | Add libraries as needed |
-| DATA | Sample dataset | Document expected shape |
-| CONFIGURATION | Dimensions, colors | Chart-specific settings |
-| SCALES | Data-to-pixel mapping | Match data types |
-| SVG SETUP | Responsive container | Keep viewBox pattern |
-| AXES | Axis labels and ticks | Adjust formats |
-| MARKS | Visual elements | Chart-type specific |
-| TOOLTIP | Hover details | Content formatting |
+## The Single Theme Source
+
+Color comes from one place: the OpenColors tokens in `theme.css`, which the assembler parses into `VizHelpers.tokens`. Read them at the top of the chart code rather than hard-coding hex or reaching for a D3 scheme:
+
+```js
+const t = VizHelpers.tokens;
+const colors = [t["oc-blue-7"], t["oc-orange-8"], t["oc-teal-7"], t["oc-red-7"]];
+```
+
+Because every color traces back to `theme.css`, a palette edit there reaches every chart on the next assembly. Styles in `chart-css` read the same tokens through CSS custom properties, for example `fill: var(--oc-gray-6)`.
+
+## Marks, Accessibility, and Interaction
+
+Bind data with `.join()` rather than appending inside a loop, and give every mark the attributes a keyboard and a screen reader need:
+
+```js
+const bars = g.selectAll(".bar").data(data).join("rect")
+  .attr("class", "bar")
+  // … position and size …
+  .attr("fill", (d) => colorScale(d.category))
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => `${d.category}: $${d3.format(",.0f")(d.value)}`);
+```
+
+Wire interaction through the shared helpers so behavior stays consistent across charts and scoped to this instance:
+
+- `VizHelpers.showTooltip(root, event, html)` and `VizHelpers.hideTooltip(root)` drive the tooltip that the `tooltip` helper provides. Call them from both pointer events and focus events, so a keyboard reader sees the same detail a mouse reader does.
+- `VizHelpers.navigateMarks(root, prevKey, nextKey)` makes the focusable marks reachable with arrow keys. Pass the keys that suit the chart's axis, `"ArrowLeft"` and `"ArrowRight"` for a horizontal sequence. When a chart groups marks into independent sets and arrow keys should stay within a set, keep a per-set `keydown` handler instead, scoped to `root`.
+- `VizHelpers.renderDataTable(root, rows, headers)` builds the collapsed `<details>` table that carries the data when the marks cannot.
+
+## Responsiveness
+
+Size the SVG with a `viewBox` and a percentage width, never with fixed pixel `width` and `height` attributes. The chart then scales to its container, on a slide or in a composed dashboard panel alike. Follow the D3 margin convention: `margin`, `width`, and `height` constants, with the inner group translated by the left and top margins.
+
+## What the Render Checker Enforces
+
+`scripts/check_render.py` reads the assembled D3 output and reports defects before the chart opens. It expects the `<title>` and `<desc>` pair, the data-table fallback, and keyboard wiring on interactive marks; a chart whose marks respond to the pointer but offer no key handler is flagged, because the interaction should work without a mouse. Run the checker over the assembled example as the last step before presenting.
+
+## Composing Several Charts
+
+To place more than one chart on a page, assemble the fragments together:
+
+```bash
+python3 scripts/build_viz.py --compose <frag-a> <frag-b> --out dashboard.html
+```
+
+Each fragment becomes its own `<section>` with a unique id, its styles confined to that section, its scripts scoped to its own `root`. The fragments may mix engines freely; a D3 chart and a Vega chart sit side by side in one document with no shared globals and no id clashes.
 
 ## Required Patterns
 
-- **ESM imports**: Use `import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm"`
-- **viewBox responsiveness**: Never use fixed `width`/`height` on SVG
-- **D3 margin convention**: `margin`, `width`, `height` constants with transform
-- **`.join()` for data binding**: Not `.append()` in loops
-- **Colorblind-safe defaults**: `d3.schemeTableau10` or similar
+- **Scope through `root`** — `root.querySelector(...)`, never `document.getElementById` or a global id selector.
+- **Never redeclare `root` or `uid`** — the assembler supplies them; name a hierarchy root `hierarchyRoot`.
+- **OpenColors tokens** — read color from `VizHelpers.tokens` and `var(--oc-…)`, not `d3.schemeTableau10` or hard-coded hex.
+- **Per-mark accessibility** — `tabindex`, `role="listitem"`, and `aria-label` on every data mark, under a `role="list"` SVG.
+- **Keyboard parity** — every pointer interaction has a focus equivalent, via the shared helpers.
+- **`viewBox` responsiveness** — no fixed `width`/`height` on the SVG.
+- **`.join()` for data binding** — not `.append()` in a loop.
 
 ## See Also
 
-- **[base-vega-wrapper.md](base-vega-wrapper.md)** — Vega/VL HTML wrapper template used for all standard chart types (bar, line, scatter, pie, histogram, etc.). Most new visualizations should use the Vega-Lite wrapper instead of this D3 base template.
+- **[base-vega-wrapper.md](base-vega-wrapper.md)** — authoring a Vega fragment, for static charts where conciseness wins and the data table carries the accessible floor.
+- **[engine-selection.md](engine-selection.md)** — the criteria that decide D3 against Vega against Markdown.
 
 ## Sources
 
-- D3.js documentation — <https://d3js.org/getting-started>
+- D3 documentation — <https://d3js.org/getting-started>
 - D3 API Reference — <https://github.com/d3/d3/blob/main/API.md>
 - SVG Accessibility API Mappings — <https://www.w3.org/TR/svg-aam-1.0/>

@@ -1,84 +1,280 @@
 <!-- @section: frontmatter -->
-name: Sparkline (D3) description: Standalone D3 sparkline panel showing compact inline trends for 3
-metrics, with keyboard navigation and ARIA support chart-type: sparkline engine: d3
-
-<!-- @section: head-title -->
+name: Sparkline (D3)
+description: Standalone D3 sparkline panel showing compact inline trends for 3 metrics, with keyboard navigation and ARIA support
+chart-type: sparkline
+engine: d3
+<!-- @section: title -->
 Revenue trending up, while Churn rose in Q3
-
+<!-- @section: subtitle -->
+Key metrics over 12 months (Jan–Dec 2024)
 <!-- @section: chart-css -->
-.sparkline-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px
-solid var(--oc-gray-1); } .sparkline-row:last-child { border-bottom: none; } .spark-label { width:
-120px; flex-shrink: 0; font-size: 13px; font-weight: 600; color: var(--oc-gray-8); } .spark-start,
-.spark-end { font-size: 12px; color: var(--oc-gray-6); width: 60px; flex-shrink: 0; } .spark-start {
-text-align: right; } .spark-end { text-align: left; } .spark-end .change { display: block;
-font-size: 11px; font-weight: 600; } .spark-svg-wrap { flex: 1; } .spark-point:focus { outline: 2px
-solid var(--oc-blue-7); outline-offset: 2px; } .spark-point:focus:not(:focus-visible) { outline:
-none; }
-
-<!-- @section: body -->
-<h1>Revenue trending up, while Churn rose in Q3</h1>
-<p class="subtitle">Key metrics over 12 months (Jan–Dec 2024)</p>
-<div id="sparks"></div>
-<div class="tooltip" id="tooltip"></div>
-<details>
-  <summary>View data table</summary>
-  <div id="data-table"></div>
-</details>
-
+.viz .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.viz .sparkline-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--oc-gray-1);
+}
+.viz .sparkline-row:last-child {
+  border-bottom: none;
+}
+.viz .spark-label {
+  width: 120px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--oc-gray-8);
+}
+.viz .spark-start,
+.viz .spark-end {
+  font-size: 12px;
+  color: var(--oc-gray-6);
+  width: 60px;
+  flex-shrink: 0;
+}
+.viz .spark-start {
+  text-align: right;
+}
+.viz .spark-end {
+  text-align: left;
+}
+.viz .spark-end .change {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+}
+.viz .spark-svg-wrap {
+  flex: 1;
+}
+.viz .spark-point:focus {
+  outline: 2px solid var(--oc-blue-7);
+  outline-offset: 2px;
+}
+.viz .spark-point:focus:not(:focus-visible) {
+  outline: none;
+}
+<!-- @section: mount -->
+<div class="sparks" role="group" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <p id="{{uid}}-title" class="visually-hidden">Revenue trending up, while Churn rose in Q3</p>
+  <p id="{{uid}}-desc" class="visually-hidden">
+    A panel of three sparklines tracking key metrics across 12 months (January to December 2024).
+    Revenue and Active Users trend upward over the year; Churn Rate dips early, rises through the
+    third quarter, then eases at year end.
+  </p>
+</div>
+<!-- @section: helpers -->
+tooltip, data-table
 <!-- @section: chart-js -->
-// --- DATA --- const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-"Oct", "Nov", "Dec", ]; const metrics = [ { label: "Revenue ($K)", color: "#1c7ed6", format: (v) =>
-`$${v}K`, values: [82, 88, 91, 95, 97, 103, 108, 112, 115, 118, 122, 128], }, { label: "Active
-Users", color: "#0ca678", format: (v) => `${v.toLocaleString()}`, values: [4200, 4350, 4500, 4480,
-4620, 4800, 4950, 5100, 5050, 5200, 5400, 5600], }, { label: "Churn Rate (%)", color: "#e8590c",
-format: (v) => `${v}%`, values: [3.2, 3.0, 2.8, 2.9, 2.7, 2.8, 3.1, 3.4, 3.6, 3.3, 3.1, 2.9], }, ];
-const sparkW = 260; const sparkH = 52; const tooltip = d3.select("#tooltip");
-metrics.forEach((metric) => { const row = d3.select("#sparks").append("div").attr("class",
-"sparkline-row"); row.append("div").attr("class", "spark-label").text(metric.label); // Start value
-row.append("div").attr("class", "spark-start").text(metric.format(metric.values[0])); // SVG
-sparkline const wrap = row.append("div").attr("class", "spark-svg-wrap"); const svg = wrap
-.append("svg") .attr("role", "img") .attr("aria-labelledby",
-`spark-title-${metric.label.replace(/\W/g, "")}`) .attr("viewBox", `0 0 ${sparkW} ${sparkH}`)
-.attr("width", "100%") .attr("height", sparkH); svg .append("title") .attr("id",
-`spark-title-${metric.label.replace(/\W/g, "")}`) .text( `Sparkline for ${metric.label}:
-${months.map((m, i) => `${m}: ${metric.format(metric.values[i])}`).join(", ")}`, ); const xScale =
-d3 .scaleLinear() .domain([0, metric.values.length - 1]) .range([4, sparkW - 4]); const yScale = d3
-.scaleLinear() .domain([d3.min(metric.values) * 0.95, d3.max(metric.values) * 1.05]) .range([sparkH
-- 4, 4]); const line = d3 .line() .x((_, i) => xScale(i)) .y((d) => yScale(d))
-.curve(d3.curveMonotoneX); // Area fill const area = d3 .area() .x((_, i) => xScale(i)) .y0(sparkH)
-.y1((d) => yScale(d)) .curve(d3.curveMonotoneX); svg .append("path") .datum(metric.values)
-.attr("fill", metric.color) .attr("opacity", 0.08) .attr("d", area); svg .append("path")
-.datum(metric.values) .attr("fill", "none") .attr("stroke", metric.color) .attr("stroke-width", 2)
-.attr("d", line); // Interactive data points const points = svg .selectAll(".spark-point")
-.data(metric.values.map((v, i) => ({ v, i }))) .join("circle") .attr("class", "spark-point")
-.attr("cx", (d) => xScale(d.i)) .attr("cy", (d) => yScale(d.v)) .attr("r", 4) .attr("fill",
-metric.color) .attr("opacity", 0) .attr("tabindex", 0) .attr("role", "listitem") .attr("aria-label",
-(d) => `${months[d.i]}: ${metric.format(d.v)}`) .on("pointerenter", function (event, d) {
-d3.select(this).attr("opacity", 1); tooltip .style("opacity", 1) .html(`
-<strong>${months[d.i]}</strong>
-<br />
-${metric.label}: ${metric.format(d.v)}`) .style("left", `${event.pageX + 12}px`) .style("top",
-`${event.pageY - 28}px`); }) .on("pointermove", (event) => { tooltip.style("left", `${event.pageX +
-12}px`).style("top", `${event.pageY - 28}px`); }) .on("pointerleave", function () {
-d3.select(this).attr("opacity", 0); tooltip.style("opacity", 0); }) .on("focus", function (event, d)
-{ d3.select(this).attr("opacity", 1); const rect = this.getBoundingClientRect(); tooltip
-.style("opacity", 1) .html(`
-<strong>${months[d.i]}</strong>
-<br />
-${metric.label}: ${metric.format(d.v)}`) .style("left", `${rect.x + rect.width / 2}px`)
-.style("top", `${rect.y - 40}px`); }) .on("blur", function () { d3.select(this).attr("opacity", 0);
-tooltip.style("opacity", 0); }); points.on("keydown", function (event) { const nodes =
-points.nodes(); const idx = nodes.indexOf(this); if (event.key === "ArrowRight" && idx <
-nodes.length - 1) { event.preventDefault(); nodes[idx + 1].focus(); } else if (event.key ===
-"ArrowLeft" && idx > 0) { event.preventDefault(); nodes[idx - 1].focus(); } }); // End value +
-change const first = metric.values[0]; const last = metric.values[metric.values.length - 1]; const
-pctChange = (((last - first) / first) * 100).toFixed(1); const up = last >= first; const endDiv =
-row.append("div").attr("class", "spark-end"); endDiv.append("span").text(metric.format(last));
-endDiv .append("span") .attr("class", "change") .style("color", up ? "#0ca678" : "#f03e3e")
-.text(`${up ? "▲" : "▼"} ${Math.abs(pctChange)}%`); }); // --- DATA TABLE --- const table = d3
-.select("#data-table") .append("table") .attr("role", "table") .attr("aria-label", "Data table for
-sparklines"); const thead = table.append("thead").append("tr"); thead.append("th").attr("scope",
-"col").text("Month"); metrics.forEach((m) => thead.append("th").attr("scope", "col").text(m.label));
-const tbody = table.append("tbody"); months.forEach((month, i) => { const tr = tbody.append("tr");
-tr.append("td").text(month); metrics.forEach((m) => tr.append("td").text(m.format(m.values[i])));
+const t = VizHelpers.tokens;
+
+// --- DATA ---
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const metrics = [
+  {
+    label: "Revenue ($K)",
+    color: t["oc-blue-7"],
+    format: (v) => `$${v}K`,
+    values: [82, 88, 91, 95, 97, 103, 108, 112, 115, 118, 122, 128],
+  },
+  {
+    label: "Active Users",
+    color: t["oc-teal-7"],
+    format: (v) => `${v.toLocaleString()}`,
+    values: [4200, 4350, 4500, 4480, 4620, 4800, 4950, 5100, 5050, 5200, 5400, 5600],
+  },
+  {
+    label: "Churn Rate (%)",
+    color: t["oc-orange-8"],
+    format: (v) => `${v}%`,
+    values: [3.2, 3.0, 2.8, 2.9, 2.7, 2.8, 3.1, 3.4, 3.6, 3.3, 3.1, 2.9],
+  },
+];
+
+const sparkW = 260;
+const sparkH = 52;
+const sparks = d3.select(root.querySelector(".sparks"));
+const tooltip = d3.select(root.querySelector(".tooltip"));
+
+metrics.forEach((metric) => {
+  // Scope the per-metric svg label/desc ids with the fragment uid so two
+  // sparkline panels on one page never collide.
+  const safe = metric.label.replace(/\W/g, "");
+  const titleId = `${uid}-spark-title-${safe}`;
+  const descId = `${uid}-spark-desc-${safe}`;
+
+  const row = sparks.append("div").attr("class", "sparkline-row");
+
+  row.append("div").attr("class", "spark-label").text(metric.label);
+
+  // Start value
+  row.append("div").attr("class", "spark-start").text(metric.format(metric.values[0]));
+
+  // SVG sparkline
+  const wrap = row.append("div").attr("class", "spark-svg-wrap");
+  const svg = wrap
+    .append("svg")
+    .attr("role", "list")
+    .attr("aria-labelledby", `${titleId} ${descId}`)
+    .attr("viewBox", `0 0 ${sparkW} ${sparkH}`)
+    .attr("width", "100%")
+    .attr("height", sparkH);
+
+  const first = metric.values[0];
+  const last = metric.values[metric.values.length - 1];
+  const pctChange = (((last - first) / first) * 100).toFixed(1);
+  const trendUp = last >= first;
+
+  svg
+    .append("title")
+    .attr("id", titleId)
+    .text(`Sparkline for ${metric.label}`);
+
+  // A6 fix: every sparkline svg now carries a <desc> describing its trend, and
+  // the svg's aria-labelledby pairs the title id with this desc id.
+  svg
+    .append("desc")
+    .attr("id", descId)
+    .text(
+      `${metric.label} over 12 months, from ${metric.format(first)} in January to ` +
+        `${metric.format(last)} in December, ${trendUp ? "up" : "down"} ` +
+        `${Math.abs(pctChange)} percent overall.`,
+    );
+
+  const xScale = d3
+    .scaleLinear()
+    .domain([0, metric.values.length - 1])
+    .range([4, sparkW - 4]);
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([d3.min(metric.values) * 0.95, d3.max(metric.values) * 1.05])
+    .range([sparkH - 4, 4]);
+
+  const line = d3
+    .line()
+    .x((_, i) => xScale(i))
+    .y((d) => yScale(d))
+    .curve(d3.curveMonotoneX);
+
+  // Area fill
+  const area = d3
+    .area()
+    .x((_, i) => xScale(i))
+    .y0(sparkH)
+    .y1((d) => yScale(d))
+    .curve(d3.curveMonotoneX);
+
+  svg
+    .append("path")
+    .datum(metric.values)
+    .attr("fill", metric.color)
+    .attr("opacity", 0.08)
+    .attr("d", area);
+
+  svg
+    .append("path")
+    .datum(metric.values)
+    .attr("fill", "none")
+    .attr("stroke", metric.color)
+    .attr("stroke-width", 2)
+    .attr("d", line);
+
+  // Interactive data points
+  const points = svg
+    .selectAll(".spark-point")
+    .data(metric.values.map((v, i) => ({ v, i })))
+    .join("circle")
+    .attr("class", "spark-point")
+    .attr("cx", (d) => xScale(d.i))
+    .attr("cy", (d) => yScale(d.v))
+    .attr("r", 4)
+    .attr("fill", metric.color)
+    .attr("opacity", 0)
+    .attr("tabindex", 0)
+    .attr("role", "listitem")
+    .attr("aria-label", (d) => `${months[d.i]}: ${metric.format(d.v)}`)
+    .on("pointerenter", function (event, d) {
+      d3.select(this).attr("opacity", 1);
+      VizHelpers.showTooltip(
+        root,
+        event,
+        `<strong>${months[d.i]}</strong><br>${metric.label}: ${metric.format(d.v)}`,
+      );
+    })
+    .on("pointermove", function (event, d) {
+      VizHelpers.showTooltip(
+        root,
+        event,
+        `<strong>${months[d.i]}</strong><br>${metric.label}: ${metric.format(d.v)}`,
+      );
+    })
+    .on("pointerleave", function () {
+      d3.select(this).attr("opacity", 0);
+      VizHelpers.hideTooltip(root);
+    })
+    .on("focus", function (event, d) {
+      d3.select(this).attr("opacity", 1);
+      const rect = this.getBoundingClientRect();
+      tooltip
+        .style("opacity", 1)
+        .html(`<strong>${months[d.i]}</strong><br>${metric.label}: ${metric.format(d.v)}`)
+        .style("left", `${rect.x + rect.width / 2}px`)
+        .style("top", `${rect.y - 40}px`);
+    })
+    .on("blur", function () {
+      d3.select(this).attr("opacity", 0);
+      VizHelpers.hideTooltip(root);
+    });
+
+  // Keyboard navigation confined to this metric's points (matches the original
+  // per-row behaviour rather than crossing into the next metric).
+  points.on("keydown", function (event) {
+    const nodes = points.nodes();
+    const idx = nodes.indexOf(this);
+    if (event.key === "ArrowRight" && idx < nodes.length - 1) {
+      event.preventDefault();
+      nodes[idx + 1].focus();
+    } else if (event.key === "ArrowLeft" && idx > 0) {
+      event.preventDefault();
+      nodes[idx - 1].focus();
+    }
+  });
+
+  // End value + change
+  const endDiv = row.append("div").attr("class", "spark-end");
+  endDiv.append("span").text(metric.format(last));
+  endDiv
+    .append("span")
+    .attr("class", "change")
+    .style("color", trendUp ? t["oc-teal-7"] : t["oc-red-7"])
+    .text(`${trendUp ? "▲" : "▼"} ${Math.abs(pctChange)}%`);
 });
+
+// --- DATA TABLE ---
+const tableRows = months.map((month, i) => [month, ...metrics.map((m) => m.format(m.values[i]))]);
+VizHelpers.renderDataTable(root, tableRows, ["Month", ...metrics.map((m) => m.label)]);

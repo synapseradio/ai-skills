@@ -1,9 +1,3 @@
-<!--
-name: Scatter Plot (D3)
-description: Standalone D3 scatter plot with full keyboard navigation and ARIA support
-chart-type: scatter-plot
-engine: d3
--->
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,6 +5,13 @@ engine: d3
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Height and weight correlate positively across all groups</title>
     <style>
+      /* The single source of color for every visualization engine.
+
+         These OpenColors tokens are the one place a palette change happens. The D3
+         fragments read them as CSS custom properties; the assembler also reads this
+         file to build a matching JS token object (VizHelpers.tokens) so the Vega
+         `config` and the mermaid `themeVariables` draw from the same values. Edit a
+         color here and it propagates to D3, Vega, and mermaid by re-assembly. */
       :root {
         --oc-gray-0: #f8f9fa;
         --oc-gray-1: #f1f3f5;
@@ -23,7 +24,7 @@ engine: d3
         --oc-gray-8: #343a40;
         --oc-gray-9: #212529;
         --oc-blue-7: #1c7ed6;
-        --oc-orange-7: #e8590c;
+        --oc-orange-8: #e8590c;
         --oc-teal-7: #0ca678;
         --oc-red-7: #f03e3e;
         --oc-grape-7: #ae3ec9;
@@ -31,38 +32,65 @@ engine: d3
         --oc-lime-7: #74b816;
         --oc-pink-7: #d6336c;
       }
-      * {
-        box-sizing: border-box;
-      }
+      /* Page chrome and the shared per-instance card, scoped so several fragments can
+         share one document without their styles colliding.
+
+         The assembler inlines theme.css, then this file, then each fragment's own
+         chart-css, into the wrapper's single <style>. Everything here that styles a
+         chart is scoped under `.viz` (the per-instance section root), so two fragments
+         on one page never leak rules into each other. Only the page-level backdrop and
+         the centering layout are unscoped, because those legitimately belong to the
+         host page and are written once. */
+
+      /* Page backdrop and centered column. Written once for the whole document. */
       body {
-        font-family:
-          system-ui,
-          -apple-system,
-          sans-serif;
+        font-family: system-ui, -apple-system, sans-serif;
         margin: 0;
         padding: 40px 20px;
         background: var(--oc-gray-0);
         color: var(--oc-gray-9);
       }
-      #chart-container {
+      .viz-page {
         max-width: 960px;
         margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* The per-instance card. Each fragment is a `<section class="viz">`; it carries
+         its own card so two fragments stack as two cards in the column above. */
+      .viz {
+        box-sizing: border-box;
         background: white;
         padding: 32px;
         border-radius: 8px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        /* Contain scroll and zoom gestures to this card so a chart never hijacks the
+           host page's scroll. overscroll-behavior stops scroll chaining; touch-action
+           keeps pinch-zoom from bubbling to the page. */
+        overscroll-behavior: contain;
       }
-      h1 {
+      .viz * {
+        box-sizing: border-box;
+      }
+      .viz h1 {
         font-size: 18px;
         margin: 0 0 4px;
         color: var(--oc-gray-9);
       }
-      .subtitle {
+      .viz .subtitle {
         font-size: 13px;
         color: var(--oc-gray-6);
         margin: 0 0 24px;
       }
-      .tooltip {
+      .viz figure {
+        margin: 0;
+      }
+      .viz figcaption {
+        margin: 0 0 24px;
+      }
+      .viz .tooltip {
         position: absolute;
         pointer-events: none;
         background: white;
@@ -74,298 +102,386 @@ engine: d3
         opacity: 0;
         transition: opacity 0.15s;
       }
-      .axis-label {
-        fill: var(--oc-gray-6);
-        font-size: 12px;
-      }
-      .axis-title {
-        fill: var(--oc-gray-7);
-        font-size: 13px;
-      }
-      .grid line {
-        stroke: var(--oc-gray-1);
-        stroke-dasharray: 2, 2;
-      }
-      .axis line,
-      .axis path {
-        stroke: var(--oc-gray-3);
-      }
-      details {
+      .viz details {
         margin-top: 24px;
         border-top: 1px solid var(--oc-gray-2);
         padding-top: 16px;
       }
-      summary {
+      .viz summary {
         cursor: pointer;
         color: var(--oc-gray-6);
         font-size: 13px;
       }
-      table {
+      .viz table {
         border-collapse: collapse;
         font-size: 13px;
         width: 100%;
         margin-top: 12px;
       }
-      th,
-      td {
+      .viz th,
+      .viz td {
         border: 1px solid var(--oc-gray-2);
         padding: 8px 12px;
         text-align: left;
       }
-      th {
+      .viz th {
         background: var(--oc-gray-1);
         font-weight: 600;
         color: var(--oc-gray-8);
       }
-      tr:nth-child(even) {
+      .viz tr:nth-child(even) {
         background: var(--oc-gray-0);
       }
-      .dot:focus {
+      .viz .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
+      }
+      .viz .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
+      }
+      .viz .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
+      }
+      .viz .axis line,
+      .viz .axis path {
+        stroke: var(--oc-gray-3);
+      }
+      .viz .dot:focus {
         outline: 2px solid var(--oc-blue-7);
         outline-offset: 2px;
       }
-      .dot:focus:not(:focus-visible) {
+      .viz .dot:focus:not(:focus-visible) {
         outline: none;
       }
-      .legend {
+      .viz .legend {
         font-size: 13px;
       }
     </style>
   </head>
   <body>
-    <div id="chart-container">
-      <h1>Height and weight correlate positively across all groups</h1>
-      <p class="subtitle">Height (cm) vs Weight (kg) by group</p>
-      <svg id="chart" role="img" aria-labelledby="chart-title chart-desc">
-        <title id="chart-title">Height and weight correlate positively across all groups</title>
-        <desc id="chart-desc">
-          Scatter plot of 30 data points showing the relationship between height (cm) and weight
-          (kg) across three groups: A, B, and C. All groups show a positive correlation.
-        </desc>
-      </svg>
-      <div class="tooltip" id="tooltip"></div>
-      <details>
-        <summary>View data table</summary>
-        <div id="data-table"></div>
-      </details>
-    </div>
+    <main class="viz-page">
+      <section class="viz" data-viz="viz-scatter-plot">
+        <figure>
+          <figcaption>
+            <h1>Height and weight correlate positively across all groups</h1>
+            <p class="subtitle">Height (cm) vs Weight (kg) by group</p>
+          </figcaption>
+          <svg role="list" aria-labelledby="viz-scatter-plot-title viz-scatter-plot-desc">
+            <title id="viz-scatter-plot-title">Height and weight correlate positively across all groups</title>
+            <desc id="viz-scatter-plot-desc">
+              Scatter plot of 30 data points showing the relationship between height (cm) and weight
+              (kg) across three groups: A, B, and C. All groups show a positive correlation.
+            </desc>
+          </svg>
+          <div class="tooltip" role="status" aria-live="polite"></div>
+          <details>
+            <summary>View data table</summary>
+            <div class="data-table"></div>
+          </details>
+        </figure>
+      </section>
 
-    <script type="module">
-      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+      <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-      // --- DATA ---
-      const data = [
-        { x: 155, y: 52, group: "Group A" },
-        { x: 160, y: 57, group: "Group A" },
-        { x: 163, y: 60, group: "Group A" },
-        { x: 158, y: 55, group: "Group A" },
-        { x: 167, y: 64, group: "Group A" },
-        { x: 170, y: 68, group: "Group A" },
-        { x: 162, y: 59, group: "Group A" },
-        { x: 165, y: 63, group: "Group A" },
-        { x: 172, y: 70, group: "Group A" },
-        { x: 168, y: 66, group: "Group A" },
-        { x: 175, y: 73, group: "Group B" },
-        { x: 178, y: 77, group: "Group B" },
-        { x: 180, y: 80, group: "Group B" },
-        { x: 176, y: 75, group: "Group B" },
-        { x: 182, y: 83, group: "Group B" },
-        { x: 185, y: 87, group: "Group B" },
-        { x: 179, y: 79, group: "Group B" },
-        { x: 183, y: 84, group: "Group B" },
-        { x: 188, y: 90, group: "Group B" },
-        { x: 186, y: 88, group: "Group B" },
-        { x: 190, y: 92, group: "Group C" },
-        { x: 193, y: 96, group: "Group C" },
-        { x: 195, y: 99, group: "Group C" },
-        { x: 191, y: 94, group: "Group C" },
-        { x: 197, y: 102, group: "Group C" },
-        { x: 200, y: 106, group: "Group C" },
-        { x: 194, y: 98, group: "Group C" },
-        { x: 198, y: 103, group: "Group C" },
-        { x: 203, y: 110, group: "Group C" },
-        { x: 201, y: 107, group: "Group C" },
-      ];
+        window.VizHelpers = window.VizHelpers || {};
+        VizHelpers.tokens = {
+                "oc-gray-0": "#f8f9fa",
+                "oc-gray-1": "#f1f3f5",
+                "oc-gray-2": "#e9ecef",
+                "oc-gray-3": "#dee2e6",
+                "oc-gray-4": "#ced4da",
+                "oc-gray-5": "#adb5bd",
+                "oc-gray-6": "#868e96",
+                "oc-gray-7": "#495057",
+                "oc-gray-8": "#343a40",
+                "oc-gray-9": "#212529",
+                "oc-blue-7": "#1c7ed6",
+                "oc-orange-8": "#e8590c",
+                "oc-teal-7": "#0ca678",
+                "oc-red-7": "#f03e3e",
+                "oc-grape-7": "#ae3ec9",
+                "oc-cyan-7": "#1098ad",
+                "oc-lime-7": "#74b816",
+                "oc-pink-7": "#d6336c",
+        };
 
-      // --- DIMENSIONS ---
-      const margin = { top: 24, right: 120, bottom: 56, left: 64 };
-      const width = 640;
-      const height = 420;
-      const innerWidth = width - margin.left - margin.right;
-      const innerHeight = height - margin.top - margin.bottom;
+        // Root-scoped tooltip helpers. Every function takes the fragment's own root
+        // element (the `<section class="viz">`) and finds the tooltip inside it, so two
+        // fragments on one page each drive their own tooltip rather than fighting over a
+        // single document-global `#tooltip`. The assembler inlines this once and hangs
+        // the functions on the shared `window.VizHelpers` namespace.
+        VizHelpers.showTooltip = function (root, event, html) {
+          const tip = root.querySelector(".tooltip");
+          if (!tip) return;
+          tip.style.opacity = "1";
+          tip.innerHTML = html;
+          tip.style.left = event.pageX + 12 + "px";
+          tip.style.top = event.pageY - 28 + "px";
+        };
+        VizHelpers.hideTooltip = function (root) {
+          const tip = root.querySelector(".tooltip");
+          if (tip) tip.style.opacity = "0";
+        };
 
-      const groups = [...new Set(data.map((d) => d.group))];
-      const colors = ["#1c7ed6", "#e8590c", "#0ca678"];
-      const colorScale = d3.scaleOrdinal().domain(groups).range(colors);
+        // Root-scoped keyboard navigation. Arrow keys move focus between the focusable
+        // marks inside one fragment. It scopes its query to the fragment root rather
+        // than the whole document, so arrow keys in one chart never jump focus into a
+        // sibling chart on the same page. The assembler inlines this once on the shared
+        // `window.VizHelpers` namespace.
+        //
+        // Usage from a fragment's script: VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight")
+        VizHelpers.navigateMarks = function (root, prevKey, nextKey) {
+          if (!root) return;
+          root.addEventListener("keydown", function (event) {
+            const focusable = Array.from(root.querySelectorAll('[tabindex="0"]'));
+            if (focusable.length === 0) return;
+            const idx = focusable.indexOf(document.activeElement);
+            if (event.key === nextKey && idx < focusable.length - 1) {
+              event.preventDefault();
+              focusable[idx + 1].focus();
+            } else if (event.key === prevKey && idx > 0) {
+              event.preventDefault();
+              focusable[idx - 1].focus();
+            }
+          });
+        };
 
-      // --- SVG ---
-      const svg = d3
-        .select("#chart")
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("width", "100%");
+        // Root-scoped data-table renderer. It builds the `<details>` fallback table
+        // inside one fragment, locating the mount by class within the fragment root
+        // rather than by a document-global id, so two fragments each render their own
+        // table. The assembler inlines this once on the shared `window.VizHelpers`
+        // namespace.
+        //
+        // Usage from a fragment's script:
+        //   VizHelpers.renderDataTable(root, rows, ["Col A", "Col B"])
+        // where `root` is the `<section class="viz">` and the mount is the
+        // `.data-table` element inside it.
+        VizHelpers.renderDataTable = function (root, rows, columns) {
+          const container = root.querySelector(".data-table");
+          if (!container) return;
+          const table = document.createElement("table");
+          table.setAttribute("role", "table");
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          columns.forEach(function (col) {
+            const th = document.createElement("th");
+            th.scope = "col";
+            th.textContent = col;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+          const tbody = document.createElement("tbody");
+          rows.forEach(function (row) {
+            const tr = document.createElement("tr");
+            row.forEach(function (cell) {
+              const td = document.createElement("td");
+              td.textContent = cell != null ? String(cell) : "";
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          container.appendChild(table);
+        };
 
-      const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+        (async function () {
+          const uid = "viz-scatter-plot";
+          const root = document.querySelector(`[data-viz="${uid}"]`);
+          // --- DATA ---
+          const data = [
+            { x: 155, y: 52, group: "Group A" },
+            { x: 160, y: 57, group: "Group A" },
+            { x: 163, y: 60, group: "Group A" },
+            { x: 158, y: 55, group: "Group A" },
+            { x: 167, y: 64, group: "Group A" },
+            { x: 170, y: 68, group: "Group A" },
+            { x: 162, y: 59, group: "Group A" },
+            { x: 165, y: 63, group: "Group A" },
+            { x: 172, y: 70, group: "Group A" },
+            { x: 168, y: 66, group: "Group A" },
+            { x: 175, y: 73, group: "Group B" },
+            { x: 178, y: 77, group: "Group B" },
+            { x: 180, y: 80, group: "Group B" },
+            { x: 176, y: 75, group: "Group B" },
+            { x: 182, y: 83, group: "Group B" },
+            { x: 185, y: 87, group: "Group B" },
+            { x: 179, y: 79, group: "Group B" },
+            { x: 183, y: 84, group: "Group B" },
+            { x: 188, y: 90, group: "Group B" },
+            { x: 186, y: 88, group: "Group B" },
+            { x: 190, y: 92, group: "Group C" },
+            { x: 193, y: 96, group: "Group C" },
+            { x: 195, y: 99, group: "Group C" },
+            { x: 191, y: 94, group: "Group C" },
+            { x: 197, y: 102, group: "Group C" },
+            { x: 200, y: 106, group: "Group C" },
+            { x: 194, y: 98, group: "Group C" },
+            { x: 198, y: 103, group: "Group C" },
+            { x: 203, y: 110, group: "Group C" },
+            { x: 201, y: 107, group: "Group C" },
+          ];
 
-      // --- SCALES ---
-      const x = d3
-        .scaleLinear()
-        .domain([d3.min(data, (d) => d.x) - 5, d3.max(data, (d) => d.x) + 5])
-        .nice()
-        .range([0, innerWidth]);
+          // --- DIMENSIONS ---
+          const margin = { top: 24, right: 120, bottom: 56, left: 64 };
+          const width = 640;
+          const height = 420;
+          const innerWidth = width - margin.left - margin.right;
+          const innerHeight = height - margin.top - margin.bottom;
 
-      const y = d3
-        .scaleLinear()
-        .domain([d3.min(data, (d) => d.y) - 5, d3.max(data, (d) => d.y) + 5])
-        .nice()
-        .range([innerHeight, 0]);
+          const t = VizHelpers.tokens;
+          const groups = [...new Set(data.map((d) => d.group))];
+          const colors = [t["oc-blue-7"], t["oc-orange-8"], t["oc-teal-7"]];
+          const colorScale = d3.scaleOrdinal().domain(groups).range(colors);
 
-      // --- GRID ---
-      g.append("g")
-        .attr("class", "grid")
-        .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat(""))
-        .call((g) => g.select(".domain").remove());
+          // --- SVG ---
+          const svg = d3
+            .select(root.querySelector("svg"))
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("width", "100%");
 
-      g.append("g")
-        .attr("class", "grid")
-        .attr("transform", `translate(0,${innerHeight})`)
-        .call(d3.axisBottom(x).tickSize(-innerHeight).tickFormat(""))
-        .call((g) => g.select(".domain").remove());
+          const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // --- AXES ---
-      g.append("g")
-        .attr("class", "axis")
-        .attr("transform", `translate(0,${innerHeight})`)
-        .call(d3.axisBottom(x).ticks(6))
-        .call((g) => g.select(".domain").attr("stroke", "#dee2e6"))
-        .selectAll("text")
-        .attr("class", "axis-label");
+          // --- SCALES ---
+          const x = d3
+            .scaleLinear()
+            .domain([d3.min(data, (d) => d.x) - 5, d3.max(data, (d) => d.x) + 5])
+            .nice()
+            .range([0, innerWidth]);
 
-      g.append("g")
-        .attr("class", "axis")
-        .call(d3.axisLeft(y).ticks(6))
-        .call((g) => g.select(".domain").attr("stroke", "#dee2e6"))
-        .selectAll("text")
-        .attr("class", "axis-label");
+          const y = d3
+            .scaleLinear()
+            .domain([d3.min(data, (d) => d.y) - 5, d3.max(data, (d) => d.y) + 5])
+            .nice()
+            .range([innerHeight, 0]);
 
-      // Axis titles
-      g.append("text")
-        .attr("class", "axis-title")
-        .attr("x", innerWidth / 2)
-        .attr("y", innerHeight + 44)
-        .attr("text-anchor", "middle")
-        .text("Height (cm)");
+          // --- GRID ---
+          g.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat(""))
+            .call((g) => g.select(".domain").remove());
 
-      g.append("text")
-        .attr("class", "axis-title")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -48)
-        .attr("x", -innerHeight / 2)
-        .attr("text-anchor", "middle")
-        .text("Weight (kg)");
+          g.append("g")
+            .attr("class", "grid")
+            .attr("transform", `translate(0,${innerHeight})`)
+            .call(d3.axisBottom(x).tickSize(-innerHeight).tickFormat(""))
+            .call((g) => g.select(".domain").remove());
 
-      // --- LEGEND ---
-      const legend = svg
-        .append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(${margin.left + innerWidth + 16}, ${margin.top})`);
+          // --- AXES ---
+          g.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${innerHeight})`)
+            .call(d3.axisBottom(x).ticks(6))
+            .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+            .selectAll("text")
+            .attr("class", "axis-label");
 
-      groups.forEach((group, i) => {
-        const row = legend.append("g").attr("transform", `translate(0, ${i * 22})`);
-        row.append("circle").attr("r", 6).attr("fill", colorScale(group)).attr("opacity", 0.85);
-        row
-          .append("text")
-          .attr("x", 12)
-          .attr("y", 4)
-          .attr("fill", "#495057")
-          .attr("font-size", "12px")
-          .text(group);
-      });
+          g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(6))
+            .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+            .selectAll("text")
+            .attr("class", "axis-label");
 
-      // --- TOOLTIP ---
-      const tooltip = d3.select("#tooltip");
+          // Axis titles
+          g.append("text")
+            .attr("class", "axis-title")
+            .attr("x", innerWidth / 2)
+            .attr("y", innerHeight + 44)
+            .attr("text-anchor", "middle")
+            .text("Height (cm)");
 
-      function showTooltip(event, d) {
-        tooltip
-          .style("opacity", 1)
-          .html(`<strong>${d.group}</strong><br>Height: ${d.x} cm<br>Weight: ${d.y} kg`)
-          .style("left", `${event.pageX + 12}px`)
-          .style("top", `${event.pageY - 28}px`);
-      }
-      function hideTooltip() {
-        tooltip.style("opacity", 0);
-      }
+          g.append("text")
+            .attr("class", "axis-title")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -48)
+            .attr("x", -innerHeight / 2)
+            .attr("text-anchor", "middle")
+            .text("Weight (kg)");
 
-      // --- DOTS ---
-      const dots = g
-        .selectAll(".dot")
-        .data(data)
-        .join("circle")
-        .attr("class", "dot")
-        .attr("cx", (d) => x(d.x))
-        .attr("cy", (d) => y(d.y))
-        .attr("r", 7)
-        .attr("fill", (d) => colorScale(d.group))
-        .attr("opacity", 0.85)
-        .attr("stroke", "white")
-        .attr("stroke-width", 1.5)
-        .attr("tabindex", 0)
-        .attr("role", "listitem")
-        .attr("aria-label", (d) => `${d.group}: height ${d.x} cm, weight ${d.y} kg`)
-        .on("pointerenter", function (event, d) {
-          d3.selectAll(".dot").attr("opacity", 0.2);
-          d3.select(this).attr("opacity", 1).attr("r", 9);
-          showTooltip(event, d);
-        })
-        .on("pointermove", showTooltip)
-        .on("pointerleave", function () {
-          d3.selectAll(".dot").attr("opacity", 0.85).attr("r", 7);
-          hideTooltip();
-        })
-        .on("focus", function (event, d) {
-          d3.selectAll(".dot").attr("opacity", 0.2);
-          d3.select(this).attr("opacity", 1).attr("r", 9);
-          const rect = this.getBoundingClientRect();
-          tooltip
-            .style("opacity", 1)
-            .html(`<strong>${d.group}</strong><br>Height: ${d.x} cm<br>Weight: ${d.y} kg`)
-            .style("left", `${rect.x + rect.width / 2}px`)
-            .style("top", `${rect.y - 52}px`);
-        })
-        .on("blur", function () {
-          d3.selectAll(".dot").attr("opacity", 0.85).attr("r", 7);
-          hideTooltip();
-        });
+          // --- LEGEND ---
+          const legend = svg
+            .append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${margin.left + innerWidth + 16}, ${margin.top})`);
 
-      // Keyboard navigation: arrow keys move between dots
-      dots.on("keydown", function (event, d) {
-        const nodes = dots.nodes();
-        const idx = nodes.indexOf(this);
-        if (event.key === "ArrowRight" && idx < nodes.length - 1) {
-          event.preventDefault();
-          nodes[idx + 1].focus();
-        } else if (event.key === "ArrowLeft" && idx > 0) {
-          event.preventDefault();
-          nodes[idx - 1].focus();
-        }
-      });
+          groups.forEach((group, i) => {
+            const row = legend.append("g").attr("transform", `translate(0, ${i * 22})`);
+            row.append("circle").attr("r", 6).attr("fill", colorScale(group)).attr("opacity", 0.85);
+            row
+              .append("text")
+              .attr("x", 12)
+              .attr("y", 4)
+              .attr("fill", t["oc-gray-7"])
+              .attr("font-size", "12px")
+              .text(group);
+          });
 
-      // --- DATA TABLE ---
-      const table = d3
-        .select("#data-table")
-        .append("table")
-        .attr("role", "table")
-        .attr("aria-label", "Data table for scatter plot");
-      const thead = table.append("thead").append("tr");
-      thead.append("th").attr("scope", "col").text("Group");
-      thead.append("th").attr("scope", "col").text("Height (cm)");
-      thead.append("th").attr("scope", "col").text("Weight (kg)");
-      const tbody = table.append("tbody");
-      data.forEach((d) => {
-        const tr = tbody.append("tr");
-        tr.append("td").text(d.group);
-        tr.append("td").text(d.x);
-        tr.append("td").text(d.y);
-      });
-    </script>
+          // --- DOTS ---
+          const dots = g
+            .selectAll(".dot")
+            .data(data)
+            .join("circle")
+            .attr("class", "dot")
+            .attr("cx", (d) => x(d.x))
+            .attr("cy", (d) => y(d.y))
+            .attr("r", 7)
+            .attr("fill", (d) => colorScale(d.group))
+            .attr("opacity", 0.85)
+            .attr("stroke", "white")
+            .attr("stroke-width", 1.5)
+            .attr("tabindex", 0)
+            .attr("role", "listitem")
+            .attr("aria-label", (d) => `${d.group}: height ${d.x} cm, weight ${d.y} kg`)
+            .on("pointerenter", function (event, d) {
+              d3.select(root.querySelector("svg")).selectAll(".dot").attr("opacity", 0.2);
+              d3.select(this).attr("opacity", 1).attr("r", 9);
+              VizHelpers.showTooltip(
+                root,
+                event,
+                `<strong>${d.group}</strong><br>Height: ${d.x} cm<br>Weight: ${d.y} kg`,
+              );
+            })
+            .on("pointermove", function (event, d) {
+              VizHelpers.showTooltip(
+                root,
+                event,
+                `<strong>${d.group}</strong><br>Height: ${d.x} cm<br>Weight: ${d.y} kg`,
+              );
+            })
+            .on("pointerleave", function () {
+              d3.select(root.querySelector("svg")).selectAll(".dot").attr("opacity", 0.85).attr("r", 7);
+              VizHelpers.hideTooltip(root);
+            })
+            .on("focus", function (event, d) {
+              d3.select(root.querySelector("svg")).selectAll(".dot").attr("opacity", 0.2);
+              d3.select(this).attr("opacity", 1).attr("r", 9);
+              const rect = this.getBoundingClientRect();
+              d3.select(root.querySelector(".tooltip"))
+                .style("opacity", 1)
+                .html(`<strong>${d.group}</strong><br>Height: ${d.x} cm<br>Weight: ${d.y} kg`)
+                .style("left", `${rect.x + rect.width / 2}px`)
+                .style("top", `${rect.y - 52}px`);
+            })
+            .on("blur", function () {
+              d3.select(root.querySelector("svg")).selectAll(".dot").attr("opacity", 0.85).attr("r", 7);
+              VizHelpers.hideTooltip(root);
+            });
+
+          // Keyboard navigation: arrow keys move between dots
+          VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+          // --- DATA TABLE ---
+          VizHelpers.renderDataTable(
+            root,
+            data.map((d) => [d.group, d.x, d.y]),
+            ["Group", "Height (cm)", "Weight (kg)"],
+          );
+        })();
+      </script>
+    </main>
   </body>
 </html>
