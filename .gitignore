@@ -61,3 +61,8 @@ yarn-error.log*
 .a5c/
 # Serena local indexer state
 .serena/
+# Local working notes (not committed)
+notes/
+
+# Private planning material — never commit
+openspec/changes/founder-brief/
