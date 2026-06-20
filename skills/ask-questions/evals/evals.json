@@ -1,0 +1,75 @@
+{
+  "evals": [
+    {
+      "expectations": [
+        "The answer is a set of at least four distinct questions.",
+        "At least three questions are grounded in specifics of this spec (e.g. overnight timing or time zones, CSV vs PDF, frequency options, failure/retry, large exports, who can access the data, retention).",
+        "No single question crams two unrelated asks together — each question carries one idea.",
+        "The questions are specific to this feature rather than a generic export checklist."
+      ],
+      "expected_output": "A small, focused set of questions grounded in the spec — surfacing the genuine gaps (failure handling, time zones for 'overnight', large exports, who can access which data, what frequency options exist, retention, format edge cases). Each question carries one idea; none are leading or compound. Not a generic checklist.",
+      "files": [],
+      "id": 1,
+      "prompt": "I'm about to build this feature and here's the rough spec I was handed: \"Users can schedule recurring exports of their dashboard data to email. They pick a frequency and a format (CSV or PDF). Exports run server-side overnight and land in the user's inbox the next morning.\" Read it and give me the questions I should be asking the product owner before I write any code."
+    },
+    {
+      "expectations": [
+        "The answer provides at least one rewritten version of the question.",
+        "The rewrite drops the loaded/leading words from the original ('difficult', 'hard', 'blowing up', 'really').",
+        "The rewrite separates the two crammed ideas rather than joining them with 'and'.",
+        "The answer explains what was wrong with the original (names that it leads the answer or carries a premise)."
+      ],
+      "expected_output": "A sharpened question (or two) that removes the smuggled premise ('difficult teammate', 'hard', 'blowing up'), splits the two crammed ideas, and anchors to a concrete past event. Should briefly explain why the original leads the answer.",
+      "files": [],
+      "id": 2,
+      "prompt": "I'm interviewing a candidate tomorrow and I want to ask about a time they handled conflict on a team. Here's my draft: \"Wasn't it really hard dealing with that difficult teammate, and how did you keep it from blowing up?\" It feels clunky and leading. Rewrite it into something better and tell me what was wrong with mine."
+    },
+    {
+      "expectations": [
+        "The answer is an ordered or numbered sequence of questions, not a flat unordered list.",
+        "The first question is broader than the last — it opens wide, then narrows.",
+        "There are at least four questions.",
+        "Each question carries a single idea."
+      ],
+      "expected_output": "An ordered sequence (not a flat parallel list) that opens broad and narrows — e.g. which screen/action, when it started, reproducible or intermittent, device/connection, what 'slow' means concretely (load vs interaction). Each answer should plausibly narrow the next. One idea per question.",
+      "files": [],
+      "id": 3,
+      "prompt": "A user just told me \"the app feels slow\" and that's literally all I've got. I need to get them from that to something specific I can actually act on, and I know one question won't do it. Give me an ordered set of questions that walks from that vague complaint down to a concrete, reproducible problem."
+    },
+    {
+      "expectations": [
+        "The answer acknowledges the frustration or names the misalignment without becoming defensive.",
+        "The answer asks clarifying questions rather than proposing another dashboard redesign.",
+        "At least one question pins down what 'cleaner' concretely means to this user.",
+        "The number of questions is restrained (roughly five or fewer), not a wall."
+      ],
+      "expected_output": "Recognizes the frustration and the drift, names it without defensiveness, and asks a few targeted clarifying questions to realign — ideally pinning down what 'cleaner' concretely means to this user. Asks rather than guesses again. Avoids a wall of questions.",
+      "files": [],
+      "id": 4,
+      "prompt": "Honestly you keep missing the point. I've asked you three times to make the dashboard \"cleaner\" and it's still not what I want. Stop guessing and start asking me — what do you actually need to know to get this right?"
+    },
+    {
+      "expectations": [
+        "The answer opens with broad questions before narrowing to specifics.",
+        "At least one question targets the underlying pain or what triggered the idea.",
+        "The questions set a path or sequence rather than dumping everything at once."
+      ],
+      "expected_output": "An open-before-closed sequence that starts broad (what's painful today, what triggered the idea) and narrows toward concrete shape (who uses it, what it replaces, what 'done' looks like). Leaves room for the answer to surprise. Doesn't dump every question at once; sets a path. May close with a catch-all.",
+      "files": [],
+      "id": 5,
+      "prompt": "I have some half-baked idea for an internal tool for my team but I genuinely can't tell you what it should do yet. I don't even know where to start. Ask me questions to pull it out of me."
+    },
+    {
+      "expectations": [
+        "The answer explicitly surfaces the tension between 'make it better' and 'don't change what people are used to'.",
+        "At least one question asks what 'better' would concretely mean (a metric or outcome).",
+        "Questions are terse and concrete, one idea each."
+      ],
+      "expected_output": "Surfaces the tension between 'better' and 'don't change what's familiar' as a question rather than silently picking a side. Asks what 'better' means here (drop-off, time-to-value, confusion) and which parts are load-bearing-familiar versus safe to change. Terse, concrete, one idea per question.",
+      "files": [],
+      "id": 6,
+      "prompt": "make the onboarding flow better but also don't change anything people are already used to. idk. you figure out what to ask me."
+    }
+  ],
+  "skill_name": "ask-questions"
+}
