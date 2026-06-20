@@ -2,7 +2,7 @@
 
 Helps written prose actually reach the person on the other end. The skill works across five dimensions of communication — purpose, clarity, integrity, shape, depth — with two cross-cutting concerns that ride along regardless: rhetorical tradition (so Anglo-American conventions do not silently become the unmarked default) and AI slop (the lexical, structural, and voice patterns that mark prose as machine-shaped).
 
-It loads only the reference files that the situation calls for. Most prose problems need two or three; some need only one. The reference set lives in [`references/`](references/) and the skill body decides which to consult based on what the prose is doing.
+Every use begins by interrogating the request across all five dimensions. The skill then loads at least one reference per dimension — a floor of five — plus the two cross-cutting files, choosing each because the diagnostic pointed at it rather than to fill a quota. The reference set lives in [`references/`](references/), and the skill body decides which to consult based on what the prose is doing.
 
 ## Install
 
@@ -40,7 +40,7 @@ The skill triggers on natural language about prose work — composing, proofread
 
 Every invocation begins with two pre-flight checks: the **tradition lens** (what rhetorical convention is the writing operating inside, and is the model about to silently normalize toward Anglo-American defaults) and the **slop audit** (does the prose carry the lexical, structural, voice, or casual-context tells of AI output, regardless of who wrote it).
 
-After that, the skill reads the prose and consults whichever of the five dimensions are relevant:
+After that, the skill works every one of the five dimensions, choosing the reference within each that this request calls for:
 
 - **Purpose** — does the shape of the piece do the job it's here to do, does it meet the reader where they are, does it bridge unfamiliar concepts.
 - **Clarity** — can the reader follow it; are actors visible; does language commit or cushion; do abstractions have grounding.
@@ -48,7 +48,7 @@ After that, the skill reads the prose and consults whichever of the five dimensi
 - **Shape** — is there tension and pull, are sections ordered to build, does sentence cadence vary, does the prose read as written by someone speaking from somewhere.
 - **Depth** — what do the claims carry that goes unsaid; are conflated concerns separated; does the prose open inquiry or close it.
 
-Each reference file is a self-contained instruction. The skill loads the ones that apply and leaves the rest alone.
+Each reference file is a self-contained instruction. The skill picks the most fitting one in each dimension as its floor, and reaches for more within a dimension as the drafts develop.
 
 ## When to use this
 

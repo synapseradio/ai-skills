@@ -10,7 +10,25 @@ metadata:
 
 Write prose for others that has purpose, clarity, integrity, and depth. Structure and phrase communication appropriate in context, mindful of linguistic tradition and how people actually speak to each other.
 
-This skill includes helpful reference files. Load all that are relevant to context.
+This skill includes reference files grouped under five dimensions: Purpose, Clarity, Integrity, Shape, and Depth. You do not pick from them at random or by instinct. You earn the selection by interrogating the request first.
+
+## Pre-flight: interrogate the request, then choose
+
+Before you draft a word, you cannot know which techniques this piece needs. The request has to tell you. Run the diagnostic below. Each dimension poses one question to *this* request, and the answer names the reference within that dimension you will load. Commit to at least one reference per dimension before writing — five applicable references, each chosen because the diagnostic pointed at it.
+
+When a dimension's question has no answer you can find in context, that absence is your cue to ask the user. A reference chosen on a guessed answer is a guess wearing a citation.
+
+| Dimension | Ask of this request | Load the most fitting |
+|-----------|---------------------|-----------------------|
+| Purpose | What is this for, and where does it land? | fit, calibrate, or analogize |
+| Clarity | Who reads it, and what stands between them and understanding? | clarify, activate, strengthen, or illustrate |
+| Integrity | What does it claim, and how sure am I? | signal-confidence, bound-scope, or surface-assumptions |
+| Shape | What form does the audience expect, and what carries attention through it? | arc, arrange, rhythm, voice, or register |
+| Depth | What does the piece leave unsaid that it still has to carry? | extract-implications, dimensionalize, or pose-questions |
+
+Two files are read every time, on top of those five. [across-languages](./references/across-languages.md) keeps the message intact for a reader who does not share your first language. [avoid-slop](./references/avoid-slop.md) is the final revision pass before anything ships.
+
+Record the five selections as todos at the start, each paired with the one-line answer that chose it. Five is the floor. A heavier piece pulls in more references per dimension as the drafts develop. The detailed routing for each dimension, with the question each reference answers, follows below.
 
 ## Questions you need answers for any piece of writing are headings below
 
@@ -67,7 +85,7 @@ Every word must earn its place in service of concept, construction, or narrative
 
 Work with the user to de-blur and align intention before you start.
 
-Set up todos when this skill is invoked without exception. When writing to artifacts, more than one draft is expected. If the user is asking for help on how to say something, you may not need multiple drafts, but you must still load at least one appropriate reference. Heavy tasks may require loading all references over the course of todos.
+Set up todos when this skill is invoked, without exception. The pre-flight diagnostic runs every time, and every time it yields at least five applicable references — one per dimension — alongside the two always-read files. This floor holds even for a quick "how do I say this" question: a short ask still has a purpose, an audience, a claim, a shape, and a depth, so the five questions still have answers. Drafting scales with the task. Diagnosis stays fixed. A one-line rewrite may need a single draft where an artifact needs several, but both pass through the same five questions first.
 
 Omit cataphora and post-hoc explanation. Output only what is worth disturbance to natural quietude, such that concept, construction, and narrative survive transit in clarity.
 
