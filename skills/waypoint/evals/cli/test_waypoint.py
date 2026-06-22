@@ -3,24 +3,35 @@
 
 Zero-dependency: stdlib unittest only. Run from the skill directory with:
 
-    python3 -m unittest scripts/test_waypoint.py
+    python3 -m unittest evals.cli.test_waypoint
 
 The tests pin the contract the rest of the skill depends on — ID determinism,
 comment-syntax resolution, block composition in both single- and multi-flow
 shapes, lenient parsing of the legacy `Map:` blocks that already exist in real
-repos, drift detection, ID-correction output, and manifest rendering.
+repos, drift detection, ID-correction output, manifest rendering, the
+prepare→validate→write safety guards on `block --write`, and the guidance
+channel (`next_steps`, `advisory`, `contract`) every command speaks.
 """
 
 from __future__ import annotations
 
 import hashlib
+import json
 import os
+import subprocess
 import sys
+import tempfile
 import unittest
+from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# waypoint.py lives in the sibling scripts/ directory, two levels up from
+# evals/cli/. Put that on the path so `import waypoint` resolves.
+_SCRIPTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "scripts")
+sys.path.insert(0, os.path.abspath(_SCRIPTS_DIR))
 
 import waypoint  # noqa: E402
+
+WAYPOINT_PY = os.path.join(os.path.abspath(_SCRIPTS_DIR), "waypoint.py")
 
 
 class TestComputeId(unittest.TestCase):
@@ -393,6 +404,169 @@ class TestRenderManifest(unittest.TestCase):
     def test_topology_section(self):
         self.assertIn("## Topology", self.out)
         self.assertIn("aaaaaaaa → bbbbbbbb ▷ dddddddd", self.out)
+
+
+def _wellformed_block(pipeline, file="svc.py"):
+    """A composed, well-formed single-flow block plus the spec that made it."""
+    spec = {
+        "file": file,
+        "flows": [
+            {
+                "pipeline": pipeline,
+                "role": "does a thing",
+                "reference": f".ai/waypoints/{pipeline}.md",
+                "neighbors": [
+                    {"dir": "into", "id": "80e5dc26", "path": "next.py", "desc": "next step"}
+                ],
+            }
+        ],
+    }
+    return waypoint.compose_block(spec).splitlines(), spec
+
+
+class TestPlanWriteInsert(unittest.TestCase):
+    """Regression guard (proves no new behavior): with no block present, the
+    plan is a plain insert at the anchor and carries no advisory."""
+
+    def test_plan_inserts_at_anchor_when_no_block(self):
+        lines = ["import os", "x = 1", "y = 2"]
+        block, spec = _wellformed_block("sourcemap-upload")
+        plan = waypoint._plan_write(lines, 2, "\n".join(block), spec)
+        self.assertEqual(plan["action"], "insert")
+        self.assertEqual(plan["insert_at"], 1)  # 1-based at=2 -> index 1
+        self.assertIsNone(plan["advisory"])
+
+
+class TestPlanWriteUpdate(unittest.TestCase):
+    """Regression guard (proves no new behavior): a well-formed same-pipeline
+    block is replaced in place so repeated runs stay idempotent."""
+
+    def test_plan_updates_same_pipeline_block_in_place(self):
+        block, spec = _wellformed_block("sourcemap-upload")
+        lines = list(block) + ["import os", "run()"]
+        plan = waypoint._plan_write(lines, 1, "\n".join(block), spec)
+        self.assertEqual(plan["action"], "update")
+        self.assertEqual(plan["start"], 0)
+        self.assertEqual(plan["end"], len(block) - 1)
+        self.assertIsNone(plan["advisory"])
+
+
+class TestPlanWriteFallbackUnterminated(unittest.TestCase):
+    """New behavior: a block whose closing legend was edited away spans to
+    end-of-file. Replacing it would swallow the trailing code, so the plan must
+    fall back to inserting a fresh block and leave the candidate untouched."""
+
+    def test_plan_falls_back_when_candidate_unterminated(self):
+        block, spec = _wellformed_block("sourcemap-upload")
+        deterred = block[:-1]  # drop the closing legend line
+        lines = list(deterred) + ["KEEP_A = 1", "KEEP_B = 2"]
+        plan = waypoint._plan_write(lines, 1, "\n".join(block), spec)
+        self.assertEqual(plan["action"], "inserted-fallback")
+        self.assertIsNotNone(plan["advisory"])
+        self.assertEqual(plan["insert_at"], 0)
+
+
+class TestPlanWriteFallbackDifferentPipeline(unittest.TestCase):
+    """New behavior: a proximity match that lands on a *different* pipeline's
+    block must not clobber it — the plan falls back to insert."""
+
+    def test_plan_falls_back_on_different_pipeline_proximity(self):
+        other_block, _ = _wellformed_block("other-pipe")
+        lines = list(other_block) + ["code()"]
+        own_block, spec = _wellformed_block("sourcemap-upload")
+        plan = waypoint._plan_write(lines, 1, "\n".join(own_block), spec)
+        self.assertEqual(plan["action"], "inserted-fallback")
+        self.assertIsNotNone(plan["advisory"])
+
+
+class TestWriteBlockFilesystem(unittest.TestCase):
+    """A real write through the unsafe path must preserve trailing content."""
+
+    def test_write_preserves_trailing_content_after_deterred_block(self):
+        block, spec = _wellformed_block("sourcemap-upload", file="svc.py")
+        deterred = block[:-1]
+        original = "\n".join(list(deterred) + ["KEEP_A = 1", "KEEP_B = 2"]) + "\n"
+        with tempfile.TemporaryDirectory() as d:
+            target = Path(d) / "svc.py"
+            target.write_text(original, encoding="utf-8")
+            plan = waypoint._write_block(str(target), 1, "\n".join(block), spec)
+            result = target.read_text(encoding="utf-8")
+        self.assertEqual(plan["action"], "inserted-fallback")
+        self.assertIn("KEEP_A = 1", result)
+        self.assertIn("KEEP_B = 2", result)
+        # Two headers now: the original (untouched) and the freshly inserted one.
+        self.assertEqual(result.count("Waypoint"), 2)
+
+
+def _run_cli(args, cwd, stdin=None):
+    return subprocess.run(
+        [sys.executable, WAYPOINT_PY, *args],
+        cwd=cwd,
+        input=stdin,
+        capture_output=True,
+        text=True,
+    )
+
+
+def _smoke_spec():
+    return {
+        "file": "app.py",
+        "flows": [
+            {
+                "pipeline": "sourcemap-upload",
+                "role": "does a thing",
+                "reference": ".ai/waypoints/sourcemap-upload.md",
+                "neighbors": [],
+            }
+        ],
+    }
+
+
+class TestBlockJsonGuidance(unittest.TestCase):
+    """New behavior: `block --write --json` carries action + guidance fields."""
+
+    def test_block_write_json_has_action_and_guidance(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "app.py").write_text("x = 1\ny = 2\n", encoding="utf-8")
+            result = _run_cli(
+                ["block", "--write", "--at", "1", "--json"], d, json.dumps(_smoke_spec())
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["action"], "inserted")
+        self.assertIn("next_steps", payload)
+        self.assertIn("advisory", payload)
+        self.assertIn("contract", payload)
+
+
+class TestDryRun(unittest.TestCase):
+    """New behavior: `block --dry-run` prints the plan and writes nothing."""
+
+    def test_dry_run_writes_nothing_and_prints_plan(self):
+        with tempfile.TemporaryDirectory() as d:
+            target = Path(d) / "app.py"
+            target.write_text("x = 1\ny = 2\n", encoding="utf-8")
+            before = target.read_bytes()
+            result = _run_cli(
+                ["block", "--dry-run", "--at", "1", "--json"], d, json.dumps(_smoke_spec())
+            )
+            after = target.read_bytes()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(before, after)
+        payload = json.loads(result.stdout)
+        self.assertTrue(payload["dryRun"])
+        self.assertEqual(payload["action"], "inserted")
+
+
+class TestVerifyJsonGuidance(unittest.TestCase):
+    """New behavior: `verify --json` carries the guidance channel too."""
+
+    def test_verify_json_has_next_steps_and_contract(self):
+        with tempfile.TemporaryDirectory() as d:
+            result = _run_cli(["verify", "--json"], d)
+        payload = json.loads(result.stdout)
+        self.assertIn("next_steps", payload)
+        self.assertIn("contract", payload)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ without noise. Every subcommand accepts `--json`. `verify` and `check-ids` exit
 
 ## Contents
 
+- [The guidance channel](#the-guidance-channel) — `next_steps`, `advisory`, `contract`
 - [id](#id) — derive waypoint IDs from paths
 - [scan](#scan) — catalogue maps and blocks
 - [manifest](#manifest) — write a map file
@@ -25,6 +26,23 @@ without noise. Every subcommand accepts `--json`. `verify` and `check-ids` exit
 - [The block spec](#the-block-spec) — JSON schema for `block`
 - [The manifest spec](#the-manifest-spec) — JSON schema for `manifest`
 - [Worked example: mapping a two-node pipeline](#worked-example-mapping-a-two-node-pipeline)
+
+## The guidance channel
+
+Every command speaks the same three guidance fields, so an agent driving the CLI
+through `--json` reads the same direction a human reads on the terminal.
+
+- `next_steps` — an ordered list of the commands to run next. In human output
+  these are the `next:` lines; in JSON they are the `next_steps` array. The two
+  are computed once from the same list, so they never disagree.
+- `advisory` — a `{message, hint}` object when the command needs to warn about
+  something it did, or `null` when it does not. The block fallback is its main
+  user: the message names what was left alone and why, the hint says how to
+  resolve it.
+- `contract` — the fixed division of labor, repeated verbatim:
+  `CLI owns IDs, structure, placement, verification; you supply prose.` It rides
+  in the JSON of every command. In human output it prints only on the
+  orientation and authoring commands (`scan`, `manifest`, `block`).
 
 ## id
 
@@ -44,7 +62,7 @@ $ python3 scripts/waypoint.py id docker-compose.ci.yml config/rspack/browser/bro
 da7d6099  config/rspack/browser/browser.plugins.ts
 ```
 
-`--json` emits `[{"id": "...", "path": "..."}]`.
+`--json` emits `{"ids": [{"id": "...", "path": "..."}], "advisory": null, "next_steps": [...], "contract": "..."}`. The guidance fields are described in [The guidance channel](#the-guidance-channel).
 
 ## scan
 
@@ -77,7 +95,7 @@ Use `--file <path>` to read the spec from a file instead of stdin.
 ## block
 
 ```bash
-echo '<spec>' | python3 scripts/waypoint.py block [--write --at <line>] [--json]
+echo '<spec>' | python3 scripts/waypoint.py block [--write --at <line>] [--dry-run] [--json]
 ```
 
 Reads a [block spec](#the-block-spec) on stdin and composes the source comment
@@ -85,13 +103,38 @@ block in the file's native comment syntax.
 
 - Without `--write`, it prints the block to stdout for inspection.
 - With `--write --at <line>`, it places the block in the file. `--at` is the
-  1-based line the block should sit above. If a block already covers this
-  pipeline at or near that line, it is rewritten in place — repeated runs are
-  idempotent and never duplicate a block.
+  1-based line the block should sit above. If the file already carries this
+  pipeline's own well-formed block at or near that line, it is rewritten in
+  place, so repeated runs stay idempotent and never duplicate a block.
+- With `--dry-run --at <line>`, it reports the placement plan — the action, the
+  span it would touch, the composed block, and any advisory — and writes
+  nothing. Use it to preview a placement before committing to it.
 
 Choosing the anchor line is your judgment call; composing and placing the text
 is the CLI's. Use `--file <path>` to read the spec from a file instead of stdin,
 and `--comment` inside the spec to override the resolved comment syntax.
+
+### Placement safety
+
+A write resolves to one of three actions, reported as `action` in JSON and as a
+sentence in human output:
+
+- `inserted` — no existing block was found, so a fresh one went in at `--at`.
+- `updated` — the file's own well-formed block for this pipeline was replaced in
+  place. The JSON result adds `replaced: {start, end}` with the 1-based line span.
+- `inserted-fallback` — a nearby block was found but is unsafe to replace, so a
+  fresh block was inserted and the existing one was left untouched. The
+  `advisory` field carries the reason and the manual-dedupe instruction.
+
+A block is replaced only when its span is both *terminated* (it ends on a real
+closing legend line, so its extent is trusted) and *same-pipeline* (it already
+claims a pipeline this spec covers). When the closing legend has been edited
+away, the block's span runs to the next block or the end of the file; replacing
+it would delete that trailing content. When the nearby block belongs to a
+different pipeline, replacing it would clobber unrelated work. In both cases the
+write falls back to an insert and asks you to remove the stale block by hand,
+then re-run `verify`. A write never deletes content that is not this spec's own
+well-formed block.
 
 ## verify
 

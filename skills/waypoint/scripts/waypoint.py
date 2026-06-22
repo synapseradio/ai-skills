@@ -51,6 +51,39 @@ LEGEND = "← from  → into  ◁ reads  ▷ feeds"
 GREP_HINT_SINGLE = "grep any 8-char ID to trace this pipeline"
 GREP_HINT_MULTI = "grep any 8-char ID to trace these pipelines"
 
+# The division of labor, stated once so every command can speak it verbatim in
+# both human and JSON form. Mirrors the "Division of labor" section of SKILL.md.
+CONTRACT = "CLI owns IDs, structure, placement, verification; you supply prose."
+
+
+def _augment(payload, next_steps, advisory=None):
+    """Attach the guidance channel to a JSON payload in a stable key order.
+
+    `next_steps` is the same list rendered as human `next:` lines, so the two
+    output forms never drift. `advisory` is a {message, hint} object (mirroring
+    cli_error's shape) or None. `contract` is the fixed division-of-labor line.
+    """
+    payload["advisory"] = advisory
+    payload["next_steps"] = next_steps
+    payload["contract"] = CONTRACT
+    return payload
+
+
+def _print_guidance(next_steps, advisory=None, contract=False):
+    """Render the guidance channel for a human reader.
+
+    The advisory explains a problem; the next steps say what to do about it; the
+    contract reminds the caller who owns what. Printed in that order, all to
+    stdout so a reader sees them with the result they annotate.
+    """
+    if advisory:
+        print(f"advisory: {advisory['message']}")
+        print(f"    hint: {advisory['hint']}")
+    for step in next_steps:
+        print(f"next: {step}")
+    if contract:
+        print(f"contract: {CONTRACT}")
+
 
 # ---------------------------------------------------------------------------
 # Error handling and command suggestions
@@ -543,11 +576,16 @@ def cmd_id(args, json_mode):
         {"id": compute_id(normalize_path(p, root)), "path": normalize_path(p, root)}
         for p in args.paths
     ]
+    next_steps = [
+        "write the map:  waypoint manifest < spec.json",
+        "place each file's block:  waypoint block --write --at <line> < spec.json",
+    ]
     if json_mode:
-        print(json.dumps(rows, indent=2))
+        print(json.dumps(_augment({"ids": rows}, next_steps), indent=2))
     else:
         for row in rows:
             print(f"{row['id']}  {row['path']}")
+        _print_guidance(next_steps)
 
 
 def cmd_scan(args, json_mode):
@@ -560,17 +598,28 @@ def cmd_scan(args, json_mode):
         for pipeline in block["pipelines"] or ["(unmapped)"]:
             by_pipeline.setdefault(pipeline, []).append({"id": block["id"], "file": block["file"]})
 
+    empty = not manifests and not blocks
+    if empty:
+        next_steps = [
+            "write the first map:  waypoint manifest < spec.json",
+            "then place a block:  waypoint block --write --at <line> < spec.json",
+        ]
+    else:
+        next_steps = [f"waypoint verify   to check {len(blocks)} block(s) against the maps"]
+
     if json_mode:
-        print(json.dumps({"maps": manifests, "pipelines": by_pipeline}, indent=2))
+        print(
+            json.dumps(
+                _augment({"maps": manifests, "pipelines": by_pipeline}, next_steps), indent=2
+            )
+        )
         return
 
-    if not manifests and not blocks:
+    if empty:
         print("no waypoints found")
         print("  no map files in .ai/waypoints/ and no blocks in the code")
         print()
-        print(
-            "next: waypoint manifest < spec.json   then   waypoint block --write --at <line> < spec.json"
-        )
+        _print_guidance(next_steps, contract=True)
         return
 
     print(f"map files in {WAYPOINTS_DIR}: {', '.join(manifests) if manifests else 'none'}")
@@ -582,7 +631,7 @@ def cmd_scan(args, json_mode):
         for node in nodes:
             print(f"  {node['id']}  {node['file']}")
         print()
-    print(f"next: waypoint verify   to check {len(blocks)} block(s) against the maps")
+    _print_guidance(next_steps, contract=True)
 
 
 def _verify_payload():
@@ -612,19 +661,24 @@ def cmd_verify(args, json_mode):
 
     has_drift = bool(drift["stale"] or drift["orphaned"] or corrections)
 
+    next_steps = []
+    if has_drift:
+        if corrections:
+            next_steps.append("waypoint check-ids   for the full ID correction list")
+        next_steps.append("resolve the drift above, then re-run  waypoint verify")
+
     if json_mode:
-        print(
-            json.dumps(
-                {
-                    "verified": drift["verified"],
-                    "stale": drift["stale"],
-                    "orphaned": drift["orphaned"],
-                    "id_corrections": corrections,
-                    "drift": has_drift,
-                },
-                indent=2,
-            )
+        payload = _augment(
+            {
+                "verified": drift["verified"],
+                "stale": drift["stale"],
+                "orphaned": drift["orphaned"],
+                "id_corrections": corrections,
+                "drift": has_drift,
+            },
+            next_steps,
         )
+        print(json.dumps(payload, indent=2))
         sys.exit(1 if has_drift else 0)
 
     if not rows:
@@ -644,10 +698,10 @@ def cmd_verify(args, json_mode):
         print("\nstale IDs (path no longer hashes to the recorded ID):")
         for fix in corrections:
             print(f"  {fix['file']}: {fix['old_id']} -> {fix['new_id']}")
-        print("  run: waypoint check-ids   for the full correction list")
 
     if has_drift:
         print("\ndrift detected.")
+        _print_guidance(next_steps)
         sys.exit(1)
     print("\nall waypoints valid.")
 
@@ -672,8 +726,13 @@ def cmd_check_ids(args, json_mode):
     references = [{"file": b["file"], "ref_id": n["id"]} for b in blocks for n in b["neighbors"]]
     corrections = compute_id_corrections(nodes, references)
 
+    next_steps = (
+        ["update each manifest row and block, then re-run  waypoint verify"] if corrections else []
+    )
+
     if json_mode:
-        print(json.dumps({"corrections": corrections, "stale": bool(corrections)}, indent=2))
+        payload = _augment({"corrections": corrections, "stale": bool(corrections)}, next_steps)
+        print(json.dumps(payload, indent=2))
         sys.exit(1 if corrections else 0)
 
     if not corrections:
@@ -689,7 +748,8 @@ def cmd_check_ids(args, json_mode):
             print("    update the neighbor reference in:")
             for ref_file in fix["referenced_by"]:
                 print(f"      {ref_file}  ({fix['old_id']} -> {fix['new_id']})")
-    print("\nupdate each manifest row and block, then re-run waypoint verify.")
+    print()
+    _print_guidance(next_steps)
     sys.exit(1)
 
 
@@ -712,44 +772,154 @@ def _load_spec(args, json_mode, example):
         )
 
 
-def _write_block(filepath, at, block_text, spec):
-    """Insert a composed block at `at`, or update the block already there.
+def _span_pipelines(lines, start, end):
+    """Pipelines claimed by the block spanning lines[start:end+1]."""
+    pipelines = set()
+    for parsed in parse_blocks("\n".join(lines[start : end + 1])):
+        pipelines.update(parsed["pipelines"])
+    return pipelines
 
-    The update key is (file, pipeline): if a block at or around the target line
-    already covers this pipeline, it is rewritten in place rather than
-    duplicated. This keeps repeated runs idempotent.
+
+def _plan_write(lines, at, block_text, spec):
+    """Decide — without touching the file — how to place a block (pure).
+
+    Returns a plan dict with: `action` (`insert` / `update` / `inserted-fallback`),
+    the candidate span `start`/`end` when one was found, the `new_lines` to
+    write, the `insert_at` index for an insert, an `advisory` {message, hint} or
+    None, and the `next_steps` to surface.
+
+    A block is *updated in place* only when the candidate span is both
+    *terminated* (it ends on a real closing legend, so its extent is trusted)
+    and *same-pipeline* (it already claims a pipeline this spec covers). Either
+    guard failing means replacing the span would delete content that is not this
+    spec's own well-formed block — a swallowed end-of-file (when `_block_spans`
+    fell back to the last line for want of a closing legend) or a different
+    pipeline's block matched only by proximity. In those cases the plan falls
+    back to inserting a fresh block and leaves the candidate untouched.
+    """
+    new_lines = block_text.splitlines()
+    spec_pipelines = {flow["pipeline"] for flow in spec["flows"]}
+    insert_at = max(0, min(at - 1, len(lines)))
+
+    spans = _block_spans(lines)
+    candidate = None
+    for start, end in spans:
+        if start <= (at - 1) <= end + 1:
+            candidate = (start, end)
+            break
+    if candidate is None:
+        for start, end in spans:
+            if _span_pipelines(lines, start, end) & spec_pipelines:
+                candidate = (start, end)
+                break
+
+    verify_step = "waypoint verify   to confirm it matches the manifest"
+
+    if candidate is None:
+        return {
+            "action": "insert",
+            "start": None,
+            "end": None,
+            "new_lines": new_lines,
+            "insert_at": insert_at,
+            "advisory": None,
+            "next_steps": [verify_step],
+        }
+
+    start, end = candidate
+    terminated = _is_closing(lines[end])
+    same_pipeline = bool(_span_pipelines(lines, start, end) & spec_pipelines)
+
+    if terminated and same_pipeline:
+        return {
+            "action": "update",
+            "start": start,
+            "end": end,
+            "new_lines": new_lines,
+            "insert_at": insert_at,
+            "advisory": None,
+            "next_steps": [verify_step],
+        }
+
+    if not terminated and not same_pipeline:
+        reason = "it has no closing legend line and belongs to a different pipeline"
+    elif not terminated:
+        reason = (
+            "it has no closing legend line, so replacing it would delete content "
+            "down to the next block or the end of the file"
+        )
+    else:
+        reason = "it belongs to a different pipeline"
+
+    advisory = {
+        "message": f"existing block at lines {start + 1}–{end + 1} was NOT replaced because {reason}",
+        "hint": (
+            "a fresh block was inserted instead; review the two blocks, delete the "
+            "stale one by hand, then re-run waypoint verify"
+        ),
+    }
+    return {
+        "action": "inserted-fallback",
+        "start": start,
+        "end": end,
+        "new_lines": new_lines,
+        "insert_at": insert_at,
+        "advisory": advisory,
+        "next_steps": [
+            f"review the fresh block against the existing block at lines {start + 1}–{end + 1} "
+            "and remove whichever is stale",
+            "then  waypoint verify",
+        ],
+    }
+
+
+def _write_block(filepath, at, block_text, spec):
+    """Apply a write plan to the file: read → plan → apply → write.
+
+    A thin wrapper around the pure `_plan_write`. An `update` plan replaces its
+    candidate span; every other plan (`insert`, `inserted-fallback`) inserts at
+    the anchor and leaves existing content alone. Returns the plan it applied.
     """
     path = Path(filepath)
     lines = path.read_text(encoding="utf-8").splitlines()
-    new_lines = block_text.splitlines()
-    spec_pipelines = {flow["pipeline"] for flow in spec["flows"]}
+    plan = _plan_write(lines, at, block_text, spec)
 
-    spans = _block_spans(lines)
-    target = None
-    for start, end in spans:
-        if start <= (at - 1) <= end + 1:
-            target = (start, end)
-            break
-    if target is None:
-        for start, end in spans:
-            block_pipelines = set()
-            for parsed in parse_blocks("\n".join(lines[start : end + 1])):
-                block_pipelines.update(parsed["pipelines"])
-            if block_pipelines & spec_pipelines:
-                target = (start, end)
-                break
-
-    if target is not None:
-        start, end = target
-        lines[start : end + 1] = new_lines
-        action = "updated"
+    new = list(lines)
+    if plan["action"] == "update":
+        new[plan["start"] : plan["end"] + 1] = plan["new_lines"]
     else:
-        insert_at = max(0, min(at - 1, len(lines)))
-        lines[insert_at:insert_at] = new_lines
-        action = "inserted"
+        new[plan["insert_at"] : plan["insert_at"]] = plan["new_lines"]
 
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return action
+    path.write_text("\n".join(new) + "\n", encoding="utf-8")
+    return plan
+
+
+# Plan action -> the past-tense word used in the command's result.
+_RESULT_ACTION = {
+    "insert": "inserted",
+    "update": "updated",
+    "inserted-fallback": "inserted-fallback",
+}
+
+
+def _block_result_sentence(plan, file, at):
+    """One precise human sentence describing what the block write did."""
+    if plan["action"] == "update":
+        return f"updated waypoint block in {file} (replaced lines {plan['start'] + 1}–{plan['end'] + 1})"
+    if plan["action"] == "inserted-fallback":
+        return (
+            f"inserted waypoint block in {file} at line {at}; existing block at lines "
+            f"{plan['start'] + 1}–{plan['end'] + 1} was NOT replaced"
+        )
+    return f"inserted waypoint block in {file} at line {at}"
+
+
+def _block_json_payload(plan, file, at):
+    """The JSON result for a block write or dry-run, with the guidance channel."""
+    payload = {"action": _RESULT_ACTION[plan["action"]], "file": file, "line": at}
+    if plan["action"] == "update":
+        payload["replaced"] = {"start": plan["start"] + 1, "end": plan["end"] + 1}
+    return _augment(payload, plan["next_steps"], plan["advisory"])
 
 
 def cmd_block(args, json_mode):
@@ -764,27 +934,50 @@ def cmd_block(args, json_mode):
 
     block_text = compose_block(spec)
 
+    # --dry-run and --write both place the block relative to the file's current
+    # lines, so both need an anchor and an existing file. --dry-run reports the
+    # plan and writes nothing; --write applies it.
+    if args.dry_run or args.write:
+        flag = "--dry-run" if args.dry_run else "--write"
+        if args.at is None:
+            cli_error(
+                f"{flag} needs --at <line>",
+                f"waypoint block {flag} --at 12 < spec.json",
+                json_mode,
+            )
+        if not Path(spec["file"]).is_file():
+            cli_error(
+                f"file not found: {spec['file']}",
+                "spec.file must be a path that exists from the repo root",
+                json_mode,
+            )
+
+    if args.dry_run:
+        lines = Path(spec["file"]).read_text(encoding="utf-8").splitlines()
+        plan = _plan_write(lines, args.at, block_text, spec)
+        if json_mode:
+            payload = _block_json_payload(plan, spec["file"], args.at)
+            payload["dryRun"] = True
+            print(json.dumps(payload, indent=2))
+            return
+        print("dry run — nothing written")
+        print(_block_result_sentence(plan, spec["file"], args.at))
+        print()
+        print(block_text)
+        print()
+        _print_guidance(plan["next_steps"], plan["advisory"], contract=True)
+        return
+
     if not args.write:
         print(block_text)
         return
 
-    if args.at is None:
-        cli_error(
-            "--write needs --at <line>", "waypoint block --write --at 12 < spec.json", json_mode
-        )
-    if not Path(spec["file"]).is_file():
-        cli_error(
-            f"file not found: {spec['file']}",
-            "spec.file must be a path that exists from the repo root",
-            json_mode,
-        )
-
-    action = _write_block(spec["file"], args.at, block_text, spec)
+    plan = _write_block(spec["file"], args.at, block_text, spec)
     if json_mode:
-        print(json.dumps({"action": action, "file": spec["file"], "line": args.at}, indent=2))
+        print(json.dumps(_block_json_payload(plan, spec["file"], args.at), indent=2))
     else:
-        print(f"{action} waypoint block in {spec['file']} at line {args.at}")
-        print("next: waypoint verify   to confirm it matches the manifest")
+        print(_block_result_sentence(plan, spec["file"], args.at))
+        _print_guidance(plan["next_steps"], plan["advisory"], contract=True)
 
 
 def cmd_manifest(args, json_mode):
@@ -808,19 +1001,20 @@ def cmd_manifest(args, json_mode):
     out_path = WAYPOINTS_DIR / f"{spec['pipeline']}.md"
     out_path.write_text(text, encoding="utf-8")
 
+    next_steps = [
+        "place a block in each file:  waypoint block --write --at <line> < blockspec.json",
+        f"then  waypoint verify {spec['pipeline']}",
+    ]
+
     if json_mode:
-        print(
-            json.dumps(
-                {"action": "wrote", "path": str(out_path), "nodes": len(spec.get("nodes", []))},
-                indent=2,
-            )
+        payload = _augment(
+            {"action": "wrote", "path": str(out_path), "nodes": len(spec.get("nodes", []))},
+            next_steps,
         )
+        print(json.dumps(payload, indent=2))
     else:
         print(f"wrote map to {out_path} ({len(spec.get('nodes', []))} node(s))")
-        print(
-            "next: place a block in each file with  waypoint block --write --at <line> < blockspec.json"
-        )
-        print(f"      then  waypoint verify {spec['pipeline']}")
+        _print_guidance(next_steps, contract=True)
 
 
 # ---------------------------------------------------------------------------
@@ -860,6 +1054,11 @@ def build_parser():
     )
     p_block.add_argument(
         "--write", action="store_true", help="place or update the block in the file"
+    )
+    p_block.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="show the placement plan without writing the file",
     )
     p_block.add_argument(
         "--at", type=int, metavar="<line>", help="1-based line to place the block at"

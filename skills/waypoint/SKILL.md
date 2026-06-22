@@ -37,7 +37,7 @@ Every subcommand takes `--json` for machine-readable output. `verify` and
 | `id <path>...` | Print `<id>  <path>` for each file (SHA-256 of the git-relative path, first 8 hex). |
 | `scan` | Catalogue every map file and every block in the code, grouped by pipeline. Run this first to check for existing waypoints. |
 | `manifest` | Write `.ai/waypoints/<name>.md` from a JSON spec on stdin. The rich map layout lives here. |
-| `block` | Compose a source block from a JSON spec on stdin. `--write --at <line>` places or updates it in the file. |
+| `block` | Compose a source block from a JSON spec on stdin. `--write --at <line>` places or updates it in the file; `--dry-run --at <line>` previews the placement without writing. |
 | `verify [pipeline]` | Detect drift: stale rows, orphaned blocks, and IDs that no longer match their path. |
 | `check-ids` | Recompute IDs from paths and emit the exact correction list when files have moved. |
 
@@ -92,8 +92,13 @@ these steps. Each is a CLI call wrapped around your own reading of the code.
    - Directly above the relevant code section for source files where the
      pipeline touches a specific function or block.
 
-   Re-running `block --write` on a file that already carries a block for that
-   pipeline updates it in place rather than duplicating it.
+   Re-running `block --write` on a file that already carries this pipeline's own
+   well-formed block updates it in place rather than duplicating it. When the
+   nearby block has lost its closing legend line or belongs to a different
+   pipeline, the write refuses to replace it: it inserts a fresh block instead,
+   leaves the existing one untouched, and returns an advisory naming what to
+   remove by hand. A write never deletes content it cannot prove is this
+   pipeline's own block. Preview any placement first with `block --dry-run`.
 
 6. **Verify.** Run `waypoint verify <pipeline>`. Resolve any drift it reports
    before you report the work as done.
