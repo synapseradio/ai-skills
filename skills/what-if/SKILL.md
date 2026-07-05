@@ -31,24 +31,31 @@ Let the problem pick the depth. A preference for effort — in either direction 
 
 - **The axis count** (Q3 produces it). Zero axes: answer directly, no machinery. One: a light fork — two tiles, a few sentences each, no tables. Two: the full chain. Three or more: the full chain with hard pruning, because tiles multiply fast.
 - **Reversibility**, one notch either way. A sandbox hypothetical steps down; an irreversible or expensive commitment steps up.
-- **The asker's register and explicit instruction, which win outright.** "what-if I have an idea for a library — wise investment of care?" asks for a gut-check, and a gut-check that arrives as four tables has failed its asker. When the user names a pace, match it.
+- **The asker's register and explicit instruction, which win outright.** "what-if I have an idea for a library — wise investment of care?" asks for a gut-check, and a gut-check that arrives as four tables has failed its asker. When the user names a pace, match it — tone included, playfulness included.
 
-One rule covers everything else: skip any question whose every possible answer would route you to the same next step, and say you skipped it. Depth chosen this way stays honest in both directions — no theater on light questions, no shrug on heavy ones.
+One rule covers everything else: skip any question whose every possible answer would route you to the same next step. Let a skip show as structure — a reader sees which questions you walked — and name a route as observation: "one axis, so two tiles, so two questions." Never narrate a verdict on what the question deserves or what the asker really meant; depth decisions belong in the walking, never in editorial asides about the asker. Depth chosen this way stays honest in both directions — no theater on light questions, no shrug on heavy ones.
 
 ## The chain
 
 ### Q1. What am I looking at, and what bounds it?
 
-Name the parts, the phases the situation moves through, and the constraints any future must respect. The constraints matter most: they are what let you kill impossible futures later instead of politely carrying them.
+Name the parts, the phases the situation moves through, and the constraints any future must respect. Note what feeds what — a part the asker might abandon may feed a part they plan to keep. The constraints matter most: they are what let you kill impossible futures later instead of politely carrying them.
 
-### Q2. What do I know, assume, must verify, must ask?
+### Q2. What do I know, and what would help to know?
 
-Sort every forward-looking claim. Verify the verifiable now; ask the user the askable now. Claims that survive both become the genuine unknowns.
+Sort every forward-looking claim into four piles:
 
-- Nothing survives as unresolvable → exit: answer directly and say the machinery was unnecessary.
-- Unresolvables remain → Q3.
+- **Known** — given by the asker, or already verified.
+- **Knowable** — verifiable right now with tools at hand. Verify it; never branch on it.
+- **Knowable if** — resolvable only by a future event or another party's move. Axis candidates live here.
+- **It would help to know** — facts the asker holds: numbers, dates, feelings, context. Catalogue these and ask for them; [references/asking.md](references/asking.md) holds the procedure. When nobody can answer, proceed on a stated assumption per item.
 
-### Q3. Which unresolvables would change what the asker does?
+Route on the sort:
+
+- Every pile past "known" and "knowable" sits empty → exit: answer directly, and let the sort itself show why.
+- The "knowable if" pile holds anything → Q3.
+
+### Q3. Which of the "knowable if" entries would change what the asker does?
 
 List every candidate in one pass first — seeing them together exposes duplicates and correlation. Then keep only the ones whose resolution would change the recommendation. Those become the axes: two is the sweet spot, three the ceiling.
 
@@ -103,10 +110,10 @@ Walk the chain out loud, in your own voice, at the depth your route chose. A rea
 
 Then the ending. Narrative is how a reader encodes a decision to memory, and Q5 already wrote the stories — close by delivering them as one, so the asker feels the worlds diverge before receiving the move that holds across them. Four things land in order, recommendation last, because the last thing on a page commits:
 
-1. **Tell the futures**: the named tiles as a short connected story of divergence, in the asker's own terms, harshest world included. After a full run, a compact recap table may follow (tile, landings, scores) — a table indexes a story already told, and never replaces one.
+1. **Tell the futures**: walk the named tiles as a short connected story of divergence, in the asker's own terms, harshest world included. When more than one axis ran, follow the telling with a compact recap — a markdown table, or a mermaid diagram where the surface renders one. Place the recap here, between the telling and the commitment, and let it index the story you just told rather than replace it.
 2. **Name what holds in every telling**: consequences most tiles reach (from Q7), worth acting on regardless of which future arrives.
 3. **Mark the hinges**: each watchpoint from Q8, paired with the switch it triggers — where the story turns, and toward what.
-4. **Commit**: a clear recommendation answering the opening question — why this move survives across the tiles, where it runs weakest, robust or exposed. The commitment is invariant; the phrasing is yours.
+4. **Commit**: a clear recommendation answering the opening question — why this move survives across the tiles, where it runs weakest, robust or exposed. The commitment is invariant; the phrasing is yours. Match the asker's tone, and never pose a dichotomy the situation does not force.
 
 Never close on "it depends." Q10 exists so that even genuine dependency arrives as a committed move with an end date.
 

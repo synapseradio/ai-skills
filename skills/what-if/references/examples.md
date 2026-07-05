@@ -12,7 +12,7 @@ A full reply walks the chain out loud before its ending, each question surfaced 
 
 > **Q2 — what do I know, and what must I ask?** Current pricing and support terms check out fine through 2027; verified. Two unknowns survive every check available to me: whether the new engine matures before mid-year, and whether the enterprise deal closes. Nothing else would change the answer.
 >
-> **Q3 — which of those would change what you'd do?** Both. An early engine pulls migration forward; a landed deal raises the cost of standing half-migrated when volume spikes. Two axes, four worlds — this earns the full chain.
+> **Q3 — which of those would change what you'd do?** Both. An early engine pulls migration forward; a landed deal raises the cost of standing half-migrated when volume spikes. Two axes, then: engine maturity and deal timing. Four worlds to walk.
 
 …and onward through Q9, the same open cadence, until the ending below.
 </spine>
