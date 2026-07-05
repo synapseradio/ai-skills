@@ -72,7 +72,7 @@ One tile per combination of axis landings, then prune with reasons rather than v
 
 1. Triage each tile — sure, likely, or impossible — using one step of lookahead plus commonsense. The impossible ones violate a constraint or contradict something already in motion; kill them.
 2. Stress the survivors: inside a tile, does each axis landing hold up under the combined pressure of the others? A landing that gets pushed toward its alternative by the rest of the tile marks the tile inconsistent.
-3. Give every kill a one-line reason, carry at most five tiles forward, and give each survivor a name and a two-sentence story of how the world gets there from here.
+3. Give every kill a one-line reason, and give each survivor a name and a two-sentence story of how the world gets there from here. The budget: carry forward at most as many tiles as the walk surfaced open questions — count the entries in Q2's last two piles. A situation that raised eight questions affords eight worlds; one that raised three affords three, however the axes multiply.
 
 ### Q6. Does every plausible future land in exactly one tile?
 
@@ -118,6 +118,18 @@ Then the ending. Narrative is how a reader encodes a decision to memory, and Q5 
 Never close on "it depends." Q10 exists so that even genuine dependency arrives as a committed move with an end date.
 
 Loops marked in Q7 trail the recommendation as open items for a systems-thinking pass.
+
+## Recurse
+
+A walk projects a wide space of unknowns onto the few axes that change the decision, and parks the rest — as knowns, as stated assumptions, as watchpoints. Parked information stays honest only while something can bring it back. Three seams in the chain accept a second entry:
+
+- **Enter a tile.** Promote one tile's landings into Q2's known pile and run the chain again on the decision that remains inside that world. Start with the tile Q9 named as the place the recommendation dies — a walk inside it yields a contingency plan rather than more analysis.
+- **A watchpoint fires.** A fired watchpoint means an axis resolved. Rerun from Q2 with that landing moved to known; the tile space halves and the recommendation earns a refresh.
+- **Axes overflow.** When Q3 keeps more unknowns than one walk can carry, fix the dominant axis and run one child walk per landing, each inheriting the remaining unknowns as its own Q3 candidates.
+
+An orchestrator splits the chain at its phases: run Q1 through Q6, stop, and hand each tile worth entering to a child walk — live per its watchpoints, or exposed per Q9, never all of them. Aggregate with rules the chain already carries: a consequence most children reach is close to inevitable (Q7's merge), and strategies score across the union of what the children return (Q9). Hold depth at two levels; nesting recovers dimensionality a single walk projects away, and each level stays tellable.
+
+**The unless agent.** Alongside the children, an orchestrator runs one more agent that holds every parked assumption from Q2 and does nothing else. At each checkpoint — tiles formed, consequences grown, recommendation drafted — it asks one question per assumption: unless this still holds, which tile flips? When an assumption breaks, it interrupts the line, and every walk that leaned on the assumption re-enters at Q2 instead of shipping a recommendation built on a dead premise.
 
 ## Examples
 
