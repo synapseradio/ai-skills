@@ -57,7 +57,7 @@ Route on the sort:
 
 ### Q3. Which of the "knowable if" entries would change what the asker does?
 
-List every candidate in one pass first — seeing them together exposes duplicates and correlation. Then keep only the ones whose resolution would change the recommendation. Those become the axes: two is the sweet spot, three the ceiling.
+List every candidate in one pass first — seeing them together exposes duplicates and correlation. Then keep only the ones whose resolution would change the recommendation. An unknown the asker could answer is a question, not an axis; a landing the asker controls is a strategy, not a fate. Those become the axes: two is the sweet spot, three the ceiling.
 
 - None would change anything → exit: the move that ignores them is already the answer; recommend it.
 - One or more → onward, at the depth the count selects.
