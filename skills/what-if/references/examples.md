@@ -1,6 +1,6 @@
 # What-if: worked examples
 
-Four traces in a fixed tag format. `request` holds a verbatim ask; `inferred-task` a reading of it; `gather` what to collect or elicit before tiles can exist; `walk` a question chain a good response follows; `good-ending` the very end of a good response — a full reply surfaces the whole chain out loud first, question before answer, in a voice of its own choosing; `spine` (shown once, in the first example) an excerpt of how that out-loud walk sounds in flight; `why` what earns it; `counter` a tempting wrong turn, with its failure mode named.
+Five traces in a fixed tag format. `request` holds a verbatim ask; `inferred-task` a reading of it; `gather` what to collect or elicit before tiles can exist; `walk` a question chain a good response follows; `good-ending` the very end of a good response — a full reply surfaces the whole chain out loud first, question before answer, in a voice of its own choosing; `spine` (shown once, in the first example) an excerpt of how that out-loud walk sounds in flight; `why` what earns it; `counter` a tempting wrong turn, with its failure mode named.
 
 <example name="payments-migration">
 <request>Should we switch to the new billing engine now, or wait until next year? Our contract with the current provider renews in March.</request>
@@ -103,4 +103,34 @@ Recommendation: adopt tRPC for internal clients and keep a generated OpenAPI lay
 </good-ending>
 <why>A checkable fact stayed a fact instead of becoming an axis, which keeps tile space spent on genuine unknowns — and a merged consequence turned spec generation from a chore into a hedge that pays in every tile.</why>
 <counter failure="resolvable-as-axis">A model makes "the mobile team can consume a TS client: yes or no" an axis. One grep of a package.json answers that today, yet half the tile space now simulates a fact — four narratives shrink to two useful ones, and a recommendation hedges against a future that was never uncertain. Ask Q2 honestly to catch this: verify the verifiable, and spend tiles only on what no one can look up.</counter>
+</example>
+
+<example name="hardware-holiday-run">
+<request>We crowdfunded 4,000 units of our air quality monitor and two retail chains want to talk. Do we commit to a production run of 20,000 units for the holidays? The tariff ruling on our category is still pending and we haven't passed EMC certification yet.</request>
+<inferred-task>A sizing decision carrying three unresolved unknowns, not two — the tile geometry follows the questions, never a familiar grid. One combination of landings breaks the calendar, so this tiling also shows genuine kills.</inferred-task>
+<gather>Components: the crowdfund batch, the retail channel, the production run, the certification process, the cash on hand. Constraints: cash covers one run; retail shelves need units by October; the 4,000 backers ship first, already promised. Verify the contract manufacturer's quote and the certification lab's queue — both checkable this week. Seven open questions survive the sort, so the walk affords seven tiles. Three unknowns would each change the run: the tariff ruling (rises or holds), retail conversion (purchase orders land big or stay small), and EMC certification (a first pass, or a board respin).</gather>
+<walk>Q1 maps the parts; October and the cash that covers one run bound every future. Q2 verifies the quote and the lab queue, leaves three unresolvables, and counts seven open questions — the tile budget. Q3 keeps all three axes; each would resize or retime the run. Q4 checks independence: certification moves on engineering, not markets, and the chains sign on landed cost, so a tariff rise thins margin without deciding the purchase orders. Q5 lays out eight combinations against a budget of seven — and cross-impact kills two: a board respin adds twelve weeks, which blows the October shelf date, so no tile holds "respin" and "big purchase orders" together. Six tiles carry forward, named and storied. Q6 passes. Q7 merges "a second cash source gets drawn" — reached in five of six tiles, so arrange the credit line now, whichever future arrives. Q8 sets three watchpoints: the EMC pre-scan result in three weeks, the ruling's published docket date, and the first purchase order term sheet. Q9 scores three moves: committing the full run now dies in four tiles; staying at 4,000 thrives where orders stay small and dies where they land big; tooling for 20,000 now while releasing material buys at two gates — the pre-scan, then the ruling — survives all six. Robust, weakest tile named, and that weakest tile earns a child walk of its own. Q10 never fires.</walk>
+<good-ending>
+Your run size splits across three unknowns, and they make six worlds rather than four — a respin cannot share a tile with big purchase orders, because twelve added weeks erase the October shelf date whichever way the tariff lands.
+
+The two respin worlds, *Redraw* and *Hard winter*, are calendar stories: the holidays happen without you, and the question becomes how much cash is still standing in January. The two worlds with big orders, *Green light* and *Thin margin*, differ only in who pays the tariff — in one the run pays for itself, in the other the same run works twice as hard for half the margin. The two remaining worlds, *Slow shelf* and *Headwind*, pass certification cleanly and then wait: inventory moving at crowdfund speed while retail decides whether to care.
+
+Five of these six worlds draw on a second cash source. Open the credit line now, whichever arrives.
+
+Three hinges tell you where you are early: the EMC pre-scan in three weeks predicts pass or respin before tooling money moves; the ruling carries a published docket date; and the first term sheet reveals whether the chains are ordering big or hedging small.
+
+Recommendation: tool for 20,000 now — tooling is the long pole and the smallest check — and release the material buys at two gates, the pre-scan and the ruling. This survives all six worlds. It runs weakest in *Hard winter*, where even gated spending leaves you leaner than never having tooled; that world deserves a walk of its own — enter it with both landings taken as known, and plan January from inside it.
+
+| Tile | Landings | Full run now | Stay at 4,000 | Tool, then gate |
+| --- | --- | --- | --- | --- |
+| Green light | pass, big orders, tariffs hold | thrives | dies | thrives |
+| Thin margin | pass, big orders, tariffs rise | survives | dies | survives |
+| Slow shelf | pass, small orders, tariffs hold | dies | thrives | survives |
+| Headwind | pass, small orders, tariffs rise | dies | survives | survives |
+| Redraw | respin, small orders, tariffs hold | dies | thrives | survives |
+| Hard winter | respin, small orders, tariffs rise | dies | survives | survives |
+
+</good-ending>
+<why>The geometry followed the questions: seven surfaced, so six tiles fit, and the two kills came from cross-impact — a respin pushing "big orders" toward its alternative — rather than from tidiness. Six worlds stayed tellable by pairing them along the axis that separates their stories.</why>
+<counter failure="forcing-the-square">The model drops the certification axis to keep a familiar 2×2 — certification becomes an adjective ("execution risk") instead of a fault line — and the one unknown with a hard calendar consequence never shapes a tile. The recommendation then commits tooling cash three weeks before a pre-scan that was always going to arrive. The tile budget comes from the questions the walk surfaced, never from the shape of a grid seen before.</counter>
 </example>
