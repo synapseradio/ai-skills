@@ -1,0 +1,23 @@
+{
+  "evals": [
+    {
+      "expected_output": "A full analysis record. The four components are elicited with explicit asks where facts are missing (equity terms, runway, the decision maker's financial buffer) — never invented. A consequence table c(a,s) is produced with acts as rows and states as columns. Dominance is screened before any probability appears. The uncertainty is classified as ambiguity with the test stated (informed assessors would write different startup-success probabilities while agreeing on a range), and the evaluation names its rule (maxmin/robustness over the defensible set, hedged alternatives such as negotiating the start date surfaced where real). Sensitivity thresholds and a decide-now-versus-learn recommendation close the record, naming the observation that would settle the most sensitive input. Zero citations anywhere. Ends with one line offering the visual and the theory.",
+      "files": [],
+      "id": 0,
+      "prompt": "I have a job offer from a startup — 20% pay cut from my current role, meaningful equity, series A closed last month. My current job is stable but flat; no promotion path in sight. Offer expires in two weeks. Analyze this decision."
+    },
+    {
+      "expected_output": "The analysis classifies the uncertainty as unawareness, with the test stated: the relevant contingencies (what the vendor will do, what the platform will become) cannot all be listed now — the state list itself is known to be incomplete. It explicitly distinguishes revising the state list (expansion) from refining probabilities over listed states, and the evaluation names option value as its rule: staged, reversible commitments (e.g. an abstraction layer, a pilot port of one component) ranked above full rebuild or full commitment, with comparison to relevantly similar past cases. It must NOT force a single probability distribution over vendor outcomes or rank the acts by expected value.",
+      "files": [],
+      "id": 1,
+      "prompt": "Our whole product is built on a platform that launched 4 months ago. The vendor keeps changing the API, their pricing page was rewritten twice, and half the features we depend on are marked beta. Should we rebuild on something stable now or keep going? Structure this decision."
+    },
+    {
+      "expected_output": "Three deliverables in strict order. First the complete analysis record: components, table, dominance, classification with test, named rule, sensitivity, information recommendation, recommendation — with no citations. Second the visual: assets/template.html adapted to this decision — three states named (merging or excluding candidates and recording that in the expansion panel), all tpl: markers filled, no leftover umbrella/sun/rain/snow text, lattice interactivity intact. Third the theory exposition, drawn from the dimension files' Sources sections, explaining the components, the classification tests, and the evaluation rule used — citations appear here and only here.",
+      "files": [],
+      "id": 2,
+      "prompt": "Analyze this decision: my cofounder and I are deciding whether to take a $500k angel round now, wait for the seed round we've been building toward (~6 months out), or bootstrap on our consulting revenue. After the analysis, show me the picture, then explain the theory behind what you did."
+    }
+  ],
+  "skill_name": "decision-analysis"
+}
