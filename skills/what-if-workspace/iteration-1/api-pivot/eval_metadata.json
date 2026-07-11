@@ -1,0 +1,12 @@
+{
+  "assertions": [
+    "choice-not-axis: the pivot decision never appears as an uncertainty axis; axes hold external unknowns like API demand converting and app trajectory",
+    "narrative-before-table: tiles arrive as told futures first; any table follows the story as recap",
+    "watchpoint-before-board: at least one watchpoint is checkable before or at the board meeting (LOI signed, paid pilot converting)",
+    "irreversibility-respected: a premortem of the failed pivot or an explicitly phased commitment appears",
+    "recommendation-last-with-flips: the reply ends on a committed recommendation paired with named flip conditions"
+  ],
+  "eval_id": 2,
+  "eval_name": "api-pivot",
+  "prompt": "we're a 6 person startup, 14 months of runway. our consumer app is flat (~2k MAU) but three different companies emailed asking to pay for API access to our underlying categorization engine. board meeting in 3 weeks — should we pivot to selling the API and sunset the app? feels like a one way door."
+}

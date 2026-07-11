@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "Axes: 'whether the current sellout is the new normal or a fading news bump, and whether your co-teacher is actually still here.' The lease choice is scored as a strategy in Q9, never branched on.",
+      "passed": true,
+      "text": "axes-are-external-unknowns: branching happens on demand durability and the co-teacher's move — never on the lease decision itself"
+    },
+    {
+      "evidence": "Five elicitations with stated assumptions, including 'Do you have cash reserve to cover the added rent for several months if bookings cool off?' and the partnership-agreement question.",
+      "passed": true,
+      "text": "elicits-missing-facts: rent, savings, or comparable financials appear as questions to the asker inside the response"
+    },
+    {
+      "evidence": "'Your fall session's sell-through rate' as the demand watchpoint; 'ask her directly this week' converting the co-teacher unknown into a checkable conversation.",
+      "passed": true,
+      "text": "watchpoint-observable: at least one watchpoint names a checkable event"
+    },
+    {
+      "evidence": "Q1 through Q9 all surfaced. Q4 caught the correlation trap live: 'if your co-teacher is a big part of why classes sell out... these two axes collapse into one' — the exact correlated-axes failure the examples warn about, checked honestly.",
+      "passed": true,
+      "text": "process-visible: chain questions appear in the response before their answers"
+    },
+    {
+      "evidence": "Narrative close, then: 'say yes to the space, but not to the lease exactly as handed to you' — break clause before Friday, flexible fit-out, partnership agreement this week. Weakest tile named (paid for an unused exit ramp). Recommendation is the final element.",
+      "passed": true,
+      "text": "recommendation-last-and-committed: the reply ends on a committed move, never a bare 'it depends'"
+    }
+  ]
+}

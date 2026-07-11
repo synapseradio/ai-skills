@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "Reframes the question well: 'the actual irreversible resource is the next few months of attention' — separates the real one-way door from the imagined one without any axis formalism.",
+      "passed": true,
+      "text": "choice-not-axis: the pivot decision never appears as an uncertainty axis; axes hold external unknowns"
+    },
+    {
+      "evidence": "No table, no tiles; flowing prose throughout. Vacuously satisfied.",
+      "passed": true,
+      "text": "narrative-before-table: tiles arrive as told futures first; any table follows the story as recap"
+    },
+    {
+      "evidence": "'Get on calls with all three this week... push each toward a signed LOI, a paid pilot' and the 90-day reassessment with 'signed contracts, actual usage, pipeline beyond the initial three'.",
+      "passed": true,
+      "text": "watchpoint-before-board: at least one watchpoint is checkable before or at the board meeting"
+    },
+    {
+      "evidence": "Staged plan: maintenance mode, 90-day API sprint, reassess with real numbers. Also catches a dependency the with-skill run missed entirely: 'does the categorization engine depend on data or feedback coming from the consumer app — training signal, labeled corrections?'",
+      "passed": true,
+      "text": "irreversibility-respected: a premortem of the failed pivot or an explicitly phased commitment appears"
+    },
+    {
+      "evidence": "Strong staged plan in the middle, but the final paragraph ends on a question to sit with ('pipeline or ceiling?') rather than a commitment. The best content sits mid-response; the ending hands the decision back.",
+      "passed": false,
+      "text": "recommendation-last-with-flips: the reply ends on a committed recommendation paired with named flip conditions"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "reviews": [
+    {
+      "feedback": "style: output expresses a lack of intellectual humility. Reader's agency is not sufficiently respected.\nhighlighted-example-at:  \"Given one axis, this stays a light two-way split rather than a full scenario grid \u2014 the question doesn't earn more machinery than that, and \"just curious lol\" wasn't asking for a slide deck anyway.\"\nbetter-is-nearer-to: \"OK. I see one decision axis, so I have two questions. What if the team stays small? What if the team outgrows it (sqlite)?\"\n\nnote-to-evaluator-agent: markdown is fine. text communication transcends natural language grammar. example: [:)] smiley :)\n",
+      "run_id": "sqlite-hindsight-with_skill",
+      "timestamp": "2026-07-05T14:24:40.627Z"
+    },
+    {
+      "feedback": "> Two axes, worth the full walk \u2014 a lease this long, on a deadline this tight, earns the machinery.\n\noutput of claude's opinion on what machinery is justified is understood by the user as transparent, but irrelevant to user request. we can drop without affecting quality.\n\nmarkdown table or mermaid render ( sensitive to whether environment is capable ) was expected, did evaluator assume an invariant against? ",
+      "run_id": "pottery-lease-with_skill",
+      "timestamp": "2026-07-05T14:24:40.627Z"
+    },
+    {
+      "feedback": "> what do I know, what must I verify, what must I ask?\n\ncould we phrase this as:\n\n- \"known\" section\n- \"knowable\" section ( must verify )\n- \"knowable if\" section\n- \"it would help to know\"\n\n~more on the \"it would help to know\"~\nAnything that falls into this section should be catalogued. If items exist in this optional section, the model is expected to use the AskUserQuestion tool in order to request practical knowledge from the user with a focus on psychological safety. playful when possible, matching tone. makes sense as a reference file containing procedural instruction.",
+      "run_id": "api-pivot-with_skill",
+      "timestamp": "2026-07-05T14:24:40.627Z"
+    },
+    {
+      "feedback": "> The question to sit with isn't \"pivot or don't.\" It's:\n\nfalse dichotomies are never desired by the user, ever.",
+      "run_id": "api-pivot-without_skill",
+      "timestamp": "2026-07-05T14:24:40.627Z"
+    }
+  ],
+  "status": "in_progress"
+}

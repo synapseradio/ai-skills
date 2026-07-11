@@ -1,0 +1,24 @@
+{
+  "expectations": [
+    {
+      "evidence": "Prose with one short bullet list; 15 lines total, register-perfect for 'just curious lol'.",
+      "passed": true,
+      "text": "register-honored-no-tables: a casual gut-check gets prose only — no markdown tables, no tile-by-tile enumeration ceremony"
+    },
+    {
+      "evidence": "No path concept exists; the response answers directly. Not a flaw for a baseline, but nothing names how deep it chose to go or why.",
+      "passed": false,
+      "text": "light-path-taken-and-named: the response takes an early exit or light fork and says so, rather than marching all ten questions"
+    },
+    {
+      "evidence": "No visible reasoning spine; conclusions arrive without the questions that produced them.",
+      "passed": false,
+      "text": "process-visible: at least one chain question appears in the response before its answer"
+    },
+    {
+      "evidence": "Commits to 'probably yes, over-engineered' and 'don't migrate a working system' — though the middle carries a hedging tail ('really comes down to: do you expect... does your team... is it sharing...') that lists dependencies without resolving them.",
+      "passed": true,
+      "text": "commits-no-it-depends: the response ends on a clear position or recommendation, never a bare 'it depends'"
+    }
+  ]
+}

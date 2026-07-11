@@ -1,0 +1,24 @@
+{
+  "expectations": [
+    {
+      "evidence": "No tables anywhere. Two tiles delivered as prose paragraphs ('In *Stays small*...', 'In *Outgrows it*...'). Response is ~1000 words for a 'lol' question — no ceremony, but roughly double the baseline's length; register honored in form, borderline in size.",
+      "passed": true,
+      "text": "register-honored-no-tables: a casual gut-check gets prose only — no markdown tables, no tile-by-tile enumeration ceremony"
+    },
+    {
+      "evidence": "'Given one axis, this stays a light two-way split rather than a full scenario grid — the question doesn't earn more machinery than that, and \"just curious lol\" wasn't asking for a slide deck anyway.' Q4-Q6 skipped, skip visible.",
+      "passed": true,
+      "text": "light-path-taken-and-named: the response takes an early exit or light fork and says so, rather than marching all ten questions"
+    },
+    {
+      "evidence": "Q1, Q2, Q3 surfaced as bold questions before their answers. Q2 notably triggered live verification against sqlite.org's own guidance — 'verify the verifiable' produced an actual citation.",
+      "passed": true,
+      "text": "process-visible: at least one chain question appears in the response before its answer"
+    },
+    {
+      "evidence": "'Leave this specific tool alone... bank the lesson forward: next single-team, single-instance tool defaults to SQLite first.' Commits on both the past question and the forward rule.",
+      "passed": true,
+      "text": "commits-no-it-depends: the response ends on a clear position or recommendation, never a bare 'it depends'"
+    }
+  ]
+}
