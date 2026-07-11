@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "Axes are API-demand durability and app flatness cause; the engine's app dependency is caught and routed to verification ('a fact your own engineers can check this week... it doesn't belong on an axis').",
+      "passed": true,
+      "text": "choice-not-axis: the pivot decision never appears as an uncertainty axis; axes hold external unknowns like API demand converting and app trajectory"
+    },
+    {
+      "evidence": "Tiles are named with short stories in Q5 and retold as a connected narrative before the table appears. The table itself lands after the recommendation, though — see the last assertion.",
+      "passed": true,
+      "text": "narrative-before-table: tiles arrive as told futures first; any table follows the story as recap"
+    },
+    {
+      "evidence": "'Walk in with a paid pilot already signed or in motion' — pilot signature and the two-week distribution experiment both read out before or at the meeting.",
+      "passed": true,
+      "text": "watchpoint-before-board: at least one watchpoint is checkable before or at the board meeting (LOI signed, paid pilot converting)"
+    },
+    {
+      "evidence": "Q1 isolates the real one-way door (sunsetting, not talking to buyers); 'Amputating a working limb' premortems the wrong cut; the dual-track test carries a dated six-to-eight-week window.",
+      "passed": true,
+      "text": "irreversibility-respected: a premortem of the failed pivot or an explicitly phased commitment appears"
+    },
+    {
+      "evidence": "The committed recommendation lands strong — then a score table and a loop note trail it, so the reply ends on 'a resourcing question for its own pass, not this one' rather than the commitment. This is the exact recap-placement gap the revised spec pins down.",
+      "passed": false,
+      "text": "recommendation-last-with-flips: the reply ends on a committed recommendation paired with named flip conditions"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "expectations": [
+    {
+      "evidence": "No tables. Four futures delivered as flowing prose paragraphs with bold names ('Stayed simple', 'Quiet growth', 'Feature creep', 'Escalation'). Enumeration present but conversational, not ceremonial.",
+      "passed": true,
+      "text": "register-honored-no-tables: a casual gut-check gets prose only — no markdown tables, no tile-by-tile enumeration ceremony"
+    },
+    {
+      "evidence": "Two axes, four futures, full strategy scoring — the full walk in prose clothing. The run names why it split ('worth splitting into tiles rather than just picking the likely one') but never takes or names a light path.",
+      "passed": false,
+      "text": "light-path-taken-and-named: the response takes an early exit or light fork and says so, rather than marching all ten questions"
+    },
+    {
+      "evidence": "'What am I looking at?' opens the walk as a bold question before its answer; the two unknowns are surfaced as numbered questions to the asker before being resolved by assumption.",
+      "passed": true,
+      "text": "process-visible: at least one chain question appears in the response before its answer"
+    },
+    {
+      "evidence": "'Don't migrate the tool you already have... for the next internal, low-user, mostly-read tool like this, default to SQLite.' Though the verdict also leads the response ('Short answer up front'), the ending still commits.",
+      "passed": true,
+      "text": "commits-no-it-depends: the response ends on a clear position or recommendation, never a bare 'it depends'"
+    }
+  ]
+}

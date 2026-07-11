@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "Axes are demand durability and the co-teacher's departure; sign flat / decline / sign-with-exit appear only as strategies in Q9.",
+      "passed": true,
+      "text": "axes-are-external-unknowns: branching happens on demand durability and the co-teacher's move — never on the lease decision itself"
+    },
+    {
+      "evidence": "Affordability is handled as an assumption with an invitation to correct ('I'm also assuming the studio can cover the added rent... flag me if that's wrong') — never asked as a question for a number. The questions that do appear target the landlord's re-offer and the co-teacher's timeline, not financials.",
+      "passed": false,
+      "text": "elicits-missing-facts: rent, savings, or comparable financials appear as questions to the asker inside the response"
+    },
+    {
+      "evidence": "Fraction of new sign-ups naming the March article versus referrals over the next enrollment cycles; a rough date for the partner's job resolution.",
+      "passed": true,
+      "text": "watchpoint-observable: at least one watchpoint names a checkable event (fall enrollment numbers, the partner's job decision, a date)"
+    },
+    {
+      "evidence": "Q1 through Q9 each appear as a bold question before its answer.",
+      "passed": true,
+      "text": "process-visible: chain questions appear in the response before their answers"
+    },
+    {
+      "evidence": "Ends on 'take the space, but don't sign what the landlord put in front of you' — break clause or shorter term before Friday, weakest tile named. The score table sits mid-walk, before the telling, but nothing trails the commitment.",
+      "passed": true,
+      "text": "recommendation-last-and-committed: the reply ends on a committed move — likely deadline negotiation or a shorter term — never a bare 'it depends'"
+    }
+  ]
+}
