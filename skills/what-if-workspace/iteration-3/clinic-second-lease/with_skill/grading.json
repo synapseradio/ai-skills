@@ -1,0 +1,34 @@
+{
+  "expectations": [
+    {
+      "evidence": "Three axes survive (insurer renegotiation, zoning variance, PT retention). The hospital wing is demoted explicitly, with both the reason (years from filing to opening, past the signing deadline) and where it goes (a watchpoint, plus a named risk leaning on the PT axis).",
+      "passed": true,
+      "text": "no-forced-square: at least three distinct external unknowns survive to shape the tile space, or any reduction below three arrives as an explicit merge or demotion with the dependency stated — no unknown with a hard consequence silently becomes an adjective on another axis"
+    },
+    {
+      "evidence": "'Sitting in your own intake data... Pull that field... Either way this doesn't need its own axis — it tells you which of the tiles below you're actually standing in, so check it before you sign anything.'",
+      "passed": true,
+      "text": "knowable-verified-not-branched: the volume question (blip vs trend) routes to verification from the clinic's own booking and referral data rather than becoming an axis"
+    },
+    {
+      "evidence": "Named twice: 'a new rehab wing backed by hospital capital is exactly the kind of place that recruits a newly board-certified specialist', and in the hardest telling, 'a squeezed clinic paying less to its staff is also the clinic a well-capitalized hospital wing goes shopping in.'",
+      "passed": true,
+      "text": "correlation-caught: the dependency between the hospital wing and the lead PT (poaching risk) or demand is surfaced — merged, demoted, or named as a cross-impact — rather than the two treated as fully independent"
+    },
+    {
+      "evidence": "Eight combinations named; the four denied-variance combinations merge into one tile with the reason stated — the action a denial demands is indifferent to the other two axes. Q6 confirms the accounting: nothing in two places, nothing outside all five.",
+      "passed": true,
+      "text": "kills-carry-reasons: every pruned combination of landings gets a stated one-line reason; no combination silently disappears between enumeration and telling"
+    },
+    {
+      "evidence": "Grader arithmetic: 3 axes × 2 landings = 8; 4 denied-variance combos merged to 1 = 5 tiles; the table shows exactly those 5 with a compound row (any/denied/any) covering the merge. No question-count budget arithmetic appears anywhere in the response.",
+      "passed": true,
+      "text": "geometry-consistent: graded by the grader's own arithmetic, never the response's — surviving worlds match the combinations of the named axes minus the stated kills; the response contains no budget narration or tile-count bookkeeping"
+    },
+    {
+      "evidence": "Ends on the contingent sign — variance or confirmed entrance, plus the PT's commitment, both before month's end — with the weak axis named (no clause protects against a rate cut; build breakeven assuming the cut). Nothing trails it.",
+      "passed": true,
+      "text": "recommendation-last-with-flips: ends on a committed sign / don't-sign / negotiate move with named flip conditions; nothing trails the commitment"
+    }
+  ]
+}

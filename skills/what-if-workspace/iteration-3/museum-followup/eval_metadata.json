@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "landing-promoted-to-known: the levy result moves to the known pile and the response never re-branches on the levy",
+    "space-halves: only the worlds consistent with the levy passing remain in play — the two worlds on the visa axis — not a rebuilt four-world grid",
+    "lighter-rerun: the refresh runs visibly lighter than a full chain march; ground the prior walk already settled is inherited, not re-derived at length",
+    "visa-hinge-carried: the remaining watchpoint (the late-August visa decision) survives as the named hinge, paired with the switch it would trigger",
+    "refreshed-commitment: ends on a committed updated recommendation — hold or amend the milestone-based advice — with nothing trailing it"
+  ],
+  "eval_id": 5,
+  "eval_name": "museum-followup",
+  "prompt": "Quick follow-up on the futures map you did for me in April, about whether my agency should take the fixed-bid museum contract. You gave me four worlds built on two unknowns — whether the city's arts levy passes in the June vote, and whether our senior dev's visa gets renewed. You said watch the levy vote first. Well: the levy passed yesterday, by a lot. Your recommendation back then was take the contract but keep the payment schedule milestone-based. Does that still hold, or does the levy passing change the plan? Visa decision still pending — his renewal answer is expected late August.",
+  "targets": "Recurse seam: fired watchpoint promotes a landing to known, halves the tile space, lighter rerun"
+}
