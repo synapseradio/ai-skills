@@ -1,6 +1,6 @@
 # ask-questions
 
-A directed thought process for asking one genuinely good question — or a composed set of them — in the moment, in any conversation or domain. Situate the question in its context, name the gap that only the other person can close, pick the move that fits, then test the draft against four clarity laws and place it in time.
+A directed thought process for asking one genuinely good question — or a composed set of them — in the moment, in any conversation or domain. Good questions serve one inquiry: name the question the inquiry exists to answer (the driving question), and every candidate question becomes a rung that must earn its place on the ladder toward it.
 
 ## Install
 
@@ -22,12 +22,23 @@ Or copy `skills/ask-questions/` into `~/.claude/skills/ask-questions/`.
 
 ## How it works
 
-1. **Situate** — find where you're standing before naming the gap; read first when the context isn't already in front of you, so you never ask for what you could have found yourself.
-2. **Delegate, or don't** — decide who gathers the context and who shapes the words: fork agents to gather-and-ask, hand an agent context to design the question, or ask one only to sharpen a draft.
-3. **Name the gap, pick the move** — let the gap you feel choose the kind of question: clarify, probe, anchor, label, summarize, or question the question.
-4. **Clear four clarity laws** — one idea per question, plain words, no smuggled premise, a real question rather than a statement wearing a question mark.
-5. **Compose a set when one won't reach** — build a parallel set handed over at once, or a sequence where each answer narrows the next into a sharper inquiry.
-6. **Place it in time** — open before closed, leave silence, talk less than they do, close with a catch-all.
+The core holds what every question passes through: the driving question, the rung test from Question Under Discussion theory (would a complete answer to this question at least partly answer the driving question?), the four clarity laws (one idea per question, plain words, no smuggled premise, a real question rather than a statement wearing a question mark), and guidance on who gathers the context and who shapes the words.
+
+Everything else routes by the gap you feel, through nine reference files:
+
+| Gap | Reference |
+|-----|-----------|
+| Building or growing the ladder, composing a set | [ladder](./references/ladder.md) |
+| The value under a stated preference | [laddering](./references/laddering.md) |
+| The data under a conclusion, belief, or plan | [climb-down](./references/climb-down.md) |
+| A claim that's shaky in a specific way | [probe](./references/probe.md) |
+| The shape and timing of a whole sequence | [sequence-shapes](./references/sequence-shapes.md) |
+| Which candidate question comes next | [ordering](./references/ordering.md) |
+| A question that treats the thing as simpler than it is | [pretense](./references/pretense.md) |
+| What the inquiry accepts without justification | [grants](./references/grants.md) |
+| Carrying a ladder into a new domain | [transfer](./references/transfer.md) |
+
+Each reference opens with a diagnostic question, gives instructions, poses a Questions section to work through, and closes with quality criteria.
 
 ## When to use this
 
