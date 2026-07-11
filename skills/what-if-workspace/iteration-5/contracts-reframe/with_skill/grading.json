@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "It read two dependents deeply and correctly (Sequencing sections, the SC3/SC6 static no-meld argument — both verified) but asserted completeness wrongly: 'both proposals that claim to rebase onto it'. define-runtime-supervision-model's own Sequencing section also declares 'Depends on framework-native-contracts', so the graph has three claimants, not two.",
+      "passed": false,
+      "text": "dependency-graph-verified: the response finds the dependent proposals in openspec/changes and names what actually rebases onto the reframe, from the files rather than the prompt's phrasing"
+    },
+    {
+      "evidence": "types.ts read directly ('still carries the old parser's-eventual-output header'); the cost weighed empirically — no persistence capability in shipped specs, no serialization call sites in runtime source (both verified) — and priced as 'a bet against the future, not a dependency you're severing out from under someone', with the compound-failure tile naming surrendered serializability as the insurance it would have been.",
+      "passed": true,
+      "text": "serializability-costed: the load-bearing serializability note in types.ts — ActorDef surviving structured serialization for XState input and snapshot persistence — is surfaced from the file and weighed as the reframe's concrete cost"
+    },
+    {
+      "evidence": "Every checked claim held: the DL5 'load-bearing decision' quote is in design.md line 52, the proposal schedules the skeleton.ts re-authoring, the one-way-door persistence risk is design.md line 69, SC3/SC6 exist and carry the static-checking argument, and no serialization call sites exist in runtime src. The two-dependents completeness error is charged to dependency-graph-verified, not double-counted here.",
+      "passed": true,
+      "text": "claims-accurate: every stated fact about the repo matches the repo; an invented proposal, dependency, or code state fails this outright"
+    },
+    {
+      "evidence": "Axes are DL5 holding under real authoring and persistence urgency — both genuine unknowns the design doc itself names as open. The parser question is explicitly demoted with its reason ('the design already treats that as fine either way'). Commit-vs-keep appears only as strategies scored in the final step.",
+      "passed": true,
+      "text": "choice-not-axis: commit vs keep never becomes an uncertainty axis; axes hold external or future unknowns such as whether a .in language surface returns, when persistence lands, or who authors programs"
+    },
+    {
+      "evidence": "Commits to landing the typed value model now while time-boxing DL5 as the skeleton.ts spike, resolved before the dependent specs finalize; exposure named (persistence urgency untouched by resequencing). The closing sentence is a check attached to that exposure, not trailing material.",
+      "passed": true,
+      "text": "recommendation-last-with-flips: ends on a committed move with named flip conditions; nothing trails the commitment"
+    }
+  ]
+}

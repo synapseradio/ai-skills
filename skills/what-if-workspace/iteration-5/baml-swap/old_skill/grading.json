@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "The opening paragraph reads the proposal, design, tasks, stub package, port, ledger, and baml_src before anything branches: every task unchecked (verified), the destination package scaffolding-only with an index exporting nothing (verified), own-inference two ledger lines with no proposal (verified), and the whole BAML footprint measured at fifty-nine lines — exact.",
+      "passed": true,
+      "text": "repo-state-in-known-pile: the response establishes from the repo files — not from the prompt's summary — that the extraction is scaffolded but unexecuted (inference-baml a placeholder, BAML still inside runtime-core) before any branching happens"
+    },
+    {
+      "evidence": "One misattribution: the quoted comment 'only fires at task 5.2 (deferred)' is real but lives in clients.baml, not explore.baml as stated. Everything else verified, several exactly — 59 total baml_src lines, the 11-line single-provider clients.baml with no retry logic, Effect as a dependency of all five runtime packages, WelcomeResult imported from the generated client.",
+      "passed": false,
+      "text": "claims-accurate: every stated fact about the repo matches the repo; an invented file, package state, or proposal fails this outright"
+    },
+    {
+      "evidence": "The first axis is 'retirement intent: commit now, or keep the option open' — the stay-or-swap decision itself placed on an axis, and a fact only the asker holds (the response says so: 'One thing nothing in the repo settles, and only you can'). The second axis, surface growth, is substantially the asker's own future authoring behavior. Honest about the provenance, but both landings sit in piles Q2 routes to ask-or-assume, not to axes.",
+      "passed": false,
+      "text": "choice-not-axis: swap-now vs extract-first vs stay never appears as an uncertainty axis; axes hold external or future unknowns such as adapter fidelity or BAML's upstream trajectory"
+    },
+    {
+      "evidence": "Parse-retry fidelity on weak models is never treated in any form. Credit where due: the adjacent replication-scope question is dissolved empirically (clients.baml measured at eleven lines, one provider, no retry logic to reproduce) — evidence, not guesswork — but the named unknown goes unaddressed. Both conditions failed this assertion; it over-specified the walk's content and should be rewritten or discarded.",
+      "passed": false,
+      "text": "buyable-answer-named: the unproven parse-retry fidelity of an Effect-Schema adapter is treated as evidence that can be bought — a bounded spike or pilot with a named end event — rather than a fate axis or a guess"
+    },
+    {
+      "evidence": "Commits to finishing the extraction as specified, starting now; weakest tile named (clean break, with the loss bounded to abandonable scaffolding); alternatives scored and dismissed inside the call; ends on the commitment's own justification. Both watchpoints are repo-checkable without asking anyone.",
+      "passed": true,
+      "text": "recommendation-last-with-flips: ends on a committed move with named flip conditions; nothing trails the commitment"
+    }
+  ]
+}

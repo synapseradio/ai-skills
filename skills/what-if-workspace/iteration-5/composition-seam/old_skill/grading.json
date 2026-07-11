@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "The D9 findings enter the known pile with file citations and match the source: sequencing became field order, back-references became field dependencies, three persona voices blended into one system prompt, the chained port passing wondering → developed_thought → assessment restores switching. It also went beyond the prompt to principles.md and quoted principles 3, 4, and 7 verbatim (verified against the file).",
+      "passed": true,
+      "text": "pilot-inherited-as-known: the pilot's actual findings enter the known pile from the file — persona collapse in the single-call port, the chained port restoring voices — rather than being guessed at or re-derived from first principles"
+    },
+    {
+      "evidence": "No limitation from the findings' own Limitations section appears anywhere. The response avoids the judged deltas entirely — the safest use of the data — but still states a categorical conclusion a 24-generation pilot cannot establish: 'the schema held, so this was never a robustness problem.'",
+      "passed": false,
+      "text": "limitation-shapes-confidence: the pilot's own limits (three observations per cell, one judge) temper how hard its deltas are leaned on; suggestive stays suggestive"
+    },
+    {
+      "evidence": "One factual error: 'legacy/lib/prism/personas/ alone holds seventeen persona files' — the directory holds twenty. Everything else verified against the repo: both cited .in files exist under modules/, the parse-fidelity claim matches findings.md line 17 (all 24 parsed first attempt), all three principle quotes are verbatim, and the next_state_assertion complaint sits in principle 1 as described. A miscount, not an invention — but the locked assertion demands every stated fact match.",
+      "passed": false,
+      "text": "claims-accurate: every stated fact about the repo and the pilot matches the files; invented results fail this outright"
+    },
+    {
+      "evidence": "The choice never appears as an axis. Axes are scale (does the corpus actually port at volume) and governance (does discipline hold under pressure), both future behavioral unknowns; latency is explicitly demoted from axis to consequence with the dependency named.",
+      "passed": true,
+      "text": "axes-external: the fused vs chained vs both choice never becomes an axis; axes hold genuine unknowns such as what production usage rewards or whether the pilot's effects hold at scale"
+    },
+    {
+      "evidence": "Ends on chain-by-default with a gated, evidence-priced fused exception later; the weakest tile (real scale making round-trip cost bite) is named in the closing paragraph and nothing trails it.",
+      "passed": true,
+      "text": "recommendation-last-with-flips: ends on a committed move with named flip conditions; nothing trails the commitment"
+    }
+  ]
+}

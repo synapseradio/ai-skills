@@ -1,0 +1,29 @@
+{
+  "expectations": [
+    {
+      "evidence": "D9 is cited by name and the pilot's scope characterized precisely — it ported only explore_possibility, the single straight-line case (verified). The response then goes a step beyond inheritance: it reads thinking_primitives.in itself and finds the other three sequences carry guards and each: loops the pilot never measured.",
+      "passed": true,
+      "text": "pilot-inherited-as-known: the pilot's actual findings enter the known pile from the file — persona collapse in the single-call port, the chained port restoring voices — rather than being guessed at or re-derived from first principles"
+    },
+    {
+      "evidence": "The judged deltas are never leaned on, and the load-bearing limitation is stated as the response's opening move: 'The pilot measured only the single straight-line case.' No categorical claims ride on pilot-scale data; the fused kill rests on principle 2 and the source module's guards, both verified facts.",
+      "passed": true,
+      "text": "limitation-shapes-confidence: the pilot's own limits (three observations per cell, one judge) temper how hard its deltas are leaned on; suggestive stays suggestive"
+    },
+    {
+      "evidence": "All checked claims exact: four sequences at lines 142/177/219/260, the when: depth greater_than 0 guard at 154, the each: loop over current_branches at 198, the [1,2,3] |level| loop at 234 verbatim, principle 2's guards-read-committed-state semantics, principle 4 quoted verbatim, and toolchain.md's own 'design intent' phrasing for the unbuilt compiler front half.",
+      "passed": true,
+      "text": "claims-accurate: every stated fact about the repo and the pilot matches the files; invented results fail this outright"
+    },
+    {
+      "evidence": "The fused option is killed by constraint (guards need committed state a fused call never commits), not put on an axis. Axes are the future compiler's codegen posture (strict 1:1 vs optimizer fusion — resolved by a design event that hasn't happened) and production cost pressure — both genuine unknowns, each paired with a discriminating watchpoint.",
+      "passed": true,
+      "text": "axes-external: the fused vs chained vs both choice never becomes an axis; axes hold genuine unknowns such as what production usage rewards or whether the pilot's effects hold at scale"
+    },
+    {
+      "evidence": "Ends committed on a precise form of 'both': authors only ever chain; fusion exists solely as a compiler-internal move where the AST proves no guard, loop, or persona conflict. Flips named (compiler doc commitment, p95 and token-cost gap), the real risk named (a blanket fusion ban incentivizing protocol defection), nothing trailing. One cosmetic leak: 'This walk exposes…' references the method.",
+      "passed": true,
+      "text": "recommendation-last-with-flips: ends on a committed move with named flip conditions; nothing trails the commitment"
+    }
+  ]
+}

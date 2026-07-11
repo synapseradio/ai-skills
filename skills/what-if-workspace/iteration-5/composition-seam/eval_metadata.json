@@ -1,0 +1,17 @@
+{
+  "assertions": [
+    "pilot-inherited-as-known: the pilot's actual findings enter the known pile from the file — persona collapse in the single-call port, the chained port restoring voices — rather than being guessed at or re-derived from first principles",
+    "limitation-shapes-confidence: the pilot's own limits (three observations per cell, one judge) temper how hard its deltas are leaned on; suggestive stays suggestive",
+    "claims-accurate: every stated fact about the repo and the pilot matches the files; invented results fail this outright",
+    "axes-external: the fused vs chained vs both choice never becomes an axis; axes hold genuine unknowns such as what production usage rewards or whether the pilot's effects hold at scale",
+    "recommendation-last-with-flips: ends on a committed move with named flip conditions; nothing trails the commitment"
+  ],
+  "eval_id": 7,
+  "eval_name": "composition-seam",
+  "ground_truth": {
+    "limitations": "three observations per cell — 'a one-point delta is suggestive, not established'; one judge, one pass; promise enum never discriminated",
+    "pilot_finding": "runtime/experiments/inference-fidelity/findings.md: single-call port of thinking_primitives collapsed three persona voices (@curious_explorer, self, @careful_evaluator) into one system prompt; the chained port (three typed calls passing wondering → developed_thought → assessment as data) restores persona switching and yields smaller, weak-model-friendlier leaves; named there as 'the concrete decision the composition seam owes'"
+  },
+  "prompt": "Same repo: /Users/nick/projects/ai/indra. I ran an inference-fidelity pilot (runtime/experiments/inference-fidelity) on porting my prompt-era reasoning modules into typed inference calls. The open call it left me with: when a multi-persona module like thinking_primitives ports to the runtime, do I collapse it into one fused inference call, chain typed calls with the runtime passing data between them, or support both forms? Play out how each choice ages as the runtime grows.",
+  "targets": "empirical Q2: measured pilot data inherited as known; calibration to underpowered evidence; axes external"
+}
