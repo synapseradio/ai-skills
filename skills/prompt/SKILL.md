@@ -1,7 +1,7 @@
 ---
 name: prompt
 description: >-
-  Craft or refactor LLM instructions. Use when using the Agent or Task tool, when the user says "write a prompt", "prompt", "prompt an agent", or any similar request.
+  Craft or refactor LLM instructions. Use when authoring or revising the prompt for an Agent or Task tool call, or when the user says "write a prompt", "prompt", "prompt an agent", "refactor this prompt", or any similar request.
 metadata:
   user-invocable: true
 ---
@@ -10,7 +10,7 @@ metadata:
 
 <when> the user asks for a prompt to be written, refactored, or polished, or pastes an existing prompt or CLAUDE.md asking for improvement.
 
-<instruction> The output artifact uses a fixed seven-section scaffold. Load [`assets/template.md`](assets/template.md) and fill it. The procedure below covers detection, inventory, shaping, linting, and emit.
+<instruction> The output artifact uses the fixed scaffold defined in [`assets/template.md`](assets/template.md). Load it and fill it. The procedure below covers detection, inventory, shaping, linting, and emit.
 
 always aim for 80 lines or less in total when it is possible. Keep instructions and sections light and flexible.
 
@@ -24,7 +24,7 @@ always aim for 80 lines or less in total when it is possible. Keep instructions 
 
 ## Shape into the template
 
-<always> load [`assets/template.md`](assets/template.md) and fill its seven sections from the inventory.
+<always> load [`assets/template.md`](assets/template.md) and fill its sections from the inventory.
 
 <always> stakes content sits at the close of the Task section. Name what is at risk and why this matters. There is no separate Why section anywhere in the artifact.
 
@@ -51,7 +51,7 @@ always aim for 80 lines or less in total when it is possible. Keep instructions 
 
 <when> a required assumption was made — note it on the first line of the artifact, not in commentary around it.
 
-<when> in refactor mode and the source contains more than ~15 distinct instructions — show the coverage report (every input ID mapped to a destination section) and ask the user to confirm before writing the file. Smaller refactors and seeds emit without asking.
+<when> in refactor mode and the extracted list holds more than 15 instruction IDs — show the coverage report (every input ID mapped to a destination section) and ask the user to confirm before writing the file. Smaller refactors and seeds emit without asking.
 
 <when> the user has indicated downstream subagent evaluation — keep section boundaries clear and place the coverage report in a fenced block.
 

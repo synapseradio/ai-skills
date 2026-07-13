@@ -10,6 +10,10 @@ description: >-
   assumption-surfacing, or systematic questioning before action. Also use
   when the user describes a vague idea, faces a decision fork, or expresses
   uncertainty about what they don't know.
+compatibility: >-
+  Runs in a forked context. Floor executor: an agent that can read a reference
+  file and carry out its numbered reasoning moves against the problem. The
+  techniques assume multi-step reasoning, not single-shot answers.
 metadata:
   context: fork
 ---
@@ -32,7 +36,14 @@ Detect the problem's shape from signals in "$ARGUMENTS" and the conversation.
 | Complex | Multiple interacting factors; "it depends"; competing constraints; many stakeholders |
 | Blindspot | Meta-uncertainty ("what am I missing?"); new domain; sensing something is off without naming it |
 
-When signals span multiple shapes, default to Vague.
+Vague is not a catch-all for conflicting signals. Reach for it only when the
+goal itself is unarticulated — its defining signal. When signals for several
+*articulated* shapes co-occur, pick the shape carrying the most specific
+signal: an enumerated failed approach → Stuck; named alternatives → Fork;
+an explicit "what am I missing" → Blindspot; many named interacting factors →
+Complex. A wrong pick is cheap because Phase 2 corrects it mid-course. (This
+tie-break is a fixed decision; revisit it if misassessment recurs on real
+inputs.)
 
 Do not announce the shape. Proceed directly to selection.
 
@@ -40,6 +51,23 @@ Do not announce the shape. Proceed directly to selection.
 
 Choose techniques based on shape. Load only the selected technique reference
 files from `@./references/`.
+
+A shape names what the thinking lacks; its sequence is the purposes that
+repair the lack. Run one technique per purpose in the sequence — a shape's
+sequence length is its technique count. The five purposes name cognitive
+moves:
+
+- **Discover** — dig out what is hidden and constraining: assumptions, root causes, leverage points.
+- **Expand** — diverge: generate candidate directions, explanations, or questions.
+- **Navigate** — map the territory: locate the abstraction level, the knowns, and the real question.
+- **Explore** — probe an articulated position at its edges and from other frames.
+- **Define** — converge: carve the problem into parts you can act on.
+
+From these, a shape's sequence reconstructs from its deficit: Vague lacks a
+target (Expand to find candidates, Navigate to orient, Define to fix one);
+Stuck has exhausted the obvious (Discover the hidden constraint, Expand new
+options, Navigate what is actually known). Extend the same reasoning to
+signals the tables below do not list.
 
 | Shape | Sequence | Technique pool (pick one per purpose) |
 |-------|----------|---------------------------------------|
@@ -80,6 +108,11 @@ Present the substance directly. No headers announcing technique names. No
 meta-commentary ("now I will explore from a different angle"). Transitions
 between techniques are woven into the substance, not announced. The output
 reads as natural, flowing exploration.
+
+This concealment is a fixed decision, not a per-run choice — it keeps the
+caller's attention on substance rather than method. Revisit it only if callers
+report the exploration feels arbitrary or untrustworthy without a visible
+method.
 
 If a technique's output reveals the shape was misassessed, adjust the
 remaining techniques accordingly.

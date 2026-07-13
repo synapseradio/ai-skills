@@ -1,6 +1,6 @@
 # Output template
 
-The artifact has seven sections. Fill each one. A section either holds real content or carries a one-line gap note that names the absence. Padding is noise; structured absence is signal.
+The artifact has six sections. Fill each one. A section either holds real content or carries a one-line gap note that names the absence. Padding is noise; structured absence is signal.
 
 ## Perspective
 
@@ -25,4 +25,3 @@ The artifact has seven sections. Fill each one. A section either holds real cont
 ## Invitations
 
 [Judgment criteria the agent interprets in context. Permission-to-fail clauses, honesty defaults, transparency asks, decisions to surface rather than make silently, distinctions between observing and inferring.]
-
