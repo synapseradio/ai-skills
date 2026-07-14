@@ -8,23 +8,6 @@ prefer one named root over a trail of pointers, and make the output clear enough
 its reader to act on. The bug it was built to prevent is the everyday one — adding a
 thing that already existed because nobody looked first.
 
-## See also
-
-These skills sit next to Surface Intent and do related but distinct work.
-
-- **`communicate`** — how to phrase and structure prose for an audience, avoiding
-  slop. Surface Intent decides *whether* a thing should exist and whether its intent
-  is legible; `communicate` polishes the prose once you are writing it.
-- **`prompt`** — lints and sharpens LLM instructions specifically, including by
-  truth-conditions. Surface Intent applies the same look-before-you-add discipline
-  to anything — rules, code, designs, names — not only prompts.
-- **`scout`** — a reconnaissance agent that maps a codebase landscape and reports
-  high-value targets. Surface Intent's Beat 1 is the same instinct in the small, run
-  by you before a single change, ending in a sharpen / extend / add decision.
-- **`thinkies/assess-current-knowledge`** — the known / assumed / unknown split as a
-  standalone thinking move. Surface Intent borrows it inside Beat 1 to keep
-  assumptions from masquerading as facts during the survey.
-
 ## Install
 
 ```bash
