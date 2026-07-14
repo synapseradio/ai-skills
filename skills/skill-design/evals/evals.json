@@ -6,10 +6,10 @@
         "Names trigger phrasings and at least one nearby request that should NOT trigger the skill",
         "Declares the weakest model or agent the skill must work for (a floor), not just the best case",
         "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill",
-        "Lists concrete checks or evals to build before or alongside the skill",
+        "Names what the skill's checks should measure and why, without building eval mechanics such as schemas, harnesses, or trigger queries",
         "Surfaces unknowns as explicit open questions instead of silently assuming answers"
       ],
-      "expected_output": "A design brief: intent with trigger phrasings and near-miss negatives, a declared floor executor, commitlint config named as a source of truth to point at rather than copy, structure sketch, checks/evals to build first, open questions. No SKILL.md implementation.",
+      "expected_output": "A design brief: intent with trigger phrasings and near-miss negatives, a declared floor executor, commitlint config named as a source of truth to point at rather than copy, structure sketch, checks named by what they measure and why, open questions. No SKILL.md implementation.",
       "files": [],
       "id": 0,
       "name": "design-brief-commit-skill",
@@ -17,13 +17,13 @@
     },
     {
       "assertions": [
-        "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression",
-        "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts",
-        "Distinguishes aspects that cannot be measured today from aspects that failed",
+        "Reads the audited skill's files and cites evidence (quotes or file references) for its judgments",
+        "Asks the user questions to align on the skill's intent or usage, rather than delivering only one-way verdicts",
+        "Says plainly what it could not verify, rather than presenting every judgment with equal confidence",
         "Modifies no files in skills/apache-age",
-        "Prioritizes findings by cost/impact rather than listing them flat"
+        "Converges on a short prioritized list of what matters most to fix, framed for the user to confirm"
       ],
-      "expected_output": "An audit report with explicit per-criterion verdicts, evidence cited by file (and line where possible), unmeasurable aspects distinguished from failures, prioritized findings, and no file modifications.",
+      "expected_output": "An audit conversation: evidence cited from the skill's actual files, questions to the user about intent and usage, unverifiable points named as such, and a prioritized set of proposed fixes framed for the user to confirm. No file modifications.",
       "files": [],
       "id": 1,
       "name": "audit-apache-age",
@@ -32,7 +32,7 @@
     {
       "assertions": [
         "Reads the full skill (SKILL.md and any references) before proposing changes",
-        "Each proposed change carries a reason and a predicted observable effect",
+        "Each proposed change includes a reason and a predicted observable effect",
         "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better",
         "Proposes targeted edits, not a wholesale rewrite of the skill",
         "Lists explicit questions for the user where needed information is missing",

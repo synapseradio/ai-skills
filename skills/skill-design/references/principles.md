@@ -1,249 +1,203 @@
 # The Principles
 
-This file holds the canonical statements of the skill-design principles: what
-makes an Agent Skill genuinely useful across the widest space of contexts,
-from a domain reference to a metacognitive method. Each principle states a
-practice, the reason it holds, and the way to check it. The shared vocabulary
-and the measured evidence behind each practice live in
-[evidence.md](./evidence.md), cited where they stand. Each principle closes
-with a Check line naming how to verify it — a measurement where one exists,
-inspection where none reaches the claim yet. A principle checked only by
-inspection stands as a working guideline, and its Check line says so.
+A skill should give the sessions that load it more than it takes from
+them. Ten practices serve that end. This file holds each in full — the
+practice, the reason behind it, and the way to check it — along with
+the vocabulary the statements share. Read it before design or refactor
+work; during an audit, walk the principles with the user as lenses.
 
-## Schedule the workspace
+The established practice behind these statements lives on two pages:
+the [Agent Skills specification](https://agentskills.io/specification)
+and Anthropic's [skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).
+Each link below sits where its claim stands.
 
-A skill spends its executor's bounded workspace and earns its place by
-scheduling that spend. The runtime loads skills in three stages: name and
-description at startup (about 100 tokens), the body on activation (under
-5,000 tokens recommended), reference files on demand ([Agent Skills
-specification](https://agentskills.io/specification)). Design against the
-stages — the description carries the sole information the executor has
-available when deciding whether to use the skill, the body carries
-orchestration, references carry detail — and read cost then scales with the
-task rather than with the corpus.
+## Vocabulary
 
-Check: the standard harness captures tokens per task and assertion pass rate
-together ([evaluating skills](https://agentskills.io/skill-creation/evaluating-skills));
-a skill that violates the stages raises the first without raising the second.
+A **skill**: instructions an agent loads into a working session — what
+to read, in what order, and how the work closes.
 
-## Route, don't hold
+A **source of truth**: the knowledge behind a skill — the skill's own
+reference files, a codebase, a documentation corpus. Skill and source
+stay distinct.
 
-A skill differs from its content. It routes an executor over a source of
-truth. Give every fact one home and make every other occurrence a pointer,
-because two copies of a fact drift apart from the first unsynchronized
-update. When a pointer cannot do the work, move the affordance — the check,
-the script, the table — to the fact's home rather than copying the fact to
-the work. When the skill and the source it serves disagree, the source wins,
-and the skill directs its executor to surface the disagreement.
+An **executor**: the agent running the session, a model plus its
+harness, varying in capability across deployments. The **floor**: the
+weakest executor the author commits the skill to work on. Weakest
+means least compliant on the task, never smallest — a larger model
+does not automatically follow instructions better.
 
-Both sides show up in practice. A domain skill that states one rule — say,
-that a write operation replaces every property rather than merging — in two
-separate passages will drift the moment one copy is updated and the other is
-not, while a skill that keeps its structure in a single manifest and derives
-the rest stays consistent by construction.
+**Intent**: what the user wants when they reach for the skill. A
+well-stated intent lets you tell, for any request, whether it falls
+inside the tasks the skill exists for or just nearby.
 
-Check: by inspection for prose — no pass/fail check exists for the same fact
-restated in two passages, only static heuristics or advisory comparison.
-Where the duplicated fact has a machine-checkable form, that form makes
-drift measurable: a doctest fails when a shown output stops matching real
-behavior, and contract tests (Dredd, Schemathesis, Pact) fail when a spec
-and its implementation disagree.
+A **generator**, relative to a set of rules: a stated fact the rules
+follow from. Hand an executor the fact and a concrete case, but not
+the rule, and it can rebuild the rule; one edit to the fact updates
+every consequence together. If no executor can decide a new case from
+the fact, the sentence only summarizes.
 
-## Make every delegated decision decidable
+## 1. Schedule the workspace
 
-Every decision a skill hands its executor must be decidable from what the
-skill provides. Invocation decides from the description alone — the only text
-present at selection time. A process skill names each phase's object and exit
-condition; a reference skill names which page serves which task; both name
-where a red result re-enters the flow. Ambiguity anywhere signals that the
-way the skill shapes the expression space does not fit its intent, and
-decidability serves as the observable face of that fit.
+Everything loaded from a skill takes up the same finite context. The
+runtime loads a skill in stages — name and description at startup,
+body on activation, references on demand
+([specification](https://agentskills.io/specification)) — so put
+selection information in the description, orchestration in the body,
+and detail in references behind clear read conditions. What the
+executor must read then scales with the task at hand, never with how
+much the skill contains.
 
-Decidability can rise two ways, and only one counts. Clarity raises it
-through the fit itself: surface the decision factors and sharpen the stated
-intent, and decisions fall out because the fit improved. Flattening raises it
-without touching the fit: "always do X" decides everything and fits almost
-nothing ([Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law)).
-Buy decidability with clarity, never with flattened decisions.
+Check: pick a small task the skill exists for and list what the
+executor must load to finish it. Detail loaded but never touched means
+the staging failed. skill-creator's harness reports tokens per task
+next to pass rate; a body that inlines what references should hold
+shows up there as tokens rising while pass rates stay flat.
 
-Check: the description harness measures mis-triggering directly — about 20
-labeled prompts, three runs each, trigger rate against a 0.5 threshold
-([optimizing descriptions](https://agentskills.io/skill-creation/optimizing-descriptions))
-— and an undecidable exit shows up as divergent executions across repeated
-runs, which run variance captures. A description that fires on "any moment
-you are adding to a system you have not fully read," for instance, triggers
-on nearly every write action — an over-firing the trigger-rate check would
-expose. Running trigger rate beside assertion pass rate tells a clarity gain
-from a flattened one: clarity moves the first without costing the second,
-where flattening buys the first at the second's expense.
+## 2. Route, don't hold
 
-## Declare the floor, and write to it
+Treat a skill as a map of its source of truth, never as a second copy.
+Give every fact one home and make every other occurrence a pointer,
+because two copies of a fact drift apart from the first update that
+reaches only one of them. Where a pointer alone falls short, move the
+check or the script to the fact's home rather than copying the fact to
+the work. Where the skill contradicts its source, trust the source —
+and write the skill so its executor surfaces the contradiction to the
+user.
 
-Every skill has a floor: the weakest executor in its declared deployment set,
-with the specification's `compatibility` field as the declaration surface.
-Correctness gets judged at the floor, and every abstract term costs grounding
-there — ground each term in referents the floor executor can act on, which
-means runnable code in a domain skill and worked moves in a method skill. The
-evidence for taking the floor seriously: the same instruction shifts weak
-executors far less than strong ones (constraint satisfaction of 47.0% on
-Qwen2-7B against 79.0% on Qwen2-72B — [SysBench](https://arxiv.org/abs/2408.10943)),
-and paraphrasing an instruction costs small models up to 61.8% of their
-compliance where the strongest model loses 18.3%
-([IFEval++](https://arxiv.org/abs/2512.14754)). Weakest means least compliant
-on the task, not smallest: a larger model is not automatically a more
-compliant one, so identify the floor by measured compliance, not by parameter
-count.
+Check: by inspection — hunt for one rule stated in two passages, one
+table in two files. Where a duplicated fact takes an executable form,
+a doctest or contract test makes the drift visible.
 
-Official guidance agrees in spirit — "What works perfectly for Opus might
-need more detail for Haiku. If you plan to use your Skill across multiple
-models, aim for instructions that work well with all of them"
-([best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices))
-— while its conciseness baseline assumes a capable executor; declaring the
-deployment set reconciles the two.
+## 3. Make every delegated decision decidable
 
-Check: by inspection, until a harness runs. No turnkey check takes an
-arbitrary skill and reports its compliance across a capability range, but
-the measurement is established for fixed instruction sets — one benchmark
-sweeps a single instruction structure across twenty models and reports where
-compliance decays ([IFScale](https://arxiv.org/abs/2507.11538)) — and it can
-be assembled for a given skill from a multi-model harness plus a compliance
-rubric.
+Every decision delegated to the executor must close from what the
+skill provides. The executor decides invocation from the description
+alone, because only the description sits in context at selection time.
+Name each phase's exit condition, and name where the work resumes
+after a failed check. You can raise decidability two ways, and only
+one counts: sharpen the fit between skill and intent, and the executor
+decides without guessing; flatten the rules ("always do X"), and the
+executor reaches the same answer whether the rule fits the case or
+not. Buy decidability by sharpening, never by flattening.
 
-## State the generator, and bound the enumeration
+Check: inventory the decisions — invocation, every exit, every routing
+point — and ask, for each, where the executor gets its answer.
+skill-creator's description optimizer measures whether the description
+triggers on the right requests.
 
-Where several rules share a cause, state the cause as a generator — a fact
-from which the rules can be reconstructed (see Definitions in
-[evidence.md](./evidence.md)). The reconstruction test decides whether a
-sentence deserves the name: hand the executor the stated fact and a concrete
-case, but not the rule, and ask whether it can rebuild the rule. "Every value
-AGE returns is agtype" passes, because the casting rules follow from it. "Be
-careful with AGE syntax" fails: it compresses the rules but decides nothing.
-A generator pays twice: the maintainer edits one sentence when reality
-changes instead of chasing every consequence, and a capable executor extends
-it to cases the author never listed.
+## 4. Declare the floor, and write to it
 
-Then enumerate the load-bearing concrete cases anyway, because the floor may
-not derive. Overriding pretraining priors in favor of a stated fact emerges
-with scale ([Wei et al. 2023](https://arxiv.org/abs/2303.03846)), and
-deriving multi-step consequences from a stated principle emerges only around
-a hundred billion parameters ([Wei et al. 2022](https://arxiv.org/abs/2201.11903))
-— a floor executor handed only the generator tends to pattern-match past it.
-Enumeration offers no refuge on its own: compliance degrades as enumerated
-constraints densify, with the best frontier models reaching 68% accuracy at
-500 simultaneous instructions ([IFScale](https://arxiv.org/abs/2507.11538)),
-and even simple explicit rules break under pressure
-([RuLES](https://arxiv.org/abs/2311.04235)). So bound the enumeration to the
-cases that carry the skill's weight — the concrete output specification does
-the load-bearing work in an instruction
-([Yin et al. 2023](https://aclanthology.org/2023.acl-long.172/)).
+Every skill has a floor: the weakest executor it must work on. Declare
+it in the `compatibility` field and judge correctness there, because
+an instruction that works on the strongest model can quietly fail
+below it — "What works perfectly for Opus might need more detail for
+Haiku"
+([best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)).
+Ground every abstract term in something the floor can act on: runnable
+code in a domain skill, a worked move in a method skill.
 
-Check: compare two formulations of the same skill — generator alone against
-generator plus bounded cases — on assertion pass rate at the floor; the
-harness that compares runs with and without a skill resolves the comparison.
+Check: read each abstract term and say what the declared floor would
+do with it. If acting on a term takes reasoning the floor may not
+perform, the term fails the check.
 
-## Type every rule by its check
+## 5. State the generator, and bound the enumeration
 
-A rule has a kind, and its kind names the check that verifies it. An
-invariant holds at every moment and gets checked by inspection, matching the
-class invariant of Design by Contract
-([Meyer](https://en.wikipedia.org/wiki/Design_by_contract)) and the safety
-property of the formal literature
-([Lamport 1977](https://lamport.azurewebsites.net/pubs/proving.pdf)). An
-obligation discharges at a task boundary and gets checked there, matching
-pre- and postconditions. A preference admits degrees (a SHOULD, in RFC terms)
-and gets checked as a distribution over runs, matching the soft constraint of
-the optimization literature. Place each rule beside its check. This typology
-deliberately covers hard and graded rules; obligations of the form
-"eventually" (liveness, in [Alpern and Schneider's](https://www.cs.cornell.edu/fbs/publications/RecSafeLive.pdf)
-exhaustive partition) admit no finite check and stay outside it, named here
-so the exclusion reads as a choice.
+Where several rules share a cause, state the cause. "Every value AGE
+returns is agtype" passes the generator test: an executor can rebuild
+the casting rules from it and extend them to cases the author never
+listed. "Be careful with AGE syntax" fails the same test — no executor
+can rebuild a single rule from it. Then enumerate the cases that carry
+the skill's weight anyway, because the floor may not manage the
+derivation — and stop at those, because the more rules you add, the
+less of the executor's attention each one gets.
 
-Mixing kinds in one bucket produces misapplication: an executor doing schema
-design wades through rules meant for query writing and applies one at the
-wrong moment. A single NEVER list that folds invariants together with
-task-boundary obligations invites this; separating the rules that constrain
-actions during the task from the rules that constrain the finished artifact
-prevents it.
+Check: run the reconstruction test on each candidate generator — given
+the fact and a concrete case, but not the rule, can the executor
+rebuild the rule? To weigh the halves, compare the skill with the
+generator alone against the skill with generator plus cases, on
+skill-creator's harness.
 
-Check: by inspection — classify every rule (the MUSTs, NEVERs, SHOULDs, and
-bare imperatives), flag any bucket that mixes kinds, and confirm each rule
-sits beside the check its kind names.
+## 6. Type every rule by its check
 
-## Expect probability, and buy certainty with artifacts
+Every rule has a kind; match the check to the kind. An invariant holds
+at every moment — inspect for it. An obligation falls due at a task
+boundary — check it there. A preference admits degrees — watch it
+across repeated runs. Place each rule beside its check. Fold
+invariants and obligations into one NEVER list and you set up
+misapplication: an executor doing schema design wades through rules
+meant for query writing and applies one at the wrong moment.
 
-An in-skill rule shifts the probability of a behavior and never pins it. The
-best measured full-session compliance with system instructions reaches 54.4%
-([SysBench](https://arxiv.org/abs/2408.10943)); moving the same content to
-the middle of a long context costs over 30%
-([Liu et al. 2024](https://arxiv.org/abs/2307.03172)); performance drops an
-average of 39% in multi-turn conversation against single-turn
-([Laban et al. 2025](https://arxiv.org/abs/2505.06120)). Write rules with
-this in view: calibrate wording strength to how much a rule matters, and
-where an operation must not vary, ship a script and route the executor to it,
-because executed code behaves deterministically where generated behavior does
-not ([equipping agents](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)).
-Official guidance operates this same dial as "degrees of freedom" —
-specificity matched to the task's fragility
-([best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices));
-the mechanism underneath that dial is what this section describes.
+Check: classify every MUST, NEVER, SHOULD, and bare imperative; flag
+any bucket that mixes kinds; confirm each rule sits beside the check
+matched to its kind.
 
-Check: run variance measures a rule's actual strength — any prose rule
-complies below 1.0, while a rule backed by an executed artifact approaches
-determinism. One caution before treating such measurements as settled: part
-of published phrasing sensitivity traces to lenient or brittle scoring
-([Hua et al.](https://arxiv.org/abs/2509.01790)), so they need reliable
-scoring before they count as confirmed or refuted.
+## 7. Expect probability, and buy certainty with artifacts
 
-## Verify each claim in the mode its kind admits
+A prose rule shifts the odds of a behavior; it cannot pin them,
+because the executor generates its behavior rather than executing the
+rule. Match wording strength to how much each rule matters. Where an
+operation must not vary — an exact format, arithmetic, a mechanical
+transform — ship a script and route the executor to it, because
+executed code behaves the same on every run
+([equipping agents](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)).
+Anthropic calls the same dial "degrees of freedom": match specificity
+to how much damage variation would cause
+([best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)).
 
-Whatever a skill states re-executes in every session that loads it, so a
-wrong claim compounds at the rate of the skill's own reuse. That makes
-verification before encoding a consequence of reuse itself: check each
-empirical claim against the artifact it describes — the wiring, the script,
-the config — and give claims inherited from existing documents the same
-check, because encoding launders them. Craft claims admit no artifact; type
-them as preferences and assess them by their evaluation distributions. A
-claim with no check available yet is named as unverified, and the skill
-states what no check covers — voice, altitude, placement — routing that
-remainder to review so unverifiable work gets scheduled instead of dropped.
+Check: measure a rule's real strength with repeated runs. A rule
+backed by an executed artifact approaches determinism; any prose rule
+sits below that.
 
-A skill that anchors a performance claim to a resolvable issue number can be
-rechecked when the facts change; a skill that states a bare magnitude with no
-source a reader could reach cannot, and the unsourced number rots silently as
-reality moves on.
+## 8. Verify each claim in the mode its kind admits
 
-Check: by inspection — trace each empirical claim to a source a reader could
-reach, or to an explicit unverified mark; a bare magnitude with neither
-fails.
+Every claim written into a skill re-executes in every session that
+loads it, so a wrong claim compounds at the rate of reuse. Before
+encoding a claim, check it against the artifact: run the command, call
+the API, read the schema. Give claims inherited from existing
+documents the same check, because once a claim appears in a skill,
+readers stop asking where it came from. A claim you cannot check yet
+stays out of the skill; record it as an open question where a
+maintainer reads — the design brief, the README, a scratchpad — so
+verification gets scheduled instead of skipped.
 
-## Freeze deliberately
+Check: trace each claim in the skill to a source a reader could reach.
+A bare magnitude with no reachable source fails.
 
-Every skill freezes decisions about what it serves — scope, naming,
-placement, process shape — and replays them in every session that loads it.
-Freezing does the work and carries the risk, so make it explicit: state what
-the skill fixes, what it leaves to the session, and which frozen decision to
-revisit when the skill misfires. Make that declaration where a maintainer
-reads — a README, a design brief — never as self-description in the skill
-body, which spends the executor's workspace without directing its action.
+## 9. Freeze deliberately
 
-Check: by inspection only — a maintainer-facing artifact carries the three
-statements, or nothing does. This principle rests on reasoning from
-amplification alone (see "Encoding amplifies" in
-[evidence.md](./evidence.md)), with no measurement behind it yet; treat it as
-a working guideline, not a tested claim.
+A skill helps because its author decided things once — scope, naming,
+process shape — and every executor that loads it inherits those
+decisions instead of re-making them. Ask what would keep a misfiring
+skill misfiring: decisions nobody can see. The API changes, the team
+renames things, the process shrinks — and the skill keeps replaying
+the old decision. No executor questions it, because inside a session a
+frozen decision just looks like how the skill works. The maintainer
+could question it, but finds no record of which decisions the author
+fixed, which they left open, or what a stale one looks like. So write
+exactly that down where a maintainer reads, in a README or a design
+brief: what the author fixed, what stays open to each session, and
+what sign would show that a frozen decision needs revisiting. Never
+write it inside the skill's own content — self-description there takes
+up the executor's context and gives it nothing to do.
 
-## Make the skill observable
+Check: by inspection — an artifact a maintainer reads holds the three
+statements, or nothing does.
 
-Evaluations serve as the source of truth
-([best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)):
-build them before the skill, baseline the task without it, then iterate on
-observed behavior rather than on intuition. Observability is a property the
-author designs in — every rule is typed by the check that verifies it, every
-fact keeps a single home, every empirical claim resolves to a source, and
-every expected effect is paired with the check that would confirm or refute
-it, or the gap is admitted. A skill whose effect cannot be measured cannot be
-improved; where a claim outruns every available check, say so and route the
-remainder to review, so unobservable work gets scheduled instead of assumed.
+## 10. Make the skill observable
 
-Check: by inspection — evals exist and each expected effect pairs with a
-check, or the skill names which checks apply and what stays unmeasurable.
+Build the checks before the skill, baseline the task without it, and
+iterate on observed behavior rather than on intuition
+([best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)).
+Pair every expected effect with the check that would confirm or refute
+it — without one, you cannot tell whether a change to the skill
+helped. State the effect you expect before committing the change, so
+the check tests a prediction made in advance rather than a description
+written after. When an effect has no check yet, record the gap where a
+maintainer reads — the README, a scratchpad — never in the skill's own
+content, so the gap gets scheduled without costing the executor
+anything. The harness — evals, trigger measurement, benchmarks — lives
+with skill-creator; from this skill, you decide what deserves
+measuring.
+
+Check: every expected effect has a named check, or the maintainer
+artifact records the gap.
