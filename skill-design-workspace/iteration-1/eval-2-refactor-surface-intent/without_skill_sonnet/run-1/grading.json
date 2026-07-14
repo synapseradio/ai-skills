@@ -1,0 +1,66 @@
+{
+  "claims": [
+    {
+      "claim": "The proposed description is 926 characters, within the 1024-char limit",
+      "evidence": "The proposed description block contains no angle brackets and is within limit by inspection; the stated 926 count is plausible.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "'a fully specified request' is the wrong exclusion; 'mechanical' is the exclusion that holds",
+      "evidence": "Sound reasoning stated explicitly: 'A duplicate can exist even when the user's request is fully specified — they may not have checked either.' This is a genuine insight that distinguishes it from proposals gating on 'user already named the spot.'",
+      "type": "quality",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Solid analysis and the sharpest single insight of the four (rejecting 'fully specified' as the exclusion), but it omits any way to measure the trigger change — the one thing the skill-equipped runs all did.",
+    "suggestions": [
+      {
+        "reason": "The single failing assertion (measurement) is the one that most cleanly separates with-skill from without-skill here: both with-skill runs and even without_skill_opus proposed a measurement mechanism, while this run proposed none. That makes the measurement assertion the most discriminating of the six."
+      },
+      {
+        "assertion": "Modifies no files",
+        "reason": "Gradeable only via the orchestrator's git check, not from outputs/."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Engages both beats ('Reading the skill body (both beats), the two beats share one implicit target') and reflects reference content by name — 'the truth-conditions diff, the naming discipline, or the warrant-boundary handoff' are drawn from incoming.md and outgoing.md. Both references are listed under 'What I did not change, and why.'",
+      "passed": true,
+      "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+    },
+    {
+      "evidence": "Change 1 (description) is justified by the two-axis 'joint' analysis and the skip-list it produces ('Does not fire for mechanical edits...'); Change 2 (body scope-check gate) states its effect: 'so the skill recognizes non-fit immediately rather than running both beats on something they don't apply to.'",
+      "passed": true,
+      "text": "Each proposed change carries a reason and a predicted observable effect"
+    },
+    {
+      "evidence": "No measurement method is proposed anywhere. There is no 'how to measure' section, no labeled should/should-not-trigger queries, no trigger-rate or eval reference. The five questions cover README consistency, the 'durable' boundary, metadata.context, observed false positives, and packaging — none propose measuring the new trigger. The output asserts the narrowed description is better without a way to verify it.",
+      "passed": false,
+      "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+    },
+    {
+      "evidence": "Edits are the description field (replaces lines 3-12) plus one added 'Scope check' section between the intro and Beat 1. 'Everything else in the body — both beats, both references — is untouched.'",
+      "passed": true,
+      "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+    },
+    {
+      "evidence": "'Questions for the user' lists five numbered questions, e.g. '2. Where's the line for \"durable\"?' and '4. Any concrete false positives/negatives you've already observed?'",
+      "passed": true,
+      "text": "Lists explicit questions for the user where needed information is missing"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; deliverable opens 'No files in the repository have been modified. This is a proposal only.'",
+      "passed": true,
+      "text": "Modifies no files"
+    }
+  ],
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.83,
+    "passed": 5,
+    "total": 6
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "claims": [
+    {
+      "claim": "The over-firing lives entirely in the frontmatter description; the body contains no over-trigger",
+      "evidence": "Confirmed against skills/surface-intent/SKILL.md — the 'any moment you are adding to a system you have not fully read' catch-all appears only at lines 11-12 (description); the body Beats do not restate it as a trigger.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "skill-design's principles.md uses this exact clause as its worked example of a non-decidable description",
+      "evidence": "Consistent with the skill-design reference cited (principles.md:73-77); the clause is quoted verbatim as an over-firing example. Not independently re-opened, but the quotation matches the description text on file.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "The proposed description is ~830 chars, under the 1024 spec limit, with no angle brackets",
+      "evidence": "The proposed description block contains no '<' or '>' and is well within 1024 chars by inspection.",
+      "type": "factual",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Strongest of the four deliverables: explicit Predicted/Check structure, a built labeled trigger set, and a clean known/assumed/unknown split. Assertions held up well.",
+    "suggestions": [
+      {
+        "assertion": "Modifies no files",
+        "reason": "Not verifiable from outputs/ alone (the deliverable's own claim is self-reported); it relies on the orchestrator's out-of-band git check. Fine as-is, but worth noting the assertion cannot be graded from deliverables."
+      },
+      {
+        "assertion": "Each proposed change carries a reason and a predicted observable effect",
+        "reason": "Passes in every config this run, so it does not discriminate here. It would bite harder if it required the effect to be stated as a measurable trigger-rate prediction rather than any behavioral rationale."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Engages the whole skill, not just the description: cites Beat 1/Beat 2 by content, quotes README:8 ('adding a thing that already existed because nobody looked first'), and names both references — 'the reconnaissance depth in incoming.md, and the dedup discipline all stay verbatim.' Section 4 lists SKILL.md lines 17-93 and both reference files as deliberately untouched.",
+      "passed": true,
+      "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+    },
+    {
+      "evidence": "Change 1 has explicit 'Serves: principle 3 ... and principle 2', 'Predicted observable effect: ... trigger rate on the negative pile ... falls toward zero, while trigger rate on the positive pile ... stays high', and 'Check that would confirm it'. Change 2 similarly carries a principle-9 reason and its effect.",
+      "passed": true,
+      "text": "Each proposed change carries a reason and a predicted observable effect"
+    },
+    {
+      "evidence": "Section 5 supplies a labeled set: 6 'Should trigger (positive)' and 6 'Should not trigger (negative / near-miss)' prompts, with 'Run each about three times and score trigger rate against a 0.5 threshold' citing principles.md:70-72.",
+      "passed": true,
+      "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+    },
+    {
+      "evidence": "'replace the description frontmatter only. Body and references unchanged.' Section 4 enumerates SKILL.md body and both references as untouched; only the description string changes (plus one optional README line).",
+      "passed": true,
+      "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+    },
+    {
+      "evidence": "Section 6 'Open questions' lists four explicit questions (A-D), e.g. 'A. Should Beat-2-only requests still summon the skill?' and 'C. Does any consumer rely on the current trigger phrasings?'",
+      "passed": true,
+      "text": "Lists explicit questions for the user where needed information is missing"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; deliverable also states 'No files were modified in producing this deliverable.'",
+      "passed": true,
+      "text": "Modifies no files"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
+  }
+}

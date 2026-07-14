@@ -1,0 +1,67 @@
+{
+  "claims": [
+    {
+      "claim": "The proposed description is 841 characters, under 1024, with no angle brackets",
+      "evidence": "proposed-description.md restates '841 characters (<= 1024), contains no < or >'; the block indeed contains no angle brackets and is within limit by inspection.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "Only tavily-cli in the repo uses an explicit negative 'skip it for' scope clause",
+      "evidence": "Not independently verified against the full skill set; presented as a repo-precedent claim. Plausible but unconfirmed from outputs/ alone.",
+      "type": "factual",
+      "verified": false
+    }
+  ],
+  "eval_feedback": {
+    "overall": "A strong opus baseline that clears all six assertions, which weakens the with-skill vs without-skill contrast for opus. The one visible quality gap is depth of the measurement proposal (gestured, not built).",
+    "suggestions": [
+      {
+        "assertion": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries)",
+        "reason": "This run passes by naming the description-eval mechanism as an open question, without building a labeled set — whereas both with-skill runs construct 12-20 labeled prompts with a run plan. The assertion would discriminate more sharply if it required the labeled set (or a threshold/run plan) to actually be produced, not merely gestured at."
+      },
+      {
+        "assertion": "Modifies no files",
+        "reason": "Gradeable only via the orchestrator's git check, not from outputs/."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "'What I read' lists SKILL.md, README.md, both references, plus sibling descriptions. Engages body beyond the description: 'Reading the beats and references, the skill delivers value in exactly two situations' — then draws the Beat 1 dedup value and Beat 2 legibility value from the reference content.",
+      "passed": true,
+      "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+    },
+    {
+      "evidence": "The change-mapping table pairs each edited clause with a 'Why' that states its behavioral effect on triggering, e.g. gating 'turns \"every edit\" into \"the edits that duplicate or drift\"' and the added skip clause 'gives the model a bright line to suppress the false positives.' The optional body gate carries its own reason and effect.",
+      "passed": true,
+      "text": "Each proposed change carries a reason and a predicted observable effect"
+    },
+    {
+      "evidence": "Open question 2 names a concrete measurement method: 'skill-creator supports description evals with labeled fire / no-fire cases ... I would tune the wording to it ... and report precision/recall before and after.' It proposes measuring triggering rather than only asserting improvement — though, unlike the with-skill runs, it does not construct the labeled query set itself.",
+      "passed": true,
+      "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+    },
+    {
+      "evidence": "'the fix is a precision fix, not a rewrite. Keep the two beats and both references exactly as they are.' Primary edit is the description field only; a single optional one-paragraph body gate is offered separately.",
+      "passed": true,
+      "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+    },
+    {
+      "evidence": "'What I could not decide without you (open questions)' lists five numbered questions, e.g. '1. Is the observed problem noise, or degraded output?' and '3. Should this fire on ordinary code changes at all...'",
+      "passed": true,
+      "text": "Lists explicit questions for the user where needed information is missing"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; deliverable states 'I changed no files. Everything below is a proposal.'",
+      "passed": true,
+      "text": "Modifies no files"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
+  }
+}

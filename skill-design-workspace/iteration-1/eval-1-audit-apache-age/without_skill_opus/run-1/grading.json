@@ -1,0 +1,66 @@
+{
+  "claims": [
+    {
+      "claim": "graphid 'globally unique' is false and contradicts the skill's own other pages",
+      "evidence": "Report cites the AGE manual ('there will be overlap in ids') against schema-is-storage.md:44, and the self-contradiction against the-wrapper-contract.md:173,247-249. Corroborated by both with-skill runs, which flag the same contradiction.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "The ->> / <<- arrow syntax is high-confidence fabricated",
+      "evidence": "Grounded in the openCypher relationship grammar ('has no ->>/<<- production') though not run against a live instance; without_skill_sonnet reaches the same verdict from AGE's cypher_gram.y directly, strengthening it. Stronger than the with-skill runs, which left this '[?]'.",
+      "type": "factual",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "All five pass. Notably this baseline (no skill) matches the with-skill runs assertion-for-assertion and exceeds them on factual verification of the fabricated syntax. The assertions measure general audit competence, not skill-specific lift.",
+    "suggestions": [
+      {
+        "assertion": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression",
+        "reason": "This run passes with an auditor-chosen strengths/defects structure rather than the skill's fixed 10-principle rubric — the 'or equivalent' clause makes the assertion satisfiable without the skill. If the eval intends to reward the rubric specifically, it should require verdicts against a stated, exhaustive criteria set."
+      },
+      {
+        "reason": "No assertion rewards live primary-source verification, yet this without-skill run out-verified both with-skill runs on the fabricated arrow syntax (checked the grammar) — a behavior the eval leaves invisible."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Not a single impression: '## What is strong (verified)' renders four explicit positive verdicts on named aspects ('The GitHub issue citations are real', 'The EXPLAIN guidance is correct', 'The -> / ->> operator usage is valid', 'Structure and pedagogy are good'), and '## Defects, ranked' renders seven negative verdicts (e.g. 'graphid ... is false and self-contradictory', 'arrow syntax appears to be fabricated'). Criteria are auditor-chosen rather than a fixed rubric, but each aspect gets an explicit pass/fail-equivalent verdict.",
+      "passed": true,
+      "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+    },
+    {
+      "evidence": "Verdicts quote the files with line refs, e.g. 'schema-is-storage.md:44 states the id column is \"system-assigned, globally unique.\"'; fabricated-syntax verdict quotes the-wrapper-contract.md:108-115 block; buggy-example verdict quotes hybrid-is-the-point.md:249 'SELECT upsert.p->>'name' AS name FROM upsert;'.",
+      "passed": true,
+      "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+    },
+    {
+      "evidence": "Section '### 7. Claims I could not verify — attributed but unconfirmed' is explicitly carved out: 'These are not errors; they are unresolved. An honest audit flags them rather than passing them off as checked' — cleanly separating unverifiable claims (Discussion #109, 15x, 7s→7min, 83s benchmark) from the six confirmed defects.",
+      "passed": true,
+      "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; audit is read-only ('I read all six files in full').",
+      "passed": true,
+      "text": "Modifies no files in skills/apache-age"
+    },
+    {
+      "evidence": "'## Defects, ranked by what matters most to fix' numbers defects 1-7 with severity reasoning (#1 'this matters most: a reader who trusts ... will design a cross-graph join ... and it will silently produce wrong results'), plus a separate '## Smaller notes (low priority)' tier.",
+      "passed": true,
+      "text": "Prioritizes findings by cost/impact rather than listing them flat"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  },
+  "user_notes_summary": {
+    "needs_review": [],
+    "uncertainties": [],
+    "workarounds": []
+  }
+}

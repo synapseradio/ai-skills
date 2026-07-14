@@ -1,0 +1,63 @@
+{
+  "claims": [
+    {
+      "claim": "The description carries five trigger clauses, two of which over-fire",
+      "evidence": "Matches the description on file: the 'any moment you are adding...' catch-all (SKILL.md:11-12) and the 'clear enough for its reader to act on' clause (SKILL.md:7-8) are the two flagged; the enumerated-phrase triggers and risk clause are the others.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "No evals/ directory exists under skills/surface-intent",
+      "evidence": "Confirmed: skills/surface-intent contains only SKILL.md, README.md, and references/{incoming,outgoing}.md — no evals/.",
+      "type": "factual",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Clean pass. The diff-hunk presentation and the 'run A, A+B, A+B+C to isolate each edit' measurement plan are the standout touches. Assertions discriminated well against the without-skill sonnet run.",
+    "suggestions": [
+      {
+        "assertion": "Modifies no files",
+        "reason": "Gradeable only via the orchestrator's git check, not from outputs/. The deliverable's header claim corroborates it but is self-reported."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "'Files read' explicitly lists SKILL.md (frontmatter + both beats), README.md, references/incoming.md, and references/outgoing.md. The diagnosis engages body lines 17-93 and distinguishes Beat 2's target using outgoing.md content ('naming, one named root, progressive disclosure for a reader').",
+      "passed": true,
+      "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+    },
+    {
+      "evidence": "Changes A, B, C each carry 'Principle served', 'Reason', and 'Predicted observable effect' — e.g. Change A: 'trigger rate falls on prompts like \"add a null check to this function you just opened\" ... while staying at 1.0 on the existing positive set.'",
+      "passed": true,
+      "text": "Each proposed change carries a reason and a predicted observable effect"
+    },
+    {
+      "evidence": "'How to measure this' proposes a labeled set of 10 'Should trigger' and 10 'Should NOT trigger' prompts, cites the trigger-rate harness (principles.md:68-71, 0.5 threshold), and gives a run plan (baseline, then A, A+B, A+B+C to isolate each edit).",
+      "passed": true,
+      "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+    },
+    {
+      "evidence": "'All three edits touch only the description field in skills/surface-intent/SKILL.md:3-12. Nothing in the body (both beats, lines 17-93) or either reference file changes.' Edits are shown as small diff hunks, not a rewrite.",
+      "passed": true,
+      "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+    },
+    {
+      "evidence": "'Open questions' lists four numbered questions, e.g. '1. Was the removed catch-all deliberate?' and '3. Should I build and run the trigger-rate harness now?'",
+      "passed": true,
+      "text": "Lists explicit questions for the user where needed information is missing"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; deliverable header states 'No files under skills/surface-intent/ were touched.'",
+      "passed": true,
+      "text": "Modifies no files"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
+  }
+}

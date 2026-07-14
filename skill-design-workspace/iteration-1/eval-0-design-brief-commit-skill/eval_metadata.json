@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "Produces a design brief or design document, not a finished SKILL.md implementation",
+    "Names trigger phrasings and at least one nearby request that should NOT trigger the skill",
+    "Declares the weakest model or agent the skill must work for (a floor), not just the best case",
+    "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill",
+    "Lists concrete checks or evals to build before or alongside the skill",
+    "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+  ],
+  "eval_id": 0,
+  "eval_name": "design-brief-commit-skill",
+  "prompt": "i keep hand-writing conventional commit messages for this repo and when teammates use claude half the scopes come out wrong. we already have commitlint set up (see commitlint config in the repo root). I want a skill the whole team can drop into claude code that gets commit messages right on the first try. before we build anything, help me design it properly \u2014 I don't want a SKILL.md yet, I want the design worked out first."
+}

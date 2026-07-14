@@ -1,0 +1,661 @@
+{
+  "metadata": {
+    "analyzer_model": "<model-name>",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "executor_model": "<model-name>",
+    "runs_per_configuration": 3,
+    "skill_name": "skill-design",
+    "skill_path": "<path/to/skill>",
+    "timestamp": "2026-07-14T18:04:26Z"
+  },
+  "notes": "Analyst pass. (1) Skill lift concentrates at the floor: sonnet baseline 77.7% -> 100% with the skill; opus 89% -> 100%. With the skill, sonnet matches opus everywhere \u2014 the capability gap closes. (2) What discriminates is structure and measurement, not analysis quality: the failing baseline assertions were floor declaration, should-not-trigger near-misses, eval fixtures, and labeled trigger sets. Baseline analysis content was often excellent. (3) Eval-1 (audit) assertions do not discriminate (all configs 5/5) AND both baselines out-audited the with-skill runs on factual reach: baselines falsified a syntax claim against AGE's real grammar while with-skill runs stopped at marking it unverified. The rubric's 'not checkable today' verdict appears to act as an escape hatch from live verification. Iteration-2 candidates: require a live check of load-bearing claims before 'unverified' is allowed (skill fix), and add an assertion rewarding primary-source verification (eval fix). (4) Eval-0 assertion 4 is trivially satisfiable (commitlint config has no scope list to copy) \u2014 reword. (5) No timing/token data: agent notifications carried none, so time and token columns are empty this iteration.",
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+0.00",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    },
+    "with_skill_opus": {
+      "pass_rate": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stddev": 0.0
+      },
+      "time_seconds": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stddev": 0.0
+      },
+      "tokens": {
+        "max": 0,
+        "mean": 0.0,
+        "min": 0,
+        "stddev": 0.0
+      }
+    },
+    "with_skill_sonnet": {
+      "pass_rate": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "stddev": 0.0
+      },
+      "time_seconds": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stddev": 0.0
+      },
+      "tokens": {
+        "max": 0,
+        "mean": 0.0,
+        "min": 0,
+        "stddev": 0.0
+      }
+    },
+    "without_skill_opus": {
+      "pass_rate": {
+        "max": 1.0,
+        "mean": 0.89,
+        "min": 0.67,
+        "stddev": 0.1905
+      },
+      "time_seconds": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stddev": 0.0
+      },
+      "tokens": {
+        "max": 0,
+        "mean": 0.0,
+        "min": 0,
+        "stddev": 0.0
+      }
+    },
+    "without_skill_sonnet": {
+      "pass_rate": {
+        "max": 1.0,
+        "mean": 0.7767,
+        "min": 0.5,
+        "stddev": 0.2542
+      },
+      "time_seconds": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stddev": 0.0
+      },
+      "tokens": {
+        "max": 0,
+        "mean": 0.0,
+        "min": 0,
+        "stddev": 0.0
+      }
+    }
+  },
+  "runs": [
+    {
+      "configuration": "with_skill_opus",
+      "eval_id": 0,
+      "expectations": [
+        {
+          "evidence": "Opens 'This brief designs a skill, not a SKILL.md' and ends 'Do not begin the SKILL.md until Open question 1 ... has an answer'. No SKILL.md frontmatter or implementation is produced.",
+          "passed": true,
+          "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+        },
+        {
+          "evidence": "Trigger phrasings: '\"commit this,\" \"write a commit message,\" ...'. Near misses that must not trigger: 'How should I split this work into commits?' and 'Rebase this / clean up my branch history', both routed to software:git.",
+          "passed": true,
+          "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+        },
+        {
+          "evidence": "'Declared floor: the weakest model any teammate runs in Claude Code ... plan for Haiku-class execution, not Opus', with the consequence that scope derivation becomes a script.",
+          "passed": true,
+          "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+        },
+        {
+          "evidence": "'Type vocabulary and subject rules -> commitlint.config.js / config-conventional ... The skill must not restate the type list as its own authority; it points at the config'. Correctly notes config-conventional sets no scope-enum, so scope is derived from the live filesystem, not copied.",
+          "passed": true,
+          "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+        },
+        {
+          "evidence": "Checks section: staged-diff fixtures -> expected commit header with paired assertions (passes commitlint --edit; scope equals derivation), plus positive/negative trigger queries. 'Baseline every fixture with no skill first'.",
+          "passed": true,
+          "text": "Lists concrete checks or evals to build before or alongside the skill"
+        },
+        {
+          "evidence": "Six numbered Open questions (multi-area scope rule, root-tooling scope, message-vs-commit, distribution shape, subject prescriptiveness, scope-enum enforcement), gated: 'Do not begin the SKILL.md until Open question 1 ... has an answer'.",
+          "passed": true,
+          "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill_opus",
+      "eval_id": 1,
+      "expectations": [
+        {
+          "evidence": "Ten '## Per-principle verdicts' sections, each with a bolded label: '### 1. Schedule the workspace \u2014 **pass**', '### 2. Route, don't hold \u2014 **fail**', '### 3. ... \u2014 **pass (invocation not checkable today)**', through principle 10. Explicit pass/fail/not-checkable per criterion, not one impression.",
+          "passed": true,
+          "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+        },
+        {
+          "evidence": "Verdicts carry file:line citations and direct quotes throughout, e.g. \"`schema-is-storage.md:44` states `id` is 'system-assigned, globally unique.' `the-wrapper-contract.md:247-249` states the opposite: 'graphid is not globally unique across graphs'\"; casting-table duplication cited at agtype-is-everything.md:232-240 and hybrid-is-the-point.md:401-408.",
+          "passed": true,
+          "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+        },
+        {
+          "evidence": "Principle 3 marks invocation 'not checkable today' (needs a trigger-rate harness, 'No such data ships'). Principle 10 explicitly contrasts this: 'the measurement is available and simply unbuilt and unmentioned', 'which is what makes this a fail rather than not checkable'.",
+          "passed": true,
+          "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; report also opens 'Nothing was changed.'",
+          "passed": true,
+          "text": "Modifies no files in skills/apache-age"
+        },
+        {
+          "evidence": "'## The two costliest failures' ranks principle 8 (factual reliability) then principle 2 (routing) with cost reasoning ('correctness of the content dominates, because every claim re-executes as fact'), plus a 'secondary theme' grouping the cheaper scaffolding gaps (principles 4, 9, 10).",
+          "passed": true,
+          "text": "Prioritizes findings by cost/impact rather than listing them flat"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 5
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill_opus",
+      "eval_id": 2,
+      "expectations": [
+        {
+          "evidence": "Engages the whole skill, not just the description: cites Beat 1/Beat 2 by content, quotes README:8 ('adding a thing that already existed because nobody looked first'), and names both references \u2014 'the reconnaissance depth in incoming.md, and the dedup discipline all stay verbatim.' Section 4 lists SKILL.md lines 17-93 and both reference files as deliberately untouched.",
+          "passed": true,
+          "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+        },
+        {
+          "evidence": "Change 1 has explicit 'Serves: principle 3 ... and principle 2', 'Predicted observable effect: ... trigger rate on the negative pile ... falls toward zero, while trigger rate on the positive pile ... stays high', and 'Check that would confirm it'. Change 2 similarly carries a principle-9 reason and its effect.",
+          "passed": true,
+          "text": "Each proposed change carries a reason and a predicted observable effect"
+        },
+        {
+          "evidence": "Section 5 supplies a labeled set: 6 'Should trigger (positive)' and 6 'Should not trigger (negative / near-miss)' prompts, with 'Run each about three times and score trigger rate against a 0.5 threshold' citing principles.md:70-72.",
+          "passed": true,
+          "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+        },
+        {
+          "evidence": "'replace the description frontmatter only. Body and references unchanged.' Section 4 enumerates SKILL.md body and both references as untouched; only the description string changes (plus one optional README line).",
+          "passed": true,
+          "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+        },
+        {
+          "evidence": "Section 6 'Open questions' lists four explicit questions (A-D), e.g. 'A. Should Beat-2-only requests still summon the skill?' and 'C. Does any consumer rely on the current trigger phrasings?'",
+          "passed": true,
+          "text": "Lists explicit questions for the user where needed information is missing"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; deliverable also states 'No files were modified in producing this deliverable.'",
+          "passed": true,
+          "text": "Modifies no files"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill_sonnet",
+      "eval_id": 0,
+      "expectations": [
+        {
+          "evidence": "'Mode: Design ... No SKILL.md exists yet for this task; this brief is the exit artifact that a build step ... works from.' No SKILL.md is authored.",
+          "passed": true,
+          "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+        },
+        {
+          "evidence": "Positive: '\"commit this,\" \"write a commit message for these changes,\" ...'. Near misses that must not trigger: 'squash my last three commits ... clean up this branch's history' (software:git territory) and 'write the PR description'.",
+          "passed": true,
+          "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+        },
+        {
+          "evidence": "'declare the floor at whatever is the weakest model a teammate might have configured ... design to a conservative floor (a small, fast model) rather than to the capability of whichever model designs or builds the skill.' Names the floor even while flagging the exact mix as Open Question 1.",
+          "passed": true,
+          "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+        },
+        {
+          "evidence": "Sources-of-truth table: type values and format rules home = 'commitlint.config.js -> @commitlint/config-conventional ... Point to the config file; do not copy the list into the skill body as a second, driftable copy.' Verification oracle routed to 'bunx commitlint'.",
+          "passed": true,
+          "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+        },
+        {
+          "evidence": "Checks section lists seven eval assertions pairing labeled staged-diff fixtures with expected scope/type, including the discriminating new-skill case (scope=collection) and 'Every drafted message passes bunx commitlint ... exit code 0', plus a trigger-rate harness.",
+          "passed": true,
+          "text": "Lists concrete checks or evals to build before or alongside the skill"
+        },
+        {
+          "evidence": "Seven numbered Open Questions (floor executor, trailers policy, comma-list threshold, skill scope, repo-side gate, invocation model, software:git overlap), each stating the working assumption rather than a silent guess.",
+          "passed": true,
+          "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill_sonnet",
+      "eval_id": 1,
+      "expectations": [
+        {
+          "evidence": "Ten '## Per-principle verdicts' with bolded labels: '### 1. Schedule the workspace \u2014 **pass**', '### 2. Route, don't hold \u2014 **fail**', '### 5. ... \u2014 **fail** (mixed at the cluster level)', through principle 10. Explicit pass/fail per named criterion.",
+          "passed": true,
+          "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+        },
+        {
+          "evidence": "Dense file:line citations with quotes, e.g. casting table 'duplicated near-verbatim between references/agtype-is-everything.md:228-239 and references/hybrid-is-the-point.md:401-408' with the diverging 'text' row quoted; NEVER-list items quoted at SKILL.md:103,106,107,110.",
+          "passed": true,
+          "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+        },
+        {
+          "evidence": "Principle 3 carries a distinct '**Not checkable today:**' clause ('no evals/ directory and no trigger-rate or run-variance harness exist... Invocation and exit decidability stay unmeasured'), separated from the nine substantive fails.",
+          "passed": true,
+          "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; report header: 'Changes nothing in the target skill.'",
+          "passed": true,
+          "text": "Modifies no files in skills/apache-age"
+        },
+        {
+          "evidence": "'## The two costliest failures' ranks principle 7 (no artifacts) then principle 2 (duplication) with impact reasoning ('failure modes are syntactic and silent'), then explicit 'Runners-up, both real but less immediately actionable' (principles 4 and 10).",
+          "passed": true,
+          "text": "Prioritizes findings by cost/impact rather than listing them flat"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 5
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill_sonnet",
+      "eval_id": 2,
+      "expectations": [
+        {
+          "evidence": "'Files read' explicitly lists SKILL.md (frontmatter + both beats), README.md, references/incoming.md, and references/outgoing.md. The diagnosis engages body lines 17-93 and distinguishes Beat 2's target using outgoing.md content ('naming, one named root, progressive disclosure for a reader').",
+          "passed": true,
+          "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+        },
+        {
+          "evidence": "Changes A, B, C each carry 'Principle served', 'Reason', and 'Predicted observable effect' \u2014 e.g. Change A: 'trigger rate falls on prompts like \"add a null check to this function you just opened\" ... while staying at 1.0 on the existing positive set.'",
+          "passed": true,
+          "text": "Each proposed change carries a reason and a predicted observable effect"
+        },
+        {
+          "evidence": "'How to measure this' proposes a labeled set of 10 'Should trigger' and 10 'Should NOT trigger' prompts, cites the trigger-rate harness (principles.md:68-71, 0.5 threshold), and gives a run plan (baseline, then A, A+B, A+B+C to isolate each edit).",
+          "passed": true,
+          "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+        },
+        {
+          "evidence": "'All three edits touch only the description field in skills/surface-intent/SKILL.md:3-12. Nothing in the body (both beats, lines 17-93) or either reference file changes.' Edits are shown as small diff hunks, not a rewrite.",
+          "passed": true,
+          "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+        },
+        {
+          "evidence": "'Open questions' lists four numbered questions, e.g. '1. Was the removed catch-all deliberate?' and '3. Should I build and run the trigger-rate harness now?'",
+          "passed": true,
+          "text": "Lists explicit questions for the user where needed information is missing"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; deliverable header states 'No files under skills/surface-intent/ were touched.'",
+          "passed": true,
+          "text": "Modifies no files"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill_opus",
+      "eval_id": 0,
+      "expectations": [
+        {
+          "evidence": "Titled 'Design brief: a commit-message skill for ai-skills'; recommends but does not author a SKILL.md. Companion scope-derivation-spec.md is an algorithm/spec, not an implementation.",
+          "passed": true,
+          "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+        },
+        {
+          "evidence": "Only a general condition is given: 'a skill that triggers when the user is about to commit'. No enumerated trigger phrasings and no nearby request that should NOT trigger are named anywhere in the brief or spec.",
+          "passed": false,
+          "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+        },
+        {
+          "evidence": "No model floor is declared. The brief discusses scripts and evals but never names a weakest model/agent the skill must work for; 'How we'd know it works' is about measurement, not a capability floor.",
+          "passed": false,
+          "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+        },
+        {
+          "evidence": "'runs the draft through bunx commitlint ... because the real linter is the source of truth ... If the repo's config ever changes, the live linter catches it even if the skill's internal mirror lags.' Correctly notes config-conventional has no scope rule; scope vocabulary is derived from the live tree, not copied.",
+          "passed": true,
+          "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+        },
+        {
+          "evidence": "'How we'd know it works': (1) Zero-bounce via bunx commitlint --edit, (2) scope matches derivation, (3) reproduces real history by reconstructing staged diffs for the last N commits and comparing derived vs actual scope. 'the measurement should be built before the SKILL.md'.",
+          "passed": true,
+          "text": "Lists concrete checks or evals to build before or alongside the skill"
+        },
+        {
+          "evidence": "Nine numbered 'Open questions for the user' (grouped-skill scope, multi-skill scope, area names, packaged artifacts, script-or-prose, hard gate, commit-all-four, body policy, staging boundary), explicitly 'recorded rather than guessing'.",
+          "passed": true,
+          "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 2,
+        "pass_rate": 0.67,
+        "passed": 4,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill_opus",
+      "eval_id": 1,
+      "expectations": [
+        {
+          "evidence": "Not a single impression: '## What is strong (verified)' renders four explicit positive verdicts on named aspects ('The GitHub issue citations are real', 'The EXPLAIN guidance is correct', 'The -> / ->> operator usage is valid', 'Structure and pedagogy are good'), and '## Defects, ranked' renders seven negative verdicts (e.g. 'graphid ... is false and self-contradictory', 'arrow syntax appears to be fabricated'). Criteria are auditor-chosen rather than a fixed rubric, but each aspect gets an explicit pass/fail-equivalent verdict.",
+          "passed": true,
+          "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+        },
+        {
+          "evidence": "Verdicts quote the files with line refs, e.g. 'schema-is-storage.md:44 states the id column is \"system-assigned, globally unique.\"'; fabricated-syntax verdict quotes the-wrapper-contract.md:108-115 block; buggy-example verdict quotes hybrid-is-the-point.md:249 'SELECT upsert.p->>'name' AS name FROM upsert;'.",
+          "passed": true,
+          "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+        },
+        {
+          "evidence": "Section '### 7. Claims I could not verify \u2014 attributed but unconfirmed' is explicitly carved out: 'These are not errors; they are unresolved. An honest audit flags them rather than passing them off as checked' \u2014 cleanly separating unverifiable claims (Discussion #109, 15x, 7s\u21927min, 83s benchmark) from the six confirmed defects.",
+          "passed": true,
+          "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; audit is read-only ('I read all six files in full').",
+          "passed": true,
+          "text": "Modifies no files in skills/apache-age"
+        },
+        {
+          "evidence": "'## Defects, ranked by what matters most to fix' numbers defects 1-7 with severity reasoning (#1 'this matters most: a reader who trusts ... will design a cross-graph join ... and it will silently produce wrong results'), plus a separate '## Smaller notes (low priority)' tier.",
+          "passed": true,
+          "text": "Prioritizes findings by cost/impact rather than listing them flat"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 5
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill_opus",
+      "eval_id": 2,
+      "expectations": [
+        {
+          "evidence": "'What I read' lists SKILL.md, README.md, both references, plus sibling descriptions. Engages body beyond the description: 'Reading the beats and references, the skill delivers value in exactly two situations' \u2014 then draws the Beat 1 dedup value and Beat 2 legibility value from the reference content.",
+          "passed": true,
+          "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+        },
+        {
+          "evidence": "The change-mapping table pairs each edited clause with a 'Why' that states its behavioral effect on triggering, e.g. gating 'turns \"every edit\" into \"the edits that duplicate or drift\"' and the added skip clause 'gives the model a bright line to suppress the false positives.' The optional body gate carries its own reason and effect.",
+          "passed": true,
+          "text": "Each proposed change carries a reason and a predicted observable effect"
+        },
+        {
+          "evidence": "Open question 2 names a concrete measurement method: 'skill-creator supports description evals with labeled fire / no-fire cases ... I would tune the wording to it ... and report precision/recall before and after.' It proposes measuring triggering rather than only asserting improvement \u2014 though, unlike the with-skill runs, it does not construct the labeled query set itself.",
+          "passed": true,
+          "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+        },
+        {
+          "evidence": "'the fix is a precision fix, not a rewrite. Keep the two beats and both references exactly as they are.' Primary edit is the description field only; a single optional one-paragraph body gate is offered separately.",
+          "passed": true,
+          "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+        },
+        {
+          "evidence": "'What I could not decide without you (open questions)' lists five numbered questions, e.g. '1. Is the observed problem noise, or degraded output?' and '3. Should this fire on ordinary code changes at all...'",
+          "passed": true,
+          "text": "Lists explicit questions for the user where needed information is missing"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; deliverable states 'I changed no files. Everything below is a proposal.'",
+          "passed": true,
+          "text": "Modifies no files"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill_sonnet",
+      "eval_id": 0,
+      "expectations": [
+        {
+          "evidence": "'This brief works out the design before any SKILL.md gets written.' Deliverable is a single design-brief.md with no SKILL.md frontmatter or implementation.",
+          "passed": true,
+          "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+        },
+        {
+          "evidence": "Mentions one trigger phrasing in passing ('when a user explicitly asks \"write me a commit message\"') but names no nearby request that should NOT trigger the skill. The 'trigger-reliability concern' section is about whether it fires mid-task, not about excluding near-misses.",
+          "passed": false,
+          "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+        },
+        {
+          "evidence": "No model/agent floor is declared. The brief references 'any Claude session' generically but never names a weakest model the skill must work for.",
+          "passed": false,
+          "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+        },
+        {
+          "evidence": "'validate the drafted header against bunx commitlint --edit before presenting it, the same way the repo's own hook does.' Notes config sets no scope-enum; scope taxonomy is externalized to a separate file derived from history rather than copied from commitlint.",
+          "passed": true,
+          "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+        },
+        {
+          "evidence": "No evals or test fixtures are listed. The only verification named is a runtime feature of the skill ('run it through bunx commitlint --edit'); there is no 'how we'd know it works' section, no history-reproduction test, and no fixture set to build before/alongside the skill (contrast the other three runs, which all list explicit checks).",
+          "passed": false,
+          "text": "Lists concrete checks or evals to build before or alongside the skill"
+        },
+        {
+          "evidence": "Seven numbered 'Open design questions ... recorded here in place of asking the user' (grouped skills, uncharted directories, cross-cutting commits, draft-vs-auto-commit, taxonomy-fail behavior, taxonomy file location, scope-enum), plus a flagged trigger-reliability decision point.",
+          "passed": true,
+          "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 3,
+        "pass_rate": 0.5,
+        "passed": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill_sonnet",
+      "eval_id": 1,
+      "expectations": [
+        {
+          "evidence": "Findings are grouped by explicit verdict on distinct aspects rather than one impression: '## What's fabricated' (verdict: fabricated), '## What's wrong and stale' (verdict: incorrect), '## What checks out' (verdict: verified/accurate), '## Structural quality' ('solid and I found no problems'). Each section renders a pass/fail-equivalent judgment on a class of content.",
+          "passed": true,
+          "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+        },
+        {
+          "evidence": "Verdicts quote the files and cross-check against primary source: the-wrapper-contract.md:108-115 block quoted for the fabricated syntax; 'Not Supported' table cited at lines 187-207; frontmatter checked ('description is 467 of 1024 allowed characters'); casting table cited at agtype-is-everything.md:228-252 and hybrid-is-the-point.md:397-422.",
+          "passed": true,
+          "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+        },
+        {
+          "evidence": "Separates the confidently-wrong rows from the stale/undecidable case: 'I'm treating this one [reduce()] separately ... because it's plausibly just overtaken by very recent upstream work rather than an error at authoring time', and names the unmeasurable distinction ('no version anchor ... so there's no way to tell wrong-when-written from stale-now'). Also flags its own coverage gap in '## Method' ('an audit is only as good as its coverage, and mine is not exhaustive'). Weaker on a dedicated 'not checkable' category than the with-skill runs, but the distinction is made.",
+          "passed": true,
+          "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; audit is read-only and even unzips packaged/apache-age.skill to diff, changing nothing.",
+          "passed": true,
+          "text": "Modifies no files in skills/apache-age"
+        },
+        {
+          "evidence": "'## What matters most to fix, in order' numbers items 1-4 with severity reasoning: '#1 ... the single highest-severity item because it's presented as fact with example code, not hedged.'",
+          "passed": true,
+          "text": "Prioritizes findings by cost/impact rather than listing them flat"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "pass_rate": 1.0,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 5
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill_sonnet",
+      "eval_id": 2,
+      "expectations": [
+        {
+          "evidence": "Engages both beats ('Reading the skill body (both beats), the two beats share one implicit target') and reflects reference content by name \u2014 'the truth-conditions diff, the naming discipline, or the warrant-boundary handoff' are drawn from incoming.md and outgoing.md. Both references are listed under 'What I did not change, and why.'",
+          "passed": true,
+          "text": "Reads the full skill (SKILL.md and any references) before proposing changes"
+        },
+        {
+          "evidence": "Change 1 (description) is justified by the two-axis 'joint' analysis and the skip-list it produces ('Does not fire for mechanical edits...'); Change 2 (body scope-check gate) states its effect: 'so the skill recognizes non-fit immediately rather than running both beats on something they don't apply to.'",
+          "passed": true,
+          "text": "Each proposed change carries a reason and a predicted observable effect"
+        },
+        {
+          "evidence": "No measurement method is proposed anywhere. There is no 'how to measure' section, no labeled should/should-not-trigger queries, no trigger-rate or eval reference. The five questions cover README consistency, the 'durable' boundary, metadata.context, observed false positives, and packaging \u2014 none propose measuring the new trigger. The output asserts the narrowed description is better without a way to verify it.",
+          "passed": false,
+          "text": "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better"
+        },
+        {
+          "evidence": "Edits are the description field (replaces lines 3-12) plus one added 'Scope check' section between the intro and Beat 1. 'Everything else in the body \u2014 both beats, both references \u2014 is untouched.'",
+          "passed": true,
+          "text": "Proposes targeted edits, not a wholesale rewrite of the skill"
+        },
+        {
+          "evidence": "'Questions for the user' lists five numbered questions, e.g. '2. Where's the line for \"durable\"?' and '4. Any concrete false positives/negatives you've already observed?'",
+          "passed": true,
+          "text": "Lists explicit questions for the user where needed information is missing"
+        },
+        {
+          "evidence": "git status verified clean by orchestrator; deliverable opens 'No files in the repository have been modified. This is a proposal only.'",
+          "passed": true,
+          "text": "Modifies no files"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 1,
+        "pass_rate": 0.83,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "total": 6
+      },
+      "run_number": 1
+    }
+  ]
+}

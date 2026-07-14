@@ -1,0 +1,62 @@
+{
+  "claims": [
+    {
+      "claim": "Two quantitative claims (#2194 15x, #195 scaling) were checked live against GitHub and hold up",
+      "evidence": "Report cites issue #2194 'Major Performance Difference: SQL vs. Cypher for Aggregation/Ordering,' opened 2025-07-16, and issue #195 opened 2022-03-09, and correctly flags the exact 7s/7min numbers as unconfirmed[?]. Consistent with the without-skill runs' independent checks of the same issues.",
+      "type": "process",
+      "verified": true
+    },
+    {
+      "claim": "The AGEFreighter 725K/2.8M/83s benchmark cites no reachable source",
+      "evidence": "This run says the figure is unsourced and a search surfaced different AGEFreighter benchmarks. without_skill_sonnet contradicts this, reporting the same figure 'also appears in Microsoft's Azure Database for PostgreSQL documentation' — the two runs disagree on sourceability, so the claim is not settled from outputs alone.",
+      "type": "factual",
+      "verified": false
+    }
+  ],
+  "eval_feedback": {
+    "overall": "All five pass. The assertions capture general audit hygiene rather than the skill's distinctive rubric; all four configurations satisfy them, so the eval does not isolate the skill's marginal value on this prompt.",
+    "suggestions": [
+      {
+        "reason": "This is the only run that partially exercised the 'verify each claim in the mode its kind admits' behavior by checking issues #2194 and #195 live, yet no assertion rewards that. An assertion on primary-source verification of load-bearing figures would separate deep audits from surface ones."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Ten '## Per-principle verdicts' with bolded labels: '### 1. Schedule the workspace — **pass**', '### 2. Route, don't hold — **fail**', '### 5. ... — **fail** (mixed at the cluster level)', through principle 10. Explicit pass/fail per named criterion.",
+      "passed": true,
+      "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+    },
+    {
+      "evidence": "Dense file:line citations with quotes, e.g. casting table 'duplicated near-verbatim between references/agtype-is-everything.md:228-239 and references/hybrid-is-the-point.md:401-408' with the diverging 'text' row quoted; NEVER-list items quoted at SKILL.md:103,106,107,110.",
+      "passed": true,
+      "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+    },
+    {
+      "evidence": "Principle 3 carries a distinct '**Not checkable today:**' clause ('no evals/ directory and no trigger-rate or run-variance harness exist... Invocation and exit decidability stay unmeasured'), separated from the nine substantive fails.",
+      "passed": true,
+      "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; report header: 'Changes nothing in the target skill.'",
+      "passed": true,
+      "text": "Modifies no files in skills/apache-age"
+    },
+    {
+      "evidence": "'## The two costliest failures' ranks principle 7 (no artifacts) then principle 2 (duplication) with impact reasoning ('failure modes are syntactic and silent'), then explicit 'Runners-up, both real but less immediately actionable' (principles 4 and 10).",
+      "passed": true,
+      "text": "Prioritizes findings by cost/impact rather than listing them flat"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  },
+  "user_notes_summary": {
+    "needs_review": [],
+    "uncertainties": [],
+    "workarounds": []
+  }
+}

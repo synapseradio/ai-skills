@@ -1,0 +1,63 @@
+{
+  "claims": [
+    {
+      "claim": "ideas/waypoint/ and skills/waypoint/ take opposite scope treatments (ideas vs waypoint), so a naive directory heuristic would invert ideas/",
+      "evidence": "Supported by the scope-convention table and 'docs(ideas): add waypoint idea'; the observation that a path heuristic grabbing the second path segment would mis-scope ideas/ is logically correct.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "Of 82 recent commits, 66 carry a scope and 16 don't; nearly all unscoped ones predate lefthook.yml",
+      "evidence": "Plausible and internally consistent, but the specific 82/66/16 counts and the predate-lefthook attribution cannot be verified from the deliverables alone (no command output captured in outputs/). Directionally consistent with the with_skill runs' history mining.",
+      "type": "factual",
+      "verified": false
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Best evidence table of the four (the ideas/waypoint vs skills/waypoint inversion is a sharp catch), but the weakest on skill-design structure: no enumerated triggers with a non-trigger near-miss, no declared floor, and no evals to build. Assertions discriminate the structural gap well.",
+    "suggestions": [
+      {
+        "assertion": "Lists concrete checks or evals to build before or alongside the skill",
+        "reason": "This assertion cleanly separated this run from the other three: all others produced an explicit eval/fixture set, this one only named a runtime validation step. Good discriminating assertion."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "'This brief works out the design before any SKILL.md gets written.' Deliverable is a single design-brief.md with no SKILL.md frontmatter or implementation.",
+      "passed": true,
+      "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+    },
+    {
+      "evidence": "Mentions one trigger phrasing in passing ('when a user explicitly asks \"write me a commit message\"') but names no nearby request that should NOT trigger the skill. The 'trigger-reliability concern' section is about whether it fires mid-task, not about excluding near-misses.",
+      "passed": false,
+      "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+    },
+    {
+      "evidence": "No model/agent floor is declared. The brief references 'any Claude session' generically but never names a weakest model the skill must work for.",
+      "passed": false,
+      "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+    },
+    {
+      "evidence": "'validate the drafted header against bunx commitlint --edit before presenting it, the same way the repo's own hook does.' Notes config sets no scope-enum; scope taxonomy is externalized to a separate file derived from history rather than copied from commitlint.",
+      "passed": true,
+      "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+    },
+    {
+      "evidence": "No evals or test fixtures are listed. The only verification named is a runtime feature of the skill ('run it through bunx commitlint --edit'); there is no 'how we'd know it works' section, no history-reproduction test, and no fixture set to build before/alongside the skill (contrast the other three runs, which all list explicit checks).",
+      "passed": false,
+      "text": "Lists concrete checks or evals to build before or alongside the skill"
+    },
+    {
+      "evidence": "Seven numbered 'Open design questions ... recorded here in place of asking the user' (grouped skills, uncharted directories, cross-cutting commits, draft-vs-auto-commit, taxonomy-fail behavior, taxonomy file location, scope-enum), plus a flagged trigger-reliability decision point.",
+      "passed": true,
+      "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+    }
+  ],
+  "summary": {
+    "failed": 3,
+    "pass_rate": 0.5,
+    "passed": 3,
+    "total": 6
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "claims": [
+    {
+      "claim": "config-conventional has no scope rule, so wrong scopes pass every gate",
+      "evidence": "'Verified by reading node_modules/@commitlint/config-conventional/lib/index.js — the rules block contains no scope-* key.' Consistent with the other three runs.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "A dynamic scope-enum can reject out-of-vocabulary scopes but cannot catch mis-attribution to a valid-but-wrong scope",
+      "evidence": "Reasoning is sound: scope-enum only checks membership in the vocabulary, so mislabeling skills/A with valid scope B passes. Presented as complement, not replacement.",
+      "type": "quality",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Analytically strong (best alternatives-considered section of the four), but omits two structural elements the skill-design skill enforces: an enumerated trigger set with a non-trigger near-miss, and an explicit capability floor.",
+    "suggestions": [
+      {
+        "reason": "This run scored lower purely on the two design-hygiene assertions (trigger phrasings + non-trigger near-miss, and a declared model floor) that the with_skill runs covered explicitly. The content on scope derivation and evals is strong, so the assertions are correctly discriminating the skill's structural coverage rather than analytical depth."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Titled 'Design brief: a commit-message skill for ai-skills'; recommends but does not author a SKILL.md. Companion scope-derivation-spec.md is an algorithm/spec, not an implementation.",
+      "passed": true,
+      "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+    },
+    {
+      "evidence": "Only a general condition is given: 'a skill that triggers when the user is about to commit'. No enumerated trigger phrasings and no nearby request that should NOT trigger are named anywhere in the brief or spec.",
+      "passed": false,
+      "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+    },
+    {
+      "evidence": "No model floor is declared. The brief discusses scripts and evals but never names a weakest model/agent the skill must work for; 'How we'd know it works' is about measurement, not a capability floor.",
+      "passed": false,
+      "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+    },
+    {
+      "evidence": "'runs the draft through bunx commitlint ... because the real linter is the source of truth ... If the repo's config ever changes, the live linter catches it even if the skill's internal mirror lags.' Correctly notes config-conventional has no scope rule; scope vocabulary is derived from the live tree, not copied.",
+      "passed": true,
+      "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+    },
+    {
+      "evidence": "'How we'd know it works': (1) Zero-bounce via bunx commitlint --edit, (2) scope matches derivation, (3) reproduces real history by reconstructing staged diffs for the last N commits and comparing derived vs actual scope. 'the measurement should be built before the SKILL.md'.",
+      "passed": true,
+      "text": "Lists concrete checks or evals to build before or alongside the skill"
+    },
+    {
+      "evidence": "Nine numbered 'Open questions for the user' (grouped-skill scope, multi-skill scope, area names, packaged artifacts, script-or-prose, hard gate, commit-all-four, body policy, staging boundary), explicitly 'recorded rather than guessing'.",
+      "passed": true,
+      "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+    }
+  ],
+  "summary": {
+    "failed": 2,
+    "pass_rate": 0.67,
+    "passed": 4,
+    "total": 6
+  }
+}

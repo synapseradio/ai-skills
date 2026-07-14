@@ -1,0 +1,49 @@
+{
+  "evals": [
+    {
+      "assertions": [
+        "Produces a design brief or design document, not a finished SKILL.md implementation",
+        "Names trigger phrasings and at least one nearby request that should NOT trigger the skill",
+        "Declares the weakest model or agent the skill must work for (a floor), not just the best case",
+        "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill",
+        "Lists concrete checks or evals to build before or alongside the skill",
+        "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+      ],
+      "expected_output": "A design brief: intent with trigger phrasings and near-miss negatives, a declared floor executor, commitlint config named as a source of truth to point at rather than copy, structure sketch, checks/evals to build first, open questions. No SKILL.md implementation.",
+      "files": [],
+      "id": 0,
+      "name": "design-brief-commit-skill",
+      "prompt": "i keep hand-writing conventional commit messages for this repo and when teammates use claude half the scopes come out wrong. we already have commitlint set up (see commitlint config in the repo root). I want a skill the whole team can drop into claude code that gets commit messages right on the first try. before we build anything, help me design it properly — I don't want a SKILL.md yet, I want the design worked out first."
+    },
+    {
+      "assertions": [
+        "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression",
+        "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts",
+        "Distinguishes aspects that cannot be measured today from aspects that failed",
+        "Modifies no files in skills/apache-age",
+        "Prioritizes findings by cost/impact rather than listing them flat"
+      ],
+      "expected_output": "An audit report with explicit per-criterion verdicts, evidence cited by file (and line where possible), unmeasurable aspects distinguished from failures, prioritized findings, and no file modifications.",
+      "files": [],
+      "id": 1,
+      "name": "audit-apache-age",
+      "prompt": "give skills/apache-age an honest audit — is it actually well built? I want specifics cited from the files, not vibes. don't change any files, just tell me where it stands and what would matter most to fix."
+    },
+    {
+      "assertions": [
+        "Reads the full skill (SKILL.md and any references) before proposing changes",
+        "Each proposed change carries a reason and a predicted observable effect",
+        "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better",
+        "Proposes targeted edits, not a wholesale rewrite of the skill",
+        "Lists explicit questions for the user where needed information is missing",
+        "Modifies no files"
+      ],
+      "expected_output": "A proposed change set: full skill read first, each change with a reason and predicted observable effect, a proposed way to measure triggering, targeted edits rather than a rewrite, explicit questions where evidence is missing, no files modified.",
+      "files": [],
+      "id": 2,
+      "name": "refactor-surface-intent",
+      "prompt": "the surface-intent skill (skills/surface-intent) seems like it would fire on basically everything — its description says to use it at 'any moment you are adding to a system you have not fully read', which is nearly every write action. strengthen it so it triggers when it should, without gutting what makes it good. propose your changes before touching anything, and if you'd need information I haven't given you, list those questions."
+    }
+  ],
+  "skill_name": "skill-design"
+}

@@ -1,0 +1,66 @@
+{
+  "claims": [
+    {
+      "claim": "Three 'Not Supported' rows (list comprehensions, EXISTS subqueries, map projections) are demonstrably wrong",
+      "evidence": "Backed by specific upstream evidence (issue #105, PRs #2094/#2169/#2189 for list comprehensions; open bug #2396 for EXISTS 'you can't crash on a syntax that doesn't parse'; PR #1710 for map projections). This finding is unique to this run — no other config inspected the 'Not Supported' table's correctness.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "The AGEFreighter 725K/2.8M/83s benchmark is a real figure appearing in Azure PostgreSQL docs",
+      "evidence": "This run asserts the figure is real and documented; both other verifying runs (with_skill_sonnet, without_skill_opus) could not source it and treated it as an unsourced magnitude. The runs disagree; not resolvable from outputs alone, so left unverified.",
+      "type": "factual",
+      "verified": false
+    }
+  ],
+  "eval_feedback": {
+    "overall": "All five pass. This baseline is the strongest factual auditor of the four despite having no skill. The assertions gate on structure and hygiene, not correctness or coverage, so they neither penalize this run's thin 'not-checkable' handling nor credit its superior verification.",
+    "suggestions": [
+      {
+        "assertion": "Distinguishes aspects that cannot be measured today from aspects that failed",
+        "reason": "This run passes on a thinner basis than the with-skill runs — it distinguishes stale-vs-wrong and names coverage limits, but has no dedicated 'not measurable today' verdict because it claims near-complete verification. The assertion's wording ('cannot be measured today') is ambiguous between 'needs a harness' (skill framing) and 'I didn't verify / stale'; tightening it would make the verdict crisper."
+      },
+      {
+        "reason": "This without-skill run produced the deepest factual finding of all four (three wrong 'Not Supported' rows via the issue tracker and the parser grammar), which no assertion rewards. The eval measures audit form, not audit reach."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Findings are grouped by explicit verdict on distinct aspects rather than one impression: '## What's fabricated' (verdict: fabricated), '## What's wrong and stale' (verdict: incorrect), '## What checks out' (verdict: verified/accurate), '## Structural quality' ('solid and I found no problems'). Each section renders a pass/fail-equivalent judgment on a class of content.",
+      "passed": true,
+      "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+    },
+    {
+      "evidence": "Verdicts quote the files and cross-check against primary source: the-wrapper-contract.md:108-115 block quoted for the fabricated syntax; 'Not Supported' table cited at lines 187-207; frontmatter checked ('description is 467 of 1024 allowed characters'); casting table cited at agtype-is-everything.md:228-252 and hybrid-is-the-point.md:397-422.",
+      "passed": true,
+      "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+    },
+    {
+      "evidence": "Separates the confidently-wrong rows from the stale/undecidable case: 'I'm treating this one [reduce()] separately ... because it's plausibly just overtaken by very recent upstream work rather than an error at authoring time', and names the unmeasurable distinction ('no version anchor ... so there's no way to tell wrong-when-written from stale-now'). Also flags its own coverage gap in '## Method' ('an audit is only as good as its coverage, and mine is not exhaustive'). Weaker on a dedicated 'not checkable' category than the with-skill runs, but the distinction is made.",
+      "passed": true,
+      "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; audit is read-only and even unzips packaged/apache-age.skill to diff, changing nothing.",
+      "passed": true,
+      "text": "Modifies no files in skills/apache-age"
+    },
+    {
+      "evidence": "'## What matters most to fix, in order' numbers items 1-4 with severity reasoning: '#1 ... the single highest-severity item because it's presented as fact with example code, not hedged.'",
+      "passed": true,
+      "text": "Prioritizes findings by cost/impact rather than listing them flat"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  },
+  "user_notes_summary": {
+    "needs_review": [],
+    "uncertainties": [],
+    "workarounds": []
+  }
+}

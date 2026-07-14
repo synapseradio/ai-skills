@@ -1,0 +1,66 @@
+{
+  "claims": [
+    {
+      "claim": "The ->> / <<- 'AGE extended form' edge syntax is unverified rather than confirmed-wrong",
+      "evidence": "Report marks it '[?]' and says 'I cannot confirm it is wrong from the files alone' — a calibrated hedge. Notably the two without-skill runs, which checked AGE's grammar live, rate the same syntax confidently fabricated; this run's file-only method left it unresolved.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "The graphid uniqueness contradiction exists between schema-is-storage.md:44 and the-wrapper-contract.md:247",
+      "evidence": "Both cited lines quoted; the contradiction is corroborated independently by without_skill_opus, which reads the AGE manual and rules 'globally unique' the false side.",
+      "type": "factual",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "All five assertions pass, but every configuration passes all five — the assertions test general audit hygiene (structured verdicts, citations, unmeasurable-vs-failed, no edits, prioritization) that a strong model produces with or without the skill. The skill's specific contribution (the fixed rubric vocabulary and 'not checkable today' framing) is visible here but not required by any assertion.",
+    "suggestions": [
+      {
+        "assertion": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression",
+        "reason": "Both without-skill runs also pass this by rendering explicit multi-aspect verdicts (strengths + ranked defects). The assertion rewards any structured audit, not the skill's distinctive 10-principle rubric. To isolate skill value, consider asserting that verdicts are rendered against a fixed named criteria set applied exhaustively."
+      },
+      {
+        "reason": "No assertion checks factual correctness of the audit's own findings. This run marks the ->> syntax merely '[?]' while the without-skill runs falsify it against the grammar; an assertion rewarding live/primary-source verification of load-bearing claims would discriminate depth of audit."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Ten '## Per-principle verdicts' sections, each with a bolded label: '### 1. Schedule the workspace — **pass**', '### 2. Route, don't hold — **fail**', '### 3. ... — **pass (invocation not checkable today)**', through principle 10. Explicit pass/fail/not-checkable per criterion, not one impression.",
+      "passed": true,
+      "text": "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression"
+    },
+    {
+      "evidence": "Verdicts carry file:line citations and direct quotes throughout, e.g. \"`schema-is-storage.md:44` states `id` is 'system-assigned, globally unique.' `the-wrapper-contract.md:247-249` states the opposite: 'graphid is not globally unique across graphs'\"; casting-table duplication cited at agtype-is-everything.md:232-240 and hybrid-is-the-point.md:401-408.",
+      "passed": true,
+      "text": "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts"
+    },
+    {
+      "evidence": "Principle 3 marks invocation 'not checkable today' (needs a trigger-rate harness, 'No such data ships'). Principle 10 explicitly contrasts this: 'the measurement is available and simply unbuilt and unmentioned', 'which is what makes this a fail rather than not checkable'.",
+      "passed": true,
+      "text": "Distinguishes aspects that cannot be measured today from aspects that failed"
+    },
+    {
+      "evidence": "git status verified clean by orchestrator; report also opens 'Nothing was changed.'",
+      "passed": true,
+      "text": "Modifies no files in skills/apache-age"
+    },
+    {
+      "evidence": "'## The two costliest failures' ranks principle 8 (factual reliability) then principle 2 (routing) with cost reasoning ('correctness of the content dominates, because every claim re-executes as fact'), plus a 'secondary theme' grouping the cheaper scaffolding gaps (principles 4, 9, 10).",
+      "passed": true,
+      "text": "Prioritizes findings by cost/impact rather than listing them flat"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  },
+  "user_notes_summary": {
+    "needs_review": [],
+    "uncertainties": [],
+    "workarounds": []
+  }
+}

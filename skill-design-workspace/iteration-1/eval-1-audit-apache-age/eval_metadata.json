@@ -1,0 +1,12 @@
+{
+  "assertions": [
+    "Renders explicit per-criterion verdicts (pass/fail or equivalent) rather than one general impression",
+    "Cites evidence from the audited skill's actual files (quotes or file references) for its verdicts",
+    "Distinguishes aspects that cannot be measured today from aspects that failed",
+    "Modifies no files in skills/apache-age",
+    "Prioritizes findings by cost/impact rather than listing them flat"
+  ],
+  "eval_id": 1,
+  "eval_name": "audit-apache-age",
+  "prompt": "give skills/apache-age an honest audit \u2014 is it actually well built? I want specifics cited from the files, not vibes. don't change any files, just tell me where it stands and what would matter most to fix."
+}

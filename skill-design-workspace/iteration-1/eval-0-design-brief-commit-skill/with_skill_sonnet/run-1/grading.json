@@ -1,0 +1,63 @@
+{
+  "claims": [
+    {
+      "claim": "Adding a new skill scopes to the collection ('skills'), not the new skill's own name",
+      "evidence": "appendix-scope-evidence.md Case 2 cites 1743ce7 feat(skills): add prompt skill (touches only skills/prompt/**) and d67c4ca feat(skills): add de-residency-advisor, with the next-commit switch to feat(prompt) on modification.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "The exact comma-list vs collection-collapse threshold is unverified from history",
+      "evidence": "appendix 'What this does not resolve': 2 units stayed named, 10 collapsed, no commit sits at 3-5, so cutover is unpinned and carried to Open Questions.",
+      "type": "quality",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Thorough, evidence-backed brief. The appendix's per-commit diffstat verification makes the scope generator auditable rather than asserted. Assertions discriminate well between with-skill and without-skill runs.",
+    "suggestions": [
+      {
+        "assertion": "Declares the weakest model or agent the skill must work for (a floor)",
+        "reason": "Passes on a hedged declaration ('conservative floor, a small fast model') that also defers the concrete model to an open question. If the eval wants a committed floor, tighten to require a named model class; if hedging-with-rationale is acceptable, current wording is fine."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "'Mode: Design ... No SKILL.md exists yet for this task; this brief is the exit artifact that a build step ... works from.' No SKILL.md is authored.",
+      "passed": true,
+      "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+    },
+    {
+      "evidence": "Positive: '\"commit this,\" \"write a commit message for these changes,\" ...'. Near misses that must not trigger: 'squash my last three commits ... clean up this branch's history' (software:git territory) and 'write the PR description'.",
+      "passed": true,
+      "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+    },
+    {
+      "evidence": "'declare the floor at whatever is the weakest model a teammate might have configured ... design to a conservative floor (a small, fast model) rather than to the capability of whichever model designs or builds the skill.' Names the floor even while flagging the exact mix as Open Question 1.",
+      "passed": true,
+      "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+    },
+    {
+      "evidence": "Sources-of-truth table: type values and format rules home = 'commitlint.config.js -> @commitlint/config-conventional ... Point to the config file; do not copy the list into the skill body as a second, driftable copy.' Verification oracle routed to 'bunx commitlint'.",
+      "passed": true,
+      "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+    },
+    {
+      "evidence": "Checks section lists seven eval assertions pairing labeled staged-diff fixtures with expected scope/type, including the discriminating new-skill case (scope=collection) and 'Every drafted message passes bunx commitlint ... exit code 0', plus a trigger-rate harness.",
+      "passed": true,
+      "text": "Lists concrete checks or evals to build before or alongside the skill"
+    },
+    {
+      "evidence": "Seven numbered Open Questions (floor executor, trailers policy, comma-list threshold, skill scope, repo-side gate, invocation model, software:git overlap), each stating the working assumption rather than a silent guess.",
+      "passed": true,
+      "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
+  }
+}

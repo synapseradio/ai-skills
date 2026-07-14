@@ -1,0 +1,63 @@
+{
+  "claims": [
+    {
+      "claim": "config-conventional configures no scope-enum/scope-case/scope-empty rule, so any scope passes the gate",
+      "evidence": "Consistent with the other three runs, which independently read node_modules/@commitlint/config-conventional/lib/index.js and reached the same conclusion; scope-vocabulary.md lists the exact enforced rule set.",
+      "type": "factual",
+      "verified": true
+    },
+    {
+      "claim": "The scope convention is written down nowhere in the repo and exists only in directory layout and commit history",
+      "evidence": "Corroborated across all four runs; scope-vocabulary.md mines it from 'git log -n 400' and the directory tree.",
+      "type": "factual",
+      "verified": true
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Strongest of the four outputs: floor declaration drives a concrete design consequence (scope-as-script), and the companion scope-vocabulary.md turns the undocumented convention into a verifiable derivation rule. Assertions are discriminating overall.",
+    "suggestions": [
+      {
+        "assertion": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill",
+        "reason": "commitlint has no scope list to copy (no scope-enum), so the 'not copying its scope list' clause is trivially satisfiable. The discriminating fact is that the config carries the TYPE enum + format rules and no scope constraint; consider rewording to test that the design points at the config for types/format AND recognizes scope is unconstrained there."
+      }
+    ]
+  },
+  "expectations": [
+    {
+      "evidence": "Opens 'This brief designs a skill, not a SKILL.md' and ends 'Do not begin the SKILL.md until Open question 1 ... has an answer'. No SKILL.md frontmatter or implementation is produced.",
+      "passed": true,
+      "text": "Produces a design brief or design document, not a finished SKILL.md implementation"
+    },
+    {
+      "evidence": "Trigger phrasings: '\"commit this,\" \"write a commit message,\" ...'. Near misses that must not trigger: 'How should I split this work into commits?' and 'Rebase this / clean up my branch history', both routed to software:git.",
+      "passed": true,
+      "text": "Names trigger phrasings and at least one nearby request that should NOT trigger the skill"
+    },
+    {
+      "evidence": "'Declared floor: the weakest model any teammate runs in Claude Code ... plan for Haiku-class execution, not Opus', with the consequence that scope derivation becomes a script.",
+      "passed": true,
+      "text": "Declares the weakest model or agent the skill must work for (a floor), not just the best case"
+    },
+    {
+      "evidence": "'Type vocabulary and subject rules -> commitlint.config.js / config-conventional ... The skill must not restate the type list as its own authority; it points at the config'. Correctly notes config-conventional sets no scope-enum, so scope is derived from the live filesystem, not copied.",
+      "passed": true,
+      "text": "Treats the repo's commitlint configuration as a source of truth to point to, rather than copying its scope list into the skill"
+    },
+    {
+      "evidence": "Checks section: staged-diff fixtures -> expected commit header with paired assertions (passes commitlint --edit; scope equals derivation), plus positive/negative trigger queries. 'Baseline every fixture with no skill first'.",
+      "passed": true,
+      "text": "Lists concrete checks or evals to build before or alongside the skill"
+    },
+    {
+      "evidence": "Six numbered Open questions (multi-area scope rule, root-tooling scope, message-vs-commit, distribution shape, subject prescriptiveness, scope-enum enforcement), gated: 'Do not begin the SKILL.md until Open question 1 ... has an answer'.",
+      "passed": true,
+      "text": "Surfaces unknowns as explicit open questions instead of silently assuming answers"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
+  }
+}

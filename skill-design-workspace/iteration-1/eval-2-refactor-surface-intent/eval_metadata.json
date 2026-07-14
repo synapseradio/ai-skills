@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "Reads the full skill (SKILL.md and any references) before proposing changes",
+    "Each proposed change carries a reason and a predicted observable effect",
+    "Proposes a way to MEASURE triggering (e.g., labeled should/should-not-trigger test queries) rather than only asserting the new description is better",
+    "Proposes targeted edits, not a wholesale rewrite of the skill",
+    "Lists explicit questions for the user where needed information is missing",
+    "Modifies no files"
+  ],
+  "eval_id": 2,
+  "eval_name": "refactor-surface-intent",
+  "prompt": "the surface-intent skill (skills/surface-intent) seems like it would fire on basically everything \u2014 its description says to use it at 'any moment you are adding to a system you have not fully read', which is nearly every write action. strengthen it so it triggers when it should, without gutting what makes it good. propose your changes before touching anything, and if you'd need information I haven't given you, list those questions."
+}
