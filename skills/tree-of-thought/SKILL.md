@@ -23,13 +23,13 @@ Apply Tree of Thought reasoning to the user's query through four phases.
 
 Break the query into core components with dependencies.
 
-1. Identify 2-5 fundamental components.
+1. Identify a small set of fundamental components.
 2. For each: describe what it involves, why it has its position in the sequence, and what it depends on.
 3. Map dependencies between components (which must resolve before others can start).
 
 ## Phase 2: Solution Generation
 
-For each component, generate three distinct approaches:
+For each component, generate these distinct approaches:
 
 - **A — Direct/Conventional**: straightforward, proven, minimal complexity.
 - **B — Creative/Unconventional**: novel angle, handles edge cases, more flexible.
@@ -54,12 +54,12 @@ Present scores in a comparison table per component. Select the best approach for
 1. Integrate selected approaches into a coherent solution path with specific implementation steps per component.
 2. Surface key insights: patterns recognized, trade-offs made, unexpected findings.
 3. Assess overall confidence (High/Medium/Low with percentage) noting strongest elements and areas of uncertainty.
-4. Note 1-2 alternative paths worth considering if the primary path encounters issues.
+4. Note a couple of alternative paths worth considering if the primary path encounters issues.
 
 ## Summary
 
 Conclude with:
 
 - **Recommended Solution**: one-paragraph synthesis.
-- **Next Steps**: 2-3 immediate actions.
+- **Next Steps**: a few immediate actions.
 - **Success Metrics**: how to validate the solution works.

@@ -6,9 +6,11 @@ description: Verify epistemic integrity by aligning claims with evidence
 Follow these steps:
 
 ### 1. Identify the target
+
 Target: `$ARGUMENTS`, else the current response or most recent significant output.
 
-### 2. Apply the five verification lenses
+### 2. Apply the verification lenses
+
 1. **Inventory** — separate established claims from assumptions
 2. **Dissection** — trace support chains to bedrock or mark as floating
 3. **Pattern** — check for epistemic weaknesses and biases
@@ -18,6 +20,7 @@ Target: `$ARGUMENTS`, else the current response or most recent significant outpu
 For each claim: trace its justification chain, identify hidden premises, check for fallacies, hunt for defeaters, and verify cited sources.
 
 ### 3. Report
+
 ```markdown
 ## Verification Summary
 

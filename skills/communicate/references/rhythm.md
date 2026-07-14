@@ -8,11 +8,11 @@ Where does sentence length cluster? Where does the rhythm flatten? Which sentenc
 
 ## Laws
 
-These are rules, not targets. Apply on every draft.
+These are rules, not aspirations. Apply on every draft.
 
-- **Sentence-length coefficient of variation per paragraph: > 0.5.** Below 0.3 is broken prose. Rewrite.
-- **Three consecutive sentences within ±2 words of each other: broken.** Change at least one.
-- **Paragraph-length CV across the piece: > 0.4.** Three consecutive paragraphs within ±20% length is broken.
+- **Sentence-length coefficient of variation per paragraph: keep it high.** Near-uniform sentence length is broken prose. Rewrite.
+- **Three consecutive sentences of nearly identical length: broken.** Change at least one.
+- **Paragraph-length CV across the piece: keep it high.** Three consecutive paragraphs of near-identical length is broken.
 - **The long sentence must end with weight.** The heaviest clause lands last; if it dribbles into a qualifier, rewrite so the strong clause closes.
 - **The short sentence after a long one must do work** — closure, reversal, accent, punchline. If it merely exists for variety, cut or merge.
 - **Each fragment must read as the previous full sentence's continuation, separated for accent.** If it does not, it is a typo.
@@ -52,7 +52,7 @@ Note three things. Provost begins in monotone (nine consecutive five-word senten
 
 ## Questions
 
-- Where does sentence length cluster — three or more sentences in a row within ±2 words of each other?
+- Where does sentence length cluster — three or more sentences in a row of nearly identical length?
 - For each long sentence, does the strongest clause sit at the end, or does it dribble into a qualifier?
 - For each short sentence after a long one, what work is it doing — closure, reversal, accent, punchline — or is it standing there only for variety?
 - Does each fragment read as a continuation of the previous full sentence, separated for accent, or is it a typo claiming to be a fragment?
@@ -65,12 +65,12 @@ Note three things. Provost begins in monotone (nine consecutive five-word senten
 When auditing a draft:
 
 1. **Read aloud at speaking pace.** Where do you run out of breath? Where do you take an unwritten one? Misalignment between breath-rhythm and punctuation-rhythm signals bad pacing.
-2. **Mark sentence-length sequence.** Write the word count of each sentence. If three are within ±2, change one.
+2. **Mark sentence-length sequence.** Write the word count of each sentence. If three are nearly identical, change one.
 3. **Audit the long sentences.** Does each end with the strongest clause? If a long sentence dribbles into a qualifier, rewrite.
 4. **Audit short sentences after long ones.** Does the short one do work? If not, cut or merge.
 5. **Audit fragments.** Each must read as the previous full sentence's continuation. If not, fix.
 6. **Audit one-sentence paragraphs.** A standalone sentence is *louder* than its surroundings. If it carries no special weight, fold it into a neighbor.
-7. **Count em-dashes.** More than one per paragraph: too many. Each must do interrupt or pivot work.
+7. **Count em-dashes.** Used more than sparingly: too many. Each must do interrupt or pivot work.
 8. **Test the parataxis/hypotaxis ratio.** Match to register. Wire copy or academic prose, but not the wrong one for the content.
 
 ## Sources

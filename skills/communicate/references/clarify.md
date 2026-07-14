@@ -44,7 +44,7 @@ Where do concepts appear before their foundations? Where do sentences open with 
 - For each claim that asserts an effect, does the prose name the mechanism — through what process, by what means, in what intermediate steps — or is the reader being asked to take it on faith?
 - Where is the difficulty coming from the subject itself, and where from the way I wrote it?
 - Where does a negation tell the reader what to avoid, when a positive instruction would give them a direction to move?
-- Trace each pronoun and demonstrative back to its anchor. Where does the trace stretch more than two sentences, or split between two possible antecedents?
+- Trace each pronoun and demonstrative back to its anchor. Where does the trace stretch across several sentences, or split between two possible antecedents?
 
 ## Quality Criteria
 
@@ -56,7 +56,7 @@ When clarity is sound:
 - [ ] Every claim that asserts an effect names how the effect happens — through what process, by what means.
 - [ ] Difficulty in the prose comes from difficulty in the subject, and the surrounding scaffolding helps the reader carry it.
 - [ ] Negations have given way to positive direction unless the absence is itself the point.
-- [ ] Every pronoun and demonstrative traces cleanly to one antecedent within two sentences.
+- [ ] Every pronoun and demonstrative traces cleanly to one nearby antecedent.
 - [ ] When repair lands across multiple layers, the structural fixes were made first, and the word-level fixes built on those.
 
 ## Additional Resources

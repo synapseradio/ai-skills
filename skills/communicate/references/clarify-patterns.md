@@ -214,7 +214,7 @@ Therefore: teach A → B → C
 **Ambiguity patterns:**
 
 - Two possible antecedents for one pronoun
-- Antecedent too far from pronoun (>2 sentences)
+- Antecedent too far from pronoun (several sentences back)
 - Pronoun category mismatch (plural pronoun, singular options)
 
 **Resolution strategies:**

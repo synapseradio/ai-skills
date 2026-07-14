@@ -77,7 +77,7 @@ Report both, in this order:
 ## On request only
 
 - **Visual**: copy `assets/template.html` to a working location, fill every `tpl:` marker from the analysis record following the instructions inside each marker, verify no example text survives, then open it. The template documents itself; read its header comment before editing.
-- **Theory**: explain the method from the Sources sections of the four dimension files, after and subordinate to the analysis. This is the only condition under which citations appear.
+- **Theory**: explain the method from the Sources sections of the dimension files, after and subordinate to the analysis. This is the only condition under which citations appear.
 
 ## Output contract
 

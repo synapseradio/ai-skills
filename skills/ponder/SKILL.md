@@ -2,7 +2,7 @@
 name: ponder
 description: >-
   Exploration skill for problems that need thinking before solving. Assesses
-  a problem's shape and applies 1-5 exploration techniques in sequence —
+  a problem's shape and applies a sequence of exploration techniques —
   producing questions, reframings, structural maps, and new angles. Use when
   asked to "think about this", "help me explore", "what am I missing", "I'm
   stuck", "help me understand this problem", "ponder this", "what should I
@@ -136,7 +136,7 @@ references upfront.
 | Phase | Load |
 |-------|------|
 | Assess + Select | Nothing from references — use the tables above |
-| Apply | Only the 1-5 selected technique files from `@./references/` |
+| Apply | Only the selected technique files from `@./references/` |
 | Surface | Nothing additional |
 
 ## Technique Reference Files

@@ -177,7 +177,7 @@ override.
 
 **Detect:** over-engineered single prompts that try to anticipate every
 possibility in one shot.
-Signs: prompts longer than ~40 lines with no stage structure, exhaustive
+Signs: long prompts with no stage structure, exhaustive
 conditionals, heavy defensive phrasing.
 
 **Why it misfires:** treats interaction as prompt-in-answer-out. The

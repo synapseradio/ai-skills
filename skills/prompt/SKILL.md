@@ -12,7 +12,7 @@ metadata:
 
 <instruction> The output artifact uses the fixed scaffold defined in [`assets/template.md`](assets/template.md). Load it and fill it. The procedure below covers detection, inventory, shaping, linting, and emit.
 
-always aim for 80 lines or less in total when it is possible. Keep instructions and sections light and flexible.
+always aim to keep the total short when it is possible. Keep instructions and sections light and flexible.
 
 ## Inventory the input
 

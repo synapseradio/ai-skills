@@ -1,6 +1,6 @@
 # What-if: worked examples
 
-Five traces in a fixed tag format. `request` holds a verbatim ask; `inferred-task` a reading of it; `gather` what to collect or elicit before tiles can exist; `walk` a question chain a good response follows; `good-ending` the very end of a good response — a full reply surfaces the whole chain out loud first, question before answer, in a voice of its own choosing; `spine` (shown once, in the first example) an excerpt of how that out-loud walk sounds in flight; `why` what earns it; `counter` a tempting wrong turn, with its failure mode named.
+Traces in a fixed tag format. `request` holds a verbatim ask; `inferred-task` a reading of it; `gather` what to collect or elicit before tiles can exist; `walk` a question chain a good response follows; `good-ending` the very end of a good response — a full reply surfaces the whole chain out loud first, question before answer, in a voice of its own choosing; `spine` (shown once, in the first example) an excerpt of how that out-loud walk sounds in flight; `why` what earns it; `counter` a tempting wrong turn, with its failure mode named.
 
 <example name="payments-migration">
 <request>Should we switch to the new billing engine now, or wait until next year? Our contract with the current provider renews in March.</request>

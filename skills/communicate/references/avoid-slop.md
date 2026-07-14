@@ -32,11 +32,9 @@ Take time to explicitly deliberate before using any of these words, preferring t
 | glean | find, learn |
 | loop | process, method, practice |
 
-Add adjacent slop: *crucial*, *vital*, *essential*, *paramount* used as default intensifiers; *dynamic* applied to anything that moves; *holistic* applied to anything more than one part.
-
 ## Transitional-phrase law
 
-**Maximum one transitional phrase per 100 words.** Most paragraphs need none.
+**Use transitional phrases sparingly.** Most paragraphs need none.
 
 Cut on sight:
 
@@ -87,31 +85,25 @@ Slop has a different signature in casual register. Each forbidden:
 
 - **Over-formal helpfulness in casual contexts.** "I'd be happy to help with that!" → cut. "Got it" beats "Thanks for letting me know!"
 - **"Here's the thing:" preamble.** Cut.
-- **TL;DR on messages under 200 words.** A summary of two sentences is one sentence too many.
+- **TL;DR on a short message.** A summary of two sentences is one sentence too many.
 - **Over-balanced refusal to take a position.** In Slack or comments, asking for an opinion and getting "well, it depends on many factors" is slop. Take the position the situation asks for.
 - **Performative emoji signaling.** Never communicate with emojis unless it was explicitly requested from the user.
 - **Asking permission to begin.** "I'll go ahead and…" → just go ahead and.
 
 ## Audit diagnostics — laws
 
-Compute these on the draft before delivery. Each is a hard rule, not a target.
+Check the draft against each before delivery. Each is a hard rule, not an aspiration.
 
-- **Sentence-length coefficient of variation (CV) per paragraph: > 0.5.** Below 0.3 is broken; rewrite.
-- **Paragraph-length CV across the piece: > 0.4.** Three consecutive paragraphs within ±20% length is broken.
-- **Kobak-vocabulary density: ≤ 1 per 1,000 words in non-technical prose; 0 in casual prose.**
-- **Transitional-phrase ratio: ≤ 1 per 100 words.**
-- **Em-dash density: ≤ 1 per paragraph.** Each em-dash must do interruption or pivot work.
-- **Bullet-list ratio: ≤ 1 list per 200 words of prose.**
-- **First-person-plural in single-author work: 0** unless the writer is explicitly speaking for a group.
+- **Sentence-length coefficient of variation (CV) per paragraph: keep it high.** Near-uniform sentence length reads as broken; rewrite.
+- **Paragraph-length CV across the piece: keep it high.** Three consecutive paragraphs of near-identical length is broken.
+- **Kobak-vocabulary density: near zero in non-technical prose; none in casual prose.**
+- **Transitional-phrase ratio: rare — most paragraphs carry none.**
+- **Em-dash density: use them sparingly.** Each em-dash must do interruption or pivot work.
+- **Bullet-list ratio: keep lists sparse relative to prose.**
+- **First-person-plural in single-author work: none** unless the writer is explicitly speaking for a group.
 - **Type-token ratio across paragraphs: must vary.** Near-flat ratio profiles are broken.
 - **Fragment audit: each fragment must read as the previous full sentence's continuation.** If it does not, it is a typo.
 - **Parataxis/hypotaxis ratio: matched to register.** All-paratactic reads as wire copy / Hemingway. All-hypotactic reads as Faulkner / academic. Mismatch is broken.
-
-## Equity caveat
-
-Liang et al. (2023, Cell Press *Patterns*) tested seven detectors on essays written by non-native English speakers. 61% of essays were flagged as AI-generated. The mechanism: ESL writers draw from a smaller, more frequent vocabulary — exactly the signal detectors equate with machine generation.
-
-The audit diagnostics above use the same signals. Apply them to the model's own output. Do not apply them to judge another writer.
 
 ## Counter-pattern: what cared-for prose does
 
