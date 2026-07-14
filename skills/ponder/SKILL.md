@@ -12,17 +12,19 @@ description: >-
   uncertainty about what they don't know.
 compatibility: >-
   Runs in a forked context. Floor executor: an agent that can read a reference
-  file and carry out its numbered reasoning moves against the problem. The
-  techniques assume multi-step reasoning, not single-shot answers.
+  file, carry out its numbered reasoning moves against the problem, and answer
+  a yes/no check by quoting from output it has already produced. The
+  techniques assume an executor that reasons in steps.
 metadata:
   context: fork
 ---
 
 # Ponder
 
-Exploration skill. Assess the problem's shape, select techniques, apply them
-in sequence. The caller sees substance — questions, frames, maps, new angles.
-Never technique names, shape labels, or sequencing rationale.
+Exploration skill. Assess the problem's shape, open with a technique matched
+to it, extend the chain only while the problem quotably demands more, and
+converge on a decision. The caller sees substance — questions, frames, maps,
+new angles. Technique names, shape labels, and chain mechanics stay hidden.
 
 ## Phase 0: Assess
 
@@ -36,48 +38,52 @@ Detect the problem's shape from signals in "$ARGUMENTS" and the conversation.
 | Complex | Multiple interacting factors; "it depends"; competing constraints; many stakeholders |
 | Blindspot | Meta-uncertainty ("what am I missing?"); new domain; sensing something is off without naming it |
 
-Vague is not a catch-all for conflicting signals. Reach for it only when the
-goal itself is unarticulated — its defining signal. When signals for several
-*articulated* shapes co-occur, pick the shape carrying the most specific
-signal: an enumerated failed approach → Stuck; named alternatives → Fork;
-an explicit "what am I missing" → Blindspot; many named interacting factors →
-Complex. A wrong pick is cheap because Phase 2 corrects it mid-course. (This
-tie-break is a fixed decision; revisit it if misassessment recurs on real
-inputs.)
+Reach for Vague only when the goal itself remains unarticulated — its
+defining signal. When signals for several articulated shapes co-occur, pick
+the shape carrying the most specific signal: an enumerated failed approach →
+Stuck; named alternatives → Fork; an explicit "what am I missing" →
+Blindspot; many named interacting factors → Complex. A wrong pick costs
+little because the extension check in Phase 2 corrects it mid-course.
 
-Do not announce the shape. Proceed directly to selection.
+Proceed directly to Phase 1 without announcing the shape.
 
-## Phase 1: Select
+## Phase 1: Open
 
-Choose techniques based on shape. Load only the selected technique reference
-files from `@./references/`.
+A shape names what the thinking lacks. Five purposes name the cognitive moves
+that repair a lack:
 
-A shape names what the thinking lacks; its sequence is the purposes that
-repair the lack. Run one technique per purpose in the sequence — a shape's
-sequence length is its technique count. The five purposes name cognitive
-moves:
-
-- **Discover** — dig out what is hidden and constraining: assumptions, root causes, leverage points.
+- **Discover** — dig out what hides and constrains: assumptions, root causes, leverage points.
 - **Expand** — diverge: generate candidate directions, explanations, or questions.
 - **Navigate** — map the territory: locate the abstraction level, the knowns, and the real question.
 - **Explore** — probe an articulated position at its edges and from other frames.
 - **Define** — converge: carve the problem into parts you can act on.
 
-From these, a shape's sequence reconstructs from its deficit: Vague lacks a
-target (Expand to find candidates, Navigate to orient, Define to fix one);
-Stuck has exhausted the obvious (Discover the hidden constraint, Expand new
-options, Navigate what is actually known). Extend the same reasoning to
-signals the tables below do not list.
+Each purpose draws from a pool of techniques:
 
-| Shape | Sequence | Technique pool (pick one per purpose) |
-|-------|----------|---------------------------------------|
-| Vague | Expand, Navigate, Define | **Expand**: wonder, branch-out; **Navigate**: zoom, question-the-question; **Define**: decompose |
-| Stuck | Discover, Expand, Navigate | **Discover**: excavate-assumptions, first-principles; **Expand**: consider-alternatives, connect-domains; **Navigate**: assess-knowledge |
-| Fork | Explore, Define, Navigate | **Explore**: argue-opposite, probe-boundaries, shift-perspective; **Define**: decompose; **Navigate**: zoom, assess-knowledge |
-| Complex | Navigate, Explore, Define, Expand | **Navigate**: assess-knowledge, zoom; **Explore**: shift-perspective, invert; **Define**: decompose; **Expand**: branch-out, connect-domains |
-| Blindspot | Discover, Expand, Explore | **Discover**: excavate-assumptions, premortem, find-leverage; **Expand**: wonder, consider-alternatives; **Explore**: invert, probe-boundaries |
+| Purpose | Techniques |
+|---------|------------|
+| Discover | excavate-assumptions, first-principles, premortem, find-leverage |
+| Expand | wonder, branch-out, consider-alternatives, connect-domains |
+| Navigate | assess-knowledge, zoom, question-the-question |
+| Explore | probe-boundaries, argue-opposite, invert, shift-perspective |
+| Define | decompose |
 
-Within each purpose, pick the technique that best fits the problem's content:
+Every chain runs at least two techniques: an opener whose purpose repairs the
+shape's deficit, and a closer that converges. The shape sets the opener:
+
+| Shape | Deficit | Opening purpose |
+|-------|---------|-----------------|
+| Vague | lacks a target | Expand — generate candidates to aim at |
+| Stuck | has exhausted the obvious | Discover — dig out the hidden constraint |
+| Fork | has options without criteria | Explore — probe the alternatives at their edges |
+| Complex | has more factors than frame | Navigate — map the territory before judging it |
+| Blindspot | suspects an unseen gap | Discover — surface what constrains unnoticed |
+
+The closer comes from Define or Navigate — decompose, assess-knowledge, or
+zoom — and must leave material Phase 3 can rank: named options, criteria, or
+a mapped constraint set.
+
+Within a purpose, pick the technique that best fits the problem's content:
 
 - Existing plan or proposal: premortem, argue-opposite, probe-boundaries
 - Choosing between options: consider-alternatives, shift-perspective, zoom
@@ -85,80 +91,100 @@ Within each purpose, pick the technique that best fits the problem's content:
 - Conceptually stuck: first-principles, invert, wonder
 - Involves people or stakeholders: shift-perspective, excavate-assumptions, branch-out
 
-## Phase 2: Apply
+## Phase 2: Apply and extend
 
-Execute each selected technique in sequence. Each technique's output feeds
-the next. Read the technique's reference file, then follow its instructions
-against the problem.
+Execute the opener: read its reference file from `@./references/`, follow its
+numbered moves against the problem, and let each technique's output feed the
+next.
 
-### Sequencing rules
+After each technique, run the extension check against everything produced so
+far. Extend the chain when a row below fires; when none fires, run the closer
+and move to Phase 3.
 
-Apply in priority order when the default shape sequence needs adjustment:
+| The output so far shows... | Extend with |
+|----------------------------|-------------|
+| The question itself has changed and the new one remains unexplored | Navigate |
+| The emerging conclusion leans on an assumption no technique has tested | Discover |
+| Fewer than two candidate options or directions have a name | Expand |
+| Two techniques' outputs contradict each other | Explore |
 
-1. Discover, if present, goes first or second — hidden assumptions constrain everything downstream
-2. Expand precedes Define — diverge before converging
-3. Navigate precedes Explore for unfamiliar territory — map before probe
-4. Define does not come first — it needs prior divergent input
-5. Perspective-shifting precedes generation when both present
-6. The final technique advances toward actionability
+Three rules bound the check:
 
-### Transparency
+1. **Quote to extend.** To count a row as fired, quote the sentence from the
+   output that fires it. A row you can only paraphrase has stayed silent.
+2. **Stop at fixpoint.** When the last technique added nothing you can quote
+   as new, run the closer now, even if a row fires — the chain has stopped
+   changing the picture.
+3. **Cap at five.** The chain holds at most five techniques, the closer
+   included. At the cap, converge.
 
-Present the substance directly. No headers announcing technique names. No
-meta-commentary ("now I will explore from a different angle"). Transitions
-between techniques are woven into the substance, not announced. The output
-reads as natural, flowing exploration.
+When several rows fire, repair the topmost: a re-aimed question invalidates
+dug assumptions, untested assumptions distort generated options, and options
+must exist before their edges get probed.
 
-This concealment is a fixed decision, not a per-run choice — it keeps the
-caller's attention on substance rather than method. Revisit it only if callers
-report the exploration feels arbitrary or untrustworthy without a visible
-method.
+A misassessed shape corrects itself here: the problem's real deficit fires
+its row at the next check, and the chain repairs it.
 
-If a technique's output reveals the shape was misassessed, adjust the
-remaining techniques accordingly.
+### Voice
 
-## Phase 3: Surface
+Present the substance directly, and weave transitions between techniques into
+it. Headers announcing technique names, meta-commentary ("now I will explore
+from a different angle"), and chain mechanics stay out of the output — the
+caller reads natural, flowing exploration.
 
-After all techniques are applied, offer a concise synthesis:
+Four rules govern the prose:
+
+- **Clear.** Plain declarative sentences a reader outside the domain can
+  follow.
+- **Unopinionated.** Tie each substantive claim to something in the problem
+  material, or mark it as an assumption. Advocacy appears once, in Phase 3's
+  ranking, and cites the rule it ranks by.
+- **Concise.** Prefer the shortest phrasing that keeps a claim checkable.
+- **Affirmative.** State what holds and what to do. Recast a failure or a
+  thing to avoid as the condition that holds instead.
+
+## Phase 3: Converge
+
+Close the exploration with:
 
 - What the exploration revealed
-- What questions remain open
-- What the most promising next step appears to be
+- The options now on the table, the default of changing nothing included
+- A ranking of the options, with the rule that ranks them stated
+- The leading option and the concrete evidence that would flip it
+- What remains genuinely open
 
-This is the one place where naming open questions and suggesting directions
-is appropriate — it is substance, not process.
+When the evidence ranks several options equally, report the tie as the
+result, keep the ranking rule stated, and name the observation that would
+break the tie.
 
 ## Context Loading
 
-Load only the technique reference files selected in Phase 1. Never load all
-references upfront.
-
 | Phase | Load |
 |-------|------|
-| Assess + Select | Nothing from references — use the tables above |
-| Apply | Only the selected technique files from `@./references/` |
-| Surface | Nothing additional |
+| Assess + Open | Nothing from references — use the tables above |
+| Apply + extend | Only the current technique's file from `@./references/` |
+| Converge | Nothing additional |
 
 ## Technique Reference Files
 
-Each file in `references/` contains a single technique's step-by-step
-instructions. The files are:
+Each file in `references/` holds a single technique's step-by-step
+instructions:
 
-| File | Purpose | Category |
-|------|---------|----------|
-| `wonder.md` | Open possibility space through curiosity | expand |
-| `branch-out.md` | Generate distinct continuations from one point | expand |
-| `consider-alternatives.md` | Create multiple explanations for same observations | expand |
-| `connect-domains.md` | Import solutions from distant domains | expand |
-| `assess-knowledge.md` | Map verified vs assumed vs unknown | navigate |
-| `zoom.md` | Move between abstraction levels | navigate |
-| `question-the-question.md` | Examine whether inquiry is aimed at right target | navigate |
-| `probe-boundaries.md` | Test conclusions at edges and extremes | explore |
-| `argue-opposite.md` | Stress-test by building strongest counter-case | explore |
-| `invert.md` | Turn problems inside out | explore |
-| `shift-perspective.md` | Inhabit different frames | explore |
-| `decompose.md` | Break wholes into parts at natural joints | define |
-| `excavate-assumptions.md` | Surface unstated assumptions at multiple levels | discover |
-| `first-principles.md` | Strip convention to find irreducible truths | discover |
-| `premortem.md` | Imagine failure and work backwards | discover |
-| `find-leverage.md` | Find where small actions create outsized results | discover |
+| File | What it does |
+|------|--------------|
+| `wonder.md` | Opens possibility space through curiosity |
+| `branch-out.md` | Generates distinct continuations from one point |
+| `consider-alternatives.md` | Creates multiple explanations for the same observations |
+| `connect-domains.md` | Imports solutions from distant domains |
+| `assess-knowledge.md` | Maps verified vs assumed vs unknown |
+| `zoom.md` | Moves between abstraction levels |
+| `question-the-question.md` | Examines whether the inquiry aims at the right target |
+| `probe-boundaries.md` | Tests conclusions at edges and extremes |
+| `argue-opposite.md` | Stress-tests by building the strongest counter-case |
+| `invert.md` | Turns problems inside out |
+| `shift-perspective.md` | Inhabits different frames |
+| `decompose.md` | Breaks wholes into parts at natural joints |
+| `excavate-assumptions.md` | Surfaces unstated assumptions at multiple levels |
+| `first-principles.md` | Strips convention to find irreducible truths |
+| `premortem.md` | Imagines failure and works backwards |
+| `find-leverage.md` | Finds where small actions create outsized results |
