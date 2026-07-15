@@ -19,7 +19,7 @@ If so, the work is downward, not forward.
 
 5. **Do the same for your own conclusions.** When you hand someone a conclusion, offer the steps: the data you started from, the meaning you added, where you might have added it wrongly.
 
-6. **Know which move you're making.** This is distinct from questioning the question: that move targets the inquiry itself — whether this is the right thing to be answering at all. Climbing down targets a claim inside the inquiry — what a given conclusion stands on. If the doubt is about the whole direction, question the question instead.
+6. **Know which move you're making.** This is distinct from questioning the question: that move targets the inquiry itself — whether this is the right thing to be answering at all. Climbing down targets a claim inside the inquiry — what a given conclusion stands on. If the doubt is about the whole direction, question the question instead. It is also distinct from a probe: climb-down walks an entire conclusion down to a shared observable, rung by rung; a probe aims one question at a single shaky element. Want the whole chain grounded → climb down. Want one element tested → probe.
 
 ## Questions
 

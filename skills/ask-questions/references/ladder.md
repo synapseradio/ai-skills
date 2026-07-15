@@ -11,7 +11,7 @@ If you can't name the driving question, build the ladder before you ask anything
 
 1. **Name the driving question first.** State the question the inquiry exists to answer, in one sentence, before drafting any rung. Every other question gets judged against it.
 
-2. **Apply the rung test to every candidate.** Would a complete answer to this question at least partly answer the driving question? If not, it's a digression dressed as a rung — cut it, or find the question that isn't.
+2. **Apply the rung test to every candidate.** Use the rung test from the core: a full answer to the candidate must at least partly answer the driving question, or it's a digression dressed as a rung — cut it, or find the question that isn't.
 
 3. **Name what the question presupposes.** Every question takes something as already settled. Before asking, say what this one assumes. If the presupposition isn't established yet, ask the establishing question first: an unestablished presupposition gets you a correction, not an answer.
 

@@ -7,6 +7,8 @@ Reach the value under a stated preference by asking what matters about each answ
 Ask: Do I have what they prefer, but not why it matters to them?
 The stated preference is the bottom rung. The value it serves sits several answers up.
 
+This climbs *up*, from a preference to the value under it — distinct from the other ladders. Building a ladder composes an inquiry, rung by rung, toward a driving question. Climbing down walks a conclusion *down* to the observable data it stands on. Reach here only when you have what they prefer and want why it matters.
+
 ## Instructions
 
 1. **Ask what matters about the answer you just got.** Then ask it again of the new answer, and again. Each pass climbs one rung from attribute toward consequence toward value.

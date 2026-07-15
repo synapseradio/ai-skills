@@ -32,20 +32,34 @@ Every drafted question passes all four before you ask it.
 - No smuggled premise. "What was that like?" carries nothing in; "Wasn't that awful?" answers itself and tells them what to say.
 - A real question, not a statement wearing a question mark. If you already supplied the answer, you asked nothing.
 
-## Route by the gap you feel
+## Route by the move you need
 
-Pick the situation that matches, load that reference, and work through its Questions section before you ask.
+First decide which kind of move the moment calls for — composing the inquiry, going under an answer, or auditing the inquiry itself — then pick the one reference within it. Load that reference and work through its Questions section before you ask.
 
-| Situation | Load |
-|-----------|------|
-| You need the rungs between here and the driving question — building or growing the ladder, composing a set | [ladder](./references/ladder.md) |
-| You have a stated preference and want the value under it | [laddering](./references/laddering.md) |
-| An answer handed you a conclusion, belief, or plan, and you need the data under it | [climb-down](./references/climb-down.md) |
-| An answer is shaky in a specific way, and "tell me more" feels too blunt | [probe](./references/probe.md) |
-| You're choosing the shape and timing of a whole sequence — where to open, when to narrow, what to avoid | [sequence-shapes](./references/sequence-shapes.md) |
-| Several candidate questions qualify and you must pick which comes next | [ordering](./references/ordering.md) |
-| Some question in the inquiry treats the thing as simpler than it is | [pretense](./references/pretense.md) |
-| You're starting an inquiry and need to name what you accept without justification | [grants](./references/grants.md) |
+**A. Compose the inquiry.** You're building or arranging a set of questions that reaches the driving question.
+
+| The gap | Load |
+|---------|------|
+| You don't yet have the rungs and must generate the set that reaches the driving question | [ladder](./references/ladder.md) |
+| You already have the questions and are deciding the arc — where to open, when to narrow, what to avoid | [sequence-shapes](./references/sequence-shapes.md) |
+| You have a qualified set and must pick the single next question to ask | [ordering](./references/ordering.md) |
+
+When more than one row here matches, load in this order: ladder (generate) → sequence-shapes (arrange) → ordering (pick next). Composing and unsure where to start? Start with ladder.
+
+**B. Go under one answer.** An answer came back and you need what sits beneath it. Pick the direction you're headed.
+
+| The direction | Load |
+|---------------|------|
+| Up — to the value under a stated preference, by asking what matters about each answer | [laddering](./references/laddering.md) |
+| Down — to the observable data under a conclusion, belief, or plan | [climb-down](./references/climb-down.md) |
+| At — one shaky element: clarify a term, test a claim, anchor a generality, label a feeling, or confirm you understood | [probe](./references/probe.md) |
+
+**C. Audit the inquiry's foundations.** Step back from the answers to the inquiry itself.
+
+| The gap | Load |
+|---------|------|
+| Some question treats the thing as simpler than it is | [pretense](./references/pretense.md) |
+| You're starting out and must name what you accept without justification | [grants](./references/grants.md) |
 | You're carrying a ladder or a question set into a new domain | [transfer](./references/transfer.md) |
 
 ## Decide who gathers the context, and who shapes the question

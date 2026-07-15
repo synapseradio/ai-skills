@@ -19,8 +19,7 @@ Ask: What shape does this conversation need — or did I default to opening broa
 5. **Place each question in time.** Let the first telling finish before you narrow. Leave silence after your question and after their answer — a pause pulls out more than another question would. Talk less than they do: your job is the question, theirs is the answer. Close open, with a catch-all: "What haven't I asked that I should have?"
 
 6. **Avoid the moves that flatten a sequence.**
-   - Leading the answer, unless you genuinely want control rather than the truth.
-   - Two questions in one breath — two ideas crammed into one sentence so neither gets a clean answer. Ask one, hear it out, then ask the next.
+   - Every question in the sequence still clears the four clarity laws from the core — no smuggled premise, one idea each.
    - Repeating a question word for word. If they didn't answer it, rephrase — the verbatim repeat reads as "you got it wrong."
    - Asking the next question before you've listened to the last answer.
 
