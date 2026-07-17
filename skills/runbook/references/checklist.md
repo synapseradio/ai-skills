@@ -81,13 +81,23 @@ Elements do not contradict each other.
 
 ### 9. Optional sections validated (if present)
 
-Convergence, Principles, and Model sections are optional. If the user
-provided them during alignment, validate they are well-formed.
+Convergence, Principles, and Placement sections are optional. If the
+user provided them during alignment, validate they are well-formed.
 
 - **Convergence:** Must be evaluable by the loop (not subjective).
 - **Principles:** Each principle must be a concrete constraint, not a wish.
-- **Model:** Default tier should match the loop's typical cognitive demand.
+- **Placement:** Default tier and effort should match the loop's typical
+  demand.
 - **Pass (soft):** Omitted sections use defaults. Note the assumptions.
+
+### 10. Execution route chosen
+
+The route the loop runs under — attended or unattended.
+
+- **Pass:** Attended or unattended explicitly selected. If unattended,
+  the schedule target is named.
+- **Fail (soft):** Not discussed. Default to attended and note the
+  assumption.
 
 ## Presentation
 
@@ -102,8 +112,9 @@ Alignment checklist:
   [x] No-gos: Do not modify public API signatures; do not delete existing tests
   [x] Success: Two consecutive clean audit rounds
   [x] Mode: Tight loop
+  [x] Route: unattended — daily 06:00 schedule
   [x] No conflicts detected
-  [x] Optional: Convergence set, Principles set, Model defaults to contextual
+  [x] Optional: Convergence set, Principles set, Placement defaults to medium tier
 
 Ready to seed. Confirm?
 ```

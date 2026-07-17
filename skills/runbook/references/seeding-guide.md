@@ -40,15 +40,11 @@ Populate every section from the alignment output.]
 
 [Complete LEARNINGS.md skeleton — Summary and Entries sections, empty.]
 
-## Loop Prompt
+## Execution & Deployment
 
-[Complete loop prompt — customized from references/loop-prompt.md with
-this runbook's lens. Ready to deploy.]
-
-## Deployment
-
-[How to deploy: CronCreate with interval, save to file path, or display
-for copy-paste. Include the user's stated preference from alignment.]
+[The chosen execution route (attended or unattended) and, if unattended,
+the schedule target. One-time wiring — record what was decided during
+alignment.]
 ```
 
 ## Artifact Templates
@@ -118,25 +114,35 @@ what discovery finds. Examples: "No change without a test first",
 "Do not modify public API signatures",
 "Preserve backward compatibility with v2 clients". -->
 
-## Model
-{{Default model tier for this loop's tasks. One of: mechanical, contextual,
-architectural. Discovery tags each task with a tier; the PM maps tiers to
-models at delegation time.
+## Execution
+Route: {{attended | unattended}}
+{{One line per route: attended means the invoking session runs rounds
+continuously and the user steers between them; unattended means a
+scheduled stub starts a fresh session for exactly one round per
+invocation. If this line is absent, the loop defaults to attended.}}
 
-Tier guidance (based on task signals, not rigid categories):
+## Placement
+Default tier: {{small | medium | large}}
+Default effort: {{low | high}}
+{{Tasks tier by three dimensions of their decisions — scope (how much
+the choice constrains later steps), vocabulary (precision of language
+demanded), and clarity (how legible success criteria arrive). Effort is
+set orthogonally, by error cost. The full framework lives in the
+skill's execution guide.}}
 
-| Signal              | mechanical           | contextual               | architectural              |
-|---------------------|----------------------|--------------------------|----------------------------|
-| Scope of change     | Single location      | Multiple related files   | Cross-cutting, system-level |
-| Ambiguity           | None — fully specified | Low — clear spec exists | High — requires design judgment |
-| Design intent needed | None                 | Local patterns           | System-level understanding  |
-| Verification        | Does it compile/lint? | Do tests pass?           | Does the design hold?       |
-
-Default: contextual. Override per-task when signals indicate otherwise.}}
+Default: medium tier.
 ```
 
 ### Customization notes
 
+- **Placement** defaults are chosen here, so decide them with this rule:
+  work that is mostly local edits with crisp, stated success criteria →
+  small tier; work that touches shared interfaces, names new abstractions,
+  or arrives with murky criteria → large tier; everything else → medium.
+  Effort is high when errors would hide or reverse poorly, low when a
+  glance at the output verifies it. The full framework, which discovery
+  uses to override these defaults per task, lives in the skill's
+  execution guide.
 - **Lens** must be specific enough that a subagent with no prior context
   can act on it. "Improve the code" is too vague. "Implement all endpoints
   defined in docs/api-spec.md" is actionable. "Migrate class components
@@ -213,7 +219,14 @@ The implication field carries the most value — it tells future cycles
 what to do differently. The structure gives discovery parseable context
 without requiring the loop to read every prior entry.
 
-## Recursive Decomposition (when mode = recursive)
+## Composed Runbooks (when mode = composed)
+
+Execute mode always operates on exactly one FOCUS.md. Multi-lens work
+means one runbook per child directory, each run separately. The parent
+FOCUS.md stays a coordination document, not something execute mode runs
+directly — a session invoked against it lists the children and asks
+which to run. A final tight loop, or the user, reconciles the children's
+outcomes.
 
 ### Parent FOCUS.md
 
@@ -255,29 +268,34 @@ or shares the parent's board with task prefixes (e.g., `[security] T1: ...`).
 Prefer separate boards when children run concurrently. Prefer a shared board
 when children run sequentially.
 
-## Loop Prompt Production
+## Execution Route
 
-Load [`references/loop-prompt.md`](loop-prompt.md) for the template. Include the complete
-prompt in the plan file under `## Loop Prompt`. The prompt reads FOCUS.md
-at runtime for the lens, authority, and scope — do not inline those
-values into the prompt itself.
+Two routes exist. Choose one during alignment and record it in FOCUS.md
+under `## Execution`.
 
-Before entering plan mode, ask the user for deployment preference:
+**Attended.** The seeding session, or any later session, invokes execute
+mode and runs rounds continuously. Each round ends with a summary the
+user can steer at before the next round starts.
 
-1. **Deploy now** — CronCreate with a user-specified interval
-2. **Save to file** — write to a location the user chooses
-3. **Display only** — show for copy-paste, do not write
+**Unattended.** A schedule invokes a thin stub whose entire payload is
+one line: `Invoke the runbook skill in execute mode against
+/absolute/path/to/project.` Each invocation runs exactly one round, then
+stops — the files carry all state between invocations. On convergence
+the loop writes a `Status: converged` marker in TASKS.md, and later
+invocations no-op; the user is responsible for unscheduling. The skill
+never creates or modifies schedules itself.
 
-Record the preference in the plan file under `## Deployment` so
-next-claude can execute it.
+Record the chosen route in the plan file under `## Execution &
+Deployment` — and, if unattended, the schedule target — so next-claude
+can wire it up.
 
 ## Plan Mode Workflow
 
 1. Ask the user for the target directory (where to write FOCUS.md,
-   TASKS.md, LEARNINGS.md) and deployment preference.
+   TASKS.md, LEARNINGS.md), the execution route, and — if unattended —
+   the schedule target.
 2. Enter plan mode.
 3. Write the plan file following the structure above. Populate every
    section from the alignment output. Use the artifact templates for
-   FOCUS.md, TASKS.md, and LEARNINGS.md. Include the complete loop
-   prompt from [`references/loop-prompt.md`](loop-prompt.md).
+   FOCUS.md, TASKS.md, and LEARNINGS.md.
 4. Exit plan mode for user review.

@@ -144,6 +144,11 @@ A quick pass converges after "one clean discovery round." A thorough
 sweep requires "all items in the spec accounted for" or "two consecutive
 clean audit rounds."
 
+The execution route (attended vs. unattended) is chosen at seeding, not
+during alignment. But if the user already implies cron or unattended
+operation — "run this overnight," "set it up on a schedule" — flag it
+early so seeding can confirm the route rather than discover it late.
+
 ### Inline Visualization
 
 Make the conversation concrete with visual aids:
