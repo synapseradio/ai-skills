@@ -1,0 +1,17 @@
+before i ping the backend team i want to sanity check my questions. here's the endpoint doc they already published:
+
+---
+GET /v2/orders
+Auth: Bearer token, scope orders:read
+Pagination: cursor-based. Pass `?cursor=` from `next_cursor` in the response body. Page size fixed at 100.
+Rate limit: 600 requests/minute per token, 429 with Retry-After header on breach.
+Filters: status, created_after, created_before (ISO-8601, UTC).
+---
+
+my drafted questions are:
+1. Is pagination cursor-based or offset-based?
+2. What's the rate limit?
+3. Can I filter by customer_id?
+4. If I'm backfilling 4 million orders, will you throttle me differently than the documented limit or should I just design to 600/min?
+
+which of these should i actually send?

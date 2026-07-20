@@ -1,0 +1,11 @@
+{
+  "assertions": [
+    "The answer is a set of at least four distinct questions.",
+    "At least three questions are grounded in specifics of this spec (e.g. overnight timing or time zones, CSV vs PDF, frequency options, failure/retry, large exports, who can access the data, retention).",
+    "No single question crams two unrelated asks together \u2014 each question carries one idea.",
+    "The questions are specific to this feature rather than a generic export checklist."
+  ],
+  "eval_id": 1,
+  "eval_name": "spec-gap-questions",
+  "prompt": "I'm about to build this feature and here's the rough spec I was handed: \"Users can schedule recurring exports of their dashboard data to email. They pick a frequency and a format (CSV or PDF). Exports run server-side overnight and land in the user's inbox the next morning.\" Read it and give me the questions I should be asking the product owner before I write any code."
+}

@@ -1,0 +1,11 @@
+{
+  "assertions": [
+    "The answer questions whether 'which charting library' is the right question to be asking, rather than supplying more comparison criteria.",
+    "The answer names a sign that the current line of inquiry is misaimed (e.g. precise but useless answers, the inquiry stalling despite sound sub-questions).",
+    "The answer asks at least one question about the purpose the inquiry serves -- what the page is for, what decision this actually blocks, or what would make any choice good enough.",
+    "The answer proposes or points toward a different question worth answering instead."
+  ],
+  "eval_id": 9,
+  "eval_name": "replace-driving-question",
+  "prompt": "we've burned about an hour going back and forth on which charting library to use for the new analytics page -- recharts vs visx vs echarts. every answer i get is well-reasoned and i still can't decide, and honestly i'm no closer than when i started. bundle size, api ergonomics, theming, we've covered it. ask me whatever will actually move this forward."
+}

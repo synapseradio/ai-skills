@@ -1,0 +1,25 @@
+{
+  "config": "with_skill",
+  "eval_id": 6,
+  "eval_name": "surface-contradiction",
+  "expectations": [
+    {
+      "evidence": "The reply never states this tension directly. Question 3 ('What's off-limits?... or is it more \"keep the overall shape, change the details\"?') gestures at the constraint but never names the conflict between improving onboarding and preserving familiarity.",
+      "passed": false,
+      "text": "The answer explicitly surfaces the tension between 'make it better' and 'don't change what people are used to'."
+    },
+    {
+      "evidence": "Question 2 asks 'What's actually broken right now? Where do people get stuck, confused, or drop off' \u2014 this probes current pain points, not what a successful/improved outcome would look like (no mention of a metric, goal, or definition of success).",
+      "passed": false,
+      "text": "At least one question asks what 'better' would concretely mean (a metric or outcome)."
+    },
+    {
+      "evidence": "Three short, bolded, single-focus questions: 'Where's the code?', 'What's actually broken right now?', 'What's off-limits?' \u2014 each is concise and addresses one distinct idea.",
+      "passed": true,
+      "text": "Questions are terse and concrete, one idea each."
+    }
+  ],
+  "pass_rate": 0.333,
+  "passed_count": 1,
+  "total_count": 3
+}

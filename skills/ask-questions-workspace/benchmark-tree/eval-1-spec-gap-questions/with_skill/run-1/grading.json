@@ -1,0 +1,36 @@
+{
+  "config": "with_skill",
+  "eval_id": 1,
+  "eval_name": "spec-gap-questions",
+  "expectations": [
+    {
+      "evidence": "The reply lists more than four distinct questions across categories like dashboard scope, frequency, timing, format, delivery, failure handling, and lifecycle.",
+      "passed": true,
+      "text": "The answer is a set of at least four distinct questions."
+    },
+    {
+      "evidence": "Questions on timezone ('Whose timezone defines \"overnight\"...'), PDF fidelity ('Does the PDF need to visually mirror the dashboard...'), frequency options ('What exact frequency options do we support...'), and failure/retry ('If generation or sending fails on a given night, do we retry...') are all directly grounded in the spec.",
+      "passed": true,
+      "text": "At least three questions are grounded in specifics of this spec (e.g. overnight timing or time zones, CSV vs PDF, frequency options, failure/retry, large exports, who can access the data, retention)."
+    },
+    {
+      "evidence": "The lifecycle bullet combines two unrelated asks in one sentence: 'Can a user have more than one schedule at a time, and can they edit or pause one after creating it, or is it create/delete only?' bundles the multi-schedule question with the edit/pause question.",
+      "passed": false,
+      "text": "No single question crams two unrelated asks together \u2014 each question carries one idea."
+    },
+    {
+      "evidence": "Questions like 'Does the PDF need to visually mirror the dashboard (charts, layout, branding)...' and 'Whose timezone defines \"overnight\" and \"next morning\"' are tailored to this exact dashboard-export-to-email feature, not boilerplate.",
+      "passed": true,
+      "text": "The questions are specific to this feature rather than a generic export checklist."
+    }
+  ],
+  "pass_rate": 0.75,
+  "passed_count": 3,
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.75,
+    "passed": 3,
+    "total": 4
+  },
+  "total_count": 4
+}

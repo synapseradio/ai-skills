@@ -1,0 +1,11 @@
+{
+  "assertions": [
+    "The answer judges that asking three clarifying questions is the wrong move here, and says why.",
+    "The answer proposes a non-question move -- a reflective restatement of what Priya said, a plain statement, and/or a direct commitment -- as the substance of the reply.",
+    "If any question is proposed at all, there is at most one, and it is not answerable from Priya's own message.",
+    "The answer does not produce a list of clarifying questions as its primary deliverable."
+  ],
+  "eval_id": 7,
+  "eval_name": "non-question-move",
+  "prompt": "my teammate Priya just posted this in our #platform channel and i can tell she's pissed:\n\n\"i've now rewritten the migration runbook twice because the cutover window keeps moving. i asked in standup on tuesday whether we were locked on the 14th, nobody answered, and then friday the doc says the 21st. i don't think anyone actually owns this and i'm not spending another weekend on a plan that evaporates. if we're serious about the 21st someone needs to say so in writing.\"\n\ni was going to reply with three clarifying questions to figure out what she needs. what should i actually send her?"
+}

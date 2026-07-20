@@ -1,0 +1,10 @@
+{
+  "duration_ms": 41924,
+  "effort": "high",
+  "model": "sonnet",
+  "num_turns": 4,
+  "output_tokens": 3103,
+  "total_cost_usd": 0.07387995,
+  "total_duration_seconds": 41.9,
+  "total_tokens": 28446
+}

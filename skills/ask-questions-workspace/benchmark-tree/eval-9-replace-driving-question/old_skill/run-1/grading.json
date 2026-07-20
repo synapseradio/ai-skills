@@ -1,0 +1,36 @@
+{
+  "config": "old_skill",
+  "eval_id": 9,
+  "eval_name": "replace-driving-question",
+  "expectations": [
+    {
+      "evidence": "The reply stays within the frame of choosing a library and instead offers new questions/criteria (specific needs, team experience, switching cost) rather than challenging whether picking a library is even the right question to resolve.",
+      "passed": false,
+      "text": "The answer questions whether 'which charting library' is the right question to be asking, rather than supplying more comparison criteria."
+    },
+    {
+      "evidence": "\"Three well-reasoned answers on the same axes usually means the axes aren't the ones that actually decide it.\"",
+      "passed": true,
+      "text": "The answer names a sign that the current line of inquiry is misaimed (e.g. precise but useless answers, the inquiry stalling despite sound sub-questions)."
+    },
+    {
+      "evidence": "\"If you pick wrong, how expensive is it to rip out and swap later, given it's scoped to one page?\" gestures at what would make any choice good enough (low stakes/reversible), reinforced by the closing line about it being a low-stakes, reversible decision.",
+      "passed": true,
+      "text": "The answer asks at least one question about the purpose the inquiry serves -- what the page is for, what decision this actually blocks, or what would make any choice good enough."
+    },
+    {
+      "evidence": "The reply lists three explicitly new questions (\"outside bundle size / API ergonomics / theming\"): about unconfirmed needs, existing team experience, and reversibility cost.",
+      "passed": true,
+      "text": "The answer proposes or points toward a different question worth answering instead."
+    }
+  ],
+  "pass_rate": 0.75,
+  "passed_count": 3,
+  "summary": {
+    "failed": 1,
+    "pass_rate": 0.75,
+    "passed": 3,
+    "total": 4
+  },
+  "total_count": 4
+}

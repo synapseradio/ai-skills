@@ -1,0 +1,12 @@
+i've got a 10 minute call with a vendor tomorrow about their SSO product and i drafted way too many questions. cut this down for me:
+
+1. How long have you been in business?
+2. Do you support SAML 2.0?
+3. Do you support SCIM provisioning, and if not, what's the migration path for us off our current directory sync?
+4. What's your uptime SLA and what's the remedy if you miss it?
+5. How many engineers work on the product?
+6. What does onboarding look like?
+7. If we hit a P1 at 2am on a Saturday, who picks up and what's the contractual response time?
+8. Is your pricing per-seat or flat?
+
+which do i keep?

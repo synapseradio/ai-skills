@@ -1,0 +1,10 @@
+{
+  "assertions": [
+    "The answer opens with broad questions before narrowing to specifics.",
+    "At least one question targets the underlying pain or what triggered the idea.",
+    "The questions set a path or sequence rather than dumping everything at once."
+  ],
+  "eval_id": 5,
+  "eval_name": "elicit-vague-idea",
+  "prompt": "I have some half-baked idea for an internal tool for my team but I genuinely can't tell you what it should do yet. I don't even know where to start. Ask me questions to pull it out of me."
+}

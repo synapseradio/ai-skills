@@ -1,0 +1,30 @@
+{
+  "config": "old_skill",
+  "eval_id": 1,
+  "eval_name": "spec-gap-questions",
+  "expectations": [
+    {
+      "evidence": "The reply lists 7 numbered questions across three categories (Q1-Q7).",
+      "passed": true,
+      "text": "The answer is a set of at least four distinct questions."
+    },
+    {
+      "evidence": "Q3 asks about frequency options, Q4 asks about 'overnight'/'next morning' timezone handling, Q5 asks about failure/retry handling, and Q6 asks about PDF vs plain data table \u2014 all directly tied to spec specifics.",
+      "passed": true,
+      "text": "At least three questions are grounded in specifics of this spec (e.g. overnight timing or time zones, CSV vs PDF, frequency options, failure/retry, large exports, who can access the data, retention)."
+    },
+    {
+      "evidence": "Q2 bundles two distinct asks into one numbered item: 'Is this tied to one specific dashboard, or can a user choose which dashboard to export \u2014 and can they have more than one schedule active at once?' combines dashboard selection with concurrent-schedule limits.",
+      "passed": false,
+      "text": "No single question crams two unrelated asks together \u2014 each question carries one idea."
+    },
+    {
+      "evidence": "Questions reference concrete spec details like 'PDF format... visually replicate the dashboard's charts' and '\"Overnight\" and \"next morning\"' timing, not generic boilerplate.",
+      "passed": true,
+      "text": "The questions are specific to this feature rather than a generic export checklist."
+    }
+  ],
+  "pass_rate": 0.75,
+  "passed_count": 3,
+  "total_count": 4
+}

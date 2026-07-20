@@ -1,6 +1,6 @@
 # Climb Down to the Data
 
-Walk a conclusion back to the observable facts it stands on — the ladder of inference.
+Walk a conclusion back to the observable facts it stands on.
 
 ## Diagnostic Question
 
@@ -13,13 +13,13 @@ If so, the work is downward, not forward.
 
 2. **Descend one rung at a time.** For each step, ask two things: what meaning got added here, and what observable fact is it standing on? A conclusion sits on interpretations, which sit on selected details, which sit on something that actually happened.
 
-3. **Stop at something you can both point to.** The climb down ends at an observation both of you can inspect — a message, an event, a number, a sentence someone said. Everything above it is interpretation and can now be examined as interpretation.
+3. **Stop at something you can both point to.** The climb down ends at an observation both of you can inspect — a message, an event, a number, a sentence someone said. Everything above it is interpretation and can now be examined as interpretation. When three rungs in a row return interpretation instead of observation, the descent has stalled: name the impasse as a finding, or reroute — doubt about the whole direction goes to [driving-question](./driving-question.md), one contested element goes to [probe](./probe.md). In a live exchange, say that you're switching rather than pivoting silently.
 
-4. **Ask them to explain the steps in their thinking.** "How did you get from what you saw to that conclusion?" invites them to lay out their own rungs rather than defend the summit.
+4. **Ask them to explain the steps in their thinking.** "How did you get from what you saw to that conclusion?" invites them to lay out their own rungs rather than defend the summit. At the first rung, their own words are the observable you start from — "what you saw" points at the statement or record that carried the conclusion.
 
-5. **Do the same for your own conclusions.** When you hand someone a conclusion, offer the steps: the data you started from, the meaning you added, where you might have added it wrongly.
+5. **Hold your own conclusions to the same standard.** A standing practice, not a step in this descent: whenever you hand someone a conclusion, offer the steps — the data you started from, the meaning you added, where you might have added it wrongly.
 
-6. **Know which move you're making.** This is distinct from questioning the question: that move targets the inquiry itself — whether this is the right thing to be answering at all. Climbing down targets a claim inside the inquiry — what a given conclusion stands on. If the doubt is about the whole direction, question the question instead. It is also distinct from a probe: climb-down walks an entire conclusion down to a shared observable, rung by rung; a probe aims one question at a single shaky element. Want the whole chain grounded → climb down. Want one element tested → probe.
+6. **Know which move you're making.** This is distinct from questioning the question: that move targets the inquiry itself — whether this is the right thing to be answering at all. Climbing down targets a claim inside the inquiry — what a given conclusion stands on. If the doubt is about the whole direction, question the question instead ([driving-question](./driving-question.md)). It is also distinct from a probe: climb-down walks an entire conclusion down to a shared observable, rung by rung; a probe aims one question at a single shaky element. Want the whole chain grounded → climb down. Want one element tested → probe.
 
 ## Questions
 

@@ -1,0 +1,1 @@
+A user just told me "the app feels slow" and that's literally all I've got. I need to get them from that to something specific I can actually act on, and I know one question won't do it. Give me an ordered set of questions that walks from that vague complaint down to a concrete, reproducible problem.

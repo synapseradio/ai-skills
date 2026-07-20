@@ -1,0 +1,30 @@
+{
+  "config": "old_skill",
+  "eval_id": 8,
+  "eval_name": "cut-findable-questions",
+  "expectations": [
+    {
+      "evidence": "\"Cut Q1 \u2014 ... is answered verbatim: \\\"Pagination: cursor-based.\\\"\" and \"Cut Q2 \u2014 ... is answered verbatim: \\\"600 requests/minute per token, 429 with Retry-After.\\\"\"",
+      "passed": true,
+      "text": "Questions 1 and 2 are explicitly cut, and the reason given is that the pasted doc already answers them."
+    },
+    {
+      "evidence": "\"Keep Q4, but split it \u2014 this is the one that actually matters\"",
+      "passed": true,
+      "text": "Question 4 is kept."
+    },
+    {
+      "evidence": "\"Keep Q3 \u2014 genuine gap. ... Real question, plainly answerable, worth sending as-is.\"",
+      "passed": true,
+      "text": "Question 3 is kept, or is kept in a sharpened form."
+    },
+    {
+      "evidence": "\"Two of your four are already answered in the doc they published \u2014 sending those signals you didn't read it closely.\" explains the cuts as findable-already and costly to send, not merely a reordering.",
+      "passed": true,
+      "text": "The answer explains the cut in terms of the questions not being worth the turn -- findable already, or leaving the next move unchanged -- rather than just reordering the list."
+    }
+  ],
+  "pass_rate": 1.0,
+  "passed_count": 4,
+  "total_count": 4
+}

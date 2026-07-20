@@ -1,0 +1,11 @@
+{
+  "assertions": [
+    "Questions 1 and 5 are cut.",
+    "The stated criterion for cutting is that the answer would not change the buyer's decision or next move -- not merely that the question is less important or off-topic.",
+    "Questions 3, 4, 7 and 8 are kept (or a clearly-argued subset of them is, on the same criterion).",
+    "The answer notes that at least one kept question is vague as drafted and sharpens it, or flags question 6 as too open to be worth a 10-minute slot."
+  ],
+  "eval_id": 10,
+  "eval_name": "discrimination-gate-cut",
+  "prompt": "i've got a 10 minute call with a vendor tomorrow about their SSO product and i drafted way too many questions. cut this down for me:\n\n1. How long have you been in business?\n2. Do you support SAML 2.0?\n3. Do you support SCIM provisioning, and if not, what's the migration path for us off our current directory sync?\n4. What's your uptime SLA and what's the remedy if you miss it?\n5. How many engineers work on the product?\n6. What does onboarding look like?\n7. If we hit a P1 at 2am on a Saturday, who picks up and what's the contractual response time?\n8. Is your pricing per-seat or flat?\n\nwhich do i keep?"
+}
