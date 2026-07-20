@@ -88,28 +88,7 @@ Therefore: teach A → B → C
 - Adjective-noun pairs where the adjective adds nothing ("actual fact," "future plans")
 - Prepositional bloat ("in the event that" = "if")
 
-**Ceremonial language markers:**
-
-- "It is important to note that..."
-- "It should be mentioned that..."
-- "As a matter of fact..."
-- "In order to..."
-- "Due to the fact that..."
-
-**Streamline transformations:**
-
-| Bloated | Streamlined |
-|---------|-------------|
-| in order to | to |
-| due to the fact that | because |
-| at this point in time | now |
-| in the event that | if |
-| has the ability to | can |
-| is able to | can |
-| make a decision | decide |
-| give consideration to | consider |
-| conduct an investigation | investigate |
-| at the present time | now |
+**Ceremonial language and bloat:** see [strengthen](./strengthen.md) for filler phrases and their plain replacements.
 
 ### Load Type Identification
 

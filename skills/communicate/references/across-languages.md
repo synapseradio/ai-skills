@@ -33,8 +33,6 @@ Cut habitual cushioning. Preserve epistemic calibration.
 - Japanese sentence-final particles (*ne*, *yo*, *kana*) — calibration English cannot replicate grammatically. Do not strip.
 - French/German subordinate-clause accumulation bounding a claim — calibration. Do not flatten to one clause.
 
-The test: does removing the hedge change what the writer commits to? Yes → calibration. No → cushioning.
-
 ### Is L1 grammar carrying through L2 prose?
 
 When it does, ask what the L1 pattern encodes that L2 cannot.

@@ -15,7 +15,7 @@ Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where
 
 3. **Calibrate vocabulary to audience knowledge** -- Assess whether technical depth matches what readers know. Replace jargon with plain language for general audiences, use precise technical terms for experts, find middle ground for mixed audiences.
 
-4. **Replace habitual patterns with deliberate choices** -- Identify words appearing through habit rather than intention. AI generation patterns: "delve," "utilize," "leverage," "robust," "seamless." Replace formulaic language with precise, natural alternatives.
+4. **Replace habitual patterns with deliberate choices** -- Identify words appearing through habit rather than intention. AI generation patterns: "delve," "utilize," "leverage," "robust," "seamless." Challenge your own quieter defaults with equal suspicion: "honest," "load-bearing," "shape," "signal," and any word you notice yourself reaching for across unrelated drafts. Replace formulaic language with precise, natural alternatives.
 
 5. **Prefer precision over approximation** -- Look for words close to intended meaning but not exact. The difference between "annoyed" and "furious," between "suggest" and "insist," between "glance" and "stare" is the difference between communicating clearly and forcing readers to interpret.
 
@@ -37,7 +37,7 @@ A short reference for three registers prose commonly operates in. Each entry nam
 
 **Code comments.** Brief, contextual, oriented to what changed and why.
 
-- Slop signature: ceremonial transitions, Kobak vocabulary, restating what the code already says.
+- Slop signature: ceremonial openers, habitual vocabulary, comments that restate the code.
 - Cared-for: short imperative or declarative phrases naming the change, the cause, or the constraint.
 
 **Slack and chat.** Short, direct, no preamble.
@@ -50,7 +50,7 @@ A short reference for three registers prose commonly operates in. Each entry nam
 - Slop signature: a banner that rots the moment the migration lands.
 - Cared-for: a description that reads true six months from now, or that the writer would happily delete.
 
-Each register also carries the universal slop signature — Kobak vocabulary, transitional overhang, tricolon-as-default. [`avoid-slop.md`](./avoid-slop.md) covers those.
+Universal patterns show up in every register: habitual vocabulary, transitional overhang, invented symmetry. [write-for-humans](./write-for-humans.md) covers them.
 
 ## Questions
 
@@ -66,7 +66,7 @@ Each register also carries the universal slop signature — Kobak vocabulary, tr
 When register is sound:
 
 - [ ] Each significant word's connotation aligns with what the writer intends to say.
-- [ ] No Kobak vocabulary appears unless its technical sense is exact.
+- [ ] No stock AI vocabulary ("delve", "leverage", "robust", "seamless") appears unless its technical sense is exact.
 - [ ] No word stands close to the intended meaning when a more precise one is available.
 - [ ] The emotional pitch fits what the situation requires — warmth, distance, urgency, calm, formality, casualness, certainty, or tentativeness as the moment calls for.
 - [ ] Variation in register tracks shifts in the content's emotional territory.

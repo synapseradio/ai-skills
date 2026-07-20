@@ -1,48 +1,46 @@
 # Technique Index
 
-Per-technique navigation. One line per file, with a short summary. The diagnostic tables in `SKILL.md` route by question; this index routes by technique name.
+One line per file. SKILL.md routes by diagnosed risk; this index routes by name.
 
-## Pre-flight (always read)
+## Every run
 
-- [across-languages.md](./across-languages.md) — Tradition self-interrogation; replaces taxonomy lookup with questions
-- [avoid-slop.md](./avoid-slop.md) — Lexical, structural, voice, casual, intransitive-form audits with hard-rule diagnostics
+- [write-for-humans.md](./write-for-humans.md) — binding rules that keep prose from misleading its reader; adjustable texture defaults, set during alignment
 
-## Techniques
+## Purpose
 
-### Purpose
+- [fit.md](./fit.md) — match a piece's form to the single verb naming its purpose
+- [calibrate.md](./calibrate.md) — meet the audience at what they already know
 
-- [fit.md](./fit.md) — Match form to function
-- [calibrate.md](./calibrate.md) — Match depth and convention to audience
-- [analogize.md](./analogize.md) — Bridge unfamiliar concepts through structural analogy
+## Clarity
 
-### Clarity
+- [clarify.md](./clarify.md) — repair sequence, information flow, and missing prerequisites
+- [activate.md](./activate.md) — put a visible actor in front of every action
+- [strengthen.md](./strengthen.md) — cut cushioning; keep only hedges that change commitment
+- [illustrate.md](./illustrate.md) — trade category words for witnessed detail
 
-- [clarify.md](./clarify.md) — Repair sequence, information flow, and prerequisites
-- [activate.md](./activate.md) — Surface hidden actors; convert passive to active
-- [strengthen.md](./strengthen.md) — Apply hedging split; commit language
-- [illustrate.md](./illustrate.md) — Ground abstractions in witnessed detail
+## Integrity
 
-### Integrity
+- [signal-confidence.md](./signal-confidence.md) — match certainty language to what the evidence supports
+- [bound-scope.md](./bound-scope.md) — say where a claim applies and where it breaks
+- [surface-assumptions.md](./surface-assumptions.md) — name the premises the reasoning stands on
 
-- [signal-confidence.md](./signal-confidence.md) — Match certainty language to evidence
-- [bound-scope.md](./bound-scope.md) — Name where claims apply and break down
-- [surface-assumptions.md](./surface-assumptions.md) — Make silent premises visible
+## Composition
 
-### Shape
+- [arc.md](./arc.md) — give the piece a tension its reader wants resolved
+- [arrange.md](./arrange.md) — order sections so each stands on what came before
+- [rhythm.md](./rhythm.md) — vary cadence on purpose; Provost's cascade lives here
+- [voice.md](./voice.md) — one person, speaking from a named position
+- [register.md](./register.md) — choose words for their weight and their connotation
 
-- [arc.md](./arc.md) — Create tension and resolution
-- [arrange.md](./arrange.md) — Order sections so the sequence builds
-- [rhythm.md](./rhythm.md) — Vary cadence per the cadence laws
-- [voice.md](./voice.md) — Establish consistent authorial presence
-- [register.md](./register.md) — Word-level precision and emotional pitch
+## Depth
 
-### Depth
+- [extract-implications.md](./extract-implications.md) — say what the claims commit the writer to
+- [pose-questions.md](./pose-questions.md) — open inquiry where prose would close it
 
-- [extract-implications.md](./extract-implications.md) — Surface what claims leave unsaid
-- [dimensionalize.md](./dimensionalize.md) — Separate independent aspects of conflated feedback
-- [pose-questions.md](./pose-questions.md) — Open inquiry instead of closing it
+## Situational
 
-## Sub-files
-
-- [clarify-patterns.md](./clarify-patterns.md) — Detection heuristics and repair strategies for clarify
-- [frame-guide.md](./frame-guide.md) — Necessity, position, and audience guidance for composing from a blank page
+- [analogize.md](./analogize.md) — bridge unfamiliar concepts through structures the reader has lived
+- [dimensionalize.md](./dimensionalize.md) — split a bundled judgment into separately scorable concerns
+- [across-languages.md](./across-languages.md) — keep meaning intact across rhetorical traditions and first languages
+- [frame-guide.md](./frame-guide.md) — compose from a blank page: necessity, position, tradition, audience
+- [clarify-patterns.md](./clarify-patterns.md) — detection heuristics and repair tables for the clarify pass

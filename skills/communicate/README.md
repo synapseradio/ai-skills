@@ -1,8 +1,6 @@
 # communicate
 
-Helps written prose actually reach the person on the other end. The skill works across five dimensions of communication — purpose, clarity, integrity, shape, depth — with two cross-cutting concerns that ride along regardless: rhetorical tradition (so Anglo-American conventions do not silently become the unmarked default) and AI slop (the lexical, structural, and voice patterns that mark prose as machine-shaped).
-
-Every use begins by interrogating the request across all five dimensions. The skill then loads at least one reference per dimension — a floor of five — plus the two cross-cutting files, choosing each because the diagnostic pointed at it rather than to fill a quota. The reference set lives in [`references/`](references/), and the skill body decides which to consult based on what the prose is doing.
+Most machine prose reads as if nobody risked anything to write it. This skill raises the stakes: it reads a writing request for the specific ways the piece could fail its audience, builds a rubric of questions aimed at those failures, and scores every draft against that rubric, quoting the line that decides each verdict. A single word or a chapter of a novel: the loop stays the same, and the rigor scales to the work.
 
 ## Install
 
@@ -38,51 +36,60 @@ The skill triggers on natural language about prose work — composing, proofread
 
 ## How it works
 
-Every invocation begins with two pre-flight checks: the **tradition lens** (what rhetorical convention is the writing operating inside, and is the model about to silently normalize toward Anglo-American defaults) and the **slop audit** (does the prose carry the lexical, structural, voice, or casual-context tells of AI output, regardless of who wrote it).
+Every run walks one loop.
 
-After that, the skill works every one of the five dimensions, choosing the reference within each that this request calls for:
+1. **Diagnose.** Five questions (purpose, clarity, integrity, composition, depth) turn the request into a ranked list of ways this piece could fail for this audience.
+2. **Align.** Whatever the diagnosis cannot answer from context becomes a question to the user: audience, register, purpose, and which texture rules relax for the register at hand.
+3. **Build the rubric.** Each risk pulls in the reference file that probes it, and that file's Questions and Quality Criteria supply the rubric's entries. Questions stop arriving when each can no longer receive an evidenced verdict, so a word polish gets a handful and a chapter gets dozens.
+4. **Draft.** Binding rules hold in every register; texture settings follow the alignment.
+5. **Score.** Every rubric question gets a verdict with the deciding passage quoted.
+6. **Revise.** Each revision request pulls at least one more reference off the ranked risk list and grows the rubric before the next draft.
 
-- **Purpose** — does the shape of the piece do the job it's here to do, does it meet the reader where they are, does it bridge unfamiliar concepts.
-- **Clarity** — can the reader follow it; are actors visible; does language commit or cushion; do abstractions have grounding.
-- **Integrity** — does the certainty match the evidence; are scope and boundaries explicit; are silent premises surfaced.
-- **Shape** — is there tension and pull, are sections ordered to build, does sentence cadence vary, does the prose read as written by someone speaking from somewhere.
-- **Depth** — what do the claims carry that goes unsaid; are conflated concerns separated; does the prose open inquiry or close it.
-
-Each reference file is a self-contained instruction. The skill picks the most fitting one in each dimension as its floor, and reaches for more within a dimension as the drafts develop.
-
-## When to use this
-
-Use it when the writing matters: proposals, documentation, PR descriptions, anything that will be read more than once or by someone outside the immediate team. It is also useful when writing in English from a non-English thinking language, or when adapting prose across rhetorical traditions.
-
-For throwaway messages or scratch notes, just write — the skill is for prose that has to land.
+Two rules never move: prose may not mislead its reader, and facts may not bend. Everything textural belongs to the register, and the register belongs to the user.
 
 ## References
 
 | File | Concern |
 |------|---------|
-| [`across-languages.md`](references/across-languages.md) | Tradition lens — surfaces what rhetorical convention the prose is operating inside |
-| [`avoid-slop.md`](references/avoid-slop.md) | Slop audit — lexical, structural, voice, and casual-context tells of AI prose |
-| [`fit.md`](references/fit.md) | Form fit — does the shape serve the function |
+| [`write-for-humans.md`](references/write-for-humans.md) | Read every run — binding rules against misleading prose, adjustable texture defaults |
+| [`fit.md`](references/fit.md) | Form matched to the verb naming the purpose |
 | [`calibrate.md`](references/calibrate.md) | Audience depth — what the reader knows and how the vocabulary lands |
-| [`analogize.md`](references/analogize.md) | Bridging unfamiliar concepts with structural rather than decorative analogies |
-| [`clarify.md`](references/clarify.md) | Order and prerequisites — when concepts appear before they are introduced |
-| [`activate.md`](references/activate.md) | Hidden actors — surfacing who does what without erasing intentional agentless construction |
-| [`strengthen.md`](references/strengthen.md) | Cushioning vs. calibration — the hedging split |
-| [`illustrate.md`](references/illustrate.md) | Witnessed detail — replacing category language with grounded specificity |
-| [`signal-confidence.md`](references/signal-confidence.md) | Tuning language to the warrant the writer actually has |
-| [`bound-scope.md`](references/bound-scope.md) | Where a claim works and where it does not |
-| [`surface-assumptions.md`](references/surface-assumptions.md) | Making silent premises visible |
-| [`arc.md`](references/arc.md) | Tension and pull — giving a piece a spine |
-| [`arrange.md`](references/arrange.md) | Section order — what each one needs from the one before it |
-| [`rhythm.md`](references/rhythm.md) | Sentence cadence — variance, the long-sentence cascade, the fragment continuation test |
-| [`voice.md`](references/voice.md) | Speaking from somewhere — position and stance |
-| [`register.md`](references/register.md) | Word weight — diction tuned to context |
-| [`extract-implications.md`](references/extract-implications.md) | Surfacing what the claims carry that goes unsaid |
-| [`dimensionalize.md`](references/dimensionalize.md) | Splitting conflated concerns |
-| [`pose-questions.md`](references/pose-questions.md) | Inviting the reader — opening inquiry where the prose could close it |
+| [`clarify.md`](references/clarify.md) | Order and prerequisites — when concepts appear before their foundations |
+| [`activate.md`](references/activate.md) | Hidden actors surfaced without erasing intentional agentless construction |
+| [`strengthen.md`](references/strengthen.md) | Cushioning cut, calibration kept |
+| [`illustrate.md`](references/illustrate.md) | Witnessed detail in place of category language |
+| [`signal-confidence.md`](references/signal-confidence.md) | Certainty language tuned to the warrant the writer holds |
+| [`bound-scope.md`](references/bound-scope.md) | Where a claim works and where it breaks |
+| [`surface-assumptions.md`](references/surface-assumptions.md) | Silent premises made visible |
+| [`arc.md`](references/arc.md) | Tension and pull — a spine for the piece |
+| [`arrange.md`](references/arrange.md) | Section order, each standing on what came before |
+| [`rhythm.md`](references/rhythm.md) | Cadence varied on purpose |
+| [`voice.md`](references/voice.md) | One person, speaking from a named position |
+| [`register.md`](references/register.md) | Word weight and habitual vocabulary challenged |
+| [`extract-implications.md`](references/extract-implications.md) | What the claims commit the writer to |
+| [`dimensionalize.md`](references/dimensionalize.md) | Bundled judgments split into scorable concerns |
+| [`pose-questions.md`](references/pose-questions.md) | Inquiry opened where prose would close it |
+| [`analogize.md`](references/analogize.md) | Unfamiliar concepts bridged through lived structure |
+| [`across-languages.md`](references/across-languages.md) | Meaning kept intact across rhetorical traditions |
+| [`frame-guide.md`](references/frame-guide.md) | Blank-page composition: necessity, position, tradition, audience |
 | [`clarify-patterns.md`](references/clarify-patterns.md) | Detection heuristics for the clarify pass |
-| [`frame-guide.md`](references/frame-guide.md) | Framing scaffolds for compose work |
-| [`index.md`](references/index.md) | Reference index for navigation |
+| [`index.md`](references/index.md) | One line per file, for navigation |
+
+## When to use this
+
+When it matters to say what you mean: proposals, documentation, announcements, essays, fiction, anything read more than once or by someone outside the immediate room. It also serves writers working in English from another thinking language, and adaptations across rhetorical traditions.
+
+## Design record
+
+Decisions fixed in this design, recorded so future sessions inherit them instead of remaking them:
+
+- Binding versus adjustable cuts at deception. Rules that keep a reader from being misled never relax; rules that shape texture take their settings from the register, agreed with the user.
+- Rubric size follows evidenced verdicts, never a count. Questions join the rubric while each can still receive one.
+- Every revision request grows the rubric by at least one reference, chosen from the ranked risk list the diagnosis produced.
+- Em dashes: at most one per piece, and only in a piece longer than an A5 page.
+- `write-for-humans.md` forked deliberately from a personal reference file. Divergence from its ancestor is intended.
+
+Open to each session: which references load, how many questions the rubric holds, texture settings, and when the rubric gets shown to the user.
 
 ## Install as a `.skill`
 
