@@ -7,9 +7,9 @@ bun.lock
 # Visualize fragment build tree: build_viz.py is the single formatter of record here.
 # Prettier treats the raw-JS fragments as HTML and destroys them, and mangles the
 # wrapper's {{...}} placeholders, so it must never touch these files.
-skills/visualize/assets/_shared/
-skills/visualize/assets/d3/fragments/
-skills/visualize/assets/d3/templates/
-skills/visualize/assets/vega/fragments/
-skills/visualize/assets/vega/templates/
-skills/visualize/assets/markdown/templates/
+skills/thinkies/visualize/assets/_shared/
+skills/thinkies/visualize/assets/d3/fragments/
+skills/thinkies/visualize/assets/d3/templates/
+skills/thinkies/visualize/assets/vega/fragments/
+skills/thinkies/visualize/assets/vega/templates/
+skills/thinkies/visualize/assets/markdown/templates/
