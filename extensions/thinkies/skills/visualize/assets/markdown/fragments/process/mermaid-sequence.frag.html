@@ -1,0 +1,50 @@
+<!-- @section: frontmatter -->
+name: Mermaid Sequence Diagram description: Sequence diagram rendered by mermaid.js inside the
+shared viz wrapper chart-type: mermaid-sequence engine: mermaid
+
+<!-- @section: title -->
+Auth Token Refresh Adds Two Round-Trips Per Request
+
+<!-- @section: subtitle -->
+Production span sample, 2026-03-15
+
+<!-- @section: mount -->
+<pre class="mermaid">
+sequenceDiagram
+    participant C as Client
+    participant API as API Gateway
+    participant Auth as Auth Service
+    participant DB as Database
+
+    C->>API: GET /resource (expired token)
+    API->>Auth: Validate token
+    Auth-->>API: 401 token expired
+    API-->>C: 401 (with refresh hint)
+    C->>Auth: POST /refresh (refresh_token)
+    Auth->>DB: Lookup refresh_token
+    DB-->>Auth: User + scopes
+    Auth-->>C: New access_token
+    C->>API: GET /resource (new token)
+    API->>Auth: Validate token
+    Auth-->>API: 200 OK + claims
+    API-->>C: 200 OK + payload
+</pre>
+<noscript>
+  Sequence: Client → API (expired token) → Auth (validate) → 401 → Client → Auth (refresh) → DB →
+  new token → Client → API → Auth → 200.
+</noscript>
+
+<!-- @section: chart-js -->
+const tokens = (window.VizHelpers && window.VizHelpers.tokens) || {}; mermaid.initialize({
+startOnLoad: false, theme: "base", themeVariables: { fontFamily: "system-ui, -apple-system, Segoe
+UI, Roboto, sans-serif", fontSize: "15px", primaryColor: tokens["oc-gray-1"] || "#f1f3f5",
+primaryBorderColor: tokens["oc-gray-6"] || "#868e96", primaryTextColor: tokens["oc-gray-9"] ||
+"#212529", lineColor: tokens["oc-gray-8"] || "#343a40", textColor: tokens["oc-gray-9"] || "#212529",
+mainBkg: tokens["oc-gray-1"] || "#f1f3f5", secondaryColor: tokens["oc-gray-2"] || "#e9ecef",
+tertiaryColor: tokens["oc-gray-0"] || "#f8f9fa", nodeBorder: tokens["oc-gray-6"] || "#868e96",
+clusterBkg: tokens["oc-gray-0"] || "#f8f9fa", clusterBorder: tokens["oc-gray-4"] || "#ced4da",
+edgeLabelBackground: tokens["oc-gray-0"] || "#f8f9fa", }, flowchart: { htmlLabels: true,
+defaultRenderer: "dagre-wrapper", curve: "monotoneY", nodeSpacing: 70, rankSpacing: 100, padding:
+34, useMaxWidth: true, diagramPadding: 16, }, themeCSS: ` .nodeLabel, .edgeLabel { white-space:
+normal; } .node .label { padding: 6px 10px; } .edgeLabel { padding: 2px 6px; } `, }); mermaid.run({
+nodes: root.querySelectorAll(".mermaid") });

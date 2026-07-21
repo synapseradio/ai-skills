@@ -1,0 +1,527 @@
+<!-- @section: frontmatter -->
+name: Force Graph
+description: Force-directed network graph showing social connections between people across departments. Nodes are colored by group and sized by connection count.
+chart-type: force-graph
+engine: vega
+<!-- @section: title -->
+Engineering and Product are the densest cross-team connectors
+<!-- @section: subtitle -->
+Team connection network — drag nodes to rearrange, hover to highlight edges
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": "none",
+  "data": [
+    {
+      "name": "node-data",
+      "values": [
+        {
+          "group": "Engineering",
+          "name": "Alice"
+        },
+        {
+          "group": "Engineering",
+          "name": "Bob"
+        },
+        {
+          "group": "Design",
+          "name": "Carol"
+        },
+        {
+          "group": "Engineering",
+          "name": "Dave"
+        },
+        {
+          "group": "Product",
+          "name": "Eve"
+        },
+        {
+          "group": "Design",
+          "name": "Frank"
+        },
+        {
+          "group": "Product",
+          "name": "Grace"
+        },
+        {
+          "group": "Engineering",
+          "name": "Henry"
+        }
+      ]
+    },
+    {
+      "name": "link-data",
+      "values": [
+        {
+          "source": 0,
+          "target": 1
+        },
+        {
+          "source": 0,
+          "target": 2
+        },
+        {
+          "source": 0,
+          "target": 4
+        },
+        {
+          "source": 1,
+          "target": 3
+        },
+        {
+          "source": 1,
+          "target": 7
+        },
+        {
+          "source": 2,
+          "target": 5
+        },
+        {
+          "source": 3,
+          "target": 7
+        },
+        {
+          "source": 4,
+          "target": 6
+        },
+        {
+          "source": 5,
+          "target": 2
+        },
+        {
+          "source": 6,
+          "target": 4
+        }
+      ]
+    }
+  ],
+  "description": "Force-directed network graph showing social connections between people across departments. Nodes are colored by group and sized by connection count.",
+  "height": 500,
+  "legends": [
+    {
+      "encode": {
+        "labels": {
+          "update": {
+            "fill": {
+              "value": "$TOKEN$oc-gray-7"
+            },
+            "fontSize": {
+              "value": 11
+            }
+          }
+        },
+        "symbols": {
+          "update": {
+            "size": {
+              "value": 100
+            },
+            "strokeWidth": {
+              "value": 0
+            }
+          }
+        },
+        "title": {
+          "update": {
+            "fill": {
+              "value": "$TOKEN$oc-gray-8"
+            },
+            "fontSize": {
+              "value": 12
+            }
+          }
+        }
+      },
+      "fill": "color",
+      "orient": "top-left",
+      "title": "Department"
+    }
+  ],
+  "marks": [
+    {
+      "encode": {
+        "update": {
+          "stroke": {
+            "value": "$TOKEN$oc-gray-4"
+          },
+          "strokeOpacity": {
+            "signal": "hovered == null ? 0.6 : (hovered === datum.source || hovered === datum.target ? 1 : 0.1)"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      },
+      "from": {
+        "data": "link-data"
+      },
+      "interactive": false,
+      "name": "edges",
+      "transform": [
+        {
+          "require": {
+            "signal": "force"
+          },
+          "shape": "line",
+          "sourceX": "datum.source.x",
+          "sourceY": "datum.source.y",
+          "targetX": "datum.target.x",
+          "targetY": "datum.target.y",
+          "type": "linkpath"
+        }
+      ],
+      "type": "path"
+    },
+    {
+      "encode": {
+        "enter": {
+          "fill": {
+            "field": "group",
+            "scale": "color"
+          },
+          "stroke": {
+            "value": "#fff"
+          },
+          "strokeWidth": {
+            "value": 2
+          },
+          "tooltip": {
+            "signal": "{ 'Name': datum.name, 'Group': datum.group }"
+          }
+        },
+        "update": {
+          "cursor": {
+            "value": "pointer"
+          },
+          "fx": {
+            "signal": "dragged === datum ? fx : null"
+          },
+          "fy": {
+            "signal": "dragged === datum ? fy : null"
+          },
+          "opacity": {
+            "signal": "hovered == null ? 1 : (hovered === datum || indata('link-data', 'source', hovered.index) && datum.index === data('link-data')[indexof(pluck(data('link-data'), 'source'), hovered.index)].target ? 1 : 0.3)"
+          },
+          "size": {
+            "signal": "pow(2 * nodeRadius, 2)"
+          }
+        }
+      },
+      "from": {
+        "data": "node-data"
+      },
+      "name": "nodes",
+      "transform": [
+        {
+          "forces": [
+            {
+              "force": "center",
+              "x": {
+                "signal": "cx"
+              },
+              "y": {
+                "signal": "cy"
+              }
+            },
+            {
+              "force": "collide",
+              "radius": {
+                "signal": "nodeRadius + 2"
+              }
+            },
+            {
+              "force": "nbody",
+              "strength": {
+                "signal": "nbodyStrength"
+              }
+            },
+            {
+              "distance": {
+                "signal": "linkDistance"
+              },
+              "force": "link",
+              "links": "link-data"
+            }
+          ],
+          "iterations": 300,
+          "restart": {
+            "signal": "dragged"
+          },
+          "signal": "force",
+          "type": "force"
+        }
+      ],
+      "type": "symbol",
+      "zindex": 1
+    },
+    {
+      "encode": {
+        "enter": {
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "top"
+          },
+          "fill": {
+            "value": "$TOKEN$oc-gray-8"
+          },
+          "fontSize": {
+            "value": 10
+          },
+          "text": {
+            "field": "datum.name"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x"
+          },
+          "y": {
+            "signal": "datum.y + nodeRadius + 4"
+          }
+        }
+      },
+      "from": {
+        "data": "nodes"
+      },
+      "interactive": false,
+      "type": "text",
+      "zindex": 2
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "node-data",
+        "field": "group"
+      },
+      "name": "color",
+      "range": "category",
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "cx",
+      "update": "width / 2"
+    },
+    {
+      "name": "cy",
+      "update": "height / 2"
+    },
+    {
+      "name": "nodeRadius",
+      "value": 8
+    },
+    {
+      "name": "nbodyStrength",
+      "value": -30
+    },
+    {
+      "name": "linkDistance",
+      "value": 40
+    },
+    {
+      "name": "dragged",
+      "on": [
+        {
+          "events": "symbol:pointerdown",
+          "update": "datum"
+        },
+        {
+          "events": "window:pointerup",
+          "update": "null"
+        }
+      ],
+      "value": null
+    },
+    {
+      "name": "fx",
+      "on": [
+        {
+          "events": "symbol:pointerdown",
+          "update": "datum.x"
+        },
+        {
+          "events": "[symbol:pointerdown, window:pointerup] > window:pointermove",
+          "update": "dragged ? clamp(x(), 0, width) : fx"
+        },
+        {
+          "events": "window:pointerup",
+          "update": "null"
+        }
+      ],
+      "value": null
+    },
+    {
+      "name": "fy",
+      "on": [
+        {
+          "events": "symbol:pointerdown",
+          "update": "datum.y"
+        },
+        {
+          "events": "[symbol:pointerdown, window:pointerup] > window:pointermove",
+          "update": "dragged ? clamp(y(), 0, height) : fy"
+        },
+        {
+          "events": "window:pointerup",
+          "update": "null"
+        }
+      ],
+      "value": null
+    },
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "symbol:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "symbol:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Team connection network \u2014 drag nodes to rearrange, hover to highlight edges",
+    "subtitleFontSize": 12,
+    "text": "Engineering and Product are the densest cross-team connectors"
+  },
+  "width": 700
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

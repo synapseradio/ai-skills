@@ -1,0 +1,177 @@
+<!-- @section: frontmatter -->
+name: Pie Chart (D3)
+description: Standalone D3 pie chart with direct slice labels, full keyboard navigation and ARIA support
+chart-type: pie-chart
+engine: d3
+<!-- @section: title -->
+Cloud Services leads market share at 38%
+<!-- @section: subtitle -->
+Market segment share, Q4 2024 (% of total revenue)
+<!-- @section: chart-css -->
+.viz .slice:focus {
+  outline: 2px solid var(--oc-blue-7);
+  outline-offset: 2px;
+}
+.viz .slice:focus:not(:focus-visible) {
+  outline: none;
+}
+.viz .slice-label {
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+}
+.viz .slice-pct {
+  font-size: 11px;
+  pointer-events: none;
+}
+<!-- @section: mount -->
+<svg role="list" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <title id="{{uid}}-title">Cloud Services leads market share at 38%</title>
+  <desc id="{{uid}}-desc">
+    Pie chart showing market share across 4 segments. Cloud Services holds the largest share
+    at 38%, followed by Enterprise Software at 27%, Professional Services at 21%, and Hardware
+    at 14%.
+  </desc>
+</svg>
+<!-- @section: helpers -->
+tooltip, a11y, data-table
+<!-- @section: chart-js -->
+const svgEl = root.querySelector("svg");
+const t = VizHelpers.tokens;
+
+// --- DATA ---
+const data = [
+  { segment: "Cloud Services", value: 38 },
+  { segment: "Enterprise Software", value: 27 },
+  { segment: "Professional Services", value: 21 },
+  { segment: "Hardware", value: 14 },
+];
+
+const colors = [t["oc-blue-7"], t["oc-orange-8"], t["oc-teal-7"], t["oc-grape-7"]];
+
+// Pick black or white text for legibility on a given fill, by relative luminance
+// (WCAG). Dark fills get white text; light fills get near-black text.
+function contrastText(fill) {
+  const c = d3.color(fill).rgb();
+  const lin = (v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  const luminance = 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b);
+  return luminance > 0.4 ? t["oc-gray-9"] : "white";
+}
+
+// --- DIMENSIONS ---
+const width = 640;
+const height = 460;
+const radius = Math.min(width, height) / 2 - 48;
+
+// --- SVG ---
+const svg = d3
+  .select(svgEl)
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
+
+const g = svg.append("g").attr("transform", `translate(${width / 2},${height / 2})`);
+
+// --- PIE + ARC ---
+const pie = d3
+  .pie()
+  .value((d) => d.value)
+  .sort(null)
+  .padAngle(0.02);
+
+const arc = d3.arc().innerRadius(0).outerRadius(radius);
+
+const arcHover = d3
+  .arc()
+  .innerRadius(0)
+  .outerRadius(radius + 8);
+
+const labelArc = d3
+  .arc()
+  .innerRadius(radius * 0.62)
+  .outerRadius(radius * 0.62);
+
+const arcs = pie(data);
+
+const tooltip = d3.select(root.querySelector(".tooltip"));
+
+// --- SLICES ---
+const slices = g
+  .selectAll(".slice")
+  .data(arcs)
+  .join("path")
+  .attr("class", "slice")
+  .attr("d", arc)
+  .attr("fill", (d, i) => colors[i])
+  .attr("stroke", "white")
+  .attr("stroke-width", 2)
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => `${d.data.segment}: ${d.data.value}%`)
+  .style("transition", "d 0.15s ease, opacity 0.15s");
+
+slices
+  .on("pointerenter", function (event, d) {
+    g.selectAll(".slice").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1).attr("d", arcHover);
+    VizHelpers.showTooltip(root, event, `<strong>${d.data.segment}</strong><br>Share: ${d.data.value}%`);
+  })
+  .on("pointermove", function (event, d) {
+    VizHelpers.showTooltip(root, event, `<strong>${d.data.segment}</strong><br>Share: ${d.data.value}%`);
+  })
+  .on("pointerleave", function () {
+    g.selectAll(".slice").attr("opacity", 1).attr("d", arc);
+    VizHelpers.hideTooltip(root);
+  })
+  .on("focus", function (event, d) {
+    g.selectAll(".slice").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1).attr("d", arcHover);
+    const rect = this.getBoundingClientRect();
+    tooltip
+      .style("opacity", 1)
+      .html(`<strong>${d.data.segment}</strong><br>Share: ${d.data.value}%`)
+      .style("left", `${rect.x + rect.width / 2}px`)
+      .style("top", `${rect.y - 40}px`);
+  })
+  .on("blur", function () {
+    g.selectAll(".slice").attr("opacity", 1).attr("d", arc);
+    VizHelpers.hideTooltip(root);
+  });
+
+// Keyboard navigation
+VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+// --- DIRECT LABELS ---
+// Name label: full segment name (not just the first word), with a contrast-safe
+// text color computed from each slice's fill so it stays legible on any color.
+g.selectAll(".slice-label")
+  .data(arcs)
+  .join("text")
+  .attr("class", "slice-label")
+  .attr("transform", (d) => `translate(${labelArc.centroid(d)})`)
+  .attr("text-anchor", "middle")
+  .attr("fill", (d, i) => contrastText(colors[i]))
+  .text((d) => d.data.segment);
+
+// Percentage label
+g.selectAll(".slice-pct")
+  .data(arcs)
+  .join("text")
+  .attr("class", "slice-pct")
+  .attr("transform", (d) => {
+    const [x, y] = labelArc.centroid(d);
+    return `translate(${x},${y + 14})`;
+  })
+  .attr("text-anchor", "middle")
+  .attr("fill", (d, i) => contrastText(colors[i]))
+  .attr("fill-opacity", 0.9)
+  .text((d) => `${d.data.value}%`);
+
+// --- DATA TABLE ---
+VizHelpers.renderDataTable(
+  root,
+  data.map((d) => [d.segment, `${d.value}%`]),
+  ["Segment", "Share (%)"],
+);

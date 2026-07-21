@@ -1,0 +1,544 @@
+<!-- @section: frontmatter -->
+name: Slope Chart
+description: Slope chart showing before/after training scores for 6 departments. Engineering gained 18 points; Customer Support declined 4 points.
+chart-type: slope-chart
+engine: vega
+<!-- @section: title -->
+Engineering and Sales show the largest score gains
+<!-- @section: subtitle -->
+Department performance scores: Before vs After training (0–100 scale)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "labelFontSize": 12,
+      "offset": {
+        "signal": "-(leftX - 24)"
+      },
+      "orient": "left",
+      "scale": "yBefore",
+      "title": "Score: Before",
+      "titleFontSize": 13
+    },
+    {
+      "labelFontSize": 12,
+      "offset": {
+        "signal": "width - rightX - 24"
+      },
+      "orient": "right",
+      "scale": "yAfter",
+      "title": "Score: After",
+      "titleFontSize": 13
+    }
+  ],
+  "data": [
+    {
+      "name": "axis_labels",
+      "values": [
+        {
+          "side": "left",
+          "text": "Before"
+        },
+        {
+          "side": "right",
+          "text": "After"
+        }
+      ]
+    },
+    {
+      "name": "axis_rules",
+      "values": [
+        {
+          "pos": {
+            "signal": "leftX"
+          }
+        },
+        {
+          "pos": {
+            "signal": "rightX"
+          }
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "transform": [
+        {
+          "as": "direction",
+          "expr": "datum.after >= datum.before ? 'increase' : 'decrease'",
+          "type": "formula"
+        }
+      ],
+      "values": [
+        {
+          "after": 80,
+          "before": 62,
+          "department": "Engineering"
+        },
+        {
+          "after": 71,
+          "before": 55,
+          "department": "Sales"
+        },
+        {
+          "after": 78,
+          "before": 70,
+          "department": "Marketing"
+        },
+        {
+          "after": 76,
+          "before": 74,
+          "department": "Operations"
+        },
+        {
+          "after": 65,
+          "before": 68,
+          "department": "HR"
+        },
+        {
+          "after": 76,
+          "before": 80,
+          "department": "Customer Support"
+        }
+      ]
+    }
+  ],
+  "description": "Slope chart showing before/after training scores for 6 departments. Engineering gained 18 points; Customer Support declined 4 points.",
+  "height": 420,
+  "legends": [
+    {
+      "fill": "color",
+      "labelFontSize": 11,
+      "orient": "top-right",
+      "symbolSize": 60,
+      "title": "Direction",
+      "titleFontSize": 12
+    }
+  ],
+  "marks": [
+    {
+      "description": "Left/right axis header labels and vertical rules",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "align": "center",
+              "fill": "$TOKEN$oc-gray-7",
+              "fontSize": 12,
+              "fontWeight": 700,
+              "text": {
+                "field": "text"
+              },
+              "x": {
+                "signal": "datum.side === 'left' ? leftX : rightX"
+              },
+              "y": {
+                "value": -8
+              }
+            }
+          },
+          "from": {
+            "data": "axis_labels"
+          },
+          "type": "text"
+        },
+        {
+          "encode": {
+            "enter": {
+              "stroke": "$TOKEN$oc-gray-3",
+              "strokeWidth": 1,
+              "x": {
+                "field": "pos"
+              },
+              "x2": {
+                "field": "pos"
+              },
+              "y": {
+                "value": 0
+              },
+              "y2": {
+                "signal": "height"
+              }
+            }
+          },
+          "from": {
+            "data": "axis_rules"
+          },
+          "type": "rule"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Slope lines connecting before/after values",
+      "encode": {
+        "enter": {
+          "tooltip": {
+            "signal": "{'Department': datum.department, 'Before': datum.before + ' pts', 'After': datum.after + ' pts', 'Change': (datum.after - datum.before > 0 ? '+' : '') + (datum.after - datum.before) + ' pts'}"
+          },
+          "x": {
+            "signal": "leftX"
+          },
+          "x2": {
+            "signal": "rightX"
+          },
+          "y": {
+            "field": "before",
+            "scale": "yBefore"
+          },
+          "y2": {
+            "field": "after",
+            "scale": "yAfter"
+          }
+        },
+        "update": {
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.department === datum.department",
+              "value": 0.85
+            },
+            {
+              "value": 0.1
+            }
+          ],
+          "stroke": {
+            "field": "direction",
+            "scale": "color"
+          },
+          "strokeWidth": 2
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "rule"
+    },
+    {
+      "description": "Endpoint symbols on both sides",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "shape": "circle",
+              "size": 80,
+              "tooltip": {
+                "signal": "{'Department': datum.department, 'Before': datum.before + ' pts'}"
+              },
+              "x": {
+                "signal": "leftX"
+              },
+              "y": {
+                "field": "before",
+                "scale": "yBefore"
+              }
+            },
+            "update": {
+              "fill": {
+                "field": "direction",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.department === datum.department",
+                  "value": 1
+                },
+                {
+                  "value": 0.1
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "source"
+          },
+          "type": "symbol"
+        },
+        {
+          "encode": {
+            "enter": {
+              "shape": "circle",
+              "size": 80,
+              "tooltip": {
+                "signal": "{'Department': datum.department, 'After': datum.after + ' pts'}"
+              },
+              "x": {
+                "signal": "rightX"
+              },
+              "y": {
+                "field": "after",
+                "scale": "yAfter"
+              }
+            },
+            "update": {
+              "fill": {
+                "field": "direction",
+                "scale": "color"
+              },
+              "opacity": [
+                {
+                  "test": "hovered === null || hovered.department === datum.department",
+                  "value": 1
+                },
+                {
+                  "value": 0.1
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "source"
+          },
+          "type": "symbol"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Department name labels on the left side",
+      "encode": {
+        "enter": {
+          "align": "right",
+          "baseline": "middle",
+          "fontSize": 11,
+          "text": {
+            "field": "department"
+          },
+          "x": {
+            "signal": "leftX - 8"
+          },
+          "y": {
+            "field": "before",
+            "scale": "yBefore"
+          }
+        },
+        "update": {
+          "fill": "$TOKEN$oc-gray-6",
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.department === datum.department",
+              "value": 1
+            },
+            {
+              "value": 0.2
+            }
+          ]
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "text"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        0,
+        100
+      ],
+      "name": "yBefore",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": true
+    },
+    {
+      "domain": [
+        0,
+        100
+      ],
+      "name": "yAfter",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": true
+    },
+    {
+      "domain": [
+        "increase",
+        "decrease"
+      ],
+      "name": "color",
+      "range": [
+        "$TOKEN$oc-teal-7",
+        "$TOKEN$oc-red-7"
+      ],
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "line:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "symbol:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "line:pointerout",
+          "update": "null"
+        },
+        {
+          "events": "symbol:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    },
+    {
+      "name": "leftX",
+      "value": 80
+    },
+    {
+      "name": "rightX",
+      "value": 420
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Department performance scores: Before vs After training (0\u2013100 scale)",
+    "subtitleFontSize": 12,
+    "text": "Engineering and Sales show the largest score gains"
+  },
+  "width": 500
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

@@ -1,0 +1,435 @@
+<!-- @section: frontmatter -->
+name: Dumbbell Chart
+description: Dumbbell chart showing the min/max satisfaction scores per metric across 8 business dimensions. Delivery shows the widest range (42–91).
+chart-type: dumbbell-chart
+engine: vega
+<!-- @section: title -->
+Customer satisfaction gaps widest in Delivery and Support
+<!-- @section: subtitle -->
+Satisfaction score range by metric: worst vs best quarter, 2023 (0–100 scale)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "x",
+      "title": "Satisfaction score (0\u2013100)",
+      "titleFontSize": 13
+    },
+    {
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "y"
+    }
+  ],
+  "data": [
+    {
+      "name": "source",
+      "transform": [
+        {
+          "as": "range",
+          "expr": "datum.high - datum.low",
+          "type": "formula"
+        },
+        {
+          "sort": {
+            "field": "range",
+            "order": "descending"
+          },
+          "type": "collect"
+        }
+      ],
+      "values": [
+        {
+          "high": 91,
+          "low": 42,
+          "metric": "Delivery Speed"
+        },
+        {
+          "high": 95,
+          "low": 68,
+          "metric": "Product Quality"
+        },
+        {
+          "high": 88,
+          "low": 51,
+          "metric": "Customer Support"
+        },
+        {
+          "high": 82,
+          "low": 55,
+          "metric": "Pricing"
+        },
+        {
+          "high": 87,
+          "low": 60,
+          "metric": "Website UX"
+        },
+        {
+          "high": 79,
+          "low": 47,
+          "metric": "Returns Process"
+        },
+        {
+          "high": 90,
+          "low": 63,
+          "metric": "Communication"
+        },
+        {
+          "high": 93,
+          "low": 72,
+          "metric": "Packaging"
+        }
+      ]
+    }
+  ],
+  "description": "Dumbbell chart showing the min/max satisfaction scores per metric across 8 business dimensions. Delivery shows the widest range (42\u201391).",
+  "height": 400,
+  "legends": [
+    {
+      "fill": "color",
+      "labelFontSize": 11,
+      "orient": "top-right",
+      "symbolSize": 80,
+      "title": "Quarter",
+      "titleFontSize": 12
+    }
+  ],
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "tooltip": {
+            "signal": "{'Metric': datum.metric, 'Worst quarter': datum.low, 'Best quarter': datum.high, 'Range': datum.range + ' pts'}"
+          },
+          "x": {
+            "field": "low",
+            "scale": "x"
+          },
+          "x2": {
+            "field": "high",
+            "scale": "x"
+          },
+          "y": {
+            "band": 0.5,
+            "field": "metric",
+            "scale": "y"
+          }
+        },
+        "update": {
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.metric === datum.metric",
+              "value": 1
+            },
+            {
+              "value": 0.15
+            }
+          ],
+          "stroke": {
+            "value": "$TOKEN$oc-gray-5"
+          },
+          "strokeWidth": {
+            "value": 3
+          }
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "rule"
+    },
+    {
+      "encode": {
+        "enter": {
+          "shape": {
+            "value": "circle"
+          },
+          "size": {
+            "value": 120
+          },
+          "tooltip": {
+            "signal": "{'Metric': datum.metric, 'Worst quarter score': datum.low}"
+          },
+          "x": {
+            "field": "low",
+            "scale": "x"
+          },
+          "y": {
+            "band": 0.5,
+            "field": "metric",
+            "scale": "y"
+          }
+        },
+        "update": {
+          "fill": {
+            "value": "$TOKEN$oc-red-7"
+          },
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.metric === datum.metric",
+              "value": 1
+            },
+            {
+              "value": 0.15
+            }
+          ]
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "symbol"
+    },
+    {
+      "encode": {
+        "enter": {
+          "shape": {
+            "value": "circle"
+          },
+          "size": {
+            "value": 120
+          },
+          "tooltip": {
+            "signal": "{'Metric': datum.metric, 'Best quarter score': datum.high}"
+          },
+          "x": {
+            "field": "high",
+            "scale": "x"
+          },
+          "y": {
+            "band": 0.5,
+            "field": "metric",
+            "scale": "y"
+          }
+        },
+        "update": {
+          "fill": {
+            "value": "$TOKEN$oc-teal-7"
+          },
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.metric === datum.metric",
+              "value": 1
+            },
+            {
+              "value": 0.15
+            }
+          ]
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "symbol"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "source",
+        "field": "metric"
+      },
+      "name": "y",
+      "padding": 0.4,
+      "range": "height",
+      "type": "band"
+    },
+    {
+      "domain": [
+        0,
+        100
+      ],
+      "name": "x",
+      "nice": true,
+      "range": "width",
+      "type": "linear",
+      "zero": true
+    },
+    {
+      "domain": [
+        "Worst quarter",
+        "Best quarter"
+      ],
+      "name": "color",
+      "range": [
+        "$TOKEN$oc-red-7",
+        "$TOKEN$oc-teal-7"
+      ],
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "symbol:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "rule:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "symbol:pointerout",
+          "update": "null"
+        },
+        {
+          "events": "rule:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Satisfaction score range by metric: worst vs best quarter, 2023 (0\u2013100 scale)",
+    "subtitleFontSize": 12,
+    "text": "Customer satisfaction gaps widest in Delivery and Support"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

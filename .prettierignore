@@ -13,3 +13,9 @@ skills/thinkies/visualize/assets/d3/templates/
 skills/thinkies/visualize/assets/vega/fragments/
 skills/thinkies/visualize/assets/vega/templates/
 skills/thinkies/visualize/assets/markdown/templates/
+extensions/thinkies/skills/visualize/assets/_shared/
+extensions/thinkies/skills/visualize/assets/d3/fragments/
+extensions/thinkies/skills/visualize/assets/d3/templates/
+extensions/thinkies/skills/visualize/assets/vega/fragments/
+extensions/thinkies/skills/visualize/assets/vega/templates/
+extensions/thinkies/skills/visualize/assets/markdown/templates/

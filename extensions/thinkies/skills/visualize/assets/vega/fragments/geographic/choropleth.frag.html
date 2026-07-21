@@ -1,0 +1,359 @@
+<!-- @section: frontmatter -->
+name: Choropleth
+description: US county-level unemployment rate choropleth map. Sequential blue color scheme encodes unemployment rate by FIPS code.
+chart-type: choropleth
+engine: vega
+<!-- @section: title -->
+Rural Alabama counties face unemployment rates 2× the suburban average
+<!-- @section: subtitle -->
+US county unemployment rate by FIPS code — sample: 20 Alabama counties (% of labor force)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": "none",
+  "data": [
+    {
+      "name": "unemployment",
+      "values": [
+        {
+          "id": 1001,
+          "rate": 0.097
+        },
+        {
+          "id": 1003,
+          "rate": 0.052
+        },
+        {
+          "id": 1005,
+          "rate": 0.134
+        },
+        {
+          "id": 1007,
+          "rate": 0.084
+        },
+        {
+          "id": 1009,
+          "rate": 0.068
+        },
+        {
+          "id": 1011,
+          "rate": 0.119
+        },
+        {
+          "id": 1013,
+          "rate": 0.093
+        },
+        {
+          "id": 1015,
+          "rate": 0.076
+        },
+        {
+          "id": 1017,
+          "rate": 0.069
+        },
+        {
+          "id": 1019,
+          "rate": 0.058
+        },
+        {
+          "id": 1021,
+          "rate": 0.112
+        },
+        {
+          "id": 1023,
+          "rate": 0.071
+        },
+        {
+          "id": 1025,
+          "rate": 0.067
+        },
+        {
+          "id": 1027,
+          "rate": 0.082
+        },
+        {
+          "id": 1029,
+          "rate": 0.054
+        },
+        {
+          "id": 1031,
+          "rate": 0.103
+        },
+        {
+          "id": 1033,
+          "rate": 0.047
+        },
+        {
+          "id": 1035,
+          "rate": 0.091
+        },
+        {
+          "id": 1037,
+          "rate": 0.075
+        },
+        {
+          "id": 1039,
+          "rate": 0.063
+        }
+      ]
+    },
+    {
+      "format": {
+        "feature": "counties",
+        "type": "topojson"
+      },
+      "name": "counties",
+      "transform": [
+        {
+          "fields": [
+            "id"
+          ],
+          "from": "unemployment",
+          "key": "id",
+          "type": "lookup",
+          "values": [
+            "rate"
+          ]
+        }
+      ],
+      "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json"
+    }
+  ],
+  "description": "US county-level unemployment rate choropleth map. Sequential blue color scheme encodes unemployment rate by FIPS code.",
+  "height": 600,
+  "legends": [
+    {
+      "encode": {
+        "labels": {
+          "update": {
+            "fill": {
+              "value": "$TOKEN$oc-gray-7"
+            },
+            "fontSize": {
+              "value": 11
+            }
+          }
+        },
+        "title": {
+          "update": {
+            "fill": {
+              "value": "$TOKEN$oc-gray-8"
+            },
+            "fontSize": {
+              "value": 12
+            }
+          }
+        }
+      },
+      "fill": "color",
+      "format": ".1%",
+      "orient": "bottom-right",
+      "title": "Unemployment Rate"
+    }
+  ],
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "tooltip": {
+            "signal": "datum.rate != null ? { 'County FIPS': datum.id, 'Unemployment': format(datum.rate, '.1%') } : { 'County FIPS': datum.id, 'Unemployment': 'No data' }"
+          }
+        },
+        "hover": {
+          "stroke": {
+            "value": "$TOKEN$oc-gray-8"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        },
+        "update": {
+          "fill": [
+            {
+              "field": "rate",
+              "scale": "color",
+              "test": "datum.rate != null"
+            },
+            {
+              "value": "$TOKEN$oc-gray-3"
+            }
+          ],
+          "stroke": {
+            "value": "#fff"
+          },
+          "strokeWidth": {
+            "value": 0.3
+          }
+        }
+      },
+      "from": {
+        "data": "counties"
+      },
+      "transform": [
+        {
+          "projection": "projection",
+          "type": "geoshape"
+        }
+      ],
+      "type": "shape"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "projections": [
+    {
+      "name": "projection",
+      "type": "identity"
+    }
+  ],
+  "scales": [
+    {
+      "domain": [
+        0,
+        0.15
+      ],
+      "name": "color",
+      "range": {
+        "count": 7,
+        "scheme": "blues"
+      },
+      "type": "quantize"
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "US county unemployment rate by FIPS code \u2014 sample: 20 Alabama counties (% of labor force)",
+    "subtitleFontSize": 12,
+    "text": "Rural Alabama counties face unemployment rates 2\u00d7 the suburban average"
+  },
+  "width": 960
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

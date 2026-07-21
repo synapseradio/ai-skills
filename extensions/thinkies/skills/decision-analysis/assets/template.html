@@ -1,0 +1,802 @@
+<!doctype html>
+<!--
+  decision-analysis visual template. Fill it from a completed analysis record.
+
+  Two rules:
+
+  1. Edit only inside the paired markers. Each edit site is wrapped in
+     "tpl:<name>" ... "/tpl:<name>" comments, and the opening comment states
+     what to fill in. Everything outside the markers is fixed machinery
+     (layout, lattice topology, meet/join logic, keyboard handling) and must
+     not change. After filling, verify no text from the shipped example
+     decision survives anywhere in the file.
+
+  2. Exactly three states. The lattice renders every partition of the state
+     space, and the number of partitions of n states is the Bell number B(n):
+     B(3) = 5 nodes fits this page; B(4) = 15 does not. If the analysis
+     record has more than three states, merge or exclude candidates until
+     three remain, and record what was merged or excluded in tpl:expansion.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- tpl:title — the decision in a few words, as a noun phrase or question; must match the h1 below -->
+    <title>The umbrella decision</title>
+    <!-- /tpl:title -->
+    <style>
+      :root {
+        --oc-gray-0: #f8f9fa;
+        --oc-gray-1: #f1f3f5;
+        --oc-gray-2: #e9ecef;
+        --oc-gray-3: #dee2e6;
+        --oc-gray-4: #ced4da;
+        --oc-gray-5: #adb5bd;
+        --oc-gray-6: #868e96;
+        --oc-gray-7: #495057;
+        --oc-gray-9: #212529;
+        --oc-blue-1: #d0ebff;
+        --oc-blue-7: #1c7ed6;
+        --oc-orange-1: #fff4e6;
+        --oc-orange-2: #ffe8cc;
+        --oc-orange-8: #e8590c;
+        --oc-grape-1: #f3d9fa;
+        --oc-grape-7: #ae3ec9;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 32px 20px 64px;
+        font:
+          16px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        color: var(--oc-gray-9);
+        background: #fff;
+      }
+      main {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 1.7rem;
+        line-height: 1.25;
+        margin: 0 0 6px;
+      }
+      .subtitle {
+        color: var(--oc-gray-6);
+        margin: 0 0 40px;
+        font-size: 0.95rem;
+      }
+      h2 {
+        font-size: 1.05rem;
+        margin: 48px 0 12px;
+      }
+      h3 {
+        font-size: 0.95rem;
+        margin: 28px 0 10px;
+        color: var(--oc-gray-7);
+      }
+      .statement {
+        font-size: 1.25rem;
+        line-height: 1.5;
+        color: var(--oc-gray-9);
+        border-left: 3px solid var(--oc-gray-3);
+        padding-left: 18px;
+        margin: 18px 0;
+      }
+      .slots {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin: 18px 0;
+      }
+      .slot {
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: var(--oc-gray-0);
+      }
+      .slot h4 {
+        margin: 0 0 6px;
+        font-size: 0.95rem;
+      }
+      .slot p {
+        margin: 0 0 8px;
+        font-size: 0.88rem;
+      }
+      .slot .gap {
+        color: var(--oc-gray-6);
+        font-size: 0.82rem;
+        margin: 0;
+      }
+      .slot .eg {
+        font-size: 0.82rem;
+        color: var(--oc-gray-7);
+        margin: 0 0 8px;
+        font-style: italic;
+      }
+      table {
+        border-collapse: collapse;
+        font-size: 0.88rem;
+        margin: 14px 0;
+      }
+      th,
+      td {
+        border: 1px solid var(--oc-gray-3);
+        padding: 6px 12px;
+        text-align: left;
+      }
+      th {
+        background: var(--oc-gray-1);
+        font-weight: 600;
+      }
+      caption {
+        caption-side: top;
+        text-align: left;
+        font-size: 0.82rem;
+        color: var(--oc-gray-6);
+        padding-bottom: 6px;
+      }
+      .climb {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin: 18px 0;
+      }
+      .stage {
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+      }
+      .stage svg {
+        display: block;
+        margin: 0 auto 8px;
+      }
+      .stage h4 {
+        margin: 0 0 4px;
+        font-size: 0.9rem;
+      }
+      .stage p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--oc-gray-7);
+      }
+      .annotation {
+        color: var(--oc-blue-7);
+        font-weight: 600;
+        font-size: 0.92rem;
+        margin: 14px 0;
+      }
+      .lattice-wrap {
+        margin: 18px 0 6px;
+      }
+      .lattice-wrap svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .lat-edge {
+        stroke: var(--oc-gray-6);
+        stroke-width: 2;
+      }
+      .lat-node .box {
+        fill: #fff;
+        stroke: var(--oc-gray-7);
+        stroke-width: 1.5;
+        cursor: pointer;
+      }
+      .lat-node text {
+        pointer-events: none;
+      }
+      .lat-node .lab {
+        font-size: 15px;
+        font-weight: 600;
+        fill: var(--oc-gray-9);
+      }
+      .lat-node .sub {
+        font-size: 11.5px;
+        fill: var(--oc-gray-6);
+      }
+      .lat-node:focus {
+        outline: none;
+      }
+      .lat-node:focus .box {
+        stroke: var(--oc-blue-7);
+        stroke-width: 3;
+      }
+      .lat-node.chosen .box {
+        fill: var(--oc-blue-1);
+        stroke: var(--oc-blue-7);
+        stroke-width: 3;
+        stroke-dasharray: none;
+      }
+      .lat-node.meet .box {
+        fill: var(--oc-orange-2);
+        stroke: var(--oc-orange-8);
+        stroke-width: 2.5;
+        stroke-dasharray: 7 4;
+      }
+      .lat-node.join .box {
+        fill: var(--oc-grape-1);
+        stroke: var(--oc-grape-7);
+        stroke-width: 2.5;
+        stroke-dasharray: 2 4;
+      }
+      .axis-note {
+        font-size: 12px;
+        fill: var(--oc-gray-6);
+      }
+      .caption {
+        font-size: 0.92rem;
+        margin: 10px 0 4px;
+        min-height: 3em;
+      }
+      .caption .m {
+        color: var(--oc-orange-8);
+        font-weight: 600;
+      }
+      .caption .j {
+        color: var(--oc-grape-7);
+        font-weight: 600;
+      }
+      .caption .c {
+        color: var(--oc-blue-7);
+        font-weight: 600;
+      }
+      .hint {
+        font-size: 0.82rem;
+        color: var(--oc-gray-6);
+        margin: 0 0 8px;
+      }
+      .tooltip {
+        position: absolute;
+        visibility: hidden;
+        background: #fff;
+        border: 1px solid var(--oc-gray-4);
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+        box-shadow: 0 2px 8px rgba(33, 37, 41, 0.12);
+        max-width: 240px;
+        z-index: 10;
+      }
+      .expansion {
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin: 18px 0;
+        background: var(--oc-gray-0);
+      }
+      .expansion p {
+        margin: 0 0 8px;
+        font-size: 0.88rem;
+      }
+      .expansion svg {
+        display: block;
+        margin: 10px 0;
+      }
+      .exp-cell {
+        fill: #fff;
+        stroke: var(--oc-gray-7);
+        stroke-width: 1.5;
+      }
+      .exp-cell.ghost {
+        stroke: var(--oc-gray-5);
+        stroke-dasharray: 6 4;
+        opacity: 0.55;
+      }
+      .exp-lab {
+        font-size: 13px;
+        fill: var(--oc-gray-9);
+      }
+      .exp-lab.ghost {
+        fill: var(--oc-gray-6);
+        opacity: 0.75;
+      }
+      .record {
+        font-size: 0.82rem;
+        color: var(--oc-gray-7);
+        margin: 8px 0 0;
+      }
+      .footnote {
+        font-size: 0.85rem;
+        color: var(--oc-gray-7);
+        border-top: 1px solid var(--oc-gray-2);
+        margin-top: 48px;
+        padding-top: 16px;
+      }
+      .source {
+        font-size: 0.78rem;
+        color: var(--oc-gray-6);
+        margin-top: 10px;
+      }
+      details {
+        margin-top: 20px;
+        font-size: 0.88rem;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--oc-gray-7);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- tpl:title — the decision in a few words; must match the head title above -->
+      <h1>The umbrella decision</h1>
+      <!-- /tpl:title -->
+      <!-- tpl:subtitle — one line: the four components of this decision problem, then the partition lattice over its three named states -->
+      <p class="subtitle">
+        The decision problem in four components, then the partition lattice of what can be known
+        about its three states: sun, rain, snow.
+      </p>
+      <!-- /tpl:subtitle -->
+
+      <h2>The decision problem</h2>
+      <!-- tpl:decision-statement — the one-sentence decision statement from the analysis record: "Choose one of {acts} by {date or trigger}." -->
+      <p class="statement">
+        Choose one of {carry the umbrella, leave it} by the moment of stepping out the door.
+      </p>
+      <!-- /tpl:decision-statement -->
+
+      <h2>The four components</h2>
+      <p>
+        Every decision problem specifies the same four components. A formulation gap lives in one of
+        them, and locating which one is the first diagnostic step.
+      </p>
+      <div class="slots">
+        <div class="slot">
+          <h4>States &middot; S</h4>
+          <p>
+            The mutually exclusive ways the facts outside the decision maker&rsquo;s control could
+            stand.
+          </p>
+          <!-- tpl:component-states — the three states, comma separated -->
+          <p class="eg">sun, rain, snow</p>
+          <!-- /tpl:component-states -->
+          <p class="gap">Gap here: the states were never listed.</p>
+        </div>
+        <div class="slot">
+          <h4>Acts &middot; A</h4>
+          <p>The alternatives available to the decision maker now.</p>
+          <!-- tpl:component-acts — the acts, separated by a middle dot -->
+          <p class="eg">carry the umbrella &middot; leave it</p>
+          <!-- /tpl:component-acts -->
+          <p class="gap">Gap here: the alternatives were never listed.</p>
+        </div>
+        <div class="slot">
+          <h4>Consequences &middot; c(a,&nbsp;s)</h4>
+          <p>The outcome of each act in each state, as the decision maker would experience it.</p>
+          <!-- tpl:component-consequences — one example cell, written "act + state → outcome" -->
+          <p class="eg">leave it + rain &rarr; soaked</p>
+          <!-- /tpl:component-consequences -->
+          <p class="gap">Gap here: some cell of the table cannot be filled.</p>
+        </div>
+        <div class="slot">
+          <h4>Preference &middot; &#8829;</h4>
+          <p>The decision maker&rsquo;s ordering over the outcomes.</p>
+          <!-- tpl:component-preference — one strict comparison from the elicited ordering, written "better ≻ worse" -->
+          <p class="eg">dry &#8827; soaked</p>
+          <!-- /tpl:component-preference -->
+          <p class="gap">Gap here: the outcomes were never ranked.</p>
+        </div>
+      </div>
+      <!-- tpl:consequence-table — the full consequence table from the analysis record: caption names the decision; one column per state (three), one row per act, every cell an experienced outcome -->
+      <table>
+        <caption>
+          The consequence function c(a,&nbsp;s) for the umbrella decision &mdash; outcome per act
+          and state
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Act \ State</th>
+            <th scope="col">sun</th>
+            <th scope="col">rain</th>
+            <th scope="col">snow</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">carry the umbrella</th>
+            <td>dry, hands full</td>
+            <td>dry</td>
+            <td>mostly dry</td>
+          </tr>
+          <tr>
+            <th scope="row">leave it</th>
+            <td>light and free</td>
+            <td>soaked</td>
+            <td>cold and wet</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- /tpl:consequence-table -->
+
+      <h2>Preference representation</h2>
+      <p>
+        The elicited ordering climbs a ladder of structure. Each rung is earned by a check, never
+        assumed.
+      </p>
+      <div class="climb">
+        <div class="stage">
+          <svg width="90" height="70" viewBox="0 0 90 70" aria-hidden="true">
+            <circle cx="25" cy="20" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="65" cy="20" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="45" cy="55" r="6" fill="var(--oc-gray-6)" />
+            <path d="M33 20 L57 20" stroke="var(--oc-gray-7)" stroke-width="2" marker-end="none" />
+            <path d="M52 17 L58 20 L52 23" fill="none" stroke="var(--oc-gray-7)" stroke-width="2" />
+          </svg>
+          <h4>a relation</h4>
+          <p>Some pairs compare; others stay silent.</p>
+        </div>
+        <div class="stage">
+          <svg width="90" height="70" viewBox="0 0 90 70" aria-hidden="true">
+            <circle cx="45" cy="12" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="20" cy="35" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="70" cy="35" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="45" cy="58" r="6" fill="var(--oc-gray-7)" />
+            <line x1="41" y1="16" x2="24" y2="31" stroke="var(--oc-gray-7)" stroke-width="2" />
+            <line x1="49" y1="16" x2="66" y2="31" stroke="var(--oc-gray-7)" stroke-width="2" />
+            <line x1="24" y1="39" x2="41" y2="54" stroke="var(--oc-gray-7)" stroke-width="2" />
+            <line x1="66" y1="39" x2="49" y2="54" stroke="var(--oc-gray-7)" stroke-width="2" />
+          </svg>
+          <h4>a partial order</h4>
+          <p>Consistent, with the middle pair recorded as incomparable.</p>
+        </div>
+        <div class="stage">
+          <svg width="90" height="70" viewBox="0 0 90 70" aria-hidden="true">
+            <circle cx="45" cy="10" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="45" cy="33" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="45" cy="56" r="6" fill="var(--oc-gray-7)" />
+            <line x1="45" y1="16" x2="45" y2="27" stroke="var(--oc-gray-7)" stroke-width="2" />
+            <line x1="45" y1="39" x2="45" y2="50" stroke="var(--oc-gray-7)" stroke-width="2" />
+          </svg>
+          <h4>a total order</h4>
+          <p>Every pair ranks, without contradiction.</p>
+        </div>
+        <div class="stage">
+          <svg width="90" height="70" viewBox="0 0 90 70" aria-hidden="true">
+            <circle cx="35" cy="10" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="35" cy="33" r="6" fill="var(--oc-gray-7)" />
+            <circle cx="35" cy="56" r="6" fill="var(--oc-gray-7)" />
+            <line x1="35" y1="16" x2="35" y2="27" stroke="var(--oc-gray-7)" stroke-width="2" />
+            <line x1="35" y1="39" x2="35" y2="50" stroke="var(--oc-gray-7)" stroke-width="2" />
+            <text x="50" y="14" font-size="12" fill="var(--oc-gray-6)">2</text>
+            <text x="50" y="37" font-size="12" fill="var(--oc-gray-6)">1</text>
+            <text x="50" y="60" font-size="12" fill="var(--oc-gray-6)">0</text>
+          </svg>
+          <h4>a number</h4>
+          <p>Utility &mdash; a score attached to each outcome.</p>
+        </div>
+      </div>
+      <p class="annotation">
+        The representation theorem runs one way: numbers appear only after the ordering satisfies
+        the axioms (von Neumann&ndash;Morgenstern, 1944). They certify the ranking; they never
+        create it.
+      </p>
+
+      <h2>Information partitions</h2>
+      <p>
+        What the decision maker knows amounts to a partition of the states: which ones they can tell
+        apart. A finer partition is sharper knowledge. Ordered by refinement, the partitions form a
+        lattice.
+      </p>
+      <p class="hint">
+        Choose two knowledge states (click, or Tab and press Enter) to see their meet and join.
+        Arrow keys move between states.
+      </p>
+      <div class="lattice-wrap">
+        <svg viewBox="0 0 720 460" role="graphics-document" aria-labelledby="lat-title lat-desc">
+          <title id="lat-title">
+            The partition lattice: five ways of telling three states apart
+          </title>
+          <desc id="lat-desc">
+            A diagram of the five partitions of the three states, arranged by refinement. At the
+            bottom, all three states in one cell: knowing nothing. In the middle, three partitions
+            of two cells each, where exactly one state is distinguished. At the top, all three told
+            apart: three cells, full knowledge. Lines connect each partition to its refinements. Any
+            two partitions have a meet, the most either would still know in common, and a join,
+            their pooled knowledge.
+          </desc>
+          <text class="axis-note" x="10" y="24">
+            finer knowledge &uarr; (cells = groups of states told apart)
+          </text>
+          <text class="axis-note" x="10" y="75">3 cells</text>
+          <text class="axis-note" x="10" y="235">2 cells</text>
+          <text class="axis-note" x="10" y="395">1 cell</text>
+          <g aria-hidden="true">
+            <line class="lat-edge" x1="360" y1="390" x2="150" y2="230" />
+            <line class="lat-edge" x1="360" y1="390" x2="360" y2="230" />
+            <line class="lat-edge" x1="360" y1="390" x2="570" y2="230" />
+            <line class="lat-edge" x1="150" y1="230" x2="360" y2="70" />
+            <line class="lat-edge" x1="360" y1="230" x2="360" y2="70" />
+            <line class="lat-edge" x1="570" y1="230" x2="360" y2="70" />
+          </g>
+          <g role="group" aria-label="Knowledge states, ordered by refinement">
+            <g class="lat-node" data-id="top" role="button" tabindex="0" aria-pressed="false">
+              <rect class="box" x="270" y="45" width="180" height="50" rx="8" />
+              <!-- tpl:node-top — label: the three states separated by " | "; sublabel: "all three distinguished" -->
+              <text class="lab" x="360" y="66" text-anchor="middle">sun | rain | snow</text>
+              <text class="sub" x="360" y="84" text-anchor="middle">all three distinguished</text>
+              <!-- /tpl:node-top -->
+            </g>
+            <g class="lat-node" data-id="a" role="button" tabindex="0" aria-pressed="false">
+              <rect class="box" x="60" y="205" width="180" height="50" rx="8" />
+              <!-- tpl:node-a — label: the 2-cell partition where the FIRST state stands alone, written "second third | first"; sublabel: "first-state distinguished" -->
+              <text class="lab" x="150" y="226" text-anchor="middle">rain snow | sun</text>
+              <text class="sub" x="150" y="244" text-anchor="middle">sun distinguished</text>
+              <!-- /tpl:node-a -->
+            </g>
+            <g class="lat-node" data-id="b" role="button" tabindex="0" aria-pressed="false">
+              <rect class="box" x="270" y="205" width="180" height="50" rx="8" />
+              <!-- tpl:node-b — label: the 2-cell partition where the SECOND state stands alone, written "first third | second"; sublabel: "second-state distinguished" -->
+              <text class="lab" x="360" y="226" text-anchor="middle">sun snow | rain</text>
+              <text class="sub" x="360" y="244" text-anchor="middle">rain distinguished</text>
+              <!-- /tpl:node-b -->
+            </g>
+            <g class="lat-node" data-id="c" role="button" tabindex="0" aria-pressed="false">
+              <rect class="box" x="480" y="205" width="180" height="50" rx="8" />
+              <!-- tpl:node-c — label: the 2-cell partition where the THIRD state stands alone, written "first second | third"; sublabel: "third-state distinguished" -->
+              <text class="lab" x="570" y="226" text-anchor="middle">sun rain | snow</text>
+              <text class="sub" x="570" y="244" text-anchor="middle">snow distinguished</text>
+              <!-- /tpl:node-c -->
+            </g>
+            <g class="lat-node" data-id="bot" role="button" tabindex="0" aria-pressed="false">
+              <rect class="box" x="270" y="365" width="180" height="50" rx="8" />
+              <!-- tpl:node-bot — label: the three states with no separators (one cell); sublabel: "none distinguished" -->
+              <text class="lab" x="360" y="386" text-anchor="middle">sun rain snow</text>
+              <text class="sub" x="360" y="404" text-anchor="middle">none distinguished</text>
+              <!-- /tpl:node-bot -->
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p class="caption" id="lat-caption" aria-live="polite" aria-atomic="true">
+        Choose two knowledge states to see their meet and join.
+      </p>
+      <div class="tooltip" id="lat-tooltip" role="presentation"></div>
+
+      <details>
+        <summary>View the lattice as a table</summary>
+        <!-- tpl:partition-table — the five partitions, one row each, labels matching the lattice nodes exactly; "Told apart" and "Still merged" name the states each partition separates or leaves together -->
+        <table>
+          <caption>
+            The five partitions of the three states &mdash; cells count how many groups the states
+            split into
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Knowledge state</th>
+              <th scope="col">Cells (of 3)</th>
+              <th scope="col">Told apart</th>
+              <th scope="col">Still merged</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>sun | rain | snow</td>
+              <td>3</td>
+              <td>everything</td>
+              <td>nothing</td>
+            </tr>
+            <tr>
+              <td>rain snow | sun</td>
+              <td>2</td>
+              <td>sun</td>
+              <td>rain, snow</td>
+            </tr>
+            <tr>
+              <td>sun snow | rain</td>
+              <td>2</td>
+              <td>rain</td>
+              <td>sun, snow</td>
+            </tr>
+            <tr>
+              <td>sun rain | snow</td>
+              <td>2</td>
+              <td>snow</td>
+              <td>sun, rain</td>
+            </tr>
+            <tr>
+              <td>sun rain snow</td>
+              <td>1</td>
+              <td>nothing</td>
+              <td>everything</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- /tpl:partition-table -->
+      </details>
+
+      <h3>Refinement versus expansion</h3>
+      <div class="expansion">
+        <p>
+          Two different events improve a state space. Refinement separates states already listed:
+          movement up the lattice above. Expansion adds a state that was absent from S entirely: a
+          revision of the formulation itself, which no observation inside the lattice can produce.
+          The dashed cell marks where an unlisted state would arrive.
+        </p>
+        <!-- tpl:expansion — label the three solid cells with the three states; label the dashed cell with the most plausible unlisted arrival followed by "?"; in the record line, name the candidate states merged or excluded during formulation (or state that none were) -->
+        <svg
+          width="420"
+          height="80"
+          viewBox="0 0 420 80"
+          role="img"
+          aria-label="The finest partition's three cells drawn solid, with a fourth dashed cell for a state outside the current formulation."
+        >
+          <rect class="exp-cell" x="10" y="15" width="90" height="50" rx="8" />
+          <text class="exp-lab" x="55" y="45" text-anchor="middle">sun</text>
+          <rect class="exp-cell" x="110" y="15" width="90" height="50" rx="8" />
+          <text class="exp-lab" x="155" y="45" text-anchor="middle">rain</text>
+          <rect class="exp-cell" x="210" y="15" width="90" height="50" rx="8" />
+          <text class="exp-lab" x="255" y="45" text-anchor="middle">snow</text>
+          <rect class="exp-cell ghost" x="320" y="15" width="90" height="50" rx="8" />
+          <text class="exp-lab ghost" x="365" y="45" text-anchor="middle">hail?</text>
+        </svg>
+        <p class="record">
+          Recorded during formulation: sleet was merged into snow; staying indoors all day was
+          excluded by the boundary.
+        </p>
+        <!-- /tpl:expansion -->
+      </div>
+
+      <p class="footnote">
+        One caveat: this page shows Savage&rsquo;s framing, one formalization among several, and the
+        numbers on the ladder&rsquo;s last rung exist only when the ordering satisfies the von
+        Neumann&ndash;Morgenstern axioms. The lattice picture assumes finitely many states.
+      </p>
+      <p class="source">
+        Sources: L.&nbsp;J. Savage,
+        <em>The Foundations of Statistics</em>
+        (1954) &middot; J. von Neumann &amp; O. Morgenstern,
+        <em>Theory of Games and Economic Behavior</em>
+        (1944) &middot; G. Birkhoff,
+        <em>Lattice Theory</em>
+        (partition lattices).
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        var ORDER = ["top", "a", "b", "c", "bot"];
+        var nodes = Array.prototype.slice.call(document.querySelectorAll(".lat-node"));
+        var byId = {};
+        var NAMES = {};
+        var INFO = {};
+        nodes.forEach(function (n) {
+          var id = n.getAttribute("data-id");
+          byId[id] = n;
+          var lab = n.querySelector(".lab").textContent.trim().replace(/\s+/g, " ");
+          var sub = n.querySelector(".sub").textContent.trim().replace(/\s+/g, " ");
+          NAMES[id] = lab;
+          INFO[id] = { cells: lab.split("|").length, sub: sub };
+          n.setAttribute("aria-label", lab + " — " + INFO[id].cells + " of 3 cells; " + sub + ".");
+        });
+        var caption = document.getElementById("lat-caption");
+        var tooltip = document.getElementById("lat-tooltip");
+        var chosen = [];
+
+        function meet(x, y) {
+          if (x === y) return x;
+          if (x === "bot" || y === "bot") return "bot";
+          if (x === "top") return y;
+          if (y === "top") return x;
+          return "bot";
+        }
+        function join(x, y) {
+          if (x === y) return x;
+          if (x === "top" || y === "top") return "top";
+          if (x === "bot") return y;
+          if (y === "bot") return x;
+          return "top";
+        }
+
+        function render() {
+          nodes.forEach(function (n) {
+            n.classList.remove("chosen", "meet", "join");
+            n.setAttribute("aria-pressed", "false");
+          });
+          chosen.forEach(function (id) {
+            byId[id].classList.add("chosen");
+            byId[id].setAttribute("aria-pressed", "true");
+          });
+          if (chosen.length === 0) {
+            caption.textContent = "Choose two knowledge states to see their meet and join.";
+          } else if (chosen.length === 1) {
+            caption.innerHTML =
+              '<span class="c">' + NAMES[chosen[0]] + "</span> chosen — choose one more.";
+          } else {
+            var m = meet(chosen[0], chosen[1]);
+            var j = join(chosen[0], chosen[1]);
+            if (chosen.indexOf(m) === -1) byId[m].classList.add("meet");
+            if (chosen.indexOf(j) === -1) byId[j].classList.add("join");
+            caption.innerHTML =
+              'Chosen: <span class="c">' +
+              NAMES[chosen[0]] +
+              '</span> and <span class="c">' +
+              NAMES[chosen[1]] +
+              "</span>. " +
+              'Meet — what both would still know: <span class="m">' +
+              NAMES[m] +
+              "</span>. " +
+              'Join — knowledge pooled: <span class="j">' +
+              NAMES[j] +
+              "</span>.";
+          }
+        }
+
+        function toggle(id) {
+          var i = chosen.indexOf(id);
+          if (i !== -1) chosen.splice(i, 1);
+          else {
+            chosen.push(id);
+            if (chosen.length > 2) chosen.shift();
+          }
+          render();
+        }
+
+        function showTip(node, x, y) {
+          var id = node.getAttribute("data-id");
+          tooltip.innerHTML =
+            "<strong>" +
+            NAMES[id] +
+            "</strong><br>cells: " +
+            INFO[id].cells +
+            " of 3<br>" +
+            INFO[id].sub;
+          tooltip.style.visibility = "visible";
+          tooltip.style.left = x + 14 + "px";
+          tooltip.style.top = y + 14 + "px";
+        }
+        function hideTip() {
+          tooltip.style.visibility = "hidden";
+        }
+
+        nodes.forEach(function (n) {
+          n.addEventListener("click", function () {
+            toggle(n.getAttribute("data-id"));
+          });
+          n.addEventListener("keydown", function (e) {
+            var i = ORDER.indexOf(n.getAttribute("data-id"));
+            if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+              e.preventDefault();
+              toggle(n.getAttribute("data-id"));
+            } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+              e.preventDefault();
+              byId[ORDER[(i + 1) % ORDER.length]].focus();
+            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+              e.preventDefault();
+              byId[ORDER[(i - 1 + ORDER.length) % ORDER.length]].focus();
+            } else if (e.key === "Home") {
+              e.preventDefault();
+              byId[ORDER[0]].focus();
+            } else if (e.key === "End") {
+              e.preventDefault();
+              byId[ORDER[ORDER.length - 1]].focus();
+            }
+          });
+          n.addEventListener("pointerover", function (e) {
+            showTip(n, e.pageX, e.pageY);
+          });
+          n.addEventListener("pointermove", function (e) {
+            showTip(n, e.pageX, e.pageY);
+          });
+          n.addEventListener("pointerout", hideTip);
+          n.addEventListener("focus", function () {
+            var r = n.getBoundingClientRect();
+            showTip(n, r.right + window.scrollX, r.top + window.scrollY);
+          });
+          n.addEventListener("blur", hideTip);
+        });
+
+        render();
+      })();
+    </script>
+  </body>
+</html>
