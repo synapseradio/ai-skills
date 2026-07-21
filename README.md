@@ -4,35 +4,14 @@ Agent skills and agent definitions for [Claude Code](https://docs.anthropic.com/
 
 ## Skills
 
-| Skill | Description |
-|-------|-------------|
-| **apache-age** | Apache AGE (Postgres graph extension): Cypher + SQL patterns, schema modelling, query optimisation |
-| **cite** | Generate APA-format citations from paper links |
-| **communicate** | Written communication with 16 techniques and 5 structured workflows |
-| **create-skill** | Research-first pipeline for producing spec-compliant Agent Skills |
-| **de-residency-advisor** | Conversational coach for non-EU expats preparing for German government appointments — visa, residency, citizenship |
-| **flix** | Write, translate, and reason about [Flix](https://flix.dev) code |
-| **ponder** | Exploration skill for problems that need thinking before solving |
-| **rabbit-hole** | Multi-agent investigation pipeline for deep research questions |
-| **runbook** | Decompose tasks into steerable autonomous loops |
-| **scamper** | Structured ideation using the SCAMPER creative thinking technique |
-| **sequencer** | Chain skills, agents, and instructions into ordered pipelines |
-| **shape-up** | Conversational requirements elicitation producing shaped specifications |
-| **shell-testing** | Write idiomatic BATS tests for bash and zsh shell scripts |
-| **skill-review** | Audit Agent Skills against the specification |
-| **stax** | Stacked Git branches and PRs via the stax CLI |
-| **team** | Expert persona collaboration for structured problem analysis |
-| **tree-of-thought** | Systematic Tree of Thought reasoning for complex problem decomposition |
-| **visualize** | Data visualizations using Vega or D3 with 19+ chart templates |
-| **waypoint** | Distributed navigation markers for multi-file pipelines and processes |
+Skills fall into two groups plus one standalone advisor. The **thinkies** group under [`skills/thinkies/`](./skills/thinkies/) collects reasoning and thinking techniques; it also installs as a bundle through the thinkies plugin (see [Extensions](#extensions)). The **tech** group under [`skills/tech/`](./skills/tech/) collects technical and engineering skills. The one flat skill, **de-residency-advisor** ([`skills/de-residency-advisor/`](./skills/de-residency-advisor/)), coaches non-EU expats preparing for German government appointments on visa, residency, and citizenship, researching each answer live and citing every claim.
 
 ### thinkies
-
-Cognitive reasoning skills grouped under [`skills/thinkies/`](./skills/thinkies/). Each is a self-contained thinking technique adapted from the [seed](https://github.com/synapseradio/seed) thinkies plugin.
 
 | Skill | Description |
 |-------|-------------|
 | **argue-the-opposite** | Stress-test a position by building the strongest counter-case |
+| **ask-questions** | Ask a genuinely good question, or a composed set, in the moment |
 | **ask-respond** | Structured Q&A that decomposes questions before answering |
 | **ask-what-breaks** | Find defeaters that would break a conclusion |
 | **assess-current-knowledge** | Map what's known vs assumed vs unknown |
@@ -40,10 +19,14 @@ Cognitive reasoning skills grouped under [`skills/thinkies/`](./skills/thinkies/
 | **branch-possibilities** | Generate fundamentally divergent directions from one starting point |
 | **calibrate-confidence** | Match certainty to evidence strength |
 | **check-soundness** | Test synthesis for contradictions |
+| **cite** | Generate APA-format citations from paper links |
 | **cite-sources** | Track, validate, and cite external sources with working URLs |
+| **communicate** | Communicate ideas with purpose, clarity, and integrity while avoiding AI slop |
 | **connect-domains** | Import solutions from structurally similar problems in distant domains |
 | **consider-alternatives** | Generate competing explanations for the same observations |
+| **decision-analysis** | Formulate and evaluate one concrete decision under uncertainty |
 | **decompose** | Break a whole into parts at its natural joints |
+| **derive-first-principles** | Strip convention to irreducible truths and rebuild |
 | **detect-diminishing-returns** | Detect when further effort yields little gain |
 | **detect-fallacies** | Spot logical errors in reasoning |
 | **evaluate-evidence** | Assess how well evidence supports claims |
@@ -51,23 +34,46 @@ Cognitive reasoning skills grouped under [`skills/thinkies/`](./skills/thinkies/
 | **find-leverage** | Locate where a small change shifts the whole system |
 | **flip-assumptions** | Test claims by forming the contrapositive |
 | **ideate** | Generate and filter ideas into vetted options |
-| **integrate-other-perspectives** | Combine viewpoints into coherent whole |
-| **integrity** | Verify structural integrity by aligning claims with evidence |
+| **integrate-other-perspectives** | Combine viewpoints into a coherent whole |
+| **integrity** | Verify epistemic integrity by aligning claims with evidence |
 | **invert-the-problem** | Turn a problem inside out to reveal hidden structure |
+| **ponder** | Explore a problem through a sequence of techniques before solving |
 | **probe-boundaries** | Test a claim or framing at its edges and extremes |
+| **prompt** | Craft or refactor LLM instructions |
 | **question-the-question** | Examine whether the inquiry is aimed at the right target |
 | **question-through-dialogue** | Use Socratic questioning to reveal assumptions |
-| **reason-from-first-principles** | Strip convention to irreducible truths and rebuild |
 | **research-and-teach** | Research deeply, explain progressively |
 | **run-premortem** | Imagine catastrophic failure and work backwards to prevent it |
+| **scamper** | Structured ideation using the SCAMPER creative thinking technique |
 | **shift-abstraction-level** | Move up, down, and sideways between levels of abstraction |
 | **shift-perspective** | Inhabit contrasting frames to see what one viewpoint misses |
+| **skill-design** | Design, strengthen, or audit an Agent Skill |
 | **strategize** | Adaptive multi-phase reasoning for complex problems |
+| **surface-intent** | Surface intent before you add, change, or produce something |
 | **synthesize-opposing-views** | Find higher understanding through dialectic |
 | **trace-logic** | Follow reasoning step-by-step |
 | **trace-logical-justifications** | Trace justification chains to bedrock |
+| **tree-of-thought** | Systematic Tree of Thought reasoning for complex problem decomposition |
 | **tutor** | Interactive tutoring that adapts to your pace |
+| **visualize** | Visualize data, concepts, relations, or diagrams as browser-runnable charts |
+| **what-if** | Tile the space of possible futures and evaluate strategies across them |
 | **wonder** | Open the possibility space through curiosity-driven questioning |
+
+### tech
+
+Technical skills grouped under [`skills/tech/`](./skills/tech/).
+
+| Skill | Description |
+|-------|-------------|
+| **apache-age** | Apache AGE (Postgres graph extension): Cypher + SQL patterns, schema modeling, query optimization |
+| **bash-scaffold** | Scaffold a production-grade bash script from a curated template |
+| **cli-development** | CLI development reference grounded in [clig.dev](https://clig.dev) |
+| **flix** | Write, translate, and reason about [Flix](https://flix.dev) code |
+| **runbook** | Decompose work into steerable autonomous loops, in seed and execute modes |
+| **shape-up** | Conversational requirements elicitation producing shaped specifications |
+| **shell-testing** | Write idiomatic BATS tests for bash and zsh shell scripts |
+| **ts-typeclasses** | Implement typeclasses and their higher-kinded type encoding in TypeScript |
+| **waypoint** | Distributed navigation markers for multi-file pipelines and processes |
 
 ## Agents
 
@@ -79,7 +85,7 @@ Cognitive reasoning skills grouped under [`skills/thinkies/`](./skills/thinkies/
 
 ## Extensions
 
-Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. See [`extensions/README.md`](./extensions/README.md) for the list.
+Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Two bundles ship here: **de-residency** wraps the de-residency-advisor skill, and **thinkies** bundles all 48 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
 
 ## Install
 

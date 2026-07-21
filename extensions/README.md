@@ -38,6 +38,7 @@ Once a plugin is published through a marketplace (`.claude-plugin/marketplace.js
 | Plugin | Wraps skill | Purpose |
 |---|---|---|
 | [`de-residency`](./de-residency) | `de-residency-advisor` | Conversational coach for non-EU expats preparing for German government appointments. |
+| [`thinkies`](./thinkies) | 48 reasoning skills | Reasoning toolkit; each skill is invoked as `/thinkies:<name>`. |
 
 ## Conventions
 
