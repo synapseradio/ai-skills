@@ -14,13 +14,13 @@ claude --plugin-dir extensions/thinkies
 
 This loads the plugin for the current Claude Code session only.
 
-## Install from a marketplace
+## Install from the marketplace
 
-Once published to a marketplace manifest:
+This repo doubles as a plugin marketplace (name: `ai-skills`):
 
 ```
-/plugin marketplace add <marketplace-source>
-/plugin install thinkies@<marketplace-name>
+/plugin marketplace add synapseradio/ai-skills
+/plugin install thinkies@ai-skills
 ```
 
 ## What this plugin ships

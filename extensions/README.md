@@ -24,13 +24,14 @@ claude --plugin-dir extensions/<plugin-name>
 
 This loads the plugin for the current session only — nothing is installed globally.
 
-## Install from a marketplace
+## Install from the marketplace
 
-Once a plugin is published through a marketplace (`.claude-plugin/marketplace.json`):
+This repo is a plugin marketplace: `.claude-plugin/marketplace.json` at the repo root lists every plugin here under the marketplace name `ai-skills`.
 
 ```
-/plugin marketplace add <marketplace-source>
-/plugin install <plugin-name>@<marketplace-name>
+/plugin marketplace add synapseradio/ai-skills
+/plugin install thinkies@ai-skills
+/plugin install de-residency@ai-skills
 ```
 
 ## Plugins in this repo

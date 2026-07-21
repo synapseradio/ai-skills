@@ -1,0 +1,36 @@
+{
+  "description": "Agent skills and plugin bundles from synapseradio/ai-skills: the thinkies reasoning toolkit and the de-residency German-bureaucracy coach.",
+  "name": "ai-skills",
+  "owner": {
+    "email": "synapseradio@gmail.com",
+    "name": "Nick Krause"
+  },
+  "plugins": [
+    {
+      "description": "Reasoning toolkit of 48 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
+      "keywords": [
+        "reasoning",
+        "thinking",
+        "decision-analysis",
+        "creativity",
+        "questioning"
+      ],
+      "license": "EUPL-1.2",
+      "name": "thinkies",
+      "source": "./extensions/thinkies"
+    },
+    {
+      "description": "Conversational coach for non-EU expats preparing for German government appointments — visa, residency, citizenship. Researches every claim live and cites each factual statement with a URL.",
+      "keywords": [
+        "germany",
+        "visa",
+        "residency",
+        "citizenship",
+        "bureaucracy"
+      ],
+      "license": "EUPL-1.2",
+      "name": "de-residency",
+      "source": "./extensions/de-residency"
+    }
+  ]
+}

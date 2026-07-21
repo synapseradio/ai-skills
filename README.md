@@ -104,7 +104,12 @@ npx skills add https://github.com/synapseradio/ai-skills
 
 Agents: copy from `agents/` into `~/.claude/agents/`.
 
-Extensions: `claude --plugin-dir extensions/<plugin-name>` for local use, or install from a marketplace.
+Extensions: `claude --plugin-dir extensions/<plugin-name>` for local use, or install from this repo's own marketplace:
+
+```
+/plugin marketplace add synapseradio/ai-skills
+/plugin install thinkies@ai-skills
+```
 
 ## Packaging
 

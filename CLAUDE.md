@@ -103,11 +103,14 @@ Install locally for development:
 claude --plugin-dir extensions/<plugin-name>
 ```
 
-Install from a marketplace once published:
+Install from this repo's marketplace (`.claude-plugin/marketplace.json` at the repo root lists every plugin under the marketplace name `ai-skills`):
 
 ```
-/plugin install <plugin-name>@<marketplace-name>
+/plugin marketplace add synapseradio/ai-skills
+/plugin install <plugin-name>@ai-skills
 ```
+
+When adding a plugin bundle under `extensions/`, add a matching entry to `.claude-plugin/marketplace.json`.
 
 ## House rules
 

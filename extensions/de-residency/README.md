@@ -14,13 +14,13 @@ claude --plugin-dir extensions/de-residency
 
 This loads the plugin for the current Claude Code session only.
 
-## Install from a marketplace
+## Install from the marketplace
 
-Once published to a marketplace manifest:
+This repo doubles as a plugin marketplace (name: `ai-skills`):
 
 ```
-/plugin marketplace add <marketplace-source>
-/plugin install de-residency@<marketplace-name>
+/plugin marketplace add synapseradio/ai-skills
+/plugin install de-residency@ai-skills
 ```
 
 ## What this plugin ships
