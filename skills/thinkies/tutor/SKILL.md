@@ -1,5 +1,5 @@
 ---
-name: thinkies-tutor
+name: tutor
 description: Interactive tutoring that adapts to your pace
 ---
 

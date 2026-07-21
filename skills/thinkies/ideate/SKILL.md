@@ -1,5 +1,5 @@
 ---
-name: thinkies-ideate
+name: ideate
 description: Generate and filter ideas into vetted options
 ---
 

@@ -54,7 +54,7 @@ Full reference — every flag, the JSON spec schemas, the comment-syntax table, 
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`waypoint.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/waypoint.skill)
+[`waypoint.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/tech/waypoint.skill)
 
 ## License
 

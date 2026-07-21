@@ -23,4 +23,4 @@ The upstream `ralish/bash-script-template` is excellent infrastructure but uses 
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`bash-scaffold.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/bash-scaffold.skill)
+[`bash-scaffold.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/tech/bash-scaffold.skill)

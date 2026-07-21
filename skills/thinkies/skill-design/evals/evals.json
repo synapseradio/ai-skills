@@ -20,14 +20,14 @@
         "Reads the audited skill's files and cites evidence (quotes or file references) for its judgments",
         "Asks the user questions to align on the skill's intent or usage, rather than delivering only one-way verdicts",
         "Says plainly what it could not verify, rather than presenting every judgment with equal confidence",
-        "Modifies no files in skills/apache-age",
+        "Modifies no files in skills/tech/apache-age",
         "Converges on a short prioritized list of what matters most to fix, framed for the user to confirm"
       ],
       "expected_output": "An audit conversation: evidence cited from the skill's actual files, questions to the user about intent and usage, unverifiable points named as such, and a prioritized set of proposed fixes framed for the user to confirm. No file modifications.",
       "files": [],
       "id": 1,
       "name": "audit-apache-age",
-      "prompt": "give skills/apache-age an honest audit — is it actually well built? I want specifics cited from the files, not vibes. don't change any files, just tell me where it stands and what would matter most to fix."
+      "prompt": "give skills/tech/apache-age an honest audit — is it actually well built? I want specifics cited from the files, not vibes. don't change any files, just tell me where it stands and what would matter most to fix."
     },
     {
       "assertions": [
@@ -42,7 +42,7 @@
       "files": [],
       "id": 2,
       "name": "refactor-surface-intent",
-      "prompt": "the surface-intent skill (skills/surface-intent) seems like it would fire on basically everything — its description says to use it at 'any moment you are adding to a system you have not fully read', which is nearly every write action. strengthen it so it triggers when it should, without gutting what makes it good. propose your changes before touching anything, and if you'd need information I haven't given you, list those questions."
+      "prompt": "the surface-intent skill (skills/thinkies/surface-intent) seems like it would fire on basically everything — its description says to use it at 'any moment you are adding to a system you have not fully read', which is nearly every write action. strengthen it so it triggers when it should, without gutting what makes it good. propose your changes before touching anything, and if you'd need information I haven't given you, list those questions."
     }
   ],
   "skill_name": "skill-design"

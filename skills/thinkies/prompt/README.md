@@ -20,3 +20,9 @@ Every output passes a 9-item anti-pattern lint derived from the
 [emotion-concepts paper](https://transformer-circuits.pub/2026/emotions/index.html):
 no threat framing, no demanded certainty, no authoritarian stacks, no
 forced enthusiasm, no perfect-prompt fallacy.
+
+## Install as a `.skill`
+
+Upload this file in Claude.ai → Settings → Skills:
+
+[`prompt.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/prompt.skill)

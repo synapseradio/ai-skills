@@ -95,7 +95,7 @@ Open to each session: which references load, how many questions the rubric holds
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`communicate.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/communicate.skill)
+[`communicate.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/communicate.skill)
 
 ## License
 

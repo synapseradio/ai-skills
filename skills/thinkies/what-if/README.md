@@ -20,7 +20,7 @@ Or copy `skills/what-if/` into `~/.claude/skills/what-if/`.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`what-if.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/what-if.skill)
+[`what-if.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/what-if.skill)
 
 ## License
 

@@ -46,4 +46,4 @@ The judgment gate matters. Most requests for HKTs do not need them, and the enco
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`ts-typeclasses.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/ts-typeclasses.skill)
+[`ts-typeclasses.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/tech/ts-typeclasses.skill)

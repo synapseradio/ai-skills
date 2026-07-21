@@ -1,5 +1,5 @@
 ---
-name: thinkies-excavate-assumptions
+name: excavate-assumptions
 description: Surface unstated assumptions at multiple levels and rank them
 ---
 

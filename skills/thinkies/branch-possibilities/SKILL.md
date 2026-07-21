@@ -1,5 +1,5 @@
 ---
-name: thinkies-branch-possibilities
+name: branch-possibilities
 description: Generate fundamentally divergent directions from one starting point
 ---
 

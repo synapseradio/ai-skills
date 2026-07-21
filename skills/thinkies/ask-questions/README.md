@@ -57,7 +57,7 @@ Check coverage: the evals exercise routing and question phrasing; the non-questi
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`ask-questions.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/ask-questions.skill)
+[`ask-questions.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/ask-questions.skill)
 
 ## License
 

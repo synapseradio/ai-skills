@@ -20,7 +20,7 @@ Or copy `skills/surface-intent/` into `~/.claude/skills/surface-intent/`.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`surface-intent.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/surface-intent.skill)
+[`surface-intent.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/surface-intent.skill)
 
 ## License
 

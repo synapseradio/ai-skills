@@ -60,7 +60,7 @@ a frozen decision needs revisiting:
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`ponder.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/ponder.skill)
+[`ponder.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/ponder.skill)
 
 ## License
 

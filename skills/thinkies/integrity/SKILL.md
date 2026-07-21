@@ -1,5 +1,5 @@
 ---
-name: thinkies-integrity
+name: integrity
 description: Verify epistemic integrity by aligning claims with evidence
 ---
 

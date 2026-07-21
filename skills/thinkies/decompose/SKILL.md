@@ -1,5 +1,5 @@
 ---
-name: thinkies-decompose
+name: decompose
 description: Break a whole into parts at its natural joints
 ---
 
@@ -23,7 +23,7 @@ Do the parts account for the whole — no gaps, no overlaps? How do parts relate
 
 ### 5. Recurse
 
-Recurse into parts that are still too complex, naming the relation type at each level — part-of does not compose across types. Set up todos and call the thinkies-decompose skill on those parts as well.
+Recurse into parts that are still too complex, naming the relation type at each level — part-of does not compose across types. Set up todos and call the decompose skill on those parts as well.
 
 ### 6. Stop at simple
 

@@ -61,4 +61,4 @@ refactors — it came from analysis, and no run has measured it yet.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`skill-design.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/skill-design.skill)
+[`skill-design.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/skill-design.skill)

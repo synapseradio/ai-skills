@@ -30,4 +30,4 @@ Strategic interaction with other optimizing agents, multi-party negotiation, and
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`decision-analysis.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/decision-analysis.skill)
+[`decision-analysis.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/decision-analysis.skill)

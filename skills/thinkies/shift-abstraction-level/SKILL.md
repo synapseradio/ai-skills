@@ -1,5 +1,5 @@
 ---
-name: thinkies-shift-abstraction-level
+name: shift-abstraction-level
 description: Move up, down, and sideways between levels of abstraction
 ---
 

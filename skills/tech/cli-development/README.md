@@ -81,7 +81,7 @@ that it does not cover these.
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`cli-development.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/cli-development.skill)
+[`cli-development.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/tech/cli-development.skill)
 
 ## License
 

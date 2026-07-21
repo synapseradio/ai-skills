@@ -1,5 +1,5 @@
 ---
-name: thinkies-shift-perspective
+name: shift-perspective
 description: Inhabit contrasting frames to see what one viewpoint misses
 ---
 
