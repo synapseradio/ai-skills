@@ -1,1 +1,0 @@
-we've burned about an hour going back and forth on which charting library to use for the new analytics page -- recharts vs visx vs echarts. every answer i get is well-reasoned and i still can't decide, and honestly i'm no closer than when i started. bundle size, api ergonomics, theming, we've covered it. ask me whatever will actually move this forward.
