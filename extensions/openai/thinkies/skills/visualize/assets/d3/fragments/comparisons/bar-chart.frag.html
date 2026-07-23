@@ -1,0 +1,192 @@
+<!-- @section: frontmatter -->
+name: Bar Chart (D3)
+description: Standalone D3 bar chart with full keyboard navigation and ARIA support
+chart-type: bar-chart
+engine: d3
+<!-- @section: title -->
+Electronics leads product sales at $42.5K
+<!-- @section: subtitle -->
+Sales by category, 2024 ($K)
+<!-- @section: chart-css -->
+.viz .axis-label {
+  fill: var(--oc-gray-6);
+  font-size: 12px;
+}
+.viz .axis-title {
+  fill: var(--oc-gray-7);
+  font-size: 13px;
+}
+.viz .grid line {
+  stroke: var(--oc-gray-1);
+  stroke-dasharray: 2, 2;
+}
+.viz .axis line,
+.viz .axis path {
+  stroke: var(--oc-gray-3);
+}
+.viz .bar:focus {
+  outline: 2px solid var(--oc-blue-7);
+  outline-offset: 1px;
+}
+.viz .bar:focus:not(:focus-visible) {
+  outline: none;
+}
+<!-- @section: mount -->
+<svg role="list" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <title id="{{uid}}-title">Electronics leads product sales at $42.5K</title>
+  <desc id="{{uid}}-desc">
+    Bar chart comparing product sales across 6 retail categories. Electronics leads at
+    $42,500, followed by Clothing at $38,200.
+  </desc>
+</svg>
+<!-- @section: helpers -->
+tooltip, a11y, data-table
+<!-- @section: chart-js -->
+// --- DATA ---
+const data = [
+  { category: "Electronics", value: 42500 },
+  { category: "Clothing", value: 38200 },
+  { category: "Home & Garden", value: 31800 },
+  { category: "Books", value: 28400 },
+  { category: "Sports", value: 25600 },
+  { category: "Toys", value: 22100 },
+].sort((a, b) => b.value - a.value);
+
+// --- DIMENSIONS ---
+const margin = { top: 8, right: 24, bottom: 64, left: 72 };
+const width = 600;
+const height = 400;
+const innerWidth = width - margin.left - margin.right;
+const innerHeight = height - margin.top - margin.bottom;
+
+const t = VizHelpers.tokens;
+const colors = [
+  t["oc-blue-7"],
+  t["oc-orange-8"],
+  t["oc-teal-7"],
+  t["oc-red-7"],
+  t["oc-grape-7"],
+  t["oc-cyan-7"],
+];
+const colorScale = d3
+  .scaleOrdinal()
+  .domain(data.map((d) => d.category))
+  .range(colors);
+
+// --- SVG ---
+const svg = d3
+  .select(root.querySelector("svg"))
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
+
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+// --- SCALES ---
+const x = d3
+  .scaleBand()
+  .domain(data.map((d) => d.category))
+  .range([0, innerWidth])
+  .padding(0.25);
+
+const y = d3
+  .scaleLinear()
+  .domain([0, d3.max(data, (d) => d.value)])
+  .nice()
+  .range([innerHeight, 0]);
+
+// --- GRID ---
+g.append("g")
+  .attr("class", "grid")
+  .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat(""))
+  .call((g) => g.select(".domain").remove());
+
+// --- AXES ---
+g.append("g")
+  .attr("class", "axis")
+  .attr("transform", `translate(0,${innerHeight})`)
+  .call(d3.axisBottom(x))
+  .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+  .selectAll("text")
+  .attr("class", "axis-label")
+  .attr("transform", "rotate(-45)")
+  .attr("text-anchor", "end")
+  .attr("dx", "-0.5em")
+  .attr("dy", "0.25em");
+
+g.append("g")
+  .attr("class", "axis")
+  .call(d3.axisLeft(y).tickFormat((d) => `$${d3.format(",.0f")(d)}`))
+  .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+  .selectAll("text")
+  .attr("class", "axis-label");
+
+// Y-axis title
+g.append("text")
+  .attr("class", "axis-title")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -56)
+  .attr("x", -innerHeight / 2)
+  .attr("text-anchor", "middle")
+  .text("Sales ($)");
+
+// --- BARS ---
+const bars = g
+  .selectAll(".bar")
+  .data(data)
+  .join("rect")
+  .attr("class", "bar")
+  .attr("x", (d) => x(d.category))
+  .attr("y", (d) => y(d.value))
+  .attr("width", x.bandwidth())
+  .attr("height", (d) => innerHeight - y(d.value))
+  .attr("fill", (d) => colorScale(d.category))
+  .attr("rx", 3)
+  .attr("ry", 3)
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => `${d.category}: $${d3.format(",.0f")(d.value)}`)
+  .on("pointerenter", function (event, d) {
+    d3.select(root.querySelector("svg")).selectAll(".bar").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1);
+    VizHelpers.showTooltip(
+      root,
+      event,
+      `<strong>${d.category}</strong><br>Sales: $${d3.format(",.0f")(d.value)}`,
+    );
+  })
+  .on("pointermove", function (event, d) {
+    VizHelpers.showTooltip(
+      root,
+      event,
+      `<strong>${d.category}</strong><br>Sales: $${d3.format(",.0f")(d.value)}`,
+    );
+  })
+  .on("pointerleave", function () {
+    d3.select(root.querySelector("svg")).selectAll(".bar").attr("opacity", 1);
+    VizHelpers.hideTooltip(root);
+  })
+  .on("focus", function (event, d) {
+    d3.select(root.querySelector("svg")).selectAll(".bar").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1);
+    const rect = this.getBoundingClientRect();
+    const tip = d3.select(root.querySelector(".tooltip"));
+    tip
+      .style("opacity", 1)
+      .html(`<strong>${d.category}</strong><br>Sales: $${d3.format(",.0f")(d.value)}`)
+      .style("left", `${rect.x + rect.width / 2}px`)
+      .style("top", `${rect.y - 40}px`);
+  })
+  .on("blur", function () {
+    d3.select(root.querySelector("svg")).selectAll(".bar").attr("opacity", 1);
+    VizHelpers.hideTooltip(root);
+  });
+
+// Keyboard navigation
+VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+// --- DATA TABLE ---
+VizHelpers.renderDataTable(
+  root,
+  data.map((d) => [d.category, `$${d3.format(",.0f")(d.value)}`]),
+  ["Category", "Sales ($)"],
+);

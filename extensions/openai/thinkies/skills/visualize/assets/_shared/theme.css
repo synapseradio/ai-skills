@@ -1,0 +1,27 @@
+/* The single source of color for every visualization engine.
+
+   These OpenColors tokens are the one place a palette change happens. The D3
+   fragments read them as CSS custom properties; the assembler also reads this
+   file to build a matching JS token object (VizHelpers.tokens) so the Vega
+   `config` and the mermaid `themeVariables` draw from the same values. Edit a
+   color here and it propagates to D3, Vega, and mermaid by re-assembly. */
+:root {
+  --oc-gray-0: #f8f9fa;
+  --oc-gray-1: #f1f3f5;
+  --oc-gray-2: #e9ecef;
+  --oc-gray-3: #dee2e6;
+  --oc-gray-4: #ced4da;
+  --oc-gray-5: #adb5bd;
+  --oc-gray-6: #868e96;
+  --oc-gray-7: #495057;
+  --oc-gray-8: #343a40;
+  --oc-gray-9: #212529;
+  --oc-blue-7: #1c7ed6;
+  --oc-orange-8: #e8590c;
+  --oc-teal-7: #0ca678;
+  --oc-red-7: #f03e3e;
+  --oc-grape-7: #ae3ec9;
+  --oc-cyan-7: #1098ad;
+  --oc-lime-7: #74b816;
+  --oc-pink-7: #d6336c;
+}

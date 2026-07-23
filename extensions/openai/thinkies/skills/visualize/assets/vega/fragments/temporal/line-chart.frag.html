@@ -1,0 +1,375 @@
+<!-- @section: frontmatter -->
+name: Line Chart
+description: Line chart showing monthly revenue over 12 months. Revenue nearly doubled from $45,000 in January to $89,000 in December, with a data gap in June. Growth accelerated in the second half of the year.
+chart-type: line-chart
+engine: vega
+<!-- @section: title -->
+Revenue nearly doubled — $45K in January to $89K by December
+<!-- @section: subtitle -->
+Monthly revenue, 2024 ($)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "format": "%b",
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "x",
+      "tickCount": "month",
+      "title": "Month (2024)",
+      "titleFontSize": 13
+    },
+    {
+      "format": "$,.0f",
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "y",
+      "title": "Revenue ($)",
+      "titleFontSize": 13
+    }
+  ],
+  "data": [
+    {
+      "name": "source",
+      "transform": [
+        {
+          "as": "dateVal",
+          "expr": "toDate(datum.date)",
+          "type": "formula"
+        }
+      ],
+      "values": [
+        {
+          "date": "2024-01-01",
+          "value": 45000
+        },
+        {
+          "date": "2024-02-01",
+          "value": 52000
+        },
+        {
+          "date": "2024-03-01",
+          "value": 48000
+        },
+        {
+          "date": "2024-04-01",
+          "value": 61000
+        },
+        {
+          "date": "2024-05-01",
+          "value": 58000
+        },
+        {
+          "date": "2024-06-01",
+          "value": null
+        },
+        {
+          "date": "2024-07-01",
+          "value": 71000
+        },
+        {
+          "date": "2024-08-01",
+          "value": 68000
+        },
+        {
+          "date": "2024-09-01",
+          "value": 79000
+        },
+        {
+          "date": "2024-10-01",
+          "value": 82000
+        },
+        {
+          "date": "2024-11-01",
+          "value": 85000
+        },
+        {
+          "date": "2024-12-01",
+          "value": 89000
+        }
+      ]
+    },
+    {
+      "name": "nonNull",
+      "source": "source",
+      "transform": [
+        {
+          "expr": "datum.value !== null",
+          "type": "filter"
+        }
+      ]
+    }
+  ],
+  "description": "Line chart showing monthly revenue over 12 months. Revenue nearly doubled from $45,000 in January to $89,000 in December, with a data gap in June. Growth accelerated in the second half of the year.",
+  "height": 400,
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "defined": {
+            "signal": "datum.value !== null"
+          },
+          "interpolate": {
+            "value": "monotone"
+          },
+          "stroke": {
+            "value": "$TOKEN$oc-blue-7"
+          },
+          "strokeWidth": {
+            "value": 2
+          },
+          "x": {
+            "field": "dateVal",
+            "scale": "x"
+          },
+          "y": {
+            "field": "value",
+            "scale": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "line"
+    },
+    {
+      "encode": {
+        "enter": {
+          "shape": {
+            "value": "circle"
+          },
+          "size": {
+            "value": 48
+          },
+          "tooltip": {
+            "signal": "{'Month': timeFormat(datum.dateVal, '%B %Y'), 'Revenue ($)': '$' + format(datum.value, ',.0f')}"
+          },
+          "x": {
+            "field": "dateVal",
+            "scale": "x"
+          },
+          "y": {
+            "field": "value",
+            "scale": "y"
+          }
+        },
+        "update": {
+          "fill": {
+            "value": "$TOKEN$oc-blue-7"
+          },
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.date === datum.date",
+              "value": 1
+            },
+            {
+              "value": 0.3
+            }
+          ],
+          "stroke": {
+            "value": "#ffffff"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      },
+      "from": {
+        "data": "nonNull"
+      },
+      "type": "symbol"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "source",
+        "field": "dateVal"
+      },
+      "name": "x",
+      "range": "width",
+      "type": "time"
+    },
+    {
+      "domain": {
+        "data": "nonNull",
+        "field": "value"
+      },
+      "name": "y",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": false
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "symbol:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "symbol:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Monthly revenue, 2024 ($)",
+    "subtitleFontSize": 12,
+    "text": "Revenue nearly doubled \u2014 $45K in January to $89K by December"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

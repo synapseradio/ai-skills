@@ -1,0 +1,467 @@
+<!-- @section: frontmatter -->
+name: Scatter Plot
+description: Scatter plot showing the relationship between height and weight across 23 individuals in three categories. Strong positive correlation (r=0.95) — taller individuals tend to weigh more.
+chart-type: scatter-plot
+engine: vega
+<!-- @section: title -->
+Height and weight correlate strongly across all groups (r=0.95)
+<!-- @section: subtitle -->
+Height vs. weight, 23 individuals (cm, kg)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "x",
+      "title": "Height (cm)",
+      "titleFontSize": 13
+    },
+    {
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "y",
+      "title": "Weight (kg)",
+      "titleFontSize": 13
+    }
+  ],
+  "data": [
+    {
+      "name": "source",
+      "values": [
+        {
+          "category": "Male",
+          "label": "Person 1",
+          "x": 170,
+          "y": 68
+        },
+        {
+          "category": "Male",
+          "label": "Person 2",
+          "x": 175,
+          "y": 72
+        },
+        {
+          "category": "Male",
+          "label": "Person 3",
+          "x": 168,
+          "y": 65
+        },
+        {
+          "category": "Male",
+          "label": "Person 4",
+          "x": 180,
+          "y": 78
+        },
+        {
+          "category": "Male",
+          "label": "Person 5",
+          "x": 165,
+          "y": 62
+        },
+        {
+          "category": "Male",
+          "label": "Person 6",
+          "x": 172,
+          "y": 70
+        },
+        {
+          "category": "Male",
+          "label": "Person 7",
+          "x": 178,
+          "y": 75
+        },
+        {
+          "category": "Male",
+          "label": "Person 8",
+          "x": 169,
+          "y": 67
+        },
+        {
+          "category": "Male",
+          "label": "Person 9",
+          "x": 182,
+          "y": 80
+        },
+        {
+          "category": "Male",
+          "label": "Person 10",
+          "x": 176,
+          "y": 73
+        },
+        {
+          "category": "Female",
+          "label": "Person 11",
+          "x": 160,
+          "y": 55
+        },
+        {
+          "category": "Female",
+          "label": "Person 12",
+          "x": 165,
+          "y": 58
+        },
+        {
+          "category": "Female",
+          "label": "Person 13",
+          "x": 158,
+          "y": 52
+        },
+        {
+          "category": "Female",
+          "label": "Person 14",
+          "x": 170,
+          "y": 62
+        },
+        {
+          "category": "Female",
+          "label": "Person 15",
+          "x": 162,
+          "y": 56
+        },
+        {
+          "category": "Female",
+          "label": "Person 16",
+          "x": 168,
+          "y": 60
+        },
+        {
+          "category": "Female",
+          "label": "Person 17",
+          "x": 164,
+          "y": 57
+        },
+        {
+          "category": "Female",
+          "label": "Person 18",
+          "x": 166,
+          "y": 59
+        },
+        {
+          "category": "Female",
+          "label": "Person 19",
+          "x": 172,
+          "y": 64
+        },
+        {
+          "category": "Female",
+          "label": "Person 20",
+          "x": 161,
+          "y": 54
+        },
+        {
+          "category": "Non-binary",
+          "label": "Person 21",
+          "x": 175,
+          "y": 70
+        },
+        {
+          "category": "Non-binary",
+          "label": "Person 22",
+          "x": 168,
+          "y": 63
+        },
+        {
+          "category": "Non-binary",
+          "label": "Person 23",
+          "x": 171,
+          "y": 66
+        }
+      ]
+    }
+  ],
+  "description": "Scatter plot showing the relationship between height and weight across 23 individuals in three categories. Strong positive correlation (r=0.95) \u2014 taller individuals tend to weigh more.",
+  "height": 400,
+  "legends": [
+    {
+      "encode": {
+        "labels": {
+          "update": {
+            "fill": {
+              "value": "$TOKEN$oc-gray-6"
+            },
+            "fontSize": {
+              "value": 11
+            }
+          }
+        },
+        "title": {
+          "update": {
+            "fill": {
+              "value": "$TOKEN$oc-gray-7"
+            },
+            "fontSize": {
+              "value": 12
+            }
+          }
+        }
+      },
+      "fill": "color",
+      "orient": "top-right",
+      "title": "Category"
+    }
+  ],
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "shape": {
+            "value": "circle"
+          },
+          "size": {
+            "value": 80
+          },
+          "tooltip": {
+            "signal": "{'Name': datum.label, 'Height (cm)': datum.x, 'Weight (kg)': datum.y, 'Category': datum.category}"
+          }
+        },
+        "update": {
+          "fill": {
+            "field": "category",
+            "scale": "color"
+          },
+          "fillOpacity": [
+            {
+              "test": "hovered === null || hovered.category === datum.category",
+              "value": 0.7
+            },
+            {
+              "value": 0.15
+            }
+          ],
+          "stroke": {
+            "field": "category",
+            "scale": "color"
+          },
+          "strokeOpacity": [
+            {
+              "test": "hovered === null || hovered.category === datum.category",
+              "value": 1
+            },
+            {
+              "value": 0.1
+            }
+          ],
+          "strokeWidth": {
+            "value": 1
+          },
+          "x": {
+            "field": "x",
+            "scale": "x"
+          },
+          "y": {
+            "field": "y",
+            "scale": "y"
+          }
+        }
+      },
+      "from": {
+        "data": "source"
+      },
+      "type": "symbol"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": {
+        "data": "source",
+        "field": "x"
+      },
+      "name": "x",
+      "nice": true,
+      "range": "width",
+      "type": "linear",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "source",
+        "field": "y"
+      },
+      "name": "y",
+      "nice": true,
+      "range": "height",
+      "reverse": true,
+      "type": "linear",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "source",
+        "field": "category"
+      },
+      "name": "color",
+      "range": "category",
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "symbol:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "symbol:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Height vs. weight, 23 individuals (cm, kg)",
+    "subtitleFontSize": 12,
+    "text": "Height and weight correlate strongly across all groups (r=0.95)"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

@@ -1,0 +1,20 @@
+{
+  "interface": {
+    "displayName": "AI Skills"
+  },
+  "name": "ai-skills",
+  "plugins": [
+    {
+      "category": "Productivity",
+      "name": "thinkies",
+      "policy": {
+        "authentication": "ON_USE",
+        "installation": "AVAILABLE"
+      },
+      "source": {
+        "path": "./extensions/openai/thinkies",
+        "source": "local"
+      }
+    }
+  ]
+}

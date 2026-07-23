@@ -1,0 +1,540 @@
+<!-- @section: frontmatter -->
+name: Histogram
+description: Histogram showing the frequency distribution of test scores. The distribution is approximately normal, clustering between 70 and 85 points, with the bulk of observations in that range. Tails extend down to 45 and up to 98.
+chart-type: histogram
+engine: vega
+<!-- @section: title -->
+Scores cluster tightly between 70 and 85
+<!-- @section: subtitle -->
+Distribution of test scores (points, 0–100)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "axes": [
+    {
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "scale": "x",
+      "title": "Test Score (points)",
+      "titleFontSize": 13
+    },
+    {
+      "grid": true,
+      "gridDash": [
+        2,
+        2
+      ],
+      "labelFontSize": 12,
+      "orient": "left",
+      "scale": "y",
+      "title": "Frequency (students)",
+      "titleFontSize": 13
+    }
+  ],
+  "data": [
+    {
+      "name": "source",
+      "transform": [
+        {
+          "as": [
+            "bin0",
+            "bin1"
+          ],
+          "extent": [
+            40,
+            100
+          ],
+          "field": "value",
+          "maxbins": 12,
+          "type": "bin"
+        }
+      ],
+      "values": [
+        {
+          "value": 72
+        },
+        {
+          "value": 74
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 76
+        },
+        {
+          "value": 77
+        },
+        {
+          "value": 77
+        },
+        {
+          "value": 78
+        },
+        {
+          "value": 78
+        },
+        {
+          "value": 78
+        },
+        {
+          "value": 79
+        },
+        {
+          "value": 79
+        },
+        {
+          "value": 80
+        },
+        {
+          "value": 80
+        },
+        {
+          "value": 81
+        },
+        {
+          "value": 82
+        },
+        {
+          "value": 83
+        },
+        {
+          "value": 84
+        },
+        {
+          "value": 85
+        },
+        {
+          "value": 85
+        },
+        {
+          "value": 86
+        },
+        {
+          "value": 87
+        },
+        {
+          "value": 88
+        },
+        {
+          "value": 89
+        },
+        {
+          "value": 90
+        },
+        {
+          "value": 91
+        },
+        {
+          "value": 92
+        },
+        {
+          "value": 94
+        },
+        {
+          "value": 96
+        },
+        {
+          "value": 98
+        },
+        {
+          "value": 45
+        },
+        {
+          "value": 52
+        },
+        {
+          "value": 55
+        },
+        {
+          "value": 58
+        },
+        {
+          "value": 60
+        },
+        {
+          "value": 62
+        },
+        {
+          "value": 63
+        },
+        {
+          "value": 65
+        },
+        {
+          "value": 66
+        },
+        {
+          "value": 67
+        },
+        {
+          "value": 68
+        },
+        {
+          "value": 69
+        },
+        {
+          "value": 70
+        },
+        {
+          "value": 71
+        },
+        {
+          "value": 73
+        },
+        {
+          "value": 74
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 76
+        },
+        {
+          "value": 77
+        },
+        {
+          "value": 78
+        },
+        {
+          "value": 79
+        },
+        {
+          "value": 80
+        },
+        {
+          "value": 81
+        },
+        {
+          "value": 82
+        },
+        {
+          "value": 73
+        },
+        {
+          "value": 74
+        },
+        {
+          "value": 76
+        },
+        {
+          "value": 77
+        },
+        {
+          "value": 78
+        },
+        {
+          "value": 79
+        },
+        {
+          "value": 80
+        },
+        {
+          "value": 81
+        },
+        {
+          "value": 72
+        },
+        {
+          "value": 75
+        },
+        {
+          "value": 77
+        },
+        {
+          "value": 78
+        },
+        {
+          "value": 79
+        },
+        {
+          "value": 80
+        },
+        {
+          "value": 82
+        },
+        {
+          "value": 84
+        },
+        {
+          "value": 86
+        },
+        {
+          "value": 88
+        }
+      ]
+    },
+    {
+      "name": "bins",
+      "source": "source",
+      "transform": [
+        {
+          "as": [
+            "count"
+          ],
+          "groupby": [
+            "bin0",
+            "bin1"
+          ],
+          "ops": [
+            "count"
+          ],
+          "type": "aggregate"
+        }
+      ]
+    }
+  ],
+  "description": "Histogram showing the frequency distribution of test scores. The distribution is approximately normal, clustering between 70 and 85 points, with the bulk of observations in that range. Tails extend down to 45 and up to 98.",
+  "height": 400,
+  "marks": [
+    {
+      "encode": {
+        "enter": {
+          "cornerRadiusTopLeft": {
+            "value": 2
+          },
+          "cornerRadiusTopRight": {
+            "value": 2
+          },
+          "tooltip": {
+            "signal": "{'Score range': format(datum.bin0, '.0f') + '\u2013' + format(datum.bin1, '.0f') + ' pts', 'Students': datum.count}"
+          },
+          "x": {
+            "field": "bin0",
+            "offset": 1,
+            "scale": "x"
+          },
+          "x2": {
+            "field": "bin1",
+            "offset": -1,
+            "scale": "x"
+          },
+          "y": {
+            "field": "count",
+            "scale": "y"
+          },
+          "y2": {
+            "scale": "y",
+            "value": 0
+          }
+        },
+        "update": {
+          "fill": {
+            "field": "bin0",
+            "scale": "color"
+          },
+          "opacity": [
+            {
+              "test": "hovered === null || hovered.bin0 === datum.bin0",
+              "value": 1
+            },
+            {
+              "value": 0.3
+            }
+          ]
+        }
+      },
+      "from": {
+        "data": "bins"
+      },
+      "type": "rect"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        40,
+        100
+      ],
+      "name": "x",
+      "range": "width",
+      "type": "linear",
+      "zero": false
+    },
+    {
+      "domain": {
+        "data": "bins",
+        "field": "count"
+      },
+      "name": "y",
+      "nice": true,
+      "range": "height",
+      "type": "linear",
+      "zero": true
+    },
+    {
+      "domain": {
+        "data": "bins",
+        "field": "bin0"
+      },
+      "name": "color",
+      "range": [
+        "$TOKEN$oc-lime-7",
+        "$TOKEN$oc-blue-7"
+      ],
+      "type": "linear"
+    }
+  ],
+  "signals": [
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "rect:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "rect:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Distribution of test scores (points, 0\u2013100)",
+    "subtitleFontSize": 12,
+    "text": "Scores cluster tightly between 70 and 85"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

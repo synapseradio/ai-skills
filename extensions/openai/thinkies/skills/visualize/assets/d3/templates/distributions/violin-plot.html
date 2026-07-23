@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product A shows bimodal score distribution unlike its peers</title>
+    <style>
+      /* The single source of color for every visualization engine.
+
+         These OpenColors tokens are the one place a palette change happens. The D3
+         fragments read them as CSS custom properties; the assembler also reads this
+         file to build a matching JS token object (VizHelpers.tokens) so the Vega
+         `config` and the mermaid `themeVariables` draw from the same values. Edit a
+         color here and it propagates to D3, Vega, and mermaid by re-assembly. */
+      :root {
+        --oc-gray-0: #f8f9fa;
+        --oc-gray-1: #f1f3f5;
+        --oc-gray-2: #e9ecef;
+        --oc-gray-3: #dee2e6;
+        --oc-gray-4: #ced4da;
+        --oc-gray-5: #adb5bd;
+        --oc-gray-6: #868e96;
+        --oc-gray-7: #495057;
+        --oc-gray-8: #343a40;
+        --oc-gray-9: #212529;
+        --oc-blue-7: #1c7ed6;
+        --oc-orange-8: #e8590c;
+        --oc-teal-7: #0ca678;
+        --oc-red-7: #f03e3e;
+        --oc-grape-7: #ae3ec9;
+        --oc-cyan-7: #1098ad;
+        --oc-lime-7: #74b816;
+        --oc-pink-7: #d6336c;
+      }
+      /* Page chrome and the shared per-instance card, scoped so several fragments can
+         share one document without their styles colliding.
+
+         The assembler inlines theme.css, then this file, then each fragment's own
+         chart-css, into the wrapper's single <style>. Everything here that styles a
+         chart is scoped under `.viz` (the per-instance section root), so two fragments
+         on one page never leak rules into each other. Only the page-level backdrop and
+         the centering layout are unscoped, because those legitimately belong to the
+         host page and are written once. */
+
+      /* Page backdrop and centered column. Written once for the whole document. */
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 40px 20px;
+        background: var(--oc-gray-0);
+        color: var(--oc-gray-9);
+      }
+      .viz-page {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* The per-instance card. Each fragment is a `<section class="viz">`; it carries
+         its own card so two fragments stack as two cards in the column above. */
+      .viz {
+        box-sizing: border-box;
+        background: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        /* Contain scroll and zoom gestures to this card so a chart never hijacks the
+           host page's scroll. overscroll-behavior stops scroll chaining; touch-action
+           keeps pinch-zoom from bubbling to the page. */
+        overscroll-behavior: contain;
+      }
+      .viz * {
+        box-sizing: border-box;
+      }
+      .viz h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+        color: var(--oc-gray-9);
+      }
+      .viz .subtitle {
+        font-size: 13px;
+        color: var(--oc-gray-6);
+        margin: 0 0 24px;
+      }
+      .viz figure {
+        margin: 0;
+      }
+      .viz figcaption {
+        margin: 0 0 24px;
+      }
+      .viz .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: white;
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 13px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .viz details {
+        margin-top: 24px;
+        border-top: 1px solid var(--oc-gray-2);
+        padding-top: 16px;
+      }
+      .viz summary {
+        cursor: pointer;
+        color: var(--oc-gray-6);
+        font-size: 13px;
+      }
+      .viz table {
+        border-collapse: collapse;
+        font-size: 13px;
+        width: 100%;
+        margin-top: 12px;
+      }
+      .viz th,
+      .viz td {
+        border: 1px solid var(--oc-gray-2);
+        padding: 8px 12px;
+        text-align: left;
+      }
+      .viz th {
+        background: var(--oc-gray-1);
+        font-weight: 600;
+        color: var(--oc-gray-8);
+      }
+      .viz tr:nth-child(even) {
+        background: var(--oc-gray-0);
+      }
+      .viz .axis-label {
+        fill: var(--oc-gray-6);
+        font-size: 12px;
+      }
+      .viz .axis-title {
+        fill: var(--oc-gray-7);
+        font-size: 13px;
+      }
+      .viz .grid line {
+        stroke: var(--oc-gray-1);
+        stroke-dasharray: 2, 2;
+      }
+      .viz .axis line,
+      .viz .axis path {
+        stroke: var(--oc-gray-3);
+      }
+      .viz .violin-group:focus {
+        outline: 2px solid var(--oc-blue-7);
+        outline-offset: 2px;
+      }
+      .viz .violin-group:focus:not(:focus-visible) {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="viz-page">
+      <section class="viz" data-viz="viz-violin-plot">
+        <figure>
+          <figcaption>
+            <h1>Product A shows bimodal score distribution unlike its peers</h1>
+            <p class="subtitle">User satisfaction scores by product, 50 responses each (0–100)</p>
+          </figcaption>
+          <svg role="list" aria-labelledby="viz-violin-plot-title viz-violin-plot-desc">
+            <title id="viz-violin-plot-title">Product A shows bimodal score distribution unlike its peers</title>
+            <desc id="viz-violin-plot-desc">
+              Violin plot showing the distribution of user satisfaction scores (0–100) for three
+              products. Product A has a bimodal distribution with peaks near 30 and 75, while Products B
+              and C show unimodal distributions centered around 60 and 70 respectively.
+            </desc>
+          </svg>
+          <div class="tooltip" role="status" aria-live="polite"></div>
+          <details>
+            <summary>View data table</summary>
+            <div class="data-table"></div>
+          </details>
+        </figure>
+      </section>
+
+      <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+        window.VizHelpers = window.VizHelpers || {};
+        VizHelpers.tokens = {
+                "oc-gray-0": "#f8f9fa",
+                "oc-gray-1": "#f1f3f5",
+                "oc-gray-2": "#e9ecef",
+                "oc-gray-3": "#dee2e6",
+                "oc-gray-4": "#ced4da",
+                "oc-gray-5": "#adb5bd",
+                "oc-gray-6": "#868e96",
+                "oc-gray-7": "#495057",
+                "oc-gray-8": "#343a40",
+                "oc-gray-9": "#212529",
+                "oc-blue-7": "#1c7ed6",
+                "oc-orange-8": "#e8590c",
+                "oc-teal-7": "#0ca678",
+                "oc-red-7": "#f03e3e",
+                "oc-grape-7": "#ae3ec9",
+                "oc-cyan-7": "#1098ad",
+                "oc-lime-7": "#74b816",
+                "oc-pink-7": "#d6336c",
+        };
+
+        // Root-scoped tooltip helpers. Every function takes the fragment's own root
+        // element (the `<section class="viz">`) and finds the tooltip inside it, so two
+        // fragments on one page each drive their own tooltip rather than fighting over a
+        // single document-global `#tooltip`. The assembler inlines this once and hangs
+        // the functions on the shared `window.VizHelpers` namespace.
+        VizHelpers.showTooltip = function (root, event, html) {
+          const tip = root.querySelector(".tooltip");
+          if (!tip) return;
+          tip.style.opacity = "1";
+          tip.innerHTML = html;
+          tip.style.left = event.pageX + 12 + "px";
+          tip.style.top = event.pageY - 28 + "px";
+        };
+        VizHelpers.hideTooltip = function (root) {
+          const tip = root.querySelector(".tooltip");
+          if (tip) tip.style.opacity = "0";
+        };
+
+        // Root-scoped keyboard navigation. Arrow keys move focus between the focusable
+        // marks inside one fragment. It scopes its query to the fragment root rather
+        // than the whole document, so arrow keys in one chart never jump focus into a
+        // sibling chart on the same page. The assembler inlines this once on the shared
+        // `window.VizHelpers` namespace.
+        //
+        // Usage from a fragment's script: VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight")
+        VizHelpers.navigateMarks = function (root, prevKey, nextKey) {
+          if (!root) return;
+          root.addEventListener("keydown", function (event) {
+            const focusable = Array.from(root.querySelectorAll('[tabindex="0"]'));
+            if (focusable.length === 0) return;
+            const idx = focusable.indexOf(document.activeElement);
+            if (event.key === nextKey && idx < focusable.length - 1) {
+              event.preventDefault();
+              focusable[idx + 1].focus();
+            } else if (event.key === prevKey && idx > 0) {
+              event.preventDefault();
+              focusable[idx - 1].focus();
+            }
+          });
+        };
+
+        // Root-scoped data-table renderer. It builds the `<details>` fallback table
+        // inside one fragment, locating the mount by class within the fragment root
+        // rather than by a document-global id, so two fragments each render their own
+        // table. The assembler inlines this once on the shared `window.VizHelpers`
+        // namespace.
+        //
+        // Usage from a fragment's script:
+        //   VizHelpers.renderDataTable(root, rows, ["Col A", "Col B"])
+        // where `root` is the `<section class="viz">` and the mount is the
+        // `.data-table` element inside it.
+        VizHelpers.renderDataTable = function (root, rows, columns) {
+          const container = root.querySelector(".data-table");
+          if (!container) return;
+          const table = document.createElement("table");
+          table.setAttribute("role", "table");
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          columns.forEach(function (col) {
+            const th = document.createElement("th");
+            th.scope = "col";
+            th.textContent = col;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+          const tbody = document.createElement("tbody");
+          rows.forEach(function (row) {
+            const tr = document.createElement("tr");
+            row.forEach(function (cell) {
+              const td = document.createElement("td");
+              td.textContent = cell != null ? String(cell) : "";
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          container.appendChild(table);
+        };
+
+        (async function () {
+          const uid = "viz-violin-plot";
+          const root = document.querySelector(`[data-viz="${uid}"]`);
+          // --- DATA ---
+          const rawGroups = {
+            "Product A": [
+              // Bimodal: cluster around 30 and 75
+              22, 25, 27, 29, 31, 32, 33, 34, 35, 36, 38, 40, 68, 70, 71, 72, 73, 74, 75, 76, 77, 78,
+              79, 80, 81, 82, 30, 28, 74, 73, 26, 37, 69, 71, 76, 35, 33, 29, 80, 72, 31, 34, 78, 75,
+              27, 32, 70, 77, 36, 74,
+            ],
+            "Product B": [
+              // Unimodal around 60, moderate spread
+              42, 45, 48, 50, 52, 54, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 70, 53, 55,
+              61, 63, 65, 59, 57, 64, 66, 68, 47, 51, 55, 60, 62, 64, 67, 69, 58, 61, 54, 56, 63, 65,
+              60, 62, 67, 70, 53, 58,
+            ],
+            "Product C": [
+              // Unimodal around 70, tight spread
+              60, 63, 65, 66, 67, 68, 69, 70, 70, 71, 71, 72, 72, 73, 73, 74, 74, 75, 75, 76, 66, 68,
+              70, 72, 74, 71, 69, 73, 75, 67, 64, 68, 71, 73, 75, 70, 72, 74, 76, 69, 65, 67, 70, 72,
+              74, 71, 73, 75, 68, 72,
+            ],
+          };
+
+          const groups = Object.keys(rawGroups);
+          const t = VizHelpers.tokens;
+          const colors = [t["oc-blue-7"], t["oc-orange-8"], t["oc-teal-7"]];
+
+          // --- DIMENSIONS ---
+          const margin = { top: 16, right: 32, bottom: 56, left: 64 };
+          const width = 700;
+          const height = 460;
+          const innerWidth = width - margin.left - margin.right;
+          const innerHeight = height - margin.top - margin.bottom;
+
+          // --- SCALES ---
+          const x = d3.scaleBand().domain(groups).range([0, innerWidth]).padding(0.3);
+
+          const y = d3.scaleLinear().domain([0, 100]).range([innerHeight, 0]);
+
+          // --- KERNEL DENSITY ESTIMATION ---
+          function kernelDensityEstimator(kernel, X) {
+            return function (V) {
+              return X.map((x) => [x, d3.mean(V, (v) => kernel(x - v))]);
+            };
+          }
+          function kernelEpanechnikov(k) {
+            return function (v) {
+              return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
+            };
+          }
+
+          const kde = kernelDensityEstimator(kernelEpanechnikov(8), y.ticks(50));
+
+          // Compute density for each group
+          const densities = groups.map((group, i) => {
+            const density = kde(rawGroups[group]);
+            const maxDensity = d3.max(density, (d) => d[1]);
+            // Normalize to 0–1
+            const normalized = density.map(([val, den]) => [val, den / maxDensity]);
+            return { group, density: normalized, color: colors[i] };
+          });
+
+          // --- SVG ---
+          const svg = d3
+            .select(root.querySelector("svg"))
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("width", "100%");
+
+          const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+          // --- GRID ---
+          g.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat(""))
+            .call((g) => g.select(".domain").remove());
+
+          // --- AXES ---
+          g.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${innerHeight})`)
+            .call(d3.axisBottom(x))
+            .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+            .selectAll("text")
+            .attr("class", "axis-label");
+
+          g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y))
+            .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+            .selectAll("text")
+            .attr("class", "axis-label");
+
+          // Axis titles
+          g.append("text")
+            .attr("class", "axis-title")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -50)
+            .attr("x", -innerHeight / 2)
+            .attr("text-anchor", "middle")
+            .text("Satisfaction score (0–100)");
+
+          // Summary stats helper
+          function stats(arr) {
+            const sorted = [...arr].sort(d3.ascending);
+            return {
+              median: d3.median(sorted),
+              q1: d3.quantile(sorted, 0.25),
+              q3: d3.quantile(sorted, 0.75),
+              min: sorted[0],
+              max: sorted[sorted.length - 1],
+            };
+          }
+
+          // --- VIOLIN SHAPES ---
+          const violinHalfWidth = x.bandwidth() / 2;
+
+          const violinArea = d3
+            .area()
+            .x0((d) => -d[1] * violinHalfWidth)
+            .x1((d) => d[1] * violinHalfWidth)
+            .y((d) => y(d[0]))
+            .curve(d3.curveCatmullRom);
+
+          const groups_sel = g
+            .selectAll(".violin-group")
+            .data(densities)
+            .join("g")
+            .attr("class", "violin-group")
+            .attr("transform", (d) => `translate(${x(d.group) + x.bandwidth() / 2},0)`)
+            .attr("tabindex", 0)
+            .attr("role", "listitem")
+            .attr("aria-label", (d) => {
+              const s = stats(rawGroups[d.group]);
+              return `${d.group}: median ${s.median.toFixed(0)}, IQR ${s.q1.toFixed(0)}–${s.q3.toFixed(0)}, range ${s.min}–${s.max}`;
+            });
+
+          // Draw violin body
+          groups_sel.each(function (d) {
+            const grp = d3.select(this);
+
+            grp
+              .append("path")
+              .datum(d.density)
+              .attr("d", violinArea)
+              .attr("fill", d.color)
+              .attr("fill-opacity", 0.2)
+              .attr("stroke", d.color)
+              .attr("stroke-width", 1.5);
+
+            // Median dot
+            const s = stats(rawGroups[d.group]);
+            grp
+              .append("circle")
+              .attr("cx", 0)
+              .attr("cy", y(s.median))
+              .attr("r", 4)
+              .attr("fill", d.color)
+              .attr("stroke", "white")
+              .attr("stroke-width", 1.5);
+
+            // IQR line
+            grp
+              .append("line")
+              .attr("x1", 0)
+              .attr("x2", 0)
+              .attr("y1", y(s.q1))
+              .attr("y2", y(s.q3))
+              .attr("stroke", d.color)
+              .attr("stroke-width", 3)
+              .attr("stroke-opacity", 0.6);
+          });
+
+          // Hover + focus
+          groups_sel
+            .on("pointerenter", function (event, d) {
+              g.selectAll(".violin-group").attr("opacity", 0.3);
+              d3.select(this).attr("opacity", 1);
+              const s = stats(rawGroups[d.group]);
+              VizHelpers.showTooltip(
+                root,
+                event,
+                `<strong>${d.group}</strong><br>
+                Median: <b>${s.median.toFixed(1)}</b><br>
+                IQR: ${s.q1.toFixed(1)}–${s.q3.toFixed(1)}<br>
+                Range: ${s.min}–${s.max}`,
+              );
+            })
+            .on("pointermove", function (event, d) {
+              const s = stats(rawGroups[d.group]);
+              VizHelpers.showTooltip(
+                root,
+                event,
+                `<strong>${d.group}</strong><br>
+                Median: <b>${s.median.toFixed(1)}</b><br>
+                IQR: ${s.q1.toFixed(1)}–${s.q3.toFixed(1)}<br>
+                Range: ${s.min}–${s.max}`,
+              );
+            })
+            .on("pointerleave", function () {
+              g.selectAll(".violin-group").attr("opacity", 1);
+              VizHelpers.hideTooltip(root);
+            })
+            .on("focus", function (event, d) {
+              g.selectAll(".violin-group").attr("opacity", 0.3);
+              d3.select(this).attr("opacity", 1);
+              const s = stats(rawGroups[d.group]);
+              const rect = this.getBoundingClientRect();
+              const tip = d3.select(root.querySelector(".tooltip"));
+              tip
+                .style("opacity", 1)
+                .html(
+                  `<strong>${d.group}</strong><br>
+                Median: <b>${s.median.toFixed(1)}</b><br>
+                IQR: ${s.q1.toFixed(1)}–${s.q3.toFixed(1)}<br>
+                Range: ${s.min}–${s.max}`,
+                )
+                .style("left", `${rect.x + rect.width / 2}px`)
+                .style("top", `${rect.y - 40}px`);
+            })
+            .on("blur", function () {
+              g.selectAll(".violin-group").attr("opacity", 1);
+              VizHelpers.hideTooltip(root);
+            });
+
+          // Keyboard navigation
+          VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+          // --- DATA TABLE ---
+          VizHelpers.renderDataTable(
+            root,
+            groups.map((group) => {
+              const s = stats(rawGroups[group]);
+              return [
+                group,
+                s.min,
+                s.q1.toFixed(1),
+                s.median.toFixed(1),
+                s.q3.toFixed(1),
+                s.max,
+                rawGroups[group].length,
+              ];
+            }),
+            ["Product", "Min", "Q1", "Median", "Q3", "Max", "N"],
+          );
+        })();
+      </script>
+    </main>
+  </body>
+</html>

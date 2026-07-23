@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Energy Flow: Sources to End Uses</title>
+    <style>
+      /* The single source of color for every visualization engine.
+
+         These OpenColors tokens are the one place a palette change happens. The D3
+         fragments read them as CSS custom properties; the assembler also reads this
+         file to build a matching JS token object (VizHelpers.tokens) so the Vega
+         `config` and the mermaid `themeVariables` draw from the same values. Edit a
+         color here and it propagates to D3, Vega, and mermaid by re-assembly. */
+      :root {
+        --oc-gray-0: #f8f9fa;
+        --oc-gray-1: #f1f3f5;
+        --oc-gray-2: #e9ecef;
+        --oc-gray-3: #dee2e6;
+        --oc-gray-4: #ced4da;
+        --oc-gray-5: #adb5bd;
+        --oc-gray-6: #868e96;
+        --oc-gray-7: #495057;
+        --oc-gray-8: #343a40;
+        --oc-gray-9: #212529;
+        --oc-blue-7: #1c7ed6;
+        --oc-orange-8: #e8590c;
+        --oc-teal-7: #0ca678;
+        --oc-red-7: #f03e3e;
+        --oc-grape-7: #ae3ec9;
+        --oc-cyan-7: #1098ad;
+        --oc-lime-7: #74b816;
+        --oc-pink-7: #d6336c;
+      }
+      /* Page chrome and the shared per-instance card, scoped so several fragments can
+         share one document without their styles colliding.
+
+         The assembler inlines theme.css, then this file, then each fragment's own
+         chart-css, into the wrapper's single <style>. Everything here that styles a
+         chart is scoped under `.viz` (the per-instance section root), so two fragments
+         on one page never leak rules into each other. Only the page-level backdrop and
+         the centering layout are unscoped, because those legitimately belong to the
+         host page and are written once. */
+
+      /* Page backdrop and centered column. Written once for the whole document. */
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 40px 20px;
+        background: var(--oc-gray-0);
+        color: var(--oc-gray-9);
+      }
+      .viz-page {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* The per-instance card. Each fragment is a `<section class="viz">`; it carries
+         its own card so two fragments stack as two cards in the column above. */
+      .viz {
+        box-sizing: border-box;
+        background: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        /* Contain scroll and zoom gestures to this card so a chart never hijacks the
+           host page's scroll. overscroll-behavior stops scroll chaining; touch-action
+           keeps pinch-zoom from bubbling to the page. */
+        overscroll-behavior: contain;
+      }
+      .viz * {
+        box-sizing: border-box;
+      }
+      .viz h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+        color: var(--oc-gray-9);
+      }
+      .viz .subtitle {
+        font-size: 13px;
+        color: var(--oc-gray-6);
+        margin: 0 0 24px;
+      }
+      .viz figure {
+        margin: 0;
+      }
+      .viz figcaption {
+        margin: 0 0 24px;
+      }
+      .viz .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: white;
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 13px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .viz details {
+        margin-top: 24px;
+        border-top: 1px solid var(--oc-gray-2);
+        padding-top: 16px;
+      }
+      .viz summary {
+        cursor: pointer;
+        color: var(--oc-gray-6);
+        font-size: 13px;
+      }
+      .viz table {
+        border-collapse: collapse;
+        font-size: 13px;
+        width: 100%;
+        margin-top: 12px;
+      }
+      .viz th,
+      .viz td {
+        border: 1px solid var(--oc-gray-2);
+        padding: 8px 12px;
+        text-align: left;
+      }
+      .viz th {
+        background: var(--oc-gray-1);
+        font-weight: 600;
+        color: var(--oc-gray-8);
+      }
+      .viz tr:nth-child(even) {
+        background: var(--oc-gray-0);
+      }
+      .viz .sankey-mount {
+        width: 100%;
+        min-height: 500px;
+      }
+      .viz .sankey-mount svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .viz .perception-note {
+        background: var(--oc-gray-1);
+        border-left: 4px solid var(--oc-blue-7);
+        padding: 1rem;
+        margin: 1rem 0 2rem 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+      .viz .perception-note h2 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        color: var(--oc-gray-9);
+      }
+      .viz .perception-note ul {
+        margin-left: 1.5rem;
+        margin-top: 0.5rem;
+      }
+      .viz .perception-note li {
+        margin: 0.25rem 0;
+      }
+      .viz .node rect {
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .viz .node rect:hover,
+      .viz .node rect:focus {
+        opacity: 0.85;
+      }
+      .viz .node-label {
+        font-size: 12px;
+        font-weight: 500;
+        fill: var(--oc-gray-8);
+        pointer-events: none;
+      }
+      .viz .node-value {
+        font-size: 10px;
+        fill: var(--oc-gray-6);
+        pointer-events: none;
+      }
+      .viz .link {
+        fill: none;
+        stroke-opacity: 0.4;
+        transition: stroke-opacity 0.15s;
+      }
+      .viz .link:hover,
+      .viz .link.highlighted {
+        stroke-opacity: 0.7;
+      }
+      .viz .link.dimmed {
+        stroke-opacity: 0.1;
+      }
+      .viz .validation-warning {
+        background: var(--oc-gray-1);
+        border-left: 4px solid var(--oc-orange-8);
+        padding: 1rem;
+        margin: 1rem 0;
+        font-size: 0.875rem;
+      }
+      .viz .validation-warning strong {
+        color: var(--oc-orange-8);
+      }
+      .viz .sankey-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--oc-gray-2);
+      }
+      .viz .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+      }
+      .viz .legend-swatch {
+        width: 16px;
+        height: 16px;
+        border-radius: 2px;
+      }
+      .viz .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="viz-page">
+      <section class="viz" data-viz="viz-sankey">
+        <figure>
+          <figcaption>
+            <h1>Energy Flow: Sources to End Uses</h1>
+            <p class="subtitle">Sankey diagram | Flow conservation validated | Data: sample energy distribution</p>
+          </figcaption>
+          <!-- Epistemological guidance: when to use Sankey vs alternatives -->
+          <div class="perception-note">
+            <h2>When to Use Sankey Diagrams</h2>
+            <p>
+              <strong>Sankey diagrams visualize flows between categories</strong>
+              where conservation matters (input = output). They excel at:
+            </p>
+            <ul>
+              <li><strong>Resource flows</strong> - energy, money, materials moving through systems</li>
+              <li><strong>Multi-stage processes</strong> - seeing how inputs transform into outputs</li>
+              <li><strong>Proportional comparison</strong> - link width encodes magnitude</li>
+            </ul>
+            <p style="margin-top: 0.5rem"><strong>Alternatives to consider:</strong></p>
+            <ul>
+              <li><strong>Alluvial diagrams</strong> - when tracking categorical changes over time</li>
+              <li><strong>Chord diagrams</strong> - when showing bidirectional relationships between all pairs</li>
+              <li><strong>Node-link network</strong> - when topology matters more than flow magnitude</li>
+            </ul>
+          </div>
+
+          <!-- Validation warning container (shown if flow conservation violated) -->
+          <div class="validation-warning" data-role="validation-warning" style="display: none">
+            <strong>Data Validation Warning:</strong>
+            <span data-role="validation-message"></span>
+          </div>
+
+          <!-- Accessibility: Screen reader summary -->
+          <div class="sr-only" data-role="sr-summary" role="status" aria-live="polite"></div>
+
+          <svg
+            role="list"
+            aria-labelledby="viz-sankey-title viz-sankey-desc"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <title id="viz-sankey-title">Energy Flow Sankey Diagram</title>
+            <desc id="viz-sankey-desc">
+              Flow diagram showing energy distribution from sources (Solar, Wind, Natural Gas, Coal,
+              Nuclear) through consumption sectors to end uses (Heating, Cooling, Lighting, Motors,
+              Electronics) with system losses. Link width encodes the magnitude of each flow.
+            </desc>
+          </svg>
+
+          <div class="sankey-legend" data-role="legend" role="list" aria-label="Node category legend"></div>
+          <div class="tooltip" role="status" aria-live="polite"></div>
+          <details>
+            <summary>View data table</summary>
+            <div class="data-table"></div>
+          </details>
+        </figure>
+      </section>
+
+      <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+        import {
+          sankey,
+          sankeyLinkHorizontal,
+          sankeyLeft,
+          sankeyRight,
+          sankeyCenter,
+          sankeyJustify,
+        } from "https://cdn.jsdelivr.net/npm/d3-sankey@0.12/+esm";
+
+        window.VizHelpers = window.VizHelpers || {};
+        VizHelpers.tokens = {
+                "oc-gray-0": "#f8f9fa",
+                "oc-gray-1": "#f1f3f5",
+                "oc-gray-2": "#e9ecef",
+                "oc-gray-3": "#dee2e6",
+                "oc-gray-4": "#ced4da",
+                "oc-gray-5": "#adb5bd",
+                "oc-gray-6": "#868e96",
+                "oc-gray-7": "#495057",
+                "oc-gray-8": "#343a40",
+                "oc-gray-9": "#212529",
+                "oc-blue-7": "#1c7ed6",
+                "oc-orange-8": "#e8590c",
+                "oc-teal-7": "#0ca678",
+                "oc-red-7": "#f03e3e",
+                "oc-grape-7": "#ae3ec9",
+                "oc-cyan-7": "#1098ad",
+                "oc-lime-7": "#74b816",
+                "oc-pink-7": "#d6336c",
+        };
+
+        // Root-scoped keyboard navigation. Arrow keys move focus between the focusable
+        // marks inside one fragment. It scopes its query to the fragment root rather
+        // than the whole document, so arrow keys in one chart never jump focus into a
+        // sibling chart on the same page. The assembler inlines this once on the shared
+        // `window.VizHelpers` namespace.
+        //
+        // Usage from a fragment's script: VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight")
+        VizHelpers.navigateMarks = function (root, prevKey, nextKey) {
+          if (!root) return;
+          root.addEventListener("keydown", function (event) {
+            const focusable = Array.from(root.querySelectorAll('[tabindex="0"]'));
+            if (focusable.length === 0) return;
+            const idx = focusable.indexOf(document.activeElement);
+            if (event.key === nextKey && idx < focusable.length - 1) {
+              event.preventDefault();
+              focusable[idx + 1].focus();
+            } else if (event.key === prevKey && idx > 0) {
+              event.preventDefault();
+              focusable[idx - 1].focus();
+            }
+          });
+        };
+
+        // Root-scoped data-table renderer. It builds the `<details>` fallback table
+        // inside one fragment, locating the mount by class within the fragment root
+        // rather than by a document-global id, so two fragments each render their own
+        // table. The assembler inlines this once on the shared `window.VizHelpers`
+        // namespace.
+        //
+        // Usage from a fragment's script:
+        //   VizHelpers.renderDataTable(root, rows, ["Col A", "Col B"])
+        // where `root` is the `<section class="viz">` and the mount is the
+        // `.data-table` element inside it.
+        VizHelpers.renderDataTable = function (root, rows, columns) {
+          const container = root.querySelector(".data-table");
+          if (!container) return;
+          const table = document.createElement("table");
+          table.setAttribute("role", "table");
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          columns.forEach(function (col) {
+            const th = document.createElement("th");
+            th.scope = "col";
+            th.textContent = col;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+          const tbody = document.createElement("tbody");
+          rows.forEach(function (row) {
+            const tr = document.createElement("tr");
+            row.forEach(function (cell) {
+              const td = document.createElement("td");
+              td.textContent = cell != null ? String(cell) : "";
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          container.appendChild(table);
+        };
+
+        (async function () {
+          const uid = "viz-sankey";
+          const root = document.querySelector(`[data-viz="${uid}"]`);
+          const t = VizHelpers.tokens;
+
+          // ============================================================================
+          // DATA
+          // ============================================================================
+          // Sankey requires two arrays:
+          // - nodes: Array of { name: string, category?: string }
+          // - links: Array of { source: string|number, target: string|number, value: number }
+          //
+          // Key insight: Sankey's visual power comes from CONSERVATION OF FLOW.
+          // Total input = Total output at each intermediate node.
+          const data = {
+            nodes: [
+              { name: "Solar", category: "source" },
+              { name: "Wind", category: "source" },
+              { name: "Natural Gas", category: "source" },
+              { name: "Coal", category: "source" },
+              { name: "Nuclear", category: "source" },
+              { name: "Residential", category: "sector" },
+              { name: "Commercial", category: "sector" },
+              { name: "Industrial", category: "sector" },
+              { name: "Transportation", category: "sector" },
+              { name: "Heating", category: "end-use" },
+              { name: "Cooling", category: "end-use" },
+              { name: "Lighting", category: "end-use" },
+              { name: "Motors", category: "end-use" },
+              { name: "Electronics", category: "end-use" },
+              { name: "Losses", category: "loss" },
+            ],
+            links: [
+              { source: "Solar", target: "Residential", value: 15 },
+              { source: "Solar", target: "Commercial", value: 10 },
+              { source: "Wind", target: "Residential", value: 8 },
+              { source: "Wind", target: "Commercial", value: 12 },
+              { source: "Wind", target: "Industrial", value: 20 },
+              { source: "Natural Gas", target: "Residential", value: 25 },
+              { source: "Natural Gas", target: "Commercial", value: 18 },
+              { source: "Natural Gas", target: "Industrial", value: 35 },
+              { source: "Natural Gas", target: "Transportation", value: 5 },
+              { source: "Coal", target: "Industrial", value: 40 },
+              { source: "Coal", target: "Commercial", value: 5 },
+              { source: "Nuclear", target: "Residential", value: 12 },
+              { source: "Nuclear", target: "Commercial", value: 15 },
+              { source: "Nuclear", target: "Industrial", value: 25 },
+              { source: "Residential", target: "Heating", value: 25 },
+              { source: "Residential", target: "Cooling", value: 12 },
+              { source: "Residential", target: "Lighting", value: 8 },
+              { source: "Residential", target: "Electronics", value: 10 },
+              { source: "Residential", target: "Losses", value: 5 },
+              { source: "Commercial", target: "Heating", value: 15 },
+              { source: "Commercial", target: "Cooling", value: 18 },
+              { source: "Commercial", target: "Lighting", value: 12 },
+              { source: "Commercial", target: "Electronics", value: 8 },
+              { source: "Commercial", target: "Losses", value: 7 },
+              { source: "Industrial", target: "Motors", value: 60 },
+              { source: "Industrial", target: "Heating", value: 30 },
+              { source: "Industrial", target: "Lighting", value: 5 },
+              { source: "Industrial", target: "Losses", value: 25 },
+              { source: "Transportation", target: "Motors", value: 3 },
+              { source: "Transportation", target: "Losses", value: 2 },
+            ],
+          };
+
+          // ============================================================================
+          // CONFIGURATION
+          // ============================================================================
+          const config = {
+            width: 1000,
+            height: 600,
+            margin: { top: 20, right: 180, bottom: 20, left: 20 },
+            nodeWidth: 20,
+            nodePadding: 12,
+            nodeAlign: sankeyJustify,
+            iterations: 32,
+            linkColorMode: "source",
+            // Colorblind-safe palette by category, drawn from the shared theme tokens.
+            categoryColors: {
+              source: t["oc-blue-7"],
+              sector: t["oc-teal-7"],
+              "end-use": t["oc-orange-8"],
+              loss: t["oc-gray-5"],
+            },
+            labelPadding: 6,
+            conservationTolerance: 0.01,
+          };
+
+          // ============================================================================
+          // DATA VALIDATION: Check flow conservation (input = output at intermediate nodes)
+          // ============================================================================
+          function validateFlowConservation(nodes, links) {
+            const warnings = [];
+            const inflows = {};
+            const outflows = {};
+            for (const node of nodes) {
+              inflows[node.name] = 0;
+              outflows[node.name] = 0;
+            }
+            for (const link of links) {
+              const sourceName = typeof link.source === "object" ? link.source.name : link.source;
+              const targetName = typeof link.target === "object" ? link.target.name : link.target;
+              outflows[sourceName] += link.value;
+              inflows[targetName] += link.value;
+            }
+            for (const node of nodes) {
+              const inflow = inflows[node.name];
+              const outflow = outflows[node.name];
+              if (inflow === 0 || outflow === 0) continue; // skip pure sources/sinks
+              const difference = Math.abs(inflow - outflow);
+              const relativeDiff = difference / Math.max(inflow, outflow);
+              if (relativeDiff > config.conservationTolerance) {
+                warnings.push({ node: node.name, inflow, outflow, difference });
+              }
+            }
+            return warnings;
+          }
+
+          const conservationWarnings = validateFlowConservation(data.nodes, data.links);
+          if (conservationWarnings.length > 0) {
+            const warningEl = root.querySelector('[data-role="validation-warning"]');
+            const messageEl = root.querySelector('[data-role="validation-message"]');
+            warningEl.style.display = "block";
+            const warningText = conservationWarnings
+              .map((w) => `${w.node}: inflow=${w.inflow}, outflow=${w.outflow}, diff=${w.difference.toFixed(1)}`)
+              .join("; ");
+            messageEl.textContent = `Flow conservation violated at: ${warningText}. Consider adding explicit loss/gain nodes.`;
+          }
+
+          // ============================================================================
+          // SANKEY LAYOUT
+          // ============================================================================
+          const sankeyGenerator = sankey()
+            .nodeId((d) => d.name)
+            .nodeAlign(config.nodeAlign)
+            .nodeWidth(config.nodeWidth)
+            .nodePadding(config.nodePadding)
+            .extent([
+              [config.margin.left, config.margin.top],
+              [config.width - config.margin.right, config.height - config.margin.bottom],
+            ])
+            .iterations(config.iterations);
+
+          const { nodes, links } = sankeyGenerator({
+            nodes: data.nodes.map((d) => ({ ...d })),
+            links: data.links.map((d) => ({ ...d })),
+          });
+
+          // Total flow base for percentages: the sum of all true source-node outflows
+          // (nodes with no incoming links). Every percentage in this chart is "share of
+          // total energy entering the system", so node and link percentages compare on one
+          // consistent denominator.
+          const sourceNodes = nodes.filter((n) => n.targetLinks.length === 0);
+          const totalFlow = sourceNodes.reduce((sum, n) => sum + n.value, 0);
+
+          // ============================================================================
+          // COLOR SCALES
+          // ============================================================================
+          const nodeColor = (d) => config.categoryColors[d.category] || t["oc-gray-6"];
+          const linkColor = (link) => {
+            switch (config.linkColorMode) {
+              case "target":
+                return nodeColor(link.target);
+              case "gradient":
+                return `url(#gradient-${uid}-${link.index})`;
+              default:
+                return nodeColor(link.source);
+            }
+          };
+
+          // ============================================================================
+          // SVG SETUP
+          // ============================================================================
+          const svg = d3
+            .select(root.querySelector("svg"))
+            .attr("viewBox", `0 0 ${config.width} ${config.height}`)
+            .style("max-width", "100%")
+            .style("height", "auto");
+
+          const defs = svg.append("defs");
+          if (config.linkColorMode === "gradient") {
+            links.forEach((link, i) => {
+              const gradient = defs
+                .append("linearGradient")
+                .attr("id", `gradient-${uid}-${i}`)
+                .attr("gradientUnits", "userSpaceOnUse")
+                .attr("x1", link.source.x1)
+                .attr("x2", link.target.x0);
+              gradient.append("stop").attr("offset", "0%").attr("stop-color", nodeColor(link.source));
+              gradient.append("stop").attr("offset", "100%").attr("stop-color", nodeColor(link.target));
+            });
+          }
+
+          // ============================================================================
+          // TOOLTIP (per-instance element inside this fragment)
+          // ============================================================================
+          const tooltip = d3.select(root.querySelector(".tooltip"));
+          function showTooltip(event, content) {
+            tooltip
+              .html(content)
+              .style("opacity", 1)
+              .style("left", event.pageX + 12 + "px")
+              .style("top", event.pageY - 12 + "px");
+          }
+          function moveTooltip(event) {
+            tooltip.style("left", event.pageX + 12 + "px").style("top", event.pageY - 12 + "px");
+          }
+          function hideTooltip() {
+            tooltip.style("opacity", 0);
+          }
+
+          // ============================================================================
+          // RENDER: Links (under nodes)
+          // ============================================================================
+          const linkGroup = svg.append("g").attr("class", "links").attr("fill", "none");
+          const linkPaths = linkGroup
+            .selectAll(".link")
+            .data(links)
+            .join("path")
+            .attr("class", "link")
+            .attr("d", sankeyLinkHorizontal())
+            .attr("stroke", linkColor)
+            .attr("stroke-width", (d) => Math.max(1, d.width))
+            .attr("data-source", (d) => d.source.name)
+            .attr("data-target", (d) => d.target.name)
+            .on("mouseenter", function (event, d) {
+              const percentage = ((d.value / totalFlow) * 100).toFixed(1);
+              const content = `
+                <span style="color:${t["oc-cyan-7"]}">${d.source.name} &rarr; ${d.target.name}</span><br>
+                <strong>${d.value} units</strong> (${percentage}% of total)
+              `;
+              showTooltip(event, content);
+              highlightPath(d.source.name, d.target.name);
+            })
+            .on("mousemove", moveTooltip)
+            .on("mouseleave", function () {
+              hideTooltip();
+              resetHighlight();
+            });
+
+          // ============================================================================
+          // RENDER: Nodes
+          // ============================================================================
+          const nodeGroup = svg.append("g").attr("class", "nodes");
+          const nodeElements = nodeGroup
+            .selectAll(".node")
+            .data(nodes)
+            .join("g")
+            .attr("class", "node")
+            .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
+
+          nodeElements
+            .append("rect")
+            .attr("width", (d) => d.x1 - d.x0)
+            .attr("height", (d) => Math.max(1, d.y1 - d.y0))
+            .attr("fill", nodeColor)
+            .attr("stroke", (d) => d3.color(nodeColor(d)).darker(0.5))
+            .attr("stroke-width", 1)
+            .attr("rx", 2)
+            .attr("tabindex", 0)
+            .attr("role", "listitem")
+            .attr("aria-label", (d) => {
+              const pct = ((d.value / totalFlow) * 100).toFixed(1);
+              return `${d.name}: ${d.value} units, ${pct}% of total flow`;
+            })
+            .on("mouseenter", function (event, d) {
+              const percentage = ((d.value / totalFlow) * 100).toFixed(1);
+              const inflows =
+                d.targetLinks.map((l) => `${l.source.name}: ${l.value}`).join(", ") || "None (source)";
+              const outflows =
+                d.sourceLinks.map((l) => `${l.target.name}: ${l.value}`).join(", ") || "None (sink)";
+              const content = `
+                <strong>${d.name}</strong> (${d.category})<br>
+                <strong>${d.value} units</strong> (${percentage}%)<br>
+                <small>In: ${inflows}</small><br>
+                <small>Out: ${outflows}</small>
+              `;
+              showTooltip(event, content);
+              highlightNode(d.name);
+            })
+            .on("mousemove", moveTooltip)
+            .on("mouseleave", function () {
+              hideTooltip();
+              resetHighlight();
+            })
+            .on("focus", function (event, d) {
+              const percentage = ((d.value / totalFlow) * 100).toFixed(1);
+              showTooltip(event, `<strong>${d.name}</strong>: ${d.value} units (${percentage}%)`);
+              highlightNode(d.name);
+            })
+            .on("blur", function () {
+              hideTooltip();
+              resetHighlight();
+            });
+
+          // Keyboard navigation: arrow keys move focus between the node rectangles, so the
+          // diagram is traversable without a mouse (the original template offered only Tab).
+          VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+          // Node labels
+          nodeElements
+            .append("text")
+            .attr("class", "node-label")
+            .attr("x", (d) => {
+              const isLeftHalf = d.x0 < config.width / 2;
+              return isLeftHalf ? d.x1 - d.x0 + config.labelPadding : -config.labelPadding;
+            })
+            .attr("y", (d) => (d.y1 - d.y0) / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", (d) => (d.x0 < config.width / 2 ? "start" : "end"))
+            .text((d) => d.name);
+
+          // Node values (smaller, below label)
+          nodeElements
+            .append("text")
+            .attr("class", "node-value")
+            .attr("x", (d) => {
+              const isLeftHalf = d.x0 < config.width / 2;
+              return isLeftHalf ? d.x1 - d.x0 + config.labelPadding : -config.labelPadding;
+            })
+            .attr("y", (d) => (d.y1 - d.y0) / 2 + 14)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", (d) => (d.x0 < config.width / 2 ? "start" : "end"))
+            .text((d) => {
+              const pct = ((d.value / totalFlow) * 100).toFixed(1);
+              return `${d.value} (${pct}%)`;
+            });
+
+          // ============================================================================
+          // HIGHLIGHT INTERACTIONS
+          // ============================================================================
+          function highlightNode(nodeName) {
+            linkPaths.each(function (d) {
+              const isConnected = d.source.name === nodeName || d.target.name === nodeName;
+              d3.select(this).classed("highlighted", isConnected);
+              d3.select(this).classed("dimmed", !isConnected);
+            });
+          }
+          function highlightPath(sourceName, targetName) {
+            linkPaths.each(function (d) {
+              const isThis = d.source.name === sourceName && d.target.name === targetName;
+              d3.select(this).classed("highlighted", isThis);
+              d3.select(this).classed("dimmed", !isThis);
+            });
+          }
+          function resetHighlight() {
+            linkPaths.classed("highlighted", false).classed("dimmed", false);
+          }
+
+          // ============================================================================
+          // LEGEND
+          // ============================================================================
+          const legend = d3.select(root.querySelector('[data-role="legend"]'));
+          Object.keys(config.categoryColors).forEach((category) => {
+            const categoryNodes = nodes.filter((n) => n.category === category);
+            if (categoryNodes.length === 0) return;
+            const item = legend.append("div").attr("class", "legend-item").attr("role", "listitem");
+            item.append("div").attr("class", "legend-swatch").style("background-color", config.categoryColors[category]);
+            item
+              .append("span")
+              .text(`${category.charAt(0).toUpperCase() + category.slice(1)} (${categoryNodes.length} nodes)`);
+          });
+
+          // ============================================================================
+          // ACCESSIBILITY: Screen reader summary
+          // ============================================================================
+          const srSummary = d3.select(root.querySelector('[data-role="sr-summary"]'));
+          const flowNarrative = sourceNodes
+            .map((source) => {
+              const destinations = source.sourceLinks.map((l) => l.target.name).join(" and ");
+              return `${source.name} flows to ${destinations}`;
+            })
+            .join(". ");
+          srSummary.text(
+            `Sankey diagram showing ${nodes.length} nodes and ${links.length} flow connections. ` +
+              `Total flow: ${totalFlow} units. ${flowNarrative}. Use Tab to navigate nodes.`,
+          );
+
+          // ============================================================================
+          // DATA TABLE
+          // ============================================================================
+          VizHelpers.renderDataTable(
+            root,
+            links.map((l) => [
+              l.source.name,
+              l.target.name,
+              l.value,
+              `${((l.value / totalFlow) * 100).toFixed(1)}%`,
+            ]),
+            ["From", "To", "Units", "% of Total"],
+          );
+        })();
+      </script>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Signup Flow Drops 38% of Users at Email Verification</title>
+    <style>
+      /* The single source of color for every visualization engine.
+
+         These OpenColors tokens are the one place a palette change happens. The D3
+         fragments read them as CSS custom properties; the assembler also reads this
+         file to build a matching JS token object (VizHelpers.tokens) so the Vega
+         `config` and the mermaid `themeVariables` draw from the same values. Edit a
+         color here and it propagates to D3, Vega, and mermaid by re-assembly. */
+      :root {
+        --oc-gray-0: #f8f9fa;
+        --oc-gray-1: #f1f3f5;
+        --oc-gray-2: #e9ecef;
+        --oc-gray-3: #dee2e6;
+        --oc-gray-4: #ced4da;
+        --oc-gray-5: #adb5bd;
+        --oc-gray-6: #868e96;
+        --oc-gray-7: #495057;
+        --oc-gray-8: #343a40;
+        --oc-gray-9: #212529;
+        --oc-blue-7: #1c7ed6;
+        --oc-orange-8: #e8590c;
+        --oc-teal-7: #0ca678;
+        --oc-red-7: #f03e3e;
+        --oc-grape-7: #ae3ec9;
+        --oc-cyan-7: #1098ad;
+        --oc-lime-7: #74b816;
+        --oc-pink-7: #d6336c;
+      }
+      /* Page chrome and the shared per-instance card, scoped so several fragments can
+         share one document without their styles colliding.
+
+         The assembler inlines theme.css, then this file, then each fragment's own
+         chart-css, into the wrapper's single <style>. Everything here that styles a
+         chart is scoped under `.viz` (the per-instance section root), so two fragments
+         on one page never leak rules into each other. Only the page-level backdrop and
+         the centering layout are unscoped, because those legitimately belong to the
+         host page and are written once. */
+
+      /* Page backdrop and centered column. Written once for the whole document. */
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 40px 20px;
+        background: var(--oc-gray-0);
+        color: var(--oc-gray-9);
+      }
+      .viz-page {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* The per-instance card. Each fragment is a `<section class="viz">`; it carries
+         its own card so two fragments stack as two cards in the column above. */
+      .viz {
+        box-sizing: border-box;
+        background: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        /* Contain scroll and zoom gestures to this card so a chart never hijacks the
+           host page's scroll. overscroll-behavior stops scroll chaining; touch-action
+           keeps pinch-zoom from bubbling to the page. */
+        overscroll-behavior: contain;
+      }
+      .viz * {
+        box-sizing: border-box;
+      }
+      .viz h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+        color: var(--oc-gray-9);
+      }
+      .viz .subtitle {
+        font-size: 13px;
+        color: var(--oc-gray-6);
+        margin: 0 0 24px;
+      }
+      .viz figure {
+        margin: 0;
+      }
+      .viz figcaption {
+        margin: 0 0 24px;
+      }
+      .viz .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: white;
+        border: 1px solid var(--oc-gray-3);
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 13px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .viz details {
+        margin-top: 24px;
+        border-top: 1px solid var(--oc-gray-2);
+        padding-top: 16px;
+      }
+      .viz summary {
+        cursor: pointer;
+        color: var(--oc-gray-6);
+        font-size: 13px;
+      }
+      .viz table {
+        border-collapse: collapse;
+        font-size: 13px;
+        width: 100%;
+        margin-top: 12px;
+      }
+      .viz th,
+      .viz td {
+        border: 1px solid var(--oc-gray-2);
+        padding: 8px 12px;
+        text-align: left;
+      }
+      .viz th {
+        background: var(--oc-gray-1);
+        font-weight: 600;
+        color: var(--oc-gray-8);
+      }
+      .viz tr:nth-child(even) {
+        background: var(--oc-gray-0);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="viz-page">
+      <section class="viz" data-viz="viz-mermaid-flowchart">
+        <figure>
+          <figcaption>
+            <h1>Signup Flow Drops 38% of Users at Email Verification</h1>
+            <p class="subtitle">Funnel for week of 2026-03-24 (user counts)</p>
+          </figcaption>
+          <pre class="mermaid">
+          flowchart TD
+              A["Visit signup page (1,000)"] --> B["Enter email (820)"]
+              B --> C{Email valid?}
+              C -- yes --> D["Receive verification email (820)"]
+              C -- no --> E["Show error (0 lost)"]
+              D --> F["Click verification link (510)"]
+              F --> G["Set password (495)"]
+              G --> H["Account created (490)"]
+          </pre>
+          <noscript>
+            This page renders a mermaid diagram and requires JavaScript. The underlying
+            sequence is: Visit signup → Enter email → Validate → Receive verification email
+            → Click verification link → Set password → Account created.
+          </noscript>
+          <div class="tooltip" role="status" aria-live="polite"></div>
+          <details>
+            <summary>View data table</summary>
+            <div class="data-table"></div>
+          </details>
+        </figure>
+      </section>
+
+      <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/+esm";
+
+        window.VizHelpers = window.VizHelpers || {};
+        VizHelpers.tokens = {
+                "oc-gray-0": "#f8f9fa",
+                "oc-gray-1": "#f1f3f5",
+                "oc-gray-2": "#e9ecef",
+                "oc-gray-3": "#dee2e6",
+                "oc-gray-4": "#ced4da",
+                "oc-gray-5": "#adb5bd",
+                "oc-gray-6": "#868e96",
+                "oc-gray-7": "#495057",
+                "oc-gray-8": "#343a40",
+                "oc-gray-9": "#212529",
+                "oc-blue-7": "#1c7ed6",
+                "oc-orange-8": "#e8590c",
+                "oc-teal-7": "#0ca678",
+                "oc-red-7": "#f03e3e",
+                "oc-grape-7": "#ae3ec9",
+                "oc-cyan-7": "#1098ad",
+                "oc-lime-7": "#74b816",
+                "oc-pink-7": "#d6336c",
+        };
+
+        (async function () {
+          const uid = "viz-mermaid-flowchart";
+          const root = document.querySelector(`[data-viz="${uid}"]`);
+          const tokens = (window.VizHelpers && window.VizHelpers.tokens) || {};
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: "base",
+            themeVariables: {
+              fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
+              fontSize: "15px",
+              primaryColor: tokens["oc-gray-1"] || "#f1f3f5",
+              primaryBorderColor: tokens["oc-gray-6"] || "#868e96",
+              primaryTextColor: tokens["oc-gray-9"] || "#212529",
+              lineColor: tokens["oc-gray-8"] || "#343a40",
+              textColor: tokens["oc-gray-9"] || "#212529",
+              mainBkg: tokens["oc-gray-1"] || "#f1f3f5",
+              secondaryColor: tokens["oc-gray-2"] || "#e9ecef",
+              tertiaryColor: tokens["oc-gray-0"] || "#f8f9fa",
+              nodeBorder: tokens["oc-gray-6"] || "#868e96",
+              clusterBkg: tokens["oc-gray-0"] || "#f8f9fa",
+              clusterBorder: tokens["oc-gray-4"] || "#ced4da",
+              edgeLabelBackground: tokens["oc-gray-0"] || "#f8f9fa",
+            },
+            flowchart: {
+              htmlLabels: true,
+              defaultRenderer: "dagre-wrapper",
+              curve: "monotoneY",
+              nodeSpacing: 70,
+              rankSpacing: 100,
+              padding: 34,
+              useMaxWidth: true,
+              diagramPadding: 16,
+            },
+            themeCSS: `
+              .nodeLabel, .edgeLabel { white-space: normal; }
+              .node .label { padding: 6px 10px; }
+              .edgeLabel { padding: 2px 6px; }
+            `,
+          });
+          mermaid.run({ nodes: root.querySelectorAll(".mermaid") });
+        })();
+      </script>
+    </main>
+  </body>
+</html>

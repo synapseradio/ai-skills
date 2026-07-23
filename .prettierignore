@@ -19,3 +19,9 @@ extensions/thinkies/skills/visualize/assets/d3/templates/
 extensions/thinkies/skills/visualize/assets/vega/fragments/
 extensions/thinkies/skills/visualize/assets/vega/templates/
 extensions/thinkies/skills/visualize/assets/markdown/templates/
+extensions/openai/thinkies/skills/visualize/assets/_shared/
+extensions/openai/thinkies/skills/visualize/assets/d3/fragments/
+extensions/openai/thinkies/skills/visualize/assets/d3/templates/
+extensions/openai/thinkies/skills/visualize/assets/vega/fragments/
+extensions/openai/thinkies/skills/visualize/assets/vega/templates/
+extensions/openai/thinkies/skills/visualize/assets/markdown/templates/

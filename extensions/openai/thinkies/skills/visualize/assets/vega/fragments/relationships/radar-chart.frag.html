@@ -1,0 +1,697 @@
+<!-- @section: frontmatter -->
+name: Radar Chart
+description: Radar chart comparing 3 products across 6 dimensions. Product A leads in Reliability (88) and Quality (82). Product C scores highest on Price (85). Product B is well-rounded.
+chart-type: radar-chart
+engine: vega
+<!-- @section: title -->
+Product A leads on reliability; Product C wins on price
+<!-- @section: subtitle -->
+Product ratings across 6 dimensions (score 0–100)
+<!-- @section: chart-css -->
+.viz .vega-mount {
+  margin: 0 auto;
+}
+.viz .vega-actions a {
+  margin-right: 8px;
+  font-size: 12px;
+  color: var(--oc-gray-5);
+}
+<!-- @section: mount -->
+<div class="vega-mount"></div>
+<!-- @section: helpers -->
+data-table
+<!-- @section: chart-js -->
+const tokens = VizHelpers.tokens;
+
+// Token-derived Vega config, built from VizHelpers.tokens (which the assembler
+// fills from theme.css). The categorical palette, axis/gridline grays, legend
+// and title colors, and the shared font all read from one source, so a palette
+// edit in theme.css propagates to every Vega chart by re-assembly without
+// touching any spec. Vega merges this config under the spec at embed time.
+const FONT = "system-ui, -apple-system, sans-serif";
+const config = {
+  aria: true,
+  // The default categorical palette. A color scale with `"range": "category"`
+  // (or no explicit range) inherits this OpenColors set.
+  range: {
+    category: [
+      tokens["oc-blue-7"],
+      tokens["oc-orange-8"],
+      tokens["oc-teal-7"],
+      tokens["oc-red-7"],
+      tokens["oc-grape-7"],
+      tokens["oc-cyan-7"],
+      tokens["oc-lime-7"],
+      tokens["oc-pink-7"],
+    ],
+  },
+  axis: {
+    domainColor: tokens["oc-gray-3"],
+    gridColor: tokens["oc-gray-1"],
+    tickColor: tokens["oc-gray-3"],
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  legend: {
+    labelColor: tokens["oc-gray-6"],
+    titleColor: tokens["oc-gray-7"],
+    labelFont: FONT,
+    titleFont: FONT,
+  },
+  title: {
+    color: tokens["oc-gray-9"],
+    subtitleColor: tokens["oc-gray-6"],
+    font: FONT,
+    subtitleFont: FONT,
+  },
+  view: { stroke: null },
+};
+
+// The spec, inline and valid JSON. Generic categorical scales use the
+// `"category"` range and inherit config.range.category; semantic colors (a
+// candle's up/down stroke, a slope's rise/fall) are JSON-safe token references
+// of the form "$TOKEN$oc-…", resolved to live theme values just below. Keeping
+// them as plain strings leaves the spec parseable by the render checker.
+const spec = {
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "autosize": {
+    "contains": "padding",
+    "type": "fit"
+  },
+  "data": [
+    {
+      "name": "source",
+      "transform": [
+        {
+          "as": "dimIndex",
+          "expr": "indexof(dimensions, datum.dimension)",
+          "type": "formula"
+        },
+        {
+          "as": "angle",
+          "expr": "(datum.dimIndex / nDim) * 2 * PI - PI / 2",
+          "type": "formula"
+        },
+        {
+          "as": "r",
+          "expr": "(datum.value / 100) * radius",
+          "type": "formula"
+        },
+        {
+          "as": "px",
+          "expr": "cx + datum.r * cos(datum.angle)",
+          "type": "formula"
+        },
+        {
+          "as": "py",
+          "expr": "cy + datum.r * sin(datum.angle)",
+          "type": "formula"
+        }
+      ],
+      "values": [
+        {
+          "dimension": "Reliability",
+          "product": "Product A",
+          "value": 88
+        },
+        {
+          "dimension": "Quality",
+          "product": "Product A",
+          "value": 82
+        },
+        {
+          "dimension": "Performance",
+          "product": "Product A",
+          "value": 74
+        },
+        {
+          "dimension": "Support",
+          "product": "Product A",
+          "value": 70
+        },
+        {
+          "dimension": "Features",
+          "product": "Product A",
+          "value": 65
+        },
+        {
+          "dimension": "Price",
+          "product": "Product A",
+          "value": 55
+        },
+        {
+          "dimension": "Reliability",
+          "product": "Product B",
+          "value": 72
+        },
+        {
+          "dimension": "Quality",
+          "product": "Product B",
+          "value": 70
+        },
+        {
+          "dimension": "Performance",
+          "product": "Product B",
+          "value": 75
+        },
+        {
+          "dimension": "Support",
+          "product": "Product B",
+          "value": 78
+        },
+        {
+          "dimension": "Features",
+          "product": "Product B",
+          "value": 73
+        },
+        {
+          "dimension": "Price",
+          "product": "Product B",
+          "value": 68
+        },
+        {
+          "dimension": "Reliability",
+          "product": "Product C",
+          "value": 60
+        },
+        {
+          "dimension": "Quality",
+          "product": "Product C",
+          "value": 65
+        },
+        {
+          "dimension": "Performance",
+          "product": "Product C",
+          "value": 80
+        },
+        {
+          "dimension": "Support",
+          "product": "Product C",
+          "value": 55
+        },
+        {
+          "dimension": "Features",
+          "product": "Product C",
+          "value": 88
+        },
+        {
+          "dimension": "Price",
+          "product": "Product C",
+          "value": 85
+        }
+      ]
+    },
+    {
+      "name": "axes",
+      "transform": [
+        {
+          "as": "dimIndex",
+          "start": 0,
+          "stop": 6,
+          "type": "sequence"
+        },
+        {
+          "as": "angle",
+          "expr": "(datum.dimIndex / 6) * 2 * PI - PI / 2",
+          "type": "formula"
+        },
+        {
+          "as": "x2",
+          "expr": "cx + radius * cos(datum.angle)",
+          "type": "formula"
+        },
+        {
+          "as": "y2",
+          "expr": "cy + radius * sin(datum.angle)",
+          "type": "formula"
+        },
+        {
+          "as": "label",
+          "expr": "dimensions[datum.dimIndex]",
+          "type": "formula"
+        },
+        {
+          "as": "labelX",
+          "expr": "cx + (radius + 20) * cos(datum.angle)",
+          "type": "formula"
+        },
+        {
+          "as": "labelY",
+          "expr": "cy + (radius + 20) * sin(datum.angle)",
+          "type": "formula"
+        }
+      ]
+    },
+    {
+      "name": "rings",
+      "transform": [
+        {
+          "as": "ringIndex",
+          "start": 1,
+          "stop": 5,
+          "type": "sequence"
+        },
+        {
+          "as": "r",
+          "expr": "(datum.ringIndex / 4) * radius",
+          "type": "formula"
+        },
+        {
+          "as": "ringValue",
+          "expr": "datum.ringIndex * 25",
+          "type": "formula"
+        }
+      ]
+    }
+  ],
+  "description": "Radar chart comparing 3 products across 6 dimensions. Product A leads in Reliability (88) and Quality (82). Product C scores highest on Price (85). Product B is well-rounded.",
+  "height": 480,
+  "legends": [
+    {
+      "direction": "horizontal",
+      "fill": "color",
+      "labelFontSize": 12,
+      "orient": "bottom",
+      "padding": 8,
+      "stroke": "color",
+      "title": "Product",
+      "titleFontSize": 13
+    }
+  ],
+  "marks": [
+    {
+      "description": "Background grid: axis spokes and concentric rings",
+      "from": {
+        "data": "axes"
+      },
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "stroke": "$TOKEN$oc-gray-3",
+              "strokeWidth": 1,
+              "x": {
+                "signal": "cx"
+              },
+              "x2": {
+                "field": "x2"
+              },
+              "y": {
+                "signal": "cy"
+              },
+              "y2": {
+                "field": "y2"
+              }
+            }
+          },
+          "type": "rule"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Concentric ring arcs with scale labels",
+      "from": {
+        "data": "rings"
+      },
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "endAngle": {
+                "signal": "2 * PI"
+              },
+              "fill": "transparent",
+              "innerRadius": 0,
+              "outerRadius": {
+                "field": "r"
+              },
+              "startAngle": 0,
+              "stroke": "$TOKEN$oc-gray-1",
+              "strokeDash": [
+                2,
+                2
+              ],
+              "strokeWidth": 1,
+              "x": {
+                "signal": "cx"
+              },
+              "y": {
+                "signal": "cy"
+              }
+            }
+          },
+          "type": "arc"
+        },
+        {
+          "encode": {
+            "enter": {
+              "baseline": "bottom",
+              "fill": "$TOKEN$oc-gray-5",
+              "fontSize": 9,
+              "text": {
+                "signal": "datum.ringValue + ''"
+              },
+              "x": {
+                "signal": "cx + 4"
+              },
+              "y": {
+                "signal": "cy - datum.r"
+              }
+            }
+          },
+          "type": "text"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Data polygon for each product",
+      "marks": [
+        {
+          "encode": {
+            "enter": {
+              "defined": true,
+              "strokeWidth": 2,
+              "tooltip": {
+                "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
+              },
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              }
+            },
+            "update": {
+              "fill": "$TOKEN$oc-blue-7",
+              "fillOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product A'",
+                  "value": 0.1
+                },
+                {
+                  "value": 0.02
+                }
+              ],
+              "stroke": "$TOKEN$oc-blue-7",
+              "strokeOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product A'",
+                  "value": 1
+                },
+                {
+                  "value": 0.2
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "source",
+            "transform": [
+              {
+                "expr": "datum.product === 'Product A'",
+                "type": "filter"
+              }
+            ]
+          },
+          "sort": {
+            "field": "dimIndex"
+          },
+          "type": "line"
+        },
+        {
+          "encode": {
+            "enter": {
+              "defined": true,
+              "strokeWidth": 2,
+              "tooltip": {
+                "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
+              },
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              }
+            },
+            "update": {
+              "fill": "$TOKEN$oc-orange-8",
+              "fillOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product B'",
+                  "value": 0.1
+                },
+                {
+                  "value": 0.02
+                }
+              ],
+              "stroke": "$TOKEN$oc-orange-8",
+              "strokeOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product B'",
+                  "value": 1
+                },
+                {
+                  "value": 0.2
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "source",
+            "transform": [
+              {
+                "expr": "datum.product === 'Product B'",
+                "type": "filter"
+              }
+            ]
+          },
+          "sort": {
+            "field": "dimIndex"
+          },
+          "type": "line"
+        },
+        {
+          "encode": {
+            "enter": {
+              "defined": true,
+              "strokeWidth": 2,
+              "tooltip": {
+                "signal": "{'Product': datum.product, 'Dimension': datum.dimension, 'Score': datum.value + ' / 100'}"
+              },
+              "x": {
+                "field": "px"
+              },
+              "y": {
+                "field": "py"
+              }
+            },
+            "update": {
+              "fill": "$TOKEN$oc-teal-7",
+              "fillOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product C'",
+                  "value": 0.1
+                },
+                {
+                  "value": 0.02
+                }
+              ],
+              "stroke": "$TOKEN$oc-teal-7",
+              "strokeOpacity": [
+                {
+                  "test": "hovered === null || hovered.product === 'Product C'",
+                  "value": 1
+                },
+                {
+                  "value": 0.2
+                }
+              ]
+            }
+          },
+          "from": {
+            "data": "source",
+            "transform": [
+              {
+                "expr": "datum.product === 'Product C'",
+                "type": "filter"
+              }
+            ]
+          },
+          "sort": {
+            "field": "dimIndex"
+          },
+          "type": "line"
+        }
+      ],
+      "type": "group"
+    },
+    {
+      "description": "Axis dimension labels",
+      "encode": {
+        "enter": {
+          "align": {
+            "signal": "abs(datum.labelX - cx) < 10 ? 'center' : datum.labelX > cx ? 'left' : 'right'"
+          },
+          "baseline": {
+            "signal": "datum.labelY < cy - 10 ? 'bottom' : datum.labelY > cy + 10 ? 'top' : 'middle'"
+          },
+          "fill": "$TOKEN$oc-gray-7",
+          "fontSize": 12,
+          "fontWeight": 600,
+          "text": {
+            "field": "label"
+          },
+          "x": {
+            "field": "labelX"
+          },
+          "y": {
+            "field": "labelY"
+          }
+        }
+      },
+      "from": {
+        "data": "axes"
+      },
+      "type": "text"
+    }
+  ],
+  "padding": {
+    "bottom": 16,
+    "left": 24,
+    "right": 24,
+    "top": 16
+  },
+  "scales": [
+    {
+      "domain": [
+        "Product A",
+        "Product B",
+        "Product C"
+      ],
+      "name": "color",
+      "range": "category",
+      "type": "ordinal"
+    }
+  ],
+  "signals": [
+    {
+      "name": "cx",
+      "value": 280
+    },
+    {
+      "name": "cy",
+      "value": 230
+    },
+    {
+      "name": "radius",
+      "value": 160
+    },
+    {
+      "name": "dimensions",
+      "value": [
+        "Reliability",
+        "Quality",
+        "Performance",
+        "Support",
+        "Features",
+        "Price"
+      ]
+    },
+    {
+      "name": "nDim",
+      "update": "length(dimensions)"
+    },
+    {
+      "name": "products",
+      "value": [
+        "Product A",
+        "Product B",
+        "Product C"
+      ]
+    },
+    {
+      "name": "hovered",
+      "on": [
+        {
+          "events": "path:pointerover",
+          "update": "datum"
+        },
+        {
+          "events": "path:pointerout",
+          "update": "null"
+        }
+      ],
+      "value": null
+    }
+  ],
+  "title": {
+    "anchor": "start",
+    "fontSize": 16,
+    "offset": 16,
+    "subtitle": "Product ratings across 6 dimensions (score 0\u2013100)",
+    "subtitleFontSize": 12,
+    "text": "Product A leads on reliability; Product C wins on price"
+  },
+  "width": 600
+};
+
+// Resolve every "$TOKEN$oc-…" reference to its theme value, in place. This is
+// the bridge that keeps mark-level color single-sourced from theme.css.
+(function resolveTokens(node) {
+  if (Array.isArray(node)) {
+    for (let i = 0; i < node.length; i += 1) {
+      const v = node[i];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[i] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  } else if (node && typeof node === "object") {
+    for (const key of Object.keys(node)) {
+      const v = node[key];
+      if (typeof v === "string" && v.startsWith("$TOKEN$")) {
+        node[key] = tokens[v.slice("$TOKEN$".length)];
+      } else if (v && typeof v === "object") {
+        resolveTokens(v);
+      }
+    }
+  }
+})(spec);
+
+vegaEmbed(root.querySelector(".vega-mount"), spec, {
+  renderer: "svg",
+  config,
+  actions: { export: true, source: false, compiled: false, editor: true },
+})
+  .then((result) => {
+    // Accessibility data table, generated from the embedded data and scoped to
+    // this fragment's root (no document-global #data-table).
+    const view = result.view;
+    let data = null;
+    for (const name of ["source", "table", "data_0"]) {
+      try {
+        const d = view.data(name);
+        if (d && d.length) {
+          data = d;
+          break;
+        }
+      } catch (e) {
+        /* dataset not defined in this spec; try the next name */
+      }
+    }
+    if (data && data.length) {
+      const keys = Object.keys(data[0]).filter((k) => !k.startsWith("_"));
+      const rows = data.map((row) =>
+        keys.map((k) => (row[k] != null ? String(row[k]) : "")),
+      );
+      VizHelpers.renderDataTable(root, rows, keys);
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });

@@ -1,0 +1,183 @@
+<!-- @section: frontmatter -->
+name: Line Chart (D3)
+description: Standalone D3 line chart with monotone interpolation, point markers, keyboard navigation, and ARIA support
+chart-type: line-chart
+engine: d3
+<!-- @section: title -->
+Revenue climbs 48% over 2024, reaching $91K in December
+<!-- @section: subtitle -->
+Monthly revenue, 2024 ($K)
+<!-- @section: chart-css -->
+.viz .axis-label {
+  fill: var(--oc-gray-6);
+  font-size: 12px;
+}
+.viz .axis-title {
+  fill: var(--oc-gray-7);
+  font-size: 13px;
+}
+.viz .grid line {
+  stroke: var(--oc-gray-1);
+  stroke-dasharray: 2, 2;
+}
+.viz .axis line,
+.viz .axis path {
+  stroke: var(--oc-gray-3);
+}
+.viz .point:focus {
+  outline: 2px solid var(--oc-blue-7);
+  outline-offset: 2px;
+}
+.viz .point:focus:not(:focus-visible) {
+  outline: none;
+}
+.viz .line-path {
+  fill: none;
+  stroke: var(--oc-blue-7);
+  stroke-width: 2.5;
+}
+<!-- @section: mount -->
+<svg role="list" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <title id="{{uid}}-title">Revenue climbs 48% over 2024, reaching $91K in December</title>
+  <desc id="{{uid}}-desc">
+    Line chart showing monthly revenue for 2024. Revenue starts at $61.5K in January and grows
+    steadily to $91K in December, a 48% increase over the year.
+  </desc>
+</svg>
+<!-- @section: helpers -->
+tooltip, a11y, data-table
+<!-- @section: chart-js -->
+// --- DATA ---
+const data = [
+  { month: "Jan", value: 61.5 },
+  { month: "Feb", value: 64.2 },
+  { month: "Mar", value: 67.8 },
+  { month: "Apr", value: 66.1 },
+  { month: "May", value: 70.4 },
+  { month: "Jun", value: 73.9 },
+  { month: "Jul", value: 72.5 },
+  { month: "Aug", value: 76.3 },
+  { month: "Sep", value: 79.1 },
+  { month: "Oct", value: 82.6 },
+  { month: "Nov", value: 87.4 },
+  { month: "Dec", value: 91.0 },
+];
+
+// --- DIMENSIONS ---
+const margin = { top: 16, right: 32, bottom: 48, left: 72 };
+const width = 700;
+const height = 400;
+const innerWidth = width - margin.left - margin.right;
+const innerHeight = height - margin.top - margin.bottom;
+
+const t = VizHelpers.tokens;
+
+// --- SVG ---
+const svg = d3
+  .select(root.querySelector("svg"))
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
+
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+// --- SCALES ---
+const x = d3
+  .scalePoint()
+  .domain(data.map((d) => d.month))
+  .range([0, innerWidth])
+  .padding(0.5);
+
+const yMin = d3.min(data, (d) => d.value) * 0.95;
+const yMax = d3.max(data, (d) => d.value) * 1.03;
+
+const y = d3.scaleLinear().domain([yMin, yMax]).nice().range([innerHeight, 0]);
+
+// --- GRID ---
+g.append("g")
+  .attr("class", "grid")
+  .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat(""))
+  .call((g) => g.select(".domain").remove());
+
+// --- AXES ---
+g.append("g")
+  .attr("class", "axis")
+  .attr("transform", `translate(0,${innerHeight})`)
+  .call(d3.axisBottom(x).tickSizeOuter(0))
+  .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+  .selectAll("text")
+  .attr("class", "axis-label");
+
+g.append("g")
+  .attr("class", "axis")
+  .call(d3.axisLeft(y).tickFormat((d) => `$${d}K`))
+  .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+  .selectAll("text")
+  .attr("class", "axis-label");
+
+// Y-axis title
+g.append("text")
+  .attr("class", "axis-title")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -56)
+  .attr("x", -innerHeight / 2)
+  .attr("text-anchor", "middle")
+  .text("Revenue ($K)");
+
+// --- LINE ---
+const lineGen = d3
+  .line()
+  .x((d) => x(d.month))
+  .y((d) => y(d.value))
+  .curve(d3.curveMonotoneX);
+
+g.append("path").datum(data).attr("class", "line-path").attr("d", lineGen);
+
+// --- POINT MARKERS ---
+const points = g
+  .selectAll(".point")
+  .data(data)
+  .join("circle")
+  .attr("class", "point")
+  .attr("cx", (d) => x(d.month))
+  .attr("cy", (d) => y(d.value))
+  .attr("r", 5)
+  .attr("fill", t["oc-blue-7"])
+  .attr("stroke", "white")
+  .attr("stroke-width", 2)
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => `${d.month}: $${d.value}K`)
+  .on("pointerenter", function (event, d) {
+    d3.select(this).attr("r", 7);
+    VizHelpers.showTooltip(root, event, `<strong>${d.month}</strong><br>Revenue: $${d.value}K`);
+  })
+  .on("pointermove", (event, d) =>
+    VizHelpers.showTooltip(root, event, `<strong>${d.month}</strong><br>Revenue: $${d.value}K`),
+  )
+  .on("pointerleave", function () {
+    d3.select(this).attr("r", 5);
+    VizHelpers.hideTooltip(root);
+  })
+  .on("focus", function (event, d) {
+    d3.select(this).attr("r", 7);
+    const rect = this.getBoundingClientRect();
+    d3.select(root.querySelector(".tooltip"))
+      .style("opacity", 1)
+      .html(`<strong>${d.month}</strong><br>Revenue: $${d.value}K`)
+      .style("left", `${rect.x + rect.width / 2}px`)
+      .style("top", `${rect.y - 40}px`);
+  })
+  .on("blur", function () {
+    d3.select(this).attr("r", 5);
+    VizHelpers.hideTooltip(root);
+  });
+
+// Keyboard navigation: arrow keys move between points
+VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+// --- DATA TABLE ---
+VizHelpers.renderDataTable(
+  root,
+  data.map((d) => [d.month, `$${d.value}K`]),
+  ["Month", "Revenue ($K)"],
+);

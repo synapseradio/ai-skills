@@ -1,0 +1,100 @@
+/* Page chrome and the shared per-instance card, scoped so several fragments can
+   share one document without their styles colliding.
+
+   The assembler inlines theme.css, then this file, then each fragment's own
+   chart-css, into the wrapper's single <style>. Everything here that styles a
+   chart is scoped under `.viz` (the per-instance section root), so two fragments
+   on one page never leak rules into each other. Only the page-level backdrop and
+   the centering layout are unscoped, because those legitimately belong to the
+   host page and are written once. */
+
+/* Page backdrop and centered column. Written once for the whole document. */
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+  background: var(--oc-gray-0);
+  color: var(--oc-gray-9);
+}
+.viz-page {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* The per-instance card. Each fragment is a `<section class="viz">`; it carries
+   its own card so two fragments stack as two cards in the column above. */
+.viz {
+  box-sizing: border-box;
+  background: white;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  /* Contain scroll and zoom gestures to this card so a chart never hijacks the
+     host page's scroll. overscroll-behavior stops scroll chaining; touch-action
+     keeps pinch-zoom from bubbling to the page. */
+  overscroll-behavior: contain;
+}
+.viz * {
+  box-sizing: border-box;
+}
+.viz h1 {
+  font-size: 18px;
+  margin: 0 0 4px;
+  color: var(--oc-gray-9);
+}
+.viz .subtitle {
+  font-size: 13px;
+  color: var(--oc-gray-6);
+  margin: 0 0 24px;
+}
+.viz figure {
+  margin: 0;
+}
+.viz figcaption {
+  margin: 0 0 24px;
+}
+.viz .tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border: 1px solid var(--oc-gray-3);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.viz details {
+  margin-top: 24px;
+  border-top: 1px solid var(--oc-gray-2);
+  padding-top: 16px;
+}
+.viz summary {
+  cursor: pointer;
+  color: var(--oc-gray-6);
+  font-size: 13px;
+}
+.viz table {
+  border-collapse: collapse;
+  font-size: 13px;
+  width: 100%;
+  margin-top: 12px;
+}
+.viz th,
+.viz td {
+  border: 1px solid var(--oc-gray-2);
+  padding: 8px 12px;
+  text-align: left;
+}
+.viz th {
+  background: var(--oc-gray-1);
+  font-weight: 600;
+  color: var(--oc-gray-8);
+}
+.viz tr:nth-child(even) {
+  background: var(--oc-gray-0);
+}

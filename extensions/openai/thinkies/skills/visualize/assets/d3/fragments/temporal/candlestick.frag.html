@@ -1,0 +1,319 @@
+<!-- @section: frontmatter -->
+name: Candlestick Chart (D3)
+description: Standalone D3 candlestick chart with OHLC data, hollow/filled body shape plus green/red color, keyboard navigation, and ARIA support
+chart-type: candlestick
+engine: d3
+<!-- @section: title -->
+ACME stock advances from $148 to $181 over 20 trading days
+<!-- @section: subtitle -->
+OHLC prices, trading days 1–20 ($)
+<!-- @section: chart-css -->
+.viz .axis-label {
+  fill: var(--oc-gray-6);
+  font-size: 11px;
+}
+.viz .axis-title {
+  fill: var(--oc-gray-7);
+  font-size: 13px;
+}
+.viz .grid line {
+  stroke: var(--oc-gray-1);
+  stroke-dasharray: 2, 2;
+}
+.viz .axis line,
+.viz .axis path {
+  stroke: var(--oc-gray-3);
+}
+.viz .candle-body:focus {
+  outline: 2px solid var(--oc-blue-7);
+  outline-offset: 2px;
+}
+.viz .candle-body:focus:not(:focus-visible) {
+  outline: none;
+}
+.viz .tooltip {
+  line-height: 1.6;
+}
+.viz .legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.viz .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--oc-gray-7);
+}
+.viz .legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+<!-- @section: mount -->
+<div class="legend">
+  <div class="legend-item">
+    <span class="legend-swatch legend-up"></span>
+    <span>Bullish (close &gt; open) — hollow body</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-swatch legend-down"></span>
+    <span>Bearish (close &lt; open) — filled body</span>
+  </div>
+</div>
+<svg role="list" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <title id="{{uid}}-title">ACME stock advances from $148 to $181 over 20 trading days</title>
+  <desc id="{{uid}}-desc">
+    Candlestick chart showing ACME stock OHLC prices across 20 trading days. Bullish sessions
+    (close above open) are drawn as hollow teal-outlined candles; bearish sessions (close below
+    open) are drawn as filled red candles. The overall trend is upward from about $148 to about
+    $181.
+  </desc>
+</svg>
+<!-- @section: helpers -->
+tooltip, a11y, data-table
+<!-- @section: chart-js -->
+const t = VizHelpers.tokens;
+
+// --- DATA (20 trading days of OHLC) ---
+const data = [
+  { day: 1, open: 148.0, high: 151.2, low: 147.1, close: 150.5 },
+  { day: 2, open: 150.5, high: 153.8, low: 149.6, close: 149.8 },
+  { day: 3, open: 149.8, high: 152.4, low: 148.7, close: 152.1 },
+  { day: 4, open: 152.1, high: 155.0, low: 151.3, close: 154.6 },
+  { day: 5, open: 154.6, high: 157.2, low: 153.9, close: 153.3 },
+  { day: 6, open: 153.3, high: 156.8, low: 152.5, close: 156.0 },
+  { day: 7, open: 156.0, high: 159.1, low: 155.4, close: 158.7 },
+  { day: 8, open: 158.7, high: 161.5, low: 157.8, close: 157.2 },
+  { day: 9, open: 157.2, high: 160.3, low: 156.1, close: 159.9 },
+  { day: 10, open: 159.9, high: 163.4, low: 159.1, close: 162.5 },
+  { day: 11, open: 162.5, high: 165.7, low: 161.8, close: 161.3 },
+  { day: 12, open: 161.3, high: 164.9, low: 160.4, close: 164.2 },
+  { day: 13, open: 164.2, high: 167.8, low: 163.5, close: 166.9 },
+  { day: 14, open: 166.9, high: 170.1, low: 166.2, close: 169.4 },
+  { day: 15, open: 169.4, high: 172.6, low: 168.7, close: 168.1 },
+  { day: 16, open: 168.1, high: 171.9, low: 167.3, close: 171.5 },
+  { day: 17, open: 171.5, high: 174.8, low: 170.9, close: 173.2 },
+  { day: 18, open: 173.2, high: 177.0, low: 172.4, close: 176.3 },
+  { day: 19, open: 176.3, high: 179.5, low: 175.6, close: 174.8 },
+  { day: 20, open: 174.8, high: 182.3, low: 174.1, close: 181.0 },
+];
+
+// Bullish/bearish color, drawn from shared tokens (teal up, red down). Color is
+// the SECONDARY channel here; the primary, color-vision-safe channel is the body
+// fill style: bullish candles are HOLLOW (white fill), bearish are FILLED.
+const colorUp = t["oc-teal-7"];
+const colorDown = t["oc-red-7"];
+function isBullish(d) {
+  return d.close >= d.open;
+}
+function candleStroke(d) {
+  return isBullish(d) ? colorUp : colorDown;
+}
+function candleFill(d) {
+  // Hollow body for bullish (redundant shape encoding that survives color-vision
+  // deficiency), solid color for bearish.
+  return isBullish(d) ? "#ffffff" : colorDown;
+}
+
+// --- DIMENSIONS ---
+const margin = { top: 16, right: 32, bottom: 48, left: 72 };
+const width = 760;
+const height = 420;
+const innerWidth = width - margin.left - margin.right;
+const innerHeight = height - margin.top - margin.bottom;
+
+// Color the legend swatches to match: hollow outlined swatch for bullish, filled
+// for bearish.
+const upSwatch = root.querySelector(".legend-up");
+if (upSwatch) {
+  upSwatch.style.background = "#ffffff";
+  upSwatch.style.border = `2px solid ${colorUp}`;
+}
+const downSwatch = root.querySelector(".legend-down");
+if (downSwatch) {
+  downSwatch.style.background = colorDown;
+}
+
+// --- SVG ---
+const svg = d3
+  .select(root.querySelector("svg"))
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
+
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+// --- SCALES ---
+const x = d3
+  .scaleBand()
+  .domain(data.map((d) => d.day))
+  .range([0, innerWidth])
+  .padding(0.3);
+
+const yMin = d3.min(data, (d) => d.low);
+const yMax = d3.max(data, (d) => d.high);
+const yPad = (yMax - yMin) * 0.06;
+
+const y = d3
+  .scaleLinear()
+  .domain([yMin - yPad, yMax + yPad])
+  .nice()
+  .range([innerHeight, 0]);
+
+// --- GRID ---
+g.append("g")
+  .attr("class", "grid")
+  .call(d3.axisLeft(y).tickSize(-innerWidth).tickFormat(""))
+  .call((g) => g.select(".domain").remove());
+
+// --- AXES ---
+g.append("g")
+  .attr("class", "axis")
+  .attr("transform", `translate(0,${innerHeight})`)
+  .call(
+    d3
+      .axisBottom(x)
+      .tickSizeOuter(0)
+      .tickFormat((d) => `D${d}`)
+      .tickValues(data.filter((d) => d.day % 5 === 0 || d.day === 1).map((d) => d.day)),
+  )
+  .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+  .selectAll("text")
+  .attr("class", "axis-label");
+
+g.append("g")
+  .attr("class", "axis")
+  .call(d3.axisLeft(y).tickFormat((d) => `$${d.toFixed(0)}`))
+  .call((g) => g.select(".domain").attr("stroke", t["oc-gray-3"]))
+  .selectAll("text")
+  .attr("class", "axis-label");
+
+// Y-axis title
+g.append("text")
+  .attr("class", "axis-title")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -56)
+  .attr("x", -innerHeight / 2)
+  .attr("text-anchor", "middle")
+  .text("Price ($)");
+
+// X-axis title
+g.append("text")
+  .attr("class", "axis-title")
+  .attr("x", innerWidth / 2)
+  .attr("y", innerHeight + 38)
+  .attr("text-anchor", "middle")
+  .text("Trading Day");
+
+// --- TOOLTIP ---
+const fmt = d3.format(",.2f");
+
+function tooltipHtml(d) {
+  const dir = isBullish(d) ? "▲" : "▼";
+  const change = (d.close - d.open).toFixed(2);
+  const pct = (((d.close - d.open) / d.open) * 100).toFixed(2);
+  return (
+    `<strong>Day ${d.day}</strong><br>` +
+    `Open: $${fmt(d.open)}<br>` +
+    `High: $${fmt(d.high)}<br>` +
+    `Low: $${fmt(d.low)}<br>` +
+    `Close: $${fmt(d.close)}<br>` +
+    `${dir} ${change > 0 ? "+" : ""}${change} (${pct}%)`
+  );
+}
+
+// --- WICKS (high–low lines) ---
+g.selectAll(".wick")
+  .data(data)
+  .join("line")
+  .attr("class", "wick")
+  .attr("x1", (d) => x(d.day) + x.bandwidth() / 2)
+  .attr("x2", (d) => x(d.day) + x.bandwidth() / 2)
+  .attr("y1", (d) => y(d.high))
+  .attr("y2", (d) => y(d.low))
+  .attr("stroke", (d) => candleStroke(d))
+  .attr("stroke-width", 1.5);
+
+// --- CANDLE BODIES ---
+const candles = g
+  .selectAll(".candle-body")
+  .data(data)
+  .join("rect")
+  .attr("class", "candle-body")
+  .attr("x", (d) => x(d.day))
+  .attr("y", (d) => y(Math.max(d.open, d.close)))
+  .attr("width", x.bandwidth())
+  .attr("height", (d) => Math.max(1, Math.abs(y(d.open) - y(d.close))))
+  .attr("fill", (d) => candleFill(d))
+  .attr("stroke", (d) => candleStroke(d))
+  .attr("stroke-width", 1.5)
+  .attr("rx", 1)
+  .attr("ry", 1)
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => {
+    const dir = isBullish(d) ? "bullish" : "bearish";
+    return `Day ${d.day}: ${dir}, open $${fmt(d.open)}, high $${fmt(d.high)}, low $${fmt(d.low)}, close $${fmt(d.close)}`;
+  })
+  .on("pointerenter", function (event, d) {
+    g.selectAll(".candle-body").attr("opacity", 0.3);
+    g.selectAll(".wick").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1);
+    g.selectAll(".wick")
+      .filter((w) => w.day === d.day)
+      .attr("opacity", 1);
+    VizHelpers.showTooltip(root, event, tooltipHtml(d));
+  })
+  .on("pointermove", function (event, d) {
+    VizHelpers.showTooltip(root, event, tooltipHtml(d));
+  })
+  .on("pointerleave", function () {
+    g.selectAll(".candle-body").attr("opacity", 1);
+    g.selectAll(".wick").attr("opacity", 1);
+    VizHelpers.hideTooltip(root);
+  })
+  .on("focus", function (event, d) {
+    g.selectAll(".candle-body").attr("opacity", 0.3);
+    g.selectAll(".wick").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1);
+    g.selectAll(".wick")
+      .filter((w) => w.day === d.day)
+      .attr("opacity", 1);
+    const rect = this.getBoundingClientRect();
+    const tip = d3.select(root.querySelector(".tooltip"));
+    tip
+      .style("opacity", 1)
+      .html(tooltipHtml(d))
+      .style("left", `${rect.x + rect.width / 2}px`)
+      .style("top", `${rect.y - 40}px`);
+  })
+  .on("blur", function () {
+    g.selectAll(".candle-body").attr("opacity", 1);
+    g.selectAll(".wick").attr("opacity", 1);
+    VizHelpers.hideTooltip(root);
+  });
+
+// Keyboard navigation: arrow keys move between candles
+VizHelpers.navigateMarks(root, "ArrowLeft", "ArrowRight");
+
+// --- DATA TABLE ---
+VizHelpers.renderDataTable(
+  root,
+  data.map((d) => {
+    const change = d.close - d.open;
+    const pct = ((change / d.open) * 100).toFixed(2);
+    return [
+      `Day ${d.day}`,
+      `$${fmt(d.open)}`,
+      `$${fmt(d.high)}`,
+      `$${fmt(d.low)}`,
+      `$${fmt(d.close)}`,
+      `${change >= 0 ? "+" : ""}${change.toFixed(2)} (${change >= 0 ? "+" : ""}${pct}%)`,
+    ];
+  }),
+  ["Day", "Open", "High", "Low", "Close", "Change"],
+);

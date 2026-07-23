@@ -1,0 +1,239 @@
+<!-- @section: frontmatter -->
+name: Sunburst (D3)
+description: Standalone D3 sunburst chart with 2-level hierarchy, full keyboard navigation and ARIA support
+chart-type: sunburst
+engine: d3
+<!-- @section: title -->
+Engineering dominates headcount at 52% of total org
+<!-- @section: subtitle -->
+Organizational headcount by department and team (people)
+<!-- @section: chart-css -->
+.viz .arc-path:focus {
+  outline: 2px solid var(--oc-blue-7);
+  outline-offset: 2px;
+}
+.viz .arc-path:focus:not(:focus-visible) {
+  outline: none;
+}
+.viz .arc-label {
+  font-size: 11px;
+  pointer-events: none;
+}
+<!-- @section: mount -->
+<svg role="list" aria-labelledby="{{uid}}-title {{uid}}-desc">
+  <title id="{{uid}}-title">Engineering dominates headcount at 52% of total org</title>
+  <desc id="{{uid}}-desc">
+    Sunburst chart showing organizational headcount. The inner ring shows 3 departments:
+    Engineering (52%), Product (28%), and Operations (20%). The outer ring breaks each
+    department into its constituent teams.
+  </desc>
+</svg>
+<!-- @section: helpers -->
+tooltip, a11y, data-table
+<!-- @section: chart-js -->
+const svgEl = root.querySelector("svg");
+const t = VizHelpers.tokens;
+
+// --- DATA ---
+const hierarchy = {
+  name: "Org",
+  children: [
+    {
+      name: "Engineering",
+      children: [
+        { name: "Platform", value: 34 },
+        { name: "Frontend", value: 28 },
+        { name: "Backend", value: 42 },
+      ],
+    },
+    {
+      name: "Product",
+      children: [
+        { name: "Design", value: 22 },
+        { name: "PM", value: 18 },
+        { name: "Research", value: 14 },
+      ],
+    },
+    {
+      name: "Operations",
+      children: [
+        { name: "Finance", value: 16 },
+        { name: "HR", value: 20 },
+      ],
+    },
+  ],
+};
+
+// Color palette: parent colors from the shared tokens, child variants derived as
+// lighter tints of the parent so no raw palette hex is needed.
+const parentColors = {
+  Engineering: t["oc-blue-7"],
+  Product: t["oc-orange-8"],
+  Operations: t["oc-teal-7"],
+};
+const childParent = {
+  Platform: "Engineering",
+  Frontend: "Engineering",
+  Backend: "Engineering",
+  Design: "Product",
+  PM: "Product",
+  Research: "Product",
+  Finance: "Operations",
+  HR: "Operations",
+};
+const childTints = { 0: 0.6, 1: 1.1, 2: 0 };
+function childColor(name, index) {
+  const base = parentColors[childParent[name]] || t["oc-gray-6"];
+  const amount = childTints[index % 3] ?? 0.5;
+  return amount === 0 ? base : d3.color(base).brighter(amount).formatHex();
+}
+
+// --- DIMENSIONS ---
+const width = 600;
+const height = 560;
+const radius = Math.min(width, height) / 2 - 20;
+
+// --- SVG ---
+const svg = d3
+  .select(svgEl)
+  .attr("viewBox", `0 0 ${width} ${height}`)
+  .attr("width", "100%");
+
+const g = svg.append("g").attr("transform", `translate(${width / 2},${height / 2})`);
+
+// --- PARTITION LAYOUT ---
+const hierarchyRoot = d3
+  .hierarchy(hierarchy)
+  .sum((d) => d.value)
+  .sort((a, b) => b.value - a.value);
+
+d3.partition().size([2 * Math.PI, radius])(hierarchyRoot);
+
+// Arc generator: maps depth to radial ring
+const innerRing = radius * 0.32;
+const outerRing = radius;
+const ringWidth = (outerRing - innerRing) / hierarchyRoot.height;
+
+const arc = d3
+  .arc()
+  .startAngle((d) => d.x0)
+  .endAngle((d) => d.x1)
+  .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.01))
+  .padRadius(radius / 2)
+  .innerRadius((d) => {
+    if (d.depth === 0) return 0;
+    return innerRing + (d.depth - 1) * ringWidth;
+  })
+  .outerRadius((d) => {
+    if (d.depth === 0) return 0;
+    return innerRing + d.depth * ringWidth - 2;
+  });
+
+const total = hierarchyRoot.value;
+
+const tooltip = d3.select(root.querySelector(".tooltip"));
+
+// --- ARCS ---
+const paths = g
+  .selectAll(".arc-path")
+  .data(hierarchyRoot.descendants().filter((d) => d.depth > 0))
+  .join("path")
+  .attr("class", "arc-path")
+  .attr("d", arc)
+  .attr("fill", (d) => {
+    if (d.depth === 1) return parentColors[d.data.name] || t["oc-gray-6"];
+    const siblings = d.parent.children;
+    const idx = siblings.indexOf(d);
+    return childColor(d.data.name, idx);
+  })
+  .attr("fill-opacity", (d) => (d.depth === 1 ? 0.85 : 0.65))
+  .attr("stroke", "white")
+  .attr("stroke-width", 1.5)
+  .attr("tabindex", 0)
+  .attr("role", "listitem")
+  .attr("aria-label", (d) => {
+    const pct = ((d.value / total) * 100).toFixed(1);
+    const parent = d.depth > 1 ? ` (${d.parent.data.name})` : "";
+    return `${d.data.name}${parent}: ${d.value} people, ${pct}%`;
+  });
+
+paths
+  .on("pointerenter", function (event, d) {
+    g.selectAll(".arc-path").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1);
+    const pct = ((d.value / total) * 100).toFixed(1);
+    const parent = d.depth > 1 ? `<br>${d.parent.data.name}` : "";
+    tooltip
+      .style("opacity", 1)
+      .html(`<strong>${d.data.name}</strong>${parent}<br>${d.value} people (${pct}%)`)
+      .style("left", `${event.pageX + 12}px`)
+      .style("top", `${event.pageY - 28}px`);
+  })
+  .on("pointermove", function (event) {
+    tooltip.style("left", `${event.pageX + 12}px`).style("top", `${event.pageY - 28}px`);
+  })
+  .on("pointerleave", function () {
+    g.selectAll(".arc-path").attr("opacity", 1);
+    VizHelpers.hideTooltip(root);
+  })
+  .on("focus", function (event, d) {
+    g.selectAll(".arc-path").attr("opacity", 0.3);
+    d3.select(this).attr("opacity", 1);
+    const pct = ((d.value / total) * 100).toFixed(1);
+    const parent = d.depth > 1 ? `<br>${d.parent.data.name}` : "";
+    const rect = this.getBoundingClientRect();
+    tooltip
+      .style("opacity", 1)
+      .html(`<strong>${d.data.name}</strong>${parent}<br>${d.value} people (${pct}%)`)
+      .style("left", `${rect.x + rect.width / 2}px`)
+      .style("top", `${rect.y - 40}px`);
+  })
+  .on("blur", function () {
+    g.selectAll(".arc-path").attr("opacity", 1);
+    VizHelpers.hideTooltip(root);
+  });
+
+// Keyboard navigation
+paths.on("keydown", function (event) {
+  const nodes = paths.nodes();
+  const idx = nodes.indexOf(this);
+  if (event.key === "ArrowRight" && idx < nodes.length - 1) {
+    event.preventDefault();
+    nodes[idx + 1].focus();
+  } else if (event.key === "ArrowLeft" && idx > 0) {
+    event.preventDefault();
+    nodes[idx - 1].focus();
+  }
+});
+
+// --- ARC LABELS (depth=1 only, if arc is wide enough) ---
+g.selectAll(".arc-label")
+  .data(hierarchyRoot.descendants().filter((d) => d.depth === 1))
+  .join("text")
+  .attr("class", "arc-label")
+  .attr("transform", (d) => {
+    const [x, y] = arc.centroid(d);
+    return `translate(${x},${y})`;
+  })
+  .attr("text-anchor", "middle")
+  .attr("fill", "white")
+  .attr("font-weight", "600")
+  .text((d) => (d.x1 - d.x0 > 0.3 ? d.data.name : ""));
+
+// Center label
+g.append("text")
+  .attr("text-anchor", "middle")
+  .attr("dy", "0.35em")
+  .attr("font-size", "13px")
+  .attr("fill", t["oc-gray-7"])
+  .text(`${total} total`);
+
+// --- DATA TABLE ---
+const tableRows = [];
+hierarchy.children.forEach((dept) => {
+  dept.children.forEach((team, j) => {
+    const pct = ((team.value / total) * 100).toFixed(1);
+    tableRows.push([j === 0 ? dept.name : "", team.name, team.value, `${pct}%`]);
+  });
+});
+VizHelpers.renderDataTable(root, tableRows, ["Department", "Team", "Headcount", "% of Total"]);

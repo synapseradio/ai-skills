@@ -1,0 +1,35 @@
+{
+  "author": {
+    "name": "Nick Krause",
+    "url": "https://github.com/synapseradio"
+  },
+  "description": "Reasoning toolkit of 48 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Invoke one explicitly by name, or let Codex match one by description.",
+  "homepage": "https://github.com/synapseradio/ai-skills/tree/main/extensions/openai/thinkies",
+  "interface": {
+    "capabilities": [
+      "Read"
+    ],
+    "category": "Productivity",
+    "developerName": "Nick Krause",
+    "displayName": "Thinkies",
+    "longDescription": "Forty-eight small reasoning skills that each do one thing: break a problem at its joints, surface what you are assuming, argue the opposite, tile the futures a decision hinges on, check whether the evidence carries the claim. Each skill is prose instructions only — no network calls, no credentials, no background state.",
+    "shortDescription": "Forty-eight reasoning skills for thinking through hard problems."
+  },
+  "keywords": [
+    "reasoning",
+    "thinking",
+    "decision-analysis",
+    "creativity",
+    "questioning",
+    "decomposition",
+    "critical-thinking",
+    "ideation",
+    "socratic",
+    "epistemics"
+  ],
+  "license": "EUPL-1.2",
+  "name": "thinkies",
+  "repository": "https://github.com/synapseradio/ai-skills",
+  "skills": "./skills/",
+  "version": "0.1.0"
+}
