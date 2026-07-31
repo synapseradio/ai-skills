@@ -1,4 +1,4 @@
-# reason-from-first-principles
+# derive-first-principles
 
 Strip convention to irreducible truths — question every component, keep only what survives, reason up from the fundamentals — and find which constraints are real versus inherited.
 
@@ -8,19 +8,19 @@ Strip convention to irreducible truths — question every component, keep only w
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/thinkies/reason-from-first-principles/` into `~/.claude/skills/reason-from-first-principles/`.
+Or copy `skills/thinkies/derive-first-principles/` into `~/.claude/skills/derive-first-principles/`.
 
 ## Usage
 
 ```
-/reason-from-first-principles <belief or approach>
+/derive-first-principles <belief or approach>
 ```
 
 ## Install as a `.skill`
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`reason-from-first-principles.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/reason-from-first-principles.skill)
+[`derive-first-principles.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/derive-first-principles.skill)
 
 ## License
 

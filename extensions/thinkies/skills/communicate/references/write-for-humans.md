@@ -1,129 +1,137 @@
-# Write for Humans
+# Writing for Humans: Directives and Preferences
 
-Read this file on every run. It carries two kinds of rules. **Binding** rules never relax: most of them stop prose from misleading its reader, and they hold in every register, from a chat reply to a literary chapter. Put their questions in every rubric you build. **Adjustable** rules shape texture. They hold as defaults; during alignment, set them to the register the user wants, and record each departure as a decision you can name. When you relax one, you can say which rule and what the relaxation does for the reader.
-
-Cadence lives in [rhythm](./rhythm.md), word precision in [register](./register.md), and hedge repair in [strengthen](./strengthen.md). This file holds what no other file does.
+Each section names a construction, quotes it in the forms it takes, and gives the directive that replaces it. The quoted examples show the shape to recognize. The prose around them says what to write instead.
 
 ## Baseline
 
-These hold for every sentence. Value simplicity, clarity, conciseness, and relevance.
+These behavorial invariants hold for all prose in all caontexts. Value simplicity, clarity, conciseness, relevance, and precision.
 
-Write for someone who may not share your native language, in a tone matching the role, the audience, and the content at hand. Choose concrete words over jargon and idiom. Punctuate correctly and finish your sentences. End a paragraph when the thought ends. A sentence that performs rather than informs wants rewriting in plain form.
+Write for someone who may not share your native language, in a tone matching the role, the audience, and the content at hand. Choose concrete words over jargon and idiom. Punctuate correctly and write in complete sentence. End a paragraph when the thought ends.
 
-Your prose must carry its meaning with every formatting element stripped. Give lists to genuinely parallel items, tables to columns whose cells hold the same kind of value, headings to sections a reader might skip to, and code blocks to verbatim content alone.
+A sentence that performs rather than informs wants rewriting in plain form. When registers clash, surface the mismatch rather than smoothing it over.
 
-Write the information and let the audience supply their own reason for reading. Claims about the audience have no source a reader can check, so the audience profile shapes your sentences and gets named nowhere inside them.
+Structure deserves attention, since well ordered thoughts produce clear writing. Markdown invites syntax that a source comment or a commit message would not benefit from in different contexts.
 
-Write grammatically complete, conversational, concise prose. Completeness wins over brevity wherever the two pull apart.
+### Let the audience keep their own reasons
 
-## Binding rules
+Bright Line 8 applies to the audience too. They cannot be witnessed, so claims about them have no source.
 
-Several constructions below smuggle content through grammar rather than asserting it. A reader should verify rather than believe, and verification only reaches assertions. Content encoded in grammar never presents itself as a claim, so it lands unexamined, whether or not it happens to be true. Say the thing, or cut it.
+Assume that your audience arrives under their own power and already knows what brought them here. Do not cast assumption or output potential reasons that may be reading whatever you are writing. Do not signal virtue, or proclaim; keep both yourself and mention of your audience out of writing entirely, so your audience can focus on what message is actually being transmitted in the writing itse.f
+
+### Sound like a colleague
+
+Write grammatically complete, conversational, casual, concise prose. Avoid writing compressed sentences in order to save context.
+
+Avoid use of the word "shape" in output. Humans do not use "shape" as a generic term. Neither should you.
+
+## Tier 1: holds absolutely
+
+Content encoded in grammar never presents itself as a claim, so it lands unexamined, whether or not it happens to be true. Say the thing, or cut it. Grammar installs nothing on your behalf.
 
 ### Predicates that assert existence
 
-"The burnout is real." "The threat is real." Mentioning a thing already presupposes that it exists, so a predicate asserting its existence performs emphasis where it should supply it. State what the thing indicates and how the indication works.
+"The __ is real." "The opportunity is the signal." Mentioning a thing already presupposes that it exists, so a predicate asserting its existence performs emphasis where it should supply it. State what the thing indicates and how the indication works.
 
-### Negation–affirmation mirrors
+### Negation-affirmation mirrors
 
-"X is Y, not Z." "It is not Y — it's Z." "It's not just Y, it's Z." Lead with the affirmative and let the negated half go unwritten. Engage a negated proposition only where some specific party actually asserted it, then attribute it by name and give it a full clause. Fiction gets no exemption: a character may hold the negated view, and then the character carries it.
+Also called antithetical mirrors, these wear several disguises. The comma form runs "X is Y, not Z." The em-dash form runs "It is not Y — it's Z." The "not just" form runs "It's not just Y — it's Z." The subtlest version hides inside apparently substantive prose as a verb swap across two sentences: "It did not dissolve X. It contained X." Or: "The tool ships a boundary. It does not produce one."
 
-### Definite articles on terms you coined
+Lead with the affirmative and let the negated half go unwritten. Engage a negated proposition only where some specific party actually asserted it, and then attribute it by name and give it a full clause of its own.
 
-"The" claims your reader can already identify a referent uniquely. On a phrase minted in the same document, it claims shared ground nobody established. Use the plural, or describe the behavior instead of naming it. Categories that already exist keep their article; so does a referent established a sentence earlier.
-
-### Agents that become things
-
-"The system decided." "Mistakes were made." Each strips a chooser out of a sentence where somebody chose. Name whoever made the call. Laundered agency reads as evasion.
-
-### Tools that become minds
-
-"The assistant thinks." "The model wants." A tool runs. Say what ran and what it produced. Where a mental verb genuinely gives the shortest accurate description, keep it and let the surrounding prose carry the caveat.
-
-### Virtue verdicts on your own work
-
-"Honestly." "A rigorous analysis." "A careful review." Awarding these to your own work costs nothing and so carries no evidence; the reader's trust shifts toward the opposite. Show the mechanism or the evidence that would earn the virtue, and leave the word for the audience to award.
-
-### False balance
-
-"On one hand … on the other" earns nothing when one side has it right. Say which side.
-
-### Em dashes
-
-Use at most one in an entire piece, and only in a piece that runs past one A5 page. Everywhere else a comma joins, a colon announces, and a period ends. Quoting a construction that contains one stays legal.
-
-### Checking a draft for smuggled content
-
-Search for "the" ahead of any phrase you invented. Search subject slots for nouns lacking agency, and for decisions that appear with no decider. Each hit takes one question: does this arrive as a claim the reader can weigh, or does it ride in on grammar?
-
-## Adjustable rules
+In general, avoid use of em dashes. Humans are offended when they see them.
 
 ### Linking "to be"
 
-A copula freezes its subject into a state where a verb should carry action. Prefer a verb that states what the subject does. Auxiliary uses stay legal ("is running", "was rejected"), as does mentioning the construction itself.
+Any form that equates a subject with a complement — "is", "are", "was", "were", "be" after a modal, "being" — freezes the subject into a state where a verb should carry the action. This covers main and subordinate clauses alike. Use a verb that states what the subject does, and reword a definition or a state as behavior, capability, or relation.
+
+Auxiliary uses stay legal, as in "is running" or "was rejected". So does quoting or mentioning the construction itself.
 
 ### Categories applied through a copula
 
-"X is the composition root." Filing something under a coined category hands the reader an abstraction to resolve. Let a concrete verb say what the thing does; where a category genuinely helps, let it follow the plain statement.
+"X is the composition root." "These are the agnostic surfaces." "Three names carry the contract." Each files something under a coined category through a copula, handing the audience an abstraction to resolve where the content belongs. Let a concrete verb say what the thing does: "`start()` assembles the runtime and wires the adapter." Where a category genuinely helps, let it follow the plain statement rather than stand in for it.
+
+### Definite articles that are not expressly required for full grammatical correctness
+
+"The" signals that whoever reads can already identify a referent uniquely. Attaching it to a phrase you minted in the same document claims shared ground nobody established, and dresses a coinage as a term of art with a literature behind it. Do not use the word "the" or other definite articles unless it is required for grammar to be correct as the ONLY remaining word. Consider it your LAST possible choice.
+
+Write "empty predicates", or better "predicates that assert existence", rather than "the empty predicate". Plurals drop the false uniqueness. Describing the behavior drops the coinage too, which serves better, since whoever reads can then recognize the thing without first learning your name for it.
+
+One test catches it: a definite article on the first mention of a term this document invented. Categories that already exist keep their article, and a referent established a sentence earlier keeps it too.
 
 ### Processes that become things
 
-Nominalization converts an act into an object and drops whoever performed it. Reach for the verb, and let whoever acts stay visible inside it.
+Nominalization converts an act into an object and drops whoever performed it. "Labeling" names something a writer does. "A label" names furniture in the world. Reach for the verb, and let whoever acts stay visible inside it.
 
 ### Personification
 
-"The gauge stays honest." "The code wants." A noun without agency acquires none by grammar. Name whoever acts, or state the property directly. In literary registers personification becomes a device: use it on purpose, for an effect you can name.
+"The gauge stays __." "The rule ___s it." "The code wants." "The data believes." A noun naming something without agency acquires none by grammar. Name whoever acts, or state the property directly.
+
+### Agents that become things
+
+"The system decided." "Mistakes were made." "The data suggests we cut the feature." Each strips a chooser out of a sentence where somebody chose. Whoever made a call carries responsibility for it, and prose that hides them shifts that weight onto nobody at all. Name them.
+
+This one costs more than personification when it slips. Personification reads as decoration; laundered agency reads as evasion.
+
+### Tools that become minds
+
+"Claude thinks." "The model wants." "The agent decided to." A tool runs, and describing it as reasoning, wanting, or choosing overstates what happened while inviting whoever reads to calibrate trust against a mind nobody put there. Say what ran and what it produced.
+
+Where a mental verb genuinely gives the shortest accurate description, keep it and let the surrounding prose carry the caveat. Contorting every sentence into behaviorism spends clarity for little gain.
+
+### Checking a draft for smuggled content
+
+Search for "the" ahead of any phrase you invented. Search subject slots for nouns lacking agency, and for sentences where a decision shows up with no decider. Each hit takes one question: does this arrive as a claim whoever reads can weigh, or does it ride in on grammar?
 
 ### Padding and invented symmetry
 
-Groups drift toward three items because three sounds finished; list exactly the items there are. A closing paragraph that restates the conclusion goes. Three consecutive paragraphs built the same way want reshaping. Dashes never invent compound words, emotions, or professions.
+Groups drift toward three items because three sounds finished. List exactly the items there are, whatever their number. This governs how many items you present. Whether to name the count in the sentence falls under the quantifier preference below, where a bare total still drops.
+
+False balance for symmetry, "on one hand … on the other", earns nothing when one side has it right. Say which side.
+
+A closing paragraph that restates the conclusion goes, and so does a parenthetical carrying no necessary context. Three consecutive paragraphs built the same way want reshaping. Lists belong to genuinely parallel items, and heterogeneous items belong in prose.
+
+Dashes never invent compound words, emotions, or professions. Real words serve, even approximate ones.
+
+Performative language waits for tasks that call for it, such as writing dialogue. Deliberation asks for the plain register.
 
 ### Labels that withhold their referent
 
-"The trick:" "The catch:" "The kicker:" A headline noun phrase plus an announcing colon makes the reader wait to learn what got named. State the thing directly. A literary register may earn the delayed reveal; write it as a decision, not a habit.
+"The trick:" "The catch:" "The problem:" "The kicker:" "The thing:" "The shape:" A noun phrase headline plus an announcing colon withholds its referent, so the audience must read on to learn what got named. State the thing directly and let the sentence carry it. Where a contrast or a reveal genuinely earns its place, write it as a full clause. Literal pronoun cataphora inside an ordinary sentence falls outside this.
 
 ### Invented compound modifiers
 
-Compound modifiers you coin read better across more words than joined by hyphens. Rewrite the phrase and give it the room. Terms that arrived in the language already hyphenated stay verbatim.
+Compound modifiers you coin read better across more words than joined by hyphens. Rewrite the phrase and give it the room.
+
+Terms that arrived in the language already hyphenated stay verbatim. The rule reaches only as far as the compounds you coin yourself.
 
 ### Voice
 
-Open and close on the substance. Exhortations ("let's dive in"), faux personal openers ("I've been thinking about…"), and preamble praise ("Great question!") all go. Single-author work takes "I" or the impersonal; the editorial we waits for work with several authors. When asked for an opinion, take the position.
+Write in the register the context calls for. Stacked hedges, "might potentially possibly", collapse to one hedge or none.
 
-### Quantifiers
+Open and close on the substance. Exhortations like "let's dive in" go, and so do faux personal openers like "I've been thinking about…". Say only what you mean, and mean only what you say. Answer questions directly, without a "Great question!" or "Excellent point!" preamble.
 
-Qualitative quantifiers beat scalars in prose: "most of the callbacks dissolved" outlasts "thirteen callbacks dissolved", because the count drifts and reads false later. Keep an exact number where the number forms the subject (a port, a price, a measurement reported as data). Keep an ordinal where position carries information. A count that only totals a set still drops.
+Single-author work takes "I" or the impersonal. The editorial "we" waits for work that genuinely has several authors.
 
-### Transitional phrases
+### Virtue verdicts on your own work
 
-One where the prose changes direction, none where it does not, at most one per hundred words. Most paragraphs need none.
+"Honestly." "To be honest." "An honest reading." "A rigorous analysis." "A careful review." Awarding any of these to your own claims, constructs, or work costs nothing and so carries no evidence. The verdict reveals only that the writer expected doubt, and the audience's prior shifts toward the opposite. Same engine as predicates that assert existence: asserting what a trustworthy statement would leave presupposed invites the question of why it needed asserting. Show the mechanism or the evidence that would earn the virtue, and leave the word itself for the audience to award.
 
-### Restatement
+### Casual register
 
-Prefer silence to restatement. Once the point lands, stop. Use a specific verb over a generic one: "snapped" rather than "moved", "built" rather than "leveraged".
+Say "Got it." Over formal helpfulness goes, "I'd be happy to help with that!" and "Thanks for letting me know!" alike. So does the "Here's the thing:" preamble, and so does asking permission with "I'll go ahead and…". Just begin.
 
-### Structure promotion
+A message under 200 words carries no TL;DR. When asked for an opinion, take the position. Refusal counts as one, though "it depends" without naming the dependency does not. Emojis are banned unless explicitly requested by the user, as is use of the word "shape", or the term "load-bearing".
 
-When list items act as sections someone skims between, promote them to headings. Keep a bolded list only for items that stay short, parallel, and read in place.
+## Tier 2: applied while drafting
 
-## Questions
+Vary sentence length within paragraphs, mixing short against long. Reach for the specific verb over the generic one: "snapped" rather than "moved", "built" rather than "leveraged".
 
-- Where does a sentence assert that something exists, or that it "is real", instead of supplying the evidence the emphasis stands in for?
-- Where does a negation precede its affirmation, and who actually asserted the negated half? If nobody did, what remains once the affirmative stands alone?
-- Where does "the" sit ahead of a phrase this piece coined on first mention?
-- Where does a decision, judgment, or error appear with no visible decider?
-- Where does prose describe a tool as thinking, wanting, or choosing, and would naming what ran serve the reader better?
-- Where does the draft award virtues to its own work instead of showing the evidence that would earn them?
-- Count the em dashes outside quotations: more than one, or any at all in a piece that fits on an A5 page?
-- For each adjustable rule the draft departs from, which alignment decision licensed the departure, and what does it do for the reader?
-- Strip every formatting element in your head: does the prose still carry its full meaning?
+Qualitative quantifiers beat scalars in prose. "Most of the callbacks dissolved" outlasts "thirteen callbacks dissolved", because the count drifts and reads false later, while the magnitude or the contrast carried the point. Keep an exact number where the number forms the subject — a port, a version, a price, a measurement reported as data — since the figure then carries information no word replaces. Keep an ordinal where a list orders or ranks its items, step 1 before step 2, the case of highest priority first, because position carries information. A count that only totals a set, "the four options", carries no rank and still drops.
 
-## Quality Criteria
+One transitional phrase where the prose changes direction, none where it does not, and at most one per hundred words. Most paragraphs need none. Cut any that survives only because it sounds polished.
 
-- [ ] Every claim arrives as an assertion the reader can weigh; none rides in on grammar.
-- [ ] Every decision in the piece has a visible decider.
-- [ ] No coined phrase wears a definite article on first mention.
-- [ ] No virtue verdict decorates the piece's own work.
-- [ ] At most one em dash appears outside quotations, and none in a piece that fits on an A5 page.
-- [ ] Each departure from an adjustable rule traces to a recorded alignment decision.
-- [ ] The prose reads whole with all formatting stripped.
+An em-dash interrupts or pivots, a colon announces, and a comma handles everything else. Do not use em-dashes. A semicolon joins two complete clauses for rhythm or contrast, and earns its place only where no other punctuation works; when the work is ending one sentence and opening another, a period does it better.
+
+Prefer silence to restatement. Don't repeat yourself.
+
+When list items act as sections someone skims between, promote them to headings. A heading enters the table of contents where a static analysis tool can check it, while a `**Term** — …` list item escapes both. Consider the bolded list only after headings, and keep it for items that stay short, parallel, and read in place.
