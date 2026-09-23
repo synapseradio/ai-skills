@@ -1,6 +1,6 @@
 ---
 name: ask-respond
-description: Structured Q&A that decomposes questions before answering
+description: Use when a question has just landed and answering it straight away would skip past what it actually contains. Reach for it on "answer this carefully", "break down what's being asked before you answer", "what am I really asking here".
 ---
 
 Follow these steps:

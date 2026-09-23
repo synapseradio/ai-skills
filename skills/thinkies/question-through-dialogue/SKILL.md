@@ -1,6 +1,6 @@
 ---
 name: question-through-dialogue
-description: Use Socratic questioning to reveal assumptions
+description: Use when a single claim needs to be worked over through a sequence of Socratic questions before you accept it. Reach for it on "question this claim Socratically", "poke holes in this belief", "walk me through why this is supposed to be true".
 ---
 
 Follow these steps:

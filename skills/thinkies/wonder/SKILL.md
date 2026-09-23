@@ -1,6 +1,6 @@
 ---
 name: wonder
-description: Open the possibility space through curiosity-driven questioning
+description: Use when a situation invites open, undirected curiosity before any structured technique is chosen. Reach for it on "let's just wonder about this", "what if we followed our curiosity here", "I don't know where to start, let's explore".
 ---
 
 Follow these steps:

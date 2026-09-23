@@ -1,6 +1,6 @@
 ---
 name: assess-current-knowledge
-description: Map what's known vs assumed vs unknown
+description: Use when you are about to decide or act and need to separate what you actually know from what you are assuming or missing. Reach for it on "what do we actually know here", "map the unknowns", "are we ready to decide on this".
 ---
 
 Follow these steps:

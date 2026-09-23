@@ -1,6 +1,6 @@
 ---
 name: calibrate-confidence
-description: Match certainty to evidence strength
+description: Use when a claim's confidence needs naming or checking against the evidence behind it, whether a certainty is already stated or still has to be set. Reach for it on "how confident should I be in this", "am I overstating this", "calibrate my confidence".
 ---
 
 Follow these steps:

@@ -1,6 +1,6 @@
 ---
 name: trace-logic
-description: Follow reasoning step-by-step
+description: Use when an argument's step-by-step validity needs checking for gaps between the steps, not for a named fallacy or an overall confidence ratio. Reach for it on "does this reasoning actually follow", "trace this argument step by step", "where's the gap in this logic".
 ---
 
 Follow these steps:

@@ -1,6 +1,6 @@
 ---
 name: tutor
-description: Interactive tutoring that adapts to your pace
+description: Use when someone wants an ongoing back-and-forth that checks their understanding and adjusts pace at every turn. Reach for it on "teach me this interactively", "quiz me on this while we go", "slow down, walk me through that again".
 ---
 
 Follow these steps:

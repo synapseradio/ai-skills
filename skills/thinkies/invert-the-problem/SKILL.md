@@ -1,6 +1,6 @@
 ---
 name: invert-the-problem
-description: Turn a problem inside out to reveal hidden structure
+description: Use when pursuing a goal directly has stalled and reversing the goal, the sequence, or the optimization target might reveal what direct pursuit hid. Reach for it on "invert this problem", "flip this around and see what shows up", "what if we optimized for the opposite instead".
 ---
 
 Follow these steps:

@@ -1,6 +1,6 @@
 ---
 name: flip-assumptions
-description: Test claims by forming contrapositive
+description: Use when a causal or categorical claim has an if-then structure and testing its logically equivalent reverse would be easier than testing it directly. Reach for it on "form the contrapositive", "check the contrapositive instead of the original claim", "if the effect is absent, was the cause ever really there".
 ---
 
 Follow these steps:

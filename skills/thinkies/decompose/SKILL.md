@@ -1,6 +1,6 @@
 ---
 name: decompose
-description: Break a whole into parts at its natural joints
+description: Use when a whole needs to be broken into its parts at the places it is already naturally divided. Reach for it on "break this down into its parts", "decompose this into pieces", "what are the natural components here".
 ---
 
 Follow these steps:

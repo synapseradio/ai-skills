@@ -1,6 +1,6 @@
 ---
 name: excavate-assumptions
-description: Surface unstated assumptions at multiple levels and rank them
+description: Use when a framing or plan needs its embedded assumptions surfaced before you trust it. Reach for it on "what am I assuming here", "surface the assumptions", "what's baked into this that nobody's said out loud".
 ---
 
 Follow these steps:

@@ -1,6 +1,6 @@
 ---
 name: research-and-teach
-description: Research deeply, explain progressively
+description: Use when a topic is not yet well understood and needs real research folded into one complete explanation, not a back-and-forth session. Reach for it on "research this and then explain it to me", "I don't know much about this, give me one full write-up", "dig into this topic and give me the full picture".
 ---
 
 Follow these steps:

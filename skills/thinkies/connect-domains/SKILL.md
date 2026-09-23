@@ -1,6 +1,6 @@
 ---
 name: connect-domains
-description: Import solutions from structurally similar problems in distant domains
+description: Use when a problem feels stuck inside its own field and a solved problem from a distant domain might transfer. Reach for it on "how do other fields solve this", "is there an analogous problem already solved elsewhere", "borrow a solution from another domain".
 ---
 
 Follow these steps:

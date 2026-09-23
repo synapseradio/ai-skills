@@ -1,6 +1,6 @@
 ---
 name: trace-logical-justifications
-description: Trace justification chains to bedrock
+description: Use when a claim needs to be traced backward to find out whether it ultimately rests on an observation or definition, or on nothing at all. Reach for it on "what is this claim actually resting on", "trace this back to bedrock", "is this claim floating on nothing".
 ---
 
 Follow these steps:

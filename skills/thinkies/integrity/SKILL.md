@@ -1,6 +1,6 @@
 ---
 name: integrity
-description: Verify epistemic integrity by aligning claims with evidence
+description: Use when a response or artifact is about to go out and its claims need a full pass against the evidence backing them. Reach for it on "check this for epistemic integrity", "audit this response before I send it", "verify every claim in this actually holds up".
 ---
 
 Follow these steps:

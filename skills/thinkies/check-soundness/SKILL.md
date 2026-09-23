@@ -1,6 +1,6 @@
 ---
 name: check-soundness
-description: Test synthesis for contradictions
+description: Use when several perspectives or pieces of evidence have been merged into one conclusion and you need to know whether the merged view actually holds together. Reach for it on "does this synthesis hold up", "check this combined view for contradictions", "stress-test this unified picture".
 ---
 
 Follow these steps:

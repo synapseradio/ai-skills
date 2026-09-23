@@ -1,6 +1,6 @@
 ---
 name: run-premortem
-description: Imagine catastrophic failure and work backwards to prevent it
+description: Use when a plan is about to be committed to and the failure modes that would sink it have not yet been named. Reach for it on "run a premortem on this plan", "imagine this failed, why did it fail", "what would the postmortem say about this plan".
 ---
 
 Follow these steps:

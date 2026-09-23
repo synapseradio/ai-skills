@@ -1,6 +1,6 @@
 ---
 name: ask-what-breaks
-description: Find defeaters that would break a conclusion
+description: Use when a conclusion looks settled and you need to know what would overturn it before acting on it. Reach for it on "what would break this", "am I missing something", "stress-test this conclusion".
 ---
 
 Follow these steps:

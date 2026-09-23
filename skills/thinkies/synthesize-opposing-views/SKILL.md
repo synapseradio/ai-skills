@@ -1,6 +1,6 @@
 ---
 name: synthesize-opposing-views
-description: Find higher understanding through dialectic
+description: Use when two positions stand in direct, stated opposition and need a dialectical resolution rather than a simple pick between them. Reach for it on "these two views seem to contradict", "reconcile this thesis and its opposite", "find the synthesis between these two positions".
 ---
 
 Follow these steps:

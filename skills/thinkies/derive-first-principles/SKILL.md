@@ -1,6 +1,6 @@
 ---
 name: derive-first-principles
-description: Strip convention to irreducible truths and rebuild
+description: Use when a conventional approach is being followed without anyone having reexamined the fundamentals it rests on. Reach for it on "why do we do it this way", "strip this down to first principles", "what would we build if we started from scratch".
 ---
 
 Find or reverse engineer first principles from context.

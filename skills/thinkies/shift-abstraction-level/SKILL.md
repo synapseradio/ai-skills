@@ -1,6 +1,6 @@
 ---
 name: shift-abstraction-level
-description: Move up, down, and sideways between levels of abstraction
+description: Use when a statement feels stuck at the wrong altitude for the decision at hand. Reach for it on "zoom out on this", "what does this look like in practice", "am I thinking about this at the right level".
 ---
 
 Follow these steps:

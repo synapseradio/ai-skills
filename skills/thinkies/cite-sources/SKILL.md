@@ -1,6 +1,6 @@
 ---
 name: cite-sources
-description: Track, validate, and cite external sources with working URLs
+description: Use when claims in a response rest on information pulled from the web or another external tool this session and those sources need working, checkable citations. Reach for it on "cite your sources", "add citations with real links", "make sure these URLs actually resolve".
 ---
 
 Follow these steps:

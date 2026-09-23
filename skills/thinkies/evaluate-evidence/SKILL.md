@@ -1,6 +1,6 @@
 ---
 name: evaluate-evidence
-description: Assess how well evidence supports claims
+description: Use when a claim has been made and the evidence offered for it needs to be weighed rather than taken at face value. Reach for it on "how good is this evidence", "does the evidence actually support this claim", "rate the strength of this evidence".
 ---
 
 Follow these steps:

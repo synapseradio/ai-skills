@@ -1,6 +1,6 @@
 ---
 name: detect-fallacies
-description: Spot logical errors in reasoning
+description: Use when an argument needs to be checked against the classic named fallacies before it is trusted. Reach for it on "is this a fallacy", "spot the logical error here", "is this a straw man or a false dichotomy".
 ---
 
 Follow these steps:

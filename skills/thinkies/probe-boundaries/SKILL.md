@@ -1,6 +1,6 @@
 ---
 name: probe-boundaries
-description: Test a claim or framing at its edges and extremes
+description: Use when a claim or framing needs to be tested at its edges and extreme values, not whether the conclusion itself should be abandoned. Reach for it on "push this to its extremes", "test the edge cases of this claim", "where does this claim stop applying".
 ---
 
 Follow these steps:

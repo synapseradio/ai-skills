@@ -1,6 +1,6 @@
 ---
 name: argue-the-opposite
-description: Stress-test a position by building the strongest counter-case
+description: Use when a stance or decision has been settled and you want a real opponent's case before deciding whether to keep it, revise it, or drop it. Reach for it on "argue the opposite", "play devil's advocate on this", "steelman the case against this decision".
 ---
 
 Follow these steps:

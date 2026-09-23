@@ -1,6 +1,6 @@
 ---
 name: integrate-other-perspectives
-description: Combine viewpoints into coherent whole
+description: Use when several distinct viewpoints have already been gathered and need to be built into one picture that explains what no single piece did alone. Reach for it on "combine these viewpoints", "pull these perspectives together", "weave these accounts into one picture".
 ---
 
 Follow these steps:

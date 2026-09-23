@@ -1,6 +1,6 @@
 ---
 name: audit-chain-of-thought
-description: Tag reasoning steps by inference type
+description: Use when a multi-step chain of reasoning has produced a conclusion and you need an overall verdict on how much of it is deduced versus assumed. Reach for it on "how solid is this chain of reasoning overall", "how much of this is proven versus assumed", "audit this chain of thought".
 ---
 
 Follow these steps:

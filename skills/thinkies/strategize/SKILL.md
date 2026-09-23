@@ -1,6 +1,6 @@
 ---
 name: strategize
-description: Adaptive multi-phase reasoning for complex problems
+description: Use when a complex problem needs a sustained, multi-turn reasoning session that keeps adapting its technique as you steer it, rather than a single pass. Reach for it on "run a full reasoning session on this with me", "keep adapting your approach as we go deeper", "let's stay on this across several turns".
 ---
 
 Follow these steps:

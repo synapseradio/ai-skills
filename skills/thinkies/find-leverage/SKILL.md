@@ -1,6 +1,6 @@
 ---
 name: find-leverage
-description: Locate where a small change shifts the whole system
+description: Use when a system needs the single point where a small change would shift the whole thing. Reach for it on "where's the leverage point here", "what's the highest-impact place to intervene", "find the root cause behind all these symptoms".
 ---
 
 Follow these steps:

@@ -1,6 +1,6 @@
 ---
 name: shift-perspective
-description: Inhabit contrasting frames to see what one viewpoint misses
+description: Use when a situation has only been seen from one vantage point and inhabiting contrasting frames would reveal what that one frame misses. Reach for it on "how would someone else see this", "what am I missing by only looking at this one way", "view this from other angles".
 ---
 
 Follow these steps:

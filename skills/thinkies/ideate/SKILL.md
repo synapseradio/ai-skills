@@ -1,6 +1,6 @@
 ---
 name: ideate
-description: Generate and filter ideas into vetted options
+description: Use when a decision needs a shortlist of vetted options and none exist yet. Reach for it on "brainstorm options and narrow them down", "generate some vetted choices here", "give me a few solid options to compare".
 ---
 
 Follow these steps:

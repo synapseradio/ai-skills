@@ -1,6 +1,6 @@
 ---
 name: detect-diminishing-returns
-description: Detect when further effort yields little gain
+description: Use when ongoing exploration or investigation keeps running and you need to know whether it is still surfacing anything new. Reach for it on "have we hit diminishing returns", "should we stop digging into this", "are we still learning anything here".
 ---
 
 Follow these steps:

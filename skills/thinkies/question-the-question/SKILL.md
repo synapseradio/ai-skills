@@ -1,6 +1,6 @@
 ---
 name: question-the-question
-description: Examine whether the inquiry is aimed at the right target
+description: Use when the current line of inquiry might be aimed at the wrong target and needs to be checked before pursuing it further. Reach for it on "are we even asking the right question", "step back, is this the right question", "why are we asking this instead of something else".
 ---
 
 Follow these steps:

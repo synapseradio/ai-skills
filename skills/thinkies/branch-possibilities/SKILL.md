@@ -1,6 +1,6 @@
 ---
 name: branch-possibilities
-description: Generate fundamentally divergent directions from one starting point
+description: Use when you have one starting point and want several genuinely divergent directions laid out raw, before any ranking or narrowing. Reach for it on "give me fundamentally different directions", "branch this out", "what are the genuinely different paths here".
 ---
 
 Follow these steps:

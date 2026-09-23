@@ -1,6 +1,6 @@
 ---
 name: consider-alternatives
-description: Generate competing explanations for the same observations
+description: Use when one explanation for an observation has been offered and other explanations for the same observation have not yet been ruled out. Reach for it on "what else could explain this", "is there another explanation", "what are the competing explanations here".
 ---
 
 Follow these steps:
