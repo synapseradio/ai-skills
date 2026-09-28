@@ -105,5 +105,5 @@ File: `map-out_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "map-out", "topic": "[topic]", "subject": "[the subject]", "project": "[repository or project name, or empty]", "resumed": false}
 {"kind": "note", "at": "[time]", "text": "[where the subject sits after this move, on each axis the move touched]", "context": "[what the move found that placed it there]"}
 {"kind": "result", "at": "[time]", "text": "[a closing item]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[what stays open]", "q": ""}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[what stays open]", "q": ""}
 ```

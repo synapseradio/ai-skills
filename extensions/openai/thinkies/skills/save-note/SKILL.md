@@ -36,5 +36,5 @@ File: `save-note_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 ```jsonl
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "save-note", "topic": "[topic]", "subject": "[the insight in one line]", "project": "[repository or project name, or empty]", "resumed": false}
 {"kind": "note", "at": "[time]", "text": "[the insight, one to three sentences]", "context": "[what was being worked on and what led to it]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[a question the insight leaves]", "q": ""}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[a question the insight leaves]", "q": ""}
 ```

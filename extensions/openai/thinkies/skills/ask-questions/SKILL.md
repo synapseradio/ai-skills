@@ -105,9 +105,9 @@ File: `ask-questions_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 
 ```jsonl
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "ask-questions", "topic": "[topic]", "subject": "[the driving question]", "project": "[repository or project name, or empty]", "resumed": false}
-{"kind": "question", "at": "[time]", "id": "q1", "text": "[the question as asked]"}
-{"kind": "answer", "at": "[time]", "q": "q1", "text": "[the reply]", "by": "[who replied]"}
+{"kind": "question", "at": "[time]", "id": "question-1", "text": "[the question as asked]"}
+{"kind": "answer", "at": "[time]", "q": "question-1", "text": "[the reply]", "by": "[who replied]"}
 {"kind": "note", "at": "[time]", "text": "[a move that is not a question]", "context": "[what prompted it]"}
 {"kind": "result", "at": "[time]", "text": "[the end state the inquiry reached]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[a question still unanswered]", "q": "q2"}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[a question still unanswered]", "q": "question-2"}
 ```

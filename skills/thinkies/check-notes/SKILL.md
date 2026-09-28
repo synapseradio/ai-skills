@@ -39,10 +39,10 @@ File: `[skill]_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 ```jsonl
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "[skill]", "topic": "[topic]", "subject": "[subject]", "project": "[project]", "resumed": false}
 {"kind": "given", "at": "[time]", "text": "[fact]", "source": "[source]"}
-{"kind": "question", "at": "[time]", "id": "q1", "text": "[question]"}
-{"kind": "answer", "at": "[time]", "q": "q1", "text": "[answer]", "by": "[who answered]"}
-{"kind": "skip", "at": "[time]", "q": "q2", "reason": "[reason]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[open item]", "about": ["function-1"]}
+{"kind": "question", "at": "[time]", "id": "question-1", "text": "[question]"}
+{"kind": "answer", "at": "[time]", "q": "question-1", "text": "[answer]", "by": "[who answered]"}
+{"kind": "skip", "at": "[time]", "q": "question-2", "reason": "[reason]"}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[open item]", "about": ["function-1"]}
 {"kind": "note", "at": "[time]", "text": "[note]", "context": "[context]"}
 {"kind": "result", "at": "[time]", "text": "[result]"}
 {"kind": "node", "at": "[time]", "id": "function-1", "level": "generalized function", "grain": "[grain]", "name": "[name]", "evidence": "[evidence]", "retired": false}

@@ -94,9 +94,9 @@ File: `ask-respond_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 ```jsonl
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "ask-respond", "topic": "[topic]", "subject": "[the question, restated]", "project": "[repository or project name, or empty]", "resumed": false}
 {"kind": "given", "at": "[time]", "text": "[a fact, source, or limit the answers must respect]", "source": "[where it came from]"}
-{"kind": "question", "at": "[time]", "id": "q1", "text": "[step 1's question, naming the subject]"}
-{"kind": "answer", "at": "[time]", "q": "q1", "text": "[the answer]", "by": "[who answered]"}
-{"kind": "skip", "at": "[time]", "q": "q2", "reason": "[why the step does not apply]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[the fact an answer needs]", "q": "q3"}
+{"kind": "question", "at": "[time]", "id": "question-1", "text": "[step 1's question, naming the subject]"}
+{"kind": "answer", "at": "[time]", "q": "question-1", "text": "[the answer]", "by": "[who answered]"}
+{"kind": "skip", "at": "[time]", "q": "question-2", "reason": "[why the step does not apply]"}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[the fact an answer needs]", "q": "question-3"}
 {"kind": "result", "at": "[time]", "text": "[the answer to the user's question]"}
 ```

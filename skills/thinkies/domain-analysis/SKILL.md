@@ -81,7 +81,7 @@ File: `domain-analysis_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 {"kind": "link", "at": "[time]", "from": "process-1", "to": "function-1", "rel": "means-of", "retired": false}
 {"kind": "link", "at": "[time]", "from": "process-1", "to": "process-2", "rel": "part-of", "retired": false}
 {"kind": "actor", "at": "[time]", "id": "actor-1", "name": "[who]", "type": "[person or agent]", "acts_on": ["process-1"], "sees": ["function-1"], "retired": false}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[the gap or question]", "about": ["function-1"]}
-{"kind": "answer", "at": "[time]", "q": "o1", "text": "[the answer]", "by": "[who answered]"}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[the gap or question]", "about": ["function-1"]}
+{"kind": "answer", "at": "[time]", "q": "open-1", "text": "[the answer]", "by": "[who answered]"}
 {"kind": "result", "at": "[time]", "text": "[a finding and the nodes it names]"}
 ```

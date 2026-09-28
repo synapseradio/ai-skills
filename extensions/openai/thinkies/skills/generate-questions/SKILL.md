@@ -130,9 +130,9 @@ File: `generate-questions_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 ```jsonl
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "generate-questions", "topic": "[topic]", "subject": "[the driving question]", "project": "[repository or project name, or empty]", "resumed": false}
 {"kind": "given", "at": "[time]", "text": "[a fact the questions rest on]", "source": "[where it came from]"}
-{"kind": "question", "at": "[time]", "id": "q1", "text": "[the rung, worded as it will be asked]"}
-{"kind": "note", "at": "[time]", "text": "[Decides, a branch, or the fallback move]", "context": "q1"}
+{"kind": "question", "at": "[time]", "id": "question-1", "text": "[the rung, worded as it will be asked]"}
+{"kind": "note", "at": "[time]", "text": "[Decides, a branch, or the fallback move]", "context": "question-1"}
 {"kind": "result", "at": "[time]", "text": "[the Done when line]"}
-{"kind": "answer", "at": "[time]", "q": "q1", "text": "[the answer, and the branch it opens]", "by": "[who answered]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[what an answer needs that the inquiry does not give]", "q": "q1"}
+{"kind": "answer", "at": "[time]", "q": "question-1", "text": "[the answer, and the branch it opens]", "by": "[who answered]"}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[what an answer needs that the inquiry does not give]", "q": "question-1"}
 ```

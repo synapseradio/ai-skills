@@ -223,5 +223,5 @@ File: `ponder_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 {"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "ponder", "topic": "[topic]", "subject": "[the problem]", "project": "[repository or project name, or empty]", "resumed": false}
 {"kind": "note", "at": "[time]", "text": "[a main finding]", "context": "[the output line it extends]"}
 {"kind": "result", "at": "[time]", "text": "[a converge item]"}
-{"kind": "open", "at": "[time]", "id": "o1", "text": "[what stays open]", "q": ""}
+{"kind": "open", "at": "[time]", "id": "open-1", "text": "[what stays open]", "q": ""}
 ```
