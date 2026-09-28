@@ -3,7 +3,7 @@ name: excavate-assumptions
 description: Surface unstated assumptions at multiple levels and rank them
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. List every assumption
 

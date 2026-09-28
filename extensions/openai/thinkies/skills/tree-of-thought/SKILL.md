@@ -22,6 +22,7 @@ Break the query into core components with dependencies.
 1. Identify a small set of fundamental components.
 2. For each: describe what it involves, why it has its position in the sequence, and what it depends on.
 3. Map dependencies between components (which must resolve before others can start).
+4. Check that the components together cover the query: every one must be resolved for the query to be, and no two cover the same ground.
 
 ## Phase 2: Solution Generation
 
@@ -31,7 +32,7 @@ For each component, generate these distinct approaches:
 - **B — Creative/Unconventional**: novel angle, handles edge cases, more flexible.
 - **C — Systematic/Comprehensive**: thorough coverage, well-documented, maintainable.
 
-Assign each a viability score (0.0-1.0) with brief rationale.
+The approaches for a component are alternatives: any one of them resolves it, and Phase 3 keeps one. Assign each a viability score (0.0-1.0) with brief rationale.
 
 ## Phase 3: Evaluation & Selection
 
@@ -45,12 +46,15 @@ Score each approach against weighted criteria:
 
 Present scores in a comparison table per component. Select the best approach for each with a one-line rationale.
 
+When no approach for a component scores well enough to act on, go back: generate new approaches for it in Phase 2, or cut it differently in Phase 1.
+
 ## Phase 4: Synthesis
 
 1. Integrate selected approaches into a coherent solution path with specific implementation steps per component.
-2. Surface key insights: patterns recognized, trade-offs made, unexpected findings.
-3. Assess overall confidence (High/Medium/Low with percentage) noting strongest elements and areas of uncertainty.
-4. Note a couple of alternative paths worth considering if the primary path encounters issues.
+2. Check that the selected approaches work together: name what passes between dependent components, and where one approach undoes another, return to Phase 3 for that component.
+3. Surface key insights: patterns recognized, trade-offs made, unexpected findings.
+4. Assess overall confidence (High/Medium/Low with percentage) noting strongest elements and areas of uncertainty.
+5. Note a couple of alternative paths worth considering if the primary path encounters issues.
 
 ## Summary
 

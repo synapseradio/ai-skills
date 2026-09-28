@@ -26,6 +26,10 @@ Afterward, ask for the extras:
 
 Strategic interaction with other optimizing agents, multi-party negotiation, and ongoing policy optimization fall outside the method. Multi-stage decisions qualify when they can be framed as decide, observe, decide.
 
+## Sources
+
+- Howard, R. A. (1966). Decision analysis: Applied decision theory. In D. B. Hertz & J. Melese (Eds.), *Proceedings of the Fourth International Conference on Operational Research* (pp. 55–71). The venue and pages come from a reference list (<https://link.springer.com/rwe/10.1007/978-1-4419-1153-7_1161>), not from the paper itself.
+
 ## Install as a `.skill`
 
 Upload this file in Claude.ai → Settings → Skills:

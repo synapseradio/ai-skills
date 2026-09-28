@@ -1,7 +1,27 @@
-1. Identify the load-bearing variables in the claim or framing.
-2. Maximize and minimize each variable to its extreme.
-3. Test absence — remove each variable entirely.
-4. Change kind, not just degree — transform the scenario categorically.
-5. For the problem statement itself, underline every key word and substitute alternatives to check whether the framing constrains thinking unnecessarily.
-6. Examine why the conclusion fails at each boundary.
-7. Revise the scope with appropriate limits.
+### 1. Identify load-bearing variables
+
+Identify the load-bearing variables in the claim or framing.
+
+### 2. Push to extremes
+
+Maximize and minimize each variable to its extreme.
+
+### 3. Test absence
+
+Remove each variable entirely.
+
+### 4. Change kind, not just degree
+
+Transform the scenario categorically.
+
+### 5. Stress the framing itself
+
+Underline every key word in the problem statement and substitute alternatives to check whether the framing constrains thinking unnecessarily.
+
+### 6. Examine the failures
+
+Examine why the conclusion fails at each boundary.
+
+### 7. Revise the scope
+
+Revise the scope with appropriate limits.

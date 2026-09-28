@@ -1,6 +1,23 @@
-1. Identify the current belief and conventional approach.
-2. Question every component: a fundamental truth, or an assumption from convention, analogy, or authority?
-3. Keep only what survives.
-4. Reason up from the surviving fundamentals — given only these truths, what follows?
-5. Compare with the conventional approach; identify which constraints are real and which are inherited.
-6. Ask what new possibilities open when inherited constraints are removed.
+### 1. Identify the convention
+
+Identify a current belief and its conventional approach from the context of your task and the user's request.
+
+### 2. Question every component
+
+Is each a fundamental truth, or an assumption from convention, analogy, or authority?
+
+### 3. Keep what survives
+
+Keep only what survives the questioning.
+
+### 4. Reason up
+
+Given only the surviving fundamentals, what follows?
+
+### 5. Compare with convention
+
+Identify which constraints are real and which are inherited.
+
+### 6. Open new possibilities
+
+Ask what new possibilities open when inherited constraints are removed.

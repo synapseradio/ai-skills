@@ -8,7 +8,7 @@ Ask: Of the questions that pass the rung test, which one earns the next turn?
 
 ## Instructions
 
-1. **Never ask what an earlier answer already settled.** Re-asking wastes the turn and tells them you weren't listening. Before drafting the next question, check it against everything already answered. That record arrives from the caller, per the core's contract; when it wasn't supplied, say so before ordering anything.
+1. **Never ask what an earlier answer already settled.** Re-asking wastes the turn and tells them you weren't listening. Before drafting the next question, check it against everything already answered. That record arrives from the caller; when it wasn't supplied, say so before ordering anything.
 
 2. **Prefer the question that collapses the largest remaining space of possibilities.** Of the candidates still standing, ask the one whose answer rules out the most. Where the possibilities resist counting — most open conversation — use the rung test's second gate as the proxy: prefer the candidate whose possible answers would most change what you do or ask next.
 

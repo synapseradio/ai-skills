@@ -10,8 +10,6 @@ description: >-
   duplicating this", or any moment you are adding to a system you have not fully
   read. It directs you to read what already serves the purpose before you act, and
   to make your own intent legible in what you produce.
-metadata:
-  context: fork
 ---
 
 # Surface Intent

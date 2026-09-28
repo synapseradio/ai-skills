@@ -3,7 +3,7 @@ name: shift-perspective
 description: Inhabit contrasting frames to see what one viewpoint misses
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Identify the current frame
 

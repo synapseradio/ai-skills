@@ -3,7 +3,7 @@ name: invert-the-problem
 description: Turn a problem inside out to reveal hidden structure
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Flip the goal
 

@@ -1,0 +1,60 @@
+{
+  "actor": [
+    "id",
+    "name",
+    "type",
+    "acts_on",
+    "sees",
+    "retired"
+  ],
+  "answer": [
+    "q",
+    "text",
+    "by"
+  ],
+  "given": [
+    "text",
+    "source"
+  ],
+  "link": [
+    "from",
+    "to",
+    "rel",
+    "retired"
+  ],
+  "node": [
+    "id",
+    "level",
+    "grain",
+    "name",
+    "evidence",
+    "retired"
+  ],
+  "note": [
+    "text",
+    "context"
+  ],
+  "open": [
+    "id",
+    "text",
+    "q|about"
+  ],
+  "question": [
+    "id",
+    "text"
+  ],
+  "result": [
+    "text"
+  ],
+  "run": [
+    "skill",
+    "topic",
+    "subject",
+    "project",
+    "resumed"
+  ],
+  "skip": [
+    "q",
+    "reason"
+  ]
+}

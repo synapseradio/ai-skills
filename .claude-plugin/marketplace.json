@@ -7,7 +7,7 @@
   },
   "plugins": [
     {
-      "description": "Reasoning toolkit of 48 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
+      "description": "Reasoning toolkit of 58 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
       "keywords": [
         "reasoning",
         "thinking",

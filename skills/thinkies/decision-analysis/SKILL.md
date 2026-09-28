@@ -1,7 +1,7 @@
 ---
 name: decision-analysis
 description: >-
-  Apply decision analysis (Howard 1966): systematically formulate and
+  Apply decision analysis: systematically formulate and
   evaluate one concrete decision under uncertainty. Specifies the decision
   problem's four components (states of the world, available acts, the
   consequence of each act in each state, and the preference ordering over
@@ -14,8 +14,6 @@ description: >-
   or learn more first", or "what am I actually choosing between". Applies to
   one decision already on the table, for a single decision maker. Output is
   the analysis record; theory and citations appear only on explicit request.
-metadata:
-  context: fork
 ---
 
 # Decision analysis

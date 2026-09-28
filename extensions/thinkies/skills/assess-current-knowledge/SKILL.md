@@ -3,7 +3,7 @@ name: assess-current-knowledge
 description: Map what's known vs assumed vs unknown
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Classify into four quadrants
 

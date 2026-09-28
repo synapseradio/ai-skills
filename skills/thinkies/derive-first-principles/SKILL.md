@@ -5,7 +5,7 @@ description: Strip convention to irreducible truths and rebuild
 
 Find or reverse engineer first principles from context.
 
-Follow these steps:
+## Steps
 
 ### 1. Identify the convention
 

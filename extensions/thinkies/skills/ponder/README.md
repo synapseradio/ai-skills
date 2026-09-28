@@ -12,7 +12,7 @@ would flip it.
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/ponder/` into `~/.claude/skills/ponder/`.
+Or copy `skills/thinkies/ponder/` into `~/.claude/skills/ponder/`.
 
 ## Usage
 
@@ -55,6 +55,15 @@ a frozen decision needs revisiting:
 - **Chain cap of five** — a guess, open. Calibrate against real runs.
 - **Checks** — no eval harness exists yet; every check above runs as a manual
   fixture run.
+
+## Records
+
+When loaded from the thinkies Claude Code plugin, ponder saves a record of each run to the plugin store at `${CLAUDE_PLUGIN_DATA}/records/`: the problem, each technique's main finding, each converge item, and what stays open. It copies the record to the Records mirror folder when that optional setting names one. Uninstalling the plugin deletes the store unless you run `claude plugin uninstall thinkies@ai-skills --keep-data`; the mirror stays. Loaded anywhere else, ponder prints the record in its reply as a `jsonl` block for you to keep.
+
+## Sources
+
+- Rasmussen, J. (1985). The role of hierarchical knowledge representation in decisionmaking and system management. *IEEE Transactions on Systems, Man, and Cybernetics*, SMC-15(2), 234–243. [doi:10.1109/TSMC.1985.6313353](https://doi.org/10.1109/TSMC.1985.6313353). Pages below count article pages; the [DTU PDF](https://backend.orbit.dtu.dk/ws/files/158019622/HISMC.PDF) opens with a cover sheet, so its page number is one higher. Art. p. 4 (PDF p. 5) and art. p. 9 (PDF p. 10).
+- Tversky, B. (1989). [Parts, partonomies, and taxonomies](https://www.tc.columbia.edu/faculty/bt2158/faculty-profile/files/1989_Tversky_Partspartonomiesandtaxonomies.pdf).
 
 ## Install as a `.skill`
 

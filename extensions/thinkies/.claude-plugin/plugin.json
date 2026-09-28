@@ -3,7 +3,7 @@
     "name": "Nick Krause",
     "url": "https://github.com/synapseradio"
   },
-  "description": "Reasoning toolkit of 48 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
+  "description": "Reasoning toolkit of 58 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
   "homepage": "https://github.com/synapseradio/ai-skills/tree/main/extensions/thinkies",
   "keywords": [
     "reasoning",
@@ -20,5 +20,12 @@
   "license": "EUPL-1.2",
   "name": "thinkies",
   "repository": "https://github.com/synapseradio/ai-skills",
-  "version": "0.1.1"
+  "userConfig": {
+    "records_mirror": {
+      "description": "Optional folder that receives a copy of every thinkies record. The plugin's data folder is deleted on uninstall unless you pass --keep-data; the mirror is not.",
+      "title": "Records mirror folder",
+      "type": "directory"
+    }
+  },
+  "version": "0.2.0"
 }

@@ -3,7 +3,7 @@ name: wonder
 description: Open the possibility space through curiosity-driven questioning
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Notice the surprising
 

@@ -6,8 +6,6 @@ compatibility: >-
   Any agent that can read files on demand, keep a short ranked list in its
   working notes, and answer explicit questions about a draft. No
   harness-specific tools, no model-specific behavior.
-metadata:
-  context: fork
 ---
 
 # Communicate

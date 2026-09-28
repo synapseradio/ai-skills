@@ -3,7 +3,7 @@ name: run-premortem
 description: Imagine catastrophic failure and work backwards to prevent it
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Assume failure
 

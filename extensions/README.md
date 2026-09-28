@@ -39,7 +39,7 @@ This repo is a plugin marketplace: `.claude-plugin/marketplace.json` at the repo
 | Plugin | Wraps skill | Purpose |
 |---|---|---|
 | [`de-residency`](./de-residency) | `de-residency-advisor` | Conversational coach for non-EU expats preparing for German government appointments. |
-| [`thinkies`](./thinkies) | 48 reasoning skills | Reasoning toolkit; each skill is invoked as `/thinkies:<name>`. |
+| [`thinkies`](./thinkies) | 58 reasoning skills | Reasoning toolkit; each skill is invoked as `/thinkies:<name>`. |
 
 ## Conventions
 

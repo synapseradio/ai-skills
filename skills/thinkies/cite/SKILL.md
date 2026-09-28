@@ -5,8 +5,6 @@ description: >-
   when the user asks to "cite a paper", "generate APA citations", "format
   references", or provides paper links (arXiv, DOI, conference URLs) for
   citation formatting.
-metadata:
-  context: fork
 ---
 
 # Cite

@@ -27,6 +27,9 @@ pre-commit:
           - name: shellcheck
             glob: "*.sh"
             run: shellcheck {staged_files}
+    - name: thinkies-sync
+      glob: "{skills/thinkies/**,extensions/thinkies/**,bin/thinkies-shared/**}"
+      run: python3 bin/sync-thinkies.py --check
 
 # pre-push gate: catches what `jj fix` does not. `jj git push` does not trigger
 # git hooks, so the bin/jj-push wrapper invokes lefthook explicitly.
@@ -45,6 +48,8 @@ pre-push:
           - name: shellcheck
             glob: "*.sh"
             run: shellcheck {push_files}
+    - name: thinkies-sync
+      run: python3 bin/sync-thinkies.py --check
     - name: commitlint
       run: bunx commitlint --from origin/main --to HEAD
 

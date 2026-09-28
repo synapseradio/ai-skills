@@ -3,7 +3,7 @@ name: consider-alternatives
 description: Generate competing explanations for the same observations
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. State the current explanation
 

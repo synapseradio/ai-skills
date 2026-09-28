@@ -3,7 +3,7 @@ name: branch-possibilities
 description: Generate fundamentally divergent directions from one starting point
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Fix the starting point
 

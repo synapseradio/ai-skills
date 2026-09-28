@@ -44,19 +44,19 @@ that repair a lack:
 
 - **Discover** — dig out what hides and constrains: assumptions, root causes, leverage points.
 - **Expand** — diverge: generate candidate directions, explanations, or questions.
-- **Navigate** — map the territory: locate the abstraction level, the knowns, and the real question.
+- **Navigate** — map the territory: locate the level to act at, what the problem serves, what class it belongs to, the knowns, and the real question.
 - **Explore** — probe an articulated position at its edges and from other frames.
-- **Define** — converge: carve the problem into parts you can act on.
+- **Define** — converge: carve the problem into parts you can act on, or join parts into a whole.
 
 Each purpose draws from a pool of techniques:
 
 | Purpose | Techniques |
 |---------|------------|
 | Discover | excavate-assumptions, first-principles, premortem, find-leverage |
-| Expand | wonder, branch-out, consider-alternatives, connect-domains |
-| Navigate | assess-knowledge, zoom, question-the-question |
-| Explore | probe-boundaries, argue-opposite, invert, shift-perspective |
-| Define | decompose |
+| Expand | wonder, branch-out, consider-alternatives, connect-ideas, survey-peers |
+| Navigate | assess-knowledge, select-level, situate, generalize, question-the-question |
+| Explore | probe-boundaries, argue-opposite, invert, shift-perspective, instantiate |
+| Define | decompose, compose |
 
 Every chain runs at least two techniques: an opener whose purpose repairs the
 shape's deficit, and a closer that converges. The shape sets the opener:
@@ -69,17 +69,21 @@ shape's deficit, and a closer that converges. The shape sets the opener:
 | Complex | has more factors than frame | Navigate — map the territory before judging it |
 | Blindspot | suspects an unseen gap | Discover — surface what constrains unnoticed |
 
-The closer comes from Define or Navigate — decompose, assess-knowledge, or
-zoom — and must leave material Phase 3 can rank: named options, criteria, or
+The closer comes from Define or Navigate — decompose, compose,
+assess-knowledge, or select-level — and must leave material Phase 3 can rank: named options, criteria, or
 a mapped constraint set.
 
 Within a purpose, pick the technique that best fits the problem's content:
 
 - Existing plan or proposal: premortem, argue-opposite, probe-boundaries
-- Choosing between options: consider-alternatives, shift-perspective, zoom
-- Understanding a system: find-leverage, decompose, connect-domains
+- Choosing between options: consider-alternatives, shift-perspective, select-level
+- Understanding a system: find-leverage, decompose, situate
 - Conceptually stuck: first-principles, invert, wonder
 - Involves people or stakeholders: shift-perspective, excavate-assumptions, branch-out
+- Lost in detail: situate, select-level
+- An abstract claim or principle: instantiate, generalize
+- Pieces in hand without a whole: compose, survey-peers
+- Two ideas that may be related: connect-ideas
 
 ## Phase 2: Apply and extend
 
@@ -153,7 +157,7 @@ break the tie.
 |-------|------|
 | Assess + Open | Nothing from references — use the tables above |
 | Apply + extend | Only the current technique's file from `@./references/` |
-| Converge | Nothing additional |
+| Converge | `assets/playback.md` |
 
 ## Technique Reference Files
 
@@ -165,16 +169,49 @@ instructions:
 | `wonder.md` | Opens possibility space through curiosity |
 | `branch-out.md` | Generates distinct continuations from one point |
 | `consider-alternatives.md` | Creates multiple explanations for the same observations |
-| `connect-domains.md` | Imports solutions from distant domains |
+| `connect-ideas.md` | Tests how two ideas relate, or finds a distant match for one |
+| `survey-peers.md` | Maps what else fills the same role at the same level |
 | `assess-knowledge.md` | Maps verified vs assumed vs unknown |
-| `zoom.md` | Moves between abstraction levels |
+| `select-level.md` | Finds the level of abstraction to act at |
+| `situate.md` | Places a thing in the system it serves |
+| `generalize.md` | Finds the class a case belongs to and what holds for it |
 | `question-the-question.md` | Examines whether the inquiry aims at the right target |
 | `probe-boundaries.md` | Tests conclusions at edges and extremes |
 | `argue-opposite.md` | Stress-tests by building the strongest counter-case |
 | `invert.md` | Turns problems inside out |
 | `shift-perspective.md` | Inhabits different frames |
+| `instantiate.md` | Makes an abstraction concrete and surfaces its hidden conditions |
 | `decompose.md` | Breaks wholes into parts at natural joints |
+| `compose.md` | Joins parts into a whole and finds what it lacks |
 | `excavate-assumptions.md` | Surfaces unstated assumptions at multiple levels |
 | `first-principles.md` | Strips convention to find irreducible truths |
 | `premortem.md` | Imagines failure and works backwards |
 | `find-leverage.md` | Finds where small actions create outsized results |
+
+## Record
+
+Records live in the store, `${CLAUDE_PLUGIN_DATA}/records/`, with a copy in the mirror folder, `${user_config.records_mirror}`.
+
+- When the store path is not absolute, no store exists here. Build the record anyway, and end the reply with it in a `jsonl` block under its file name, for the user to keep.
+- When the mirror path is empty or still a placeholder, skip the mirror. Otherwise, after the run's last line, copy the record file into the mirror under the same name.
+- Create either folder when it is missing.
+
+Write each record in the form of the template at the end of this section: the file name as shown, then one JSON object per line, one line per event, in the order the events happen, with every bracketed value replaced. Write a kind as often as the run produces it, and leave out kinds it does not produce. Take times from the clock in UTC, for example `date -u +%Y%m%dT%H%M%SZ` for the file name. A topic is two to six lowercase words joined by hyphens. An answer's `q` names the question or open item it answers.
+
+- Append lines; never change or remove one.
+- Where lines share an id, the latest wins. A link's id is its from, to, and rel. `"retired": true` removes the entry.
+- To resume a run, read its file, first copying it from the mirror when only the mirror holds it, and append a run line with `"resumed": true`.
+- An agent answering a record's questions appends its answer, skip, and open lines to the same file and names itself in `by`.
+
+At the end of a run, play the record back in the form of [assets/playback.md](assets/playback.md): the path it was saved to, then every part the reply has not already shown. Never show the raw lines.
+
+Record the problem as the subject; each technique's main finding as a note, with no technique name in it; each item of the converge list as a result; and each thing left open as an open line.
+
+File: `ponder_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
+
+```jsonl
+{"kind": "run", "at": "[time, UTC, YYYY-MM-DDTHH:MM:SSZ]", "skill": "ponder", "topic": "[topic]", "subject": "[the problem]", "project": "[repository or project name, or empty]", "resumed": false}
+{"kind": "note", "at": "[time]", "text": "[a main finding]", "context": "[the output line it extends]"}
+{"kind": "result", "at": "[time]", "text": "[a converge item]"}
+{"kind": "open", "at": "[time]", "id": "o1", "text": "[what stays open]", "q": ""}
+```

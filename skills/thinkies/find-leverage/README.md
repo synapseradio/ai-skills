@@ -1,6 +1,6 @@
 # find-leverage
 
-Map a system's components and feedback loops to locate where a small change shifts the whole — bottlenecks, amplification points, compounding effects, root causes — and name the single highest-leverage intervention.
+Trace a system's feedback loops to locate where a small change shifts the whole — bottlenecks, amplification points, compounding effects, root causes — and name the single highest-leverage intervention.
 
 ## Install
 

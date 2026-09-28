@@ -305,8 +305,7 @@ OTHER_EDITS: dict[str, tuple[Edit, ...]] = {
     ),
 }
 
-#: Left deliberately untouched: ``decompose``'s self-referential call to itself (it reads as
-#: continued reasoning), ``skill-design``'s advisory skill-creator handoffs and
+#: Left deliberately untouched: ``skill-design``'s advisory skill-creator handoffs and
 #: platform.claude.com links (advisory prose, not imperative calls), and every passing prose
 #: mention of Claude that carries no instruction.
 
@@ -330,7 +329,7 @@ PLUGIN_MANIFEST: dict[str, object] = {
         "url": "https://github.com/synapseradio",
     },
     "description": (
-        "Reasoning toolkit of 48 skills — decomposition, questioning, assumption excavation, "
+        "Reasoning toolkit of 58 skills — decomposition, questioning, assumption excavation, "
         "perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity "
         "checks. Invoke one explicitly by name, or let Codex match one by description."
     ),
@@ -341,12 +340,12 @@ PLUGIN_MANIFEST: dict[str, object] = {
         "developerName": "Nick Krause",
         "displayName": "Thinkies",
         "longDescription": (
-            "Forty-eight small reasoning skills that each do one thing: break a problem at its "
+            "Fifty-eight small reasoning skills that each do one thing: break a problem at its "
             "joints, surface what you are assuming, argue the opposite, tile the futures a "
             "decision hinges on, check whether the evidence carries the claim. Each skill is "
             "prose instructions only — no network calls, no credentials, no background state."
         ),
-        "shortDescription": "Forty-eight reasoning skills for thinking through hard problems.",
+        "shortDescription": "Fifty-eight reasoning skills for thinking through hard problems.",
     },
     "keywords": [
         "reasoning",
@@ -364,7 +363,7 @@ PLUGIN_MANIFEST: dict[str, object] = {
     "name": "thinkies",
     "repository": "https://github.com/synapseradio/ai-skills",
     "skills": "./skills/",
-    "version": "0.1.1",
+    "version": "0.2.0",
 }
 
 

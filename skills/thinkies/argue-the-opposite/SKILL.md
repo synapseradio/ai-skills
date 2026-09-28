@@ -3,7 +3,7 @@ name: argue-the-opposite
 description: Stress-test a position by building the strongest counter-case
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. State the position
 

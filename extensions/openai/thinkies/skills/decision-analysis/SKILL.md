@@ -1,8 +1,8 @@
 ---
 name: decision-analysis
-description: 'Apply decision analysis (Howard 1966): systematically formulate and evaluate one concrete
-  decision under uncertainty. Specifies the decision problem''s four components (states of the world,
-  available acts, the consequence of each act in each state, and the preference ordering over consequences),
+description: 'Apply decision analysis: systematically formulate and evaluate one concrete decision
+  under uncertainty. Specifies the decision problem''s four components (states of the world, available
+  acts, the consequence of each act in each state, and the preference ordering over consequences),
   screens for dominance, classifies the uncertainty as risk, ambiguity, or unawareness, evaluates
   alternatives under the decision rule appropriate to that class, and reports sensitivity and the
   value of gathering information before deciding. Use when the user faces a decision and asks to "analyze

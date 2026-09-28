@@ -11,32 +11,39 @@ Skills fall into two groups plus one standalone advisor. The **thinkies** group 
 | Skill | Description |
 |-------|-------------|
 | **argue-the-opposite** | Stress-test a position by building the strongest counter-case |
-| **ask-questions** | Ask a genuinely good question, or a composed set, in the moment |
+| **ask-questions** | Ask the user the next good question, or make the better non-question move |
 | **ask-respond** | Structured Q&A that decomposes questions before answering |
 | **ask-what-breaks** | Find defeaters that would break a conclusion |
 | **assess-current-knowledge** | Map what's known vs assumed vs unknown |
 | **audit-chain-of-thought** | Tag reasoning steps by inference type |
 | **branch-possibilities** | Generate fundamentally divergent directions from one starting point |
 | **calibrate-confidence** | Match certainty to evidence strength |
+| **check-notes** | Find saved notes and run records and play them back |
 | **check-soundness** | Test synthesis for contradictions |
 | **cite** | Generate APA-format citations from paper links |
 | **cite-sources** | Track, validate, and cite external sources with working URLs |
 | **communicate** | Communicate ideas with purpose, clarity, and integrity while avoiding AI slop |
-| **connect-domains** | Import solutions from structurally similar problems in distant domains |
+| **compose** | Join parts into a whole and find what it still lacks |
+| **connect-ideas** | Test how two ideas relate, or find a distant match for one |
 | **consider-alternatives** | Generate competing explanations for the same observations |
 | **decision-analysis** | Formulate and evaluate one concrete decision under uncertainty |
-| **decompose** | Break a whole into parts at its natural joints |
+| **decompose** | Break a whole into parts at its natural joints, one axis per level |
 | **derive-first-principles** | Strip convention to irreducible truths and rebuild |
 | **detect-diminishing-returns** | Detect when further effort yields little gain |
 | **detect-fallacies** | Spot logical errors in reasoning |
+| **domain-analysis** | Model a system from its purpose down to its parts, with who acts on and sees each piece |
 | **evaluate-evidence** | Assess how well evidence supports claims |
 | **excavate-assumptions** | Surface unstated assumptions at multiple levels and rank them |
-| **find-leverage** | Locate where a small change shifts the whole system |
+| **find-leverage** | Trace a system's feedback loops to find where a small change shifts the whole |
 | **flip-assumptions** | Test claims by forming the contrapositive |
+| **generalize** | Find the class a case belongs to and carry back what holds for it |
+| **generate-questions** | Compose a set of questions toward a driving question and return it without asking anyone |
 | **ideate** | Generate and filter ideas into vetted options |
+| **instantiate** | Make an abstraction concrete and find the conditions it assumed |
 | **integrate-other-perspectives** | Combine viewpoints into a coherent whole |
 | **integrity** | Verify epistemic integrity by aligning claims with evidence |
 | **invert-the-problem** | Turn a problem inside out to reveal hidden structure |
+| **map-out** | Find where a subject sits and the level to act at |
 | **ponder** | Explore a problem through a sequence of techniques before solving |
 | **probe-boundaries** | Test a claim or framing at its edges and extremes |
 | **prompt** | Craft or refactor LLM instructions |
@@ -44,12 +51,15 @@ Skills fall into two groups plus one standalone advisor. The **thinkies** group 
 | **question-through-dialogue** | Use Socratic questioning to reveal assumptions |
 | **research-and-teach** | Research deeply, explain progressively |
 | **run-premortem** | Imagine catastrophic failure and work backwards to prevent it |
+| **save-note** | Save an insight so it can be found again |
 | **scamper** | Structured ideation using the SCAMPER creative thinking technique |
-| **shift-abstraction-level** | Move up, down, and sideways between levels of abstraction |
+| **shift-abstraction-level** | Find the level of abstraction to act at |
 | **shift-perspective** | Inhabit contrasting frames to see what one viewpoint misses |
+| **situate** | Place a thing in the larger system it serves |
 | **skill-design** | Design, strengthen, or audit an Agent Skill |
 | **strategize** | Adaptive multi-phase reasoning for complex problems |
 | **surface-intent** | Surface intent before you add, change, or produce something |
+| **survey-peers** | Map what else fills the same role at the same level |
 | **synthesize-opposing-views** | Find higher understanding through dialectic |
 | **trace-logic** | Follow reasoning step-by-step |
 | **trace-logical-justifications** | Trace justification chains to bedrock |
@@ -85,7 +95,7 @@ Technical skills grouped under [`skills/tech/`](./skills/tech/).
 
 ## Extensions
 
-Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Two bundles ship here: **de-residency** wraps the de-residency-advisor skill, and **thinkies** bundles all 48 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
+Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Two bundles ship here: **de-residency** wraps the de-residency-advisor skill, and **thinkies** bundles all 58 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
 
 ## Install
 

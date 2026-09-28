@@ -100,7 +100,7 @@ class EmittedTreeTests(unittest.TestCase):
         )
         emitted_names = sorted(p.name for p in self.skills_root.iterdir() if p.is_dir())
         self.assertEqual(emitted_names, source_names)
-        self.assertEqual(len(emitted_names), 48)
+        self.assertEqual(len(emitted_names), 58)
 
     def test_skill_folders_are_flat_with_no_group_level(self):
         self.assertFalse((self.skills_root / "thinkies").exists())

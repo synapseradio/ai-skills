@@ -3,11 +3,11 @@ name: find-leverage
 description: Locate where a small change shifts the whole system
 ---
 
-Follow these steps:
+## Steps
 
-### 1. Map the system
+### 1. Trace the feedback loops
 
-Components, relationships, and feedback loops (reinforcing and balancing).
+Name the loops that run through the system, reinforcing and balancing, and what flows around each.
 
 ### 2. Locate bottlenecks
 

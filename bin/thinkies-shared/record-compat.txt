@@ -1,0 +1,1 @@
+Saves a record of each run when loaded from the thinkies Claude Code plugin; elsewhere prints the record in the reply for the user to keep.

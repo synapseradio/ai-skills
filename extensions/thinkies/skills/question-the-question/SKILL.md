@@ -3,7 +3,7 @@ name: question-the-question
 description: Examine whether the inquiry is aimed at the right target
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Pause the inquiry
 

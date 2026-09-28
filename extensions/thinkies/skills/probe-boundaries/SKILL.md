@@ -3,7 +3,7 @@ name: probe-boundaries
 description: Test a claim or framing at its edges and extremes
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Identify load-bearing variables
 

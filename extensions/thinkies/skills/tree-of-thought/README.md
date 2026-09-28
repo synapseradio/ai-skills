@@ -21,8 +21,8 @@ Or copy `skills/tree-of-thought/` into `~/.claude/skills/tree-of-thought/`.
 
 Four phases, each building on the last:
 
-1. **Decomposition** — breaks the problem into 2-5 components with dependency mapping
-2. **Generation** — creates three approaches per component (direct, creative, systematic) with viability scores
+1. **Decomposition** — breaks the problem into a small set of components that together cover it, with dependency mapping
+2. **Generation** — creates three approaches per component (direct, creative, systematic) with viability scores, as alternatives of which one is kept
 3. **Evaluation** — scores each approach on feasibility (40%), effectiveness (35%), and risk (25%)
 4. **Synthesis** — integrates the best approaches into a coherent solution with next steps and success metrics
 
@@ -31,6 +31,10 @@ Four phases, each building on the last:
 Use it when the right approach is not obvious and the cost of choosing wrong is high — architecture decisions, migration strategies, complex debugging with multiple hypotheses. It adds structure to decisions where a plain prompt would give you one answer with false confidence.
 
 For straightforward questions with clear answers, this is overkill. Just ask directly.
+
+## Sources
+
+- Yao et al. (2023). Tree of Thoughts. [arXiv:2305.10601](https://arxiv.org/abs/2305.10601).
 
 ## Install as a `.skill`
 

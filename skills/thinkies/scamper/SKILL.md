@@ -5,8 +5,6 @@ description: >-
   skill should be used when the user asks to "brainstorm ideas", "use SCAMPER",
   "creative thinking", or wants to explore a problem through systematic
   creative exploration.
-metadata:
-  context: fork
 ---
 
 # SCAMPER
