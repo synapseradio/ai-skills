@@ -10,7 +10,7 @@ Hand it one or more URLs — arXiv, DOI, conference proceedings — and it retur
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/cite/` into `~/.claude/skills/cite/`.
+Or copy `skills/thinkies/cite/` into `~/.claude/skills/cite/`.
 
 ## Usage
 

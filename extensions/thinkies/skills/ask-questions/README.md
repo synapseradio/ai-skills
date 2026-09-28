@@ -8,7 +8,7 @@ A directed thought process for making the right next move with the user — one 
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/ask-questions/` into `~/.claude/skills/ask-questions/`.
+Or copy `skills/thinkies/ask-questions/` into `~/.claude/skills/ask-questions/`.
 
 ## Usage
 
@@ -53,7 +53,7 @@ Decisions the skill fixes, which every session inherits: the next-single-move ou
 
 Signs a fixed decision needs revisiting: a harness that carries state across fork invocations ages the live-mode wording in laddering; routing rows that go unused suggest the grain is wrong; recurring executor confusion inside one reference means a decision there no longer closes.
 
-Check coverage: the evals exercise routing and question phrasing; the non-question moves, terminal states, and audit deliverables lack eval cases.
+Check coverage: the evals exercise question phrasing, sequence shape, recovering from drift, surfacing a tension, a reflective restatement with a plain statement, and replacing a wrong driving question. Silence, asking nothing, the other three end states, and the record lack eval cases.
 
 ## Install as a `.skill`
 

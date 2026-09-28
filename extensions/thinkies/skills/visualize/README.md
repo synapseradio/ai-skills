@@ -8,7 +8,7 @@ Create data visualizations for the surface where they will actually be read. Thr
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/visualize/` into `~/.claude/skills/visualize/`.
+Or copy `skills/thinkies/visualize/` into `~/.claude/skills/visualize/`.
 
 ## Usage
 

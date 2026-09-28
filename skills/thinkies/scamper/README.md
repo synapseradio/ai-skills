@@ -8,7 +8,7 @@ Structured ideation using the SCAMPER creative thinking technique — seven syst
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/scamper/` into `~/.claude/skills/scamper/`.
+Or copy `skills/thinkies/scamper/` into `~/.claude/skills/scamper/`.
 
 ## Usage
 

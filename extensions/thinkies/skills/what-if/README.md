@@ -8,7 +8,7 @@ Play out possible futures from a sparse question. Finds the unknowns that would 
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/what-if/` into `~/.claude/skills/what-if/`.
+Or copy `skills/thinkies/what-if/` into `~/.claude/skills/what-if/`.
 
 ## Usage
 

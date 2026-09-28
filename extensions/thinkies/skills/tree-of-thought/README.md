@@ -8,7 +8,7 @@ Systematic Tree of Thought reasoning for complex problem decomposition. Instead 
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/tree-of-thought/` into `~/.claude/skills/tree-of-thought/`.
+Or copy `skills/thinkies/tree-of-thought/` into `~/.claude/skills/tree-of-thought/`.
 
 ## Usage
 

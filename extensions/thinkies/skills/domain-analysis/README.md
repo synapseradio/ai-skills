@@ -22,7 +22,7 @@ Loaded from the thinkies Claude Code plugin, the skill saves each run as a JSON 
 
 ## Sources
 
-- Rasmussen, J. (1985). The role of hierarchical knowledge representation in decisionmaking and system management. *IEEE Transactions on Systems, Man, and Cybernetics*, SMC-15(2), 234–243. [doi:10.1109/TSMC.1985.6313353](https://doi.org/10.1109/TSMC.1985.6313353). Pages below count article pages; the [DTU PDF](https://backend.orbit.dtu.dk/ws/files/158019622/HISMC.PDF) opens with a cover sheet, so its page number is one higher.
+- Rasmussen, J. (1985). The role of hierarchical knowledge representation in decisionmaking and system management. *IEEE Transactions on Systems, Man, and Cybernetics*, SMC-15(2), 234–243. [doi:10.1109/TSMC.1985.6313353](https://doi.org/10.1109/TSMC.1985.6313353). Open copy: [DTU PDF](https://backend.orbit.dtu.dk/ws/files/158019622/HISMC.PDF).
 - [Work domain analysis](https://en.wikipedia.org/wiki/Work_domain_analysis), Wikipedia: the five level names.
 - Vicente, K. J. (1999). *Cognitive Work Analysis: Toward Safe, Productive, and Healthy Computer-Based Work*. [doi:10.1201/b12457](https://doi.org/10.1201/b12457). The actor layer draws on its fourth phase, social organisational analysis, which the book left "largely unspecified" ([Ashoori et al. 2014](https://pmc.ncbi.nlm.nih.gov/articles/PMC4066876/)).
 

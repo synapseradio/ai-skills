@@ -8,7 +8,7 @@ Most machine prose reads as if nobody risked anything to write it. This skill ra
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/communicate/` into `~/.claude/skills/communicate/`.
+Or copy `skills/thinkies/communicate/` into `~/.claude/skills/communicate/`.
 
 ## Usage
 

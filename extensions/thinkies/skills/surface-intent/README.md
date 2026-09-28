@@ -14,7 +14,7 @@ thing that already existed because nobody looked first.
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/surface-intent/` into `~/.claude/skills/surface-intent/`.
+Or copy `skills/thinkies/surface-intent/` into `~/.claude/skills/surface-intent/`.
 
 ## Install as a `.skill`
 
