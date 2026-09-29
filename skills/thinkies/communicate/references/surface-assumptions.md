@@ -1,5 +1,7 @@
 # Surface Assumptions
 
+Fits when: the piece argues toward a conclusion its audience will weigh or act on
+
 Make explicit the unstated premises reasoning depends on.
 
 ## Diagnostic Question
@@ -21,15 +23,15 @@ What premises operate silently beneath the visible argument? What would break if
 
 6. **Focus disclosure on validity-affecting assumptions** - Evaluate which assumptions shape argument validity versus which form shared ground. Surface premises that enable reasoning evaluation.
 
-7. **Position assumptions at dependency points** - Place assumption disclosure where readers need it for evaluation. State foundational premises before dependent arguments. Define terms at introduction.
+7. **Position assumptions at dependency points** - Place assumption disclosure where the audience needs it for evaluation. State foundational premises before dependent arguments. Define terms at introduction.
 
 ## Questions
 
 - What must be true for this reasoning to hold? What premises operate silently beneath the visible claims?
-- Where does a claim treat as obvious a judgment that someone with different values might contest? What value is hiding behind "obviously," "clearly," or the implied common ground?
-- For each abstract term — quality, performance, simplicity, good design, difficult, fair, healthy — has the prose committed to a definition for this specific usage, or is it borrowing the reader's definition without acknowledging that several exist?
-- What background knowledge does the prose assume the reader brings — terminology, prior conversations, domain familiarity, shared culture — that may not actually be shared?
-- Could a reader who started from a different premise reconstruct the reasoning and reach the same conclusion using only what the prose has stated?
+- Where, if anywhere, does a claim treat as obvious a judgment that someone with different values might contest? What value, if any, stands behind "obviously," "clearly," or the implied common ground?
+- For each abstract term — quality, performance, simplicity, good design, difficult, fair, healthy — has the prose committed to a definition for this specific usage, or is it borrowing the audience's definition without acknowledging that several exist? Or is it a term of art the form leaves undefined on purpose, for its audience's settled usage to fill?
+- What background knowledge does the prose assume the audience brings — terminology, prior conversations, domain familiarity, shared culture — that may not actually be shared?
+- Could someone in the audience who started from a different premise reconstruct the reasoning and reach the same conclusion using only what the prose has stated?
 - Which assumptions, if false, would force the conclusion to change? Which would not? Surface the validity-affecting ones first.
 
 ## Quality Criteria
@@ -37,8 +39,8 @@ What premises operate silently beneath the visible argument? What would break if
 When assumptions are surfaced well:
 
 - [ ] The premises the argument depends on are named explicitly in the prose.
-- [ ] Value judgments are stated as values, leaving the reader free to weigh them against their own.
-- [ ] Each abstract term that admits multiple valid interpretations has a definition stated for this specific usage.
-- [ ] Required prior knowledge is named openly as a required prior. The reader can tell what they need to bring to the piece before reading further.
-- [ ] A reader starting from different premises could reconstruct the reasoning using only the prose's explicit content.
-- [ ] The validity-affecting assumptions are surfaced at the points where the reader needs them — foundational premises before dependent arguments, term definitions at first use.
+- [ ] Value judgments are stated as values, leaving the audience free to weigh them against their own.
+- [ ] Each abstract term the argument turns on, and that admits several valid interpretations, has a definition stated for this usage, unless the piece means the term to stay open.
+- [ ] Prior knowledge the audience may lack is named where the piece relies on it, so someone in the audience can tell what they need to bring; knowledge the form lets it assume, as a specialist journal assumes its field, stays unnamed.
+- [ ] Someone in the audience starting from different premises could reconstruct the reasoning using only the prose's explicit content.
+- [ ] The validity-affecting assumptions are surfaced at the points where the audience needs them — foundational premises before dependent arguments, term definitions at first use.

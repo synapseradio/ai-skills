@@ -1,11 +1,13 @@
 # Bound Scope
 
+Fits when: the piece makes general claims its audience will weigh or act on
+
 Define where claims apply and where they break down, making applicability boundaries explicit.
 
 ## Diagnostic Question
 
 Ask: Where does this claim apply, and where does it break down?
-What boundary conditions go unstated? What contexts would invalidate these claims? Where does advice sound universal when it should be qualified?
+What boundary conditions go unstated? What contexts would invalidate these claims? Where, if anywhere, does advice sound universal, and under what conditions does it hold?
 
 ## Instructions
 
@@ -29,16 +31,16 @@ What boundary conditions go unstated? What contexts would invalidate these claim
 - Where does the claim break? At what scale, in what context, against what alternative situation does its foundation fail?
 - Where on the spectrum from clean application to edge case does each instance sit? Which cases sit close to the ideal, which require adaptation, which fall outside?
 - What contexts share enough of the claim's required conditions that it transfers cleanly, and what contexts diverge enough that following the claim would create friction or harm?
-- Where does the claim assert universal applicability, and what conditions would scope it to the cases where it actually holds?
+- Where, if anywhere, does the claim assert universal applicability, and what conditions would scope it to the cases where it actually holds?
 - If the strongest counter-case were the one I had to address, would the claim survive in a smaller form, or would I have to abandon it?
 
 ## Quality Criteria
 
 When scope-bounding is sound:
 
-- [ ] Every general claim names the conditions under which it applies.
-- [ ] For each claim, the boundary cases — where the claim breaks down — are stated explicitly.
-- [ ] Edge cases near the boundary have a sharper test attached, so the reader can decide which side they fall on.
+- [ ] Each general claim the audience will act on or rely on names the conditions under which it applies.
+- [ ] For each such claim, the boundary cases — where the claim breaks down — are stated explicitly.
+- [ ] Edge cases near the boundary have a sharper test attached, so someone in the audience can decide which side they fall on.
 - [ ] The contexts where the claim transfers cleanly are distinguished from the contexts where it requires adaptation, and from those where it does not transfer.
-- [ ] Universal-sounding language is reserved for claims that genuinely are universal. Conditional framing carries the truth where the conditions matter.
+- [ ] Where universal-sounding language states a claim the audience will take literally, the claim is universal, or conditional framing carries the truth. Where the form uses the universal as rhetoric, as an aphorism, a slogan, or a line of verse does, the audience can tell.
 - [ ] The strongest counter-case has been considered. Either the claim survives in a smaller form, or it has been abandoned.

@@ -1,11 +1,13 @@
 # Extract Implications
 
+Fits when: the piece makes claims, rules, or promises that commit its audience or its writer to more than they state
+
 Surface what follows from stated claims to make the full reach of assertions visible.
 
 ## Diagnostic Question
 
 Ask: What follows from these claims that goes unsaid?
-What consequences, requirements, or contradictions lurk in the logical wake? What implications deserve explicit attention?
+What consequences, requirements, or contradictions, if any, follow in the logical wake? What implications deserve explicit attention?
 
 ## Instructions
 
@@ -29,9 +31,9 @@ What consequences, requirements, or contradictions lurk in the logical wake? Wha
 
 A short interrogation to run on a passage when a claim's reach is in doubt. The questions name what to inspect. They don't prescribe what to conclude.
 
-- What follows from this claim that the claim itself doesn't say? If a reader accepts the claim, what else are they signing on for?
+- What follows from this claim that the claim itself doesn't say? If someone in the audience accepts the claim, what else are they signing on for?
 - Where does the cost of acting on the claim land? Some other relationship, some other time, some part of the writer's own life that hasn't been named?
-- Where does absolute language — anything, always, never, everywhere, comprehensive — quietly import requirements onto someone or something the writer hasn't acknowledged?
+- Where, if anywhere, does absolute language — anything, always, never, everywhere, comprehensive — import requirements onto someone or something the writer hasn't acknowledged?
 - What does the claim assume is already true for the surface assertion to hold?
 - For each implication I notice, is it a consequence the claim must carry, or one that only happens to sit comfortably alongside it?
 - Across which domains does the reach extend — practical (what the claim demands or prohibits), epistemic (what it requires knowing), ethical (what it ranks), systematic (what it changes around it)?
@@ -44,7 +46,7 @@ When the implication-tracing is sound:
 - [ ] The claims that anchor implication chains are named explicitly.
 - [ ] Direct consequences (what must follow) and speculative extensions (what might follow) are marked apart.
 - [ ] Where the claim places weight on someone or something, the reach onto that party is visible.
-- [ ] Absolute words — anything, always, never, everywhere, comprehensive — carry visible accounting of what they require.
+- [ ] Where an absolute word — anything, always, never, everywhere, comprehensive — commits someone to something, what it requires is visible to the audience that will be bound by it or act on it.
 - [ ] The implications cover the domains the claim actually touches: practical, epistemic, ethical, systematic, where each applies.
 - [ ] The cost of acting on the claim is visible: where the cost lands, and who carries it.
 - [ ] No implication is projected that the claim does not actually carry.

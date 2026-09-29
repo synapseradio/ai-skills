@@ -1,5 +1,7 @@
 # Dimensionalize
 
+Fits when: feedback or a judgment word, such as clear or polished, bundles several distinct concerns
+
 Separate monolithic concepts into distinct improvable dimensions.
 
 ## Diagnostic Question
@@ -27,7 +29,7 @@ A short interrogation to run when a judgment word is doing too much work. The qu
 
 - Where am I treating a judgment word — clear, strong, good, polished, working — as a single thing when several distinct qualities are riding on it?
 - For each candidate dimension, can it move while another holds still? Can something be high on this one and low on that one without contradiction?
-- Does each axis have a name precise enough that a reader could observe and score it on its own, or does the name still cover too much?
+- Does each axis have a name precise enough that someone else could observe and score it on its own, or does the name still cover too much?
 - Where does each axis sit along its range, and where does the thing I'm assessing sit on each axis separately?
 - What trade-offs become visible only after the dimensions separate? Where does pushing one axis up pull another down?
 - If I rewrote a piece of feedback in dimensional form, what would the receiver be able to act on that they could not act on before?

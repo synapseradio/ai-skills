@@ -1,6 +1,8 @@
 # Clarity Audit Patterns
 
-Detailed patterns for identifying and fixing clarity issues. Use this reference when the technique-clarify instructions need elaboration.
+Fits when: clarify fits and its pass needs detection heuristics or repair tables
+
+Detailed patterns for identifying and fixing clarity issues. Use this reference when the [clarify](./clarify.md) instructions need elaboration.
 
 ## Structural Patterns
 
@@ -18,17 +20,17 @@ Detailed patterns for identifying and fixing clarity issues. Use this reference 
 
 1. Map dependency graph: which concepts require which others?
 2. Topological sort: arrange so dependencies precede dependents
-3. Test: can a reader unfamiliar with the domain follow linearly?
+3. Test: can someone in the audience who is new to the domain follow linearly?
 
 ### Information Flow Detection
 
-**Given-new principle**: Each sentence should open with familiar information (given) before introducing new information.
+**Given-new principle**: A sentence that opens on what the audience already holds (given) and ends on what is new is easier to follow. Where, if anywhere, does a sentence open on the new, and does the piece mean to jolt its audience there?
 
 **Detecting violations:**
 
 - Sentence opens with technical term not yet established
 - New concept appears in subject position without setup
-- Reader must hold unfamiliar content in memory while parsing
+- The audience must hold unfamiliar content in memory while parsing
 
 **Repair pattern:**
 
@@ -88,7 +90,7 @@ Therefore: teach A → B → C
 - Adjective-noun pairs where the adjective adds nothing ("actual fact," "future plans")
 - Prepositional bloat ("in the event that" = "if")
 
-**Ceremonial language and bloat:** see [strengthen](./strengthen.md) for filler phrases and their plain replacements.
+**Ceremonial language and bloat:** see [strengthen](./strengthen.md) for set phrases and candidate replacements.
 
 ### Load Type Identification
 
@@ -114,7 +116,7 @@ Therefore: teach A → B → C
 
 | Load Type | Response |
 |-----------|----------|
-| Extraneous | Eliminate ruthlessly |
+| Extraneous | Cut it |
 | Intrinsic | Preserve, add scaffolding |
 | Germane | Preserve, support with examples |
 
@@ -142,7 +144,7 @@ Therefore: teach A → B → C
 
 ### Quantifier Grounding
 
-**Vague quantifiers to flag:**
+**Vague quantifiers to question:**
 
 - many, few, some, several, numerous
 - significant, substantial, considerable
@@ -150,15 +152,16 @@ Therefore: teach A → B → C
 - often, rarely, sometimes, frequently
 - recently, soon, eventually
 
-**Grounding strategies:**
+Does the form leave the word open on purpose, as a standard its audience applies, the way a contract's "prompt" or "reasonable" is? Then the open word is the drafting.
 
-| Vague | Grounded |
-|-------|----------|
-| many couples | 210 of 333 surveyed couples (63%) |
-| significant improvement | fights got shorter, from three days to under an hour |
-| most days | five out of seven |
-| recently | three weeks ago |
-| soon | by the end of this month |
+**Contrast: a grounded quantifier**
+
+- antipattern: "The new schedule will start soon."
+- pattern: "The new schedule will start on the first Monday of next month."
+- observe: the pattern gives a day the audience can plan around.
+- shared: the same claim that the schedule changes.
+- contrast: a vague time word against a date.
+- look for: a quantity or time word the audience will act on, with no number, date, or comparison behind it.
 
 **When data isn't available:**
 
@@ -170,7 +173,7 @@ Therefore: teach A → B → C
 
 ### Presence Conversion
 
-**Negation patterns to convert:**
+**Negation patterns to question:**
 
 | Absence-based | Presence-based |
 |---------------|----------------|
@@ -180,7 +183,7 @@ Therefore: teach A → B → C
 | Not recommended | Recommend against / Prefer Y |
 | Shouldn't X | Should Y |
 
-**Conversion principle**: Tell readers what to do, not what to avoid. Negations leave an unbounded space of prohibited actions; positive instructions provide specific direction.
+**Conversion question**: Does the audience need a direction to move, or the prohibition itself? A negation leaves open everything it does not forbid, and a direction names one path. A contract clause, a safety warning, or a recipe's "do not open the oven" may need the prohibition as written.
 
 ### Referent Tracking
 
@@ -198,56 +201,65 @@ Therefore: teach A → B → C
 
 **Resolution strategies:**
 
-1. **Replace with noun**: "It fell apart" → "The conversation fell apart"
+1. **Replace with noun**: name the thing the pronoun points to
 2. **Move antecedent closer**: Restructure so referent is in previous sentence
 3. **Scope demonstratives**: "This approach" instead of bare "This"
+
+**Contrast: a pronoun replaced by its noun**
+
+- antipattern: "We met the lawyers after lunch, and it fell apart."
+- pattern: "We met the lawyers after lunch, and the negotiation fell apart."
+- observe: in the antipattern, "it" could be the meeting, the lunch, or something earlier.
+- shared: the same events and the same verb.
+- contrast: a pronoun against the noun it stood for.
+- look for: a pronoun with two candidates on the page, where the piece does not mean it to stay open.
 
 ## Domain-Specific Considerations
 
 ### Personal Writing (memoir, letters, journals)
 
-**Common clarity issues:**
+**Common clarity issues to ask about:**
 
-- Assuming the reader knows the family
-- Mixing scene and reflection without signposts
-- Under-naming the people and places
-- Cutting away from a feeling before it lands
+- What does the piece take the audience to know about the family?
+- Where, if anywhere, do scene and reflection mix without a signpost?
+- Which people and places, if any, go unnamed where the audience needs the name?
+- Where, if anywhere, does the piece cut away from a feeling before it lands?
 
-**Personal clarity additions:**
+**Questions that often help:**
 
-- One concrete image per claimed feeling
-- The names of people, towns, and dates
-- Sensory detail (smell, sound, weather) before judgment
-- Permission for the reader to feel before being told what to feel
+- Which claimed feeling has an image behind it?
+- Where would the names of people, towns, and dates place the audience?
+- Where would sensory detail (smell, sound, weather) serve before judgment?
+- Where, if anywhere, does the piece tell the audience what to feel before they have felt it?
 
 ### Business Writing
 
-**Common clarity issues:**
+**Common clarity issues to ask about:**
 
-- Hedging that obscures commitment
-- Passive voice hiding responsibility
-- Metrics without baselines or targets
-- Jargon from multiple domains mixed
+- What does each hedge do to the writer's commitment?
+- Where, if anywhere, does passive voice leave out who is responsible?
+- Which metrics, if any, lack baselines or targets?
+- Where, if anywhere, does vocabulary from several domains mix?
 
-**Business clarity additions:**
+**Questions that often help:**
 
-- Explicit owners for action items
-- Dates, not "soon" or "later"
-- Numbers with comparison points
-- One domain's vocabulary, defined
+- Does each action item have an owner?
+- Where, if anywhere, does "soon" or "later" stand where a date would serve?
+- Does each number have a comparison point?
+- Is one domain's vocabulary chosen and defined?
 
 ### Persuasive Writing (essays, reviews, arguments)
 
-**Common clarity issues:**
+**Common clarity issues to ask about:**
 
-- Claim without the strongest counter-argument named
-- Examples that flatter the writer's position
-- Generalizations the reader cannot anchor to anything specific
-- A conclusion that does not change what the reader does
+- How does the piece stand toward the strongest counter-argument: named, engaged, or left out?
+- How do the examples stand toward the writer's position, and toward the positions against it?
+- Which generalizations, if any, can the audience not anchor to anything specific?
+- Does the conclusion change what the audience does?
 
-**Persuasive clarity checklist:**
+**Questions that often help:**
 
-- The claim, in one sentence the reader could repeat back
-- The strongest argument against, named and engaged
-- At least one example the reader can place in their own life
-- A close that names what changes if the reader agrees
+- Can the claim be stated in one sentence someone in the audience could repeat back?
+- Where, if anywhere, is the strongest argument against named and engaged?
+- Which example could someone in the audience place in their own life?
+- Does the close name what changes if the audience agrees?

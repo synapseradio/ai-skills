@@ -1,94 +1,97 @@
 ---
 name: communicate
-description: Communicate ideas and information to others with purpose, clarity, and integrity. Ensure
-  that artifacts are structured and phrased in a way that is mindful of their audience while avoiding
-  AI slop patterns. Use when the user requests assistance with writing, commentary, or communication;
-  when they point out AI slop, when they ask things like "help me say", "write for [a specific audience
-  or context]", "polish [comments, sentences, artifacts]", or the like.
+description: Communicate ideas and information with purpose, clarity, and integrity, in any form or
+  tradition and at any length, to an audience of one or many, addressed or not. Works out with the
+  user who the piece is for, what brought it on, and where it should take its audience, then drafts
+  and checks the piece against that, keeping the user's meaning theirs. Use when the user asks for
+  help with writing, commentary, or communication; when they point out AI slop; when they ask things
+  like "help me say", "write for [a specific audience or context]", "polish [comments, sentences,
+  artifacts]", "write something for the poster", "help me write a novel, a handbook, or a long report",
+  "keep this long piece consistent across chapters", or the like.
 ---
 
 # Communicate
 
-Help the user write prose that reaches its readers, at any scale: choosing one word, polishing a sentence, or drafting a chapter. Work in one loop: diagnose the request, align with the user, build a rubric, draft, score the draft against the rubric, and grow the rubric with every revision the user asks for.
+Help the user make a piece that takes its audience where the user means it to go, in any form or tradition and at any scale: choosing one word, polishing a sentence, drafting a contract clause, or writing a novel across many sittings. Work in one loop: diagnose the request, align with the user, build a rubric, draft, score the draft, and revise with the user.
+
+## Where the work is kept
+
+Keep each piece's alignment file, its ledger for long work, and its drafts in `${CLAUDE_PLUGIN_DATA}/communicate/<piece-slug>/`. Where that path is not absolute, ask the user once where to keep them. The finished artifact goes where the user names. [align](references/align.md) holds the details.
 
 ## The loop
 
 ### 1. Diagnose
 
-Ask five questions of the request. Each answer names concrete ways this piece could fail for its audience.
+Read [align](references/align.md), open the piece's alignment file or start one from [align-template](assets/align-template.md), and infer every ring of the wheel the request and any text in hand answer.
 
-| Dimension | Question |
-|-----------|----------|
-| Purpose | What is this for, and where does it land? Name the purpose as one verb: inform, persuade, instruct, explore, evoke, or narrate. |
-| Clarity | Who reads it, and what stands between them and understanding? |
-| Integrity | What does it claim, and how sure is the writer? |
-| Composition | What form does the audience expect, and how is their attention guided throughout the piece? |
-| Depth | What does the piece leave unsaid that it still has to carry? |
+Then name the risks ring by ring: for each ring, the ways this piece could fail its audience there, given what the alignment file holds and what it leaves open. Beside them, name the authorship risks: the user's words, facts, and chosen patterns the draft must carry; the intent, stance, and promises it must keep; the choices the user has not made that would steer it. Rank the risks, most damaging first, and write the list down; for larger tasks, show it during alignment.
 
-Rank the failure risks you find, most damaging first. Use this list to choose references now, and to choose what to add when the user asks for changes later. Write the list down; for larger tasks, show it during alignment.
+Name the live rungs too: the levels of unit this request touches, in the form's own names, such as sentence and paragraph for a polish, clause and article for a contract, or scene, chapter, and whole for a novel.
+
+When the user points out AI slop, or prose that reads as machine-made, rank the voice-ring risks first.
+
+Then read [index.md](references/index.md) whole, and read every reference whose `Fits when` condition holds for this piece, whatever ring its risks sit on. The risk list sets the order of reading; the conditions set which files are read. A quick change reads fewer references, never none.
 
 ### 2. Align
 
-When context cannot answer one of the five questions, because the audience, register, or purpose stays unknown, ask the user before drafting. A guessed audience makes every later choice inherit the guess.
+Run the alignment conversation in [align](references/align.md): one question per message, from the outermost open ring, then from the open choices that would steer the draft; each ring the user's words already answer stated back in one line inside the next question. Where the user cannot answer, lead with contrasting readings, an example, or what should happen after; never guess on their behalf.
 
-Match the depth of this conversation to the size of the task. For a quick polish, choose references silently and mention afterward what you checked. For a substantial piece, show the user the risk list and the rubric before drafting, and agree on both. When the user wants an experimental or literary register, also agree on which texture rules relax: propose settings, and let the user decide.
+The form ring holds the tradition the piece works in, and the period's or house's conventions it carries. Take them from the user's words, the form they named included, or ask when the form ring's turn comes; never assign a tradition from the language the user or the audience speaks.
+
+Take from the user's words how much they want to hear about changes to their words. Where they give no sign, give a short summary, and name every change of meaning.
+
+Match the depth of this conversation to the size of the task. For a quick change to text in hand, infer the rings from the text, choose references silently, and state every inferred ring, one short clause each, and what you checked in the closing line; where the two-sketch test splits, ask about each split alongside the change, one question each. For a substantial piece, show the user the risk list, the rubric, and the questions step 3 dropped beside the first question, and take their reply as agreement or correction on all three before drafting. For work that runs past one sitting, name the live rungs to the user, agree on the skeleton, and start the ledger, as [units-and-ledger](references/units-and-ledger.md) describes.
 
 ### 3. Build the rubric
 
-A rubric is the list of questions you will score the draft against. Build it from the risk list: for each risk, read the reference whose questions probe it, and copy the fitting entries from that file's "Questions" and "Quality Criteria" sections into the rubric. Stop adding questions at the point where you could no longer give each one an evidenced verdict: a single word supports a few questions; a chapter supports many, revisited across drafts.
+A rubric is the list of questions you will answer about the draft. Copy every numbered question in [baseline](references/baseline.md). Then copy from [rubric-questions](references/rubric-questions.md) the section for each ring where Diagnose found risks. Take rubric questions from these two files only; read the other references for their technique, and leave their own question lists where they are. Stop adding questions at the point where you could no longer answer each one by pointing to the draft: a single word supports a few questions; a chapter supports many, revisited across drafts.
 
-| Dimension | References |
-|-----------|------------|
-| Purpose | [fit](references/fit.md), [calibrate](references/calibrate.md) |
-| Clarity | [clarify](references/clarify.md), [activate](references/activate.md), [strengthen](references/strengthen.md), [illustrate](references/illustrate.md) |
-| Integrity | [signal-confidence](references/signal-confidence.md), [bound-scope](references/bound-scope.md), [surface-assumptions](references/surface-assumptions.md) |
-| Composition | [arc](references/arc.md), [arrange](references/arrange.md), [rhythm](references/rhythm.md), [voice](references/voice.md), [register](references/register.md) |
-| Depth | [extract-implications](references/extract-implications.md), [pose-questions](references/pose-questions.md) |
+Then, for each question in the rubric, ask whether the form or tradition recorded already answers it. Where it does, drop the question and write one line naming the part of the form that answers it. Where one feature of the form answers several questions for the same reason, one line may cover the group: it names the feature and lists each question it covers.
 
-Read these when their situation appears, whatever the risk list says:
+**Contrast: a drop-reason line that names the form**
 
-| Reference | Read when |
-|-----------|-----------|
-| [analogize](references/analogize.md) | unfamiliar concepts need bridging to the reader's experience |
-| [dimensionalize](references/dimensionalize.md) | feedback or a judgment word bundles several distinct concerns |
-| [across-languages](references/across-languages.md) | the prose crosses rhetorical traditions, or the writer's first language shapes it |
-| [frame-guide](references/frame-guide.md) | composing from a blank page, before necessity, position, and audience exist |
-| [clarify-patterns](references/clarify-patterns.md) | the clarify pass needs detection heuristics and repair tables |
+- antipattern: "dropped “How does the draft's vocabulary stand beside the audience's own?”: not needed here."
+- pattern: "dropped “How does the draft's vocabulary stand beside the audience's own?”: the contract defines its terms in its definitions article."
+- observe: the pattern lets the user check the drop against the form; the antipattern asks for trust.
+- shared: the same dropped question, in the same one-line shape.
+- contrast: a reason that names a feature of the form against a reason that names none.
+- look for: a reason line that names no feature of the form or tradition.
 
-Read [write-for-humans](references/write-for-humans.md) on every run: its binding rules apply while you draft, and its adjustable rules take the settings you agreed on with the user. One-line summaries of every file live in [index.md](references/index.md).
+Never drop the baseline's authorship questions.
 
 ### 4. Draft
 
-Draft with the binding rules in force and the texture settings you agreed on. When the register invites devices the texture defaults discourage (fragments, delayed reveals, long cascading sentences), use them deliberately, and be able to say what each one does for the reader.
+Draft with the authorship line in [baseline](references/baseline.md) in force, the rubric in view, and the technique of each reference you read at hand. Use any device the form calls for, such as fragments, delayed reveals, long cascading sentences, or repetition, and be able to say what each one does for the audience. The conventions of the recorded form that the user's text follows count among the user's chosen patterns: an edit keeps them.
+
+The artifact carries no scaffolding of yours: no gap, bracket, placeholder, or note, short pieces included. What the user wrote stays theirs, their own notes included. Before a choice the user has not made enters the draft, run the two-sketch test in [align](references/align.md). Where it splits, ask, and hold the choice in the alignment file or the ledger until the user answers; the draft waits for the answer.
+
+Keep the user in the loop: show each draft, or each unit in long work, before the next, with every decision it holds. Never draft past a unit the user has not seen. Where a ledger exists, read it whole before drafting a unit, and update it after.
 
 ### 5. Score
 
-Answer each rubric question against the draft: pass or fail, quoting the sentence or passage that decides it. Redraft what fails. When a question cannot pass without breaking something the user agreed to, tell the user instead of picking a side silently.
+Answer the ring questions, then the authorship questions, each in your own words, pointing to the draft. Set each answer beside the alignment file. Where they differ, redraft; where the difference touches authorship, take it to the user. After every redraft, answer the authorship questions again, starting from what they pointed to on the last pass: where each passage stands now, or that it was cut. When an answer cannot match the alignment file without breaking something the user agreed to, tell the user instead of picking a side silently.
 
 ### 6. Revise with the user
 
-When the user asks for a revision, the rubric was missing something. Take the highest-ranked risk not yet covered, read at least one more reference for it, add its questions to the rubric, then revise and rescore. The rubric grows over the conversation.
+A revision request updates the alignment file: record every ring it touches. Then reread [index.md](references/index.md) against the updated state, read at least one fitting reference not yet read this run, add the rubric-questions section for any ring where a risk now shows, and revise and rescore. The rubric grows over the conversation. Where a ledger exists, attach each new question to the rung where the risk it probes shows.
 
-## Rules that hold in every register
+### Report
 
-- Name whoever acts when responsibility matters. "Mistakes were made" hides the person who made them.
-- Match certainty language to evidence: state verified facts directly; write "likely" for strong inference, "possibly" for partial information, "speculatively" for analogy. [signal-confidence](references/signal-confidence.md) holds the full method.
-- Keep a hedge only when removing it would change what the writer commits to. Otherwise cut it.
-- Never invent specific detail. A detail the writer has not witnessed and cannot source reads as evidence and misleads the reader. Honest abstraction beats invented specificity.
-- Never write "obviously", "clearly", or "undoubtedly" in place of the argument the reader still needs.
-- Never praise, cushion, or perform helpfulness in place of answering.
-- Never quietly reorganize prose into the Anglo-American thesis-first shape. Name the tradition the prose follows before changing it, and read [across-languages](references/across-languages.md) when another tradition or the writer's first language shapes the text.
+Report each change at the detail the user asked for: a short summary to a user who says "just fix it", each change to a user who asks what changed. Where the reply names an edit to the user's words, quote their words beside yours. Name every change of meaning, every fact you invented at the user's word, and every ring you inferred and have not yet stated back.
 
-## Before drafting
+## The line that holds in every form
 
-Settle what diagnosis left open with the user: audience, register, purpose, texture settings. A short conversation costs less than a wrong draft.
+The user authors the meaning. Authorship is no ring of the wheel; it runs across the whole loop, in four parts.
 
-## Adjustable rules
+- Given: the user's words, facts, and chosen patterns. Score checks them with the authorship questions.
+- Meant: the user's intent, stance, promises, and subtext. Score checks them with the authorship questions.
+- Undecided: the choices the user has not made that would steer the piece. Align settles them. Where the user hands you an invention, that handing over is their decision; name each invented fact back to them.
+- Shown: every change reaches the user at the detail they asked for, and a change of meaning is never silent.
 
-The texture rules in [write-for-humans](references/write-for-humans.md), from sentence-length variety to transitional-phrase rarity to list-versus-prose balance, act as defaults. Set them to the register during alignment. Record each relaxation as a decision; never drift into one. Take the same care before tightening: texture rules enforced past their defaults flatten the writer's voice.
+The skill guards authorship only. Whether a piece is true, a story, satire, or a lie told on purpose is set in the form ring, and every step takes it from there. Before changing the structure of prose that a tradition or the user's first language shapes, read [across-languages](references/across-languages.md).
 
 ## Where to be creative, and where not
 
-Be creative with form and structure; with imagery, analogy, and rhythm; with register. Propose a braver shape than the user asked for when you see one. This skill exists to push past default machine prose. A safe, forgettable draft that passes every rubric question has still failed its readers.
+Be creative with form and structure; with imagery, analogy, and rhythm; with register. Where the form rewards invention, propose a braver shape than the user asked for; where it rewards convention, keep to the convention. A draft whose answers all match the alignment file and still leaves the audience short of the point has failed its audience.
 
-Never be creative with the rules that hold in every register, with the scope the user set, or with facts. Spend creative effort on how the piece works, never on its requirements.
+Never be creative with the user's meaning or with the scope the user set. Spend creative effort on how the piece works, never on its requirements.

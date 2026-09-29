@@ -1,0 +1,61 @@
+{
+  "evals": [
+    {
+      "expected_output": "Either a light polish that keeps the poem a poem, or the text held back pending a question whose answer would change the polish; in neither case is the poem turned into another form. The rings the request and the poem answer are inferred and stated back in the closing line, among them the incitement (the aunt's memorial), the setting (read aloud at the memorial), and the form (a lyric poem). No question flags a feature the lyric form carries: the repeated line, the fragments, the unexplained images, and the absence of a stated thesis stand as the form's devices. Every ring question dropped in step 3 carries one reason line naming the lyric feature that answers it, such as the refrain or the image carrying the meaning. The four authorship questions stay and are answered by pointing to the draft. Any change to the user's words is shown beside the original, and any change of meaning is named. The returned poem carries no gap, bracket, placeholder, or note.",
+      "files": [
+        "evals/fixtures/lyric.md"
+      ],
+      "id": 0,
+      "prompt": "can you polish this poem? I'm reading it at my aunt's memorial next week. keep it a poem, please."
+    },
+    {
+      "expected_output": "A tightening pass that respects contract drafting. The rings the request and the clause answer are inferred and stated back, among them the setting (the supplier's counsel, tomorrow) and the point the form fixes (the clause binds the Receiving Party). No question flags a feature the contract form carries: capitalized defined terms, repeated defined terms in place of pronouns, 'shall', long enumerated sentences, and nominalized or passive constructions the form uses stand unflagged. Every ring question dropped in step 3 carries one reason line naming the contract feature that answers it, such as the definitions article. Any scope ambiguity in the clause, such as the mismatch between 'this Article 7' and 'this Clause 7.2' or the reach of the notice proviso, goes to the user as a question, since a change to scope is a change of meaning, and the returned clause does not settle it silently. No obligation, exception, or party is added, dropped, or altered without the user seeing it. The returned clause carries no gap, bracket, placeholder, or note.",
+      "files": [
+        "evals/fixtures/contract-clause.md"
+      ],
+      "id": 1,
+      "prompt": "tighten clause 7.2 of our NDA before it goes to the supplier's counsel tomorrow"
+    },
+    {
+      "expected_output": "A short review that respects the commit-message form. The rings the message answers are inferred and stated back in the closing line, among them the audience (engineers reading the log) and the point (why the parser change was made). No question flags a feature the form carries: the type(scope) prefix, the imperative lowercase subject, the terse body, code in backticks, jargon an engineer on the project knows, and the issue reference stand unflagged. Every ring question dropped in step 3 carries one reason line naming the commit-message feature that answers it, such as the subject line's fixed shape. The response stays at the size of the task, and any suggested change is shown beside the original with any change of meaning named. No suggested message carries a gap, bracket, placeholder, or note.",
+      "files": [
+        "evals/fixtures/commit-message.md"
+      ],
+      "id": 2,
+      "prompt": "check this commit message before I push"
+    },
+    {
+      "expected_output": "A pass that keeps the four movements of ki-shō-ten-ketsu. The rings the request and the essay answer are inferred and stated back, among them the setting (an anthology on the theme 'neighbors') and the form (ki-shō-ten-ketsu, chosen on purpose). No question flags a feature the form carries: the third movement's turn to beekeepers is not flagged as off-topic or as a missing transition, the unstated thesis is not flagged as a buried lead, and the order is not moved toward thesis-first. Every ring question dropped in step 3 carries one reason line naming the ki-shō-ten-ketsu feature that answers it, such as the turn or the implied conclusion. Any structural change is shown to the user and left for them to choose. The returned essay carries no gap, bracket, placeholder, or note.",
+      "files": [
+        "evals/fixtures/kishotenketsu.md"
+      ],
+      "id": 3,
+      "prompt": "this is for a small essay anthology on the theme 'neighbors'. it's written as a ki-sho-ten-ketsu piece on purpose. can you give it a pass?"
+    },
+    {
+      "expected_output": "Long-work handling. The response names the live rungs (such as scene, chapter, whole), states back the rings the outline and chapter 1 answer, and starts an alignment file and a ledger in key-value lines and tables: premise, spine, current unit, skeleton with statuses, open threads (the ship on the dark night), committed facts from chapter 1 (the ninth of February, half past two, the wick excuse, Mara's age and role), open decisions, who knows what, and voice. The skeleton answers the three unit questions (what the unit does for the unit it sits inside, what the audience brings into it, what is different at its end) for the whole and for each unit down to the rung the draft is planned at. The choice that settles what the story is about, above all who asked the father to let the light go dark, is asked of the user and recorded in the ledger's open decisions; chapter 2 is not drafted with an answer the user has not given. Any other new fact about the story's world that chapter 2 needs is run through the two-sketch test, and either asked or named to the user as a decision; none is placed silently in a draft. Nothing the response returns as a draft carries a gap, bracket, placeholder, or note.",
+      "files": [
+        "evals/fixtures/long-work.md"
+      ],
+      "id": 4,
+      "prompt": "here's the outline and chapter 1 of a novella I'm writing. draft chapter 2 for me."
+    },
+    {
+      "expected_output": "Alignment on a sparse request. The rings the request answers are stated back in one line: a poster, for something happening on Saturday. The response asks exactly one question, about the outermost ring still open (the incitement: what is happening on Saturday and what rides on it), and asks nothing the request already answers. An alignment file is started from the template with a source tag on each ring (said for what the request gives, inferred or open for the rest). No draft of the poster appears, and nothing is invented about the event.",
+      "files": [
+        "evals/fixtures/sparse-request.md"
+      ],
+      "id": 5,
+      "prompt": "Can you write something for the poster? It's for Saturday."
+    },
+    {
+      "expected_output": "The next scene, or questions that lead to it, with the narrator's lies kept as the form's device. The form ring records the deliberate untruth: a first-person narrator who lies to the audience by design, revealed only in the last scene. No question or comment flags, corrects, or softens Arthur's lies, asks whether they are true, or asks the user to confirm facts the story invents on purpose. Any question the response asks concerns a choice the user has not made that would steer the scene, such as what Arthur actually does with the watch in this scene, and each such choice is asked before it enters a draft. Any draft keeps Arthur's voice and his self-serving account, and carries no gap, bracket, placeholder, or note.",
+      "files": [
+        "evals/fixtures/unreliable-narrator.md"
+      ],
+      "id": 6,
+      "prompt": "here's the plan and the first scene of my short story. Arthur lies to the reader the whole way through, that's the point, nobody should catch on until the end. can you draft the next scene?"
+    }
+  ],
+  "skill_name": "communicate"
+}

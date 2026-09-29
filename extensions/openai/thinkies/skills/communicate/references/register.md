@@ -1,11 +1,13 @@
 # Register
 
+Fits when: word choice or tone is at stake, or the user points out prose that reads as machine-made
+
 Choose words for precision and connotation, and match emotional register to purpose -- the sentence-level and phrase-level choices that determine how prose lands with its audience.
 
 ## Diagnostic Question
 
 Ask: Does each word carry its weight? Does the emotional register fit the purpose?
-Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where does vocabulary mismatch the audience or register? Where are words close to the intended meaning but not exact? Where does current tone clash with purpose -- too casual, too severe, too distant? Does the emotional undertone serve or undermine the goal?
+Which words, if any, recur across unrelated drafts whatever the subject? How does the vocabulary sit against the audience and the register? Where, if anywhere, are words close to the intended meaning but not exact? How does the current tone stand toward the purpose, such as casual, severe, or distant? What does the emotional undertone do for the goal?
 
 ## Instructions
 
@@ -13,11 +15,11 @@ Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where
 
 2. **Choose words for connotation, not just denotation** -- Examine each significant word to determine whether its emotional and cultural associations align with intended effect. "Slim" versus "skinny," "persistent" versus "stubborn" -- similar definitions, vastly different implications.
 
-3. **Calibrate vocabulary to audience knowledge** -- Assess whether technical depth matches what readers know. Replace jargon with plain language for general audiences, use precise technical terms for experts, find middle ground for mixed audiences.
+3. **Calibrate vocabulary to audience knowledge** -- Assess whether technical depth matches what the audience knows. Plain language for a general audience, precise technical terms for experts, middle ground for a mixed one.
 
-4. **Replace habitual patterns with deliberate choices** -- Identify words appearing through habit rather than intention. AI generation patterns: "delve," "utilize," "leverage," "robust," "seamless." Challenge your own quieter defaults with equal suspicion: "honest," "load-bearing," "shape," "signal," and any word you notice yourself reaching for across unrelated drafts. Replace formulaic language with precise, natural alternatives.
+4. **Question habitual words** -- Which words keep arriving across unrelated drafts, whatever the subject? Such a word arrives whatever the subject is. Ask of each: does it carry this sentence's meaning, register, and sound better than the word the moment would pick? Where it does not, replace it.
 
-5. **Prefer precision over approximation** -- Look for words close to intended meaning but not exact. The difference between "annoyed" and "furious," between "suggest" and "insist," between "glance" and "stare" is the difference between communicating clearly and forcing readers to interpret.
+5. **Prefer precision over approximation** -- Look for words close to intended meaning but not exact. The difference between "annoyed" and "furious," between "suggest" and "insist," between "glance" and "stare" is the difference between saying the thing and leaving the audience to interpret. Where the piece means a word to stay open, as a poem's "somewhere warm" does, is the openness the meaning?
 
 6. **Verify cultural and contextual appropriateness** -- Consider whether words carry associations specific to contexts, regions, or communities that might not transfer. Check for idioms that don't translate.
 
@@ -27,47 +29,36 @@ Where do AI-generation patterns appear (delve, leverage, robust, utilize)? Where
 
 9. **Separate register from content** -- Keep information identical but change word choice, sentence structure, and pacing. The same message can be urgent versus patient, warm versus neutral, formal versus casual. Explore the range of choices.
 
-10. **Calibrate warmth to serve clarity** -- Does emotional warmth make the message more accessible or dilute its clarity? Warmth builds connection when readers benefit from feeling seen. Distance maintains boundaries when situations require clarity about limits.
+10. **Calibrate warmth to serve clarity** -- Does emotional warmth make the message more accessible or dilute its clarity? Warmth builds connection where the audience benefits from feeling seen. Distance maintains boundaries where the situation requires clarity about limits.
 
 11. **Maintain consistency while allowing purposeful variation** -- Check whether emotional register creates smooth flow. Variation is purposeful when content shifts emotional territory. Consistency serves when building cumulative argument.
 
-## Register by Context
+## Register by context
 
-A short reference for three registers prose commonly operates in. Each entry names the cared-for shape and the slop signature that betrays inattention.
+Every form carries conventions its audience expects. Ask which conventions this piece's form honors, then ask where the draft departs from them and whether the user chose that departure. Three common settings show the kind of question to ask.
 
-**Code comments.** Brief, contextual, oriented to what changed and why.
+**Code comments.** What does the comment tell someone changing the code that the code cannot? Where, if anywhere, does a comment restate the code, or open with ceremony before its point?
 
-- Slop signature: ceremonial openers, habitual vocabulary, comments that restate the code.
-- Cared-for: short imperative or declarative phrases naming the change, the cause, or the constraint.
+**Chat.** Does the message open on its point, at the length the answer needs? Where, if anywhere, does an opener ask permission to begin, or dress a one-word answer in a paragraph?
 
-**Slack and chat.** Short, direct, no preamble.
-
-- Slop signature: over-formal openers, faux-personal preambles, asking permission to begin.
-- Cared-for: contextual openers, one-word replies where the answer is one word.
-
-**Documentation (evergreen).** Describe the current state as fact. No transitional framing — no "migration in progress," no "(intended surface)," no "Phase 2 will add X." Document what is, why it is, and what matters for changes.
-
-- Slop signature: a banner that rots the moment the migration lands.
-- Cared-for: a description that reads true six months from now, or that the writer would happily delete.
-
-Universal patterns show up in every register: habitual vocabulary, transitional overhang, invented symmetry. [write-for-humans](./write-for-humans.md) covers them.
+**Documentation meant to stay current.** Will each sentence still read true once the change it describes has landed? Where, if anywhere, does a banner such as "migration in progress" describe a moment that will pass, in a document meant to outlast it? Release notes and migration guides describe a moment on purpose; ask which kind of document this is.
 
 ## Questions
 
 - Does each significant word carry the connotation the writer intends, alongside its denotation? Where might the implication land differently than the surface meaning?
-- Where do habitual AI-generation patterns appear — delve, utilize, leverage, robust, seamless, foster, harness — that do not match the situation's actual register?
-- Where does a word stand close to the intended meaning but not exactly on it? Where would the difference between annoyed and furious, suggest and insist, glance and stare change what the reader takes away?
+- Which words, if any, turn up across unrelated drafts whatever the subject, and what does each carry in this sentence beside the word the moment would pick?
+- Where, if anywhere, does a word stand close to the intended meaning but not exactly on it? Where would the difference between annoyed and furious, suggest and insist, glance and stare change what the audience takes away?
 - What tone does this situation require — warmth or distance, urgency or calm, formality or casualness, certainty or tentativeness? Where does the current register fall on those spectrums?
-- Where does the emotional pitch shift across the piece? Is the variation purposeful, tracking a shift in the content, or has it drifted?
-- For each register the prose operates in (code comments, chat, evergreen documentation), does the writing match the conventions that register honors?
+- Where, if anywhere, does the emotional pitch shift across the piece, and what does each shift track, such as a shift in the content?
+- Which conventions does the piece's form carry, and where, if anywhere, does the writing depart from them without the user having chosen to?
 
 ## Quality Criteria
 
 When register is sound:
 
 - [ ] Each significant word's connotation aligns with what the writer intends to say.
-- [ ] No stock AI vocabulary ("delve", "leverage", "robust", "seamless") appears unless its technical sense is exact.
+- [ ] Each word that recurs across the piece by habit has been weighed against the word the moment would pick, and each recurrence the form chose, a refrain or a repeated defined term, stands.
 - [ ] No word stands close to the intended meaning when a more precise one is available.
 - [ ] The emotional pitch fits what the situation requires — warmth, distance, urgency, calm, formality, casualness, certainty, or tentativeness as the moment calls for.
 - [ ] Variation in register tracks shifts in the content's emotional territory.
-- [ ] Where the prose operates in a specific register (code comments, chat, evergreen documentation), it matches that register's conventions.
+- [ ] Where the prose follows a form's conventions, it matches them, or departs by the user's choice.

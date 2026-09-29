@@ -1,10 +1,12 @@
 # Analogize
 
+Fits when: the audience meets an idea that nothing in its own experience yet holds
+
 Connect unfamiliar concepts to familiar ones through structural analogy.
 
 ## Diagnostic Question
 
-Ask: What unfamiliar concepts appear without anchoring to the familiar?
+Ask: What unfamiliar concepts, if any, appear without anchoring to the familiar?
 What structural analogies could make the strange accessible? Where could comparison to familiar experience illuminate the new?
 
 ## Instructions
@@ -25,21 +27,21 @@ What structural analogies could make the strange accessible? Where could compari
 
 ## Questions
 
-- What is the unfamiliar thing actually doing in the reader's mind right now — sitting as a definition without grip, sliding past as jargon, lighting up as something half-recognized?
-- What experience does the reader already have that *moves the same way* — same cause-and-effect, same feeling of how parts depend on each other, same shape of constraint?
+- What is the unfamiliar thing actually doing in the audience's mind right now — sitting as a definition without grip, sliding past as jargon, lighting up as something half-recognized?
+- What experience does the audience already have that *moves the same way* — same cause-and-effect, same feeling of how parts depend on each other, same shape of constraint?
 - When I match the two, am I matching how the elements relate, or am I matching how they look on the surface?
-- When I name the mapping, can I walk through it piece by piece — this corresponds to that, this part to that part — or am I asking the reader to infer the connections themselves?
-- Where does the bridge stop carrying weight? What aspects of the unfamiliar thing the analogy actively misrepresents, and have I named those?
-- If I built only one bridge, am I leaving the reader with a partial picture? Would a second analogy reach what the first cannot?
+- When I name the mapping, can I walk through it piece by piece — this corresponds to that, this part to that part — or am I asking the audience to infer the connections themselves?
+- Where does the bridge stop carrying weight? What aspects of the unfamiliar thing does the analogy actively misrepresent, and have I named those?
+- If I built only one bridge, am I leaving the audience with a partial picture? Would a second analogy reach what the first cannot?
 - Is this analogy the simplest one that holds the core relationship, or have I reached for a clever one that brings its own freight?
 
 ## Quality Criteria
 
 When the analogy is doing its work:
 
-- [ ] The familiar domain comes from what the reader has lived through. A clever invention on the writer's end does not qualify.
+- [ ] The familiar domain comes from what the audience has lived through. A clever invention on the writer's end does not qualify.
 - [ ] The mapping is between *relationships* (cause, dependency, function), and the surface features that came along for the ride have been named or set aside.
-- [ ] Each element of the mapping is stated, so the reader does not have to reconstruct the analogy themselves.
+- [ ] Each element of the mapping the audience needs is stated, so they do not have to reconstruct the analogy themselves, unless the form invites them to, as a poem's figure may.
 - [ ] The places the analogy breaks are stated — what the bridge cannot carry, where it actively misleads.
 - [ ] When the concept is multi-faceted, more than one analogy is offered, each holding a different aspect.
 - [ ] The simplest version of the analogy is the one that appears first.

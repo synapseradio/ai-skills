@@ -1,39 +1,43 @@
 # Strengthen
 
-Eliminate weak language patterns that create distance between claim and commitment.
+Fits when: the draft carries hedges, distancing verbs, abstract nouns, set phrases, or certainty words; its hedge and certainty sections apply where the piece makes claims its audience will weigh or act on
+
+Find the language patterns that put distance between a claim and the writer's commitment to it, and ask of each whether that distance is chosen.
 
 ## Diagnostic Question
 
-Ask: What factors in this prose create hedging, padding, or false distance?
-Look for patterns that weaken assertion without adding epistemic value.
+Ask: What distance, if any, does this prose put between each claim and the writer's commitment to it?
+Look for the patterns below, and for each ask what it does for this form and this audience.
 
 ## Instructions
 
 1. **Flag hedge words** — Mark: somewhat, fairly, rather, relatively, arguably, quite, a bit, perhaps.
-   Ask: Does this hedge reflect genuine uncertainty, or is it habitual cushioning?
+   Ask: What does this hedge carry, such as uncertainty in the evidence or care the audience is owed, if anything?
 
-2. **Flag weak verbs** — Mark: seems, appears, tends, might consider, could potentially.
+2. **Flag distancing verbs** — Mark: seems, appears, tends, might consider, could potentially.
    Ask: What would direct assertion look like? What evidence supports or refutes it?
 
 3. **Flag nominalizations** — Mark: utilization, implementation, facilitation, optimization.
-   Ask: What verb hides inside this noun? Nominalizations often obscure who acts.
+   Ask: What verb hides inside this noun? Does hiding it obscure who acts, where the audience needs to know? Some forms, such as a contract or a standard, use the noun on purpose.
 
-4. **Flag filler phrases** — Mark: in terms of, the fact that, for all intents and purposes.
-   Ask: What remains if this phrase is deleted? Often: the same meaning, fewer words.
+4. **Flag set phrases** — Mark: in terms of, the fact that, for all intents and purposes.
+   Ask: What remains if this phrase is deleted? Where the meaning, the register, and the sound all survive, cut it; where a speaker's voice or a sentence's rhythm needs it, keep it.
 
-5. **Flag false certainty** — Mark: obviously, clearly, as everyone knows, certainly.
-   Ask: Is this actually obvious, or is the word doing rhetorical work to avoid argument?
+5. **Flag certainty words** — Mark: obviously, clearly, as everyone knows, certainly.
+   Ask: What does the word stand on: evidence on the page, knowledge the audience holds, or neither?
 
 6. **For each flag, decide:**
-   - **Delete** if unnecessary (most hedges, most filler)
-   - **Replace** with precise alternative (weak verb → strong verb)
-   - **Preserve with justification** if hedge reflects genuine epistemic uncertainty
+   - **Delete** where the word carries no meaning, register, or sound the piece needs
+   - **Replace** with a precise alternative (distancing verb → the verb the evidence supports)
+   - **Preserve with a reason** where the hedge reflects genuine uncertainty, or the phrase carries voice, rhythm, or care the form calls for
 
 ## Pattern Lists
 
-### Hedge words (weaken without adding epistemic value)
+Each list names candidates to question. None is a list of words to strike on sight: dialogue, a speech, or a contract may need any of them.
 
-| Word | Replace with | Keep when |
+### Hedge words: does the hedge add epistemic value?
+
+| Word | Candidate replacement | Keep when |
 |------|--------------|-----------|
 | somewhat | [delete] or quantify | Genuine partial truth |
 | fairly | [delete] or quantify | — |
@@ -50,9 +54,9 @@ Look for patterns that weaken assertion without adding epistemic value.
 | to some extent | [delete] or quantify | — |
 | more or less | [delete] or quantify | — |
 
-### Weak verbs (create distance from assertion)
+### Distancing verbs: does the distance match the evidence?
 
-| Weak form | Stronger form |
+| Form | Alternative |
 |-----------|---------------|
 | seems to be | is (if verified) / appears (if evidence partial) |
 | appears to | is / suggests (with evidence) |
@@ -63,7 +67,7 @@ Look for patterns that weaken assertion without adding epistemic value.
 | would suggest | suggests / shows |
 | might possibly | might / could |
 
-### Nominalizations (verbs hidden inside nouns)
+### Nominalizations: which verb hides inside the noun?
 
 | Nominalization | Verb | Example transformation |
 |----------------|------|------------------------|
@@ -78,9 +82,9 @@ Look for patterns that weaken assertion without adding epistemic value.
 | establishment | establish / create | — |
 | consideration | consider | "consideration of options" → "considering options" |
 
-### Filler phrases (delete without loss)
+### Set phrases: does the meaning survive the cut?
 
-| Phrase | Replace with |
+| Phrase | Candidate replacement |
 |--------|--------------|
 | in terms of | [delete] or use "regarding" |
 | the fact that | [delete] or restructure |
@@ -99,37 +103,37 @@ Look for patterns that weaken assertion without adding epistemic value.
 | has the ability to | can |
 | is in a position to | can |
 
-### False certainty (asserts without argument)
+### Certainty words: what does the word stand on?
 
-| Word | Problem | Alternative |
-|------|---------|-------------|
-| obviously | Asserts without evidence | State the evidence |
-| clearly | Asserts without evidence | Show the clarity |
-| of course | Assumes shared knowledge | Verify or argue |
-| as everyone knows | Assumes universal knowledge | Cite or argue |
-| it goes without saying | If true, don't say it | [delete] |
-| naturally | Assumes inevitability | Explain the mechanism |
-| undoubtedly | Overstates certainty | "evidence strongly suggests" |
-| certainly | Overstates certainty | Qualify or provide evidence |
-| definitely | Overstates certainty | Qualify or provide evidence |
-| without question | Overstates certainty | Address the question |
+| Word | What the word claims | Alternative |
+|------|----------------------|-------------|
+| obviously | The point needs no evidence | State the evidence |
+| clearly | The point shows for itself | Show the clarity |
+| of course | Shared knowledge | Verify or argue |
+| as everyone knows | Universal knowledge | Cite or argue |
+| it goes without saying | The point need not be said | [delete] |
+| naturally | Inevitability | Explain the mechanism |
+| undoubtedly | Certainty beyond doubt | "evidence strongly suggests" |
+| certainly | Certainty | Qualify or provide evidence |
+| definitely | Certainty | Qualify or provide evidence |
+| without question | No question stands | Address the question |
 
 ## Questions
 
-- For each hedge — somewhat, perhaps, rather, fairly, possibly, arguably — does the word reflect genuine uncertainty about partial evidence, or is it cushioning a claim the writer means but does not want to say plainly?
-- For each weak verb — "seems," "appears," "tends to," "might possibly" — does the language reflect what the evidence actually shows, or does it create distance the writer is using as an exit ramp?
-- For each abstract noun — utilization, implementation, facilitation, optimization, determination — what verb is hiding inside it, and who acts when that verb returns to the prose?
-- For each filler phrase — "in terms of," "due to the fact that," "it is important to note that," "for all intents and purposes" — does the phrase survive deletion, or does its meaning come back unchanged with fewer words?
-- For each false-certainty word — obviously, clearly, of course, undoubtedly, certainly — is the thing actually obvious to a reader who has not yet been argued into agreement, or is the word doing the rhetorical work of skipping argument?
-- Where does cushioning protect the writer from saying the thing, more than it protects the reader from receiving it?
+- For each hedge — somewhat, perhaps, rather, fairly, possibly, arguably — what does the word mark, such as partial evidence, a limit of scope, or care the audience is owed, if anything?
+- For each distancing verb — "seems," "appears," "tends to," "might possibly" — how does the distance it puts between the writer and the claim compare with what the evidence shows?
+- For each abstract noun — utilization, implementation, facilitation, optimization, determination — what verb is hiding inside it, who acts when that verb returns to the prose, and does the form want the noun?
+- For each set phrase — "in terms of," "due to the fact that," "it is important to note that," "for all intents and purposes" — what of its meaning, register, and sound is left when it is deleted?
+- For each certainty word — obviously, clearly, of course, undoubtedly, certainly — what does it stand on for someone in the audience who has not yet been argued into agreement: evidence on the page, knowledge they hold, or neither?
+- Whom, if anyone, does each qualifying phrase serve: the writer, the audience, or both?
 
 ## Quality Criteria
 
 When language commitment is sound:
 
 - [ ] Each hedge that survived has been kept because it reflects genuine epistemic calibration — partial evidence, scope limitation, or relational care that the language cannot encode any other way.
-- [ ] Each hedge that was removed was habitual cushioning around a claim the writer meant directly.
-- [ ] Weak verbs have been replaced with direct assertions calibrated to what the evidence actually shows, or with named uncertainty when uncertainty is genuine.
-- [ ] Verbs no longer hide inside abstract nouns. Whoever acts is visible in the verb form.
-- [ ] No phrase remains whose deletion would leave the meaning unchanged.
-- [ ] False-certainty words have either been replaced with the argument they were standing in for, or removed entirely.
+- [ ] Each hedge that was removed carried nothing the claim needed, around a claim the writer meant directly.
+- [ ] Each distancing verb left matches what the evidence shows; each other one has given way to a direct assertion, or to named uncertainty where the uncertainty is real.
+- [ ] Where the audience needs to know who acts, the verb shows it; each abstract noun left in place is one the form calls for.
+- [ ] Each phrase whose deletion would leave the meaning, register, and sound unchanged has been cut, and each one kept has a reason in the voice or the rhythm.
+- [ ] Each certainty word left stands on evidence the page gives or knowledge the audience holds; each other one has given way to the argument or been removed.

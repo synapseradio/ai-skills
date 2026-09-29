@@ -1,56 +1,58 @@
 # Arc
 
-Structure communication as narrative with tension and resolution.
+Fits when: the piece has to hold its audience from start to end, as a story, a speech, an essay, or a pitch does
+
+Shape communication so something pulls its audience from start to end, whether tension and resolution, a turn, or a question kept open.
 
 ## Diagnostic Question
 
-Ask: What tension drives this forward?
-What does the reader want to know, and when do they get resolution? Is there shape, or just sequence? Where does information dump without engagement?
+Ask: What pulls this forward?
+What does the audience want to know, and when do they get it? What shape, if any, does the sequence take? Where, if anywhere, does information arrive with nothing drawing the audience toward it?
 
 ## Instructions
 
-1. **Establish tension** - Identify the core uncertainty, need, or problem. What question drives this forward? What makes this matter to readers? Why should they care how it resolves? Stakes transform tension from abstract to urgent.
+1. **Find the pull** - Identify the core uncertainty, need, problem, or turn. What question drives this forward? What makes this matter to the audience? Why should they care how it resolves? Stakes turn an abstract tension into an urgent one.
 
-2. **Structure the journey** - Beginning establishes context and creates tension. Middle develops complications that deepen or transform tension—new obstacles, unexpected revelations, rising stakes. End delivers resolution that satisfies the tension established at the start.
+2. **Structure the journey** - Which shape does the form and tradition call for? One common shape establishes context and tension at the beginning, develops complications in the middle, and resolves at the end. Another introduces, develops, turns, and brings the parts together without conflict. Name the shape before judging the draft against it.
 
-3. **Build through escalation** - Each piece in the middle raises complexity or stakes. Simple problems reveal deeper issues. Initial solutions encounter obstacles. Understanding shifts. The journey gains momentum toward climax—the moment of highest tension before resolution.
+3. **Build through the middle** - What does each middle piece add: raised stakes, a deeper issue, an obstacle, a shift in understanding, a new angle? Where the shape builds toward a climax, does the middle gather momentum toward it?
 
-4. **Position revelations for impact** - Key insights, decisions, or turning points land when tension peaks. Announcing too early deflates the arc. Burying them loses impact.
+4. **Position revelations for impact** - Where do key insights, decisions, or turning points land? Announced too early, they deflate the pull. Buried, they lose their force.
 
-5. **Resolve back to origin** - Resolution connects explicitly to initial tension, showing how the journey transformed understanding or solved the problem. Closure requires this connection—readers need to feel the arc complete.
+5. **Resolve back to origin** - Where does the ending connect to the opening's question, showing how the journey changed understanding or solved the problem? Where the form leaves a question open on purpose, name that choice.
 
-6. **Layer micro-arcs** - Individual sections carry their own tension and resolution, contributing to the larger narrative while maintaining local engagement. Paragraphs pose questions and answer them.
+6. **Layer micro-arcs** - Individual sections can carry their own pull and resolution, serving the larger piece while holding local engagement. Paragraphs can pose questions and answer them. When the piece nests more than two levels of unit, or runs past one sitting, ask these at every live level with [units-and-ledger](./units-and-ledger.md), which records open threads across sittings.
 
-7. **Control information flow** - Decide what readers learn when. Revealing everything upfront eliminates tension. Withholding too long frustrates. Pacing balances anticipation with satisfaction.
+7. **Control information flow** - Decide what the audience learns when. Revealing everything upfront removes the pull. Withholding too long frustrates. Pacing balances anticipation with satisfaction.
 
 ## What Arc Provides
 
-**Tension** is an unresolved question, an unsatisfied need, a problem without solution. It creates pull—readers want to know what happens, how it resolves.
+**Tension** is an unresolved question, an unsatisfied need, a problem without solution. It creates pull: the audience wants to know what happens and how it resolves.
 
-**Resolution** completes the journey. The question finds answer, the need finds satisfaction. Resolution connects back to initial tension, showing how the journey led here.
+**Resolution** completes the journey. The question finds its answer, the need its satisfaction. Resolution connects back to the opening tension, showing how the journey led here.
 
-**Stakes** explain why tension matters. What's gained through resolution? What's lost through failure?
+**Stakes** explain why the tension matters. What is gained through resolution? What is lost through failure?
 
-Arc structure sacrifices speed for impact. Use arc when persuasion, engagement, or emotional connection serves the purpose better than quick information transfer.
+Arc trades speed for impact. Use it when persuasion, engagement, or emotional connection serves the purpose better than quick information transfer.
 
 ## Questions
 
-- What question, problem, or unmet need is driving this piece forward? What is the reader waiting to find out?
-- What raises the stakes — what makes this matter to the reader beyond the writer's interest?
-- Where does the middle escalate, and where does it only accumulate? What new obstacle, reversal, or revelation does each section introduce?
-- Where does the climax land — the moment of highest tension just before resolution — and is it positioned where the reader's investment can carry its weight?
-- Does the resolution connect back to the initial tension so the reader feels the arc complete, or does the closing answer a different question than the one that opened the piece?
-- At the paragraph level, do individual sections carry their own question and answer, or do they release tension before they have built any?
-- Where does the writer reveal too soon, deflating the build? Where does the writer withhold too long, exhausting the reader before they reach the resolution?
+- What question, problem, turn, or unmet need is driving this piece forward? What is the audience waiting to find out?
+- What, if anything, raises the stakes — what ties the piece to the audience's own concerns? Where the shape develops without conflict, what holds the audience until the turn?
+- Which shape does the piece follow, and does its middle do what that shape asks: build toward a climax, or develop without conflict toward a turn? What new obstacle, reversal, revelation, or angle does each section introduce?
+- Where does the peak land — the moment of highest tension, or the turn — and is it positioned where the audience's investment can carry its weight?
+- How does the ending stand toward whatever question the opening raised, if it raised one? Where it leaves the question open, is that the form's choice?
+- At the paragraph level, what question and answer, if any, does each section carry of its own?
+- When does each reveal land, set against how long the audience has waited for it and how much the build has given them to hold?
 
 ## Quality Criteria
 
 When the arc is doing its work:
 
-- [ ] A specific question, need, or tension drives the piece forward, and a reader can name it after the first paragraphs.
+- [ ] A specific question, need, turn, or tension drives the piece forward, and someone in the audience can name it after the first paragraphs, or, where the form holds its pull as an unexplained order until a turn, can feel it.
 - [ ] The stakes are visible — what is gained through resolution, what is lost through failure.
-- [ ] The middle escalates: each section raises complexity, reverses expectation, or deepens the cost.
-- [ ] The climax lands at the position of highest tension, with enough investment behind it to carry the moment.
-- [ ] The resolution connects explicitly back to the opening tension. The question that drove the piece finds its answer.
+- [ ] Each middle section adds something: raised complexity, a reversal, a deeper cost, or a new angle the shape calls for.
+- [ ] The peak lands where the audience's investment can carry the moment.
+- [ ] The ending connects back to the opening question, or leaves it open by a choice the form makes.
 - [ ] Within sections, paragraphs carry their own micro-arcs of question and answer.
-- [ ] The information flow paces revelations. Load-bearing claims arrive where the reader can carry them — neither announced before the reader has invested, nor buried where the reader will leave before reaching them.
+- [ ] The information flow paces revelations. Load-bearing claims arrive where the audience can carry them — neither announced before they have invested, nor buried where they will leave before reaching them.

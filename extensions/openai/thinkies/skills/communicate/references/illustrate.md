@@ -1,11 +1,13 @@
 # Illustrate
 
+Fits when: the piece rests on abstract ideas or category words its audience must recognize in practice
+
 Make abstract concepts concrete through examples that reveal essential properties and through witnessed detail that locates abstractions in a specific time and place.
 
 ## Diagnostic Question
 
-Ask: Where do abstractions float without concrete grounding?
-What claims would a reader accept definitionally but fail to recognize in practice? Where do concepts need examples to convey their essential properties? Has the speaker been here - what witnessed detail could replace this category description?
+Ask: Where, if anywhere, does an abstraction stand without a concrete case?
+What claims, if any, would someone in the audience accept by definition but fail to recognize in practice? Where do concepts need examples to convey their essential properties? Has the speaker been here - what witnessed detail could replace this category description?
 
 ## Instructions
 
@@ -21,7 +23,7 @@ What claims would a reader accept definitionally but fail to recognize in practi
 
 6. **Layer from simple to complex** - Start with the clearest, most stripped-down instance. Progressively introduce complexity. People grasp basic patterns before they can appreciate variations and edge cases.
 
-7. **Test the mental model** - Check what pattern readers would extract from seeing these instances together. Adjust examples when they risk creating incorrect mental models, even if each example is individually valid.
+7. **Test the mental model** - Check what pattern the audience would extract from seeing these instances together. Adjust examples when they risk creating incorrect mental models, even if each example is individually valid.
 
 ### Grounding Moves
 
@@ -29,29 +31,29 @@ Sometimes abstractions need not just examples but *situated, witnessed detail* -
 
 1. **Identify category language** - Scan for abstract nouns operating as categories rather than specifics: *leadership*, *excellence*, *community*, *innovation*, *resilience*, *transformation*. These words gesture toward meaning without delivering it. They describe a type of thing rather than a thing.
 
-2. **Apply the grounding test** - For each category word, ask: what specific instance has the writer witnessed? What happened, where, when, to whom? If the writer can answer, the abstraction should be replaced or accompanied by the specific instance. If the writer cannot answer, the abstraction may be doing no work.
+2. **Apply the grounding test** - For each category word, ask: what specific instance has the writer witnessed? What happened, where, when, to whom? If the writer can answer, ask whether the specific instance should replace or accompany the abstraction. If the writer cannot answer, ask what work the abstraction does.
 
-3. **Replace category with instance** - Transform category descriptions into situated specifics. The grounded version does not use the category word - the reader recognizes the concept from the specific actions described.
+3. **Replace category with instance** - Where grounding serves, transform category descriptions into situated specifics. The grounded version does not use the category word - the audience recognizes the concept from the specific actions described.
 
-4. **Preserve the writer's actual experience** - The failure mode is generating "plausible" grounding rather than witnessed grounding. If the writer cannot provide a specific instance they have experienced or directly observed, say so. Fabricated specificity is worse than honest abstraction.
+4. **Preserve the writer's actual experience** - Where the audience will take the piece as fact, the failure mode is generating "plausible" grounding rather than witnessed grounding. If the writer cannot provide a specific instance they have experienced or directly observed, ask them for one, and let the draft wait for it. In fiction, and in any form the audience knows to be invented, invented detail is the form's material; the user still decides what the story's world holds.
 
 5. **Know when abstraction is appropriate** - Not every instance of category language needs grounding:
     - When the audience shares enough context that the category functions as shorthand
     - When the prose is operating at a level of generality that specific instances would distort (policy documents, theoretical frameworks)
     - When the writer is explicitly building toward a generalization from previously grounded instances
-    - When loading the reader with specifics would obscure the structural argument
+    - When loading the audience with specifics would obscure the structural argument
 
 **Distinguish illustrate from grounding moves:** Illustrate grounds *claims* in *examples* (content-level: "here is an instance of what I mean"). Grounding moves ground *voice* in *lived experience* (speaker-level: "I have been in the room where this happened"). Illustrate proves a point. Grounding situates the speaker. Both are valuable - they do different work.
 
 ## Questions
 
-- Where in this passage does an abstract concept appear that the reader would accept by definition but fail to recognize in their own life?
-- For each example I chose, do the relationships and constraints that define the concept sit in the foreground, or are surface features (style, era, tone) doing more work than they should?
-- Have I shown the same concept across more than one instance, so that what varies and what stays the same teach the reader the boundary of the pattern?
+- Where, if anywhere, in this passage does an abstract concept appear that someone in the audience would accept by definition but fail to recognize in their own life?
+- For each example I chose, what sits in the foreground: the relationships and constraints that define the concept, or features like style, era, or tone?
+- Have I shown the same concept across more than one instance, so that what varies and what stays the same teach the audience the boundary of the pattern?
 - Have I shown a near-miss — something that resembles the concept but lacks one defining property — to make the boundary clear?
-- Where am I using a category word — leadership, excellence, community, transformation, resilience — without naming the specific instance I have witnessed?
-- For each abstraction, can I name what happened, where, when, and to whom? If I cannot, is the abstraction doing real work, or is it pretending to?
-- For each detail in the prose, does it name a category any reader could fill in for themselves, or does it name a specific witnessed moment — particular, often mundane, sometimes incongruous — that only the writer can claim?
+- Where, if anywhere, am I using a category word — leadership, excellence, community, transformation, resilience — without naming the specific instance I have witnessed?
+- For each abstraction, can I name what happened, where, when, and to whom? If I cannot, what work does the abstraction do that a named case would not?
+- For each detail in the prose, does it name a category anyone in the audience could fill in for themselves, or does it name a specific witnessed moment — particular, often mundane, sometimes incongruous — that only the writer can claim?
 
 ## Quality Criteria
 
@@ -61,6 +63,6 @@ When illustration and grounding are sound:
 - [ ] Each chosen example puts the concept's essential properties in the foreground. Incidental surface features are either set aside or named as such.
 - [ ] Where the concept is multi-faceted, variation between examples teaches the boundary of the pattern as well as its center.
 - [ ] At least one near-miss appears where a concept's boundary needs sharpening.
-- [ ] Every category word has been replaced or accompanied by a specific instance the writer has witnessed.
-- [ ] Where the writer has not directly witnessed an instance, the source is named openly.
-- [ ] The witnessed detail is specific, often mundane, sometimes incongruous. It does not interpret itself for the reader.
+- [ ] Each category word that stands where the audience needs the thing itself is replaced or accompanied by a specific instance; each one kept does work at the level of generality the piece holds.
+- [ ] Where the audience will take a detail as fact and the writer has not witnessed it, the source is named openly.
+- [ ] The witnessed detail is specific, often mundane, sometimes incongruous. It does not interpret itself for the audience.

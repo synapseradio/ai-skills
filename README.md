@@ -22,7 +22,7 @@ Skills fall into two groups plus one standalone advisor. The **thinkies** group 
 | **check-soundness** | Test synthesis for contradictions |
 | **cite** | Generate APA-format citations from paper links |
 | **cite-sources** | Track, validate, and cite external sources with working URLs |
-| **communicate** | Communicate ideas with purpose, clarity, and integrity while avoiding AI slop |
+| **communicate** | Communicate ideas with purpose, clarity, and integrity |
 | **compose** | Join parts into a whole and find what it still lacks |
 | **connect-ideas** | Test how two ideas relate, or find a distant match for one |
 | **consider-alternatives** | Generate competing explanations for the same observations |
