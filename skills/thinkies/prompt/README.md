@@ -1,8 +1,7 @@
 # prompt
 
 Craft or refactor LLM instructions grounded in Anthropic's functional-emotions
-research. Takes no required arguments — the skill detects whether the input
-is a seed task or an existing `CLAUDE.md` to refactor, and emits structured output that applies the seven Emotional Intelligence
+research. The skill detects whether the input is a seed task or an existing `CLAUDE.md` to refactor, and emits structured output that applies the seven Emotional Intelligence
 Prompting (EIP) principles while preserving every instruction in the input.
 
 ## What it does
