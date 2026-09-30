@@ -2,6 +2,25 @@
 
 Find the level of abstraction to act at: locate where a subject is stated, restate it a few rungs above and below, and choose the rung with the least detail that still supports the act.
 
+## It helps when
+
+- A task arrives too vague to start ("improve onboarding", "fix the kitchen") or too specific to question ("change this one setting").
+- A discussion keeps sliding between why something matters and which screw to turn.
+- You've fixed the same thing twice and suspect you're fixing it at the wrong level.
+
+## What you walk away with
+
+A set of questions about the subject, then their answers: the act it must support and the level it's stated at, a ladder of restatements above and below, what each rung lets you do and what it hides, and the rung to act at. Anything the answer can't settle from what you gave it is marked open.
+
+Here it is on "Fix the office kitchen.", cut down ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/shift-abstraction-level/fix-the-office-kitchen.md)):
+
+> - Which-fault rung: The dishwasher no longer drains, the fridge is warm, the sink drips, or the bin overflows because nobody owns emptying it.
+> - Which-instance rung: The dishwasher on the left drains slowly because its filter is clogged, and a screwdriver and ten minutes clear it.
+>
+> […]
+>
+> If the fault is a habit, such as a bin nobody empties, act at the rung above the machine ("who owns this task"), because a repair at the instance rung, one emptied bin, undoes itself by Friday.
+
 ## Install
 
 ```bash

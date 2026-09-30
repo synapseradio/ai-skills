@@ -2,6 +2,26 @@
 
 Place a thing inside the larger system it serves, and read what that system asks of it: name what crosses its edge, what feeds it, what takes what it produces, and what it serves, and take the smallest system holding all three as its container; name the limits, rhythms, expectations, and competitors for resources that the container imposes; repeat one level up until the thing's purpose is plain or the next level would change nothing; then state what shifts about the thing once it is seen in place, whether its purpose, its priorities, or what counts as success for it.
 
+## Use it when
+
+- Something works fine on its own terms and still seems to be failing at something.
+- You're judging a part (a team, a feature, a habit) and the judgment keeps coming out different depending on who you ask.
+- You can't tell what success looks like for a thing until you know what it's for.
+
+## A run, trimmed
+
+The answer arrives as four questions about the thing, each answered in turn, with what the input couldn't settle marked open. From a run on a single traffic cone left on a quiet residential street for three weeks, placed by nobody knows who ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/situate/lonely-traffic-cone.md)):
+
+> Expectations: residents expect that a marker on their street either has a reason or gets removed by whoever owns it. Each resident can also assume that a neighbor, or the authority, has already dealt with it. That assumption is how one cone can stand for three weeks.
+>
+> […]
+>
+> Its purpose shifts. Seen alone, the cone is a warning about a hazard. Seen in place, after three weeks with no crew and no owner, it is a test of the street's routing: a small, harmless probe of whether anyone in the system takes responsibility for an unowned object.
+>
+> […]
+>
+> What counts as success shifts. Alone, success is that a driver steers around it. In place, success is that the cone gets resolved: either an owner explains it, or the authority or a neighbor removes it, or someone confirms the reason it stands.
+
 ## Install
 
 ```bash

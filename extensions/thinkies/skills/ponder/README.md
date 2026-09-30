@@ -6,6 +6,31 @@ techniques only while the problem quotably demands more, and converges on a
 decision — a leading option, the rule that ranked it, and the evidence that
 would flip it.
 
+## When to use this
+
+- A problem stays vague and you can't yet say what you want.
+- You're stuck, and more effort on the same approach isn't helping.
+- You're choosing between approaches and none clearly wins.
+- Something feels complex, or you suspect you're missing something.
+
+## What comes back
+
+The exploration reads as plain prose: the techniques run behind the scenes and are never named. It ends with what the exploration revealed, the options on the table, a ranking with its rule stated, the leading option, the evidence that would flip it, and what stays open.
+
+A run on "My five-person team is productive (we hit every deadline this year) but nobody seems happy", trimmed ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/ponder/productive-but-unhappy.md)):
+
+> - The word "but" in "productive but nobody seems happy" presumes the two facts pull against each other. That presumption carries the most weight, because the whole puzzle is built on it.
+>
+> […]
+>
+> 1. Reversed direction. The team hits dates because of the unhappiness: people avoid blame or conflict, so they finish and do not push back. This predicts few disagreements in meetings, risks raised late or not at all, and slips hidden until they are unavoidable.
+>
+> […]
+>
+> B leads. Two observations would change the order. If D shows hours clustered around every deadline and the mood tracks them, C moves first, because the first explanation would then be supported by record and not by inference. If all five say, separately and without prompting, that they are content, A leads, and the "seems" was the writer's reading.
+
+Option B is "ask each person alone what the seat is like"; D reads hours and timestamps first; C changes pace or scope; A changes nothing.
+
 ## Install
 
 ```bash
@@ -22,39 +47,6 @@ Or copy `skills/thinkies/ponder/` into `~/.claude/skills/ponder/`.
 /ponder Should we use a monorepo or separate repos for our microservices?
 /ponder Our deployment pipeline keeps breaking in ways we didn't predict
 ```
-
-## How it works
-
-1. **Assess** — detects the problem's shape (vague, stuck, fork, complex, or blindspot)
-2. **Open** — runs an opening technique that repairs the shape's deficit
-3. **Extend** — after each technique, a checklist over the output decides whether the chain grows; every extension quotes the sentence that demands it, a chain that stops changing the picture stops, and five techniques bound the whole
-4. **Converge** — ends with the options on the table, a ranking with its rule stated, the leading option, and the evidence that would flip it
-
-A chain runs two techniques at minimum and five at most. The output reads as
-natural, flowing exploration in clear, concise prose; technique names and
-chain mechanics stay behind the curtain.
-
-## When to use this
-
-Ponder fits problems that need thinking before solving: when a problem stays
-vague, when you're stuck, when you're choosing between approaches, when
-something feels complex, or when you suspect you're missing something.
-
-## Design decisions
-
-Maintainer notes — what the author fixed, what stays open, and the sign that
-a frozen decision needs revisiting:
-
-- **Shape tie-break** (most specific signal wins) — fixed. Revisit if
-  misassessment recurs on real inputs.
-- **Technique concealment** — fixed. Revisit if callers report the
-  exploration feels arbitrary or untrustworthy without a visible method.
-- **Extension checklist** (quote-to-extend, fixpoint stop) — fixed. Collapse
-  to the fixpoint rule plus the cap alone if a weak executor extends the
-  chain on unquotable grounds.
-- **Chain cap of five** — a guess, open. Calibrate against real runs.
-- **Checks** — no eval harness exists yet; every check above runs as a manual
-  fixture run.
 
 ## Records
 

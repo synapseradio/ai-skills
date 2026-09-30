@@ -2,6 +2,28 @@
 
 Map what else fills the same role at the same level of detail, and where the gaps between them lie: name the role the subject fills and the grain it sits at, list the peers that fill that role at that grain (including ones from outside the current domain), name the one property that most separates each peer from the subject, arrange the peers along the one or two differences that separate them most, name the empty positions in that arrangement and whether each is empty by accident or for a reason, and report where the subject sits and its nearest neighbours.
 
+## Use it when
+
+- You know your own option well and have never mapped the alternatives that do the same job.
+- The obvious competitors all look alike, and you suspect the interesting ones come from another field.
+- You're looking for an empty spot: a combination nobody has tried, or one nobody can.
+
+## What comes back
+
+Six questions about the subject, answered in turn. The answers give the role and its grain, the peers, the one property that sets each apart, a grid along the two differences that matter most, the empty cells with a reason for each, and where the subject sits.
+
+A run on "Everything that does the job of an alarm clock.", trimmed ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/survey-peers/alarm-clock-peers.md)):
+
+> - Knocker-upper: the waker stays until the sleeper shows they are awake.
+>
+> […]
+>
+> Two differences separate them most. The first is who keeps the time: a device the sleeper set, another party, or the world with no time set. The second is which sense carries the signal: sound, light, touch (including warmth and pressure), or smell.
+>
+> […]
+>
+> - World keeps the time, smell carries the signal. It is empty for a reason: no natural scent turns up at a fixed hour, so smell carries no clock of its own.
+
 ## Install
 
 ```bash

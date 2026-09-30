@@ -2,6 +2,28 @@
 
 Find the class a case belongs to and carry back what holds for every member: drop the case's particulars one at a time while its parts, relations, and goal stay the same, name the class that is left, list what is known for every member of that class, apply to the case each item no dropped particular voids, and climb to a wider class while it still predicts something about the case.
 
+## Try it when
+
+- Something works, or fails, in one place and you want to know what it is an instance of.
+- You suspect your problem is an old one in new clothes and want what is already known about it.
+- A single case has you fascinated and you want predictions from it, not just admiration.
+
+## What a run looks like
+
+A question set about your case, then its answers: which details can go and which must stay, the class that is left and its other members, what holds for every member, which of those apply to your case (and, for each that doesn't, the dropped detail that voids it), and whether a wider class still predicts anything.
+
+From a run on the one bus driver on route 12 who waves at every passenger, and whose bus everyone waits for even when another comes first ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/generalize/waving-bus-driver.md)), trimmed:
+
+> The class: one server, among servers who otherwise do the same job, gives every recipient a small discretionary act of personal regard, and recipients pay a real cost to be served by that one. A short name for it is "the unrequired acknowledgment that people pay to receive."
+>
+> […]
+>
+> - "The server can turn the preference into a price." A barista can charge more or sell more. A transit fare is set by the agency, so the driver captures nothing. The dropped domain voids it.
+>
+> […]
+>
+> They predict two things the narrower class did not: riders at the stop probably wave and speak to each other and to the driver, and the preference survives the driver's occasional bad day but not the discovery of a motive. Neither prediction is checked against route 12 here.
+
 ## Install
 
 ```bash

@@ -2,6 +2,42 @@
 
 A directed thought process for making the right next move with the user — one genuinely good question, or a deliberate non-question — in the moment, in any conversation or domain. Each invocation returns that single next move, given the exchange so far. Good questions serve one inquiry: name the question the inquiry exists to answer (the driving question), and every candidate question becomes a rung that must earn its place on the ladder toward it.
 
+## Try it when
+
+- You are about to ask someone something, and the question has to land.
+- A first question fell flat, or an answer just came back and you need what sits beneath it.
+- The other person's tone or messages signal the conversation has drifted from what they need.
+- You need to gather context before you can ask at all.
+- The better move may not be a question: a restatement, a plain statement, silence, or asking nothing.
+
+The same holds when the assistant is the one about to ask you something, including through the `AskUserQuestion` tool.
+
+## You get back
+
+One next move, given the exchange so far: the question to ask or the non-question move to make, why it earns its turn (an answer would bear on the driving question, and different answers would change what you do next), what was weighed and cut, and the rungs the next answer could open.
+
+Here it is on what to ask a friend who says "I think I want to quit my job and open a sock-only shop", cut down ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/ask-questions/sock-shop-dream.md)):
+
+> **Driving question:** What pulled my friend toward this, and how settled is it, so that I can tell whether to encourage or caution?
+>
+> **The next move:** one question, said warmly and then left alone.
+>
+> > What got you thinking about it?
+>
+> […]
+>
+> **What I weighed and cut**
+>
+> - "Have you thought about the money?" and "Are you sure?" both fail the fourth law. They are caution wearing a question mark, they tell the friend what you fear, and they stand on an unestablished premise, that the friend has not thought about it.
+> - "What's wrong with your job right now?" fails the third law. The friend named no complaint; it plants one.
+>
+> […]
+>
+> **What the ladder holds next**, each rung grown only from what the answer licenses:
+>
+> 1. If the answer names a push, such as a job the friend wants out of, ask what the friend would want from the next stretch of work. The shop is then one candidate among several.
+> 2. If it names a pull, ask what the friend pictures on an ordinary day in the shop.
+
 ## Install
 
 ```bash
@@ -21,39 +57,6 @@ Or copy `skills/thinkies/ask-questions/` into `~/.claude/skills/ask-questions/`.
 ## Records
 
 When loaded from the thinkies Claude Code plugin, the skill saves a record of each run to the plugin store at `${CLAUDE_PLUGIN_DATA}/records/`, and copies it to the Records mirror folder when that optional setting names one. Uninstalling the plugin deletes the store unless you run `claude plugin uninstall thinkies@ai-skills --keep-data`. Loaded anywhere else, the skill prints the record in its reply for you to keep.
-
-## How it works
-
-The core holds what every question passes through: the driving question; the two-gate rung test (would a complete answer at least partly answer the driving question — and would different answers change your next move?); the four clarity laws (one idea per question, plain words, no smuggled premise, a real question rather than a statement wearing a question mark); the non-question moves (silence, restatement, plain statement, asking nothing); the terminal states an inquiry may legitimately end in; what each route hands back as the next move; and guidance on who gathers the context and who shapes the words.
-
-Everything else routes by the gap you feel, through ten reference files:
-
-| Gap | Reference |
-|-----|-----------|
-| Building or growing the ladder toward the driving question | [ladder](./references/ladder.md) |
-| The value under a stated preference | [laddering](./references/laddering.md) |
-| The data under a conclusion, belief, or plan | [climb-down](./references/climb-down.md) |
-| A claim that's shaky in a specific way | [probe](./references/probe.md) |
-| The shape and timing of a whole sequence | [sequence-shapes](./references/sequence-shapes.md) |
-| Which candidate question comes next | [ordering](./references/ordering.md) |
-| A question that treats the thing as simpler than it is | [pretense](./references/pretense.md) |
-| What the inquiry accepts without justification | [grants](./references/grants.md) |
-| Carrying a ladder into a new domain | [transfer](./references/transfer.md) |
-| The driving question itself may be the wrong one | [driving-question](./references/driving-question.md) |
-
-Each reference opens with a diagnostic question, gives instructions, poses a Questions section to work through, and closes with quality criteria.
-
-## When to use this
-
-Reach for it whenever you're about to ask the user something and the question should land well — including when you're about to use the `AskUserQuestion` tool. Use it when you're unsure what to ask, when a first question fell flat, when an answer just came back and you need what sits beneath it, or when the user's tone or messages signal you've drifted from what they need. It also covers gathering the context before you can ask at all, and judging when the better move is not a question — a restatement, a plain statement, silence, or asking nothing.
-
-## Design notes for maintainers
-
-Decisions the skill fixes, which every session inherits: the next-single-move output contract per route; the two-gate rung test; the four terminal states; the ten-reference routing grain. Decisions each session makes fresh: the stance and disclosure policy for a sequence, and every wording choice.
-
-Signs a fixed decision needs revisiting: a harness that carries state across fork invocations ages the live-mode wording in laddering; routing rows that go unused suggest the grain is wrong; recurring executor confusion inside one reference means a decision there no longer closes.
-
-Check coverage: the evals exercise question phrasing, sequence shape, recovering from drift, surfacing a tension, a reflective restatement with a plain statement, and replacing a wrong driving question. Silence, asking nothing, the other three end states, and the record lack eval cases.
 
 ## Install as a `.skill`
 

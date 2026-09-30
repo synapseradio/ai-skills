@@ -2,6 +2,33 @@
 
 Play out possible futures from a sparse question. Finds the unknowns that would change a decision, tiles one coherent future per combination, traces consequences and watchpoints between them, and walks its reasoning out loud before ending on a reasoned recommendation plus the conditions that would flip it.
 
+## Reach for it when
+
+- A decision hangs on things nobody can know yet: a rival's move, a customer's habit, a date that hasn't come.
+- You keep picturing one future, usually the one you fear.
+- You want a move you can commit to now, plus the signs that would tell you to change it.
+
+## What comes back
+
+The walk, question by question, sized to the problem. A question with no real unknowns gets a direct answer. A question with real unknowns gets the futures, named and told as a short story, followed by a table of how each candidate move fares in each. After that come what holds in every future, the early signs of which future is arriving, and a recommendation, with where it runs weakest. Facts only you hold, it asks for.
+
+Trimmed from a staged conversation on a corner bakery, two staff and famous for its cinnamon knots, that learns a supermarket with an in-store bakery opens across the street in four months ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/what-if/corner-bakery.md)). A second agent played the owner, and supplied the numbers the run asked for: knots at about 40% of takings, an oven cap of 180 a morning, five months of savings.
+
+> Your bakery's next year splits on two things nobody can look up today: whether the people who come for your knots keep coming once a supermarket sits across the street, and whether that supermarket sells a cinnamon roll of its own.
+>
+> […]
+>
+> | Tile | Landings | Hold course | Expand the oven | Knot club, trimmed counter |
+> | --- | --- | --- | --- | --- |
+> | Steady queue | regulars stay, no rival roll | survives | thrives | survives |
+> | Two knots | regulars stay, rival roll | survives | survives | thrives |
+> | Bread drain | regulars drift, no rival roll | dies | dies | survives |
+> | Cold morning | regulars drift, rival roll | dies | dies | survives |
+>
+> […]
+>
+> Recommendation: start a knot club before opening day, trim the bread lines the supermarket will undercut, and buy nothing large until week three has spoken.
+
 ## Install
 
 ```bash

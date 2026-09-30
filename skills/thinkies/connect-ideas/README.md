@@ -2,6 +2,32 @@
 
 Test how two ideas relate, or find a distant match for one idea, and keep only the relations the evidence supports: restate each side as its entities, relations, constraints, and goal; when only one side was given, search distant fields for a solved problem with the same structure and take it as the second side; test each kind of relation in turn (analogy, cause and effect, means and end, part and whole, shared class, shared constraint or resource, tension) with the evidence for and against; keep the relations the evidence supports, listing for an analogy what maps, what needs adapting, and what breaks; and name the act each surviving relation opens and the principle that makes it work.
 
+## Reach for it when
+
+- Two things feel alike and you want to know whether the likeness holds up or only sounds good.
+- You have a problem and suspect some distant field has already solved its twin.
+- An analogy is doing work in an argument and you want to see where it breaks.
+
+## What a run looks like
+
+A question set naming both sides, then its answers: each side stated without its field's vocabulary, a verdict with evidence for and against on each of seven kinds of relation, the relations that survive (for an analogy, what maps, what needs adapting, and what breaks), and what each surviving relation lets you do.
+
+A run on how a beehive relates to a municipal library, trimmed ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/connect-ideas/beehive-and-library.md)):
+
+> - Cause and effect. For: none found. Nothing about how a hive runs changes how a library runs, and nothing about a library changes a hive. Against: the two share no inputs or outputs. Does not hold.
+>
+> […]
+>
+> Breaks:
+>
+> - Who the store serves. The hive serves its own members. The library serves people outside the staff, so the hive has no counterpart to the patron.
+> - Access. The hive admits only members. The library admits anyone in the town.
+> - Goal. The hive's goal is reproduction of the colony, and a library has no equivalent.
+>
+> […]
+>
+> - Shared constraint: set a trigger before storage crowds out the activity the space exists for. A beekeeper who finds the brood nest crowded with nectar adds room or removes frames. A library that finds shelves too full to seat readers removes old items or opens a branch. Principle: where storage and activity share one space, the stock's growth eventually cuts the activity, so an action threshold set ahead of the crowding costs less than repair after it.
+
 ## Install
 
 ```bash

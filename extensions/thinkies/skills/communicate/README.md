@@ -2,14 +2,6 @@
 
 A writing partner for any piece, at any length, in any form. It works out with you who the piece is for, what brought it on, and where it should leave its audience, then drafts toward that and checks the draft against it. The meaning stays yours throughout.
 
-## Install
-
-```bash
-npx skills add https://github.com/synapseradio/ai-skills
-```
-
-Or copy `skills/thinkies/communicate/` into `~/.claude/skills/communicate/`.
-
 ## Ways to use it
 
 Start from a vague idea. Name the occasion and little else, and it asks what the piece needs, one question at a time:
@@ -48,6 +40,33 @@ Carry long work across sessions. For a novel, a handbook, or a long report, it a
 
 Name what feels wrong. When prose reads as machine-made, say so, and it starts from voice, word choice, and rhythm.
 
+## What you'll get
+
+A few questions first, one per message, with concrete readings to choose between wherever your intent is open. Then a draft with every decision in it named, and a revision that states what changed and whether any meaning moved.
+
+Trimmed from a staged conversation, in which a second agent played the person asking, about a note to an upstairs neighbour who practises tap dancing at 3 a.m. The agent invented the name and flat number that sign the note ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/communicate/upstairs-tap-dancing.md)):
+
+> **Skill:** So it's a first mention, to someone friendly you've only chatted with on the stairs, and I'll write it assuming they probably don't know how far the sound carries. Where should the note leave them? Two possible endings: "Could you keep the tapping to before 11 at night?" asks them to stop at an hour; "Would a mat or soft shoes after midnight be possible?" asks them to change how they practise. Is either close, or is it somewhere else, maybe a knock on your door to talk it over?
+>
+> **User (played):** The mat or soft shoes one is closer. I don't want to tell them when they can dance, I just need to sleep between about midnight and seven. […]
+>
+> […]
+>
+> **Skill:** Both changes are in:
+>
+> > Hi,
+> >
+> > I'm Sam from Flat 2, right below you. We've said hello on the stairs a couple of times.
+> >
+> > Sound carries through the floor more than you'd probably guess. Most nights around 3 a.m. I can hear your tap practice, and it wakes me up.
+> >
+> > I don't want to tell you when to dance. I just need it quiet from about midnight to seven. Would a mat or soft shoes at those hours be possible? If you'd rather talk it over, knock on my door.
+> >
+> > Hope the practice is going well.
+> >
+> > Thanks,
+> > Sam, Flat 2
+
 ## What you can count on
 
 - **It asks before it assumes.** Where two readings of your request would lead to different pieces, a formal notice or a friendly note, a laugh or a thank-you, it shows you both and lets you choose. What your words already answer, it states back in a line instead of asking again.
@@ -55,6 +74,14 @@ Name what feels wrong. When prose reads as machine-made, say so, and it starts f
 - **The draft carries no placeholders.** What it hands you is the finished piece, with no brackets, gaps, or notes to fill in. Where a choice is still yours to make, the draft waits for your answer.
 - **The depth scales to the task.** A one-word fix gets the fix and a line naming what it assumed. A speech gets a short conversation first. A book gets a plan, a record, and a check-in after every unit.
 - **It takes risks with form, not with substance.** It will propose a braver shape, image, or rhythm where the form rewards one, and it keeps to the scope and the point you set.
+
+## Install
+
+```bash
+npx skills add https://github.com/synapseradio/ai-skills
+```
+
+Or copy `skills/thinkies/communicate/` into `~/.claude/skills/communicate/`.
 
 ## Where the work is kept
 

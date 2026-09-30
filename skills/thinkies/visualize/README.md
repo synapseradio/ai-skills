@@ -2,6 +2,29 @@
 
 Create data visualizations for the surface where they will actually be read. Three engines, weighed as equals with no default: **Vega** (declarative, concise, for standard static browser charts), **D3** (imperative, full control, for custom interactivity and sankey), and **Markdown** (tables, unicode bars, sparklines, mermaid diagrams that drop into pull requests, READMEs, tickets, and Slack posts). Every browser output is a standalone HTML file — no build step, no server. The workflow is principles-first: find the claim before touching data.
 
+## Worth running when
+
+- You have numbers and a hunch, and need a chart that says one thing a reader can check.
+- The chart has to live where it's read: a pull request, a ticket, a chat message, or a page in the browser.
+- You want the chart to show what cuts against your framing, not only what supports it.
+
+## What a run looks like
+
+It starts by finishing the sentence "This visualization shows that ___" and checking that sentence against the data. It stops twice for you: once to approve the plan, and once to see the chart before it's saved. In between it drafts, then verifies a second draft by reading its own source.
+
+Trimmed from a staged conversation on a household of three's coffee across a week, Monday to Sunday: 9, 7, 8, 11, 6, 3, 4 cups, with Monday's "spike" blamed on a Sunday-night "just one episode" habit ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/visualize/household-coffee-week.md)). A second agent played one of the housemates:
+
+> - You called Monday's count a spike, but Thursday's 11 is higher than Monday's 9. Monday is the second-highest day, not the peak.
+> - Monday is the first row of the week, so the Sunday before it is not in the data. The Sunday shown (4) comes at the end of the week. Comparing Monday's 9 with Sunday's 4 assumes the Sunday before was also about 4.
+>
+> […]
+>
+> # Monday Runs High at 9 Cups, but Thursday Peaks at 11
+>
+> […]
+>
+> Mon  █████████     9 cups  ◀ Monday, after the Sunday-night episode habit (reported, not measured here)
+
 ## Install
 
 ```bash
@@ -45,15 +68,6 @@ find ~/.visualizer-skill/visualizations -name '*.html' -exec mv {} ~/.visualizat
 
 A plain prompt will produce a chart, but it skips the work that makes a chart good — identifying what claim the visualization supports, choosing encodings that match the data's structure, adding units and context, checking accessibility. This skill enforces a six-phase workflow (context, research, implement, refine, present, save) so the output communicates clearly, not just renders correctly.
 
-## What's included
-
-- **25 Vega fragments** — declarative JSON specs across 8 chart categories, with one assembled example each
-- **26 D3 fragments** — keyboard navigation and per-mark ARIA, with one assembled example each; sankey is D3-only
-- **9 Markdown templates** — comparison tables, unicode bars, ranked lists, sparklines, emoji heatmaps, ASCII trees, plus mermaid flowchart / sequence / gantt in both `.md` and `.html` formats
-- **Fragment build pipeline** — [`scripts/build_viz.py`](scripts/build_viz.py) assembles any engine's fragments (`assets/<engine>/fragments/`) into runnable single-file examples through one shared, engine-agnostic wrapper (`assets/_shared/`), scoping each chart to its own instance so several compose in one document without colliding
-- **Reference docs** — encoding, composition, narrative, accessibility, interaction, refinement, plus the markdown surface matrix (`markdown-patterns.md`)
-- **Python CLI** ([`scripts/visualizer.py`](scripts/visualizer.py)) — visualization storage and management for `.html` and `.md` outputs
-
 ## Templates
 
 | Category      | Charts                                                        | Vega          | D3   | Markdown                                |
@@ -67,34 +81,6 @@ A plain prompt will produce a chart, but it skips the work that makes a chart go
 | Process/flow  | flowchart, sequence, gantt                                    | —             | —    | mermaid-flowchart / mermaid-sequence / mermaid-gantt |
 | Relationships | scatter-plot, heatmap, bubble-chart, parallel-coords, radar   | Yes           | Yes  | emoji-heatmap (heatmap)                 |
 | Temporal      | line-chart, area-chart, candlestick, slope, sparkline         | Yes           | Yes  | sparkline-row, comparison-table         |
-
-## References
-
-The skill loads these files conditionally during the workflow. Each focuses on a single topic and is loaded only when the relevant phase, mode, engine, or specialization applies.
-
-| Reference | Purpose |
-|-----------|---------|
-| [phase-context.md](references/phase-context.md) | Phase 1 — find the claim, identify the viewer, honesty check |
-| [phase-research.md](references/phase-research.md) | Phase 2 — classify data, plan encoding, select engine and template |
-| [phase-implement.md](references/phase-implement.md) | Phase 3 — write spec or HTML, apply the build subtasks |
-| [phase-refine.md](references/phase-refine.md) | Phase 4 — mandatory second draft and verification protocol |
-| [phase-present.md](references/phase-present.md) | Phases 5 and 6 — produce the final output and persist it |
-| [mode-encode.md](references/mode-encode.md) | Channel ranking, scales, marks, encoding hierarchy |
-| [mode-compose.md](references/mode-compose.md) | Layout, spatial hierarchy, whitespace, grouping |
-| [mode-narrate.md](references/mode-narrate.md) | Titles, annotations, story devices, alt text |
-| [mode-access.md](references/mode-access.md) | ARIA, keyboard navigation, color access, data table fallback |
-| [mode-interact.md](references/mode-interact.md) | Tooltips, brushing, filtering, responsive layout |
-| [mode-refine.md](references/mode-refine.md) | Audit checklist, editorial integrity check, fix routing |
-| [engine-selection.md](references/engine-selection.md) | Markdown, Vega, and D3 capability matrix and selection criteria |
-| [template-selection.md](references/template-selection.md) | Decision tree from question type to template |
-| [vega-patterns.md](references/vega-patterns.md) | Full Vega spec patterns — signals, transforms, force layouts |
-| [d3-patterns.md](references/d3-patterns.md) | D3 standalone HTML patterns for sankey and template-crafter |
-| [markdown-patterns.md](references/markdown-patterns.md) | Surface matrix, honesty checklist, markdown engine catalogue |
-| [base-vega-wrapper.md](references/base-vega-wrapper.md) | Authoring a Vega fragment: spec structure, theme, accessibility |
-| [base-template.md](references/base-template.md) | Authoring a D3 fragment: drawing, per-mark ARIA, keyboard nav |
-| [data-preparation.md](references/data-preparation.md) | Data transforms: pivot, aggregate, derive, coerce, filter |
-| [network-patterns.md](references/network-patterns.md) | Force-directed layouts, edge bundling, hairball mitigation |
-| [canvas-patterns.md](references/canvas-patterns.md) | Canvas 2D rendering for hundreds of thousands of points |
 
 ## Design system
 
