@@ -20,7 +20,6 @@ Skills fall into two groups plus one standalone advisor. The **thinkies** group 
 | **calibrate-confidence** | Match certainty to evidence strength |
 | **check-notes** | Find saved notes and run records and play them back |
 | **check-soundness** | Test synthesis for contradictions |
-| **cite** | Generate APA-format citations from paper links |
 | **cite-sources** | Track, validate, and cite external sources with working URLs |
 | **communicate** | Communicate ideas with purpose, clarity, and integrity |
 | **compose** | Join parts into a whole and find what it still lacks |

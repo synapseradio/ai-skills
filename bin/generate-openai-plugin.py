@@ -145,15 +145,6 @@ ARGUMENTS_EDITS: dict[str, Edit] = {
     ),
     # Bare, unguarded uses under a heading — no fallback in the source to promote, so each
     # gets written guidance in the voice of its own file.
-    "cite": Edit(
-        why="bare token under '## Input'; the file's closing line already handles 'no link given'",
-        old="## Input\n\n$ARGUMENTS\n",
-        new=(
-            "## Input\n\n"
-            "The paper link or links the user supplied — or, when the request carried none, "
-            "the papers under discussion in the most recent context.\n"
-        ),
-    ),
     "tree-of-thought": Edit(
         why="bare token under '## Query' with no fallback",
         old="## Query\n\n`$ARGUMENTS`\n",
