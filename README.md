@@ -94,7 +94,7 @@ Technical skills grouped under [`skills/tech/`](./skills/tech/).
 
 ## Extensions
 
-Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Two bundles ship here: **de-residency** wraps the de-residency-advisor skill, and **thinkies** bundles all 58 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
+Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Two bundles ship here: **de-residency** wraps the de-residency-advisor skill, and **thinkies** bundles all 57 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
 
 ## Install
 
