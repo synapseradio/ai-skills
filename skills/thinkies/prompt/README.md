@@ -11,9 +11,12 @@ Two modes, one pipeline:
 - **Seed:** rough task description → a prompt in six sections
   (Perspective, Task, Context, Tooling, Constraints, Invitations)
 - **Refactor:** existing CLAUDE.md / system prompt → refactored file, with
-  every instruction numbered and mapped to a section so none is dropped;
-  past 15 instructions it shows the coverage report and asks before
-  writing
+  every instruction numbered and accounted for in a table, one row per
+  instruction: the instruction quoted, the line where it lands, and
+  whether that line keeps its meaning ("holds"), keeps it only under one
+  reading ("bends"), or loses or changes it ("misses"). Bends are
+  repaired before writing. Past 15 instructions, or when any instruction
+  still misses, it shows the table and asks before writing
 
 When the input could be either, it treats it as a seed and says so on the
 artifact's first line.

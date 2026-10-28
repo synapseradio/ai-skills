@@ -30,7 +30,15 @@ always aim to keep the total short when it is possible. Keep instructions and se
 
 <when> a section has no real content — write a one-line gap note that names the absence, for example: "No prior context identified — agent works from conversation signal alone." <never> pad an empty section with filler.
 
-<when> in refactor mode — every extracted instruction ID lands in at least one section. Consolidations are explicit (note which IDs share a slot). An unassigned ID is a dropped instruction.
+<when> in refactor mode — every extracted instruction ID lands in at least one section, recorded as one row of the accounting table:
+
+```markdown
+| id | instruction | where it lands | result | kept as |
+```
+
+Quote the source instruction and the destination line in every row; a "holds" without a quoted destination was never checked. The result is "holds" where the destination carries the instruction's truth-conditions, "bends" where it carries them only under a reading the output leaves open, and "misses" where it dropped or changed them. "Kept as" says how the instruction survived: verbatim, rephrased, or consolidated with the IDs it shares a destination with. A consolidation is rows sharing one destination. A row with an empty "where it lands" cell is a dropped instruction, and its result is "misses".
+
+<always> repair every bend in the draft and re-check its row before emitting. Repair every miss the draft can carry; a miss that remains is surfaced at emit.
 
 ## Lint the draft
 
@@ -51,9 +59,11 @@ always aim to keep the total short when it is possible. Keep instructions and se
 
 <when> a required assumption was made — note it on the first line of the artifact, not in commentary around it.
 
-<when> in refactor mode and the extracted list holds more than 15 instruction IDs — show the coverage report (every input ID mapped to a destination section) and ask the user to confirm before writing the file. Smaller refactors and seeds emit without asking.
+<when> in refactor mode — fill the accounting table against the draft as it stands after the lint, since a rewrite of phrasing can change a row's result.
 
-<when> the user has indicated downstream subagent evaluation — keep section boundaries clear and place the coverage report in a fenced block.
+<when> in refactor mode and the extracted list holds more than 15 instruction IDs, or any row still misses — show the accounting table and ask the user to confirm before writing the file. Name each miss and what it dropped or changed. Other refactors and seeds emit without asking.
+
+<when> the user has indicated downstream subagent evaluation — keep section boundaries clear and place the accounting table in a fenced block.
 
 ## Edge cases
 
