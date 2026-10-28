@@ -39,7 +39,9 @@ Anchor: none, since the two values leave no second reading.
 
 The two "do not" rows become omissions: "Keep `sleep` and every command that runs until stopped, `tail -f` for one, out of every wait." The polling fact becomes a stance: "Count a check run again to see whether the state changed as polling."
 
-## Step 6, the checks
+## Step 6, Refine
+
+Entering Refine at its step 3 with the six rows as the case table, the axis and the four parts above stand, and the checks run.
 
 Closure: member, `bun test`; non-member, a file read through a tool that is not the shell; borderline, `gh run watch`, which the domain sentence takes in since it is a shell command. Closed.
 
@@ -67,4 +69,4 @@ For approval: the three edge rows.
 
 Dropped: none.
 
-The contrast to notice is that the ask named one incident, the full test suite, and an instruction written from that incident alone would have said "run the test suite in the background". The case table turned one incident into a domain, and the generator now decides the dev server and the CI wait, which the ask never mentioned.
+The contrast to notice is that the ask named one incident, the full test suite, and an instruction written from that incident alone would have said "run the test suite in the background". The case table turned one incident into a domain, and Refine proved the generator over it, and the generator now decides the dev server and the CI wait, which the ask never mentioned.

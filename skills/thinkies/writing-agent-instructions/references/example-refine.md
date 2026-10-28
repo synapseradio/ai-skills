@@ -2,9 +2,21 @@
 
 The group, as it stood in an instruction file for an agent that edits a project's files:
 
-> Never run `rm -rf`. Never run `git clean -f`. Never truncate a log file with `>`. Never overwrite a config file without reading it first.
+> Never run `rm -rf`. Never run `rm -rf` on a directory. Never run `git clean -f`. Never truncate a log file with `>`. Never overwrite a config file without reading it first.
 
-## Step 1
+## Prune
+
+| original line | verdict | test that gave it |
+| --- | --- | --- |
+| Never run `rm -rf`. | live | no other line forbids removing a tree |
+| Never run `rm -rf` on a directory. | duplicate | the first line forbids `rm -rf` on anything, a directory included |
+| Never run `git clean -f`. | live | no other line forbids removing untracked files |
+| Never truncate a log file with `>`. | live | no other line forbids emptying a log |
+| Never overwrite a config file without reading it first. | live | no other line gates an overwrite on a read |
+
+The second line goes to Dropped, meaning: forbid `rm -rf` on a directory, carried by the first line.
+
+## Case table
 
 | original line | condition | act |
 | --- | --- | --- |
@@ -13,13 +25,13 @@ The group, as it stood in an instruction file for an agent that edits a project'
 | Never truncate a log file with `>`. | about to empty a log | forbidden |
 | Never overwrite a config file without reading it first. | about to overwrite a config | read it first, then allowed |
 
-## Step 2
+## Axis
 
 The acts vary: three forbid, one gates on a read. Axis 1, the feature the acts vary with, gives nothing visible, since "forbidden" and "gated" are the acts themselves. Axis 2, what the banned items share: each discards content with no copy left anywhere. Axis 3, where the result ends up: after `rm -rf`, `git clean -f`, and `> log`, the content is nowhere; after an overwrite with a prior read, the content is in the reader's context.
 
 Axis 3 works. Its values are "the prior content survives somewhere a later step can reach" and "the prior content is gone".
 
-## Step 3
+## Four parts
 
 Domain: every command that removes or replaces content on disk. Membership test: after the command, is some content that was on disk before it no longer on disk?
 
@@ -60,7 +72,7 @@ Term search: the file elsewhere uses "content" for the body of a pull request. Q
 
 ## Size
 
-The original group runs to four sentences. The generator runs to one sentence plus its place list. Shorter, and it covers `checkout --`, `mv`, and `sed -i`, which the group never reached.
+The original group runs to five sentences, one of them a duplicate pruned before the generator was written. The generator runs to one sentence plus its place list. Shorter, and it covers `checkout --`, `mv`, and `sed -i`, which the group never reached.
 
 ## The output
 
@@ -72,6 +84,6 @@ Residue: none.
 
 For approval: the three edge rows, and the report duty on config overwrites.
 
-Dropped: none.
+Dropped: "Never run `rm -rf` on a directory.", a duplicate; its meaning, forbid `rm -rf` on a directory, is carried by the first line.
 
-The contrast to notice is that the original four bans said nothing about `mv` or `sed -i`, and a reader of the bans would have run either without a thought. The generator decides both, and the decision is visible on the approval list before it lands.
+The contrast to notice is that the original bans said nothing about `mv` or `sed -i`, and a reader of the bans would have run either without a thought. The generator decides both, and the decision is visible on the approval list before it lands.

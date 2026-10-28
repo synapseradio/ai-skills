@@ -67,7 +67,7 @@ Skills fall into two groups plus one standalone advisor. The **thinkies** group 
 | [**visualize**](./skills/thinkies/visualize/) | You have numbers and a hunch, and need a chart that says one thing | Visualize data, concepts, relations, or diagrams as browser-runnable charts |
 | [**what-if**](./skills/thinkies/what-if/) | A decision hangs on things nobody can know yet | Tile the space of possible futures and evaluate strategies across them |
 | [**wonder**](./skills/thinkies/wonder/) | You're about to solve something and haven't asked what's strange about it | Open the possibility space through curiosity-driven questioning |
-| [**writing-agent-instructions**](./skills/thinkies/writing-agent-instructions/) | An agent keeps doing something a rule should stop, or a rewritten rule set may have dropped a case | Write, shorten, or review instructions a model acts on |
+| [**writing-agent-instructions**](./skills/thinkies/writing-agent-instructions/) | An agent instruction is needed, has grown past what it needs to say, or two sessions act on it differently | Write or refine any agent instruction in any agent executable context |
 
 ### tech
 
