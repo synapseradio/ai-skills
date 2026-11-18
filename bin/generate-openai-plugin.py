@@ -170,52 +170,6 @@ ARGUMENTS_EDITS: dict[str, Edit] = {
 #: Edits beyond the ``$ARGUMENTS`` sweep: host-specific paths, a tool call Codex does not
 #: have, and delegation language that assumed a harness able to spawn agents.
 OTHER_EDITS: dict[str, tuple[Edit, ...]] = {
-    "visualize": (
-        Edit(
-            why="TaskCreate is a Claude Code tool; the intent is progress tracking",
-            old=(
-                "Before phase 1, call `TaskCreate` once per phase below so progress is tracked "
-                "through the workflow."
-            ),
-            new=(
-                "Before phase 1, write down the six phases below as a checklist and mark each one "
-                "off as you finish it, so progress stays visible through the workflow."
-            ),
-        ),
-        Edit(
-            why="host-specific save path; redirected to the portable target the Persisting section already names",
-            old=(
-                "| 6. Save | Persist to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/"
-                "viz-<timestamp>.html`. Optionally register via CLI. |"
-            ),
-            new=(
-                "| 6. Save | Persist to the location the Persisting section names for this harness. "
-                "Optionally register via CLI. |"
-            ),
-        ),
-        Edit(
-            why="same host-specific save path, second occurrence outside SKILL.md",
-            file="references/phase-present.md",
-            old="1. Save to `${CLAUDE_PROJECT_DIR}/.claude/visualizations/viz-<timestamp>.html`",
-            new=(
-                "1. Save to `~/.visualizations/<slug>-<YYYYMMDD-HHMMSS>.<ext>` — `html` for "
-                "browser-runnable charts, `md` for markdown output. Create the directory if missing."
-            ),
-        ),
-        Edit(
-            why=(
-                "the Persisting bullets route by product name, so a Codex host would fall through "
-                "to 'print it in a code block' and contradict phase 6; rekeyed by capability"
-            ),
-            old="- **Claude.ai (with `artifacts` tool):** emit the visualization as an",
-            new="- **A harness with an `artifacts` tool:** emit the visualization as an",
-        ),
-        Edit(
-            why="same routing fix, filesystem branch",
-            old="- **Claude Code (with `Bash` and `Write`):** save to",
-            new="- **A harness with shell and file-write tools:** save to",
-        ),
-    ),
     "ask-questions": (
         Edit(
             why=(

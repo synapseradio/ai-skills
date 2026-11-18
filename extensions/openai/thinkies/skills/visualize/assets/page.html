@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>__TITLE__</title>
+    <style>
+      :root {
+        --ink: #212529;
+        --muted: #495057;
+        --line: #dee2e6;
+        --paper: __BACKGROUND__;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      main {
+        max-width: 46rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+      figure {
+        margin: 0;
+      }
+      h1 {
+        font-size: 1.4rem;
+        line-height: 1.25;
+        margin: 0 0 0.25rem;
+      }
+      .subtitle,
+      .source {
+        color: var(--muted);
+        margin: 0;
+      }
+      .source {
+        font-size: 0.875rem;
+      }
+      #viz-chart {
+        margin: 1.25rem 0 0.75rem;
+        min-height: __HEIGHT__px;
+      }
+      #viz-status {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+      }
+      #viz-summary {
+        margin: 0.75rem 0 0.25rem;
+      }
+      details {
+        margin-top: 1.5rem;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+        font-variant-numeric: tabular-nums;
+      }
+      caption {
+        text-align: left;
+        color: var(--muted);
+        padding-bottom: 0.5rem;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 0.35rem 0.9rem 0.35rem 0;
+        text-align: left;
+      }
+      td.num,
+      th.num {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <figure>
+        <h1>__TITLE__</h1>
+        __SUBTITLE__
+        <div id="viz-chart"></div>
+        <p id="viz-status" role="status" hidden></p>
+        <noscript><p>This chart needs JavaScript. The table below holds every value.</p></noscript>
+        <figcaption>
+          <p id="viz-summary">__SUMMARY__</p>
+          __SOURCE__
+        </figcaption>
+      </figure>
+      <details id="viz-table">
+        <summary>Data table</summary>
+        <div class="table-wrap">__TABLE__</div>
+      </details>
+    </main>
+    <script type="application/json" id="viz-data">
+      __DATA__
+    </script>
+    <script type="module">
+      const data = JSON.parse(document.getElementById("viz-data").textContent);
+      try {
+        __IMPORTS__;
+        const definition = await (async () => {
+          __CHART__;
+        })();
+        mountChart(document.getElementById("viz-chart"), {
+          definition,
+          height: __HEIGHT__,
+          initialWidth: 720,
+          ariaLabel: data.spec.title,
+          ariaDescription: data.spec.summary,
+        });
+        document.documentElement.dataset.viz = "drawn";
+      } catch (error) {
+        document.documentElement.dataset.viz = "failed";
+        const status = document.getElementById("viz-status");
+        status.hidden = false;
+        status.textContent =
+          "The chart could not be drawn: " +
+          error.message +
+          " It loads its chart library when the page opens, which needs network access to __CDN_HOST__. The table below holds every value.";
+        document.getElementById("viz-chart").style.minHeight = "0";
+        document.getElementById("viz-table").open = true;
+      }
+    </script>
+  </body>
+</html>

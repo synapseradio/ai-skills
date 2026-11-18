@@ -1,0 +1,10 @@
+{
+  "title": "Ben drank more coffee each day while Ana held steady",
+  "subtitle": "Cups per day, 9 to 11 November 2026",
+  "summary": "Ben rose from 3 to 4 cups a day. Ana stayed between 1 and 3.",
+  "source": "Kitchen tally sheet",
+  "chart": "line",
+  "x": { "label": "Day" },
+  "y": { "label": "Coffee", "unit": "cups" },
+  "series": { "label": "Person" }
+}
