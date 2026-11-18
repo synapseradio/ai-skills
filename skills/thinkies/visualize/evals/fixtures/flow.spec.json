@@ -1,0 +1,12 @@
+{
+  "title": "Of 1,000 landing visits, 150 end in a paid plan",
+  "summary": "620 of 1,000 visits reach sign-up, 410 start a trial, and 150 pay. 850 leave along the way.",
+  "chart": "sankey",
+  "nodes": {
+    "label": "Stage"
+  },
+  "value": {
+    "label": "Visits",
+    "unit": "visits"
+  }
+}

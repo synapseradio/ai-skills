@@ -1,0 +1,8 @@
+id,team
+web,Front
+api,Platform
+auth,Platform
+orders,Commerce
+billing,Commerce
+stock,Commerce
+jobs,Platform

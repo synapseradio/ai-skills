@@ -6,8 +6,9 @@ library by pinned https import when it opens.
 
   build_page.py SPEC.json --data ROWS.json --out PAGE.html [--chart-js FILE]
 
-ROWS.json is the file prepare_data.py writes. `--chart-js` replaces the generated
-chart definition with hand-written code.
+ROWS.json is the file prepare_data.py writes: rows for bar, line, area, and
+scatter, nodes and links for sankey and network, or regions for choropleth.
+`--chart-js` replaces the generated chart definition with hand-written code.
 
 Exit codes: 0 page written, 1 the spec and the data disagree, 2 unusable input.
 """
@@ -27,7 +28,29 @@ CDN_BASE = f"https://esm.sh/{CHARTS_PACKAGE}@{CHARTS_VERSION}"
 BACKGROUND = "#ffffff"
 PALETTE = ["#0072b2", "#d55e00", "#009e73", "#cc79a7", "#000000"]
 
-CHARTS = ("bar", "line", "area", "scatter")
+ROW_CHARTS = ("bar", "line", "area", "scatter")
+GRAPH_CHARTS = ("sankey", "network")
+OWN_SHAPE_CHARTS = GRAPH_CHARTS + ("choropleth",)
+CHARTS = ROW_CHARTS + OWN_SHAPE_CHARTS
+
+# A choropleth loads what the chart library leaves to the page: the projection, the
+# continuous colour scale, and the world atlas with its converter.
+MAP_URLS = {
+    "projection": "https://esm.sh/d3-geo@3.1.1",
+    "scale": "https://esm.sh/d3-scale@4.0.2",
+    "converter": "https://esm.sh/topojson-client@3.1.0",
+    "atlas": "https://esm.sh/world-atlas@2.0.2/countries-110m.json",
+}
+RAMP = ["#deebf7", "#08519c"]
+NO_VALUE_COLOR = "#f1f3f5"
+MAX_NODES = {"sankey": 40, "network": 60}
+LINK_COLOR = "#6c757d"
+PREPARED_KEYS = {
+    "rows": {"x", "y", "series", "xType", "seriesValues", "rows"},
+    "sankey": {"weighted", "groupValues", "nodes", "links"},
+    "network": {"weighted", "groupValues", "nodes", "links"},
+    "choropleth": {"atlas", "regionsWithoutValue", "regions", "features"},
+}
 TEMPLATE = Path(__file__).resolve().parent.parent / "assets" / "page.html"
 
 
@@ -55,6 +78,20 @@ def validate(spec: dict, prepared: dict) -> list:
     """Return (code, message) pairs for every way the spec and the data disagree."""
     problems = []
     chart = spec.get("chart")
+    shape = prepared["shape"]
+    if chart in CHARTS and shape != (chart if chart in OWN_SHAPE_CHARTS else "rows"):
+        wanted = chart if chart in OWN_SHAPE_CHARTS else "rows"
+        return [
+            (
+                "chart-data-mismatch",
+                f"a {chart} chart draws data prepared with --shape {wanted}; "
+                f"this data was prepared with --shape {shape}",
+            )
+        ]
+    if shape == "choropleth":
+        return validate_choropleth(spec, prepared)
+    if shape != "rows":
+        return validate_graph(spec, prepared)
     x_type = prepared["xType"]
     series = prepared["series"]
     rows = prepared["rows"]
@@ -114,6 +151,68 @@ def validate(spec: dict, prepared: dict) -> list:
             problems.append(
                 ("too-few-points", f"a {chart} needs two or more points in every series")
             )
+    return problems
+
+
+def validate_graph(spec: dict, prepared: dict) -> list:
+    """Return (code, message) pairs for a sankey or network spec that the data cannot meet."""
+    problems = []
+    chart = spec.get("chart")
+    required = ["title", "summary", "nodes.label"]
+    if prepared["weighted"]:
+        required += ["value.label", "value.unit"]
+    if prepared["groupValues"]:
+        required.append("group.label")
+    for dotted in required:
+        if not text_at(spec, dotted):
+            problems.append(("spec-missing", f"the spec needs a non-empty {dotted}"))
+    if chart not in CHARTS:
+        problems.append(
+            ("chart-unknown", f"chart is {chart!r}; this script draws {', '.join(CHARTS)}")
+        )
+        return problems
+    if len(prepared["nodes"]) > MAX_NODES[chart]:
+        problems.append(
+            (
+                "too-many-nodes",
+                f"{len(prepared['nodes'])} nodes exceed the {MAX_NODES[chart]} a {chart} keeps "
+                "readable; combine nodes, or show the links as a table",
+            )
+        )
+    if len(prepared["groupValues"]) > len(PALETTE):
+        problems.append(
+            (
+                "too-many-series",
+                f"{len(prepared['groupValues'])} groups exceed the {len(PALETTE)} colours that "
+                "stay distinct; keep the groups the claim needs and fold the rest into one",
+            )
+        )
+    return problems
+
+
+def validate_choropleth(spec: dict, prepared: dict) -> list:
+    """Return (code, message) pairs for a choropleth spec that the data cannot meet."""
+    problems = []
+    for dotted in ("title", "summary", "region.label", "value.label", "value.unit"):
+        if not text_at(spec, dotted):
+            problems.append(("spec-missing", f"the spec needs a non-empty {dotted}"))
+    if spec.get("chart") not in CHARTS:
+        problems.append(
+            (
+                "chart-unknown",
+                f"chart is {spec.get('chart')!r}; this script draws {', '.join(CHARTS)}",
+            )
+        )
+        return problems
+    values = {region["value"] for region in prepared["regions"]}
+    if len(values) < 2:
+        problems.append(
+            (
+                "constant-values",
+                "every region holds the same value, so a map shows one colour; state the value "
+                "in a sentence",
+            )
+        )
     return problems
 
 
@@ -241,6 +340,170 @@ def chart_js(spec: dict, prepared: dict) -> tuple:
     return imports, "\n".join(lines)
 
 
+def sankey_js(spec: dict) -> tuple:
+    """Return (import names by subpath, JavaScript body) for a sankey."""
+    color = json.dumps(PALETTE[0])
+    body = f"""const amount = (value) => value.toLocaleString("en")
+const ribbon = {{
+  line: ([[x1, y1], [x2, y2]]) =>
+    `M${{x1}},${{y1}}C${{(x1 + x2) / 2}},${{y1}} ${{(x1 + x2) / 2}},${{y2}} ${{x2}},${{y2}}`,
+  area: () => "",
+}}
+return defineChart({{
+  marks: [
+    sankeyDiagram({{
+      nodes: data.nodes,
+      links: data.links,
+      nodeKey: "id",
+      source: "source",
+      target: "target",
+      value: "value",
+      nodeWidth: 14,
+      nodePadding: 18,
+      inset: 8,
+      marks: ({{ nodes, links }}) => {{
+        const lastLayer = Math.max(...nodes.map((node) => node.layer))
+        const onRight = (node) => node.layer === lastLayer
+        return [
+          link(links, {{
+            x1: "x1", y1: "y1", x2: "x2", y2: "y2", key: "key",
+            strokeWidth: (flow) => Math.max(1, flow.width),
+            stroke: {color}, strokeOpacity: 0.35, lineCap: "butt", curve: ribbon,
+          }}),
+          rect(nodes, {{ x1: "x0", x2: "x1", y1: "y0", y2: "y1", key: "key", inset: 0, fill: {color} }}),
+          text(nodes, {{
+            x: (node) => (onRight(node) ? node.x0 : node.x1),
+            y: "y",
+            text: (node) => `${{node.data.label}} ${{amount(node.value)}}`,
+            key: "key",
+            anchor: (node) => (onRight(node) ? "end" : "start"),
+            dx: (node) => (onRight(node) ? -6 : 6),
+            dy: 4,
+            fill: "currentColor",
+            fontSize: 12,
+          }}),
+        ]
+      }},
+    }}),
+  ],
+  scales: {{ x: null, y: null }},
+  guides: false,
+  margin: 0,
+}})"""
+    imports = {"": ["defineChart", "link", "rect", "text"], "/network/sankey": ["sankeyDiagram"]}
+    return imports, body
+
+
+def network_js(spec: dict, prepared: dict) -> tuple:
+    """Return (import names by subpath, JavaScript body) for a settled force-directed network."""
+    grouped = bool(prepared["groupValues"])
+    root = ["defineChart", "dot", "link", "text"]
+    width = "1.5"
+    if prepared["weighted"]:
+        width = "(edge) => 1 + (5 * edge.value) / largest"
+    paint = 'color: "group"' if grouped else f"fill: {json.dumps(PALETTE[0])}"
+    lines = [
+        "const largest = Math.max(1, ...data.links.map((edge) => edge.value ?? 1))",
+        "const graph = forceLayout(data.nodes, data.links, {",
+        '  nodeKey: "id",',
+        '  source: "source",',
+        '  target: "target",',
+        "  iterations: 300,",
+        "  forces: [",
+        '    { type: "link", distance: 48 },',
+        '    { type: "manyBody", strength: -160 },',
+        '    { type: "center" },',
+        '    { type: "collide", radius: 16 },',
+        "  ],",
+        "})",
+        "return defineChart({",
+        "  marks: [",
+        "    link(graph.links, {",
+        '      x1: "x1", y1: "y1", x2: "x2", y2: "y2",',
+        "      key: (edge) => `${edge.source}->${edge.target}`,",
+        f"      stroke: {json.dumps(LINK_COLOR)}, strokeWidth: {width},",
+        "    }),",
+        f'    dot(graph.nodes, {{ x: "x", y: "y", key: "id", r: 6, {paint} }}),',
+        "    text(graph.nodes, {",
+        '      x: "x", y: "y", text: "label", key: "id", dy: -10, fill: "currentColor", fontSize: 11,',
+        "    }),",
+        "  ],",
+        "  scales: {",
+        "    x: { scale: () => scaleLinear().domain(graph.xDomain), axis: false },",
+        "    y: { scale: () => scaleLinear().domain(graph.yDomain), axis: false },",
+        "  },",
+    ]
+    if grouped:
+        root.append("colorLegend")
+        legend = json.dumps(spec["group"]["label"].strip())
+        lines += [
+            "  color: {",
+            "    domain: data.prepared.groupValues,",
+            "    range: data.colors,",
+            f"    legend: colorLegend({{ label: {legend} }}),",
+            "  },",
+        ]
+    lines.append("})")
+    imports = {
+        "": sorted(root),
+        "/network/force": ["forceLayout"],
+        "/scales/linear": ["scaleLinear"],
+    }
+    return imports, "\n".join(lines)
+
+
+def choropleth_js(spec: dict, prepared: dict) -> tuple:
+    """Return (import names by subpath, JavaScript body) for a choropleth."""
+    world = prepared["atlas"] == "world"
+    url = {name: json.dumps(value) for name, value in MAP_URLS.items()}
+    legend = json.dumps(axis_label(spec["value"]))
+    lines = [
+        f"const {{ {'geoEqualEarth' if world else 'geoMercator'} }} = await import({url['projection']})",
+        f"const {{ scaleSequential }} = await import({url['scale']})",
+    ]
+    if world:
+        lines += [
+            f"const {{ feature }} = await import({url['converter']})",
+            f"const response = await fetch({url['atlas']})",
+            "if (!response.ok) throw new Error(`The world atlas answered ${response.status}.`)",
+            "const topology = await response.json()",
+            "const features = feature(topology, topology.objects.countries).features.map(",
+            "  (shape) => ({ ...shape, id: shape.properties.name }),",
+            ")",
+            'const projection = { type: geoEqualEarth, fit: "sphere", inset: 4 }',
+        ]
+    else:
+        lines += [
+            "const features = data.features",
+            'const projection = { type: geoMercator, fit: { type: "FeatureCollection", features }, inset: 4 }',
+        ]
+    lines += [
+        "const values = new Map(data.regions.map((region) => [region.key, region.value]))",
+        "const channel = (hex, index) => parseInt(hex.slice(1 + 2 * index, 3 + 2 * index), 16)",
+        "const [light, dark] = data.ramp",
+        "const ramp = (t) =>",
+        "  `rgb(${[0, 1, 2]",
+        "    .map((i) => Math.round(channel(light, i) + t * (channel(dark, i) - channel(light, i))))",
+        '    .join(",")})`',
+        "const extent = [data.regions.at(-1).value, data.regions[0].value]",
+        f"const edge = {{ key: (shape) => shape.id, projection, stroke: {json.dumps(LINK_COLOR)}, strokeWidth: 0.5 }}",
+        "const layers = [",
+        f"  [features.filter((shape) => !values.has(shape.id)), {{ ...edge, fill: {json.dumps(NO_VALUE_COLOR)} }}],",
+        "  [features.filter((shape) => values.has(shape.id)), { ...edge, color: (shape) => values.get(shape.id) }],",
+        "]",
+        "return defineChart({",
+        "  marks: layers.filter(([shapes]) => shapes.length).map(([shapes, options]) => geoShape(shapes, options)),",
+        "  scales: { x: null, y: null },",
+        "  color: {",
+        "    scale: () => scaleSequential(ramp).domain(extent),",
+        f'    legend: colorLegend({{ label: {legend}, format: (value) => value.toLocaleString("en") }}),',
+        "  },",
+        "})",
+    ]
+    imports = {"": ["colorLegend", "defineChart"], "/geo": ["geoShape"]}
+    return imports, "\n".join(lines)
+
+
 def import_lines(imports: dict) -> str:
     imports = dict(imports)
     imports["/dom"] = ["mountChart"]
@@ -262,16 +525,25 @@ def table_html(spec: dict, prepared: dict) -> str:
     if series:
         columns.append((series, spec["series"]["label"].strip(), False))
     columns.append((y, axis_label(spec["y"]), True))
-    out = ["<table>", f"<caption>{html.escape(spec['title'].strip())}</caption>", "<thead><tr>"]
-    for _, label, numeric in columns:
+    return one_table(
+        spec["title"].strip(),
+        [(label, numeric) for _, label, numeric in columns],
+        [[row[field] for field, _, _ in columns] for row in prepared["rows"]],
+    )
+
+
+def one_table(caption: str, columns: list, rows: list) -> str:
+    """Render one table from (header, is numeric) columns and rows of cell values."""
+    out = ["<table>", f"<caption>{html.escape(caption)}</caption>", "<thead><tr>"]
+    for label, numeric in columns:
         css = ' class="num"' if numeric else ""
         out.append(f'<th scope="col"{css}>{html.escape(label)}</th>')
     out.append("</tr></thead>")
     out.append("<tbody>")
-    for row in prepared["rows"]:
+    for row in rows:
         cells = "".join(
-            ('<td class="num">' if numeric else "<td>") + format_cell(row[field]) + "</td>"
-            for field, _, numeric in columns
+            ('<td class="num">' if numeric else "<td>") + format_cell(value) + "</td>"
+            for value, (_, numeric) in zip(row, columns)
         )
         out.append(f"<tr>{cells}</tr>")
     out.append("</tbody>")
@@ -279,40 +551,115 @@ def table_html(spec: dict, prepared: dict) -> str:
     return "\n".join(out)
 
 
+def graph_tables_html(spec: dict, prepared: dict) -> str:
+    """Render the node table and the link table that stand in for a sankey or a network."""
+    nodes, links = prepared["nodes"], prepared["links"]
+    weighted = prepared["weighted"]
+    label = {node["id"]: node["label"] for node in nodes}
+    amount = axis_label(spec["value"]) if weighted else ""
+    title = spec["title"].strip()
+
+    node_columns = [(spec["nodes"]["label"].strip(), False)]
+    if prepared["groupValues"]:
+        node_columns.append((spec["group"]["label"].strip(), False))
+    if spec["chart"] == "sankey":
+        node_columns += [(f"In: {amount}", True), (f"Out: {amount}", True)]
+    else:
+        node_columns.append(("Links", True))
+    node_rows = []
+    for node in nodes:
+        entering = [link for link in links if link["target"] == node["id"]]
+        leaving = [link for link in links if link["source"] == node["id"]]
+        row = [node["label"]]
+        if prepared["groupValues"]:
+            row.append(node["group"])
+        if spec["chart"] == "sankey":
+            row += [sum(link["value"] for link in entering), sum(link["value"] for link in leaving)]
+        else:
+            row.append(len(entering) + len(leaving))
+        node_rows.append(row)
+
+    link_columns = [("From", False), ("To", False)] + ([(amount, True)] if weighted else [])
+    link_rows = [
+        [label[link["source"]], label[link["target"]]] + ([link["value"]] if weighted else [])
+        for link in links
+    ]
+    return "\n".join(
+        (
+            one_table(f"{title}: nodes", node_columns, node_rows),
+            one_table(f"{title}: links", link_columns, link_rows),
+        )
+    )
+
+
 def indent(text: str, prefix: str) -> str:
     return "\n".join(prefix + line if line else line for line in text.splitlines())
 
 
 def build(spec: dict, prepared: dict, custom_js) -> str:
-    if custom_js is None:
-        imports, body = chart_js(spec, prepared)
-        imports_text = import_lines(imports)
-    else:
+    shape = prepared["shape"]
+    if custom_js is not None:
         body = custom_js.strip("\n")
         imports_text = import_lines({})
+    else:
+        if shape == "choropleth":
+            imports, body = choropleth_js(spec, prepared)
+        elif shape == "sankey":
+            imports, body = sankey_js(spec)
+        elif shape == "network":
+            imports, body = network_js(spec, prepared)
+        else:
+            imports, body = chart_js(spec, prepared)
+        imports_text = import_lines(imports)
 
-    horizontal = spec.get("chart") == "bar" and spec.get("orientation") == "horizontal"
-    height = (
-        max(240, 80 + 30 * len({row[prepared["x"]] for row in prepared["rows"]}))
-        if horizontal
-        else 380
-    )
-    colors = PALETTE[: max(1, len(prepared["seriesValues"]))]
-    data = {
-        "spec": spec,
-        "prepared": {key: prepared[key] for key in ("x", "y", "series", "xType", "seriesValues")},
-        "colors": colors,
-        "background": BACKGROUND,
-        "rows": prepared["rows"],
-    }
+    data = {"spec": spec, "shape": shape, "background": BACKGROUND}
+    footnote = ""
+    if shape == "choropleth":
+        height = 420
+        data["prepared"] = {key: prepared[key] for key in ("atlas", "regionsWithoutValue")}
+        data["colors"] = RAMP[1:]
+        data["ramp"] = RAMP
+        data["unit"] = spec["value"]["unit"]
+        data["regions"] = prepared["regions"]
+        data["features"] = prepared["features"]
+        table = one_table(
+            spec["title"].strip(),
+            [(spec["region"]["label"].strip(), False), (axis_label(spec["value"]), True)],
+            [[region["label"], region["value"]] for region in prepared["regions"]],
+        )
+        if prepared["regionsWithoutValue"]:
+            footnote = '<p class="source">Regions in grey have no value.</p>'
+    elif shape == "rows":
+        horizontal = spec.get("chart") == "bar" and spec.get("orientation") == "horizontal"
+        height = (
+            max(240, 80 + 30 * len({row[prepared["x"]] for row in prepared["rows"]}))
+            if horizontal
+            else 380
+        )
+        data["prepared"] = {
+            key: prepared[key] for key in ("x", "y", "series", "xType", "seriesValues")
+        }
+        data["colors"] = PALETTE[: max(1, len(prepared["seriesValues"]))]
+        data["unit"] = spec["y"]["unit"]
+        data["rows"] = prepared["rows"]
+        table = table_html(spec, prepared)
+    else:
+        height = 460
+        data["prepared"] = {key: prepared[key] for key in ("weighted", "groupValues")}
+        data["colors"] = PALETTE[: max(1, len(prepared["groupValues"]))]
+        data["unit"] = spec["value"]["unit"] if prepared["weighted"] else None
+        data["nodes"] = prepared["nodes"]
+        data["links"] = prepared["links"]
+        table = graph_tables_html(spec, prepared)
     subtitle = text_at(spec, "subtitle")
     source = text_at(spec, "source")
     replacements = {
         "__TITLE__": html.escape(spec["title"].strip()),
         "__SUBTITLE__": f'<p class="subtitle">{html.escape(subtitle)}</p>' if subtitle else "",
         "__SUMMARY__": html.escape(spec["summary"].strip()),
-        "__SOURCE__": f'<p class="source">Source: {html.escape(source)}</p>' if source else "",
-        "__TABLE__": table_html(spec, prepared),
+        "__SOURCE__": (f'<p class="source">Source: {html.escape(source)}</p>' if source else "")
+        + footnote,
+        "__TABLE__": table,
         "__DATA__": json.dumps(data, ensure_ascii=False).replace("</", "<\\/"),
         "__IMPORTS__": imports_text,
         "__CHART__": indent(body, "    "),
@@ -350,8 +697,11 @@ def main(argv: list) -> int:
     except OSError as error:
         print(f"error: cannot read {args.chart_js}: {error.strerror}", file=sys.stderr)
         return 2
-    wanted = {"x", "y", "series", "xType", "seriesValues", "rows"}
-    if not isinstance(spec, dict) or not isinstance(prepared, dict) or not wanted <= set(prepared):
+    usable = isinstance(spec, dict) and isinstance(prepared, dict)
+    if usable:
+        wanted = PREPARED_KEYS.get(prepared.get("shape"))
+        usable = wanted is not None and wanted <= set(prepared)
+    if not usable:
         print(
             "error: the spec must be a JSON object and --data must be a file prepare_data.py wrote",
             file=sys.stderr,

@@ -6,8 +6,8 @@ description: 'Turn data, a comparison, a trend, a flow, or a structure into a ch
   ticket, or chat. Shapes and validates the data first, picks the chart from the question and the
   data, adds labels, units, a text summary and a data table, uses colours that survive colour blindness,
   and checks its own output before handing it over. Use whenever the user asks to visualize anything,
-  make a chart, graph, plot, or diagram, show a trend, compare numbers, show a flow or a timeline,
-  or asks which chart type fits their data.
+  make a chart, graph, plot, map, or diagram, show a trend, compare numbers, show a flow, a network,
+  or a timeline, or asks which chart type fits their data.
 
   '
 ---
@@ -46,6 +46,9 @@ scripts/prepare_data.py data.csv --x day --y cups --series person --out rows.jso
 `--x` names the position or category column, `--y` the measured number, and `--series` the column that splits rows into groups, left out for one series.
 The script converts types, sorts dates and numbers, and writes `rows.json` only when every row is usable.
 
+A flow between stages, a network of linked things, and values by region each take another input shape.
+For one of those, read `references/shapes.md` now and follow it for this step and for the spec in step 4.
+
 Read every `note:` line, since each one changes what the chart may claim.
 Treat each `problem:` line as a question about the data:
 
@@ -70,7 +73,10 @@ Choose from the question the reader asks, then confirm the data fits:
 | How does a value change over time or along an order? | `line` | dates or numbers on x, or categories with a real order and `"ordered": true` |
 | How does a total and its parts change over time? | `area` | as `line`, no value below zero |
 | Do two measures move together? | `scatter` | a number on x, with its own unit |
-| A distribution, an interval, a matrix, a network, a hierarchy, a map | Hand-written chart: read `references/charts.md` | prepared by you |
+| How does quantity split and recombine, or move through staged subtotals? | `sankey` | links with a value, every stage balanced |
+| Which clusters emerge among linked things with no fixed positions? | `network` | nodes and links, 60 nodes at most |
+| How does an aggregate differ across named regions? | `choropleth` | one value per country, or per region of a GeoJSON file |
+| A distribution, an interval, a matrix, a hierarchy | Hand-written chart: read `references/charts.md` | prepared by you |
 
 Hold these while choosing:
 
@@ -79,6 +85,8 @@ Hold these while choosing:
 - Give each measure its own chart in place of a second y axis.
 - Keep the full history in view when the claim is about a change.
 - Where a mean would hide how the values spread, show the spread.
+- Draw a network only when the links are the question. Past a few dozen nodes, a table or a grouped bar reads better.
+- On a map a large region draws the eye whatever its value. Where the claim is a ranking, draw sorted bars.
 
 ## 4. Build the page
 
@@ -110,9 +118,11 @@ Then build:
 scripts/build_page.py spec.json --data rows.json --out chart.html
 ```
 
-The page carries its rows, the summary, and a full data table, starts bars at zero, assigns colours that stay distinct under colour blindness, and names the chart for screen readers.
+The page carries its data, the summary, and a full data table, starts bars at zero, assigns colours that stay distinct under colour blindness, and names the chart for screen readers.
+A sankey or a network carries a node table and a link table, and a choropleth a table of regions sorted by value.
 It imports `@tanstack/charts@1.5.0` from `esm.sh` when it opens, so it needs network access to draw. Without it the page shows the table and says why.
 TanStack Charts loads its own D3 modules from the same CDN, some at version ranges the CDN resolves on load; the page pins the TanStack version alone.
+A choropleth page also loads from `esm.sh`, each at an exact version, the map projection (`d3-geo@3.1.1`) and the continuous colour scale (`d3-scale@4.0.2`), which TanStack Charts leaves to the page, and for the world atlas `topojson-client@3.1.0` and `world-atlas@2.0.2`.
 
 Treat each `problem:` line from the build as a mismatch between the chart and the data, and return to step 3.
 

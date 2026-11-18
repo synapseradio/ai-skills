@@ -45,23 +45,25 @@ Or copy `skills/thinkies/visualize/` into `~/.claude/skills/visualize/`.
 /visualize show weekly signups by channel from signups.csv
 /visualize which chart fits cups of coffee per person per day?
 /visualize draw the checkout flow for the README
+/visualize where do visitors drop out between landing and paying? funnel.csv
+/visualize map internet use by country from share.csv
 ```
 
 ## What it produces
 
 | Where it is read | Output |
 | --- | --- |
-| A browser | One HTML file holding a bar, line, area, or scatter chart |
+| A browser | One HTML file holding a bar, line, area, or scatter chart, a sankey diagram, a network, or a choropleth map |
 | A pull request, README, ticket, wiki, or chat | Markdown: a Mermaid flowchart, sequence diagram, or schedule; a table; text bars; a ranked list; an indented tree |
 
 ### The HTML page, top to bottom
 
 1. A title that states the claim, such as "Ben drank more coffee each day while Ana held steady".
 2. A subtitle giving the scope and period.
-3. The chart, with units on its axes, a legend for its series, and keyboard focus on its points.
+3. The chart, with units on its axes, a legend for its series or its colour scale, and keyboard focus on its points.
 4. A text summary carrying the numbers behind the claim, for a reader who never sees the chart.
 5. The source of the data.
-6. A table of every value, folded closed until opened.
+6. A table of every value, folded closed until opened. A sankey or a network has two, one of nodes and one of links. A map has one of regions, sorted by value.
 
 The page is one file. It needs no install and no `package.json`, and opens straight from disk.
 
@@ -69,22 +71,36 @@ The page is one file. It needs no install and no `package.json`, and opens strai
 
 The chart is drawn by [TanStack Charts](https://github.com/TanStack/charts), which the page fetches over https from the `esm.sh` module host when it opens, fixed at version 1.5.0. Drawing the chart therefore needs network access. Without it, the page shows its data table and says why the chart is missing.
 
-TanStack Charts is the only library a page names. That library depends on D3 modules, which the same host serves alongside it, some at version ranges resolved when the page loads.
+TanStack Charts is the only library most pages name. That library depends on D3 modules, which the same host serves alongside it, some at version ranges resolved when the page loads.
+
+A choropleth page names four more files from the same host, each fixed at an exact version:
+
+| File | Version | What the page uses it for |
+| --- | --- | --- |
+| `d3-geo` | 3.1.1 | The map projection, which TanStack Charts leaves to the page |
+| `d3-scale` | 4.0.2 | The continuous colour scale, which TanStack's own scales do not cover |
+| `topojson-client` | 3.1.0 | Converting the world atlas to shapes; world maps only |
+| `world-atlas` | 2.0.2 | Country boundaries at 1:110m; world maps only |
+
+A map of your own regions embeds the GeoJSON you supply and loads the first two files only.
 
 ### Limits
 
-- The build script draws four chart kinds: bar (plain, grouped, or stacked), line, area, and scatter. For another kind the agent writes the chart code by hand against the same page.
-- A chart holds five series at most, the number of colours that passed the colour checks below.
-- Colour encodes categories only. A continuous colour scale, as in a heatmap, is outside what the skill draws.
+- The build script draws seven chart kinds: bar (plain, grouped, or stacked), line, area, scatter, sankey, network, and choropleth. For another kind the agent writes the chart code by hand against the same page.
+- A chart holds five series or node groups at most, the number of colours that passed the colour checks below.
+- A network holds 60 nodes at most and a sankey 40. Its layout is settled once and does not move.
+- A sankey needs every stage to send out what it takes in, and flow in one direction.
+- A world map shows countries at 1:110m, joined by name or ISO 3166-1 numeric code. Other regions come from a GeoJSON file of polygons in longitude and latitude, drawn in a Mercator projection.
+- A continuous colour scale appears on a choropleth only, as one hue running light to dark.
 - Mermaid diagrams render on GitHub, GitLab, Notion, and Obsidian. Elsewhere the skill uses a table, a list, or a tree.
 
 ## How an output is prepared
 
-1. **Data.** `scripts/prepare_data.py` converts each value to its type and sorts dates and numbers. It stops, and the agent asks you, on a missing value, a value that is not a number, or two rows for one position.
+1. **Data.** `scripts/prepare_data.py` converts each value to its type and sorts dates and numbers. It stops, and the agent asks you, on a missing value, a value that is not a number, or two rows for one position. For a sankey it also stops on a link to an unknown node, a loop, or a stage whose inflow and outflow differ. For a map it stops on a region the atlas or the GeoJSON lacks.
 2. **Chart.** The agent picks the chart from the question the reader asks. The build refuses a chart the data does not fit, such as a line joining categories that have no order.
 3. **Labels.** The build requires a title, axis labels, a unit, and a text summary, and writes the data table itself.
-4. **Colour.** Each series colour has at least 3:1 contrast with the page background. Each pair stays distinct under simulations of the three main kinds of colour blindness (protanopia, deuteranopia, tritanopia).
-5. **Check.** `scripts/check_output.py` reads the finished file and lists each defect: a missing summary or table, a second library or an unfixed version, colours a reader cannot tell apart, a text bar out of proportion to its value, a malformed Mermaid block.
+4. **Colour.** Each series colour has at least 3:1 contrast with the page background. Each pair stays distinct under simulations of the three main kinds of colour blindness (protanopia, deuteranopia, tritanopia). A map's colour ramp spans at least 40 steps of lightness, so its order survives without hue.
+5. **Check.** `scripts/check_output.py` reads the finished file and lists each defect: a missing summary or table, a file the page may not load or an unfixed version, a link to a missing node, a region with no shape on the map, colours a reader cannot tell apart, a text bar out of proportion to its value, a malformed Mermaid block.
 
 ## Prerequisites
 
@@ -95,10 +111,14 @@ TanStack Charts is the only library a page names. That library depends on D3 mod
 
 - TanStack Charts 1.5.0 documentation, the API the pages and `references/charts.md` use: <https://github.com/TanStack/charts/tree/v1.5.0/docs>
 - npm registry entry for `@tanstack/charts`, the source of the pinned version: <https://registry.npmjs.org/@tanstack/charts>
+- TanStack Charts 1.5.0, "Networks and Hierarchies" and "Maps and Spatial Charts", the reader questions for sankey, network, and choropleth and the atlas route: <https://github.com/TanStack/charts/blob/v1.5.0/docs/examples/networks-and-hierarchies.md>, <https://github.com/TanStack/charts/blob/v1.5.0/docs/examples/maps-and-spatial.md>
+- TanStack Charts 1.5.0, "Geo Shape Mark" and "Scales and D3", which leave the projection and any sequential colour scale to the page: <https://github.com/TanStack/charts/blob/v1.5.0/docs/reference/marks/geo.md>, <https://github.com/TanStack/charts/blob/v1.5.0/docs/concepts/scales-and-d3.md>
+- npm registry entries for the choropleth files. `d3-geo` and `d3-scale` are fixed at the versions `@tanstack/charts@1.5.0` itself depends on: <https://registry.npmjs.org/d3-geo>, <https://registry.npmjs.org/d3-scale>, <https://registry.npmjs.org/topojson-client>, <https://registry.npmjs.org/world-atlas>
+- `world-atlas` 2.0.2, which redistributes Natural Earth boundaries; the source of `assets/world-atlas-countries-110m.json`: <https://github.com/topojson/world-atlas>
 - Machado, Oliveira, and Fernandes, "A Physiologically-based Model for Simulation of Color Vision Deficiency", the simulation matrices in `scripts/check_output.py`: <https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html>
 - WCAG 2.2, the contrast ratio formula and the 3:1 minimum for graphical objects: <https://www.w3.org/TR/WCAG22/#non-text-contrast>
 
-The distance of 12 that the check requires between two series colours is this skill's own threshold, set below the closest pair in its palette (17.0) and above a red and green pair (`#d62728`, `#2ca02c`) that simulated colour blindness brings to 7.3.
+The 40 steps of lightness a map ramp must span, and the node limits of 60 and 40, are this skill's own thresholds. The distance of 12 that the check requires between two series colours is this skill's own threshold, set below the closest pair in its palette (17.0) and above a red and green pair (`#d62728`, `#2ca02c`) that simulated colour blindness brings to 7.3.
 
 ## Install as a `.skill`
 

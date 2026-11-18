@@ -1,0 +1,6 @@
+{"type":"FeatureCollection","features":[
+{"type":"Feature","properties":{"code":"N","name":"North"},"geometry":{"type":"Polygon","coordinates":[[[13.30,52.52],[13.42,52.52],[13.42,52.58],[13.30,52.58],[13.30,52.52]]]}},
+{"type":"Feature","properties":{"code":"S","name":"South"},"geometry":{"type":"Polygon","coordinates":[[[13.30,52.46],[13.42,52.46],[13.42,52.52],[13.30,52.52],[13.30,52.46]]]}},
+{"type":"Feature","properties":{"code":"E","name":"East"},"geometry":{"type":"MultiPolygon","coordinates":[[[[13.42,52.46],[13.52,52.46],[13.52,52.58],[13.42,52.58],[13.42,52.46]]]]}},
+{"type":"Feature","properties":{"code":"W","name":"West"},"geometry":{"type":"Polygon","coordinates":[[[13.20,52.46],[13.30,52.46],[13.30,52.58],[13.20,52.58],[13.20,52.46]]]}}
+]}

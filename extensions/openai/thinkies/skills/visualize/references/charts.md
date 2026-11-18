@@ -1,6 +1,6 @@
 # Hand-written charts
 
-Read this when the question needs a chart `build_page.py` does not draw: a distribution, an interval, a matrix, a network, a hierarchy, a map, or a composition of several marks.
+Read this when the question needs a chart `build_page.py` does not draw: a distribution, an interval, a matrix, a hierarchy, or a composition of several marks.
 
 You write the chart definition; the script still builds the page around it, with the data, the summary, the table, and the failed-load message.
 

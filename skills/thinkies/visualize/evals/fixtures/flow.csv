@@ -1,0 +1,7 @@
+from,to,visits
+Landing,Sign-up,620
+Landing,Left,380
+Sign-up,Trial,410
+Sign-up,Left,210
+Trial,Paid,150
+Trial,Left,260

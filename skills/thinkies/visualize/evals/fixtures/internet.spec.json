@@ -1,0 +1,13 @@
+{
+  "title": "Internet use runs from 12% in Chad to 99% in Norway",
+  "summary": "Among nine countries, Norway (99%), Australia (95%) and the United States (93%) lead; Nigeria (39%) and Chad (12%) trail.",
+  "chart": "choropleth",
+  "region": {
+    "label": "Country"
+  },
+  "value": {
+    "label": "People using the internet",
+    "unit": "% of population"
+  },
+  "source": "Illustrative figures."
+}

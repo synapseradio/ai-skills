@@ -1,0 +1,12 @@
+{
+  "title": "North ward holds 410 street trees per square kilometre, East 120",
+  "summary": "North has 410 street trees per square kilometre, South 265 and East 120. West has no count.",
+  "chart": "choropleth",
+  "region": {
+    "label": "Ward"
+  },
+  "value": {
+    "label": "Street trees",
+    "unit": "trees per km²"
+  }
+}

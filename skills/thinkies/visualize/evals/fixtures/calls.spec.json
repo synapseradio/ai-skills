@@ -1,0 +1,15 @@
+{
+  "title": "Every service reaches auth through api or billing",
+  "summary": "Seven services and eight call paths. api is the hub with three links; auth is called by api and billing only.",
+  "chart": "network",
+  "nodes": {
+    "label": "Service"
+  },
+  "group": {
+    "label": "Team"
+  },
+  "value": {
+    "label": "Calls",
+    "unit": "calls per minute"
+  }
+}

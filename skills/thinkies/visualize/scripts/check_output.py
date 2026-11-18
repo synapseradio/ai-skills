@@ -18,7 +18,8 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-from build_page import CDN_BASE, CHARTS_PACKAGE, CHARTS_VERSION
+from build_page import CDN_BASE, CHARTS_PACKAGE, CHARTS_VERSION, MAP_URLS
+from prepare_data import ATLAS
 
 # Colour-vision-deficiency simulation matrices at full severity, applied to linear RGB:
 # https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html
@@ -41,6 +42,7 @@ CVD_MATRICES = {
 }
 MIN_COLOR_DISTANCE = 12.0
 MIN_GRAPHIC_CONTRAST = 3.0
+MIN_RAMP_LIGHTNESS_SPAN = 40.0
 
 MERMAID_TYPES = {
     "flowchart",
@@ -69,6 +71,7 @@ NUMBER = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
 IMPORT = re.compile(
     r"""import\s*\(\s*['"]([^'"]+)['"]\s*\)|(?:^|[\s;])import\s[^'"();]*?['"]([^'"]+)['"]""", re.M
 )
+FETCH = re.compile(r"""fetch\s*\(\s*['"]([^'"]+)['"]""")
 HEX = re.compile(r"^#[0-9a-fA-F]{6}$")
 
 
@@ -148,13 +151,14 @@ class PageReader(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.lang = ""
         self.ids: dict = {}
-        self.text: dict = {"title": "", "h1": "", "caption": "", "viz-summary": ""}
+        self.text: dict = {"title": "", "h1": "", "viz-summary": ""}
         self.external: list = []
         self.scripts: list = []
         self.header_cells: list = []
         self.unscoped_headers = 0
         self.body_rows = 0
         self.tables = 0
+        self.captions = 0
         self._open: list = []
         self._script = None
         self._in_tbody = False
@@ -181,6 +185,8 @@ class PageReader(HTMLParser):
                 self.external.append(f"<script src={attrs['src']!r}>")
         elif tag == "table":
             self.tables += 1
+        elif tag == "caption":
+            self.captions += 1
         elif tag == "thead":
             self._in_thead = True
         elif tag == "tbody":
@@ -240,10 +246,22 @@ def check_html(text: str) -> list:
     for found in page.external:
         defects.append(("external-resource", f"{found} loads a file from outside the page"))
 
+    shape = None
+    data_scripts = [s for s in page.scripts if s["id"] == "viz-data"]
+    if data_scripts:
+        try:
+            loaded = json.loads(data_scripts[0]["text"])
+        except ValueError:
+            loaded = None
+        shape = loaded.get("shape") if isinstance(loaded, dict) else None
+    map_urls = set(MAP_URLS.values()) if shape == "choropleth" else set()
+
     code = "\n".join(s["text"] for s in page.scripts if s["type"] == "module" and not s["src"])
     specifiers = [a or b for a, b in IMPORT.findall(code)]
-    for specifier in specifiers:
+    for specifier in specifiers + FETCH.findall(code):
         if specifier == CDN_BASE or specifier.startswith(CDN_BASE + "/"):
+            continue
+        if specifier in map_urls:
             continue
         if CHARTS_PACKAGE in specifier:
             defects.append(
@@ -253,41 +271,88 @@ def check_html(text: str) -> list:
                 )
             )
         else:
-            defects.append(("foreign-import", f"{specifier!r} is not the chart library"))
+            defects.append(
+                ("foreign-import", f"{specifier!r} is not a file this kind of page may load")
+            )
     need(specifiers, "no-chart-import", "no module script imports the chart library")
     need("ariaLabel" in code, "no-aria-label", "the chart is mounted without an ariaLabel")
 
     rows = None
-    data_scripts = [s for s in page.scripts if s["id"] == "viz-data"]
+    tables_wanted = 1
     if not data_scripts:
-        defects.append(("no-data", "no script with id viz-data holds the rows"))
+        defects.append(("no-data", "no script with id viz-data holds the data"))
     else:
         try:
             data = json.loads(data_scripts[0]["text"])
-            rows = data["rows"]
+            graph = data["shape"] in ("sankey", "network")
+            choropleth = data["shape"] == "choropleth"
+            if graph:
+                rows = data["nodes"] + data["links"]
+            else:
+                rows = data["regions"] if choropleth else data["rows"]
             colors, background = data["colors"], data["background"]
-            unit = data["spec"]["y"]["unit"]
+            unit = data["unit"]
+            unit_wanted = data["prepared"]["weighted"] if graph else True
             if not rows or not isinstance(rows, list):
-                raise ValueError("rows is empty")
+                raise ValueError("the data is empty")
             if not all(isinstance(c, str) and HEX.match(c) for c in colors + [background]):
                 raise ValueError("colors and background must be six-digit hex")
+            if choropleth:
+                ramp = data["ramp"]
+                if len(ramp) != 2 or not all(isinstance(c, str) and HEX.match(c) for c in ramp):
+                    raise ValueError("ramp must hold two six-digit hex colours")
+                span = lab(linear_rgb(ramp[0]))[0] - lab(linear_rgb(ramp[1]))[0]
+                if span < MIN_RAMP_LIGHTNESS_SPAN:
+                    defects.append(
+                        (
+                            "ramp-flat",
+                            f"the ramp runs {span:.0f} lightness steps from light to dark; "
+                            f"a reader needs {MIN_RAMP_LIGHTNESS_SPAN:g} to rank regions",
+                        )
+                    )
+                if data["features"] is None:
+                    atlas = json.loads(ATLAS.read_text(encoding="utf-8"))
+                    drawable = {region["name"] for region in atlas["regions"]}
+                else:
+                    drawable = {feature["id"] for feature in data["features"]}
+                for region in rows:
+                    if region["key"] not in drawable:
+                        defects.append(
+                            (
+                                "region-unmatched",
+                                f"no shape on the map has the key {region['key']!r}",
+                            )
+                        )
+            if graph:
+                tables_wanted = 2
+                known = {node["id"] for node in data["nodes"]}
+                for link in data["links"]:
+                    for end in (link["source"], link["target"]):
+                        if end not in known:
+                            defects.append(
+                                ("link-unknown-node", f"a link names {end!r}, which no node has")
+                            )
         except (ValueError, KeyError, TypeError) as error:
             defects.append(("bad-data", f"viz-data is unusable: {error!r}"))
             rows = None
         else:
             defects.extend(color_defects(colors, background))
-            need(isinstance(unit, str) and unit.strip(), "no-unit", "spec.y.unit is empty")
-            if isinstance(unit, str) and unit.strip():
+            named = isinstance(unit, str) and unit.strip()
+            if unit_wanted:
+                need(named, "no-unit", "viz-data names no unit for the values")
+            if unit_wanted and named:
                 need(
                     any(unit.strip().lower() in cell.lower() for cell in page.header_cells),
                     "no-unit",
                     f"no table header names the unit {unit!r}",
                 )
 
-    if page.tables == 0:
-        defects.append(("no-table", "the page has no data table"))
+    if page.tables < tables_wanted:
+        defects.append(
+            ("no-table", f"the page has {page.tables} data tables and needs {tables_wanted}")
+        )
     else:
-        need(page.text["caption"].strip(), "table-no-caption", "the data table has no caption")
+        need(page.captions >= page.tables, "table-no-caption", "a data table has no caption")
         need(page.unscoped_headers == 0, "table-no-scope", "a table header cell lacks scope=col")
         if rows is not None and page.body_rows != len(rows):
             defects.append(
