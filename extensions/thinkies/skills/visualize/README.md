@@ -12,18 +12,24 @@ Turn numbers, a comparison, a flow, or a structure into one chart or diagram tha
 
 It starts by finishing the sentence "This shows that ___" from your data, and that sentence becomes the title. It asks you only where the data leaves a choice open: how duplicate rows combine, whether a gap means zero, where the result will be read. Then it prepares the rows, picks the chart, builds the output, and checks it before handing it over.
 
-Trimmed from a staged conversation, run with an earlier version of the skill, on a household of three's coffee across a week, Monday to Sunday: 9, 7, 8, 11, 6, 3, 4 cups, with Monday's "spike" blamed on a Sunday-night "just one episode" habit ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/visualize/household-coffee-week.md)). A second agent played one of the housemates:
+Trimmed from a run on a household of three's coffee across a week, Monday to Sunday: 9, 7, 8, 11, 6, 3, 4 cups, with Monday's "spike" blamed on a Sunday-night "just one episode" habit ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/visualize/household-coffee-week.md)):
 
-> - You called Monday's count a spike, but Thursday's 11 is higher than Monday's 9. Monday is the second-highest day, not the peak.
-> - Monday is the first row of the week, so the Sunday before it is not in the data. The Sunday shown (4) comes at the end of the week. Comparing Monday's 9 with Sunday's 4 assumes the Sunday before was also about 4.
+> This shows that Monday runs high at 9 cups, but Thursday is the week's peak at 11, and the weekend drops to 3 and 4.
+>
+> - You called Monday's count a spike, but Thursday's 11 is higher than Monday's 9. Monday is the second-highest day.
+> - Monday is the first row, so the Sunday before it is not in the data. The Sunday shown (4) ends the week.
 >
 > […]
 >
-> # Monday Runs High at 9 Cups, but Thursday Peaks at 11
+> `note: summary: 7 rows; day is category; cups runs 3 to 11`
 >
 > […]
 >
-> Mon  █████████     9 cups  ◀ Monday, after the Sunday-night episode habit (reported, not measured here)
+> The question is how a value changes along an order, so the chart is a line.
+>
+> […]
+>
+> `coffee-week.html: ok`
 
 ## Install
 
