@@ -32,6 +32,7 @@ This repo is a plugin marketplace: `.claude-plugin/marketplace.json` at the repo
 /plugin marketplace add synapseradio/ai-skills
 /plugin install thinkies@ai-skills
 /plugin install de-residency@ai-skills
+/plugin install visualizer@ai-skills
 ```
 
 ## Plugins in this repo
@@ -39,7 +40,8 @@ This repo is a plugin marketplace: `.claude-plugin/marketplace.json` at the repo
 | Plugin | Wraps skill | Purpose |
 |---|---|---|
 | [`de-residency`](./de-residency) | `de-residency-advisor` | Conversational coach for non-EU expats preparing for German government appointments. |
-| [`thinkies`](./thinkies) | 58 reasoning skills | Reasoning toolkit; each skill is invoked as `/thinkies:<name>`. |
+| [`thinkies`](./thinkies) | 57 reasoning skills | Reasoning toolkit; each skill is invoked as `/thinkies:<name>`. |
+| [`visualizer`](./visualizer) | `visualize` | Charts and diagrams as a self-contained HTML page or Markdown; invoked as `/visualizer:visualize`. |
 
 ## Conventions
 

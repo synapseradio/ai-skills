@@ -12,7 +12,7 @@ Turn numbers, a comparison, a flow, or a structure into one chart or diagram tha
 
 It starts by finishing the sentence "This shows that ___" from your data, and that sentence becomes the title. It asks you only where the data leaves a choice open: how duplicate rows combine, whether a gap means zero, where the result will be read. Then it prepares the rows, picks the chart, builds the output, and checks it before handing it over.
 
-Trimmed from a run on a household of three's coffee across a week, Monday to Sunday: 9, 7, 8, 11, 6, 3, 4 cups, with Monday's "spike" blamed on a Sunday-night "just one episode" habit ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/visualize/household-coffee-week.md)):
+Trimmed from a run on a household of three's coffee across a week, Monday to Sunday: 9, 7, 8, 11, 6, 3, 4 cups, with Monday's "spike" blamed on a Sunday-night "just one episode" habit ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/visualize/household-coffee-week.md)):
 
 > This shows that Monday runs high at 9 cups, but Thursday is the week's peak at 11, and the weekend drops to 3 and 4.
 >
@@ -37,7 +37,7 @@ Trimmed from a run on a household of three's coffee across a week, Monday to Sun
 npx skills add https://github.com/synapseradio/ai-skills
 ```
 
-Or copy `skills/thinkies/visualize/` into `~/.claude/skills/visualize/`.
+Or copy `skills/visualize/` into `~/.claude/skills/visualize/`.
 
 ## Usage
 
@@ -107,8 +107,6 @@ A map of your own regions embeds the GeoJSON you supply and loads the first two 
 - Python 3.9 or later, run through `uv` where it exists. The scripts use the standard library only.
 - A browser with network access to draw the HTML chart.
 
-Where the agent has no shell, as in a chat that runs no code, neither is needed: the skill returns the Markdown output in its reply and checks it by reading.
-
 ## Sources
 
 - TanStack Charts 1.5.0 documentation, the API the pages and `references/charts.md` use: <https://github.com/TanStack/charts/tree/v1.5.0/docs>
@@ -126,7 +124,7 @@ The 40 steps of lightness a map ramp must span, and the node limits of 60 and 40
 
 Upload this file in Claude.ai → Settings → Skills:
 
-[`visualize.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/thinkies/visualize.skill)
+[`visualize.skill`](https://github.com/synapseradio/ai-skills/raw/main/packaged/visualize.skill)
 
 ## License
 

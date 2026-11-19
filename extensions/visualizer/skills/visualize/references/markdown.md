@@ -113,5 +113,3 @@ checkout/
 ## Check
 
 Run `scripts/check_output.py` on the `.md` file. It reports a Mermaid block with an unknown diagram type or unbalanced brackets, a table with ragged rows, and a text bar out of proportion to its value.
-
-Where the run has no shell, check the same three by reading. Each Mermaid block opens on a diagram type Mermaid has and closes every bracket it opens. Each table row has as many cells as the header row. Each text bar's block count equals `value / largest × longest`, rounded.

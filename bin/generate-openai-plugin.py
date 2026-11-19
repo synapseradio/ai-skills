@@ -210,7 +210,7 @@ PLUGIN_MANIFEST: dict[str, object] = {
         "url": "https://github.com/synapseradio",
     },
     "description": (
-        "Reasoning toolkit of 58 skills — decomposition, questioning, assumption excavation, "
+        "Reasoning toolkit of 57 skills — decomposition, questioning, assumption excavation, "
         "perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity "
         "checks. Invoke one explicitly by name, or let Codex match one by description."
     ),
@@ -221,12 +221,12 @@ PLUGIN_MANIFEST: dict[str, object] = {
         "developerName": "Nick Krause",
         "displayName": "Thinkies",
         "longDescription": (
-            "Fifty-eight small reasoning skills that each do one thing: break a problem at its "
+            "Fifty-seven small reasoning skills that each do one thing: break a problem at its "
             "joints, surface what you are assuming, argue the opposite, tile the futures a "
             "decision hinges on, check whether the evidence carries the claim. Each skill is "
             "prose instructions only — no network calls, no credentials, no background state."
         ),
-        "shortDescription": "Fifty-eight reasoning skills for thinking through hard problems.",
+        "shortDescription": "Fifty-seven reasoning skills for thinking through hard problems.",
     },
     "keywords": [
         "reasoning",

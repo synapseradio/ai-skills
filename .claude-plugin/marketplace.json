@@ -1,5 +1,5 @@
 {
-  "description": "Agent skills and plugin bundles from synapseradio/ai-skills: the thinkies reasoning toolkit and the de-residency German-bureaucracy coach.",
+  "description": "Agent skills and plugin bundles from synapseradio/ai-skills: the thinkies reasoning toolkit, the visualizer chart skill, and the de-residency German-bureaucracy coach.",
   "name": "ai-skills",
   "owner": {
     "email": "synapseradio@gmail.com",
@@ -7,7 +7,7 @@
   },
   "plugins": [
     {
-      "description": "Reasoning toolkit of 58 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
+      "description": "Reasoning toolkit of 57 skills — decomposition, questioning, assumption excavation, perspective shifts, decision analysis, ideation, synthesis, and epistemic integrity checks. Installed skills invoke as /thinkies:<name>.",
       "keywords": [
         "reasoning",
         "thinking",
@@ -31,6 +31,19 @@
       "license": "EUPL-1.2",
       "name": "de-residency",
       "source": "./extensions/de-residency"
+    },
+    {
+      "description": "Turn data, a comparison, a trend, a flow, or a structure into a self-contained HTML chart page or a Markdown diagram, table, or text bars, checked before it is handed over. Installed skill invokes as /visualizer:visualize.",
+      "keywords": [
+        "visualization",
+        "charts",
+        "diagrams",
+        "html",
+        "mermaid"
+      ],
+      "license": "EUPL-1.2",
+      "name": "visualizer",
+      "source": "./extensions/visualizer"
     }
   ]
 }

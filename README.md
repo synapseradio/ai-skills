@@ -64,7 +64,6 @@ Skills fall into two groups plus one standalone advisor. The **thinkies** group 
 | [**trace-logical-justifications**](./skills/thinkies/trace-logical-justifications/) | A rule is stated as obvious ("we must never…") | Trace justification chains to bedrock |
 | [**tree-of-thought**](./skills/thinkies/tree-of-thought/) | The right approach isn't obvious and choosing wrong costs a lot | Systematic Tree of Thought reasoning for complex problem decomposition |
 | [**tutor**](./skills/thinkies/tutor/) | You want to learn something by working through it, at your own pace | Interactive tutoring that adapts to your pace |
-| [**visualize**](./skills/thinkies/visualize/) | You have numbers and a hunch, and need a chart that says one thing | Visualize data, concepts, relations, or diagrams as browser-runnable charts |
 | [**what-if**](./skills/thinkies/what-if/) | A decision hangs on things nobody can know yet | Tile the space of possible futures and evaluate strategies across them |
 | [**wonder**](./skills/thinkies/wonder/) | You're about to solve something and haven't asked what's strange about it | Open the possibility space through curiosity-driven questioning |
 | [**writing-agent-instructions**](./skills/thinkies/writing-agent-instructions/) | An agent instruction is needed, has grown past what it needs to say, or two sessions act on it differently | Write or refine any agent instruction in any agent executable context |
@@ -95,7 +94,7 @@ Technical skills grouped under [`skills/tech/`](./skills/tech/).
 
 ## Extensions
 
-Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Two bundles ship here: **de-residency** wraps the de-residency-advisor skill, and **thinkies** bundles all 58 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
+Claude Code plugin bundles live in [`extensions/`](./extensions). Each plugin wraps one or more skills and installs as a single unit via `/plugin install …` or `claude --plugin-dir …`. Three bundles ship here: **de-residency** wraps the de-residency-advisor skill, **visualizer** wraps the visualize skill, and **thinkies** bundles all 57 reasoning skills, each invoked as `/thinkies:<name>`. See [`extensions/README.md`](./extensions/README.md) for details.
 
 ## Install
 

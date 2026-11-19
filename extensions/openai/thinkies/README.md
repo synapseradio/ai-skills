@@ -1,6 +1,6 @@
 # Thinkies for OpenAI Codex
 
-Fifty-eight reasoning skills packaged as an OpenAI Codex plugin. Each skill is prose
+Fifty-seven reasoning skills packaged as an OpenAI Codex plugin. Each skill is prose
 instructions in a `SKILL.md` — no network calls, no credentials, no background state.
 
 This bundle is generated. The source of truth lives at `skills/thinkies/` in this repo, and
@@ -99,12 +99,12 @@ cp -R /absolute/path/to/ai-skills/extensions/openai/thinkies/skills/* ~/.agents/
 Codex picks up changes automatically; restart it if an edit does not appear. Skills installed
 this way carry no plugin prefix — invoke `$decompose` rather than `$thinkies:decompose`.
 
-## What to expect from fifty-eight skills at once
+## What to expect from fifty-seven skills at once
 
 Codex puts a list of every available skill's name and description into context so it can
 choose one, and caps that list at 2% of the model's context window (or 8,000 characters when
 the window is unknown). Past that it shortens descriptions first, then omits skills and warns.
-Fifty-eight skills with descriptions this detailed will hit that ceiling. Explicit invocation
+Fifty-seven skills with descriptions this detailed will hit that ceiling. Explicit invocation
 with `$name` always works; implicit description matching may not reach every skill. Installing
 the `.agents/skills` subset you actually use is the way to keep matching sharp.
 

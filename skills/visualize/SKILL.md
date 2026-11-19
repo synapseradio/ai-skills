@@ -1,8 +1,18 @@
 ---
 name: visualize
-description: Use whenever data, a comparison, a trend, a flow, or a structure should be seen, or to
-  choose a chart type. Makes one chart or diagram that answers one question, fitted to where it will
-  be read, with the data checked first.
+description: >
+  Turn data, a comparison, a trend, a flow, or a structure into a chart or
+  diagram a reader can check. Produces a self-contained HTML chart page that
+  opens from disk, drawn with TanStack Charts, or a Markdown output (a Mermaid
+  diagram, a table, text bars) that drops into a pull request, README, ticket,
+  or chat. Shapes and validates the data first, picks the chart from the
+  question and the data, adds labels, units, a text summary and a data table,
+  uses colours that survive colour blindness, and checks its own output before
+  handing it over. Use whenever the user asks to visualize anything, make a
+  chart, graph, plot, map, or diagram, show a trend, compare numbers, show a
+  flow, a network, or a timeline, or asks which chart type fits their data.
+metadata:
+  user-invocable: true
 ---
 
 # Visualize
@@ -11,12 +21,6 @@ Produce one visualization that answers one question, in a form the reader's surf
 
 Run each script as `uv run --no-project <script>` where `uv` exists, else `python3 <script>`.
 The scripts sit in `scripts/` beside this file, need Python 3.9 or later, and use no network.
-
-Where the run has no shell, the Markdown route carries the run whatever the surface: read `references/markdown.md`, check the output by reading as step 5 says, and give it in the reply.
-Where the request was for an HTML page, say in one line that building the page takes a session that can run the scripts.
-
-Several steps ask the user a question the data cannot answer.
-Where the run reaches no user, as in a delegated run, stop at that step and return the question with its options and the files built so far.
 
 ## 1. Settle the claim and the surface
 
@@ -144,7 +148,6 @@ scripts/check_output.py chart.html
 
 The script accepts HTML pages and Markdown files and prints one line per defect.
 Fix the cause of each defect in the spec, the rows, or the Markdown, rebuild, and run it again until it prints `ok`.
-Where the run has no shell, read a Markdown output for the defects `references/markdown.md` lists under Check, and fix each one.
 
 Then read the output once as its reader:
 
@@ -156,10 +159,9 @@ Then read the output once as its reader:
 Where a browser is at hand, open the HTML page and confirm `document.documentElement.dataset.viz` reads `drawn`.
 A value of `failed` comes with the reason in the page's status line.
 
-This step is done when the script prints `ok`, or the read for defects finds none where no shell exists, and the read as the reader finds nothing to change.
+This step is done when the script prints `ok` and the read finds nothing to change.
 
 ## 6. Hand over
 
-Where the run can write files, write the file where the user asked, else in the working directory, and give its path.
-Where it cannot, give the output in the reply.
+Write the file where the user asked, else in the working directory, and give its path.
 With it, state the claim in one sentence, each row dropped or combined in step 2, and for an HTML page that it needs network access to draw the chart.
