@@ -1,8 +1,8 @@
 ---
 name: question-through-dialogue
-description: Use when a claim or belief deserves examination before anyone acts on it. Examines it
-  through Socratic questioning that clarifies what is meant, reveals the assumptions it depends on,
-  and tests its evidence and implications.
+description: Use when someone holds a claim or belief that deserves examination before anyone acts
+  on it. Examines it by asking its holder Socratic questions that clarify what is meant, reveal the
+  assumptions it depends on, and test its evidence and implications.
 ---
 
 Follow these steps:
