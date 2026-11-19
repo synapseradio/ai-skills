@@ -1,6 +1,8 @@
 ---
 name: research-and-teach
-description: Research deeply, explain progressively
+description: Use when someone wants to understand a topic that must first be looked up. Researches
+  it from current sources, verifies the key claims, then explains in layers from the simplest true
+  version upward, checking understanding between layers.
 ---
 
 Follow these steps:

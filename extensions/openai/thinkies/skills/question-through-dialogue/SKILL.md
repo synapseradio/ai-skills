@@ -1,6 +1,8 @@
 ---
 name: question-through-dialogue
-description: Use Socratic questioning to reveal assumptions
+description: Use when a claim or belief deserves examination before anyone acts on it. Runs a Socratic
+  sequence of questions over it that pins down its meaning, surfaces and sorts its assumptions, tests
+  its evidence, follows its implications, and sums up.
 ---
 
 Follow these steps:

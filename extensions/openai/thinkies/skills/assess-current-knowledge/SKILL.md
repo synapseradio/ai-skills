@@ -1,6 +1,8 @@
 ---
 name: assess-current-knowledge
-description: Map what's known vs assumed vs unknown
+description: Use before deciding or acting on partial information. Sorts what is held into verified
+  facts, known unknowns, unused knowledge, and blind spots, labels the source of each item, and names
+  the gaps to close first given the cost of being wrong.
 ---
 
 ## Steps

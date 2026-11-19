@@ -1,6 +1,6 @@
 ---
 name: derive-first-principles
-description: Strip convention to irreducible truths and rebuild
+description: Use when an approach is followed because it is the usual way, or convention blocks a better one. Questions each part of it, keeps only what is fundamentally true, reasons up from that, and shows which constraints were merely inherited.
 ---
 
 Find or reverse engineer first principles from context.

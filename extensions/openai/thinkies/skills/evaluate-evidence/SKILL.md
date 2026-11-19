@@ -1,6 +1,8 @@
 ---
 name: evaluate-evidence
-description: Assess how well evidence supports claims
+description: Use when a claim comes with evidence and the question is how far that evidence carries
+  it. Inventories the evidence, grades source reliability, data quality, directness, and convergence,
+  seeks counter-evidence, and rates the support.
 ---
 
 Follow these steps:

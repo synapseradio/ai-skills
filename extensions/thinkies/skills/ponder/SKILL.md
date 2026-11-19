@@ -1,15 +1,6 @@
 ---
 name: ponder
-description: >-
-  Exploration skill for problems that need thinking before solving. Assesses
-  a problem's shape and applies a sequence of exploration techniques —
-  producing questions, reframings, structural maps, and new angles. Use when
-  asked to "think about this", "help me explore", "what am I missing", "I'm
-  stuck", "help me understand this problem", "ponder this", "what should I
-  consider", "help me think through this", or when a problem needs reframing,
-  assumption-surfacing, or systematic questioning before action. Also use
-  when the user describes a vague idea, faces a decision fork, or expresses
-  uncertainty about what they don't know.
+description: Use when a problem needs thinking before solving and no single method is obvious, as with a vague idea, a stuck effort, a fork, tangled factors, or a sense of missing something. Picks and chains exploration techniques, then ranks the options.
 compatibility: >-
   Floor executor: an agent that can read a reference
   file, carry out its numbered reasoning moves against the problem, and answer

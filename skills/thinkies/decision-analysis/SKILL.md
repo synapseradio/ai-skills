@@ -1,19 +1,6 @@
 ---
 name: decision-analysis
-description: >-
-  Apply decision analysis: systematically formulate and
-  evaluate one concrete decision under uncertainty. Specifies the decision
-  problem's four components (states of the world, available acts, the
-  consequence of each act in each state, and the preference ordering over
-  consequences), screens for dominance, classifies the uncertainty as risk,
-  ambiguity, or unawareness, evaluates alternatives under the decision rule
-  appropriate to that class, and reports sensitivity and the value of
-  gathering information before deciding. Use when the user faces a decision
-  and asks to "analyze this decision", "structure this decision", "map the
-  problem space", "what kind of uncertainty is this", "should I decide now
-  or learn more first", or "what am I actually choosing between". Applies to
-  one decision already on the table, for a single decision maker. Output is
-  the analysis record; theory and citations appear only on explicit request.
+description: Use when a user faces one concrete choice among identified options under uncertainty. Tabulates acts, states, consequences, and preferences, drops dominated options, ranks the rest by a rule fitted to the uncertainty, and says decide now or learn more.
 ---
 
 # Decision analysis

@@ -1,6 +1,6 @@
 ---
 name: strategize
-description: Adaptive multi-phase reasoning for complex problems
+description: Use for a complex problem the user wants to reason through together over many turns. Confirms a shared understanding first, then loops by applying a structured reasoning technique, waiting for the user, and continuing, pivoting, or wrapping up.
 ---
 
 Follow these steps:

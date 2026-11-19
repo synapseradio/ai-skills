@@ -1,6 +1,8 @@
 ---
 name: excavate-assumptions
-description: Surface unstated assumptions at multiple levels and rank them
+description: Use when a framing, plan, or argument rests on things nobody has said aloud. Lists its
+  unstated assumptions (semantic, pragmatic, logical, worldview), rates each by importance and certainty,
+  and tests the ones both important and uncertain.
 ---
 
 ## Steps

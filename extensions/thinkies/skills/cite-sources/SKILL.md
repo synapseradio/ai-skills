@@ -1,6 +1,6 @@
 ---
 name: cite-sources
-description: Track, validate, and cite external sources with working URLs
+description: Use whenever a response draws on web pages, docs, or other external material fetched during the task. Tracks which claim came from which source, confirms every URL resolves before citing it, and separates sourced facts from the analysis built on them.
 ---
 
 Follow these steps:

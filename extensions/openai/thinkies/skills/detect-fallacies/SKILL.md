@@ -1,6 +1,8 @@
 ---
 name: detect-fallacies
-description: Spot logical errors in reasoning
+description: Use when an argument persuades but something seems off, or before accepting or publishing
+  one. Checks it against named fallacies such as false dichotomy, straw man, and correlation as causation,
+  steelmans it first, and suggests the repair.
 ---
 
 Follow these steps:

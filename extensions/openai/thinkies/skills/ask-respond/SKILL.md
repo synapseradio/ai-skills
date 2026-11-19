@@ -1,6 +1,8 @@
 ---
 name: ask-respond
-description: Structured Q&A that decomposes questions before answering
+description: Use when a question deserves a careful answer over a quick one. Restates it, lists the
+  assumptions and sub-questions it carries, labels what each answer rests on (observed, documented,
+  inferred, or assumed), then answers at that strength.
 ---
 
 ## Steps

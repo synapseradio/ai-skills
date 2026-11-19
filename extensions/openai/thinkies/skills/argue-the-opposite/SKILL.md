@@ -1,6 +1,8 @@
 ---
 name: argue-the-opposite
-description: Stress-test a position by building the strongest counter-case
+description: Use before committing to a position, recommendation, or conclusion, above all one reached
+  easily. Builds the strongest case against it as a capable skeptic would, concedes where that case
+  is right, and decides to keep, refine, or drop it.
 ---
 
 ## Steps

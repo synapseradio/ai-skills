@@ -1,6 +1,6 @@
 ---
 name: survey-peers
-description: Map what else fills the same role at the same level of detail, and where the gaps between them lie
+description: Use when only one option is in view, or to learn what something competes with. Lists what else fills the same role at the same level of detail, arranges the peers by what separates them, and finds the empty positions among them.
 ---
 
 ## Steps

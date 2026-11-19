@@ -1,6 +1,6 @@
 ---
 name: generalize
-description: Find the class a case belongs to and carry back what holds for every member
+description: Use when a case looks new and nothing known seems to apply. Strips its particulars to find the class it belongs to, then carries back the solutions, failure modes, and limits that hold for every member of that class.
 ---
 
 ## Steps

@@ -1,14 +1,6 @@
 ---
 name: what-if
-description: >-
-  Tile the space of possible futures and evaluate strategies across the
-  tiles. Blends part-whole decomposition with tree and graph of thought.
-  This skill should be used when the user asks "what if", "what could
-  happen if", "evaluate possible futures", "map the scenarios", "explore
-  how this could play out", "compare futures", "stress-test this plan
-  against the future", or faces a decision whose outcome hinges on
-  unresolved uncertainties. Ends with a single reasoned recommendation
-  plus the conditions that would flip it.
+description: Use when a decision or plan hinges on unknowns that only the future resolves. Maps the distinct futures those unknowns produce, plays out each, finds the early signs of which is arriving, and commits to the move that survives the most of them.
 ---
 
 # What-if

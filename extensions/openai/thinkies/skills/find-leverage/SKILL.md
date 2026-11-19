@@ -1,6 +1,8 @@
 ---
 name: find-leverage
-description: Locate where a small change shifts the whole system
+description: Use when effort is spread across a system and results stay small, or to choose where
+  to intervene. Traces feedback loops, bottlenecks, amplifiers, and root causes, and names the single
+  change that shifts the most for the least effort.
 ---
 
 ## Steps

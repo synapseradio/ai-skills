@@ -1,17 +1,6 @@
 ---
 name: domain-analysis
-description: >-
-  Build a lasting model of a real system, feature, or system of systems,
-  including an agentic system of user, orchestrator, delegates, tools, and
-  harness. The model names what the system is for, the values and measures it
-  is judged by, the functions it performs, the components and physical things
-  that carry them out, how each serves the ones above it and belongs to the
-  ones around it, and who acts on and sees each piece. Shows the model as a
-  grid with node, link, and actor lists, cites code paths when the domain is
-  code, and records it so a later session reloads and extends it. Use before
-  working inside an unfamiliar system or codebase, when asked for a domain
-  model, a work domain analysis, an abstraction hierarchy, or a means-ends
-  model, or when designing or auditing a multi-agent setup.
+description: Use before working inside or auditing an unfamiliar system, codebase, or multi-agent setup. Builds a lasting, reloadable model from purpose and values down to functions, components, and files, with who acts on and who sees each piece.
 compatibility: >-
   Saves a record of each run when loaded from the thinkies Claude Code plugin;
   elsewhere prints the record in the reply for the user to keep.

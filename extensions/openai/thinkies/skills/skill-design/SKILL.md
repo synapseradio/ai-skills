@@ -1,13 +1,8 @@
 ---
 name: skill-design
-description: 'Design, strengthen, or audit an Agent Skill. Use before building any new skill — for
-  a researched design brief that skill-creator can build from — and whenever an existing skill needs
-  judgment or change: it over-triggers, under-triggers, bloats its context, drifts from its sources,
-  or needs a quality check. Triggers: "design a skill", "plan a skill before building it", "audit
-  this skill", "review my SKILL.md", "strengthen this skill", "refactor this skill", "is this skill
-  well built", or any request to evaluate or improve how a skill routes, decides, or spends context.
-  Packaging and eval mechanics stay with skill-creator; use this to decide what to build and to verify
-  fit.'
+description: Use before building an Agent Skill and whenever an existing one misfires, bloats, or
+  needs review. Works with the user on a design brief, a refactor change set, or an audit against
+  ten principles. Building, evals, and packaging stay with skill-creator.
 ---
 
 # Skill Design

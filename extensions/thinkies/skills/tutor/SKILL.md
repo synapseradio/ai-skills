@@ -1,6 +1,6 @@
 ---
 name: tutor
-description: Interactive tutoring that adapts to your pace
+description: Use when someone wants to learn something interactively, at their own pace. Asks how they like to learn, then teaches one concept per turn, checks comprehension with a question, and speeds up, slows down, or changes angle on their reply.
 ---
 
 Follow these steps:

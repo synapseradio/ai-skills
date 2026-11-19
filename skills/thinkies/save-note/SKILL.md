@@ -1,6 +1,6 @@
 ---
 name: save-note
-description: Save an insight from the conversation as a note that can be found again by topic, date, or project. Use when the user says save this, note this, keep this insight, or I want to find this later, or when a finding worth returning to turns up outside any structured run.
+description: Use the moment an insight worth returning to turns up, asked for or not. Saves it as a short self-contained note with its context and topic, so a later session can find it by topic, date, or project.
 compatibility: >-
   Saves a record of each run when loaded from the thinkies Claude Code plugin;
   elsewhere prints the record in the reply for the user to keep.

@@ -1,6 +1,6 @@
 ---
 name: integrate-other-perspectives
-description: Combine viewpoints into coherent whole
+description: Use when several viewpoints, findings, or sources must become one picture. Lays each out on its own terms, finds where they support and complete each other, sorts real conflicts from apparent ones, and builds the whole around one organizing idea.
 ---
 
 Follow these steps:

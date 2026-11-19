@@ -1,6 +1,8 @@
 ---
 name: ask-what-breaks
-description: Find defeaters that would break a conclusion
+description: Use when a conclusion is about to be relied on. Hunts the specific facts and observations
+  that would defeat it, attacking its premises and inferences and seeking direct counter-evidence,
+  and sorts each as weakening it or destroying it.
 ---
 
 Follow these steps:

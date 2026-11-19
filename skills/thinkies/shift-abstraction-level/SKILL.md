@@ -1,6 +1,6 @@
 ---
 name: shift-abstraction-level
-description: Find the level of abstraction to act at, by restating a subject above and below its current level and choosing the rung
+description: Use when lost in detail or too abstract to act, and the only thing missing is the right level. Restates the subject a few rungs up (why) and down (how), weighs what each rung enables and hides, and picks the rung to act at.
 ---
 
 ## Steps

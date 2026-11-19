@@ -1,6 +1,6 @@
 ---
 name: calibrate-confidence
-description: Match certainty to evidence strength
+description: Use when a claim sounds more or less certain than its support, or before attaching a confidence level to one. States the level in concrete terms, lists what it rests on, checks for overconfidence and needless hedging, and rewords the claim to match.
 ---
 
 Follow these steps:

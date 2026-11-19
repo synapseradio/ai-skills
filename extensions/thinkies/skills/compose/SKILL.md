@@ -1,6 +1,6 @@
 ---
 name: compose
-description: Join parts into a whole that does what none of them does alone, and find what the whole still lacks
+description: Use when pieces are in hand and it is unclear what they make together. Joins parts into a whole, names what the arrangement does that no part does alone, drops the parts that add nothing, and finds what the whole still lacks.
 ---
 
 ## Steps

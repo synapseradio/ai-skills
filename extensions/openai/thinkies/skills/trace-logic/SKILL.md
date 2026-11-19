@@ -1,6 +1,8 @@
 ---
 name: trace-logic
-description: Follow reasoning step-by-step
+description: Use to check whether a conclusion actually follows, step by step. Breaks an argument
+  into numbered single inferences, checks the validity, connectors, and hidden assumptions of each
+  link, and reports gaps, leaps, and circular dependencies.
 ---
 
 Follow these steps:

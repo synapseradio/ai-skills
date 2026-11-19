@@ -1,6 +1,6 @@
 ---
 name: branch-possibilities
-description: Generate fundamentally divergent directions from one starting point
+description: Use when one path is being followed by default from a decision point. Generates several fundamentally different directions from the same start, makes each concrete with its trade-offs, and maps where they split and could rejoin.
 ---
 
 ## Steps

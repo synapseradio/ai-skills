@@ -1,7 +1,8 @@
 ---
 name: connect-ideas
-description: Test how two ideas relate, or find a distant match for one idea, and keep only the relations
-  the evidence supports
+description: Use when two ideas seem related and the relation needs pinning down, or one problem needs
+  a solved analogue from a distant field. Tests each kind of relation (analogy, cause, means, part,
+  shared limit, tension) and keeps only those the evidence supports.
 ---
 
 ## Steps

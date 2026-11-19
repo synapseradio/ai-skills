@@ -1,6 +1,6 @@
 ---
 name: probe-boundaries
-description: Test a claim or framing at its edges and extremes
+description: Use when a claim, rule, or framing is stated without limits. Pushes each variable it rests on to its extremes, removes it, and changes it in kind, swaps the key words of the framing, and restates the claim with the scope where it holds.
 ---
 
 ## Steps

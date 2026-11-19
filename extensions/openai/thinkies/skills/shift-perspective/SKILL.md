@@ -1,6 +1,8 @@
 ---
 name: shift-perspective
-description: Inhabit contrasting frames to see what one viewpoint misses
+description: Use when a problem has been seen from one seat only. Speaks from inside a few contrasting
+  viewpoints (other stakeholders, disciplines, horizons, skill levels) to find what each sees that
+  the rest miss and where they truly clash.
 ---
 
 ## Steps

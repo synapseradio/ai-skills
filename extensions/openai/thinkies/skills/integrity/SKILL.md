@@ -1,6 +1,8 @@
 ---
 name: integrity
-description: Verify epistemic integrity by aligning claims with evidence
+description: Use as the full final check on a response, report, or other output before it is relied
+  on. Sorts its claims into verified, needing attention, and assumed by tracing support and checking
+  fallacies, defeaters, sources, and confidence in one pass.
 ---
 
 Follow these steps:

@@ -1,6 +1,8 @@
 ---
 name: invert-the-problem
-description: Turn a problem inside out to reveal hidden structure
+description: Use when stuck on how to achieve a goal. Asks how to guarantee the opposite, lists every
+  route to failure, and turns each into a safeguard or design constraint, then reverses sequence,
+  roles, and target to find a fresh angle.
 ---
 
 ## Steps

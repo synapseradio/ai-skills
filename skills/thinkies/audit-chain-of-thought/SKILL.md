@@ -1,6 +1,6 @@
 ---
 name: audit-chain-of-thought
-description: Tag reasoning steps by inference type
+description: Use to learn what kind of reasoning a conclusion hangs on. Lays out each inferential step, tags it deductive, inductive, or abductive, tests it by the standard for its kind, and shows which probabilistic leaps are the weakest links.
 ---
 
 Follow these steps:

@@ -1,6 +1,6 @@
 ---
 name: detect-diminishing-returns
-description: Detect when further effort yields little gain
+description: Use during research, review, or exploration to decide whether to keep going. Checks whether new material still adds new themes, surprises, or shifts in the picture, then states what has stabilized and what more effort would buy.
 ---
 
 Follow these steps:

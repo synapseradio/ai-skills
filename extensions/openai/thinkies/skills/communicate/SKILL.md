@@ -1,13 +1,8 @@
 ---
 name: communicate
-description: Communicate ideas and information with purpose, clarity, and integrity, in any form or
-  tradition and at any length, to an audience of one or many, addressed or not. Works out with the
-  user who the piece is for, what brought it on, and where it should take its audience, then drafts
-  and checks the piece against that, keeping the user's meaning theirs. Use when the user asks for
-  help with writing, commentary, or communication; when they point out AI slop; when they ask things
-  like "help me say", "write for [a specific audience or context]", "polish [comments, sentences,
-  artifacts]", "write something for the poster", "help me write a novel, a handbook, or a long report",
-  "keep this long piece consistent across chapters", or the like.
+description: Use for any piece of writing meant for an audience, from one sentence to a book, and
+  whenever text reads as machine-made. Settles with the user who it is for and where it takes them,
+  then drafts and scores against that, keeping the user's meaning theirs.
 ---
 
 # Communicate

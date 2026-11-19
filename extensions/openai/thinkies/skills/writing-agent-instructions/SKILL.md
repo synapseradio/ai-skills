@@ -1,9 +1,8 @@
 ---
 name: writing-agent-instructions
-description: Any agent instruction in any agent executable context. Use it before the instruction
-  exists, to write it from a need or an incident, and on an instruction that exists or was just drafted,
-  to refine it, so that every line expands the same way in every reader and covers cases the writer
-  never listed.
+description: Use when writing or tightening standing instructions an agent follows across many cases,
+  such as rules or system guidance. Turns lists of cases into a few general rules every reader expands
+  the same way, and proves what those rules yield.
 ---
 
 # Writing agent instructions

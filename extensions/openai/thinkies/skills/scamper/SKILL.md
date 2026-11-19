@@ -1,8 +1,8 @@
 ---
 name: scamper
-description: Apply the SCAMPER creative thinking technique for structured ideation. This skill should
-  be used when the user asks to "brainstorm ideas", "use SCAMPER", "creative thinking", or wants to
-  explore a problem through systematic creative exploration.
+description: Use to rework something that already exists, such as a product, process, text, or design,
+  into new variants. Runs seven lenses over it with the user (substitute, combine, adapt, modify,
+  repurpose, eliminate, reverse), then picks directions.
 ---
 
 # SCAMPER

@@ -1,16 +1,6 @@
 ---
 name: visualize
-description: >
-  Turn data, a comparison, a trend, a flow, or a structure into a chart or
-  diagram a reader can check. Produces a self-contained HTML chart page that
-  opens from disk, drawn with TanStack Charts, or a Markdown output (a Mermaid
-  diagram, a table, text bars) that drops into a pull request, README, ticket,
-  or chat. Shapes and validates the data first, picks the chart from the
-  question and the data, adds labels, units, a text summary and a data table,
-  uses colours that survive colour blindness, and checks its own output before
-  handing it over. Use whenever the user asks to visualize anything, make a
-  chart, graph, plot, map, or diagram, show a trend, compare numbers, show a
-  flow, a network, or a timeline, or asks which chart type fits their data.
+description: Use whenever data, a comparison, a trend, a flow, or a structure should be seen, or to choose a chart type. Validates the data, picks the chart from the question it answers, and builds a checked HTML chart page or a Markdown diagram or table.
 metadata:
   user-invocable: true
 ---

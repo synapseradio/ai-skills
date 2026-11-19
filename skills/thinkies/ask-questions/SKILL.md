@@ -1,14 +1,6 @@
 ---
 name: ask-questions
-description: >-
-  Ask the user a genuinely good question in the moment, or make a deliberate
-  non-question move, to discover, clarify, probe, or confirm, in any
-  conversation or domain. Use when about to ask the user something or use
-  the `AskUserQuestion` tool, when a question fell flat, when an answer just
-  came back and you need what sits beneath it, or when the user's tone or
-  messages signal you have drifted from what they need. Also use to judge
-  when the better move is not a question at all: a restatement, a plain
-  statement, silence, or asking nothing.
+description: Use whenever a question is about to go to the user, a question fell flat, or an answer needs digging under. Finds the one next move that best advances a live inquiry, whether a sharp question, a restatement, a plain statement, or asking nothing.
 compatibility: >-
   Saves a record of each run when loaded from the thinkies Claude Code plugin;
   elsewhere prints the record in the reply for the user to keep.

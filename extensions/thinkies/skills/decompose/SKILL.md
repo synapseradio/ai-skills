@@ -1,6 +1,6 @@
 ---
 name: decompose
-description: Break a whole into parts at its natural joints, one axis per level, until each part can be acted on or checked
+description: Use when a whole is too big or tangled to act on as one lump, in any domain. Cuts it into parts at its natural joints, one axis per level, with no gaps or overlaps, until each part can be acted on or checked directly.
 ---
 
 ## Steps

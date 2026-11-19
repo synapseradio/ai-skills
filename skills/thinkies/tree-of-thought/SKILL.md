@@ -1,12 +1,6 @@
 ---
 name: tree-of-thought
-description: >-
-  Systematic Tree of Thought reasoning for complex problem decomposition.
-  This skill should be used when the user asks for "tree of thought",
-  "systematic reasoning", "structured analysis", "multi-path evaluation",
-  or wants to decompose a complex problem by generating and evaluating
-  multiple solution paths before selecting the best approach. Applies
-  four-phase reasoning: decomposition, generation, evaluation, and synthesis.
+description: Use for a multi-part problem where each part has several workable solutions. Splits it into dependent components, generates three approaches per component, scores them on feasibility, effectiveness, and risk, and joins the winners into one path.
 ---
 
 # Tree of Thought Analysis

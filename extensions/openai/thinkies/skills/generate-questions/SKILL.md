@@ -1,12 +1,8 @@
 ---
 name: generate-questions
-description: Compose the few highest-leverage questions toward one driving question and return them
-  as a written inquiry, without asking anyone. The inquiry holds five questions at most, each in the
-  order to ask it, with what its answer decides, the follow-up each kind of answer opens, and the
-  move to make instead if it falls flat. Use when spawned to draft questions for someone else to ask
-  or answer, when asked to generate, draft, review, sharpen, or cut down a set of questions, as in
-  read this spec and generate questions or what should I ask the backend team, or when preparing questions
-  for an interview, a call, or a review.
+description: Use when questions must be written down for someone else to ask or answer, or a question
+  set needs review or cutting. Returns at most five highest-leverage questions in asking order, each
+  with what its answer decides. Asks no one.
 ---
 
 # generate-questions

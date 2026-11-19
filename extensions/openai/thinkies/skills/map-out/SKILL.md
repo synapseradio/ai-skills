@@ -1,12 +1,8 @@
 ---
 name: map-out
-description: 'Find where a subject sits and the level to act at, by moving along its axes: parts and
-  wholes, purposes and means, kinds and cases, and peers at the same level. Use when asked to map
-  out an idea or topic in the sense of getting oriented in it, or asked where does this fit, what
-  is this part of, what is it for, what is this an example of, what else does the same job, zoom in,
-  zoom out, or at what level to think about something; also when lost in detail or stuck too abstract
-  to act. Produces a spoken walk and a record of it. It does not draw diagrams or charts, does not
-  produce a plan, schedule, or task list, and does not build a lasting model of a system.'
+description: Use to get oriented in an unfamiliar or muddled subject when no single move is clearly
+  the one it needs. Chains moves across parts and wholes, purposes and means, kinds and cases, and
+  peers to say where it sits and what level to act at.
 ---
 
 # Map out

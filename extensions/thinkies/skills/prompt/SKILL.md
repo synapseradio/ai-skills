@@ -1,7 +1,6 @@
 ---
 name: prompt
-description: >-
-  Craft or refactor LLM instructions. Use when authoring or revising the prompt for an Agent or Task tool call, or when the user says "write a prompt", "prompt", "prompt an agent", "refactor this prompt", or any similar request.
+description: Use when writing or revising a prompt for another model or agent, a delegation prompt included. Fills a fixed template from the request, or refactors an existing prompt while accounting for every instruction in it, and lints the phrasing.
 metadata:
   user-invocable: true
 ---

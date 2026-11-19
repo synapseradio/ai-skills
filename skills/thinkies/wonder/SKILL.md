@@ -1,6 +1,6 @@
 ---
 name: wonder
-description: Open the possibility space through curiosity-driven questioning
+description: Use at the very start, when a situation is vague, surprising, or confusing and no direction exists yet. Opens possibilities by following curiosity, chaining what-if and how-might questions from whatever seems odd. Yields questions, not answers.
 ---
 
 ## Steps

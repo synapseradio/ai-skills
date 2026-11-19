@@ -1,15 +1,6 @@
 ---
 name: surface-intent
-description: >-
-  Surface intent before you add, change, or produce something — a claim, design,
-  abstraction, instruction, name, config, or rule. Use this when you are about to
-  introduce something that might already exist or might talk past what is there,
-  when duplication or scope creep is a risk, or when what you produce needs to be
-  clear enough for its reader to act on. Triggers: "is this already covered",
-  "make this clearer", "why does this exist", "before I add this", "am I
-  duplicating this", or any moment you are adding to a system you have not fully
-  read. It directs you to read what already serves the purpose before you act, and
-  to make your own intent legible in what you produce.
+description: Use before adding or changing anything in a system not yet fully read, such as a rule, helper, name, config, or design. Reads the intent already built into what exists, so the change extends it and duplicates nothing, then states its own intent plainly.
 ---
 
 # Surface Intent

@@ -1,6 +1,8 @@
 ---
 name: synthesize-opposing-views
-description: Find higher understanding through dialectic
+description: Use when two positions directly contradict and picking a side would lose something. States
+  each at full strength, pinpoints exactly where they conflict, and builds a third position that keeps
+  what both got right and explains the conflict.
 ---
 
 Follow these steps:

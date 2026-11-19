@@ -1,6 +1,8 @@
 ---
 name: run-premortem
-description: Imagine catastrophic failure and work backwards to prevent it
+description: Use before carrying out a plan, launch, or change that would be costly to get wrong.
+  Assumes it already failed badly, works backward through technical, human, process, external, and
+  timing causes, and designs fixes for the ones left unaddressed.
 ---
 
 ## Steps
