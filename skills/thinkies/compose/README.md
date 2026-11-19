@@ -10,7 +10,7 @@ Join parts into a whole that does what none of them does alone, listing what eac
 
 ## What a run looks like
 
-A question set naming your subject, then its answers: what each part does alone and what it still needs, what passes between each touching pair, the property only the arrangement has, which parts that property needs, the missing parts, and the whole in one sentence. Where the parts turn out to be a list rather than a whole, it says so and stops.
+A prose answer that works through the steps: what each part does alone and what it still needs, what passes between each touching pair, the property only the arrangement has, which parts that property needs, the missing parts, and the whole in one sentence. Where the parts turn out to be a list rather than a whole, it says so and stops. Ask for the questions alone, or for the questions with their answers, and you get them as a numbered set you can hand to someone else.
 
 Trimmed from a run on six half-ideas for a family board-game night nobody quits in tears ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/compose/board-game-night.md)):
 

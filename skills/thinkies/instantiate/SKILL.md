@@ -27,11 +27,13 @@ For each bend or silence, name the unstated condition, worded as the clause the 
 
 ## Output
 
-Choose the mode from what you were handed:
+Work through the steps in order and reply in prose. Say what each step found about the subject, pass over a step that does not apply in a clause, and name each fact a step needed and lacked.
 
-- A question set: answer it.
-- A request for questions only: write the question set and stop.
-- Anything else: write the question set, then answer it.
+The question-set form below serves a caller who wants the questions apart from their answers. Use it only when the caller asks for questions, hands over a question set, or asks for the set to hand off:
+
+- A question set handed over: answer it.
+- A request for questions only, or for the set to hand off: write the question set and stop.
+- A request for the questions with their answers: write the question set, then answer it.
 
 Write the question set in this form: one question per step, in step order, each reworded to name the subject, so that a reader holding only the set can answer it.
 

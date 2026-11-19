@@ -8,9 +8,9 @@
         "The reply ranks the options and states the rule the ranking uses.",
         "The reply names a leading option and the concrete evidence that would move a different option into the lead.",
         "The reply says what remains open.",
-        "The reply ends with the record: a saved path with a played-back summary, or a jsonl block under a file name that starts with ponder_."
+        "The reply writes no file, shows no record lines or jsonl block, and makes no remark about saving or storage."
       ],
-      "expected_output": "An exploration in plain connected prose that turns a vague idea into two or more candidate tools, each grounded in the prompt, with no technique or shape named. It ends on the converge list (what was revealed, options including building nothing, a ranking with its rule, the leader with the evidence that would flip it, what stays open) and the record.",
+      "expected_output": "An exploration in plain connected prose that turns a vague idea into two or more candidate tools, each grounded in the prompt, with no technique or shape named. It ends on the converge list (what was revealed, options including building nothing, a ranking with its rule, the leader with the evidence that would flip it, what stays open), with no file written, no record lines shown, and no remark about saving.",
       "files": [],
       "id": 0,
       "prompt": "I have a vague idea for a tool for my woodworking club and I can't say yet what it should do. Something about tracking who borrowed which clamps, and maybe also sharing project photos? Members are mostly retired and not very online. Help me think about it."
@@ -37,7 +37,7 @@
         "The reply closes with ranked options, the changing-nothing option included, the ranking rule stated, and the evidence that would flip the leader.",
         "The reply names no exploration technique and no problem-shape label."
       ],
-      "expected_output": "A complete single-turn run from a request with no conversation behind it. The two alternatives are probed on stated criteria, missing facts are held as assumptions or open items, and the reply ends on the converge list and the record without handing the task back.",
+      "expected_output": "A complete single-turn run from a request with no conversation behind it. The two alternatives are probed on stated criteria, missing facts are held as assumptions or open items, and the reply ends on the converge list without handing the task back.",
       "files": [],
       "id": 2,
       "prompt": "You are running as a subagent with no access to the user. Request: Should we use a monorepo or separate repos for our microservices? Four engineers, six services, two of the services share a validation library, and we release each service on its own schedule."

@@ -22,7 +22,7 @@
   "repository": "https://github.com/synapseradio/ai-skills",
   "userConfig": {
     "records_mirror": {
-      "description": "Optional folder that receives a copy of every thinkies record. The plugin's data folder is deleted on uninstall unless you pass --keep-data; the mirror is not.",
+      "description": "Optional folder that receives a copy of each record a thinkies skill saves when you ask it to keep a run or a note. The plugin's data folder is deleted on uninstall unless you pass --keep-data; the mirror is not.",
       "title": "Records mirror folder",
       "type": "directory"
     }

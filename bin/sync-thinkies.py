@@ -94,6 +94,9 @@ RECORD_SKILLS = frozenset(
     }
 )
 RECORD_WRITERS = RECORD_SKILLS - {"check-notes"}
+#: Record skills whose job is the store. Every other record skill saves only on request, so
+#: its ``## Record`` opens with the gate in ``record-gate.md``.
+STORAGE_SKILLS = frozenset({"save-note", "check-notes"})
 
 #: Top-level frontmatter keys the Agent Skills spec allows.
 SPEC_KEYS = frozenset(
@@ -181,6 +184,7 @@ def check(root: Path = REPO_ROOT) -> list[str]:
     canon = root / CANON
     c1 = (canon / "output.md").read_text().strip() + "\n"
     c2 = (canon / "record.md").read_text().strip()
+    gate = (canon / "record-gate.md").read_text().strip()
     c3 = (canon / "record-compat.txt").read_text().strip()
     kinds = json.loads((canon / "record-kinds.json").read_text())
     c5 = (canon / "playback.md").read_text()
@@ -212,8 +216,12 @@ def check(root: Path = REPO_ROOT) -> list[str]:
         rel = SKILLS / skill / "SKILL.md"
         text = _skill_md(root, skill) or ""
         record = section(text, "Record")
-        if record is None or not record.startswith(c2):
-            problems.append(f"{rel}: ## Record does not start with {CANON}/record.md")
+        if skill in STORAGE_SKILLS:
+            opening, names = c2, f"{CANON}/record.md"
+        else:
+            opening, names = f"{gate}\n\n{c2}", f"{CANON}/record-gate.md then {CANON}/record.md"
+        if record is None or not record.startswith(opening):
+            problems.append(f"{rel}: ## Record does not start with {names}")
         tail = _RECORD_TAIL.search(record or "")
         if tail is None or (record or "").count("```jsonl\n") != 1:
             problems.append(f"{rel}: ## Record does not end with a File: line and one jsonl block")

@@ -1,7 +1,7 @@
 {
   "evals": [
     {
-      "expected_output": "A prose walk on the bare subject. It opens by placing the subject in the system it serves, since the request states no purpose. Each move states what it found and points to something in the subject that shows it. After each move the reply says where the subject now sits on the axes that move touched. No move name (select-level, situate, decompose, compose, instantiate, generalize, survey-peers) and no table label appears anywhere in the reply. The run holds at most five moves. It closes with four items: where the subject sits (whole, purpose, class, nearest peers), the level to act at and what acting there makes possible, what each move changed, and what stays open. A record follows: its path when a store exists, otherwise a playback and a jsonl block under a file name starting with map-out_.",
+      "expected_output": "A prose walk on the bare subject. It opens by placing the subject in the system it serves, since the request states no purpose. Each move states what it found and points to something in the subject that shows it. After each move the reply says where the subject now sits on the axes that move touched. No move name (select-level, situate, decompose, compose, instantiate, generalize, survey-peers) and no table label appears anywhere in the reply. The run holds at most five moves. It closes with four items: where the subject sits (whole, purpose, class, nearest peers), the level to act at and what acting there makes possible, what each move changed, and what stays open. The reply writes no file, shows no record lines or jsonl block, and makes no remark about saving.",
       "files": [],
       "id": 0,
       "prompt": "Map out: the weekly team status meeting."

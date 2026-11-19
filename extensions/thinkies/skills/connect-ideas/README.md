@@ -10,7 +10,7 @@ Test how two ideas relate, or find a distant match for one idea, and keep only t
 
 ## What a run looks like
 
-A question set naming both sides, then its answers: each side stated without its field's vocabulary, a verdict with evidence for and against on each of seven kinds of relation, the relations that survive (for an analogy, what maps, what needs adapting, and what breaks), and what each surviving relation lets you do.
+A prose answer that works through the steps: each side stated without its field's vocabulary, a verdict with evidence for and against on each of seven kinds of relation, the relations that survive (for an analogy, what maps, what needs adapting, and what breaks), and what each surviving relation lets you do. Ask for the questions alone, or for the questions with their answers, and you get them as a numbered set you can hand to someone else.
 
 A run on how a beehive relates to a municipal library, trimmed ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/connect-ideas/beehive-and-library.md)):
 
@@ -44,7 +44,7 @@ Or copy `skills/thinkies/connect-ideas/` into `~/.claude/skills/connect-ideas/`.
 
 ## Records
 
-When loaded from the thinkies Claude Code plugin, the skill saves a record of each run to the plugin store at `${CLAUDE_PLUGIN_DATA}/records/`, and copies it to the Records mirror folder when that optional setting names one. Uninstalling the plugin deletes the store unless you run `claude plugin uninstall thinkies@ai-skills --keep-data`. Loaded anywhere else, the skill prints the record in its reply for you to keep.
+A run writes nothing unless you ask. Ask the skill to save or keep the run and, when it is loaded from the thinkies Claude Code plugin, it writes a record to the plugin store at `${CLAUDE_PLUGIN_DATA}/records/` and copies it to the Records mirror folder when that optional setting names one. Uninstalling the plugin deletes the store unless you run `claude plugin uninstall thinkies@ai-skills --keep-data`; the mirror stays. Where no store is reachable, as in Claude Desktop, a save puts the record in the reply as a `jsonl` block for you to keep, and pasting that block into a later conversation resumes the run.
 
 ## Sources
 

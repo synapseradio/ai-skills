@@ -72,6 +72,13 @@ class CheckTests(unittest.TestCase):
         problems = self.new_problems()
         self.assertTrue(any("must start with kind, at" in p for p in problems), problems)
 
+    def test_flags_a_thinking_skill_whose_record_lacks_the_save_gate(self):
+        skill = self.tmp / sync.SKILLS / "ponder" / "SKILL.md"
+        gate = (self.tmp / sync.CANON / "record-gate.md").read_text().strip()
+        skill.write_text(skill.read_text().replace(f"{gate}\n\n", ""))
+        problems = self.new_problems()
+        self.assertTrue(any("ponder/SKILL.md: ## Record" in p for p in problems), problems)
+
     def test_flags_a_top_level_context_key(self):
         skill = self.tmp / sync.SKILLS / "wonder" / "SKILL.md"
         skill.write_text(

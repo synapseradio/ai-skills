@@ -1,1 +1,1 @@
-Saves a record of each run when loaded from the thinkies Claude Code plugin; elsewhere prints the record in the reply for the user to keep.
+Runs without file access. A save writes a record when loaded from the thinkies Claude Code plugin; elsewhere the record goes in the reply for the user to keep.

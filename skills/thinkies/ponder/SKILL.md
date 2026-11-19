@@ -5,9 +5,9 @@ compatibility: >-
   Floor executor: an agent that can read a reference
   file, carry out its numbered reasoning moves against the problem, and answer
   a yes/no check by quoting from output it has already produced. The
-  techniques assume an executor that reasons in steps. Saves a record of each
-  run when loaded from the thinkies Claude Code plugin; elsewhere prints the
-  record in the reply for the user to keep.
+  techniques assume an executor that reasons in steps. Runs without file
+  access. A save writes a record when loaded from the thinkies Claude Code
+  plugin; elsewhere the record goes in the reply for the user to keep.
 ---
 
 # Ponder
@@ -157,7 +157,7 @@ result, keep the ranking rule stated, and name the observation that would
 break the tie.
 
 Carry all four phases through in one reply. The run is complete when these
-five items and the record's playback are on the page.
+five items are on the page.
 
 ## Context Loading
 
@@ -165,7 +165,7 @@ five items and the record's playback are on the page.
 |-------|------|
 | Assess + Open | Nothing from references — use the tables above |
 | Apply + extend | Only the current technique's file, `references/<technique>.md` |
-| Converge | `assets/playback.md` |
+| Converge | Nothing additional |
 
 ## Technique Reference Files
 
@@ -198,20 +198,24 @@ instructions:
 
 ## Record
 
+Hold the run's record in mind as you work: the subject, what was given, the notes, the results, and what stays open. Those parts organize the thinking, and the reply gives them in prose. A plain run ends there: it writes no file, shows no record lines, and says nothing about saving.
+
+Save the record only when the user asks to save or keep the run, or resumes a saved one. The rest of this section applies only then.
+
 Records live in the store, `${CLAUDE_PLUGIN_DATA}/records/`, with a copy in the mirror folder, `${user_config.records_mirror}`.
 
-- When the store path is not absolute, no store exists here. Build the record anyway, and end the reply with it in a `jsonl` block under its file name, for the user to keep.
+- When the store path is not absolute, or no tool here writes files, no store is reachable. Give the record in the reply instead, in a `jsonl` block under its file name, for the user to keep.
 - When the mirror path is empty or still a placeholder, skip the mirror. Otherwise, after the run's last line, copy the record file into the mirror under the same name.
 - Create either folder when it is missing.
 
-Write each record in the form of the template at the end of this section: the file name as shown, then one JSON object per line, one line per event, in the order the events happen, with every bracketed value replaced. Write a kind as often as the run produces it, and leave out kinds it does not produce. Take times from the clock in UTC, for example `date -u +%Y%m%dT%H%M%SZ` for the file name. A topic is two to six lowercase words joined by hyphens. An answer's `q` names the question or open item it answers.
+Write each record in the form of the template at the end of this section: the file name as shown, then one JSON object per line, one line per event, in the order the events happen, with every bracketed value replaced. Write a kind as often as the run produces it, and leave out kinds it does not produce. Take times from the clock in UTC, for example `date -u +%Y%m%dT%H%M%SZ` for the file name. Where no clock can be read, take the date from the conversation and write the time of day as zeros. A topic is two to six lowercase words joined by hyphens. An answer's `q` names the question or open item it answers.
 
 - Append lines; never change or remove one.
 - Where lines share an id, the latest wins. A link's id is its from, to, and rel. `"retired": true` removes the entry.
-- To resume a run, read its file, first copying it from the mirror when only the mirror holds it, and append a run line with `"resumed": true`.
+- To resume a run, read its file, first copying it from the mirror when only the mirror holds it, or take the record the user pastes. Append a run line with `"resumed": true`, then the lines the resumed run adds.
 - An agent answering a record's questions appends its answer, skip, and open lines to the same file and names itself in `by`.
 
-At the end of a run, play the record back in the form of [assets/playback.md](assets/playback.md): the path it was saved to, then every part the reply has not already shown. Never show the raw lines.
+After saving, play the record back in the form of [assets/playback.md](assets/playback.md): the path it was saved to, then every part the reply has not already shown. Show raw lines only in the `jsonl` block that stands in for an unreachable store.
 
 Record the problem as the subject; each technique's main finding as a note, with no technique name in it; each item of the converge list as a result; and each thing left open as an open line.
 

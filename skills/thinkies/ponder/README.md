@@ -50,7 +50,7 @@ Or copy `skills/thinkies/ponder/` into `~/.claude/skills/ponder/`.
 
 ## Records
 
-When loaded from the thinkies Claude Code plugin, ponder saves a record of each run to the plugin store at `${CLAUDE_PLUGIN_DATA}/records/`: the problem, each technique's main finding, each converge item, and what stays open. It copies the record to the Records mirror folder when that optional setting names one. Uninstalling the plugin deletes the store unless you run `claude plugin uninstall thinkies@ai-skills --keep-data`; the mirror stays. Loaded anywhere else, ponder prints the record in its reply as a `jsonl` block for you to keep.
+A run writes nothing unless you ask. Ask the skill to save or keep the run and, when it is loaded from the thinkies Claude Code plugin, it writes a record to the plugin store at `${CLAUDE_PLUGIN_DATA}/records/` (the problem, each technique's main finding, each converge item, and what stays open) and copies it to the Records mirror folder when that optional setting names one. Uninstalling the plugin deletes the store unless you run `claude plugin uninstall thinkies@ai-skills --keep-data`; the mirror stays. Where no store is reachable, as in Claude Desktop, a save puts the record in the reply as a `jsonl` block for you to keep, and pasting that block into a later conversation resumes the run.
 
 ## Sources
 

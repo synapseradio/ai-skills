@@ -10,7 +10,7 @@ Find the class a case belongs to and carry back what holds for every member: dro
 
 ## What a run looks like
 
-A question set about your case, then its answers: which details can go and which must stay, the class that is left and its other members, what holds for every member, which of those apply to your case (and, for each that doesn't, the dropped detail that voids it), and whether a wider class still predicts anything.
+A prose answer that works through the steps: which details can go and which must stay, the class that is left and its other members, what holds for every member, which of those apply to your case (and, for each that doesn't, the dropped detail that voids it), and whether a wider class still predicts anything. Ask for the questions alone, or for the questions with their answers, and you get them as a numbered set you can hand to someone else.
 
 From a run on the one bus driver on route 12 who waves at every passenger, and whose bus everyone waits for even when another comes first ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/generalize/waving-bus-driver.md)), trimmed:
 

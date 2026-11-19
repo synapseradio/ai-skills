@@ -10,7 +10,7 @@ Break a whole into parts at its natural joints: name the whole's purpose and bou
 
 ## You get back
 
-A question set about your subject, then its answers: the purpose and boundary, the axis chosen for each level and why, the parts with what each exchanges with the rest, a check for gaps and overlaps that names what it moved, and where cutting stops for each part. Where the purpose is missing, it says which cuts depend on it.
+A prose answer that works through the steps: the purpose and boundary, the axis chosen for each level and why, the parts with what each exchanges with the rest, a check for gaps and overlaps that names what it moved, and where cutting stops for each part. Where the purpose is missing, it says which cuts depend on it. Ask for the questions alone, or for the questions with their answers, and you get them as a numbered set you can hand to someone else.
 
 From a run on the bare instruction "Run a village fête" ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/decompose/village-fete.md)), the coverage check catching two holes in the first cut:
 

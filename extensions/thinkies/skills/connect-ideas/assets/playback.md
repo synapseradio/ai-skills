@@ -1,6 +1,6 @@
 # Playback
 
-Show each record in this form. Leave out any heading with nothing under it. For node, link, and actor lines, show only the latest line for each id, and leave out retired entries. Leave out open items that an answer line closes.
+Show each record in this form. Leave out any heading with nothing under it, the "Saved to" line for a record no one saved, and the "Copied to" sentence where no mirror copy was made. For node, link, and actor lines, show only the latest line for each id, and leave out retired entries. Leave out open items that an answer line closes.
 
 ---
 
@@ -56,4 +56,4 @@ Project: [project]
 
 ---
 
-When no store exists here, replace the "Saved to" line with "Not saved: no store here. Keep the record below as `[file name]`." and put the record after the playback in a `jsonl` block.
+When a save was asked for and no store is reachable, replace the "Saved to" line with "No store is reachable here. Keep the record below as `[file name]`." and put the record after the playback in a `jsonl` block.

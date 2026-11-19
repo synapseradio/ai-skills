@@ -44,7 +44,7 @@ Or copy `skills/thinkies/check-notes/` into `~/.claude/skills/check-notes/`.
 
 ## Records
 
-In the thinkies Claude Code plugin, check-notes reads records from the plugin's store, `${CLAUDE_PLUGIN_DATA}/records/`, and from the **Records mirror folder** when one is set, for any record the store lacks. Claude Code deletes the store when the plugin is uninstalled, unless you uninstall with `claude plugin uninstall thinkies@ai-skills --keep-data`; the mirror folder stays either way. Outside the plugin there is no store, and check-notes plays back a record pasted into the conversation.
+In the thinkies Claude Code plugin, check-notes reads records from the plugin's store, `${CLAUDE_PLUGIN_DATA}/records/`, and from the **Records mirror folder** when one is set, for any record the store lacks. Claude Code deletes the store when the plugin is uninstalled, unless you uninstall with `claude plugin uninstall thinkies@ai-skills --keep-data`; the mirror folder stays either way. Where no store is reachable, as in Claude Desktop, check-notes says so and works from the notes and records you paste into the conversation.
 
 ## Install as a `.skill`
 
