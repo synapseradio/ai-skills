@@ -1,6 +1,6 @@
 # what-if
 
-Play out possible futures from a sparse question. Finds the unknowns that would change a decision, tiles one coherent future per combination, traces consequences and watchpoints between them, and walks its reasoning out loud before ending on a reasoned recommendation plus the conditions that would flip it.
+Play out possible futures from a sparse question. Finds the unknowns that would change a decision, tiles one coherent future per combination, traces consequences and watchpoints between them, and ends on a committed recommendation plus the conditions that would flip it.
 
 ## Reach for it when
 
@@ -10,9 +10,9 @@ Play out possible futures from a sparse question. Finds the unknowns that would 
 
 ## What comes back
 
-The walk, question by question, sized to the problem. A question with no real unknowns gets a direct answer. A question with real unknowns gets the futures, named and told as a short story, followed by a table of how each candidate move fares in each. After that come what holds in every future, the early signs of which future is arriving, and a recommendation, with where it runs weakest. Facts only you hold, it asks for.
+An answer sized to the problem. A question with no real unknowns gets a direct answer. A question with real unknowns gets the futures, each named, and how each candidate move fares in each. With them come what holds in every future, the early signs of which future is arriving, and a recommendation, with where it runs weakest. Facts only you hold, it asks for. The skill holds the line of reasoning and nothing about layout, so how the answer is laid out follows the request.
 
-Trimmed from a staged conversation on a corner bakery, two staff and famous for its cinnamon knots, that learns a supermarket with an in-store bakery opens across the street in four months ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/what-if/corner-bakery.md)). A second agent played the owner, and supplied the numbers the run asked for: knots at about 40% of takings, an oven cap of 180 a morning, five months of savings.
+Trimmed from a staged conversation on a corner bakery, two staff and famous for its cinnamon knots, that learns a supermarket with an in-store bakery opens across the street in four months ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/what-if/corner-bakery.md)). The run was made with an earlier version of the skill that also prescribed a told story and a table, so it is longer than a run returns now. A second agent played the owner, and supplied the numbers the run asked for: knots at about 40% of takings, an oven cap of 180 a morning, five months of savings.
 
 > Your bakery's next year splits on two things nobody can look up today: whether the people who come for your knots keep coming once a supermarket sits across the street, and whether that supermarket sells a cinnamon roll of its own.
 >
@@ -51,7 +51,7 @@ Or copy `skills/thinkies/what-if/` into `~/.claude/skills/what-if/`.
 - Peter Schwartz, "The Art of the Long View" — scenario planning, predetermined elements, critical uncertainties.
 - Fritz Zwicky — morphological analysis and cross-consistency assessment.
 - Jerome Glenn, early 1970s — the futures wheel.
-- Winston, Chaffin & Herrmann (1987), "A Taxonomy of Part-Whole Relations," Cognitive Science 11(4), 417-444 — the relation types behind Q1, Q2, and the link-typing discipline.
+- Winston, Chaffin & Herrmann (1987), "A Taxonomy of Part-Whole Relations," Cognitive Science 11(4), 417-444 — the relation types behind steps 1 and 2 and the link kinds in step 6.
 
 ## Install as a `.skill`
 

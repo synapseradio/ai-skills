@@ -6,11 +6,13 @@ description: Use for a multi-part problem where each part has several workable s
 
 # Tree of Thought Analysis
 
-Apply Tree of Thought reasoning to the user's query through four phases.
+Work the query through four phases, and return what each phase produced: the components, the approaches with their scores, the selections, and the solution path.
 
 ## Query
 
 The problem the user just posed. If the request named no problem outright, take the most relevant thread from the recent conversation as the query, and say which one you took before starting Phase 1.
+
+A run handed no query text takes the problem from the request that loaded this skill, and failing that from the conversation. Where neither names a problem, ask for one before Phase 1 and stop.
 
 ## Phase 1: Decomposition
 
@@ -29,11 +31,11 @@ For each component, generate these distinct approaches:
 - **B — Creative/Unconventional**: novel angle, handles edge cases, more flexible.
 - **C — Systematic/Comprehensive**: thorough coverage, well-documented, maintainable.
 
-The approaches for a component are alternatives: any one of them resolves it, and Phase 3 keeps one. Assign each a viability score (0.0-1.0) with brief rationale.
+The three kinds exist to force variety, so that the first plausible approach has rivals. The approaches for a component are alternatives: any one of them resolves it, and Phase 3 keeps one. Give each a first-pass viability score from 0.0 to 1.0 with a one-line reason. One shared scale lets approaches be compared at a glance across components before the full scoring.
 
 ## Phase 3: Evaluation & Selection
 
-Score each approach against weighted criteria:
+Score each approach against weighted criteria. Use these weights when the problem states no priorities of its own:
 
 | Criterion       | Weight |
 |-----------------|--------|
@@ -41,9 +43,11 @@ Score each approach against weighted criteria:
 | Effectiveness   | 35%    |
 | Risk (lower=better) | 25% |
 
+Feasibility leads the default because an approach that cannot be carried out resolves nothing, however effective it would be. Reset the weights where the problem says what matters most, as when a safety-critical problem puts risk first, and state the weights you used.
+
 Present scores in a comparison table per component. Select the best approach for each with a one-line rationale.
 
-When no approach for a component scores well enough to act on, go back: generate new approaches for it in Phase 2, or cut it differently in Phase 1.
+When no approach for a component scores well enough to act on, go back: generate new approaches for it in Phase 2, or cut it differently in Phase 1. Go back twice at most for any one component, so the run is not spent on one part of the problem. After that, carry the best available approach forward and name the gap under the areas of uncertainty in Phase 4.
 
 ## Phase 4: Synthesis
 
@@ -60,3 +64,5 @@ Conclude with:
 - **Recommended Solution**: one-paragraph synthesis.
 - **Next Steps**: a few immediate actions.
 - **Success Metrics**: how to validate the solution works.
+
+The run is done when the summary is written and every component has a selected approach or a named gap.

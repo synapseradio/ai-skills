@@ -5,15 +5,17 @@ description: Use when a claim comes with evidence and the question is how far th
   rates how well the claim is supported.
 ---
 
-Follow these steps:
+The subject is a claim and the evidence offered for it. Take both from the request, or, when it names none, from the most recent claim in the conversation or the document in hand. With no claim in either place, ask for one and stop.
+
+## Steps
 
 ### 1. Identify the claim precisely
 
-State what is being asserted with enough specificity to be testable. Separate bundled claims into distinct assertions.
+State what is asserted, specifically enough to test. Split a bundled claim into its separate assertions, such as a cause, a mechanism, and a recommendation. Each one gets its own rating in step 5.
 
 ### 2. Inventory the evidence
 
-Catalog what evidence is actually offered:
+Catalog the evidence actually offered, and classify each piece:
 
 - Direct or indirect support
 - Primary or secondary source
@@ -29,7 +31,7 @@ Catalog what evidence is actually offered:
 
 ### 4. Look for counter-evidence
 
-Actively seek contradicting evidence, alternative explanations for the same observations, and relevant evidence that may have been omitted.
+Seek evidence that contradicts the claim, other explanations for the same observations, and relevant evidence the case leaves out. Search the material given first. Where the session has search tools and the claim merits the cost, look outside it too, and say which of the two you did.
 
 ### 5. Rate the support level
 
@@ -40,4 +42,8 @@ Actively seek contradicting evidence, alternative explanations for the same obse
 
 ### 6. Note confidence boundaries
 
-Identify what assumptions must hold for the claim to be valid, and what additional evidence would meaningfully strengthen or weaken it.
+Name the assumptions that must hold for the claim to be valid, and the additional evidence that would strengthen or weaken it most.
+
+## Return
+
+Return each separate assertion with its rating and the evidence that decides the rating, the other explanations that fit the same facts, and what would move each rating. The run is done when every assertion from step 1 has a rating.

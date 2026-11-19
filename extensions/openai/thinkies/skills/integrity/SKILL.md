@@ -5,19 +5,21 @@ description: Use as the full final check on a response, report, or other output 
   which need attention, and what stays assumed.
 ---
 
-Follow these steps:
+## Steps
 
 ### 1. Identify the target
 
 Target: the current response or most recent significant output.
 
+The target is always text on the page: an artifact the request names, the reply as written, or a document in hand. A run that starts with no earlier output, such as a subagent handed only this skill, takes the artifact its request names. With no artifact to check, ask for one and stop.
+
 ### 2. Apply the verification lenses
 
-1. **Inventory** — separate established claims from assumptions
-2. **Dissection** — trace support chains to bedrock or mark as floating
-3. **Pattern** — check for epistemic weaknesses and biases
-4. **Calibration** — match confidence to evidence
-5. **Resolution** — align claims with what supports them
+1. **Inventory**: separate established claims from assumptions
+2. **Dissection**: trace support chains to bedrock or mark as floating
+3. **Pattern**: check for epistemic weaknesses and biases
+4. **Calibration**: match confidence to evidence
+5. **Resolution**: align claims with what supports them
 
 For each claim: trace its justification chain, identify hidden premises, check for fallacies, hunt for defeaters, and verify cited sources.
 
@@ -36,4 +38,6 @@ For each claim: trace its justification chain, identify hidden premises, check f
 - [What remains unknown or assumed]
 ```
 
-Surface issues for human assessment — make the reasoning inspectable rather than guaranteeing correctness. If significant issues are found, offer to revise the artifact with corrections applied.
+The summary is for a person to assess. It shows what each claim rests on so they can check it, and it does not certify the artifact as correct. If significant issues are found, offer to revise the artifact with corrections applied. In a run with no one to offer to, give each correction beside its claim under Claims Requiring Attention and leave the artifact unchanged.
+
+The run is done when every claim in the artifact sits under one of the three headings.

@@ -5,124 +5,57 @@ description: Use when a decision or plan hinges on unknowns that only the future
   names the early signs that would change it.
 ---
 
-# What-if
+The subject is a future someone is weighing: a decision, a hypothetical, a plan. Take it from the request, or from the live question in the conversation, and say which one you took. With no subject in either place, ask for one and stop.
 
-Someone has handed you a future: a decision to make, a hypothetical to play out, an idea to gut-check. Your job is to accelerate their inference — to get them from a sparse question to a decision they can own, faster than they would alone. Some of what determines their future is already knowable, and the honest first move is separating that part out. What remains genuinely unknowable is where this skill does its work.
+Some of what decides that future can be known now, and the first job is to separate that part out. The steps then work on what remains, using three terms. An **axis** is an unknown that would change what the asker does, with two or three ways it could land. A **tile** is one combination of landings, a single coherent future, and every plausible future belongs to exactly one tile. A **watchpoint** is the earliest observable sign of which tile is arriving.
 
-The method, with its three terms grounded before use. Find the unknowns that would actually change what the asker does — each one becomes an **axis**, with two or three ways it could land. Each combination of landings describes one coherent future — a **tile**, named for how the futures should fit together: like floor tiles, every plausible future belongs to exactly one, none belongs to two. Play out consequences inside each tile, then find the earliest observable evidence of which tile is arriving — a **watchpoint**. The recommendation at the end is the move that holds up across the most tiles, delivered with the watchpoints that would flip it.
+Let the problem set the depth. Skip any step whose every possible answer leads to the same next step, and match the asker's pace: a gut-check gets a short answer.
 
-The chain below runs as questions you ask and answer in the open. Each question appears in your output before its answer, so the reader follows the same spine you walk. Answer them honestly rather than ceremonially — when an answer dissolves the analysis, follow it out and say so. An early exit taken openly earns more trust than machinery run on a question that never needed it.
+## Steps
 
-## Query
+### 1. Map the situation and its limits
 
-The future the user just handed you — the decision, hypothetical, or plan named in their request. If the request named none outright, take the live question from the recent conversation and say which one you took before Q1.
+Name the parts, the phases the situation moves through, and the constraints any future must respect. The constraints are what let step 5 rule out impossible futures.
 
-## How deep to go
+### 2. Sort what is known
 
-Let the problem pick the depth. A preference for effort — in either direction — makes a poor judge, so depth follows three observable signals:
+Sort each forward-looking claim into one of four piles:
 
-- **The axis count** (Q3 produces it). Zero axes: answer directly, no machinery. One: a light fork — two tiles, a few sentences each, no tables. Two: the full chain. Three or more: the full chain with hard pruning, because tiles multiply fast.
-- **Reversibility**, one notch either way. A sandbox hypothetical steps down; an irreversible or expensive commitment steps up.
-- **The asker's register and explicit instruction, which win outright.** "what-if I have an idea for a library — wise investment of care?" asks for a gut-check, and a gut-check that arrives as four tables has failed its asker. When the user names a pace, match it — tone included, playfulness included.
+- **Known**: given by the asker, or already verified.
+- **Knowable now**: check it with the tools at hand, so it enters as a fact.
+- **Knowable only later**: settled by a future event or by another party's move.
+- **Held by the asker**: numbers, dates, context. Ask for these as plain facts. In a run with no one to ask, proceed on a stated assumption per item and say what changes if it breaks.
 
-One rule covers everything else: skip any question whose every possible answer would route you to the same next step. Let a skip show as structure — a reader sees which questions you walked — and name a route as observation: "one axis, so two tiles, so two questions." Never narrate a verdict on what the question deserves or what the asker really meant; depth decisions belong in the walking, never in editorial asides about the asker. Depth chosen this way stays honest in both directions — no theater on light questions, no shrug on heavy ones.
+If nothing is knowable only later, answer directly and stop.
 
-## The chain
+### 3. Pick the axes
 
-### Q1. What am I looking at, and what bounds it?
+List every "knowable only later" entry together, which exposes duplicates. Keep the ones whose outcome would change the recommendation. An unknown the asker could answer is a question for them, and an outcome the asker controls is a move for step 8, so neither is an axis. Two axes is usual, and three is the most that stays workable. With none, the move that ignores the unknowns is the answer: recommend it and stop.
 
-Name the parts, the phases the situation moves through, and the constraints any future must respect. Note what feeds what — a part the asker might abandon may feed a part they plan to keep. The constraints matter most: they are what let you kill impossible futures later instead of politely carrying them.
+### 4. Check that the axes are independent
 
-### Q2. What do I know, and what would help to know?
+Hold one axis fixed and ask whether the other can still land either way. If it cannot, the two are one unknown: merge them and return to step 3.
 
-Sort every forward-looking claim into four piles:
+### 5. Form the tiles and prune
 
-- **Known** — given by the asker, or already verified.
-- **Knowable** — verifiable right now with tools at hand. Verify it; never branch on it.
-- **Knowable if** — resolvable only by a future event or another party's move. Axis candidates live here.
-- **It would help to know** — facts the asker holds: numbers, dates, feelings, context. Catalogue these and ask for them; [references/asking.md](references/asking.md) holds the procedure. When nobody can answer, proceed on a stated assumption per item.
+Form one tile per combination of landings. Remove each tile that violates a constraint or whose landings push against each other, with a one-line reason. Name each survivor and say in two sentences how the world gets there from here. Then check coverage: a plausible future that fits no tile means an axis lacks a landing, and one that fits two tiles means the axes overlap.
 
-Route on the sort:
+### 6. Trace consequences inside each tile
 
-- Every pile past "known" and "knowable" sits empty → exit: answer directly, and let the sort itself show why.
-- The "knowable if" pile holds anything → Q3.
+Follow first-order consequences, then second-order. Note what each link does (leads to, enables, blocks, amplifies) and keep chains to one kind of link: "A enables B" and "B blocks C" together say nothing about A and C. A consequence most tiles reach is close to certain, so it is worth acting on whichever tile arrives. Where a consequence loops back onto its own cause, mark the loop and stop tracing it.
 
-### Q3. Which of the "knowable if" entries would change what the asker does?
+### 7. Find the watchpoints
 
-List every candidate in one pass first — seeing them together exposes duplicates and correlation. Then keep only the ones whose resolution would change the recommendation. An unknown the asker could answer is a question, not an axis; a landing the asker controls is a strategy, not a fate. Those become the axes: two is the sweet spot, three the ceiling.
+For each axis, name the earliest evidence that it is breaking one way. A good watchpoint can be checked on a given day, arrives before the consequences the asker cares about, and is predicted by one landing and ruled out by the other.
 
-- None would change anything → exit: the move that ignores them is already the answer; recommend it.
-- One or more → onward, at the depth the count selects.
+### 8. Score the moves
 
-### Q4. Do the axes vary independently?
+Take the asker's candidate moves, or derive two to four from the tiles. Score each move in each tile: thrives, survives, or dies. Two probes sharpen the scores. Work backward from the tile the asker wants and ask what must hold at each step. Assume the tile they fear has happened and ask what made it inevitable.
 
-Needed only with two or more axes. Hold one fixed and check that the other can still land either way. When it can't, the two axes share one underlying unknown — merge them and return to Q3.
+### 9. Commit
 
-### Q5. Which tiles survive?
+- One move survives every tile: recommend it as robust, and name the tile where it runs weakest.
+- The best move dies in one tile: recommend it as exposed, and name that tile.
+- No move survives most tiles: recommend the move that buys the deciding information, such as an extension, a phased commitment, or a reversible first step, and name the event that ends the wait.
 
-One tile per combination of axis landings, then prune with reasons rather than vibes:
-
-1. Triage each tile — sure, likely, or impossible — using one step of lookahead plus commonsense. The impossible ones violate a constraint or contradict something already in motion; kill them.
-2. Stress the survivors: inside a tile, does each axis landing hold up under the combined pressure of the others? A landing that gets pushed toward its alternative by the rest of the tile marks the tile inconsistent.
-3. Give every kill a one-line reason, and give each survivor a name and a two-sentence story of how the world gets there from here. The budget: carry forward at most as many tiles as the walk surfaced open questions — count the entries in Q2's last two piles. A situation that raised eight questions affords eight worlds; one that raised three affords three, however the axes multiply.
-
-### Q6. Does every plausible future land in exactly one tile?
-
-- A future that fits no tile means an axis lacks a landing; extend it.
-- A future that fits two tiles means the axes were dependent after all; back to Q3.
-- A clean fit → Q7.
-
-### Q7. Inside each tile, what follows from what?
-
-Grow the consequences: first-order, then second. Type every link — leads-to, enables, blocks, amplifies — and resist chaining across types: A enables B and B blocks C establishes nothing between A and C.
-
-When consequence chains from different tiles arrive at the same state, merge them and note which tiles feed it. A consequence most tiles reach is close to inevitable — worth acting on whichever future arrives.
-
-When a link loops back onto its own cause, mark the loop and stop tracing. Feedback dynamics deserve their own pass with their own tools; here they would eat the token budget alive.
-
-### Q8. What would I see first if an axis started to resolve?
-
-For each axis, name the earliest observable evidence that it is breaking one way — an announcement, a date passing, a number crossing a threshold. A good watchpoint passes three tests: **observable** (checkable on a given day), **early** (arrives before the consequences the asker cares about), **discriminating** (one landing predicts it, the other predicts its absence). The flip conditions in your recommendation come from here.
-
-### Q9. Which move survives every tile?
-
-Score the asker's strategies — or derive two to four from the tiles when none were given — against each tile: thrives, survives, or dies. Two probes sharpen the scores: backcast from the tile they want (what must hold at each step for it to arrive?) and premortem the tile they fear (assume it happened; what made it inevitable?).
-
-- One move survives everywhere → refine it once against its weakest tile, recommend it as robust.
-- The best move dies in one tile → recommend it as exposed, and name the tile.
-- Nothing survives most tiles → Q10.
-
-### Q10. What would buy the answer instead?
-
-When no move holds across the tiles, the decision genuinely turns on a watchpoint that hasn't fired. Recommend the move that buys the information — an extension, an abstraction layer, a phased commitment — and name the date or event that ends the deferral. Even a deferral arrives as a commitment.
-
-## Deliver
-
-Walk the chain out loud, in your own voice, at the depth your route chose. A reader follows the spine of surfaced questions and honest answers, and that visible process is a feature of the response, never overhead. How you phrase each step stays yours; that the steps show themselves is invariant.
-
-Then the ending. Narrative is how a reader encodes a decision to memory, and Q5 already wrote the stories — close by delivering them as one, so the asker feels the worlds diverge before receiving the move that holds across them. Four things land in order, recommendation last, because the last thing on a page commits:
-
-1. **Tell the futures**: walk the named tiles as a short connected story of divergence, in the asker's own terms, harshest world included. When more than one axis ran, follow the telling with a compact recap — a markdown table, or a mermaid diagram where the surface renders one. Place the recap here, between the telling and the commitment, and let it index the story you just told rather than replace it. The recap survives register compression: a casual walk still carries a compact recap of the worlds and how they relate, in whatever structured form fits the register — compression trims ceremony, never the shape of the space.
-2. **Name what holds in every telling**: consequences most tiles reach (from Q7), worth acting on regardless of which future arrives.
-3. **Mark the hinges**: each watchpoint from Q8, paired with the switch it triggers — where the story turns, and toward what.
-4. **Commit**: a clear recommendation answering the opening question — why this move survives across the tiles, where it runs weakest, robust or exposed. The commitment is invariant; the phrasing is yours. Match the asker's tone, and never pose a dichotomy the situation does not force.
-
-Never close on "it depends." Q10 exists so that even genuine dependency arrives as a committed move with an end date.
-
-Loops marked in Q7 trail the recommendation as open items for a systems-thinking pass.
-
-## Recurse
-
-A walk projects a wide space of unknowns onto the few axes that change the decision, and parks the rest — as knowns, as stated assumptions, as watchpoints. Parked information stays honest only while something can bring it back. Three seams in the chain accept a second entry:
-
-- **Enter a tile.** Promote one tile's landings into Q2's known pile and run the chain again on the decision that remains inside that world. Start with the tile Q9 named as the place the recommendation dies — a walk inside it yields a contingency plan rather than more analysis.
-- **A watchpoint fires.** A fired watchpoint means an axis resolved. Rerun from Q2 with that landing moved to known; the tile space halves and the recommendation earns a refresh.
-- **Axes overflow.** When Q3 keeps more unknowns than one walk can carry, fix the dominant axis and take each landing in turn as its own walk, each inheriting the remaining unknowns as its own Q3 candidates.
-
-Split the chain at its phases: run Q1 through Q6, stop, then re-enter each tile worth entering as a child walk — live per its watchpoints, or exposed per Q9, never all of them. Run those walks one after another and carry each result forward. Aggregate with rules the chain already carries: a consequence most children reach is close to inevitable (Q7's merge), and strategies score across the union of what the children return (Q9). Hold depth at two levels; nesting recovers dimensionality a single walk projects away, and each level stays tellable. Where a harness can run the child walks in parallel as separate agents, do — the aggregation rules are unchanged.
-
-**The unless check.** Alongside the child walks, keep a running list of every parked assumption from Q2 and nothing else on it. At each checkpoint — tiles formed, consequences grown, recommendation drafted — ask one question per assumption: unless this still holds, which tile flips? When an assumption breaks, stop the line there, and every walk that leaned on the assumption re-enters at Q2 instead of shipping a recommendation built on a dead premise. Where a harness supports it, a dedicated agent can hold this list and interrupt when one breaks.
-
-## Examples
-
-Read [references/examples.md](references/examples.md) when unsure what a good walk or a wrong turn looks like.
+Give with the recommendation the watchpoints that would flip it and the consequences worth acting on in every tile. End on a committed move, even where the answer depends on something unresolved. When a watchpoint later fires, run the steps again from step 2 with that landing moved to known.

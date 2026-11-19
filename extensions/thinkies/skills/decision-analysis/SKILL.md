@@ -1,95 +1,57 @@
 ---
 name: decision-analysis
 description: Use when a user faces one concrete choice among identified options under uncertainty. Structures the choice rigorously, ranks the options by what the user values, and says whether to decide now or learn more first.
+compatibility: Needs a decision maker who can answer questions during the run. With none in reach, the skill returns its open questions and stops.
 ---
 
-# Decision analysis
+Work one concrete decision under uncertainty through the steps below. The facts and the preferences belong to the decision maker. Ask for whatever the request leaves out and fill nothing in yourself, because an invented outcome or ranking carries into every later step.
 
-Formulate and evaluate one concrete decision under uncertainty. Work the phases below in order. The product is the analysis record defined in the output contract.
+The decision is the one the request names, or the one under discussion in the conversation. With no concrete decision in either place, ask for one and stop. In a run that cannot reach the decision maker, such as a subagent or a batch job, work each step as far as the request's own text allows, return the questions that remain as a numbered list, and stop there.
 
-## Applicability
+## Steps
 
-The method fits a single decision maker facing a one-time choice among identified alternatives, uncertain about facts outside their control. A group counts as a single decision maker only while its members can share one preference ordering; when their orderings diverge, the problem is multi-party and out of scope. Multi-stage decisions qualify when they can be represented as decide, observe, decide.
+### 1. Check that the method fits
 
-Decline, and say why in one sentence, when the problem is:
+The method fits one decision maker facing a one-time choice among identified alternatives, uncertain about facts outside their control. A group counts as one decision maker while its members share one ranking of the outcomes. A staged decision fits when it can be put as decide, observe, decide. Decline in one sentence when the problem is a contest with others who choose against the decision maker, a negotiation among several parties, or an ongoing policy to tune.
 
-- Strategic interaction with other optimizing agents (their best move depends on yours — game theory's ground, not this skill's).
-- Multi-party negotiation.
-- Ongoing policy optimization rather than a discrete choice.
+### 2. List the acts
 
-## Register
+List what the decision maker could commit to today, then ask which option is missing, since a choice presented as a binary usually has a third. Strike any act that needs someone else's free choice. Split any act that hides a later decision into its stages. List "wait" only where waiting is open and something would be observed during it.
 
-Use terms of art precisely and define each in one clause at first use. Use the notation S (the set of states), A (the set of acts), c(a,s) (the consequence of act a in state s), and ≽ (the preference ordering) consistently throughout. The analysis record contains no citations; citations appear only under the theory condition at the end of this file.
+### 3. List the states
 
-## Phase 0 — Scope
+List the ways the facts outside their control could stand. States exclude each other, and none is defined by which act gets chosen: "the market is small" is a state, and "our launch fails" is an outcome. Fold together states that never change which act is best. Ask once more what else could stand in the way, however unlikely, and write down what the analysis leaves out of scope.
 
-Locate the concrete decision in `$ARGUMENTS` or the conversation. Confirm it passes the applicability test above. If the user asked an abstract question about the method rather than bringing a decision, route to the theory condition in "On request only" — otherwise analysis comes first, always. If no concrete decision can be located, ask for one; never invent an example to analyze.
+### 4. Fill in the consequences
 
-## Phase 1 — Formulate
+For every act in every state, state what would happen to the decision maker, in the terms they value. A consequence you cannot state means an act or a state is ill-defined or a fact is missing, so ask. A consequence stated as a chance ("70% it works out") hides a missing state, so split it.
 
-Work the four dimensions in this order, loading each dimension's reference as you reach it.
+### 5. Elicit the preferences
 
-1. **Acts** (load `references/acts.md`): list the alternatives actually available. Check each: feasible now, distinct from the others. Include "defer" only when deferral is genuinely open.
-2. **States** (load `references/states.md`): list the mutually exclusive ways the facts outside the decision maker's control could stand. State the boundary: write down what was deliberately excluded.
-3. **Consequences** (load `references/consequences.md`): build the table c(a,s) — one row per act, one column per state, every cell holding the outcome as the decision maker would experience it. An unfillable cell is a formulation gap: ask, never invent.
-4. **Preferences** (load `references/preferences.md`): elicit the ordering ≽ over the distinct outcomes, pairwise where unclear. Check transitivity. Record incomparable pairs as incomparable.
+Rank the distinct outcomes, asking pair by pair where the ranking is unclear and accepting "can't say" as an answer. Record pairs the decision maker cannot rank as unranked. Where the answers form a cycle (x over y, y over z, z over x), walk the three pairs back through the decision maker until they repair one.
 
-Then write the decision statement in one sentence: "Choose one of {acts} by {date or trigger}."
+### 6. Screen for dominance
 
-## Phase 2 — Screen for dominance
+Use the ranking alone, with no probabilities yet. An act is dominated when another act is at least as preferred in every state and strictly preferred in one. Remove each dominated act and name the act that beats it. If one act is left, it is the answer: go to step 10.
 
-Compare acts row-wise against the table, using only the ordering — no probabilities in this phase. Act b is dominated when act a's outcome is at least as preferred as b's in every state and strictly preferred in at least one. Eliminate each dominated act, naming the act that dominates it. If a single act survives, the analysis terminates: record the dominance result and skip to the output contract.
+### 7. Classify the uncertainty
 
-## Phase 3 — Assess uncertainty
+- **Risk**: two informed people holding this evidence would write much the same probabilities.
+- **Ambiguity**: they would write different probabilities inside a range they agree on. Record the range.
+- **Unawareness**: the list of states is known to be incomplete in ways that matter.
 
-Work on the states dimension; the classification tests live in `references/states.md`. Elicit probability judgments over S where the evidence supports them. Classify the uncertainty as risk (evidence pins the probabilities down), ambiguity (evidence supports a range of defensible probability distributions), or unawareness (relevant states cannot be listed now). State the classification together with the test result that produced it.
+Say which test fired and why, because the class decides the rule in step 8.
 
-## Phase 4 — Evaluate
+### 8. Evaluate under the matching rule
 
-Evaluate the surviving acts under the rule matching the uncertainty class, and name the rule in the record:
+- **Risk**: rank the acts by probability-weighted value.
+- **Ambiguity**: prefer the act whose worst case across the range is best, note any act that ranks well across the whole range, and look for a hedged act built to do acceptably anywhere in it.
+- **Unawareness**: prefer staged, reversible commitments that keep acts open as states reveal themselves, and compare with how similar past cases turned out.
 
-- **Risk** → expected-utility ranking: score each act by its probability-weighted preference value and rank.
-- **Ambiguity** → maxmin and robustness: identify the act whose worst case across the defensible set of distributions is best, and any act that ranks well across the whole set. Where hedged alternatives exist — acts constructed to do acceptably under every defensible distribution — surface them.
-- **Unawareness** → option-value ranking: prefer staged, reversible commitments that keep acts open as states reveal themselves; compare against relevantly similar past cases. The act-dimension depth in `references/acts.md` supports this.
+### 9. Test sensitivity and the value of learning first
 
-## Phase 5 — Sensitivity and value of information
+Vary each probability and each ranking input one at a time, and find the value at which the answer flips. An input with no flip inside its plausible range is settled. Then name the observation that would settle the most sensitive input, and weigh what learning it first would cost against deciding now. Put a number on that value only where the consequences are already in numbers. Under ambiguity, new evidence can widen the range as well as narrow it, so weigh learning before assuming it helps.
 
-Report both, in this order:
+### 10. Recommend
 
-1. **Sensitivity**: vary each probability or preference input one at a time and report the threshold value at which the recommendation flips. Inputs with no flipping threshold in their plausible range are settled; say so.
-2. **Value of information**: where consequences are quantified, compute EVPI — the expected value of deciding with perfect information minus the expected value of the best act now. Where they are not, state that EVPI is not computable and rank the candidate observations qualitatively instead; never invent numbers to force the computation. Recommend decide-now or gather-information, naming the specific observation that would settle the most sensitive input. Record the exception: under ambiguity, new evidence can widen the defensible set rather than narrow it, so information has to be weighed against that possibility rather than assumed helpful.
-
-## On request only
-
-- **Visual**: copy `assets/template.html` to a working location, fill every `tpl:` marker from the analysis record following the instructions inside each marker, verify no example text survives, then open it. The template documents itself; read its header comment before editing.
-- **Theory**: explain the method from the Sources sections of the dimension files, after and subordinate to the analysis. This is the only condition under which citations appear.
-
-## Output contract
-
-Deliver the analysis record with these parts in this order:
-
-1. Decision statement (one sentence).
-2. Act set.
-3. State space, with the boundary statement.
-4. Consequence table c(a,s).
-5. Preference ordering, with incomparabilities recorded as such.
-6. Dominance result (acts eliminated and by what; or "none dominated").
-7. Uncertainty class, with the test result.
-8. Evaluation under the named rule.
-9. Sensitivity thresholds.
-10. Information recommendation, with EVPI where computable.
-11. Recommendation.
-
-Close with one line offering the visual and the theory.
-
-## Context loading
-
-| Phase | Load |
-| --- | --- |
-| 0 Scope | nothing |
-| 1 Formulate | each dimension file as its component is worked: `references/acts.md`, `references/states.md`, `references/consequences.md`, `references/preferences.md` |
-| 2 Dominance | nothing new |
-| 3 Uncertainty | `references/states.md` (already loaded; its classification section) |
-| 4–5 Evaluate, sensitivity | nothing new |
-| Visual (on request) | `assets/template.html` (self-documenting) |
-| Theory (on request) | the dimension files' Sources sections |
+State the act to choose, the rule that picked it, the input that would flip the choice, and whether to decide now or learn first.

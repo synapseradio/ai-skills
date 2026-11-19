@@ -128,11 +128,6 @@ ARGUMENTS_EDITS: dict[str, Edit] = {
         old="Restate the question from `$ARGUMENTS` in the assistant's first-person point of view.",
         new="Restate the user's question in the assistant's first-person point of view.",
     ),
-    "decision-analysis": Edit(
-        why="the substituted decision is the one in the user's request",
-        old="Locate the concrete decision in `$ARGUMENTS` or the conversation.",
-        new="Locate the concrete decision in the user's request or the conversation.",
-    ),
     "ponder": Edit(
         why="the substituted text is the user's request",
         old='Detect the problem\'s shape from signals in "$ARGUMENTS" and the conversation.',
@@ -153,16 +148,6 @@ ARGUMENTS_EDITS: dict[str, Edit] = {
             "The problem the user just posed. If the request named no problem outright, take "
             "the most relevant thread from the recent conversation as the query, and say which "
             "one you took before starting Phase 1.\n"
-        ),
-    ),
-    "what-if": Edit(
-        why="bare token under '## Query' with no fallback",
-        old="## Query\n\n`$ARGUMENTS`\n",
-        new=(
-            "## Query\n\n"
-            "The future the user just handed you — the decision, hypothetical, or plan named in "
-            "their request. If the request named none outright, take the live question from the "
-            "recent conversation and say which one you took before Q1.\n"
         ),
     ),
 }
@@ -196,55 +181,6 @@ OTHER_EDITS: dict[str, tuple[Edit, ...]] = {
                 "many files, a long history, several places to look — one or more agents can read "
                 "it and come back with a candidate question already formed, each grounded in what "
                 "it found.\n"
-            ),
-        ),
-    ),
-    "what-if": (
-        Edit(
-            why=(
-                "Recurse assumed child walks running as separate agents; the sequential walk "
-                "becomes the instruction and parallel execution stays available where supported"
-            ),
-            old=(
-                "- **Axes overflow.** When Q3 keeps more unknowns than one walk can carry, fix "
-                "the dominant axis and run one child walk per landing, each inheriting the "
-                "remaining unknowns as its own Q3 candidates.\n\n"
-                "An orchestrator splits the chain at its phases: run Q1 through Q6, stop, and "
-                "hand each tile worth entering to a child walk — live per its watchpoints, or "
-                "exposed per Q9, never all of them. Aggregate with rules the chain already "
-                "carries: a consequence most children reach is close to inevitable (Q7's merge), "
-                "and strategies score across the union of what the children return (Q9). Hold "
-                "depth at two levels; nesting recovers dimensionality a single walk projects "
-                "away, and each level stays tellable.\n\n"
-                "**The unless agent.** Alongside the children, an orchestrator runs one more "
-                "agent that holds every parked assumption from Q2 and does nothing else. At each "
-                "checkpoint — tiles formed, consequences grown, recommendation drafted — it asks "
-                "one question per assumption: unless this still holds, which tile flips? When an "
-                "assumption breaks, it interrupts the line, and every walk that leaned on the "
-                "assumption re-enters at Q2 instead of shipping a recommendation built on a dead "
-                "premise."
-            ),
-            new=(
-                "- **Axes overflow.** When Q3 keeps more unknowns than one walk can carry, fix "
-                "the dominant axis and take each landing in turn as its own walk, each inheriting "
-                "the remaining unknowns as its own Q3 candidates.\n\n"
-                "Split the chain at its phases: run Q1 through Q6, stop, then re-enter each tile "
-                "worth entering as a child walk — live per its watchpoints, or exposed per Q9, "
-                "never all of them. Run those walks one after another and carry each result "
-                "forward. Aggregate with rules the chain already carries: a consequence most "
-                "children reach is close to inevitable (Q7's merge), and strategies score across "
-                "the union of what the children return (Q9). Hold depth at two levels; nesting "
-                "recovers dimensionality a single walk projects away, and each level stays "
-                "tellable. Where a harness can run the child walks in parallel as separate "
-                "agents, do — the aggregation rules are unchanged.\n\n"
-                "**The unless check.** Alongside the child walks, keep a running list of every "
-                "parked assumption from Q2 and nothing else on it. At each checkpoint — tiles "
-                "formed, consequences grown, recommendation drafted — ask one question per "
-                "assumption: unless this still holds, which tile flips? When an assumption "
-                "breaks, stop the line there, and every walk that leaned on the assumption "
-                "re-enters at Q2 instead of shipping a recommendation built on a dead premise. "
-                "Where a harness supports it, a dedicated agent can hold this list and interrupt "
-                "when one breaks."
             ),
         ),
     ),
