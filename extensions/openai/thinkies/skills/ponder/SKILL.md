@@ -15,6 +15,9 @@ new angles. Technique names, shape labels, and chain mechanics stay hidden.
 ## Phase 0: Assess
 
 Detect the problem's shape from signals in the user's request and the conversation.
+Where no arguments were substituted, the request as written states the
+problem. A run with no conversation behind it, as in a subagent, reads the
+request alone.
 
 | Shape | Signals |
 |-------|---------|
@@ -83,9 +86,9 @@ Within a purpose, pick the technique that best fits the problem's content:
 
 ## Phase 2: Apply and extend
 
-Execute the opener: read its reference file from `@./references/`, follow its
-numbered moves against the problem, and let each technique's output feed the
-next.
+Execute the opener: read its file, `references/<technique>.md` beside this
+one, follow its numbered moves against the problem, and let each technique's
+output feed the next.
 
 After each technique, run the extension check against everything produced so
 far. Extend the chain when a row below fires; when none fires, run the closer
@@ -117,10 +120,11 @@ its row at the next check, and the chain repairs it.
 
 ### Voice
 
-Present the substance directly, and weave transitions between techniques into
-it. Headers announcing technique names, meta-commentary ("now I will explore
-from a different angle"), and chain mechanics stay out of the output — the
-caller reads natural, flowing exploration.
+Present the substance directly: what each technique found and what in the
+problem shows it, with each finding leading into the next. Headers announcing
+technique names, meta-commentary ("now I will explore from a different
+angle"), and chain mechanics stay out of the output — the caller reads one
+connected account of their problem.
 
 Four rules govern the prose:
 
@@ -147,12 +151,15 @@ When the evidence ranks several options equally, report the tie as the
 result, keep the ranking rule stated, and name the observation that would
 break the tie.
 
+Carry all four phases through in one reply. The run is complete when these
+five items and the record's playback are on the page.
+
 ## Context Loading
 
 | Phase | Load |
 |-------|------|
 | Assess + Open | Nothing from references — use the tables above |
-| Apply + extend | Only the current technique's file from `@./references/` |
+| Apply + extend | Only the current technique's file, `references/<technique>.md` |
 | Converge | `assets/playback.md` |
 
 ## Technique Reference Files

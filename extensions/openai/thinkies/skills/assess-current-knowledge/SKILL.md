@@ -5,9 +5,13 @@ description: Use before deciding or acting on partial information. Separates wha
   being wrong.
 ---
 
+The subject is what is held about the task, topic, or decision named in the request, or about the work in hand when the request names none.
+
 ## Steps
 
 ### 1. Classify into four quadrants
+
+Sort each thing the work rests on into one of four groups:
 
 - **Verified facts**: confirmed and directly supported
 - **Known unknowns**: questions you know to ask — name each one
@@ -25,7 +29,7 @@ Direct observation outweighs inference. Assumptions treated as facts propagate e
 
 ### 3. Map the gaps
 
-Make missing information and unverified assumptions explicit so they don't silently shape decisions. Some gaps close through investigation; others persist as acknowledged uncertainty.
+Make missing information and unverified assumptions explicit so they don't silently shape decisions. Some gaps close through investigation; others persist as acknowledged uncertainty. Say which kind each gap is.
 
 ### 4. Weigh readiness against risk
 
@@ -33,7 +37,7 @@ Compare the cost of being wrong against the effort of verification. High-consequ
 
 ### 5. Close the critical gaps first
 
-Prioritize information that would change decisions. Efficient sources:
+Prioritize information that would change decisions, and put the checks in the order to run them. Efficient sources:
 
 - Configuration files for technical details
 - Documentation for intended behavior
@@ -41,4 +45,8 @@ Prioritize information that would change decisions. Efficient sources:
 
 ### 6. Recognize limits of competence
 
-Know when to defer, acknowledge uncertainty, or mark claims as unverified. Some domains need expertise that isn't present; some questions can't be verified in the current context.
+Know when to defer, acknowledge uncertainty, or mark claims as unverified. Some domains need expertise that isn't present; some questions can't be verified in the current context. Name each such limit where it applies.
+
+## Return
+
+Return the four groups with each item's source, the gaps split into those investigation can close and those that stand as acknowledged uncertainty, the checks that would change the decision in the order to run them, and where the assessment's own competence ends. Where a check is within reach, run it and give its result beside it. The run ends when each critical gap has a check, a result, or a place among the standing uncertainties.

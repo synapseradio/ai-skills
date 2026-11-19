@@ -1,0 +1,47 @@
+{
+  "evals": [
+    {
+      "expectations": [
+        "The reply names no exploration technique and no problem-shape label, in headers or in prose (for example it has no header such as 'Wonder' or 'Premortem' and never calls the problem 'Vague').",
+        "The reply offers at least two named candidate directions for what the tool could be, each tied to something the prompt says (clamps, loans, project photos, the club).",
+        "The reply closes with the options on the table, and the option of changing nothing or building nothing is among them.",
+        "The reply ranks the options and states the rule the ranking uses.",
+        "The reply names a leading option and the concrete evidence that would move a different option into the lead.",
+        "The reply says what remains open.",
+        "The reply ends with the record: a saved path with a played-back summary, or a jsonl block under a file name that starts with ponder_."
+      ],
+      "expected_output": "An exploration in plain connected prose that turns a vague idea into two or more candidate tools, each grounded in the prompt, with no technique or shape named. It ends on the converge list (what was revealed, options including building nothing, a ranking with its rule, the leader with the evidence that would flip it, what stays open) and the record.",
+      "files": [],
+      "id": 0,
+      "prompt": "I have a vague idea for a tool for my woodworking club and I can't say yet what it should do. Something about tracking who borrowed which clamps, and maybe also sharing project photos? Members are mostly retired and not very online. Help me think about it."
+    },
+    {
+      "expectations": [
+        "The reply treats the three failed attempts named in the prompt as evidence and does not propose any of them again as a new option.",
+        "The reply surfaces at least one unstated assumption or hidden constraint behind the failed attempts and ties it to a detail of the prompt.",
+        "The reply names no exploration technique and no problem-shape label.",
+        "The reply closes with ranked options, the changing-nothing option included, with the ranking rule stated.",
+        "The reply names the evidence that would flip the leading option.",
+        "Each substantive claim about the team or the standup is tied to the prompt or marked as an assumption."
+      ],
+      "expected_output": "An exploration that digs under the three failed fixes for what they share, names the assumption they all rest on, and converges on ranked options with a stated rule, a leader, the evidence that would flip it, and what stays open. No technique names, no advice repeated from the failed list.",
+      "files": [],
+      "id": 1,
+      "prompt": "Our daily standup keeps running 40 minutes for a team of seven. I've tried a strict timer, I've tried moving it to async in Slack (people stopped posting after a week), and I've tried a walking standup. Nothing sticks and I'm out of ideas. I'm stuck."
+    },
+    {
+      "expectations": [
+        "The reply completes the whole run in one turn: it reaches the converge list without stopping to ask the requester a question and wait.",
+        "The reply compares the two named alternatives on criteria it states, and at least one criterion comes from a detail in the prompt (team size, release cadence, shared code).",
+        "Facts the prompt does not give are marked as assumptions or listed as open, not stated as known.",
+        "The reply closes with ranked options, the changing-nothing option included, the ranking rule stated, and the evidence that would flip the leader.",
+        "The reply names no exploration technique and no problem-shape label."
+      ],
+      "expected_output": "A complete single-turn run from a request with no conversation behind it. The two alternatives are probed on stated criteria, missing facts are held as assumptions or open items, and the reply ends on the converge list and the record without handing the task back.",
+      "files": [],
+      "id": 2,
+      "prompt": "You are running as a subagent with no access to the user. Request: Should we use a monorepo or separate repos for our microservices? Four engineers, six services, two of the services share a validation library, and we release each service on its own schedule."
+    }
+  ],
+  "skill_name": "ponder"
+}

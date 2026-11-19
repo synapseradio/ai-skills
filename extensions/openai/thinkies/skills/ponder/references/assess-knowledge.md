@@ -1,5 +1,7 @@
 ### 1. Classify into four quadrants
 
+Sort each thing the work rests on into one of four groups:
+
 - **Verified facts**: confirmed and directly supported
 - **Known unknowns**: questions you know to ask — name each one
 - **Unrecognized knowledge**: expertise or data you have but haven't applied here
@@ -16,7 +18,7 @@ Direct observation outweighs inference. Assumptions treated as facts propagate e
 
 ### 3. Map the gaps
 
-Make missing information and unverified assumptions explicit so they don't silently shape decisions. Some gaps close through investigation; others persist as acknowledged uncertainty.
+Make missing information and unverified assumptions explicit so they don't silently shape decisions. Some gaps close through investigation; others persist as acknowledged uncertainty. Say which kind each gap is.
 
 ### 4. Weigh readiness against risk
 
@@ -24,7 +26,7 @@ Compare the cost of being wrong against the effort of verification. High-consequ
 
 ### 5. Close the critical gaps first
 
-Prioritize information that would change decisions. Efficient sources:
+Prioritize information that would change decisions, and put the checks in the order to run them. Efficient sources:
 
 - Configuration files for technical details
 - Documentation for intended behavior
@@ -32,4 +34,4 @@ Prioritize information that would change decisions. Efficient sources:
 
 ### 6. Recognize limits of competence
 
-Know when to defer, acknowledge uncertainty, or mark claims as unverified. Some domains need expertise that isn't present; some questions can't be verified in the current context.
+Know when to defer, acknowledge uncertainty, or mark claims as unverified. Some domains need expertise that isn't present; some questions can't be verified in the current context. Name each such limit where it applies.
