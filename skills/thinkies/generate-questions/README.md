@@ -12,7 +12,7 @@ Compose the few highest-leverage questions toward one driving question and retur
 
 An inquiry you can hand over: the facts it rests on, the driving question, and five questions at most in the order to ask them, with a line for what was left out and why. Each question comes with what its answer decides, where each kind of answer leads next, and what to do if it falls flat. A last line says when the inquiry is finished. Nobody is asked anything during the run.
 
-From a run on "Should our book club let in a robot?" ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/generate-questions/robot-in-the-book-club.md)), two of its nine questions and the closing condition:
+From a run on "Should our book club let in a robot?" ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/generate-questions/robot-in-the-book-club.md)), made before the cap of five and so longer than a run returns now, two of its questions and the closing condition:
 
 > 1. Which of those things could the robot do itself?
 >    - Decides: whether the robot would be a member or a guest with a title.
