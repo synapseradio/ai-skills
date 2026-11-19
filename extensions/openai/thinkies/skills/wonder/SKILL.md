@@ -1,7 +1,7 @@
 ---
 name: wonder
 description: Use at the very start, when a situation is vague, surprising, or confusing and its direction
-  is still open. Opens up possibilities by following curiosity from whatever seems odd, producing
+  is still open. Opens up possibilities by following curiosity from whatever is odd about it, producing
   questions worth pursuing.
 ---
 

@@ -1,8 +1,8 @@
 ---
 name: connect-ideas
-description: Use when two ideas seem related and the relation needs pinning down, or one problem needs
-  a solved analogue from a distant field. Keeps only the connections the evidence supports and says
-  what each one makes possible.
+description: Use when a link between two ideas is suspected and needs pinning down, or one problem
+  needs a solved analogue from a distant field. Keeps only the connections the evidence supports and
+  says what each one makes possible.
 ---
 
 ## Steps

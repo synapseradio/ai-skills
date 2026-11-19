@@ -1,6 +1,6 @@
 ---
 name: detect-fallacies
-description: Use when an argument persuades but something seems off, or before accepting or publishing
+description: Use when an argument persuades yet leaves a doubt, or before accepting or publishing
   one. Names the logical errors in it, such as a false dichotomy or correlation read as causation,
   and shows how to repair the reasoning.
 ---

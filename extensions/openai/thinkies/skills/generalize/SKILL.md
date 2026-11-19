@@ -1,8 +1,8 @@
 ---
 name: generalize
-description: Use when a case looks new and nothing known seems to apply. Finds the class the case
-  belongs to and carries back the solutions, failure modes, and limits that hold for every member
-  of that class.
+description: Use when a case looks new and no known solution fits. Finds the class the case belongs
+  to and carries back the solutions, failure modes, and limits that hold for every member of that
+  class.
 ---
 
 ## Steps
