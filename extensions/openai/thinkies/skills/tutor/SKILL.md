@@ -14,7 +14,7 @@ These steps hold for the whole session, on every later turn as well as the first
 - **Elicit preferences** (ask, don't infer): detailed explanations or concise summaries? Analogies or precise definitions? Broad exploration or a specific goal?
 - **Quick research**: gather current, accurate information, from the web where a search or fetch tool is at hand. Keep it focused — this is tutoring, not a literature review.
 - **Assess knowledge**: be explicit about what you know versus what needs verification.
-- **Plan several layers**: each a complete, useful truth that grows more sophisticated rather than being replaced.
+- **Plan 3-5 layers**: each a complete, useful truth that grows more sophisticated rather than being replaced.
 - **Prepare alternatives**: have different framings ready.
 
 ### 2. Teaching loop
