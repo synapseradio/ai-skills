@@ -19,7 +19,7 @@ If you can't name the driving question, build the ladder before you ask anything
 
 5. **Compose a set when one question won't reach.** A single question is the unit, not the limit. Two shapes cover the gap. A parallel set: several questions that don't depend on each other, handed over at once, answered in any order — reach for it when the gaps are independent and you don't want a back-and-forth. A sequence: each answer narrows the next, walking from broad to specific, so the questions together form one sharper inquiry than any of them could alone — reach for it when a later question only makes sense once an earlier one is answered. Whether you grow rung by rung or compose the set in one pass decides how the branches get handled: live asking grows forward from real answers; composing in one pass anticipates the branches.
 
-6. **Keep the set as small as the gap demands.** A wall of questions reads as an interrogation. Ask for exactly what the gap needs and no more, and keep every question in the set obeying the four clarity laws.
+6. **Keep only the highest-leverage questions.** A wall of questions reads as an interrogation, and each question costs its answerer a turn. Rank the candidates that pass both gates by leverage: how much of the driving question an answer settles, and how many other candidates that answer settles or makes pointless. Keep the top of the ranking: five questions at most in a set handed over at once, and fewer when fewer carry the inquiry. A count or a slot the caller names replaces the five. A candidate that becomes askable only after another question's answer waits as that question's follow-up and takes no place in the set. Keep every question in the set obeying the four clarity laws.
 
 7. **Know when the ladder is done.** The climb ends when the driving question is answered to the calibration the caller needs, or when every remaining candidate fails a gate of the rung test. Then hand off per the terminal states in the core.
 
@@ -29,6 +29,7 @@ If you can't name the driving question, build the ladder before you ask anything
 - Does a full answer to this rung partly answer it?
 - What does this rung presuppose, and is that established or assumed?
 - What question does the last answer make askable that wasn't before?
+- Which candidates would the answer to this one settle or make pointless?
 
 ## Quality Criteria
 
@@ -38,4 +39,4 @@ When the ladder is doing its work:
 - [ ] Every rung passes both gates — a full answer partly answers the driving question, and different answers would change the next move.
 - [ ] No rung stands on a presupposition that hasn't been established; the establishing question came first.
 - [ ] The ladder grew from answers — each new rung was licensed by content in the last answer, not scripted in advance.
-- [ ] The set is as small as the gap demands, and every question in it clears the four clarity laws.
+- [ ] A set handed over at once holds the highest-leverage questions, five at most unless the caller named a count, and every question in it clears the four clarity laws.

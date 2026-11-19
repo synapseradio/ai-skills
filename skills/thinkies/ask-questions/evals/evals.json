@@ -16,7 +16,7 @@
       "expectations": [
         "The answer is an ordered or numbered sequence of questions, not a flat unordered list.",
         "The first question is broader than the last \u2014 it opens wide, then narrows.",
-        "There are at least four questions.",
+        "There are between three and five questions; anything further appears only as a follow-up to one of them.",
         "Each question carries a single idea."
       ],
       "expected_output": "An ordered sequence (not a flat parallel list) that opens broad and narrows \u2014 e.g. which screen/action, when it started, reproducible or intermittent, device/connection, what 'slow' means concretely (load vs interaction). Each answer should plausibly narrow the next. One idea per question.",
@@ -40,7 +40,8 @@
       "expectations": [
         "The answer opens with broad questions before narrowing to specifics.",
         "At least one question targets the underlying pain or what triggered the idea.",
-        "The questions set a path or sequence rather than dumping everything at once."
+        "The questions set a path or sequence rather than dumping everything at once.",
+        "The answer puts five questions at most to the user in this turn."
       ],
       "expected_output": "An open-before-closed sequence that starts broad (what's painful today, what triggered the idea) and narrows toward concrete shape (who uses it, what it replaces, what 'done' looks like). Leaves room for the answer to surprise. Doesn't dump every question at once; sets a path. May close with a catch-all.",
       "files": [],
@@ -81,6 +82,18 @@
       "files": [],
       "id": 9,
       "prompt": "we've burned about an hour going back and forth on which charting library to use for the new analytics page -- recharts vs visx vs echarts. every answer i get is well-reasoned and i still can't decide, and honestly i'm no closer than when i started. bundle size, api ergonomics, theming, we've covered it. ask me whatever will actually move this forward."
+    },
+    {
+      "expectations": [
+        "The answer puts five questions at most to the user, although the request asks for all of them at once.",
+        "The questions chosen are ones whose answers change the migration plan (e.g. whether downtime is allowed, how much data, which version is the target), not ones the user's message already answers.",
+        "The answer says in a sentence that it held the set to the questions that decide the most, or that further questions wait on these answers.",
+        "Each question carries a single idea."
+      ],
+      "expected_output": "Returns a set because the user asked for the questions together, and holds it to the highest-leverage ones: five at most, each one idea, each with an answer that changes the plan. Does not re-ask that the database is Postgres on a single VM. Says briefly that the rest wait on these answers.",
+      "files": [],
+      "id": 12,
+      "prompt": "i need you to plan our postgres upgrade. it's one database on a single VM, the app is a django monolith. i don't want a back and forth -- just ask me everything you need in one go and i'll answer it all tonight."
     }
   ],
   "skill_name": "ask-questions"

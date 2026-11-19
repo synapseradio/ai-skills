@@ -1,10 +1,11 @@
 ---
 name: generate-questions
 description: >-
-  Compose a set of questions toward one driving question and return it as a
-  written inquiry, without asking anyone. The inquiry gives each question in
-  the order to ask it, what its answer decides, the follow-up each kind of
-  answer opens, and the move to make instead if it falls flat. Use when
+  Compose the few highest-leverage questions toward one driving question and
+  return them as a written inquiry, without asking anyone. The inquiry holds
+  five questions at most, each in the order to ask it, with what its answer
+  decides, the follow-up each kind of answer opens, and the move to make
+  instead if it falls flat. Use when
   spawned to draft questions for someone else to ask or answer, when asked to
   generate, draft, review, sharpen, or cut down a set of questions, as in read
   this spec and generate questions or what should I ask the backend team, or
@@ -16,7 +17,7 @@ compatibility: >-
 
 # generate-questions
 
-Name the question the inquiry exists to answer: the driving question. Compose the questions that climb toward it, each a rung that must earn its place, and return them as an inquiry that whoever holds it can ask or answer without this conversation. Ask no one. Put no question to the user through any tool.
+Name the question the inquiry exists to answer: the driving question. Compose the questions that climb toward it, each a rung that must earn its place, keep the few with the most leverage, and return them as an inquiry that whoever holds it can ask or answer without this conversation. Ask no one. Put no question to the user through any tool.
 
 ## Read first
 
@@ -74,9 +75,22 @@ When more than one row here matches, load in this order: ladder (generate) → s
 | You're carrying a ladder or a question set into a new domain | [transfer](./references/transfer.md) |
 | The driving question itself may be the wrong one | [driving-question](./references/driving-question.md) |
 
+## Keep the highest-leverage rungs
+
+Return the few questions that carry the inquiry and leave the rest out. Each rung costs its answerer a turn, and every rung past the few that decide the outcome draws attention from them.
+
+Rank every candidate that passes both gates and the four laws by leverage: how much of the driving question its answer settles, and how many other candidates its answer settles or makes pointless. Then keep the top of the ranking:
+
+- Return five rungs at most, and fewer when fewer carry the inquiry. One rung is a whole inquiry when one question reaches the driving question.
+- A count or a slot the caller names, such as three questions or one short call, replaces the five.
+- A candidate that becomes askable only after another rung's answer goes under that rung as its follow-up and takes no place of its own.
+- Between two candidates of equal leverage, keep the one whose answer only the answerer holds.
+
+Put the rungs that remain in the order to ask them, each after the rung that establishes what it presupposes. When the caller supplied the questions, or would look for one the cut removed, name each cut under Left out with its reason.
+
 ## Output
 
-Return the inquiry in this form. When the audit ends in asking nothing yet, return the driving question, the findings, and the reason in place of Rungs.
+Return the inquiry in this form. When the audit ends in asking nothing yet, return the driving question, the findings, and the reason in place of Rungs. Leave out Left out when nothing a reader would look for was cut.
 
 ````markdown
 **Driving question:** [the question the inquiry exists to answer, named so it can be found without this conversation]
@@ -85,7 +99,7 @@ Return the inquiry in this form. When the audit ends in asking nothing yet, retu
 
 - [a fact the questions rest on] ([where it came from])
 
-**Rungs**, in the order to ask them:
+**Rungs**, five at most, in the order to ask them:
 
 1. [the question, worded as it will be asked]
    - Decides: [what changes next, depending on the answer]
@@ -94,6 +108,10 @@ Return the inquiry in this form. When the audit ends in asking nothing yet, retu
    - If it falls flat: [the restatement, plain statement, silence, or asking nothing to use instead, worded]
 2. [the next question, worded as it will be asked]
    - Decides: [what changes next, depending on the answer]
+
+**Left out:**
+
+- [a question cut, or a group of them]: [the reason, such as answered under Given, or no answer to it changes the next move]
 
 **Done when:** [the end state that closes the inquiry, and what reaching it looks like]
 ````
@@ -129,7 +147,7 @@ Write each record in the form of the template at the end of this section: the fi
 
 At the end of a run, play the record back in the form of [assets/playback.md](assets/playback.md): the path it was saved to, then every part the reply has not already shown. Never show the raw lines.
 
-Record the driving question as the subject; each fact under Given as a given line; each rung as a question line; each Decides, branch, and fallback move as a note whose context names its rung; and the Done when line as a result. An agent answering the inquiry adds answer and open lines.
+Record the driving question as the subject; each fact under Given as a given line; each rung as a question line; each Decides, branch, and fallback move as a note whose context names its rung; each Left out line as a note whose context is `left-out`; and the Done when line as a result. An agent answering the inquiry adds answer and open lines.
 
 File: `generate-questions_[start time, UTC, YYYYMMDDTHHMMSSZ]_[topic].jsonl`
 

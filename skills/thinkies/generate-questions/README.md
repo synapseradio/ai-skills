@@ -1,6 +1,6 @@
 # generate-questions
 
-Compose a set of questions toward one driving question and return it as a written inquiry, without asking anyone: read what the questions will land in and list the facts they rest on, name the driving question, keep only the questions that pass the rung test (relevance and discrimination) and the four clarity laws, weigh each against the moves that are not questions, name the end state that closes the inquiry, and return the rungs in the order to ask them, each with what its answer decides, the follow-up each kind of answer opens, and the move to make instead if it falls flat. A spawned agent can run it, and whoever holds the inquiry can ask or answer it without the conversation that produced it.
+Compose the few highest-leverage questions toward one driving question and return them as a written inquiry, without asking anyone: read what the questions will land in and list the facts they rest on, name the driving question, keep only the questions that pass the rung test (relevance and discrimination) and the four clarity laws, weigh each against the moves that are not questions, rank what remains by how much of the driving question each answer settles and keep five at most, name the end state that closes the inquiry, and return the rungs in the order to ask them, each with what its answer decides, the follow-up each kind of answer opens, and the move to make instead if it falls flat. A spawned agent can run it, and whoever holds the inquiry can ask or answer it without the conversation that produced it.
 
 ## Reach for it when
 
@@ -10,7 +10,7 @@ Compose a set of questions toward one driving question and return it as a writte
 
 ## What you'll get
 
-An inquiry you can hand over: the facts it rests on, the driving question, and the questions in the order to ask them. Each question comes with what its answer decides, where each kind of answer leads next, and what to do if it falls flat. A last line says when the inquiry is finished. Nobody is asked anything during the run.
+An inquiry you can hand over: the facts it rests on, the driving question, and five questions at most in the order to ask them, with a line for what was left out and why. Each question comes with what its answer decides, where each kind of answer leads next, and what to do if it falls flat. A last line says when the inquiry is finished. Nobody is asked anything during the run.
 
 From a run on "Should our book club let in a robot?" ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/generate-questions/robot-in-the-book-club.md)), two of its nine questions and the closing condition:
 

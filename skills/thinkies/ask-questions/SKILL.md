@@ -82,9 +82,11 @@ Forming a question has two parts: gathering the context and shaping the words. Y
 - **Hand off the context, ask for the question.** When you already hold the context, give it to an agent and have it design the question from there. Reach for this when you want a fresh angle, or a few drafts to choose between.
 - **Ask only for the phrasing.** When agents are already fanned out and you have a question in mind to send back to the user, hand one your draft plus the four clarity laws above, and ask it to sharpen the wording.
 
+An agent starts without this conversation and spends a context of its own, so hand work to one only when the reading would crowd this conversation or a fresh angle is the point. Tell it what to return: the candidate question, the facts it rests on, and where each fact came from.
+
 ## How the work returns
 
-Each invocation returns the next single move, given the record of the exchange so far. When that record wasn't supplied, say so rather than assuming none exists. Composing returns the next question, going under returns the next move, and auditing returns its findings plus the question they license. An audit that ends in "ask nothing yet" returns the findings and the reason. The Questions sections in the references are internal worksheets: work through them before you act, never read them out verbatim.
+Each invocation returns the next single move, given the record of the exchange so far. When that record wasn't supplied, say so rather than assuming none exists. Composing returns the next question, going under returns the next move, and auditing returns its findings plus the question they license. When the user asks for the questions together, or the exchange allows no back-and-forth, composing returns a set in place of one question: the highest-leverage questions only, five at most, chosen as [ladder](./references/ladder.md) directs, with every other candidate left for the answers to call up. An audit that ends in "ask nothing yet" returns the findings and the reason. The Questions sections in the references are internal worksheets: work through them before you act, never read them out verbatim.
 
 ## Record
 

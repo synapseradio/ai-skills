@@ -14,7 +14,7 @@ The same holds when the assistant is the one about to ask you something, includi
 
 ## You get back
 
-One next move, given the exchange so far: the question to ask or the non-question move to make, why it earns its turn (an answer would bear on the driving question, and different answers would change what you do next), what was weighed and cut, and the rungs the next answer could open.
+One next move, given the exchange so far: the question to ask or the non-question move to make, why it earns its turn (an answer would bear on the driving question, and different answers would change what you do next), what was weighed and cut, and the rungs the next answer could open. When you ask for the questions together, you get the few that decide the most, five at most, in place of a full list.
 
 Here it is on what to ask a friend who says "I think I want to quit my job and open a sock-only shop", cut down ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/ask-questions/sock-shop-dream.md)):
 

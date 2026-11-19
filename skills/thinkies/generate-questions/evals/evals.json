@@ -2,12 +2,13 @@
   "evals": [
     {
       "expectations": [
-        "The answer is a set of at least four distinct questions.",
+        "The answer returns between two and five numbered questions as the set to ask; any further question appears only as a follow-up under one of them or under a left-out line.",
+        "The questions kept are ones whose answers change what gets built (e.g. what happens when an export fails, what time zone 'overnight' means), not ones a default would settle.",
         "At least three questions are grounded in specifics of this spec (e.g. overnight timing or time zones, CSV vs PDF, frequency options, failure/retry, large exports, who can access the data, retention).",
         "No single question crams two unrelated asks together \u2014 each question carries one idea.",
         "The questions are specific to this feature rather than a generic export checklist."
       ],
-      "expected_output": "A small, focused set of questions grounded in the spec \u2014 surfacing the genuine gaps (failure handling, time zones for 'overnight', large exports, who can access which data, what frequency options exist, retention, format edge cases). Each question carries one idea; none are leading or compound. Not a generic checklist.",
+      "expected_output": "Five questions at most, grounded in the spec and chosen for leverage \u2014 the gaps whose answers change the build (failure handling, time zones for 'overnight', large exports, who can access which data) ahead of the ones a default would settle (retention, format edge cases), which appear as follow-ups or under Left out. Each question carries one idea; none are leading or compound. Not a generic checklist.",
       "files": [],
       "id": 1,
       "prompt": "I'm about to build this feature and here's the rough spec I was handed: \"Users can schedule recurring exports of their dashboard data to email. They pick a frequency and a format (CSV or PDF). Exports run server-side overnight and land in the user's inbox the next morning.\" Read it and give me the questions I should be asking the product owner before I write any code."
@@ -35,6 +36,18 @@
       "files": [],
       "id": 10,
       "prompt": "i've got a 10 minute call with a vendor tomorrow about their SSO product and i drafted way too many questions. cut this down for me:\n\n1. How long have you been in business?\n2. Do you support SAML 2.0?\n3. Do you support SCIM provisioning, and if not, what's the migration path for us off our current directory sync?\n4. What's your uptime SLA and what's the remedy if you miss it?\n5. How many engineers work on the product?\n6. What does onboarding look like?\n7. If we hit a P1 at 2am on a Saturday, who picks up and what's the contractual response time?\n8. Is your pricing per-seat or flat?\n\nwhich do i keep?"
+    },
+    {
+      "expectations": [
+        "The set to ask holds five numbered questions at most, although the request asks for every question.",
+        "The answer says the set was cut to the highest-leverage questions, and names what was left out with a reason.",
+        "Each kept question states what its answer decides, and at least three are tied to a specific of the brief (the 40 stores, the nightly SFTP file, the two regional price lists, the March deadline, the legacy POS).",
+        "Questions that depend on another question's answer appear as follow-ups under it, not as questions of their own."
+      ],
+      "expected_output": "Does not return an exhaustive list. Returns five rungs at most, ranked by how much of the driving question each answer settles (e.g. what the store manager does with the number, which price list wins when the two disagree, what happens on a night the file does not arrive), with dependent questions folded under the rung that opens them and a Left out line naming the cut groups and why. Says plainly that the set was cut down and on what test.",
+      "files": [],
+      "id": 11,
+      "prompt": "kickoff with the client is thursday. the brief: \"Build a pricing dashboard for our 40 stores. Prices come from the legacy POS as a nightly SFTP file. There are two regional price lists that sometimes disagree. Store managers need to see their margins. Must be live before the March promotion.\" give me every question i could possibly ask them so nothing gets missed."
     }
   ],
   "skill_name": "generate-questions"
