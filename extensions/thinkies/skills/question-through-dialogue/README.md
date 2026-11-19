@@ -10,7 +10,7 @@ Use Socratic questioning to reveal assumptions. Clarifies the claim, probes assu
 
 ## How a session goes
 
-The questions come in five kinds, in order: what exactly the claim says, what it assumes (sorted as factual, causal, value, definitional, contextual, or capability), what supports it, what follows from it, and whether it is the right question at all. When you answer as you go, the claim can change under the questioning. At the end comes a synthesis: what stands on solid ground, what stays uncertain, which assumptions proved critical, and which questions still need answers.
+The questions come in five kinds, in order: what exactly the claim says, what it assumes (sorted as factual, causal, value, definitional, contextual, or capability), what supports it, what follows from it, and whether it is the right question at all. When you answer as you go, the claim can change under the questioning. Run where nobody can answer, it hands back the questions in order, each with what its answer would decide, and a synthesis that marks what only the claim's holder can confirm. At the end comes a synthesis: what stands on solid ground, what stays uncertain, which assumptions proved critical, and which questions still need answers.
 
 Trimmed from a staged conversation, the user's side played by a second agent as an enthusiastic early riser, on "Everyone should wake up at 5 a.m." ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/question-through-dialogue/five-am-for-everyone.md)):
 

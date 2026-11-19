@@ -14,7 +14,7 @@ what is already there. So this skill has two beats, and the first one comes firs
 ## Beat 1 — Before you act, surface what is already there
 
 You are about to add or change something. Before you write it, find out what the
-system already does about it. Do not assume; look.
+system already does about it, by looking at it.
 
 1. **Name it in one line.** Say plainly what you are about to add or change, and
    the purpose it serves. "A rule that claims must be checkable." "A helper that
@@ -29,9 +29,10 @@ system already does about it. Do not assume; look.
 3. **Diff against what exists.** Compare what you would add to what is already
    there, on purpose, not on wording:
    - **Already covered** — the existing thing does this job. Sharpen it if it is
-     weak. Do not add a second one that says the same thing in other words.
+     weak, and keep it the one place that does this job, since a second one in
+     other words gives every later reader two places to reconcile.
    - **Partly covered** — most of it exists. Extend the smallest piece that is
-     missing. Do not rebuild the whole.
+     missing, and leave the rest as it stands.
    - **Not covered** — nothing serves this purpose. Now you may add it.
 
 4. **State what you found.** Tell the reader what you searched, what you found, and
@@ -67,7 +68,7 @@ the next reader does not have to reconstruct it.
 4. **Self-check before you ship.** Ask: could a second reader, holding only the
    inputs and my output, follow this and reach the same place? Where the answer is
    no, the intent did not make it onto the page — fix it. Rank what is solid above
-   what is shaky; do not flatten the two into one confident voice. If a claim rests
+   what is shaky, so the reader can tell the two apart. If a claim rests
    on your conviction rather than something the reader can check, ground it or cut
    it. (Grounding a claim in evidence is its own discipline — warrant — and lives
    elsewhere; this skill only points at the seam. See `references/outgoing.md`.)

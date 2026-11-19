@@ -19,8 +19,9 @@ than push back, producing output that sounds right but isn't checked.
 to surface uncertainty.
 
 - Before: *"This is mission-critical. Any error costs us thousands. Triple-check."*
-- After: *"Reliability matters here — walk me through your reasoning so I
-  can verify. Flag anything uncertain so I know where to double-check."*
+- After: *"Reliability matters here — show me the evidence behind each
+  conclusion so I can verify. Flag anything uncertain so I know where to
+  double-check."*
 
 ---
 
@@ -147,9 +148,9 @@ work. If it's routine, direct neutral framing is correct.
 - After: just delete this. If momentum matters for the task, frame the
   *task* as interesting rather than instructing a *mood*.
 
-**Critical for this skill:** never let the emit output pep-staple. "Let's
-figure this out together!" at the top of an agent prompt is a forced
-enthusiasm hit even when other parts are well-written.
+**In this skill's own output:** keep stapled-on pep out of the emitted
+artifact. "Let's figure this out together!" at the top of an agent prompt
+is a forced enthusiasm hit even when other parts are well-written.
 
 ---
 

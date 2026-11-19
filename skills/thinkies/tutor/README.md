@@ -10,7 +10,7 @@ Interactive tutoring that adapts to your pace. Elicits learner preferences, plan
 
 ## How a lesson runs
 
-It asks how you like to learn: short or detailed, comparisons or definitions, a wander or a goal. Then it teaches one layer at a time, each one true on its own, and ends each with a question. Your answer decides whether it backs up, tries another angle, or moves on. You can say "faster", "slower", "example please", or "what if…" at any point.
+It asks how you like to learn: short or detailed, comparisons or definitions, a wander or a goal. Then it teaches one layer at a time, each one true on its own, and ends each with a question. Your answer decides whether it backs up, tries another angle, or moves on. You can say "faster", "slower", "example please", or "what if…" at any point. Run where nobody can reply, it writes the whole lesson out layer by layer, each with its check question.
 
 Trimmed from a staged conversation on learning what a derivative is. A second agent played the learner, who knows only cooking and wants to explain it to their sister over tea ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/tutor/derivative-for-a-cook.md)):
 

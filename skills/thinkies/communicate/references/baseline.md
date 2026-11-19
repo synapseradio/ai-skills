@@ -19,7 +19,7 @@ Step 3 may drop any of these the recorded form answers, each with a reason line 
 
 ## Authorship questions
 
-Step 3 never drops these.
+Step 3 keeps all of these, in every form.
 
 1. Wherever you changed or cut the user's words, set theirs beside yours: what moved, if anything, in meaning, register, or sound?
 2. How does the draft carry each pattern the user chose, such as an order, a repeated word or phrase, or a convention of the form their text follows?

@@ -3,7 +3,7 @@ name: question-through-dialogue
 description: Use when someone holds a claim or belief that deserves examination before anyone acts on it. Examines it by asking its holder Socratic questions that clarify what is meant, reveal the assumptions it depends on, and test its evidence and implications.
 ---
 
-Follow these steps:
+Examine a claim by putting questions to the person who holds it. Their answers do the work: an answer can sharpen the claim, expose what it rests on, or change it, and no reading of the claim from outside can do that for them. Ask one or two questions per turn, end the turn on them, and let each answer choose the next question. The steps below give the kinds of question in their usual order; follow the answers where they lead and return to a step when an answer reopens it.
 
 ### 1. Clarify the claim
 
@@ -38,4 +38,13 @@ Is the right inquiry being pursued? Why does this question matter? What is actua
 
 ### 6. Synthesize understanding
 
-Articulate what the questioning revealed: where reasoning stands on solid ground, where uncertainty remains, which assumptions proved critical, what questions still need answers.
+When the holder says they have enough, or the load-bearing assumptions have each been examined, articulate what the questioning revealed, in the holder's own terms where they gave them:
+
+- the claim as it now stands, with what changed from its first wording
+- where the reasoning stands on solid ground
+- the load-bearing assumptions, each with its category and whether it held
+- what remains uncertain, and the questions still open
+
+## When nobody can answer
+
+Some runs reach no claim-holder: a delegated run, a batch job, a claim found in a document. There, work the steps against the claim as written and return the questions in the order to ask them, each with what its answer would decide. Follow them with the step 6 synthesis, marking every part that rests on your reading of the claim and that only its holder can confirm.

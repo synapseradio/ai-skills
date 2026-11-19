@@ -10,7 +10,7 @@ Adaptive multi-phase reasoning for complex problems. Three phases — understand
 
 ## How it goes
 
-It breaks the problem at its joints, states its understanding, and waits for you to confirm it. Then it reasons in rounds, each applying at least one named technique (surfacing assumptions, hunting defeaters, testing the contrapositive, weighing evidence), and after each round you say continue, pivot, or done. On done it sums up what was explored and concluded, what transfers beyond this problem, and what stays unresolved.
+It breaks the problem at its joints, states its understanding, and waits for you to confirm it. Then it reasons in rounds, each applying at least one named technique (surfacing assumptions, hunting defeaters, testing the contrapositive, weighing evidence), and after each round you say continue, pivot, or done. On done it sums up what was explored and concluded, what transfers beyond this problem, and what stays unresolved. Run where nobody can reply, it does one round and hands back the questions it would have asked, each with what its answer would change.
 
 Trimmed from a staged conversation on a four-person band with one van, two weeks, six gigs in three countries, a clutch repair nobody has priced, and a drummer who can only leave on day three ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/strategize/band-van-tour.md)). A second agent played a member of the band:
 

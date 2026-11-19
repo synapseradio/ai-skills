@@ -57,7 +57,8 @@ eliminate the underlying activation patterns — it trained *concealment*.
 A model told "don't hedge" doesn't become more certain; it hides its
 uncertainty.
 
-**Application:** Explicitly request visible reasoning. Welcome uncertainty
+**Application:** Ask for the evidence behind each result and a short
+account of how sure it is. Welcome uncertainty
 markers rather than suppressing them. Structure the output to preserve
 confidence signals (e.g., "confident vs. less-sure" sections).
 

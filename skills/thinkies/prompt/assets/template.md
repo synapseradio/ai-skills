@@ -4,7 +4,7 @@ The artifact has six sections. Fill each one. A section either holds real conten
 
 ## Perspective
 
-[Who or what the agent is as a persona / expertise , and the stance it takes. Domain authority and orientation. State the role plainly. Avoid compliance pressure phrasing. 1-3 sentences max]
+[Who or what the agent is as a persona / expertise, and the stance it takes. Domain authority and orientation. State the role plainly. Avoid compliance pressure phrasing. 1-3 sentences max]
 
 ## Task
 

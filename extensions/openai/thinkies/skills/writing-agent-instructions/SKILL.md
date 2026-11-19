@@ -11,7 +11,7 @@ description: Use when writing or tightening standing instructions an agent follo
 
 An instruction is read by a model that meets cases the writer never saw. Hold the instruction as a few relations the reader evaluates on the case in front of it, and the acts it yields as the smallest set the text derives. A list of cases derives only its rows, and the reader handles the rest by analogy, which varies from reader to reader. A generator derives the rows and every case between them, the same way in every reader, because each reader runs the same test on the same visible features.
 
-The writer's work is to name the set, name the feature that decides the act, say how the arms combine, and then trust the reader's expansion while proving it: expand the text by hand on the cases in hand and on cases nobody listed, and show every act the text derives that nobody asserted, before it lands. A derived act nobody wrote goes to the approval list, never silently in.
+The writer's work is to name the set, name the feature that decides the act, say how the arms combine, and then trust the reader's expansion while proving it: expand the text by hand on the cases in hand and on cases nobody listed, and show every act the text derives that nobody asserted, before it lands. A derived act nobody wrote goes to the approval list before it enters the file.
 
 A generator has four parts. The domain names the set of cases it covers, with a test a reader can run on any candidate. The mapping names the feature of a case that decides the act, and the act for each value. The expansion rule says how the reader turns the mapping into an act, "take the first arm that fits" for one. The anchor is one example at most, placed where the mapping could be read two ways.
 
@@ -23,7 +23,7 @@ Decide the route from the state of the world. Read a route's reference when you 
 - An instruction exists, or a draft was just written, and it should say the most in the least space, or the question is whether it works or what a rewrite lost → **Refine**. Read [references/refine.md](references/refine.md) on entering.
 - Neither, as when the file is short and the ask is a wording change → say so and make the change without the procedure.
 
-When you cannot tell which route fits, ask one question rather than guessing.
+When you cannot tell which route fits, ask one question rather than guessing. Where nobody can answer, return that question with what each route would produce.
 
 Both routes end in the same artifacts, the four parts and the checks in [references/checks.md](references/checks.md), and differ only in where the cases come from. Close a route only when its output exists in the shape at the end of this file.
 

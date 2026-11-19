@@ -31,6 +31,8 @@ Then read [index.md](references/index.md) whole, and read every reference whose 
 
 Run the alignment conversation in [align](references/align.md): one question per message, from the outermost open ring, then from the open choices that would steer the draft; each ring the user's words already answer stated back in one line inside the next question. Where the user cannot answer, lead with contrasting readings, an example, or what should happen after; never guess on their behalf.
 
+Where the run reaches no user, as in a delegated run, whoever called it stands in for them: return each open question with its two contrasting sketches, draft only the parts that rest on no open ring, and mark where the draft waits on an answer.
+
 The form ring holds the tradition the piece works in, and the period's or house's conventions it carries. Take them from the user's words, the form they named included, or ask when the form ring's turn comes; never assign a tradition from the language the user or the audience speaks.
 
 Take from the user's words how much they want to hear about changes to their words. Where they give no sign, give a short summary, and name every change of meaning.
@@ -52,7 +54,7 @@ Then, for each question in the rubric, ask whether the form or tradition recorde
 - contrast: a reason that names a feature of the form against a reason that names none.
 - look for: a reason line that names no feature of the form or tradition.
 
-Never drop the baseline's authorship questions.
+Keep every authorship question in the baseline, whatever the form answers.
 
 ### 4. Draft
 

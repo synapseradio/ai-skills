@@ -8,7 +8,7 @@ SCAMPER works best when you have a concrete thing — a product, a workflow, a f
 
 ## How a session runs
 
-It opens by restating what you mean and waits for you to confirm it. Then it runs each of the seven lenses over the thing, gathers the ideas into groups, and asks which to develop. Your pick sends it back to the restating step for the new direction, and the cycle repeats until you have something worth building.
+It opens by restating what you mean and waits for you to confirm it. Then it runs each of the seven lenses over the thing, gathers the ideas into groups, and asks which to develop. Your pick sends it back to the restating step for the new direction, and the cycle repeats until you have something worth building. Run where nobody can reply, it states its reading of the request as unconfirmed, runs the lenses once, and hands back the groups with the choice left open.
 
 Trimmed from a staged conversation on "The humble umbrella." ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/scamper/the-umbrella.md)). A second agent played the user, and brought the problems it cared about: umbrellas failing in wind and getting left on trains.
 

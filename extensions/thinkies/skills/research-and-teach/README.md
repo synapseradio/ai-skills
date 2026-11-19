@@ -10,7 +10,7 @@ Research a topic deeply, then teach it progressively from simple truths to compl
 
 ## What it hands back
 
-A short scoping exchange about what you want to be able to do and what you already know, a list of the sources consulted with what each one settled, then teaching in layers. Each layer ends with a check question, and the next layer builds on your answer. It marks where the evidence stops.
+A short scoping exchange about what you want to be able to do and what you already know, a list of the sources consulted with what each one settled, then teaching in layers. Each layer ends with a check question, and the next layer builds on your answer. It marks where the evidence stops. Run where nobody can reply, it writes every layer out in order with its check question, after the source list.
 
 A staged conversation on "Why do onions make you cry?", trimmed ([full run](https://github.com/synapseradio/ai-skills/blob/main/examples/thinkies/research-and-teach/crying-onions.md)). The user's side was played by a second agent, which invented the learner: a home cook with secondary-school chemistry:
 

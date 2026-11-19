@@ -3,11 +3,11 @@ name: synthesize-opposing-views
 description: Use when two positions directly contradict and picking a side would lose something. Takes each at full strength and builds a third position that keeps what both got right and explains why they conflicted.
 ---
 
-Follow these steps:
+Resolve two positions that contradict each other into a third that explains what each got right. The synthesis is worth only as much as the weaker side's statement, so each position is built to full strength before the conflict is examined.
 
 ### 1. Identify the opposing positions
 
-Target: `$ARGUMENTS`, else the thesis and antithesis in the current context.
+Target: `$ARGUMENTS`, else the thesis and antithesis in the current context. Where the request itself states the positions, take them from there. Where only one side is given, build the strongest opposing position yourself and say that it is yours.
 
 ### 2. State the thesis clearly
 
@@ -31,4 +31,8 @@ Build a new position that incorporates insights from both, transcends the either
 
 ### 7. Test the synthesis
 
-Does it account for what each side got right and resolve the original conflict? What new tensions or questions does it create?
+Does it account for what each side got right and resolve the original conflict? What new tensions or questions does it create? Where it fails the test, return to step 5.
+
+## What to return
+
+Lead with the synthesis as a position someone could hold and argue for, in a sentence or two. Follow it with what it keeps from each side, the point where the two contradicted, and the new tensions step 7 found. Where the two positions turn out to answer different questions, or no position resolves them, say that in place of a synthesis; a split-the-difference answer would hide the conflict from the reader.

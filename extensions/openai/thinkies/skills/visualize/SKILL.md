@@ -12,6 +12,9 @@ Produce one visualization that answers one question, in a form the reader's surf
 Run each script as `uv run --no-project <script>` where `uv` exists, else `python3 <script>`.
 The scripts sit in `scripts/` beside this file, need Python 3.9 or later, and use no network.
 
+Several steps ask the user a question the data cannot answer.
+Where the run reaches no user, as in a delegated run, stop at that step and return the question with its options and the files built so far.
+
 ## 1. Settle the claim and the surface
 
 Finish the sentence "This shows that ___" from the data in hand.

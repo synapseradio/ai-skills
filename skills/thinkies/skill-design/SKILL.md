@@ -53,6 +53,11 @@ to stretch a mode or work outside this skill. Never force a fit.
 Close a mode only when its exit artifact exists and satisfies its
 specification — never when the work feels done.
 
+Where the run reaches no user, as in a delegated run, carry each
+question you would have asked into the exit artifact as an open
+question with its options, and leave unconfirmed everything only the
+user can confirm, marked as such.
+
 ## The modes
 
 Read a mode's reference when you enter it, not before.

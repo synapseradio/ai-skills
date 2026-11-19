@@ -3,7 +3,7 @@ name: ideate
 description: Use when options are needed for an open opportunity or problem and none are on the table. Generates ideas widely, then narrows them against the real constraints to a few vetted options ready to compare.
 ---
 
-Follow these steps:
+Turn an opportunity into two to five options a person can compare. Generating and judging are kept apart: an idea judged while it forms gets dropped before it can combine with another, so every idea is written down first and the constraints are applied afterwards, to all of them alike.
 
 ### 1. Seed
 
@@ -14,7 +14,9 @@ Decompose the opportunity, then establish:
 - **Soft preferences**: nice but not required
 - **Success criteria**: how you'll recognize a good idea
 
-Announce constraints — they become the step 4 filter.
+Take these from the request and the conversation. Where the hard constraints are missing, ask for them; where nobody can answer, set them from what the request implies and say that they are yours, so the reader can correct the filter.
+
+State the constraints before generating — they become the step 4 filter.
 
 ### 2. Diverge
 
@@ -34,7 +36,7 @@ Group ideas by underlying pattern — shared mechanism, same part of the problem
 
 ### 4. Filter
 
-Check each cluster against the hard constraints: timeline, resources, technical viability, organizational fit. Be ruthless — don't soften constraints to save appealing ideas. Mark each: **Feasible** / **Conditional** (needs X) / **Eliminated** (fails Y).
+Check each cluster against the hard constraints: timeline, resources, technical viability, organizational fit. Hold each constraint exactly as step 1 stated it. An appealing idea that fails one is **Conditional** or **Eliminated** with the constraint named, since an option that passed a loosened filter fails later, after someone has built on it. Mark each: **Feasible** / **Conditional** (needs X) / **Eliminated** (fails Y).
 
 ### 5. Refine
 
@@ -52,4 +54,6 @@ Present the refined options:
 - Requires: [key dependencies]
 ```
 
-Suggest next steps: clear trade-offs → weigh options; many factors → priority matrix; high stakes → premortem; stakeholder complexity → perspective shift.
+Where every cluster was eliminated, say so and name the constraint that removed the most, since that constraint is what the reader would have to revisit.
+
+Suggest next steps: clear trade-offs → weigh options; many factors → priority matrix; high stakes → premortem; stakeholder complexity → perspective shift. The run ends there.
