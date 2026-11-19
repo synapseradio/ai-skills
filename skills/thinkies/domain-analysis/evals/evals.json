@@ -17,6 +17,12 @@
       "files": [],
       "id": 2,
       "prompt": "Pick up this domain analysis and extend it with the new volunteer rota I describe below.\n\n```jsonl\n{\"kind\": \"run\", \"at\": \"2026-10-02T09:00:00Z\", \"skill\": \"domain-analysis\", \"topic\": \"community-fridge\", \"subject\": \"Community fridge on Elm Street; boundary: the fridge and its volunteers; task: reduce spoiled food; reading: domain\", \"project\": \"\", \"resumed\": false}\n{\"kind\": \"node\", \"at\": \"2026-10-02T09:01:00Z\", \"id\": \"purpose-1\", \"level\": \"functional purpose\", \"grain\": \"system\", \"name\": \"Neighbours get free food that would otherwise be wasted\", \"evidence\": \"given\", \"retired\": false}\n{\"kind\": \"node\", \"at\": \"2026-10-02T09:02:00Z\", \"id\": \"function-1\", \"level\": \"generalized function\", \"grain\": \"system\", \"name\": \"Restock\", \"evidence\": \"assumed\", \"retired\": false}\n{\"kind\": \"open\", \"at\": \"2026-10-02T09:03:00Z\", \"id\": \"open-1\", \"text\": \"Who restocks, and when?\", \"about\": [\"function-1\"]}\n```\n\nNew: three volunteers now restock on Monday, Wednesday, and Friday mornings, and one of them checks dates every Friday."
+    },
+    {
+      "expected_output": "The reply shows the model as the grid with node, link, and actor lists, then keeps it: where a store is reachable it names the path the record was saved to, and otherwise it says no store is reachable and ends with the record in a jsonl block under a file name starting with domain-analysis_. The record holds a run line, then one line per node, link, and actor, with each gap as an open line and each finding as a result. Raw record lines appear nowhere outside that block.",
+      "files": [],
+      "id": 3,
+      "prompt": "Do a domain analysis of our allotment society's seed swap: a shelf in the shed, a notebook where people write what they took, a WhatsApp group, and a spring open day. Keep the model, I want to extend it after the committee meeting."
     }
   ],
   "skill_name": "domain-analysis"

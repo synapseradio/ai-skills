@@ -97,6 +97,9 @@ RECORD_WRITERS = RECORD_SKILLS - {"check-notes"}
 #: Record skills whose job is the store. Every other record skill saves only on request, so
 #: its ``## Record`` opens with the gate in ``record-gate.md``.
 STORAGE_SKILLS = frozenset({"save-note", "check-notes"})
+#: Record skills that keep ``## Record`` in a reference file read only on request, in place
+#: of ``SKILL.md``. Reading the file is the gate, so the section carries none.
+RECORD_REFERENCES: dict[str, str] = {"domain-analysis": "references/lasting-model.md"}
 
 #: Top-level frontmatter keys the Agent Skills spec allows.
 SPEC_KEYS = frozenset(
@@ -150,9 +153,9 @@ def _skill_md(root: Path, skill: str) -> str | None:
     return _read(root / SKILLS / skill / "SKILL.md")
 
 
-def _check_template(skill: str, block: str, kinds: dict[str, list[str]]) -> list[str]:
+def _check_template(rel: Path, block: str, kinds: dict[str, list[str]]) -> list[str]:
     problems: list[str] = []
-    where = f"{SKILLS / skill / 'SKILL.md'}: ## Record template"
+    where = f"{rel}: ## Record template"
     for n, line in enumerate(block.splitlines(), 1):
         try:
             obj = json.loads(line)
@@ -213,10 +216,10 @@ def check(root: Path = REPO_ROOT) -> list[str]:
 
     # 4-8: Record sections, templates, file names, playback, compatibility.
     for skill in sorted(RECORD_SKILLS):
-        rel = SKILLS / skill / "SKILL.md"
         text = _skill_md(root, skill) or ""
-        record = section(text, "Record")
-        if skill in STORAGE_SKILLS:
+        rel = SKILLS / skill / RECORD_REFERENCES.get(skill, "SKILL.md")
+        record = section(_read(root / rel) or "", "Record")
+        if skill in STORAGE_SKILLS or skill in RECORD_REFERENCES:
             opening, names = c2, f"{CANON}/record.md"
         else:
             opening, names = f"{gate}\n\n{c2}", f"{CANON}/record-gate.md then {CANON}/record.md"
@@ -226,7 +229,7 @@ def check(root: Path = REPO_ROOT) -> list[str]:
         if tail is None or (record or "").count("```jsonl\n") != 1:
             problems.append(f"{rel}: ## Record does not end with a File: line and one jsonl block")
         else:
-            problems.extend(_check_template(skill, tail.group(2), kinds))
+            problems.extend(_check_template(rel, tail.group(2), kinds))
             if skill in RECORD_WRITERS and not tail.group(1).startswith(f"{skill}_"):
                 problems.append(f"{rel}: File: line does not start with {skill}_")
         playback = SKILLS / skill / "assets" / "playback.md"
@@ -235,7 +238,9 @@ def check(root: Path = REPO_ROOT) -> list[str]:
         if skill in RECORD_WRITERS:
             meta = frontmatter(text) or {}
             if c3 not in str(meta.get("compatibility", "")):
-                problems.append(f"{rel}: compatibility lacks {CANON}/record-compat.txt")
+                problems.append(
+                    f"{SKILLS / skill / 'SKILL.md'}: compatibility lacks {CANON}/record-compat.txt"
+                )
 
     # 9: the mirror option each record skill substitutes.
     plugin = json.loads((root / PLUGIN_JSON).read_text())

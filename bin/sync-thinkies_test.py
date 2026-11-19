@@ -79,6 +79,12 @@ class CheckTests(unittest.TestCase):
         problems = self.new_problems()
         self.assertTrue(any("ponder/SKILL.md: ## Record" in p for p in problems), problems)
 
+    def test_flags_drift_in_a_record_section_kept_in_a_reference_file(self):
+        ref = self.tmp / sync.SKILLS / "domain-analysis" / "references" / "lasting-model.md"
+        ref.write_text(ref.read_text().replace("Records live in the store", "Records live"))
+        problems = self.new_problems()
+        self.assertTrue(any("lasting-model.md: ## Record" in p for p in problems), problems)
+
     def test_flags_a_top_level_context_key(self):
         skill = self.tmp / sync.SKILLS / "wonder" / "SKILL.md"
         skill.write_text(
