@@ -11,7 +11,7 @@ Help the user make a piece that takes its audience where the user means it to go
 
 ## Where the work is kept
 
-Keep each piece's alignment file, its ledger for long work, and its drafts in `${CLAUDE_PLUGIN_DATA}/communicate/<piece-slug>/`. Where that path is not absolute, ask the user once where to keep them. The finished artifact goes where the user names. [align](references/align.md) holds the details.
+Keep each piece's alignment file, its ledger for long work, and its drafts in `${CLAUDE_PLUGIN_DATA}/communicate/<piece-slug>/`. Where that path is not absolute, ask the user once where to keep them. Where the run cannot write files, hold all three in the conversation and read "file" in every step as that held state. The finished artifact goes where the user names, or into the reply where no file can be written. [align](references/align.md) holds the details.
 
 ## The loop
 

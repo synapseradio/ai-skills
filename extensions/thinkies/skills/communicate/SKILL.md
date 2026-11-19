@@ -2,11 +2,11 @@
 name: communicate
 description: Use for any piece of writing meant for an audience, from one sentence to a book, and whenever text reads as machine-made. Shapes the piece with the user around who it is for and where it should take them, keeping the user's meaning theirs.
 compatibility: >-
-  Any agent that can read files on demand, create and keep files between
-  turns (an alignment file, a ledger, and drafts for each piece), ask the
-  user questions and wait for the answers, keep a short ranked list in its
-  working notes, and answer explicit questions about a draft by pointing
-  to it.
+  Any agent that can read files on demand, ask the user questions and wait
+  for the answers, keep a short ranked list in its working notes, and
+  answer explicit questions about a draft by pointing to it. It keeps an
+  alignment file, a ledger, and drafts for each piece between turns, as
+  files where it can write them and in the conversation where it cannot.
 ---
 
 # Communicate
@@ -15,7 +15,7 @@ Help the user make a piece that takes its audience where the user means it to go
 
 ## Where the work is kept
 
-Keep each piece's alignment file, its ledger for long work, and its drafts in `${CLAUDE_PLUGIN_DATA}/communicate/<piece-slug>/`. Where that path is not absolute, ask the user once where to keep them. The finished artifact goes where the user names. [align](references/align.md) holds the details.
+Keep each piece's alignment file, its ledger for long work, and its drafts in `${CLAUDE_PLUGIN_DATA}/communicate/<piece-slug>/`. Where that path is not absolute, ask the user once where to keep them. Where the run cannot write files, hold all three in the conversation and read "file" in every step as that held state. The finished artifact goes where the user names, or into the reply where no file can be written. [align](references/align.md) holds the details.
 
 ## The loop
 

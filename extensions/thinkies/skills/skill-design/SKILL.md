@@ -6,7 +6,8 @@ compatibility: >-
   the user. Floor executor: an agent that can read a skill's files, quote
   evidence from them by file and line, and walk numbered moves in order.
   For audit, the executor must have file search over the target skill's
-  directory.
+  directory. Where the skill arrives pasted into the conversation and no
+  file can be opened, the run works from the pasted text.
 ---
 
 # Skill Design
@@ -57,6 +58,13 @@ Where the run reaches no user, as in a delegated run, carry each
 question you would have asked into the exit artifact as an open
 question with its options, and leave unconfirmed everything only the
 user can confirm, marked as such.
+
+Where the run can open no files, as when the skill arrives pasted into
+the conversation, work from the pasted text. Cite evidence by quoting
+the line under its heading, name each file the text points to that you
+could not read, and count what those files hold as unverified. Give
+the exit artifact in the reply, the updated skill text included where a
+mode ends at updated files.
 
 ## The modes
 

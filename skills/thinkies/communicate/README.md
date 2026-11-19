@@ -85,7 +85,7 @@ Or copy `skills/thinkies/communicate/` into `~/.claude/skills/communicate/`.
 
 ## Where the work is kept
 
-For anything longer than a quick change, the skill keeps a small alignment file for each piece, plus a ledger for long work and the drafts, so a later session picks up where the last one stopped. Loaded from the thinkies Claude Code plugin, these live in the plugin's data folder; anywhere else, it asks you once where to keep them. The finished piece goes wherever you name.
+For anything longer than a quick change, the skill keeps a small alignment file for each piece, plus a ledger for long work and the drafts, so a later session picks up where the last one stopped. Loaded from the thinkies Claude Code plugin, these live in the plugin's data folder; anywhere else it can write files, it asks you once where to keep them. Where it cannot write files, as in a chat with no file access, it holds them in the conversation, and for long work it hands you the alignment file and the ledger when a sitting ends, to bring back at the next. The finished piece goes wherever you name, or into the reply.
 
 ## Install as a `.skill`
 

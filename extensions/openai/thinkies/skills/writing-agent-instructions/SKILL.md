@@ -25,6 +25,8 @@ Decide the route from the state of the world. Read a route's reference when you 
 
 When you cannot tell which route fits, ask one question rather than guessing. Where nobody can answer, return that question with what each route would produce.
 
+Where the run can open or write no file, as when the instruction arrives pasted into the conversation, take the pasted text as the file: do each search by reading the text whole, and return the output in the reply for whoever holds the file to place.
+
 Both routes end in the same artifacts, the four parts and the checks in [references/checks.md](references/checks.md), and differ only in where the cases come from. Close a route only when its output exists in the shape at the end of this file.
 
 ## Wording

@@ -107,6 +107,8 @@ A map of your own regions embeds the GeoJSON you supply and loads the first two 
 - Python 3.9 or later, run through `uv` where it exists. The scripts use the standard library only.
 - A browser with network access to draw the HTML chart.
 
+Where the agent has no shell, as in a chat that runs no code, neither is needed: the skill returns the Markdown output in its reply and checks it by reading.
+
 ## Sources
 
 - TanStack Charts 1.5.0 documentation, the API the pages and `references/charts.md` use: <https://github.com/TanStack/charts/tree/v1.5.0/docs>

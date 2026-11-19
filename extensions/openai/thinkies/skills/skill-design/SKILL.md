@@ -54,6 +54,13 @@ question you would have asked into the exit artifact as an open
 question with its options, and leave unconfirmed everything only the
 user can confirm, marked as such.
 
+Where the run can open no files, as when the skill arrives pasted into
+the conversation, work from the pasted text. Cite evidence by quoting
+the line under its heading, name each file the text points to that you
+could not read, and count what those files hold as unverified. Give
+the exit artifact in the reply, the updated skill text included where a
+mode ends at updated files.
+
 ## The modes
 
 Read a mode's reference when you enter it, not before.

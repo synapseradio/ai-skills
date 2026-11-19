@@ -125,3 +125,5 @@ Update the file after every user message, and read it before every step of the l
 ## Storage
 
 Keep the alignment file, the ledger, and the drafts of each piece in `${CLAUDE_PLUGIN_DATA}/communicate/<piece-slug>/`, where the slug is two to five lowercase words joined by hyphens that name the piece. Create the folder when it is missing. Where that path is not absolute, ask the user once where to keep them, and use that place for the rest of the work. The finished artifact goes where the user names.
+
+Where the run cannot write files, ask nothing about where to keep them. Hold the alignment file and the ledger in your working notes, in the form their templates give, and update and read them there wherever a step names the file. Show a draft in the reply, and give the finished artifact there too. For work that runs past one sitting, give the user the alignment file and the ledger whole when a sitting closes, since the next sitting starts from them, and start that sitting from the copy they bring back.

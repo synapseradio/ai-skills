@@ -4,7 +4,8 @@ description: Use when writing or tightening standing instructions an agent follo
 compatibility: >-
   Floor executor: an agent that can read the target file whole, search it
   for a word, and write markdown tables. No tool beyond read, search, and
-  write is needed. Runs on a mid-tier model; every step ends in something
+  write is needed, and none at all where the instruction is pasted into
+  the conversation. Runs on a mid-tier model; every step ends in something
   written down and a check on it.
 ---
 
@@ -27,6 +28,8 @@ Decide the route from the state of the world. Read a route's reference when you 
 - Neither, as when the file is short and the ask is a wording change → say so and make the change without the procedure.
 
 When you cannot tell which route fits, ask one question rather than guessing. Where nobody can answer, return that question with what each route would produce.
+
+Where the run can open or write no file, as when the instruction arrives pasted into the conversation, take the pasted text as the file: do each search by reading the text whole, and return the output in the reply for whoever holds the file to place.
 
 Both routes end in the same artifacts, the four parts and the checks in [references/checks.md](references/checks.md), and differ only in where the cases come from. Close a route only when its output exists in the shape at the end of this file.
 

@@ -22,7 +22,7 @@ Name the parts, the phases the situation moves through, and the constraints any 
 Sort each forward-looking claim into one of four piles:
 
 - **Known**: given by the asker, or already verified.
-- **Knowable now**: check it with the tools at hand, so it enters as a fact.
+- **Knowable now**: check it with the tools at hand, so it enters as a fact. Where no tool at hand reaches it, name the check and carry the claim as a stated assumption.
 - **Knowable only later**: settled by a future event or by another party's move.
 - **Held by the asker**: numbers, dates, context. Ask for these as plain facts. In a run with no one to ask, proceed on a stated assumption per item and say what changes if it breaks.
 

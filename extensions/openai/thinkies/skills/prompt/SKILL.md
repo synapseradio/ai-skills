@@ -56,8 +56,8 @@ Write the natural phrasing first, then check it against the catalog. A rewrite c
 
 Output only the artifact, with no preamble, postscript, surrounding commentary, or closing question, since the output is often pasted or passed straight to the model it addresses.
 
-- Where the user supplied a path, write the file directly.
-- Where they did not, display the artifact inline.
+- Where the user supplied a path and the run can write files, write the file directly.
+- Where they did not, or the run cannot write files, display the artifact inline.
 
 Never fabricate file paths, scripts, or tools that the surrounding context has not established. The reader will go looking for each one.
 
