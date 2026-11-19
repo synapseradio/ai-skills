@@ -34,9 +34,12 @@ system already does about it, by looking at it.
    - **Partly covered** — most of it exists. Extend the smallest piece that is
      missing, and leave the rest as it stands.
    - **Not covered** — nothing serves this purpose. Now you may add it.
+   - **Unknown** — the search could not settle it, as when the thing could not
+     be read. "Not covered" takes a read that found nothing, so hold the build
+     and name the one read that would settle the verdict.
 
 4. **State what you found.** Tell the reader what you searched, what you found, and
-   why you concluded covered, partly, or not. This lets them check your dedup
+   why you concluded covered, partly, not, or unknown. This lets them check your dedup
    instead of taking your word for it. A silent "I checked" is not checkable.
 
 The deeper method — how to survey, the known / assumed / unknown split, how to
