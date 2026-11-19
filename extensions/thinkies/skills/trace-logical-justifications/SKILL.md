@@ -1,6 +1,6 @@
 ---
 name: trace-logical-justifications
-description: Use to learn what a set of claims ultimately rests on. Follows the support for each claim backward until it ends in an observation, a definition, an axiom, or nothing, and flags the floating claims that have no ground under them.
+description: Use to learn what a set of claims ultimately rests on. Follows the support for each claim back to its ground, whether an observation, a definition, or nothing at all, and flags the claims left unsupported.
 ---
 
 Follow these steps:

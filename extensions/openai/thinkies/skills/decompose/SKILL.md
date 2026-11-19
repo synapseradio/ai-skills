@@ -1,8 +1,8 @@
 ---
 name: decompose
-description: Use when a whole is too big or tangled to act on as one lump, in any domain. Cuts it
-  into parts at its natural joints, one axis per level, with no gaps or overlaps, until each part
-  can be acted on or checked directly.
+description: Use when a whole is too big or tangled to act on as one lump, in any domain. Divides
+  it at its natural joints into parts that cover it exactly, each small enough to act on or check
+  directly.
 ---
 
 ## Steps

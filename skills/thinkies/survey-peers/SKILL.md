@@ -1,6 +1,6 @@
 ---
 name: survey-peers
-description: Use when only one option is in view, or to learn what something competes with. Lists what else fills the same role at the same level of detail, arranges the peers by what separates them, and finds the empty positions among them.
+description: Use when only one option is in view, or to learn what something competes with. Maps what else fills the same role at the same level of detail, how those peers differ, and which positions among them stand empty.
 ---
 
 ## Steps

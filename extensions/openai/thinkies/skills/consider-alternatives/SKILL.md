@@ -1,8 +1,7 @@
 ---
 name: consider-alternatives
 description: Use when one explanation for an observation was accepted early, as in diagnosis or root-cause
-  work. Generates rival explanations for the same evidence, states what each would predict, and names
-  the test that tells them apart.
+  work. Raises rival explanations for the same evidence and names the test that would tell them apart.
 ---
 
 ## Steps

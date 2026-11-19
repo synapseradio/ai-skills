@@ -1,8 +1,8 @@
 ---
 name: save-note
-description: Use the moment an insight worth returning to turns up, asked for or not. Saves it as
-  a short self-contained note with its context and topic, so a later session can find it by topic,
-  date, or project.
+description: Use the moment an insight worth returning to turns up, asked for or volunteered. Saves
+  it as a short self-contained note with its context, so a later session can find it by topic, date,
+  or project.
 ---
 
 # Save note

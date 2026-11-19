@@ -1,8 +1,8 @@
 ---
 name: tutor
-description: Use when someone wants to learn something interactively, at their own pace. Asks how
-  they like to learn, then teaches one concept per turn, checks comprehension with a question, and
-  speeds up, slows down, or changes angle on their reply.
+description: Use when someone wants to learn something interactively, at their own pace. Teaches one
+  idea at a time, checks that it landed, and speeds up, slows down, or changes angle according to
+  the learner's replies.
 ---
 
 Follow these steps:

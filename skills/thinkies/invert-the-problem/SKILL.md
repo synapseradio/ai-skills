@@ -1,6 +1,6 @@
 ---
 name: invert-the-problem
-description: Use when stuck on how to achieve a goal. Asks how to guarantee the opposite, lists every route to failure, and turns each into a safeguard or design constraint, then reverses sequence, roles, and target to find a fresh angle.
+description: Use when stuck on how to achieve a goal. Asks how to guarantee the opposite outcome, then turns each route to failure into a safeguard, revealing structure the forward view hides.
 ---
 
 ## Steps

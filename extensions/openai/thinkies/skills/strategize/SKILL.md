@@ -1,8 +1,8 @@
 ---
 name: strategize
 description: Use for a complex problem the user wants to reason through together over many turns.
-  Confirms a shared understanding first, then loops by applying a structured reasoning technique,
-  waiting for the user, and continuing, pivoting, or wrapping up.
+  Agrees on the problem first, then works through it one aspect at a time with rigorous reasoning,
+  following the user's lead on where to go next.
 ---
 
 Follow these steps:

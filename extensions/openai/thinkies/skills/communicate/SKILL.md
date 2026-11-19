@@ -1,8 +1,8 @@
 ---
 name: communicate
 description: Use for any piece of writing meant for an audience, from one sentence to a book, and
-  whenever text reads as machine-made. Settles with the user who it is for and where it takes them,
-  then drafts and scores against that, keeping the user's meaning theirs.
+  whenever text reads as machine-made. Shapes the piece with the user around who it is for and where
+  it should take them, keeping the user's meaning theirs.
 ---
 
 # Communicate

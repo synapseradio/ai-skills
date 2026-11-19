@@ -1,8 +1,8 @@
 ---
 name: decision-analysis
 description: Use when a user faces one concrete choice among identified options under uncertainty.
-  Tabulates acts, states, consequences, and preferences, drops dominated options, ranks the rest by
-  a rule fitted to the uncertainty, and says decide now or learn more.
+  Structures the choice rigorously, ranks the options by what the user values, and says whether to
+  decide now or learn more first.
 ---
 
 # Decision analysis

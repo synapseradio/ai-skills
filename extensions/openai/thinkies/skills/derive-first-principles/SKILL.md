@@ -1,8 +1,8 @@
 ---
 name: derive-first-principles
 description: Use when an approach is followed because it is the usual way, or convention blocks a
-  better one. Questions each part of it, keeps only what is fundamentally true, reasons up from that,
-  and shows which constraints were merely inherited.
+  better one. Separates what is fundamentally true from what is merely inherited, and rebuilds the
+  approach from the true part.
 ---
 
 Find or reverse engineer first principles from context.

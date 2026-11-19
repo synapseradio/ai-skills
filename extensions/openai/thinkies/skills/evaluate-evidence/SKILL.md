@@ -1,8 +1,8 @@
 ---
 name: evaluate-evidence
 description: Use when a claim comes with evidence and the question is how far that evidence carries
-  it. Inventories the evidence, grades source reliability, data quality, directness, and convergence,
-  seeks counter-evidence, and rates the support.
+  it. Weighs the quality, directness, and agreement of the evidence, seeks what contradicts it, and
+  rates how well the claim is supported.
 ---
 
 Follow these steps:

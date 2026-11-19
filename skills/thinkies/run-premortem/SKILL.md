@@ -1,6 +1,6 @@
 ---
 name: run-premortem
-description: Use before carrying out a plan, launch, or change that would be costly to get wrong. Assumes it already failed badly, works backward through technical, human, process, external, and timing causes, and designs fixes for the ones left unaddressed.
+description: Use before carrying out a plan, launch, or change that would be costly to get wrong. Imagines it has already failed badly and works backward to the causes, so the dangerous ones get addressed while the plan can still change.
 ---
 
 ## Steps

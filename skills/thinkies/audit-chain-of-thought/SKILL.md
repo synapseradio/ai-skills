@@ -1,6 +1,6 @@
 ---
 name: audit-chain-of-thought
-description: Use to learn what kind of reasoning a conclusion hangs on. Lays out each inferential step, tags it deductive, inductive, or abductive, tests it by the standard for its kind, and shows which probabilistic leaps are the weakest links.
+description: Use to learn how much of a line of reasoning is certain and how much is only probable. Marks which steps follow necessarily, which generalize from cases, and which are best guesses, and shows the weakest links the conclusion hangs on.
 ---
 
 Follow these steps:

@@ -1,8 +1,8 @@
 ---
 name: assess-current-knowledge
-description: Use before deciding or acting on partial information. Sorts what is held into verified
-  facts, known unknowns, unused knowledge, and blind spots, labels the source of each item, and names
-  the gaps to close first given the cost of being wrong.
+description: Use before deciding or acting on partial information. Separates what is verified from
+  what is assumed, unknown, or overlooked, and names the gaps worth closing first given the cost of
+  being wrong.
 ---
 
 ## Steps

@@ -1,6 +1,6 @@
 ---
 name: check-notes
-description: Use when something from an earlier session is needed, such as a past finding, a saved note, or a run to resume. Searches saved notes and thinkies run records by topic, skill, date, or project and plays the matches back in readable form.
+description: Use when something from an earlier session is needed, such as a past finding, a saved note, or a run to resume. Finds saved notes and past thinkies runs by topic, skill, date, or project and shows them in readable form.
 compatibility: >-
   Reads the records store and its mirror when loaded from the thinkies Claude
   Code plugin; elsewhere plays back a record pasted into the conversation.

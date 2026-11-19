@@ -1,8 +1,8 @@
 ---
 name: question-the-question
-description: Use when an inquiry stalls, drifts, or yields answers that do not help, and before heavy
-  work on a question taken as given. Checks whether the question itself is aimed at the right target,
-  then sharpens it or replaces it.
+description: Use when an inquiry stalls, drifts, or yields unhelpful answers, and before heavy work
+  on a question taken as given. Checks whether the question itself is aimed at the right target, then
+  sharpens it or replaces it.
 ---
 
 ## Steps

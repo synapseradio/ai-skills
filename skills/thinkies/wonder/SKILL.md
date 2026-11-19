@@ -1,6 +1,6 @@
 ---
 name: wonder
-description: Use at the very start, when a situation is vague, surprising, or confusing and no direction exists yet. Opens possibilities by following curiosity, chaining what-if and how-might questions from whatever seems odd. Yields questions, not answers.
+description: Use at the very start, when a situation is vague, surprising, or confusing and its direction is still open. Opens up possibilities by following curiosity from whatever seems odd, producing questions worth pursuing.
 ---
 
 ## Steps

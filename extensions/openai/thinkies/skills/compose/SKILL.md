@@ -1,8 +1,7 @@
 ---
 name: compose
-description: Use when pieces are in hand and it is unclear what they make together. Joins parts into
-  a whole, names what the arrangement does that no part does alone, drops the parts that add nothing,
-  and finds what the whole still lacks.
+description: Use when pieces are in hand and it is unclear what they make together. Assembles the
+  parts into a whole, names what the whole does that no part does alone, and finds what it still lacks.
 ---
 
 ## Steps

@@ -1,6 +1,6 @@
 ---
 name: detect-fallacies
-description: Use when an argument persuades but something seems off, or before accepting or publishing one. Checks it against named fallacies such as false dichotomy, straw man, and correlation as causation, steelmans it first, and suggests the repair.
+description: Use when an argument persuades but something seems off, or before accepting or publishing one. Names the logical errors in it, such as a false dichotomy or correlation read as causation, and shows how to repair the reasoning.
 ---
 
 Follow these steps:

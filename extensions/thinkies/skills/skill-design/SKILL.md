@@ -1,6 +1,6 @@
 ---
 name: skill-design
-description: Use before building an Agent Skill and whenever an existing one misfires, bloats, or needs review. Works with the user on a design brief, a refactor change set, or an audit against ten principles. Building, evals, and packaging stay with skill-creator.
+description: Use before building an Agent Skill and whenever an existing one misfires, bloats, or needs review. Works with the user to decide what the skill should be and whether it holds up. Building, evals, and packaging stay with skill-creator.
 compatibility: >-
   Runs in the main conversation, and every mode involves conversation with
   the user. Floor executor: an agent that can read a skill's files, quote

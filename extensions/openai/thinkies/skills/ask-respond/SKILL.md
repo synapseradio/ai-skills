@@ -1,8 +1,8 @@
 ---
 name: ask-respond
-description: Use when a question deserves a careful answer over a quick one. Restates it, lists the
-  assumptions and sub-questions it carries, labels what each answer rests on (observed, documented,
-  inferred, or assumed), then answers at that strength.
+description: Use when a question deserves a careful answer over a quick one. Works out what is really
+  being asked and what must be settled first, then answers only as firmly as the evidence for each
+  part allows.
 ---
 
 ## Steps

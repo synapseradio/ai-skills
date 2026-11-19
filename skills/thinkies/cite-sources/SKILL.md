@@ -1,6 +1,6 @@
 ---
 name: cite-sources
-description: Use whenever a response draws on web pages, docs, or other external material fetched during the task. Tracks which claim came from which source, confirms every URL resolves before citing it, and separates sourced facts from the analysis built on them.
+description: Use whenever a response draws on web pages, docs, or other external material fetched during the task. Ties each claim to the source it came from, cites only links confirmed to work, and keeps sourced facts distinct from analysis.
 ---
 
 Follow these steps:

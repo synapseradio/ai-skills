@@ -1,6 +1,6 @@
 ---
 name: surface-intent
-description: Use before adding or changing anything in a system not yet fully read, such as a rule, helper, name, config, or design. Reads the intent already built into what exists, so the change extends it and duplicates nothing, then states its own intent plainly.
+description: Use before adding or changing anything in a system not yet fully read, such as a rule, helper, name, config, or design. Reads the intent already built into what exists, so the change extends it, then makes its own intent plain to the next reader.
 ---
 
 # Surface Intent

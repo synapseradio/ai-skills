@@ -1,6 +1,6 @@
 ---
 name: writing-agent-instructions
-description: Use when writing or tightening standing instructions an agent follows across many cases, such as rules or system guidance. Turns lists of cases into a few general rules every reader expands the same way, and proves what those rules yield.
+description: Use when writing or tightening standing instructions an agent follows across many cases, such as rules or system guidance. Shapes them so every reader applies them the same way, including to cases beyond the ones the writer listed.
 compatibility: >-
   Floor executor: an agent that can read the target file whole, search it
   for a word, and write markdown tables. No tool beyond read, search, and

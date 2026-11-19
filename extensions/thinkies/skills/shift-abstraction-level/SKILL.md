@@ -1,6 +1,6 @@
 ---
 name: shift-abstraction-level
-description: Use when lost in detail or too abstract to act, and the only thing missing is the right level. Restates the subject a few rungs up (why) and down (how), weighs what each rung enables and hides, and picks the rung to act at.
+description: Use when lost in detail or too abstract to act, and the only thing missing is the right level. Restates the subject at higher and lower levels of abstraction and picks the one that best supports the act at hand.
 ---
 
 ## Steps

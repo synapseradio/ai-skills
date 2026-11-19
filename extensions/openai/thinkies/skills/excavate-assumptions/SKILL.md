@@ -1,8 +1,8 @@
 ---
 name: excavate-assumptions
-description: Use when a framing, plan, or argument rests on things nobody has said aloud. Lists its
-  unstated assumptions (semantic, pragmatic, logical, worldview), rates each by importance and certainty,
-  and tests the ones both important and uncertain.
+description: Use when a framing, plan, or argument rests on things nobody has said aloud. Brings its
+  unstated assumptions into view and singles out for testing the ones that matter most and are least
+  certain.
 ---
 
 ## Steps

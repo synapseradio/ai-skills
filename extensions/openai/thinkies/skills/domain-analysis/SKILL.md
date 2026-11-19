@@ -1,8 +1,8 @@
 ---
 name: domain-analysis
 description: Use before working inside or auditing an unfamiliar system, codebase, or multi-agent
-  setup. Builds a lasting, reloadable model from purpose and values down to functions, components,
-  and files, with who acts on and who sees each piece.
+  setup. Builds a lasting model of what the system is for, what it does, what carries that out, and
+  who touches each part, for later sessions to extend.
 ---
 
 # Domain analysis

@@ -1,6 +1,6 @@
 ---
 name: find-leverage
-description: Use when effort is spread across a system and results stay small, or to choose where to intervene. Traces feedback loops, bottlenecks, amplifiers, and root causes, and names the single change that shifts the most for the least effort.
+description: Use when effort is spread across a system and results stay small, or to choose where to intervene. Finds the point where a small change shifts the whole system, and names the single best intervention.
 ---
 
 ## Steps

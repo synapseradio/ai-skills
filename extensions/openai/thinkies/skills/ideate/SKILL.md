@@ -1,8 +1,8 @@
 ---
 name: ideate
 description: Use when options are needed for an open opportunity or problem and none are on the table.
-  Sets the constraints, generates many raw ideas, clusters them, filters them hard against those constraints,
-  and hands back a few vetted options.
+  Generates ideas widely, then narrows them against the real constraints to a few vetted options ready
+  to compare.
 ---
 
 Follow these steps:

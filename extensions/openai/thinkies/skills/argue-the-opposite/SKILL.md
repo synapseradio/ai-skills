@@ -1,8 +1,8 @@
 ---
 name: argue-the-opposite
 description: Use before committing to a position, recommendation, or conclusion, above all one reached
-  easily. Builds the strongest case against it as a capable skeptic would, concedes where that case
-  is right, and decides to keep, refine, or drop it.
+  easily. Gives the opposing side its strongest voice, so the position is kept, refined, or dropped
+  on its merits.
 ---
 
 ## Steps

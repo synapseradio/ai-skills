@@ -1,8 +1,8 @@
 ---
 name: ask-what-breaks
-description: Use when a conclusion is about to be relied on. Hunts the specific facts and observations
-  that would defeat it, attacking its premises and inferences and seeking direct counter-evidence,
-  and sorts each as weakening it or destroying it.
+description: Use when a conclusion is about to be relied on. Hunts for the specific facts and observations
+  that would defeat it, and tells the ones that merely weaken it from the ones that would overturn
+  it.
 ---
 
 Follow these steps:

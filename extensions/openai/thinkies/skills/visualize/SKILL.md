@@ -1,8 +1,8 @@
 ---
 name: visualize
 description: Use whenever data, a comparison, a trend, a flow, or a structure should be seen, or to
-  choose a chart type. Validates the data, picks the chart from the question it answers, and builds
-  a checked HTML chart page or a Markdown diagram or table.
+  choose a chart type. Makes one chart or diagram that answers one question, fitted to where it will
+  be read, with the data checked first.
 ---
 
 # Visualize

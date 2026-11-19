@@ -1,6 +1,6 @@
 ---
 name: tree-of-thought
-description: Use for a multi-part problem where each part has several workable solutions. Splits it into dependent components, generates three approaches per component, scores them on feasibility, effectiveness, and risk, and joins the winners into one path.
+description: Use for a multi-part problem where each part has several workable solutions. Weighs alternative approaches for every part and joins the best of them into one coherent solution path.
 ---
 
 # Tree of Thought Analysis

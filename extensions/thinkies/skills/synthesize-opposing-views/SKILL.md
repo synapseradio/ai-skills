@@ -1,6 +1,6 @@
 ---
 name: synthesize-opposing-views
-description: Use when two positions directly contradict and picking a side would lose something. States each at full strength, pinpoints exactly where they conflict, and builds a third position that keeps what both got right and explains the conflict.
+description: Use when two positions directly contradict and picking a side would lose something. Takes each at full strength and builds a third position that keeps what both got right and explains why they conflicted.
 ---
 
 Follow these steps:

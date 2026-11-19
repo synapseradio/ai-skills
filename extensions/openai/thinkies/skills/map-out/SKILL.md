@@ -1,8 +1,8 @@
 ---
 name: map-out
-description: Use to get oriented in an unfamiliar or muddled subject when no single move is clearly
-  the one it needs. Chains moves across parts and wholes, purposes and means, kinds and cases, and
-  peers to say where it sits and what level to act at.
+description: Use to get oriented in an unfamiliar or muddled subject when the move it needs is still
+  unclear. Locates the subject among its parts and wholes, purposes, kinds, and peers, and settles
+  the level to act at.
 ---
 
 # Map out

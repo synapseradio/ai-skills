@@ -1,6 +1,6 @@
 ---
 name: connect-ideas
-description: Use when two ideas seem related and the relation needs pinning down, or one problem needs a solved analogue from a distant field. Tests each kind of relation (analogy, cause, means, part, shared limit, tension) and keeps only those the evidence supports.
+description: Use when two ideas seem related and the relation needs pinning down, or one problem needs a solved analogue from a distant field. Keeps only the connections the evidence supports and says what each one makes possible.
 compatibility: >-
   Saves a record of each run when loaded from the thinkies Claude Code plugin;
   elsewhere prints the record in the reply for the user to keep.

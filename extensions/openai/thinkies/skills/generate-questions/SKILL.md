@@ -1,8 +1,8 @@
 ---
 name: generate-questions
 description: Use when questions must be written down for someone else to ask or answer, or a question
-  set needs review or cutting. Returns at most five highest-leverage questions in asking order, each
-  with what its answer decides. Asks no one.
+  set needs review or cutting. Returns the few questions that decide the most, in the order to ask
+  them, as a written inquiry ready to hand over.
 ---
 
 # generate-questions

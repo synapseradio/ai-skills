@@ -1,8 +1,8 @@
 ---
 name: scamper
 description: Use to rework something that already exists, such as a product, process, text, or design,
-  into new variants. Runs seven lenses over it with the user (substitute, combine, adapt, modify,
-  repurpose, eliminate, reverse), then picks directions.
+  into new variants. Explores systematic transformations of it with the user, such as substituting,
+  combining, and reversing parts, and settles on directions.
 ---
 
 # SCAMPER

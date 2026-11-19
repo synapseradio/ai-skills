@@ -1,8 +1,8 @@
 ---
 name: prompt
 description: Use when writing or revising a prompt for another model or agent, a delegation prompt
-  included. Fills a fixed template from the request, or refactors an existing prompt while accounting
-  for every instruction in it, and lints the phrasing.
+  included. Produces a clear, well-structured prompt from a request, or reworks an existing one while
+  preserving every instruction it carries.
 ---
 
 # Prompt

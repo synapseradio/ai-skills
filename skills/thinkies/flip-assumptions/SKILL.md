@@ -1,6 +1,6 @@
 ---
 name: flip-assumptions
-description: Use to check an if-then, causal, or all-X-are-Y claim that is hard to verify head-on. Rewrites it as its contrapositive (if not Q then not P), tests whichever form has the clearer evidence, and exposes prerequisites the original hid.
+description: Use to check an if-then, causal, or all-X-are-Y claim that is hard to verify head-on. Restates it in its logically equivalent reverse form, which is often easier to test and exposes what the original took for granted.
 ---
 
 Follow these steps:

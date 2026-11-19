@@ -1,6 +1,6 @@
 ---
 name: instantiate
-description: Use when a claim, rule, principle, or plan is stated abstractly with no concrete case. Builds the typical case and one the wording covers but its author never pictured, and names the conditions the abstraction assumed without saying.
+description: Use when a claim, rule, principle, or plan is stated abstractly with no concrete case. Tests it on specific cases, including one beyond what its author pictured, to reveal the conditions it quietly depends on.
 ---
 
 ## Steps

@@ -1,6 +1,6 @@
 ---
 name: ponder
-description: Use when a problem needs thinking before solving and no single method is obvious, as with a vague idea, a stuck effort, a fork, tangled factors, or a sense of missing something. Picks and chains exploration techniques, then ranks the options.
+description: Use when a problem needs thinking before solving and the right method is still open, as with a vague idea, a stuck effort, a fork, tangled factors, or a sense of missing something. Explores it from the angles it needs and ranks the options.
 compatibility: >-
   Floor executor: an agent that can read a reference
   file, carry out its numbered reasoning moves against the problem, and answer

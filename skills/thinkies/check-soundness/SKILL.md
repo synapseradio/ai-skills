@@ -1,6 +1,6 @@
 ---
 name: check-soundness
-description: Use after merging several inputs, views, or findings into one conclusion, before relying on it. Tests that synthesis for internal contradictions, dropped or distorted inputs, and untested load-bearing claims, and gives a pass or fail verdict.
+description: Use after merging several inputs, views, or findings into one conclusion, before relying on it. Tests whether that synthesis holds together, with every input honored and its parts consistent with one another, and gives a clear verdict.
 ---
 
 Follow these steps:

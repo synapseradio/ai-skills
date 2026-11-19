@@ -1,6 +1,6 @@
 ---
 name: branch-possibilities
-description: Use when one path is being followed by default from a decision point. Generates several fundamentally different directions from the same start, makes each concrete with its trade-offs, and maps where they split and could rejoin.
+description: Use when one path is being followed by default from a decision point. Opens several fundamentally different directions from the same start, each concrete enough to compare by its trade-offs.
 ---
 
 ## Steps

@@ -1,6 +1,6 @@
 ---
 name: shift-perspective
-description: Use when a problem has been seen from one seat only. Speaks from inside a few contrasting viewpoints (other stakeholders, disciplines, horizons, skill levels) to find what each sees that the rest miss and where they truly clash.
+description: Use when a problem has been seen from one seat only. Takes up contrasting viewpoints, such as other stakeholders, disciplines, and horizons, to find what each sees that the rest miss and where they truly clash.
 ---
 
 ## Steps

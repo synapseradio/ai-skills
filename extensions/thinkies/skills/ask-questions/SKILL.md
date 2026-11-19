@@ -1,6 +1,6 @@
 ---
 name: ask-questions
-description: Use whenever a question is about to go to the user, a question fell flat, or an answer needs digging under. Finds the one next move that best advances a live inquiry, whether a sharp question, a restatement, a plain statement, or asking nothing.
+description: Use whenever a question is about to go to the user, a question fell flat, or an answer needs digging under. Chooses the next move that best advances a live inquiry, whether a sharp question, a restatement, a plain statement, or silence.
 compatibility: >-
   Saves a record of each run when loaded from the thinkies Claude Code plugin;
   elsewhere prints the record in the reply for the user to keep.

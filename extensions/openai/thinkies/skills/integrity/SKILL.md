@@ -1,8 +1,8 @@
 ---
 name: integrity
 description: Use as the full final check on a response, report, or other output before it is relied
-  on. Sorts its claims into verified, needing attention, and assumed by tracing support and checking
-  fallacies, defeaters, sources, and confidence in one pass.
+  on. Verifies that every claim in it is backed by what supports it, and reports which claims hold,
+  which need attention, and what stays assumed.
 ---
 
 Follow these steps:

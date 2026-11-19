@@ -1,6 +1,6 @@
 ---
 name: what-if
-description: Use when a decision or plan hinges on unknowns that only the future resolves. Maps the distinct futures those unknowns produce, plays out each, finds the early signs of which is arriving, and commits to the move that survives the most of them.
+description: Use when a decision or plan hinges on unknowns that only the future resolves. Maps the distinct futures those unknowns could produce, commits to the move that holds up across them, and names the early signs that would change it.
 ---
 
 # What-if
