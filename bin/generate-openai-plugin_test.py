@@ -154,12 +154,18 @@ class EmittedTreeTests(unittest.TestCase):
         self.assertEqual(entries, ["plugin.json"])
 
     def test_visualize_keeps_its_scripts_and_no_python_fallback(self):
+        source = gen.SOURCE_DIR / "visualize"
         visualize = self.skills_root / "visualize"
-        self.assertTrue((visualize / "scripts" / "visualizer.py").is_file())
-        self.assertIn(
-            "If not: the saved file is the final artifact",
-            (visualize / "references" / "phase-present.md").read_text(),
-        )
+        shipped = sorted(p.name for p in (source / "scripts").glob("*.py"))
+        self.assertTrue(shipped)
+        self.assertEqual(sorted(p.name for p in (visualize / "scripts").glob("*.py")), shipped)
+        python_lines = [
+            line for line in (source / "SKILL.md").read_text().splitlines() if "python3" in line
+        ]
+        self.assertTrue(python_lines)
+        emitted = (visualize / "SKILL.md").read_text().splitlines()
+        for line in python_lines:
+            self.assertIn(line, emitted)
 
     def test_regenerating_produces_an_identical_tree(self):
         second = Path(tempfile.mkdtemp(prefix="openai-thinkies-again-"))
