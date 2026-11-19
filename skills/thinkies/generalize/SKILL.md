@@ -3,6 +3,10 @@ name: generalize
 description: Use when a case looks new and no known solution fits. Finds the class the case belongs to and carries back the solutions, failure modes, and limits that hold for every member of that class.
 ---
 
+# Generalize
+
+Find the class a case belongs to, and carry back to the case what holds for every member. The case is the one the request names. When the request names none, take the one the conversation is working on and say which one you took.
+
 ## Steps
 
 ### 1. Which particulars can go without changing the case's shape?

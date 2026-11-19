@@ -1,0 +1,23 @@
+{
+  "evals": [
+    {
+      "expected_output": "A prose walk on the bare subject. It opens by placing the subject in the system it serves, since the request states no purpose. Each move states what it found and points to something in the subject that shows it. After each move the reply says where the subject now sits on the axes that move touched. No move name (select-level, situate, decompose, compose, instantiate, generalize, survey-peers) and no table label appears anywhere in the reply. The run holds at most five moves. It closes with four items: where the subject sits (whole, purpose, class, nearest peers), the level to act at and what acting there makes possible, what each move changed, and what stays open. A record follows: its path when a store exists, otherwise a playback and a jsonl block under a file name starting with map-out_.",
+      "files": [],
+      "id": 0,
+      "prompt": "Map out: the weekly team status meeting."
+    },
+    {
+      "expected_output": "The walk opens by choosing a level, because the request shows detail overload under time pressure: it lays out restatements above and below the level the worry is stated at and picks one to act at before anything else. Every claim about the migration is tied to a phrase of the request or marked as an assumption; the reply invents no table names, row counts, or deadlines beyond those given. Any further move is preceded by a quoted sentence from the walk so far that calls for it. The close names one level to act at and what acting there makes possible, and lists what stays open.",
+      "files": [],
+      "id": 1,
+      "prompt": "I ship the billing database migration on Friday and I'm drowning. There are 40 tables, three of them have triggers nobody understands, the rollback script is half written, and I keep bouncing between index names and whether we should migrate at all. Help me map this out so I know where to stand."
+    },
+    {
+      "expected_output": "The walk assembles the pieces into a whole before anything else, because the request holds parts with no sense of what they make together: it says what each piece does alone, what passes between them, and what the arrangement does that no piece does. The run stops when a move adds nothing new, well short of five moves if the picture stops changing, and says so by converging instead of adding moves. The reply produces no diagram, chart, plan, schedule, or task list. The close gives the subject's position, the level to act at, what each move changed, and what stays open.",
+      "files": [],
+      "id": 2,
+      "prompt": "We have a shared grocery list app, a chore wheel on the fridge, a house group chat, and a monthly house meeting. They all sort of work. Where does this all fit together? Map it out."
+    }
+  ],
+  "skill_name": "map-out"
+}

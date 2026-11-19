@@ -1,0 +1,23 @@
+{
+  "evals": [
+    {
+      "expected_output": "A model of the described system shown as a grid of five levels (functional purpose, abstract function, generalized function, physical function, physical form) against the system's grains, followed by node, link, and actor lists. Every node has an id made of its level's id word, a hyphen, and a number. Nodes the description does not state are marked as assumed in their evidence. Each node below functional purpose links to at least one node one level up, or is reported as a gap; each node above physical form is carried out by something, or is reported as a gap. Actors are named with what each acts on and sees, and a value or purpose that no actor sees is reported as a finding. The scope (system, boundary, task served, reading) is stated, and any part of it the reply had to assume appears as an open item. The reply ends with a record: its path when a store exists, otherwise a jsonl block under a file name starting with domain-analysis_.",
+      "files": [],
+      "id": 0,
+      "prompt": "Do a domain analysis of our school's lost-and-found: a box by the front office, a paper sign-out sheet, a photo album the secretary updates when she remembers, and an end-of-term donation run. I'm about to redesign how it works."
+    },
+    {
+      "expected_output": "The reply treats the setup as an agentic system: purposes are what the user wants done, values are the user's rules and quality bars, functions include plan, delegate, verify, and report, physical function nodes are the named agents, tools, and hooks, and physical form nodes are prompt files, settings, and model ids. Actors include the user and each agent, typed person or agent. The reply reports at least one finding of the form 'acted on without being seen' or 'value no actor sees' when the description supports one, and names the nodes involved. It invents no file paths: a physical node with no path given is marked unverified.",
+      "files": [],
+      "id": 1,
+      "prompt": "Audit my multi-agent setup with a domain analysis. An orchestrator takes my request and spawns a researcher and a writer. The researcher has web search. The writer has file write access. A lint hook runs on every file write. I have a rule that nothing gets published without my approval, but I only ever see the orchestrator's final summary."
+    },
+    {
+      "expected_output": "The reply resumes the pasted record instead of starting over: it takes the latest line for each node, link, and actor as the current model, answers the open item about who restocks before adding anything new, and adds only lines that extend the model. New nodes continue the numbering and reuse no id. A corrected node appears as a new line with the same id. The playback shows the merged model once, with a Resumed line saying what this run added, and never shows raw record lines outside the final jsonl block.",
+      "files": [],
+      "id": 2,
+      "prompt": "Pick up this domain analysis and extend it with the new volunteer rota I describe below.\n\n```jsonl\n{\"kind\": \"run\", \"at\": \"2026-10-02T09:00:00Z\", \"skill\": \"domain-analysis\", \"topic\": \"community-fridge\", \"subject\": \"Community fridge on Elm Street; boundary: the fridge and its volunteers; task: reduce spoiled food; reading: domain\", \"project\": \"\", \"resumed\": false}\n{\"kind\": \"node\", \"at\": \"2026-10-02T09:01:00Z\", \"id\": \"purpose-1\", \"level\": \"functional purpose\", \"grain\": \"system\", \"name\": \"Neighbours get free food that would otherwise be wasted\", \"evidence\": \"given\", \"retired\": false}\n{\"kind\": \"node\", \"at\": \"2026-10-02T09:02:00Z\", \"id\": \"function-1\", \"level\": \"generalized function\", \"grain\": \"system\", \"name\": \"Restock\", \"evidence\": \"assumed\", \"retired\": false}\n{\"kind\": \"open\", \"at\": \"2026-10-02T09:03:00Z\", \"id\": \"open-1\", \"text\": \"Who restocks, and when?\", \"about\": [\"function-1\"]}\n```\n\nNew: three volunteers now restock on Monday, Wednesday, and Friday mornings, and one of them checks dates every Friday."
+    }
+  ],
+  "skill_name": "domain-analysis"
+}

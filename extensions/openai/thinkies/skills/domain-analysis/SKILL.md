@@ -11,8 +11,8 @@ Model a real system as nodes on five levels, from what it is for down to what it
 
 ## Start
 
-1. Look in the store for a record of this skill whose topic names this system. When one exists, resume it: read it, and take the latest line for each node, link, and actor as the current model. Answer its open lines before adding anything new.
-2. Settle the scope and write it into the run line's subject: the system, its boundary, the task the model serves, and the reading, either the domain you are about to work in or an agentic system.
+1. Look in the store for a record of this skill whose topic names this system. When one exists, resume it: read it, and take the latest line for each node, link, and actor as the current model. Answer its open lines before adding anything new. When no store exists here, resume from a record pasted into the conversation, and start a new model when there is none.
+2. Settle the scope and write it into the run line's subject: the system, its boundary, the task the model serves, and the reading, either the domain you are about to work in or an agentic system. Take each from the request and from the system itself, and record as an open line any part of the scope you had to assume.
 3. Name the system's grains, coarsest first: system, subsystem, component, or the domain's own words.
 
 ## Levels
@@ -27,7 +27,7 @@ Model a real system as nodes on five levels, from what it is for down to what it
 
 ## Build
 
-Work down from functional purpose when the purpose is known. To explain a fault, start at physical form and work up.
+Work down from functional purpose when the purpose is known. To explain a fault, start at physical form and work up. Go as fine as the task the model serves needs and stop there, since a later run can extend the record.
 
 1. **Nodes.** Place nodes at each level and grain. Give each a stable id, its level's id word, a hyphen, and a number, such as `function-3`, never reused. Write the level's name, as the table gives it, in the node's `level`. When the domain is code, give every physical function and physical form node the path it lives at, and mark a node with no path as unverified in its evidence.
 2. **Means–ends links.** Link each node to every node one level up that it serves, with `rel` set to `means-of`. A node may serve several and be served by several. Test each link both ways: read upward it answers why, read downward it answers how.

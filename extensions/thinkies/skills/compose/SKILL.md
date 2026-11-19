@@ -3,6 +3,10 @@ name: compose
 description: Use when pieces are in hand and it is unclear what they make together. Assembles the parts into a whole, names what the whole does that no part does alone, and finds what it still lacks.
 ---
 
+# Compose
+
+Join parts into a whole that does what none of them does alone, and find what the whole still lacks. The parts are the ones the request names. When the request names none, take the ones the conversation is working on and say which ones you took.
+
 ## Steps
 
 ### 1. What does each part do on its own?

@@ -12,7 +12,7 @@ Locate a subject along four axes, part and whole, purpose and means, kind and ca
 
 ## Phase 0: Assess
 
-Read what the thinking lacks from the request and the conversation, and open with the matching move. When several rows fit, take the topmost. Proceed without announcing the pick.
+Read what the thinking lacks from the request and the conversation, and open with the matching move. When several rows fit, take the topmost. When the request is a bare subject and no row fits, open with situate, since nothing yet says what the subject is for. Proceed without announcing the pick.
 
 | The thinking lacks | Signal | Open with |
 |---|---|---|
@@ -42,7 +42,7 @@ Read the move's file from [references/](references/), answer its numbered questi
 
 After each move, say where the subject now sits on each axis the move touched: the whole it belongs to, the purpose it serves, the class it falls in, the peers beside it. Where one move shifted two axes at once, say which two.
 
-Then check everything produced so far, and extend when a row fires. When several fire, take the topmost.
+Then check everything produced so far, and extend when a row fires. When several fire, take the topmost. When none fires, converge.
 
 | The output so far shows | Extend with |
 |---|---|
@@ -54,11 +54,11 @@ Then check everything produced so far, and extend when a row fires. When several
 | A case with no class named | generalize |
 | One option at a level where others could exist | survey-peers |
 
-1. **Quote to extend.** Count a row as fired only by quoting the sentence that fires it.
-2. **Stop at fixpoint.** When the last move added nothing you can quote as new, converge, even if a row fires.
-3. **Cap at five.** A run holds at most five moves.
+1. **Quote to extend.** Count a row as fired only by quoting the sentence of the output that fires it. A row you can only paraphrase has stayed silent.
+2. **Stop when the picture stops changing.** When the last move added nothing you can quote as new, converge, even if a row fires.
+3. **Cap at five.** A run holds at most five moves. At the cap, converge.
 
-Write flowing prose that shows the reasoning as it forms: what each move found, and why it led to the next. Move names and table labels stay out of the output. Tie each claim to the subject material or mark it as an assumption.
+Write the walk as prose for a reader who wants the subject placed. For each move, state what it found and what in the subject shows it, then name the gap in that finding that the next move fills. Move names and table labels stay out of the output, because the reader follows the subject and has no use for the method's vocabulary. Tie each claim to the subject material or mark it as an assumption.
 
 ## Phase 3: Converge
 

@@ -3,6 +3,10 @@ name: survey-peers
 description: Use when only one option is in view, or to learn what something competes with. Maps what else fills the same role at the same level of detail, how those peers differ, and which positions among them stand empty.
 ---
 
+# Survey peers
+
+Map what else fills the subject's role at its level of detail, and where the gaps between those peers lie. The subject is the one the request names. When the request names none, take the one the conversation is working on and say which one you took.
+
 ## Steps
 
 ### 1. What role does the subject fill, and at what grain?

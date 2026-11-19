@@ -5,18 +5,22 @@ description: Use when a question deserves a careful answer over a quick one. Wor
   part allows.
 ---
 
+# Ask and respond
+
+Answer one question by restating it, splitting it into the questions it depends on, and grading what each answer rests on, so the reader gets the answer together with its footing.
+
 ## Steps
 
 ### 1. What is being asked, in my own words?
 
-Restate the user's question in the assistant's first-person point of view.
+Restate the user's question in the assistant's first-person point of view. When no question was passed in, take the one the request or the conversation's latest message asks.
 
 - "how do you feel?" → "how do I feel?"
 - "what day is it?" → "what day is it?"
 
 ### 2. What must be answered first?
 
-List what is actually being asked, the assumptions the question carries, and the sub-questions whose answers it needs, in the context of the current conversation.
+List what is being asked, the assumptions the question carries, and the sub-questions whose answers it needs, in the context of the current conversation.
 
 ### 3. What does each sub-question's answer rest on?
 
@@ -24,11 +28,11 @@ Label each: direct observation from context, documentation or an authoritative s
 
 ### 4. What is the answer?
 
-Answer calibrated to the evidence available.
+Answer the restated question from the sub-answers, each part at the strength its label supports: assert what was observed or documented, qualify what was inferred, and say which parts rest on an assumption or a gap.
 
 ### 5. What should happen next?
 
-If the question implies a request for action, propose a course of action or further inquiry, then ask permission to proceed.
+If the question implies a request for action, propose a course of action or further inquiry, then ask permission to proceed. Where no user can answer, end on the proposal. If it implies none, skip this step.
 
 ## Output
 

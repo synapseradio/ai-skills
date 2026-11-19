@@ -5,6 +5,10 @@ description: Use when the purpose of a thing is unclear or it is being judged in
   and measure of success come into view.
 ---
 
+# Situate
+
+Place a thing inside the larger system it serves, and read what that system asks of it. The thing is the one the request names. When the request names none, take the one the conversation is working on and say which one you took.
+
 ## Steps
 
 ### 1. What crosses its edge?

@@ -3,6 +3,10 @@ name: instantiate
 description: Use when a claim, rule, principle, or plan is stated abstractly with no concrete case. Tests it on specific cases, including one beyond what its author pictured, to reveal the conditions it quietly depends on.
 ---
 
+# Instantiate
+
+Test an abstraction, such as a principle, a rule, a value, or a plan, by making it concrete, and find the conditions it assumed without saying. The abstraction is the one the request names. When the request names none, take the one the conversation is working on and say which one you took.
+
 ## Steps
 
 ### 1. What case did its author have in mind?

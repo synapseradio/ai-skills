@@ -5,6 +5,10 @@ description: Use when a whole is too big or tangled to act on as one lump, in an
   directly.
 ---
 
+# Decompose
+
+Break a whole into parts at its natural joints, one axis per level, until each part can be acted on or checked. The whole is the one the request names. When the request names none, take the one the conversation is working on and say which one you took.
+
 ## Steps
 
 ### 1. What is the whole for, and where does it end?
@@ -25,7 +29,7 @@ Look for gaps, a piece of the whole no part holds, and overlaps, a piece two par
 
 ### 5. Which parts need another pass?
 
-List each part still too complex to act on. Run these steps again on each, naming the axis at every level; part-of does not chain across relation types.
+List each part still too complex to act on. Run these steps again on each, naming the axis at every level. Part-of does not chain across relation types: a finger is a component of a player and the player a member of a team, yet the finger is no part of the team.
 
 ### 6. Where does cutting stop?
 

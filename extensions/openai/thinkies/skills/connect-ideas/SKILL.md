@@ -5,6 +5,10 @@ description: Use when a link between two ideas is suspected and needs pinning do
   says what each one makes possible.
 ---
 
+# Connect ideas
+
+Test how two ideas relate, and keep only the relations the evidence supports. The ideas are the ones the request names. When it names one, step 2 finds the second. When the request names none, take the ones the conversation is working on and say which ones you took.
+
 ## Steps
 
 ### 1. What is each side's structure?

@@ -16,7 +16,7 @@ Look for gaps, a piece of the whole no part holds, and overlaps, a piece two par
 
 ### 5. Which parts need another pass?
 
-List each part still too complex to act on. Run these steps again on each, naming the axis at every level; part-of does not chain across relation types.
+List each part still too complex to act on. Run these steps again on each, naming the axis at every level. Part-of does not chain across relation types: a finger is a component of a player and the player a member of a team, yet the finger is no part of the team.
 
 ### 6. Where does cutting stop?
 

@@ -8,11 +8,11 @@ description: Use when something from an earlier session is needed, such as a pas
 # Check notes
 
 1. **Search the names.** List the store, then the mirror for files the store lacks. Split each file name at its underscores into skill, time, and topic. Keep files whose skill matches the one asked for, whose time falls in the range asked for (compare times as text; they sort in time order), and whose topic shares words with the request.
-2. **Search the contents.** When the names leave nothing, or too much, search the files' text for the request's words, and keep the files that hold them.
-3. **Play back.** Newest first, show each kept record in the form of [assets/playback.md](assets/playback.md), with its path.
+2. **Search the contents.** When the names keep nothing, or keep more files than the request is about, search the files' text for the request's words, and keep the files that hold them. A project appears only inside a file, on its run line, so a request by project is settled here.
+3. **Play back.** Newest first, show each kept record in the form of [assets/playback.md](assets/playback.md), with its path. Show what each record holds and add nothing to it.
 4. **Offer to continue.** Name the file a run would resume from. A run resumes by reading its file and appending to it.
 
-When no store exists here, play back any record pasted into the conversation the same way.
+When both searches keep nothing, say which names and words you searched, and stop there. When no store exists here, play back any record pasted into the conversation the same way.
 
 ## Record
 

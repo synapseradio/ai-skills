@@ -8,10 +8,13 @@ compatibility: >-
 
 # Save note
 
+Save one insight so that someone holding only the note can find it and follow it. The insight is the one the request names. When the request says only to save this, take the latest finding in the conversation and say which one you took. The insight stays its owner's: keep its claim and its strength as they were stated.
+
 1. **The insight.** State it in one to three sentences a reader without this conversation can follow. Quote the user or the source where the exact words matter.
 2. **Its context.** Say what was being worked on, in which project, and what led to the insight.
-3. **The topic.** Name what the note is about in two to six words.
-4. **Save.** Write the record, then play it back.
+3. **What it leaves open.** Name each question the insight raises and leaves unanswered. Where it raises none, write none.
+4. **The topic.** Name what the note is about in two to six words.
+5. **Save.** Write the record, then play it back.
 
 ## Record
 

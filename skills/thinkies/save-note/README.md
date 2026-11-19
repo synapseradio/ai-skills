@@ -1,6 +1,6 @@
 # save-note
 
-Save an insight from the conversation as a note that can be found again by topic, date, or project: state the insight in one to three sentences a reader without the conversation can follow, say what was being worked on and what led to it, name its topic in two to six words, then write the record and play it back.
+Save an insight from the conversation as a note that can be found again by topic, date, or project: state the insight in one to three sentences a reader without the conversation can follow, say what was being worked on and what led to it, name each question it leaves open, name its topic in two to six words, then write the record and play it back.
 
 ## When it's worth a note
 

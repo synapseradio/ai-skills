@@ -3,6 +3,10 @@ name: shift-abstraction-level
 description: Use when lost in detail or too abstract to act, and the only thing missing is the right level. Restates the subject at higher and lower levels of abstraction and picks the one that best supports the act at hand.
 ---
 
+# Shift abstraction level
+
+Find the level of abstraction to act at: restate the subject above and below the level it is stated at, then choose the rung. The subject is the statement or problem the request names. When the request names none, take the one the conversation is working on and say which one you took.
+
 ## Steps
 
 ### 1. What must be done, and at what level is the subject stated?
