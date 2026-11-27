@@ -22,8 +22,8 @@ export const CHARTS_PACKAGE = "@tanstack/charts";
 export const CHARTS_VERSION = "1.5.0";
 export const CDN_BASE = `https://esm.sh/${CHARTS_PACKAGE}@${CHARTS_VERSION}`;
 
-const BACKGROUND = "#ffffff";
-const PALETTE = ["#0072b2", "#d55e00", "#009e73", "#cc79a7", "#000000"];
+export const BACKGROUND = "#ffffff";
+export const PALETTE = ["#0072b2", "#d55e00", "#009e73", "#cc79a7", "#000000"];
 
 const ROW_CHARTS = ["bar", "line", "area", "scatter"];
 const GRAPH_CHARTS = ["sankey", "network"];
@@ -54,7 +54,7 @@ const TEMPLATE = join(dirname(import.meta.dir), "assets", "page.html");
 type Json = any;
 type Imports = Record<string, string[]>;
 
-function loadJson(path: string): Json {
+export function loadJson(path: string): Json {
   let text: string;
   try {
     text = readFileSync(path, "utf-8");
@@ -68,7 +68,7 @@ function loadJson(path: string): Json {
   }
 }
 
-function textAt(spec: Json, dotted: string): string {
+export function textAt(spec: Json, dotted: string): string {
   let value = spec;
   for (const part of dotted.split(".")) {
     value = value && typeof value === "object" && !Array.isArray(value) ? value[part] : null;
@@ -76,7 +76,7 @@ function textAt(spec: Json, dotted: string): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function isObject(value: unknown): boolean {
+export function isObject(value: unknown): boolean {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
@@ -441,6 +441,7 @@ function networkJs(spec: Json, prepared: Json): [Imports, string] {
     "    x: { scale: () => scaleLinear().domain(graph.xDomain), axis: false },",
     "    y: { scale: () => scaleLinear().domain(graph.yDomain), axis: false },",
     "  },",
+    `  margin: { top: ${grouped ? 56 : 24}, right: 48, bottom: 24, left: 48 },`,
   ];
   if (grouped) {
     root.push("colorLegend");
@@ -564,7 +565,7 @@ function tableHtml(spec: Json, prepared: Json): string {
 }
 
 /** Render one table from (header, is numeric) columns and rows of cell values. */
-function oneTable(caption: string, columns: [string, boolean][], rows: unknown[][]): string {
+export function oneTable(caption: string, columns: [string, boolean][], rows: unknown[][]): string {
   const out = ["<table>", `<caption>${htmlEscape(caption)}</caption>`, "<thead><tr>"];
   for (const [label, numeric] of columns) {
     const css = numeric ? ' class="num"' : "";
@@ -694,6 +695,7 @@ function build(spec: Json, prepared: Json, customJs: string | null): string {
     data.links = prepared.links;
     table = graphTablesHtml(spec, prepared);
   }
+  data.height = height;
   const subtitle = textAt(spec, "subtitle");
   const source = textAt(spec, "source");
   const replacements: [string, string][] = [

@@ -20,7 +20,7 @@ metadata:
 Produce one visualization that answers one question, in a form the reader's surface can show, and hand it over only after its check passes.
 
 Run each script as `bun --install=fallback scripts/<name>.ts`. The flag keeps Bun's own installer working when a `node_modules` folder sits above the script.
-The scripts sit in `scripts/` beside this file, need Bun 1.4 or later, and use no network.
+The scripts sit in `scripts/` beside this file, and need Bun 1.4 or later. The first run of the check fetches the pinned chart library `@tanstack/charts@1.5.0` into Bun's cache, so it needs network access once.
 
 ## 1. Settle the claim and the surface
 
@@ -79,7 +79,8 @@ Choose from the question the reader asks, then confirm the data fits:
 | How does quantity split and recombine, or move through staged subtotals? | `sankey` | links with a value, every stage balanced |
 | Which clusters emerge among linked things with no fixed positions? | `network` | nodes and links, 60 nodes at most |
 | How does an aggregate differ across named regions? | `choropleth` | one value per country, or per region of a GeoJSON file |
-| A distribution, an interval, a matrix, a hierarchy | Hand-written chart: read `references/charts.md` | prepared by you |
+| What contains what, and what share does each part hold? | `tree` (collapsible, for finding a path) or `treemap` (zoomable, for comparing shares): read `references/hierarchy.md`, build with `scripts/build_hierarchy.ts` | one row per leaf with a path and a nonnegative value |
+| A distribution, an interval, a matrix | Hand-written chart: read `references/charts.md` | prepared by you |
 
 Hold these while choosing:
 
@@ -156,8 +157,8 @@ Then read the output once as its reader:
 - The summary gives the numbers behind the claim.
 - Nothing essential depends on colour alone: the legend, the labels, or the table carries it too.
 
-Where a browser is at hand, open the HTML page and confirm `document.documentElement.dataset.viz` reads `drawn`.
-A value of `failed` comes with the reason in the page's status line.
+For an HTML page the script also compiles the chart and measures its geometry without a browser. It reports a row with no mark, a mark outside the chart area, and labels that overlap or run past the edge.
+It measures positions, not pixels, so a reader's browser can still differ in font width.
 
 This step is done when the script prints `ok` and the read finds nothing to change.
 

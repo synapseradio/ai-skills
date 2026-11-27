@@ -1,0 +1,7 @@
+{
+  "title": "Skills hold most of the lines, and their built copies repeat them",
+  "subtitle": "Lines per file in a small repository layout",
+  "summary": "The skills directory holds 3,000 of the 4,800 lines. Extensions repeat part of it, and the packaged archives hold none.",
+  "source": "Sample layout for the hierarchy builder",
+  "y": { "unit": "lines" }
+}

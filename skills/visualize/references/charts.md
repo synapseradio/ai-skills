@@ -112,4 +112,4 @@ Add `tooltip` from `/tooltip` for hover detail, and keep every value a reader ne
 
 The option tables for every mark and scale at this version are at `https://github.com/TanStack/charts/tree/v1.5.0/docs`, under `reference/` and `examples/`.
 Read the mark's page there before using an option this file leaves out. The documentation site describes a later, unreleased version.
-After the build, run `scripts/check_output.ts`, open the page, and confirm it reads `drawn`; a wrong option surfaces as `failed` with the library's message.
+After the build, run `scripts/check_output.ts`; it compiles the chart body, so a wrong option surfaces as `scene-failed` with the library's message.

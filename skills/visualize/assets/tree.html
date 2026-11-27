@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>__TITLE__</title>
+    <style>
+      :root {
+        --ink: #212529;
+        --muted: #495057;
+        --line: #dee2e6;
+        --paper: #ffffff;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      main {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+      figure {
+        margin: 0;
+      }
+      h1 {
+        font-size: 1.4rem;
+        line-height: 1.25;
+        margin: 0 0 0.25rem;
+      }
+      .subtitle,
+      .source {
+        color: var(--muted);
+        margin: 0;
+      }
+      .source {
+        font-size: 0.875rem;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 1rem 0 0.75rem;
+      }
+      button,
+      input {
+        font: inherit;
+        padding: 0.3rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #f8f9fa;
+        color: var(--ink);
+      }
+      input {
+        background: #ffffff;
+        min-width: 16rem;
+      }
+      #viz-status {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+      }
+      #viz-chart {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        min-height: __HEIGHT__px;
+      }
+      svg {
+        display: block;
+      }
+      svg [data-path] {
+        cursor: pointer;
+      }
+      svg .leaf {
+        cursor: default;
+      }
+      svg circle:focus {
+        outline: none;
+        stroke: var(--ink);
+        stroke-width: 3;
+      }
+      svg text {
+        pointer-events: none;
+        dominant-baseline: middle;
+      }
+      #viz-summary {
+        margin: 0.75rem 0 0.25rem;
+      }
+      details {
+        margin-top: 1.5rem;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+        font-variant-numeric: tabular-nums;
+      }
+      caption {
+        text-align: left;
+        color: var(--muted);
+        padding-bottom: 0.5rem;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 0.35rem 0.9rem 0.35rem 0;
+        text-align: left;
+      }
+      td.num,
+      th.num {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <figure>
+        <h1>__TITLE__</h1>
+        __SUBTITLE__
+        <div class="controls">
+          <button type="button" id="expand">Expand all</button>
+          <button type="button" id="collapse">Collapse to top level</button>
+          <input type="search" id="search" placeholder="Find a name" aria-label="Find a name" />
+        </div>
+        <div id="viz-chart"></div>
+        <p id="viz-status" role="status" hidden></p>
+        <noscript><p>This chart needs JavaScript. The table below holds every value.</p></noscript>
+        <figcaption>
+          <p id="viz-summary">__SUMMARY__</p>
+          __SOURCE__
+        </figcaption>
+      </figure>
+      <details id="viz-table">
+        <summary>Data table</summary>
+        <div class="table-wrap">__TABLE__</div>
+      </details>
+    </main>
+    <script type="application/json" id="viz-data">
+      __DATA__
+    </script>
+    <script id="viz-layout">
+      // Pure layout, no DOM: the page and the output check both call these two functions.
+      var VIZ_ROW = 22;
+      var VIZ_COLUMN = 300;
+      var VIZ_PAD = 24;
+      var VIZ_NAME_WIDTH = 170;
+      var VIZ_COUNT_WIDTH = 100;
+      var VIZ_LEAF_COLOR = "#6c757d";
+      var VIZ_ROOT_COLOR = "#000000";
+
+      function vizParentKey(key) {
+        var cut = key.lastIndexOf("/");
+        return cut === -1 ? "." : key.slice(0, cut);
+      }
+
+      function vizName(key) {
+        return key.slice(key.lastIndexOf("/") + 1);
+      }
+
+      function vizEllipsize(text, maxWidth, fontSize, measureText) {
+        if (measureText(text, fontSize).width <= maxWidth) return text;
+        var kept = text.length;
+        while (kept > 0 && measureText(text.slice(0, kept) + "…", fontSize).width > maxWidth)
+          kept -= 1;
+        return text.slice(0, kept) + "…";
+      }
+
+      function vizTree(data) {
+        var byKey = new Map();
+        data.rows.forEach(function (row) {
+          byKey.set(row.key, { row: row, children: [] });
+        });
+        data.rows.forEach(function (row) {
+          if (row.key === ".") return;
+          var parent = byKey.get(vizParentKey(row.key));
+          if (parent) parent.children.push(byKey.get(row.key));
+        });
+        return byKey;
+      }
+
+      // The views to measure: the first is the page's default, the last shows every row.
+      function vizViews(data) {
+        var tree = vizTree(data);
+        var directories = [];
+        tree.forEach(function (node, key) {
+          if (node.children.length > 0) directories.push(key);
+        });
+        return [
+          { open: ["."], matches: [] },
+          { open: directories, matches: [] },
+        ];
+      }
+
+      // A scene for one view: { width, height, chart, nodes, points }.
+      function vizLayout(data, size, view, measureText) {
+        var tree = vizTree(data);
+        var root = tree.get(".");
+        var open = new Set(view.open);
+        var matches = new Set(view.matches);
+        var unit = data.unit;
+        var visible = [];
+        var row = 0;
+        var maxDepth = 0;
+
+        // Each top-level branch takes one colour; deeper nodes keep their branch's.
+        function place(node, branch) {
+          var depth = node.row.depth;
+          var children = open.has(node.row.key) ? node.children : [];
+          node.x = VIZ_PAD + depth * VIZ_COLUMN;
+          node.branch = branch;
+          visible.push(node);
+          maxDepth = Math.max(maxDepth, depth);
+          if (children.length === 0) {
+            node.y = VIZ_PAD + row * VIZ_ROW;
+            row += 1;
+            return;
+          }
+          children.forEach(function (child, position) {
+            place(child, depth === 0 ? position : branch);
+          });
+          node.y = (children[0].y + children[children.length - 1].y) / 2;
+        }
+        place(root, 0);
+
+        var width = VIZ_PAD * 2 + (maxDepth + 1) * VIZ_COLUMN;
+        var height = VIZ_PAD * 2 + Math.max(row - 1, 0) * VIZ_ROW;
+        var connectors = [];
+        var highlights = [];
+        var dots = [];
+        var labels = [];
+        var points = [];
+        visible.forEach(function (node) {
+          var key = node.row.key;
+          var directory = node.children.length > 0;
+          var leaf = !directory;
+          var color =
+            node.row.depth === 0
+              ? VIZ_ROOT_COLOR
+              : directory
+                ? data.colors[node.branch % data.colors.length]
+                : VIZ_LEAF_COLOR;
+          var radius = directory
+            ? 3 + 9 * Math.sqrt(node.row.value / Math.max(root.row.value, 1))
+            : 3;
+          var closed = directory && !open.has(key);
+          var path = key;
+          if (node.row.depth > 0) {
+            var parent = tree.get(vizParentKey(key));
+            connectors.push({
+              kind: "polyline",
+              key: "link:" + key,
+              points: [
+                [parent.x, parent.y],
+                [(parent.x + node.x) / 2, parent.y],
+                [(parent.x + node.x) / 2, node.y],
+                [node.x, node.y],
+              ],
+              style: { fill: "none", stroke: "#dee2e6", strokeWidth: 1.2 },
+            });
+          }
+          var name = node.row.depth === 0 ? "All" : vizName(key) + (directory ? "/" : "");
+          var nameText = vizEllipsize(name, VIZ_NAME_WIDTH, 13, measureText);
+          var nameWidth = measureText(nameText, 13).width;
+          var labelX = node.x + radius + 6;
+          if (matches.has(key)) {
+            highlights.push({
+              kind: "rect",
+              key: "match:" + key,
+              x: labelX - 3,
+              y: node.y - 9,
+              width: nameWidth + 6,
+              height: 18,
+              style: { fill: "#fff3b0" },
+            });
+          }
+          dots.push({
+            kind: "dot",
+            key: "node:" + key,
+            path: path,
+            directory: directory,
+            open: directory && !closed,
+            x: node.x,
+            y: node.y,
+            radius: radius,
+            style: {
+              fill: closed || !directory ? color : "none",
+              stroke: color,
+              strokeWidth: 2,
+            },
+          });
+          labels.push({
+            kind: "label",
+            key: "name:" + key,
+            path: path,
+            x: labelX,
+            y: node.y,
+            text: nameText,
+            anchor: "start",
+            baseline: "middle",
+            fontSize: 13,
+            maxWidth: VIZ_NAME_WIDTH,
+            style: { fill: leaf ? "#495057" : "#212529" },
+          });
+          var countText = vizEllipsize(
+            node.row.value.toLocaleString("en") + " " + unit,
+            VIZ_COUNT_WIDTH,
+            12,
+            measureText,
+          );
+          labels.push({
+            kind: "label",
+            key: "count:" + key,
+            path: path,
+            x: labelX + nameWidth + 6,
+            y: node.y,
+            text: countText,
+            anchor: "start",
+            baseline: "middle",
+            fontSize: 12,
+            maxWidth: VIZ_COUNT_WIDTH,
+            style: { fill: "#495057" },
+          });
+          points.push({ key: key, x: node.x, y: node.y });
+        });
+
+        return {
+          width: width,
+          height: height,
+          chart: { x: 0, y: 0, width: width, height: height },
+          nodes: [
+            { kind: "group", key: "connectors", children: connectors },
+            { kind: "group", key: "highlights", children: highlights },
+            { kind: "group", key: "marks", children: dots },
+            { kind: "group", key: "labels", children: labels },
+          ],
+          points: points,
+        };
+      }
+    </script>
+    <script type="module">
+      const data = JSON.parse(document.getElementById("viz-data").textContent);
+      const status = document.getElementById("viz-status");
+      const mount = document.getElementById("viz-chart");
+      const NS = "http://www.w3.org/2000/svg";
+      const ariaLabel = data.spec.title;
+      const estimate = (text, fontSize) => ({
+        width: 0.6 * fontSize * [...text].length,
+        height: 1.2 * fontSize,
+      });
+
+      const draw = (scene) => {
+        const svg = document.createElementNS(NS, "svg");
+        svg.setAttribute("width", scene.width);
+        svg.setAttribute("height", scene.height);
+        svg.setAttribute("role", "tree");
+        svg.setAttribute("aria-label", ariaLabel);
+        const paint = (el, style = {}) => {
+          if (style.fill !== undefined) el.setAttribute("fill", style.fill);
+          if (style.stroke !== undefined) el.setAttribute("stroke", style.stroke);
+          if (style.strokeWidth !== undefined) el.setAttribute("stroke-width", style.strokeWidth);
+        };
+        const visit = (nodes, parent) => {
+          for (const node of nodes) {
+            let el;
+            if (node.kind === "group") {
+              el = document.createElementNS(NS, "g");
+              visit(node.children, el);
+            } else if (node.kind === "polyline") {
+              el = document.createElementNS(NS, "polyline");
+              el.setAttribute("points", node.points.map((point) => point.join(",")).join(" "));
+              paint(el, node.style);
+            } else if (node.kind === "rect") {
+              el = document.createElementNS(NS, "rect");
+              el.setAttribute("x", node.x);
+              el.setAttribute("y", node.y);
+              el.setAttribute("width", node.width);
+              el.setAttribute("height", node.height);
+              el.setAttribute("rx", 3);
+              paint(el, node.style);
+            } else if (node.kind === "dot") {
+              el = document.createElementNS(NS, "circle");
+              el.setAttribute("cx", node.x);
+              el.setAttribute("cy", node.y);
+              el.setAttribute("r", node.radius);
+              el.setAttribute("data-path", node.path);
+              paint(el, node.style);
+              if (node.directory) {
+                el.setAttribute("tabindex", "0");
+                el.setAttribute("role", "treeitem");
+                el.setAttribute("aria-expanded", String(node.open));
+              } else {
+                el.classList.add("leaf");
+              }
+              const title = document.createElementNS(NS, "title");
+              title.textContent = node.path;
+              el.append(title);
+            } else if (node.kind === "label") {
+              el = document.createElementNS(NS, "text");
+              el.setAttribute("x", node.x);
+              el.setAttribute("y", node.y);
+              el.setAttribute("font-size", node.fontSize);
+              el.setAttribute("fill", node.style.fill);
+              el.textContent = node.text;
+            }
+            if (el) parent.append(el);
+          }
+        };
+        visit(scene.nodes, svg);
+        return svg;
+      };
+
+      try {
+        const rows = data.rows;
+        const parentOf = (key) => (key.includes("/") ? key.slice(0, key.lastIndexOf("/")) : ".");
+        const internal = new Set(
+          rows.filter((row) => row.depth > 0).map((row) => parentOf(row.key)),
+        );
+        let open = new Set(["."]);
+        let matches = [];
+        let focusKey = null;
+
+        const render = () => {
+          const scene = vizLayout(
+            data,
+            { width: mount.clientWidth, height: data.height },
+            { open: [...open], matches },
+            estimate,
+          );
+          mount.replaceChildren(draw(scene));
+          if (focusKey !== null) {
+            const circle = [...mount.querySelectorAll("circle")].find(
+              (el) => el.getAttribute("data-path") === focusKey,
+            );
+            circle?.focus({ preventScroll: true });
+          }
+          const shown = scene.points.length;
+          status.hidden = false;
+          status.textContent = matches.length
+            ? `${matches.length} matches shown`
+            : `${shown} of ${rows.length} rows shown`;
+        };
+
+        const toggle = (key) => {
+          if (!internal.has(key)) return;
+          if (open.has(key)) open.delete(key);
+          else open.add(key);
+          focusKey = key;
+          render();
+        };
+
+        mount.addEventListener("click", (event) => {
+          const target = event.target.closest("[data-path]");
+          if (target) toggle(target.getAttribute("data-path"));
+        });
+        mount.addEventListener("keydown", (event) => {
+          const target = event.target.closest("[data-path]");
+          if (!target) return;
+          const key = target.getAttribute("data-path");
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle(key);
+          } else if (event.key === "ArrowRight" && !open.has(key)) {
+            toggle(key);
+          } else if (event.key === "ArrowLeft") {
+            if (open.has(key)) toggle(key);
+            else if (key !== ".") {
+              focusKey = parentOf(key);
+              render();
+            }
+          }
+        });
+        document.getElementById("expand").addEventListener("click", () => {
+          open = new Set(internal);
+          open.add(".");
+          matches = [];
+          render();
+        });
+        document.getElementById("collapse").addEventListener("click", () => {
+          open = new Set(["."]);
+          matches = [];
+          focusKey = null;
+          render();
+        });
+        document.getElementById("search").addEventListener("input", (event) => {
+          const query = event.target.value.trim().toLowerCase();
+          open = new Set(["."]);
+          matches = [];
+          if (query.length >= 2) {
+            for (const row of rows) {
+              if (
+                row.depth > 0 &&
+                row.key
+                  .slice(row.key.lastIndexOf("/") + 1)
+                  .toLowerCase()
+                  .includes(query)
+              ) {
+                matches.push(row.key);
+                for (let key = parentOf(row.key); key !== "."; key = parentOf(key)) open.add(key);
+              }
+            }
+          }
+          focusKey = null;
+          render();
+        });
+
+        render();
+        document.documentElement.dataset.viz = "drawn";
+      } catch (error) {
+        status.hidden = false;
+        status.textContent = `The tree could not be drawn: ${error.message}. The table below holds every value.`;
+        document.getElementById("viz-table").open = true;
+        document.documentElement.dataset.viz = "failed";
+      }
+    </script>
+  </body>
+</html>

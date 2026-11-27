@@ -53,7 +53,7 @@ Or copy `skills/visualize/` into `~/.claude/skills/visualize/`.
 
 | Where it is read | Output |
 | --- | --- |
-| A browser | One HTML file holding a bar, line, area, or scatter chart, a sankey diagram, a network, or a choropleth map |
+| A browser | One HTML file holding a bar, line, area, or scatter chart, a sankey diagram, a network, a choropleth map, or a collapsible tree or zoomable treemap of a hierarchy |
 | A pull request, README, ticket, wiki, or chat | Markdown: a Mermaid flowchart, sequence diagram, or schedule; a table; text bars; a ranked list; an indented tree |
 
 ### The HTML page, top to bottom
@@ -86,7 +86,7 @@ A map of your own regions embeds the GeoJSON you supply and loads the first two 
 
 ### Limits
 
-- The build script draws seven chart kinds: bar (plain, grouped, or stacked), line, area, scatter, sankey, network, and choropleth. For another kind the agent writes the chart code by hand against the same page.
+- The build script draws seven chart kinds: bar (plain, grouped, or stacked), line, area, scatter, sankey, network, and choropleth. `scripts/build_hierarchy.ts` draws a tree and a treemap from paths and values. For another kind the agent writes the chart code by hand against the same page.
 - A chart holds five series or node groups at most, the number of colours that passed the colour checks below.
 - A network holds 60 nodes at most and a sankey 40. Its layout is settled once and does not move.
 - A sankey needs every stage to send out what it takes in, and flow in one direction.
@@ -100,12 +100,12 @@ A map of your own regions embeds the GeoJSON you supply and loads the first two 
 2. **Chart.** The agent picks the chart from the question the reader asks. The build refuses a chart the data does not fit, such as a line joining categories that have no order.
 3. **Labels.** The build requires a title, axis labels, a unit, and a text summary, and writes the data table itself.
 4. **Colour.** Each series colour has at least 3:1 contrast with the page background. Each pair stays distinct under simulations of the three main kinds of colour blindness (protanopia, deuteranopia, tritanopia). A map's colour ramp spans at least 40 steps of lightness, so its order survives without hue.
-5. **Check.** `scripts/check_output.ts` reads the finished file and lists each defect: a missing summary or table, a file the page may not load or an unfixed version, a link to a missing node, a region with no shape on the map, colours a reader cannot tell apart, a text bar out of proportion to its value, a malformed Mermaid block.
+5. **Check.** `scripts/check_output.ts` reads the finished file, compiles its chart without a browser, and measures where each mark and label falls. It lists each defect: a row with no mark, a mark or label outside the chart, labels drawn over each other, a missing summary or table, a file the page may not load or an unfixed version, a link to a missing node, a region with no shape on the map, colours a reader cannot tell apart, a text bar out of proportion to its value, a malformed Mermaid block. It measures geometry, not pixels, so the browser's own font widths can still differ.
 
 ## Prerequisites
 
 - Bun 1.4 or later. The scripts run as `bun --install=fallback scripts/<name>.ts` and import nothing from outside Bun and Node.
-- A browser with network access to draw the HTML chart.
+- Network access on the first run, to fetch `@tanstack/charts@1.5.0` for the check, and a browser with network access to draw the HTML chart.
 
 ## Sources
 

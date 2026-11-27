@@ -111,10 +111,12 @@
     <script type="module">
       const data = JSON.parse(document.getElementById("viz-data").textContent);
       try {
+        // viz:definition:start
         __IMPORTS__;
         const definition = await (async () => {
           __CHART__;
         })();
+        // viz:definition:end
         mountChart(document.getElementById("viz-chart"), {
           definition,
           height: __HEIGHT__,

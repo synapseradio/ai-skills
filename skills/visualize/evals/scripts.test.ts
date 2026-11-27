@@ -4,15 +4,22 @@
 //
 //     bun test skills/visualize/evals/scripts.test.ts
 
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from "node:fs";
+import { afterAll, afterEach, beforeEach, describe, expect, setDefaultTimeout, test } from "bun:test";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 
 const EVALS = import.meta.dir;
 const SCRIPTS = resolve(EVALS, "..", "scripts");
 const FIXTURES = join(EVALS, "fixtures");
+// One package cache per test file keeps every spawned `bun` out of the real home.
 const BUN_CACHE = mkdtempSync(join(tmpdir(), "viz-bun-cache-"));
+
+// The first run of a script fetches the pinned chart library into the empty cache.
+setDefaultTimeout(60_000);
+afterAll(() => {
+  rmSync(BUN_CACHE, { recursive: true, force: true });
+});
 
 type Result = { code: number; stdout: string; stderr: string };
 
@@ -460,7 +467,8 @@ describe("BuildingShapedPages", () => {
 describe("CheckingShapedPages", () => {
   test("a link to a node the page lacks is reported", () => {
     const changed = edited("flow", '"target": "Paid"', '"target": "Refunded"');
-    expect(codes(run("check_output", changed))).toEqual(new Set(["link-unknown-node"]));
+    // The measurer cannot lay out a link to a missing node, so the scene fails as well.
+    expect(codes(run("check_output", changed))).toEqual(new Set(["link-unknown-node", "scene-failed"]));
   });
 
   test("a network page that lost its link table is reported", () => {
@@ -487,7 +495,8 @@ describe("CheckingShapedPages", () => {
 
   test("a region with no shape on the map is reported", () => {
     const changed = edited("wards", '"key": "N"', '"key": "Q"');
-    expect(codes(run("check_output", changed))).toEqual(new Set(["region-unmatched"]));
+    // A region with no shape also has no mark, so its row is reported as undrawn.
+    expect(codes(run("check_output", changed))).toEqual(new Set(["region-unmatched", "row-not-drawn"]));
   });
 
   test("a ramp too flat to rank regions is reported", () => {
@@ -518,5 +527,147 @@ describe("CheckingMarkdown", () => {
     expect(codes(run("check_output", fixture("bars_broken.md")))).toEqual(
       new Set(["bar-not-proportional"]),
     );
+  });
+});
+
+/** Measure a page through `measurePage`, in a process that resolves the pinned chart library. */
+function measure(htmlPath: string): { views: number; points: number; defects: { code: string }[] } {
+  const helper = write(
+    "measure-helper.ts",
+    `import { measurePage } from ${JSON.stringify(join(SCRIPTS, "measure_scene.ts"))};\n` +
+      `const html = await Bun.file(process.argv[2] as string).text();\n` +
+      `console.log(JSON.stringify(await measurePage(html)));\n`,
+  );
+  const proc = Bun.spawnSync(["bun", "--install=fallback", helper, htmlPath], {
+    env: { ...process.env, BUN_INSTALL_CACHE_DIR: BUN_CACHE },
+  });
+  expect(proc.exitCode, proc.stderr.toString()).toBe(0);
+  return JSON.parse(proc.stdout.toString());
+}
+
+describe("MeasuringChartGeometry", () => {
+  test("a drawn chart measures one view with its points and passes the check", () => {
+    const html = coffeePage();
+    const measured = measure(html);
+    expect(measured.views).toBe(1);
+    expect(measured.points).toBeGreaterThan(0);
+    expect(measured.defects).toEqual([]);
+    expect(run("check_output", html).stdout.trim()).toContain("ok");
+  });
+
+  test("a chart that leaves a row out of its marks is reported", () => {
+    const changed = editedPage("lineY(rows, {", "lineY(rows.slice(1), {");
+    const result = run("check_output", changed);
+    expect(result.code).toBe(1);
+    expect(codes(result)).toEqual(new Set(["row-not-drawn"]));
+  });
+
+  test("a chart definition that throws is reported as a failed scene", () => {
+    const changed = editedPage("return defineChart({", 'throw new Error("boom");\n    return defineChart({');
+    expect(codes(run("check_output", changed))).toContain("scene-failed");
+  });
+});
+
+const HIERARCHY_CHARTS = ["tree", "treemap"] as const;
+
+function hierarchy(chart: string, ...extra: string[]): Result {
+  return run(
+    "build_hierarchy",
+    fixture("paths.csv"),
+    "--path",
+    "path",
+    "--value",
+    "lines",
+    "--spec",
+    fixture("paths.spec.json"),
+    "--chart",
+    chart,
+    "--out",
+    join(dir, `${chart}.html`),
+    ...extra,
+  );
+}
+
+describe("BuildingHierarchies", () => {
+  for (const chart of HIERARCHY_CHARTS) {
+    test(`the ${chart} page draws every path in more than one view`, () => {
+      const built = hierarchy(chart);
+      expect(built.code, built.stdout + built.stderr).toBe(0);
+      const html = join(dir, `${chart}.html`);
+      expect(run("check_output", html).stdout.trim()).toContain("ok");
+      const measured = measure(html);
+      expect(measured.views).toBeGreaterThan(1);
+      expect(measured.defects).toEqual([]);
+      const rows = readText(fixture("paths.csv")).trim().split("\n").length - 1;
+      expect(measured.points).toBeGreaterThan(rows);
+    });
+  }
+
+  test("directory totals sum their children and the root key is a dot", () => {
+    expect(hierarchy("tree").code).toBe(0);
+    const text = readText(join(dir, "tree.html"));
+    const data = JSON.parse(/<script type="application\/json" id="viz-data">([\s\S]*?)<\/script>/.exec(text)?.[1] ?? "");
+    expect(data.shape).toBe("custom");
+    expect(data.rows[0]).toMatchObject({ key: ".", depth: 0 });
+    const lines = readText(fixture("paths.csv"))
+      .trim()
+      .split("\n")
+      .slice(1)
+      .reduce((sum, row) => sum + Number(row.split(",")[1]), 0);
+    expect(data.rows[0].value).toBe(lines);
+  });
+
+  test("a negative value, a leaf that is also a directory, and a missing spec title are reported", () => {
+    const negative = write("neg.csv", "path,lines\na/b,-1\n");
+    const conflict = write("conflict.csv", "path,lines\na,1\na/b,2\n");
+    const spec = fixture("paths.spec.json");
+    const args = (rows: string, specPath: string) => [
+      rows, "--path", "path", "--value", "lines", "--spec", specPath, "--chart", "tree", "--out", join(dir, "x.html"),
+    ];
+    expect(codes(run("build_hierarchy", ...args(negative, spec)))).toEqual(new Set(["negative-value"]));
+    expect(codes(run("build_hierarchy", ...args(conflict, spec)))).toEqual(new Set(["path-conflict"]));
+    const untitled = readJson(spec);
+    delete untitled.title;
+    const result = run("build_hierarchy", ...args(fixture("paths.csv"), write("untitled.json", JSON.stringify(untitled))));
+    expect(result.code).toBe(1);
+    expect(codes(result)).toEqual(new Set(["spec-missing"]));
+  });
+});
+
+describe("MeasuringHandWrittenCharts", () => {
+  function stubbed(nodes: string): string {
+    expect(hierarchy("treemap").code).toBe(0);
+    const text = readText(join(dir, "treemap.html"));
+    const stub = `
+      function vizViews() { return [{}]; }
+      function vizLayout(data) {
+        return {
+          width: 1200, height: 520,
+          chart: { x: 0, y: 0, width: 1200, height: 520 },
+          nodes: [${nodes}],
+          points: data.rows.map(function (row) { return { key: row.key, x: 10, y: 10 }; }),
+        };
+      }
+    `;
+    const changed = text.replace(/(<script id="viz-layout">)[\s\S]*?(<\/script>)/, (_m, open, close) => `${open}${stub}${close}`);
+    return write("stub.html", changed);
+  }
+
+  const label = (key: string, x: number, y: number) =>
+    `{ kind: "label", key: "${key}", x: ${x}, y: ${y}, text: "overlapping text", anchor: "start", baseline: "alphabetic", fontSize: 12 }`;
+
+  test("a mark outside the chart area is reported", () => {
+    const page = stubbed(`{ kind: "group", key: "marks", children: [{ kind: "rect", key: "r", x: 1190, y: 10, width: 60, height: 20 }] }`);
+    expect(codes(run("check_output", page))).toContain("mark-out-of-bounds");
+  });
+
+  test("two labels drawn over each other are reported", () => {
+    const page = stubbed(`{ kind: "group", key: "labels", children: [${label("a", 100, 100)}, ${label("b", 104, 102)}] }`);
+    expect(codes(run("check_output", page))).toContain("label-overlap");
+  });
+
+  test("a label that runs past the chart edge is reported", () => {
+    const page = stubbed(`{ kind: "group", key: "labels", children: [${label("a", 1190, 100)}] }`);
+    expect(codes(run("check_output", page))).toContain("label-out-of-bounds");
   });
 });

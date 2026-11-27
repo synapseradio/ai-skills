@@ -13,6 +13,7 @@
 import { readFileSync } from "node:fs";
 import { extname } from "node:path";
 import { CDN_BASE, CHARTS_PACKAGE, CHARTS_VERSION, MAP_URLS } from "./build_page.ts";
+import { type Measurement, measurePage } from "./measure_scene.ts";
 import { ATLAS, type Issue, pyG, pyRepr } from "./prepare_data.ts";
 
 type Triple = readonly [number, number, number];
@@ -332,7 +333,27 @@ function field(object: Json, key: string): Json {
   return object[key];
 }
 
-function checkHtml(text: string): Issue[] {
+const MEASURE_LIMIT_MS = 20_000;
+
+/** The page's measurement, or the defect that says why it could not be taken. */
+async function measureBounded(html: string): Promise<Measurement | Issue> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<Issue>((resolve) => {
+    timer = setTimeout(
+      () => resolve(["measure-failed", `measuring the drawing took more than ${MEASURE_LIMIT_MS / 1000} seconds`]),
+      MEASURE_LIMIT_MS,
+    );
+  });
+  try {
+    return await Promise.race([measurePage(html), timeout]);
+  } catch (error) {
+    return ["measure-failed", `measuring the drawing failed: ${(error as Error).message}`];
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function checkHtml(text: string): Promise<Issue[]> {
   const page = new PageReader();
   page.feed(text);
   const defects: Issue[] = [];
@@ -389,11 +410,23 @@ function checkHtml(text: string): Issue[] {
       ]);
     }
   }
-  need(specifiers.length > 0, "no-chart-import", "no module script imports the chart library");
+  const handWritten = shape === "custom" && page.scripts.some((script) => script.id === "viz-layout");
+  need(
+    specifiers.length > 0 || handWritten,
+    "no-chart-import",
+    "no module script imports the chart library",
+  );
   need(code.includes("ariaLabel"), "no-aria-label", "the chart is mounted without an ariaLabel");
 
   let rows: Json[] | null = null;
   let tablesWanted = 1;
+  let measured: Measurement | null = null;
+  let measureFailure: Issue | null = null;
+  if (dataScripts.length > 0) {
+    const outcome = await measureBounded(text);
+    if (Array.isArray(outcome)) measureFailure = outcome;
+    else measured = outcome;
+  }
   if (dataScripts.length === 0) {
     defects.push(["no-data", "no script with id viz-data holds the data"]);
   } else {
@@ -471,7 +504,9 @@ function checkHtml(text: string): Issue[] {
           }
         }
       }
-      defects.push(...colorDefects(colors, background));
+      // A map is coloured by its ramp, which the ramp check covers; its no-value grey is meant to recede.
+      const painted = choropleth ? [] : (measured?.colors ?? []);
+      defects.push(...colorDefects([...new Set([...colors, ...painted])], background));
       const named = typeof unit === "string" && unit.trim();
       if (unitWanted) need(named, "no-unit", "viz-data names no unit for the values");
       if (unitWanted && named) {
@@ -507,6 +542,10 @@ function checkHtml(text: string): Issue[] {
         `the table has ${page.bodyRows} rows and the data has ${rows.length}`,
       ]);
     }
+  }
+  if (measureFailure) defects.push(measureFailure);
+  for (const { code: measuredCode, message } of measured?.defects ?? []) {
+    defects.push([measuredCode, message]);
   }
   return defects;
 }
@@ -619,7 +658,7 @@ function checkMarkdown(text: string): Issue[] {
 }
 
 /** Defects for one file. Throws for a file this script cannot check. */
-function checkFile(path: string): Issue[] {
+async function checkFile(path: string): Promise<Issue[]> {
   const text = readFileSync(path, "utf-8");
   const suffix = extname(path).toLowerCase();
   if (suffix === ".html" || suffix === ".htm") return checkHtml(text);
@@ -649,7 +688,7 @@ leave a reader without the chart, its values, or its meaning.
 Prints one \`path: code: message\` line per defect, or \`path: ok\`.
 Exit codes: 0 no defect, 1 defects found, 2 a path cannot be read or checked.`;
 
-export function main(argv: string[]): number {
+export async function main(argv: string[]): Promise<number> {
   if (argv.length === 0 || argv[0] === "-h" || argv[0] === "--help") {
     console.log(USAGE);
     return argv.length > 0 ? 0 : 2;
@@ -658,7 +697,7 @@ export function main(argv: string[]): number {
   for (const path of argv) {
     let defects: Issue[];
     try {
-      defects = checkFile(path);
+      defects = await checkFile(path);
     } catch (error) {
       console.error(`${path}: cannot check: ${describe(error, path)}`);
       worst = 2;
@@ -671,4 +710,4 @@ export function main(argv: string[]): number {
   return worst;
 }
 
-if (import.meta.main) process.exit(main(process.argv.slice(2)));
+if (import.meta.main) process.exit(await main(process.argv.slice(2)));
