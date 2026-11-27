@@ -19,8 +19,8 @@ metadata:
 
 Produce one visualization that answers one question, in a form the reader's surface can show, and hand it over only after its check passes.
 
-Run each script as `uv run --no-project <script>` where `uv` exists, else `python3 <script>`.
-The scripts sit in `scripts/` beside this file, need Python 3.9 or later, and use no network.
+Run each script as `bun --install=fallback scripts/<name>.ts`. The flag keeps Bun's own installer working when a `node_modules` folder sits above the script.
+The scripts sit in `scripts/` beside this file, need Bun 1.4 or later, and use no network.
 
 ## 1. Settle the claim and the surface
 
@@ -43,7 +43,7 @@ Pick the route by where the result will be read:
 Put the rows in a CSV, TSV, or JSON file, one observation per row, then run:
 
 ```bash
-scripts/prepare_data.py data.csv --x day --y cups --series person --out rows.json
+bun --install=fallback scripts/prepare_data.ts data.csv --x day --y cups --series person --out rows.json
 ```
 
 `--x` names the position or category column, `--y` the measured number, and `--series` the column that splits rows into groups, left out for one series.
@@ -118,7 +118,7 @@ Write a spec file beside the rows:
 Then build:
 
 ```bash
-scripts/build_page.py spec.json --data rows.json --out chart.html
+bun --install=fallback scripts/build_page.ts spec.json --data rows.json --out chart.html
 ```
 
 The page carries its data, the summary, and a full data table, starts bars at zero, assigns colours that stay distinct under colour blindness, and names the chart for screen readers.
@@ -131,7 +131,7 @@ Treat each `problem:` line from the build as a mismatch between the chart and th
 
 The page needs no `package.json` and no install, and opens from disk.
 
-Before installing anything on the user's machine, such as Python where neither `uv` nor `python3` exists, ask the user and state all four of:
+Before installing anything on the user's machine, such as Bun where `bun` is not on the path, ask the user and state all four of:
 
 - what is missing
 - what it is needed for
@@ -143,7 +143,7 @@ Install only after a yes. On any other answer, write the page by hand from `asse
 ## 5. Check the output
 
 ```bash
-scripts/check_output.py chart.html
+bun --install=fallback scripts/check_output.ts chart.html
 ```
 
 The script accepts HTML pages and Markdown files and prints one line per defect.

@@ -96,15 +96,15 @@ A map of your own regions embeds the GeoJSON you supply and loads the first two 
 
 ## How an output is prepared
 
-1. **Data.** `scripts/prepare_data.py` converts each value to its type and sorts dates and numbers. It stops, and the agent asks you, on a missing value, a value that is not a number, or two rows for one position. For a sankey it also stops on a link to an unknown node, a loop, or a stage whose inflow and outflow differ. For a map it stops on a region the atlas or the GeoJSON lacks.
+1. **Data.** `scripts/prepare_data.ts` converts each value to its type and sorts dates and numbers. It stops, and the agent asks you, on a missing value, a value that is not a number, or two rows for one position. For a sankey it also stops on a link to an unknown node, a loop, or a stage whose inflow and outflow differ. For a map it stops on a region the atlas or the GeoJSON lacks.
 2. **Chart.** The agent picks the chart from the question the reader asks. The build refuses a chart the data does not fit, such as a line joining categories that have no order.
 3. **Labels.** The build requires a title, axis labels, a unit, and a text summary, and writes the data table itself.
 4. **Colour.** Each series colour has at least 3:1 contrast with the page background. Each pair stays distinct under simulations of the three main kinds of colour blindness (protanopia, deuteranopia, tritanopia). A map's colour ramp spans at least 40 steps of lightness, so its order survives without hue.
-5. **Check.** `scripts/check_output.py` reads the finished file and lists each defect: a missing summary or table, a file the page may not load or an unfixed version, a link to a missing node, a region with no shape on the map, colours a reader cannot tell apart, a text bar out of proportion to its value, a malformed Mermaid block.
+5. **Check.** `scripts/check_output.ts` reads the finished file and lists each defect: a missing summary or table, a file the page may not load or an unfixed version, a link to a missing node, a region with no shape on the map, colours a reader cannot tell apart, a text bar out of proportion to its value, a malformed Mermaid block.
 
 ## Prerequisites
 
-- Python 3.9 or later, run through `uv` where it exists. The scripts use the standard library only.
+- Bun 1.4 or later. The scripts run as `bun --install=fallback scripts/<name>.ts` and import nothing from outside Bun and Node.
 - A browser with network access to draw the HTML chart.
 
 ## Sources
@@ -115,7 +115,7 @@ A map of your own regions embeds the GeoJSON you supply and loads the first two 
 - TanStack Charts 1.5.0, "Geo Shape Mark" and "Scales and D3", which leave the projection and any sequential colour scale to the page: <https://github.com/TanStack/charts/blob/v1.5.0/docs/reference/marks/geo.md>, <https://github.com/TanStack/charts/blob/v1.5.0/docs/concepts/scales-and-d3.md>
 - npm registry entries for the choropleth files. `d3-geo` and `d3-scale` are fixed at the versions `@tanstack/charts@1.5.0` itself depends on: <https://registry.npmjs.org/d3-geo>, <https://registry.npmjs.org/d3-scale>, <https://registry.npmjs.org/topojson-client>, <https://registry.npmjs.org/world-atlas>
 - `world-atlas` 2.0.2, which redistributes Natural Earth boundaries; the source of `assets/world-atlas-countries-110m.json`: <https://github.com/topojson/world-atlas>
-- Machado, Oliveira, and Fernandes, "A Physiologically-based Model for Simulation of Color Vision Deficiency", the simulation matrices in `scripts/check_output.py`: <https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html>
+- Machado, Oliveira, and Fernandes, "A Physiologically-based Model for Simulation of Color Vision Deficiency", the simulation matrices in `scripts/check_output.ts`: <https://www.inf.ufrgs.br/~oliveira/pubs_files/CVD_Simulation/CVD_Simulation.html>
 - WCAG 2.2, the contrast ratio formula and the 3:1 minimum for graphical objects: <https://www.w3.org/TR/WCAG22/#non-text-contrast>
 
 The 40 steps of lightness a map ramp must span, and the node limits of 60 and 40, are this skill's own thresholds. The distance of 12 that the check requires between two series colours is this skill's own threshold, set below the closest pair in its palette (17.0) and above a red and green pair (`#d62728`, `#2ca02c`) that simulated colour blindness brings to 7.3.

@@ -112,4 +112,4 @@ checkout/
 
 ## Check
 
-Run `scripts/check_output.py` on the `.md` file. It reports a Mermaid block with an unknown diagram type or unbalanced brackets, a table with ragged rows, and a text bar out of proportion to its value.
+Run `bun --install=fallback scripts/check_output.ts` on the `.md` file. It reports a Mermaid block with an unknown diagram type or unbalanced brackets, a table with ragged rows, and a text bar out of proportion to its value.

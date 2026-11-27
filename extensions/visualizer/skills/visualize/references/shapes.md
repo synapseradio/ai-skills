@@ -1,6 +1,6 @@
 # Flows, networks, and maps
 
-Each of these three kinds takes its own input shape, its own `prepare_data.py` arguments, and its own spec fields.
+Each of these three kinds takes its own input shape, its own `prepare_data.ts` arguments, and its own spec fields.
 Steps 3, 5, and 6 of `SKILL.md` apply unchanged.
 
 ## Sankey: how a quantity splits and recombines
@@ -16,7 +16,7 @@ Sign-up,Left,210
 ```
 
 ```bash
-scripts/prepare_data.py flow.csv --shape sankey --source from --target to --value visits --out flow.json
+bun --install=fallback scripts/prepare_data.ts flow.csv --shape sankey --source from --target to --value visits --out flow.json
 ```
 
 Every stage that both receives and sends must send out exactly what it receives.
@@ -38,7 +38,7 @@ Put one link per row. A value column is optional and sets the line width.
 To colour nodes by group or to show a name other than the id, add a nodes file with one row per node:
 
 ```bash
-scripts/prepare_data.py calls.csv --shape network --source caller --target callee --value calls \
+bun --install=fallback scripts/prepare_data.ts calls.csv --shape network --source caller --target callee --value calls \
   --nodes services.csv --node-id id --node-group team --out calls.json
 ```
 
@@ -68,13 +68,13 @@ A choropleth colours area, so use a rate, a share, or a density. Draw counts as 
 For countries, name each by its ISO 3166-1 numeric code or by its name as `assets/world-atlas-countries-110m.json` lists it:
 
 ```bash
-scripts/prepare_data.py internet.csv --shape choropleth --region country --value share --out internet.json
+bun --install=fallback scripts/prepare_data.ts internet.csv --shape choropleth --region country --value share --out internet.json
 ```
 
 For any other regions, pass a GeoJSON FeatureCollection of polygons in longitude and latitude, and name the property the region column matches:
 
 ```bash
-scripts/prepare_data.py wards.csv --shape choropleth --region ward --value trees \
+bun --install=fallback scripts/prepare_data.ts wards.csv --shape choropleth --region ward --value trees \
   --geojson wards.geojson --feature-id code --feature-name name --out wards.json
 ```
 

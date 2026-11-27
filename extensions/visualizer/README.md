@@ -40,4 +40,4 @@ The skill directory is a copy of the canonical source at `/skills/visualize/`, w
 
 ## Host requirements
 
-The skill's scripts run under `python3`. The HTML page loads its chart library when the reader opens it.
+The skill's scripts run under Bun 1.4 or later. The HTML page loads its chart library when the reader opens it.
